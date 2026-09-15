@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-access-grant")]
-public record AwsS3controlCreateAccessGrantOptions : AwsOptions
+public record AwsS3controlCreateAccessGrantOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants in- stance in the same Region as the S3 data. You can create an S3 Access Grants instance using the CreateAccessGrantsInstance . You must also have registered at least one S3 data location in your S3 Access Grants instance using CreateAccessGrantsLocation . Permissions You must have the s3:Creat...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccessGrantsLocationId">The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you regis- ter. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+</param>
+    /// <param name="Grantee">The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corpo- rate directory to Amazon Web Services IAM Identity Center and asso- ciated your Identity Center instance with your S3 Access Grants in- stance, the grantee can also be a corporate directory user or group. GranteeType -&gt; (string) The type of the grantee to which access has been granted. It can be one of the following values: o IAM - An IAM user or role. o DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity direc- tory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. o DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity direc- tory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. Possible values: o DIRECTORY_USER o DIRECTORY_GROUP o IAM GranteeIdentifier -&gt; (string) The unique identifier of the Grantee . If the grantee type is IAM , the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . You can obtain this UUID from your Amazon Web Services IAM Identity Center instance. Shorthand Syntax: GranteeType=string,GranteeIdentifier=string JSON Syntax: { "GranteeType": "DIRECTORY_USER"|"DIRECTORY_GROUP"|"IAM", "GranteeIdentifier": "string" }</param>
+    /// <param name="Permission">The type of access that you are granting to your S3 data, which can be set to one of the following values: o READ Grant read-only access to the S3 data. o WRITE Grant write-only access to the S3 data. o READWRITE Grant both read and write access to the S3 data. Possible values: o READ o WRITE o READWRITE</param>
+    public AwsS3controlCreateAccessGrantOptions(
+        string AccountId,
+        string AccessGrantsLocationId,
+        string Grantee,
+        AwsS3controlCreateAccessGrantPermission Permission
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccessGrantsLocationId);
+        this.AccessGrantsLocationId = AccessGrantsLocationId;
+        global::System.ArgumentNullException.ThrowIfNull(Grantee);
+        this.Grantee = Grantee;
+        global::System.ArgumentNullException.ThrowIfNull(Permission);
+        this.Permission = Permission;
+    }
+
+    private AwsS3controlCreateAccessGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateAccessGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateAccessGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you regis- ter. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-]+
+    /// </summary>
     [CliOption("--access-grants-location-id")]
-    public string? AccessGrantsLocationId { get; set; }
+    public string? AccessGrantsLocationId { get; private init; }
+
+    /// <summary>
+    /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corpo- rate directory to Amazon Web Services IAM Identity Center and asso- ciated your Identity Center instance with your S3 Access Grants in- stance, the grantee can also be a corporate directory user or group. GranteeType -&gt; (string) The type of the grantee to which access has been granted. It can be one of the following values: o IAM - An IAM user or role. o DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity direc- tory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. o DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity direc- tory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance. Possible values: o DIRECTORY_USER o DIRECTORY_GROUP o IAM GranteeIdentifier -&gt; (string) The unique identifier of the Grantee . If the grantee type is IAM , the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . You can obtain this UUID from your Amazon Web Services IAM Identity Center instance. Shorthand Syntax: GranteeType=string,GranteeIdentifier=string JSON Syntax: { "GranteeType": "DIRECTORY_USER"|"DIRECTORY_GROUP"|"IAM", "GranteeIdentifier": "string" }
+    /// </summary>
+    [CliOption("--grantee")]
+    public string? Grantee { get; private init; }
+
+    /// <summary>
+    /// The type of access that you are granting to your S3 data, which can be set to one of the following values: o READ Grant read-only access to the S3 data. o WRITE Grant write-only access to the S3 data. o READWRITE Grant both read and write access to the S3 data. Possible values: o READ o WRITE o READWRITE
+    /// </summary>
+    [CliOption("--permission")]
+    public AwsS3controlCreateAccessGrantPermission? Permission { get; private init; }
 
     /// <summary>
     /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access. It con- tains the S3SubPrefix field. The grant scope is the result of ap- pending the subprefix to the location scope of the registered loca- tion. S3SubPrefix -&gt; (string) The S3SubPrefix is appended to the location scope creating the grant scope. Use this field to narrow the scope of the grant to a subset of the location scope. This field is required if the location scope is the default location s3:// because you cannot create a grant for all of your S3 data in the Region and must narrow the scope. For example, if the location scope is the de- fault location s3:// , the S3SubPrefx can be a &lt;bucket-name&gt;/ * , so the full grant scope path would be s3://&lt;bucket-name&gt;/* . Or the S3SubPrefx can be &lt;bucket-name&gt;/&lt;prefix-name&gt;* , so the full grant scope path would be or s3://&lt;bucket-name&gt;/&lt;pre- fix-name&gt;* . System Message: WARNING/2 (&lt;string&gt;:, line 142) Inline emphasis start-string without end-string. If the S3SubPrefix includes a prefix, append the wildcard character * after the prefix to indicate that you want to include all object key names in the bucket that start with that prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$ Shorthand Syntax: S3SubPrefix=string JSON Syntax: { "S3SubPrefix": "string" }
     /// </summary>
     [CliOption("--access-grants-location-configuration")]
     public string? AccessGrantsLocationConfiguration { get; set; }
-
-    [CliOption("--grantee")]
-    public string? Grantee { get; set; }
-
-    [CliOption("--permission")]
-    public string? Permission { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Iden- tity Center application associated with your Identity Center in- stance. If an application ARN is included in the request to create an access grant, the grantee can only access the S3 data through this application. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::\d{12}:application/.*$
@@ -63,5 +121,21 @@ public record AwsS3controlCreateAccessGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

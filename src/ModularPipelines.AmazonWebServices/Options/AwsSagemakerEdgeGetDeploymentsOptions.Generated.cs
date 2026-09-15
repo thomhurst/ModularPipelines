@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-edge", "get-deployments")]
-public record AwsSagemakerEdgeGetDeploymentsOptions : AwsOptions
+public record AwsSagemakerEdgeGetDeploymentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--device-name")]
-    public string? DeviceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use to get the active deployments from a device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeviceName">The unique name of the device you want to get the configuration of active deployments from. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    public AwsSagemakerEdgeGetDeploymentsOptions(
+        string DeviceName,
+        string DeviceFleetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceFleetName);
+        this.DeviceFleetName = DeviceFleetName;
+    }
+
+    private AwsSagemakerEdgeGetDeploymentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerEdgeGetDeploymentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerEdgeGetDeploymentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the device you want to get the configuration of active deployments from. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// </summary>
+    [CliOption("--device-name")]
+    public string? DeviceName { get; private init; }
+
+    /// <summary>
+    /// The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// </summary>
     [CliOption("--device-fleet-name")]
-    public string? DeviceFleetName { get; set; }
+    public string? DeviceFleetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

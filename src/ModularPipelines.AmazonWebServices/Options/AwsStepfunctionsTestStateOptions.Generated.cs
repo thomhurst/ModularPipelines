@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "test-state")]
-public record AwsStepfunctionsTestStateOptions : AwsOptions
+public record AwsStepfunctionsTestStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following: o A state's input and output processing data flow o An Amazon Web Services service integration request and response o An HTTP Task request and response You can call this API on only one state at a time. The states that you can test include the following: o All Task types except Activity o Pass o Wait o C...
+    /// </summary>
+    /// <param name="Definition">The Amazon States Language (ASL) definition of the state or state machine. Constraints: o min: 1 o max: 1048576</param>
+    public AwsStepfunctionsTestStateOptions(
+        string Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+    }
+
+    private AwsStepfunctionsTestStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsTestStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsTestStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon States Language (ASL) definition of the state or state machine. Constraints: o min: 1 o max: 1048576
+    /// </summary>
     [CliOption("--definition")]
-    public string? Definition { get; set; }
+    public string? Definition { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the execution role with the re- quired IAM permissions for the state. Constraints: o min: 1 o max: 256
@@ -43,7 +80,10 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions
     [CliOption("--inspection-level")]
     public AwsStepfunctionsTestStateInspectionLevel? InspectionLevel { get; set; }
 
-    [CliFlag("--reveal-secrets")]
+    /// <summary>
+    /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an Event- Bridge connection adds to modify the HTTP request headers, query pa- rameters, and body. Step Functions doesn't omit any information in- cluded in the state definition or the HTTP response. If you set revealSecrets to true , you must make sure that the IAM user that calls the TestState API has permission for the states:Re- vealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state . Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false .
+    /// </summary>
+    [CliFlag("--reveal-secrets", NegatedName = "--no-reveal-secrets")]
     public bool? RevealSecrets { get; set; }
 
     /// <summary>
@@ -81,5 +121,21 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

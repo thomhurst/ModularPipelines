@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-delivery-channel")]
-public record AwsConfigservicePutDeliveryChannelOptions : AwsOptions
+public record AwsConfigservicePutDeliveryChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a delivery channel to deliver configuration informa- tion and other compliance information. You can use this operation to create a new delivery channel or to up- date the Amazon S3 bucket and the Amazon SNS topic of an existing de- livery channel. For more information, see ` Working with the Delivery Channel https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html`__ in the Config Developer Guide. NOTE: One delivery channel per account per Region Y...
+    /// </summary>
+    /// <param name="DeliveryChannel">An object for the delivery channel. A delivery channel sends notifi- cations and updated configuration states. name -&gt; (string) The name of the delivery channel. By default, Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name. Constraints: o min: 1 o max: 256 s3BucketName -&gt; (string) The name of the Amazon S3 bucket to which Config delivers con- figuration snapshots and configuration history files. If you specify a bucket that belongs to another Amazon Web Ser- vices account, that bucket must have policies that grant access permissions to Config. For more information, see Permissions for the Amazon S3 Bucket in the Config Developer Guide . s3KeyPrefix -&gt; (string) The prefix for the specified Amazon S3 bucket. s3KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS ) KMS key (KMS key) used to encrypt objects delivered by Config. Must belong to the same Region as the destination S3 bucket. snsTopicARN -&gt; (string) The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to Config. For more in- formation, see Permissions for the Amazon SNS Topic in the Con- fig Developer Guide . configSnapshotDeliveryProperties -&gt; (structure) The options for how often Config delivers configuration snap- shots to the Amazon S3 bucket. deliveryFrequency -&gt; (string) The frequency with which Config delivers configuration snap- shots. Possible values: o One_Hour o Three_Hours o Six_Hours o Twelve_Hours o TwentyFour_Hours Shorthand Syntax: name=string,s3BucketName=string,s3KeyPrefix=string,s3KmsKeyArn=string,snsTopicARN=string,configSnapshotDeliveryProperties={deliveryFrequency=string} JSON Syntax: { "name": "string", "s3BucketName": "string", "s3KeyPrefix": "string", "s3KmsKeyArn": "string", "snsTopicARN": "string", "configSnapshotDeliveryProperties": { "deliveryFrequency": "One_Hour"|"Three_Hours"|"Six_Hours"|"Twelve_Hours"|"TwentyFour_Hours" } }</param>
+    public AwsConfigservicePutDeliveryChannelOptions(
+        string DeliveryChannel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryChannel);
+        this.DeliveryChannel = DeliveryChannel;
+    }
+
+    private AwsConfigservicePutDeliveryChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutDeliveryChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutDeliveryChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An object for the delivery channel. A delivery channel sends notifi- cations and updated configuration states. name -&gt; (string) The name of the delivery channel. By default, Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name. Constraints: o min: 1 o max: 256 s3BucketName -&gt; (string) The name of the Amazon S3 bucket to which Config delivers con- figuration snapshots and configuration history files. If you specify a bucket that belongs to another Amazon Web Ser- vices account, that bucket must have policies that grant access permissions to Config. For more information, see Permissions for the Amazon S3 Bucket in the Config Developer Guide . s3KeyPrefix -&gt; (string) The prefix for the specified Amazon S3 bucket. s3KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS ) KMS key (KMS key) used to encrypt objects delivered by Config. Must belong to the same Region as the destination S3 bucket. snsTopicARN -&gt; (string) The Amazon Resource Name (ARN) of the Amazon SNS topic to which Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to Config. For more in- formation, see Permissions for the Amazon SNS Topic in the Con- fig Developer Guide . configSnapshotDeliveryProperties -&gt; (structure) The options for how often Config delivers configuration snap- shots to the Amazon S3 bucket. deliveryFrequency -&gt; (string) The frequency with which Config delivers configuration snap- shots. Possible values: o One_Hour o Three_Hours o Six_Hours o Twelve_Hours o TwentyFour_Hours Shorthand Syntax: name=string,s3BucketName=string,s3KeyPrefix=string,s3KmsKeyArn=string,snsTopicARN=string,configSnapshotDeliveryProperties={deliveryFrequency=string} JSON Syntax: { "name": "string", "s3BucketName": "string", "s3KeyPrefix": "string", "s3KmsKeyArn": "string", "snsTopicARN": "string", "configSnapshotDeliveryProperties": { "deliveryFrequency": "One_Hour"|"Three_Hours"|"Six_Hours"|"Twelve_Hours"|"TwentyFour_Hours" } }
+    /// </summary>
     [CliOption("--delivery-channel")]
-    public string? DeliveryChannel { get; set; }
+    public string? DeliveryChannel { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

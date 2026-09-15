@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "describe-engine-default-parameters")]
-public record AwsElasticacheDescribeEngineDefaultParametersOptions : AwsOptions
+public record AwsElasticacheDescribeEngineDefaultParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the default engine and system parameter information for the specified cache engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// </summary>
+    /// <param name="CacheParameterGroupFamily">The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | re- dis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | re- dis6.2 | redis7</param>
+    public AwsElasticacheDescribeEngineDefaultParametersOptions(
+        string CacheParameterGroupFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupFamily);
+        this.CacheParameterGroupFamily = CacheParameterGroupFamily;
+    }
+
+    private AwsElasticacheDescribeEngineDefaultParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDescribeEngineDefaultParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDescribeEngineDefaultParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | re- dis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | re- dis6.2 | redis7
+    /// </summary>
     [CliOption("--cache-parameter-group-family")]
-    public string? CacheParameterGroupFamily { get; set; }
+    public string? CacheParameterGroupFamily { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsElasticacheDescribeEngineDefaultParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

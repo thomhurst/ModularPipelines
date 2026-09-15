@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-control-config", "create-routing-control")]
-public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOptions
+public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Con- troller. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="RoutingControlName">The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    public AwsRoute53RecoveryControlConfigCreateRoutingControlOptions(
+        string ClusterArn,
+        string RoutingControlName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlName);
+        this.RoutingControlName = RoutingControlName;
+    }
+
+    private AwsRoute53RecoveryControlConfigCreateRoutingControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryControlConfigCreateRoutingControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryControlConfigCreateRoutingControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// </summary>
+    [CliOption("--cluster-arn")]
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// </summary>
+    [CliOption("--routing-control-name")]
+    public string? RoutingControlName { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client to- ken in the request. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
     /// </summary>
@@ -29,22 +79,32 @@ public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOp
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) of the control panel that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--control-panel-arn")]
     public string? ControlPanelArn { get; set; }
 
-    [CliOption("--routing-control-name")]
-    public string? RoutingControlName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

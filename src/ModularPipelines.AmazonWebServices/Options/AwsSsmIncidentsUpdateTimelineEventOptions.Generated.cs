@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "update-timeline-event")]
-public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions
+public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a timeline event. You can update events of type Custom Event . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventId">The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    public AwsSsmIncidentsUpdateTimelineEventOptions(
+        string EventId,
+        string IncidentRecordArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+        global::System.ArgumentNullException.ThrowIfNull(IncidentRecordArn);
+        this.IncidentRecordArn = IncidentRecordArn;
+    }
+
+    private AwsSsmIncidentsUpdateTimelineEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsUpdateTimelineEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsUpdateTimelineEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID. Constraints: o min: 0 o max: 50
+    /// </summary>
+    [CliOption("--event-id")]
+    public string? EventId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// </summary>
+    [CliOption("--incident-record-arn")]
+    public string? IncidentRecordArn { get; private init; }
+
     /// <summary>
     /// A token that ensures that a client calls the operation only once with the specified details. Constraints: o min: 0 o max: 128
     /// </summary>
@@ -34,9 +84,6 @@ public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions
     /// </summary>
     [CliOption("--event-data")]
     public string? EventData { get; set; }
-
-    [CliOption("--event-id")]
-    public string? EventId { get; set; }
 
     /// <summary>
     /// Updates all existing references in a TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the in- cident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that re- source. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon Cloud- Watch metric associated with the DynamoDB table as a related item. WARNING: This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references. Constraints: o min: 0 o max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a Re- latedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services re- source referenced in a TimelineEvent . Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
@@ -56,13 +103,26 @@ public record AwsSsmIncidentsUpdateTimelineEventOptions : AwsOptions
     [CliOption("--event-type")]
     public string? EventType { get; set; }
 
-    [CliOption("--incident-record-arn")]
-    public string? IncidentRecordArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

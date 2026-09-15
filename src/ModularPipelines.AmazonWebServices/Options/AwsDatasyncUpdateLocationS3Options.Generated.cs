@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "update-location-s3")]
-public record AwsDatasyncUpdateLocationS3Options : AwsOptions
+public record AwsDatasyncUpdateLocationS3Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the following configuration parameters of the Amazon S3 trans- fer location that you're using with DataSync. WARNING: Before you begin, make sure that you read the following topics: o Storage class considerations with Amazon S3 locations o Evaluating S3 request costs when using DataSync See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    public AwsDatasyncUpdateLocationS3Options(
+        string LocationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocationArn);
+        this.LocationArn = LocationArn;
+    }
+
+    private AwsDatasyncUpdateLocationS3Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncUpdateLocationS3Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncUpdateLocationS3Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// </summary>
     [CliOption("--location-arn")]
-    public string? LocationArn { get; set; }
+    public string? LocationArn { get; private init; }
 
     /// <summary>
     /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destina- tion location). NOTE: DataSync can't transfer objects with a prefix that begins with a slash (/ ) or includes // , /./ , or /../ patterns. For example: o /photos o photos//2006/January o photos/./2006/February o photos/../2006/March Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
@@ -48,5 +85,21 @@ public record AwsDatasyncUpdateLocationS3Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

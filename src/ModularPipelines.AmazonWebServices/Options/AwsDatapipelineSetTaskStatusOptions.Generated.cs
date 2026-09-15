@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datapipeline", "set-task-status")]
-public record AwsDatapipelineSetTaskStatusOptions : AwsOptions
+public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are can- celed by the web service during a call to ReportTaskProgress . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TaskId">The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TaskStatus">If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: o FINISHED o FAILED o FALSE</param>
+    public AwsDatapipelineSetTaskStatusOptions(
+        string TaskId,
+        AwsDatapipelineSetTaskStatusTaskStatus TaskStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(TaskStatus);
+        this.TaskStatus = TaskStatus;
+    }
+
+    private AwsDatapipelineSetTaskStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatapipelineSetTaskStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatapipelineSetTaskStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--task-id")]
+    public string? TaskId { get; private init; }
+
+    /// <summary>
+    /// If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: o FINISHED o FAILED o FALSE
+    /// </summary>
     [CliOption("--task-status")]
-    public string? TaskStatus { get; set; }
+    public AwsDatapipelineSetTaskStatusTaskStatus? TaskStatus { get; private init; }
 
     /// <summary>
     /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string " Service_ " which is reserved by the system. Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -50,5 +95,21 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

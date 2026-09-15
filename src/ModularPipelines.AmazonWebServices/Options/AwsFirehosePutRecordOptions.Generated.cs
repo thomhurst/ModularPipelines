@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firehose", "put-record")]
-public record AwsFirehosePutRecordOptions : AwsOptions
+public record AwsFirehosePutRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--delivery-stream-name")]
-    public string? DeliveryStreamName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Writes a single data record into an Firehose stream. To write multiple data records into a Firehose stream, use PutRecordBatch . Applications using these operations are referred to as producers. By default, each Firehose stream can take in up to 2,000 transactions per second, 5,000 records per second, or 5 MB per second. If you use PutRecord and PutRecordBatch , the limits are an aggregate across these two operations for each Firehose stream. For more information about limits and how to request ...
+    /// </summary>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Record">The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serial- ized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }</param>
+    public AwsFirehosePutRecordOptions(
+        string DeliveryStreamName,
+        string Record
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryStreamName);
+        this.DeliveryStreamName = DeliveryStreamName;
+        global::System.ArgumentNullException.ThrowIfNull(Record);
+        this.Record = Record;
+    }
+
+    private AwsFirehosePutRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFirehosePutRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFirehosePutRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--delivery-stream-name")]
+    public string? DeliveryStreamName { get; private init; }
+
+    /// <summary>
+    /// The record. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serial- ized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }
+    /// </summary>
     [CliOption("--record")]
-    public string? Record { get; set; }
+    public string? Record { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

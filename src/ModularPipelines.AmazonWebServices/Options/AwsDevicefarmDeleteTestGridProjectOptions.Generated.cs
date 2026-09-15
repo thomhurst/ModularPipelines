@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "delete-test-grid-project")]
-public record AwsDevicefarmDeleteTestGridProjectOptions : AwsOptions
+public record AwsDevicefarmDeleteTestGridProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions. WARNING: You cannot undo this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    public AwsDevicefarmDeleteTestGridProjectOptions(
+        string ProjectArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+    }
+
+    private AwsDevicefarmDeleteTestGridProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmDeleteTestGridProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmDeleteTestGridProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
     [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    public string? ProjectArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

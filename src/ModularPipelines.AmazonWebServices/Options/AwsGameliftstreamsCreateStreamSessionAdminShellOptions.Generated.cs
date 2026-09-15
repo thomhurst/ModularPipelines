@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "create-stream-session-admin-shell")]
-public record AwsGameliftstreamsCreateStreamSessionAdminShellOptions : AwsOptions
+public record AwsGameliftstreamsCreateStreamSessionAdminShellOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an administrative terminal session with full access to the live runtime environment of the Amazon GameLift Streams stream session. Use the returned credentials (SessionId , StreamUrl and TokenValue ) with the Amazon Web Services Systems Manager Session Manager plugin for the CLI to access the terminal session. The stream session must be in one of the following statuses: ACTIVE , CONNECTED , PENDING_CLIENT_RECONNECTION , or RECONNECTING . The StreamUrl is valid for 60 seconds. After it ex...
+    /// </summary>
+    /// <param name="Identifier">The stream group that runs this stream session. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamSessionIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsCreateStreamSessionAdminShellOptions(
+        string Identifier,
+        string StreamSessionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(StreamSessionIdentifier);
+        this.StreamSessionIdentifier = StreamSessionIdentifier;
+    }
+
+    private AwsGameliftstreamsCreateStreamSessionAdminShellOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsCreateStreamSessionAdminShellOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsCreateStreamSessionAdminShellOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The stream group that runs this stream session. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamses- sion/sg-1AB2C3De4/ABC123def4567 . Example ID: ABC123def4567 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--stream-session-identifier")]
-    public string? StreamSessionIdentifier { get; set; }
+    public string? StreamSessionIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

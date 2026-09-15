@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "get-kx-changeset")]
-public record AwsFinspaceGetKxChangeSetOptions : AwsOptions
+public record AwsFinspaceGetKxChangeSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a kdb changeset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: .*\S.*</param>
+    /// <param name="DatabaseName">The name of the kdb database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="ChangeSetId">A unique identifier of the changeset for which you want to retrieve data. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$</param>
+    public AwsFinspaceGetKxChangeSetOptions(
+        string EnvironmentId,
+        string DatabaseName,
+        string ChangeSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeSetId);
+        this.ChangeSetId = ChangeSetId;
+    }
+
+    private AwsFinspaceGetKxChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceGetKxChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceGetKxChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 32 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The name of the kdb database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// A unique identifier of the changeset for which you want to retrieve data. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--changeset-id")]
-    public string? ChangeSetId { get; set; }
+    public string? ChangeSetId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

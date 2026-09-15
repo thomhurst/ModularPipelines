@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "describe-update")]
-public record AwsEksDescribeUpdateOptions : AwsOptions
+public record AwsEksDescribeUpdateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes an update to an Amazon EKS resource. When the status of the update is Successful , the update is complete. If an update fails, the status is Failed , and an error detail explains the reason for the failure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the Amazon EKS cluster associated with the update.</param>
+    /// <param name="UpdateId">The ID of the update to describe.</param>
+    public AwsEksDescribeUpdateOptions(
+        string Name,
+        string UpdateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateId);
+        this.UpdateId = UpdateId;
+    }
+
+    private AwsEksDescribeUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksDescribeUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksDescribeUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon EKS cluster associated with the update.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the update to describe.
+    /// </summary>
     [CliOption("--update-id")]
-    public string? UpdateId { get; set; }
+    public string? UpdateId { get; private init; }
 
     /// <summary>
     /// The name of the Amazon EKS node group associated with the update. This parameter is required if the update is a node group update.
@@ -50,5 +94,21 @@ public record AwsEksDescribeUpdateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

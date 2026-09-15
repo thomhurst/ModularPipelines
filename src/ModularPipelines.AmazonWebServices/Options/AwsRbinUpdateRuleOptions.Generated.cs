@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rbin", "update-rule")]
-public record AwsRbinUpdateRuleOptions : AwsOptions
+public record AwsRbinUpdateRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Recycle Bin retention rule. You can update a reten- tion rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see Update Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}</param>
+    public AwsRbinUpdateRuleOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsRbinUpdateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRbinUpdateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRbinUpdateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain re- sources, measured in days. The supported retention periods are: o EBS volumes: 1 - 7 days o EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: o min: 1 o max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Cur- rently, only DAYS is supported. Possible values: o DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }
@@ -60,5 +97,21 @@ public record AwsRbinUpdateRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

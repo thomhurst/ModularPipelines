@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "update-http-namespace")]
-public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions
+public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an HTTP namespace. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255</param>
+    /// <param name="Namespace">Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: o max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }</param>
+    public AwsServicediscoveryUpdateHttpNamespaceOptions(
+        string Id,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsServicediscoveryUpdateHttpNamespaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryUpdateHttpNamespaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryUpdateHttpNamespaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: o max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of run- ning the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
@@ -30,13 +77,26 @@ public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions
     [CliOption("--updater-request-id")]
     public string? UpdaterRequestId { get; set; }
 
-    [CliOption("--namespace")]
-    public string? Namespace { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

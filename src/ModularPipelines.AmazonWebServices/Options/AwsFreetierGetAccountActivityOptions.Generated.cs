@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("freetier", "get-account-activity")]
-public record AwsFreetierGetAccountActivityOptions : AwsOptions
+public record AwsFreetierGetAccountActivityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a specific activity record that is available to the customer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActivityId">A unique identifier that identifies the activity. Constraints: o min: 32 o max: 32 o pattern: [a-zA-Z0-9]+</param>
+    public AwsFreetierGetAccountActivityOptions(
+        string ActivityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivityId);
+        this.ActivityId = ActivityId;
+    }
+
+    private AwsFreetierGetAccountActivityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFreetierGetAccountActivityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFreetierGetAccountActivityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier that identifies the activity. Constraints: o min: 32 o max: 32 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--activity-id")]
-    public string? ActivityId { get; set; }
+    public string? ActivityId { get; private init; }
 
     /// <summary>
     /// The language code used to return translated title and description fields. Possible values: o en-US o en-GB o id-ID o de-DE o es-ES o fr-FR o ja-JP o it-IT o pt-PT o ko-KR o zh-CN o zh-TW o tr-TR
@@ -36,5 +73,21 @@ public record AwsFreetierGetAccountActivityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "update-cis-scan-configuration")]
-public record AwsInspector2UpdateCisScanConfigurationOptions : AwsOptions
+public record AwsInspector2UpdateCisScanConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a CIS scan configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanConfigurationArn">The CIS scan configuration ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+</param>
+    public AwsInspector2UpdateCisScanConfigurationOptions(
+        string ScanConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanConfigurationArn);
+        this.ScanConfigurationArn = ScanConfigurationArn;
+    }
+
+    private AwsInspector2UpdateCisScanConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2UpdateCisScanConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2UpdateCisScanConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The CIS scan configuration ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+
+    /// </summary>
     [CliOption("--scan-configuration-arn")]
-    public string? ScanConfigurationArn { get; set; }
+    public string? ScanConfigurationArn { get; private init; }
 
     /// <summary>
     /// The scan name for the CIS scan configuration. Constraints: o min: 1 o max: 128
@@ -54,5 +91,21 @@ public record AwsInspector2UpdateCisScanConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

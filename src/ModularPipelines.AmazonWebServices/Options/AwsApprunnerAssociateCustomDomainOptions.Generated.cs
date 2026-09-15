@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "associate-custom-domain")]
-public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions
+public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associate your own domain name with the App Runner subdomain URL of your App Runner service. After you call AssociateCustomDomain and receive a successful response, use the information in the CustomDomain record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name t...
+    /// </summary>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="DomainName">A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.exam- ple.com ). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}</param>
+    public AwsApprunnerAssociateCustomDomainOptions(
+        string ServiceArn,
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsApprunnerAssociateCustomDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerAssociateCustomDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerAssociateCustomDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
+    /// <summary>
+    /// A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.exam- ple.com ). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
-    [CliFlag("--enable-www-subdomain")]
+    /// <summary>
+    /// Set to true to associate the subdomain `` www.*DomainName* `` with the App Runner service in addition to the base domain. System Message: WARNING/2 (&lt;string&gt;:, line 118) Inline literal start-string without end-string. Default: true
+    /// </summary>
+    [CliFlag("--enable-www-subdomain", NegatedName = "--no-enable-www-subdomain")]
     public bool? EnableWwwSubdomain { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

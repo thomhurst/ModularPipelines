@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-instances", "delete-volume")]
-public record AwsWorkspacesInstancesDeleteVolumeOptions : AwsOptions
+public record AwsWorkspacesInstancesDeleteVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specified volume. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeId">Identifier of the volume to delete. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}</param>
+    public AwsWorkspacesInstancesDeleteVolumeOptions(
+        string VolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+    }
+
+    private AwsWorkspacesInstancesDeleteVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesInstancesDeleteVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesInstancesDeleteVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier of the volume to delete. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}
+    /// </summary>
     [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
+    public string? VolumeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

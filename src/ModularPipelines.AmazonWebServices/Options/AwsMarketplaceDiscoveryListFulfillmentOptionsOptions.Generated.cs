@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-discovery", "list-fulfillment-options")]
-public record AwsMarketplaceDiscoveryListFulfillmentOptionsOptions : AwsOptions
+public record AwsMarketplaceDiscoveryListFulfillmentOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the fulfillment options available for a product, including de- ployment details such as version information, operating systems, usage instructions, and release notes. See also: AWS API Documentation list-fulfillment-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
+    /// </summary>
+    /// <param name="ProductId">The unique identifier of the product for which to list fulfillment options. Constraints: o min: 1 o max: 255 o pattern: [\w\-]+</param>
+    public AwsMarketplaceDiscoveryListFulfillmentOptionsOptions(
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    private AwsMarketplaceDiscoveryListFulfillmentOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceDiscoveryListFulfillmentOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceDiscoveryListFulfillmentOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the product for which to list fulfillment options. Constraints: o min: 1 o max: 255 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsMarketplaceDiscoveryListFulfillmentOptionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

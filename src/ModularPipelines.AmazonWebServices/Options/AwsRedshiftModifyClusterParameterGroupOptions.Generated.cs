@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-cluster-parameter-group")]
-public record AwsRedshiftModifyClusterParameterGroupOptions : AwsOptions
+public record AwsRedshiftModifyClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parameter-group-name")]
-    public string? ParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the parameters of a parameter group. For the parameters para- meter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ParameterGroupName">The name of the parameter group to be modified. Constraints: o max: 2147483647</param>
+    /// <param name="Parameters">An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the pa- rameter name and parameter value; other name-value pairs of the pa- rameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter. (structure) Describes a parameter in a cluster parameter group. ParameterName -&gt; (string) The name of the parameter. Constraints: o max: 2147483647 ParameterValue -&gt; (string) The value of the parameter. If ParameterName is wlm_json_con- figuration , then the maximum size of ParameterValue is 8000 characters. Constraints: o max: 2147483647 Description -&gt; (string) A description of the parameter. Constraints: o max: 2147483647 Source -&gt; (string) The source of the parameter value, such as "engine-default" or "user". Constraints: o max: 2147483647 DataType -&gt; (string) The data type of the parameter. Constraints: o max: 2147483647 AllowedValues -&gt; (string) The valid range of values for the parameter. Constraints: o max: 2147483647 ApplyType -&gt; (string) Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the con- figuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Para- meter Groups in the Amazon Redshift Cluster Management Guide . Possible values: o static o dynamic IsModifiable -&gt; (boolean) If true , the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. Constraints: o max: 2147483647 Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,DataType=string,AllowedValues=string,ApplyType=string,IsModifiable=boolean,MinimumEngineVersion=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "DataType": "string", "AllowedValues": "string", "ApplyType": "static"|"dynamic", "IsModifiable": true|false, "MinimumEngineVersion": "string" } ... ]</param>
+    public AwsRedshiftModifyClusterParameterGroupOptions(
+        string ParameterGroupName,
+        IEnumerable<string> Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterGroupName);
+        this.ParameterGroupName = ParameterGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Parameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parameters));
+            }
+
+            Parameters = materialized;
+        }
+        this.Parameters = Parameters;
+    }
+
+    private AwsRedshiftModifyClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the parameter group to be modified. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--parameter-group-name")]
+    public string? ParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the pa- rameter name and parameter value; other name-value pairs of the pa- rameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter. (structure) Describes a parameter in a cluster parameter group. ParameterName -&gt; (string) The name of the parameter. Constraints: o max: 2147483647 ParameterValue -&gt; (string) The value of the parameter. If ParameterName is wlm_json_con- figuration , then the maximum size of ParameterValue is 8000 characters. Constraints: o max: 2147483647 Description -&gt; (string) A description of the parameter. Constraints: o max: 2147483647 Source -&gt; (string) The source of the parameter value, such as "engine-default" or "user". Constraints: o max: 2147483647 DataType -&gt; (string) The data type of the parameter. Constraints: o max: 2147483647 AllowedValues -&gt; (string) The valid range of values for the parameter. Constraints: o max: 2147483647 ApplyType -&gt; (string) Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the con- figuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Para- meter Groups in the Amazon Redshift Cluster Management Guide . Possible values: o static o dynamic IsModifiable -&gt; (boolean) If true , the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. Constraints: o max: 2147483647 Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,DataType=string,AllowedValues=string,ApplyType=string,IsModifiable=boolean,MinimumEngineVersion=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "DataType": "string", "AllowedValues": "string", "ApplyType": "static"|"dynamic", "IsModifiable": true|false, "MinimumEngineVersion": "string" } ... ]
+    /// </summary>
     [CliOption("--parameters", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<string>? Parameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

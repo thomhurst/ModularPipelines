@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-automatic-tape-creation-policy")]
-public record AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions : AwsOptions
+public record AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--automatic-tape-creation-rules", GroupValues = true)]
-    public IEnumerable<string>? AutomaticTapeCreationRules { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the automatic tape creation policy of a gateway. Use this to update the policy with a new set of automatic tape creation rules. This is only supported for tape gateways. By default, there is no automatic tape creation policy. NOTE: A gateway can have only one automatic tape creation policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutomaticTapeCreationRules">An automatic tape creation policy consists of a list of automatic tape creation rules. The rules determine when and how to automati- cally create new tapes. Constraints: o min: 1 o max: 10 (structure) An automatic tape creation policy consists of automatic tape creation rules where each rule defines when and how to create new tapes. For more information about automatic tape creation, see Creating Tapes Automatically . TapeBarcodePrefix -&gt; (string) [required] A prefix that you append to the barcode of the virtual tape that you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$ PoolId -&gt; (string) [required] The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100 TapeSizeInBytes -&gt; (long) [required] The size, in bytes, of the virtual tape capacity. MinimumNumTapes -&gt; (integer) [required] The minimum number of available virtual tapes that the gate- way maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gate- way. For more information about automatic tape creation, see Creating Tapes Automatically . Constraints: o min: 1 o max: 10 Worm -&gt; (boolean) Set to true to indicate that tapes are to be archived as write-once-read-many (WORM). Set to false when WORM is not enabled for tapes. Shorthand Syntax: TapeBarcodePrefix=string,PoolId=string,TapeSizeInBytes=long,MinimumNumTapes=integer,Worm=boolean ... JSON Syntax: [ { "TapeBarcodePrefix": "string", "PoolId": "string", "TapeSizeInBytes": long, "MinimumNumTapes": integer, "Worm": true|false } ... ]</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    public AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions(
+        IEnumerable<string> AutomaticTapeCreationRules,
+        string GatewayArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AutomaticTapeCreationRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AutomaticTapeCreationRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AutomaticTapeCreationRules));
+            }
+
+            AutomaticTapeCreationRules = materialized;
+        }
+        this.AutomaticTapeCreationRules = AutomaticTapeCreationRules;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+    }
+
+    private AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An automatic tape creation policy consists of a list of automatic tape creation rules. The rules determine when and how to automati- cally create new tapes. Constraints: o min: 1 o max: 10 (structure) An automatic tape creation policy consists of automatic tape creation rules where each rule defines when and how to create new tapes. For more information about automatic tape creation, see Creating Tapes Automatically . TapeBarcodePrefix -&gt; (string) [required] A prefix that you append to the barcode of the virtual tape that you are creating. This prefix makes the barcode unique. NOTE: The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z. Constraints: o min: 1 o max: 4 o pattern: ^[A-Z]*$ PoolId -&gt; (string) [required] The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100 TapeSizeInBytes -&gt; (long) [required] The size, in bytes, of the virtual tape capacity. MinimumNumTapes -&gt; (integer) [required] The minimum number of available virtual tapes that the gate- way maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gate- way. For more information about automatic tape creation, see Creating Tapes Automatically . Constraints: o min: 1 o max: 10 Worm -&gt; (boolean) Set to true to indicate that tapes are to be archived as write-once-read-many (WORM). Set to false when WORM is not enabled for tapes. Shorthand Syntax: TapeBarcodePrefix=string,PoolId=string,TapeSizeInBytes=long,MinimumNumTapes=integer,Worm=boolean ... JSON Syntax: [ { "TapeBarcodePrefix": "string", "PoolId": "string", "TapeSizeInBytes": long, "MinimumNumTapes": integer, "Worm": true|false } ... ]
+    /// </summary>
+    [CliOption("--automatic-tape-creation-rules", GroupValues = true)]
+    public IEnumerable<string>? AutomaticTapeCreationRules { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
     [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    public string? GatewayArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

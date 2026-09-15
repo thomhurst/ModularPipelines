@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "create-profile-job")]
-public record AwsDatabrewCreateProfileJobOptions : AwsOptions
+public record AwsDatabrewCreateProfileJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new job to analyze a dataset and create its data profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetName">The name of the dataset that this job is to act upon. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 240</param>
+    /// <param name="OutputLocation">Represents an Amazon S3 location (bucket name, bucket owner, and ob- ject key) where DataBrew can read input data, or write output from a job. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ Shorthand Syntax: Bucket=string,Key=string,BucketOwner=string JSON Syntax: { "Bucket": "string", "Key": "string", "BucketOwner": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job. Constraints: o min: 20 o max: 2048</param>
+    public AwsDatabrewCreateProfileJobOptions(
+        string DataSetName,
+        string Name,
+        string OutputLocation,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(OutputLocation);
+        this.OutputLocation = OutputLocation;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsDatabrewCreateProfileJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewCreateProfileJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewCreateProfileJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dataset that this job is to act upon. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
+
+    /// <summary>
+    /// The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 240
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Represents an Amazon S3 location (bucket name, bucket owner, and ob- ject key) where DataBrew can read input data, or write output from a job. Bucket -&gt; (string) [required] The Amazon S3 bucket name. Constraints: o min: 3 o max: 63 Key -&gt; (string) The unique name of the object in the bucket. Constraints: o min: 1 o max: 1280 BucketOwner -&gt; (string) The Amazon Web Services account ID of the bucket owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ Shorthand Syntax: Bucket=string,Key=string,BucketOwner=string JSON Syntax: { "Bucket": "string", "Key": "string", "BucketOwner": "string" }
+    /// </summary>
+    [CliOption("--output-location")]
+    public string? OutputLocation { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job. Constraints: o min: 20 o max: 2048
@@ -37,9 +104,6 @@ public record AwsDatabrewCreateProfileJobOptions : AwsOptions
     /// </summary>
     [CliOption("--encryption-mode")]
     public AwsDatabrewCreateProfileJobEncryptionMode? EncryptionMode { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Enables or disables Amazon CloudWatch logging for the job. If log- ging is enabled, CloudWatch writes one log stream for each job run. Possible values: o ENABLE o DISABLE
@@ -59,9 +123,6 @@ public record AwsDatabrewCreateProfileJobOptions : AwsOptions
     [CliOption("--max-retries")]
     public int? MaxRetries { get; set; }
 
-    [CliOption("--output-location")]
-    public string? OutputLocation { get; set; }
-
     /// <summary>
     /// Configuration for profile jobs. Used to select columns, do evalua- tions, and override default parameters of evaluations. When configu- ration is null, the profile job will run with default settings. DatasetStatisticsConfiguration -&gt; (structure) Configuration for inter-column evaluations. Configuration can be used to select evaluations and override parameters of evalua- tions. When configuration is undefined, the profile job will run all supported inter-column evaluations. IncludedStatistics -&gt; (list) List of included evaluations. When the list is undefined, all supported evaluations will be included. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Overrides -&gt; (list) List of overrides for evaluations. Constraints: o min: 1 (structure) Override of a particular evaluation for a profile job. Statistic -&gt; (string) [required] The name of an evaluation Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Parameters -&gt; (map) [required] A map that includes overrides of an evaluations para- meters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9]+$ value -&gt; (string) Constraints: o min: 1 o max: 32768 ProfileColumns -&gt; (list) List of column selectors. ProfileColumns can be used to select columns from the dataset. When ProfileColumns is undefined, the profile job will profile all supported columns. Constraints: o min: 1 (structure) Selector of a column from a dataset for profile job configu- ration. One selector includes either a column name or a regu- lar expression. Regex -&gt; (string) A regular expression for selecting a column from a dataset. Constraints: o min: 1 o max: 255 Name -&gt; (string) The name of a column from a dataset. Constraints: o min: 1 o max: 255 ColumnStatisticsConfigurations -&gt; (list) List of configurations for column evaluations. ColumnStatistic- sConfigurations are used to select evaluations and override pa- rameters of evaluations for particular columns. When ColumnSta- tisticsConfigurations is undefined, the profile job will profile all supported columns and run all supported evaluations. Constraints: o min: 1 (structure) Configuration for column evaluations for a profile job. ColumnStatisticsConfiguration can be used to select evalua- tions and override parameters of evaluations for particular columns. Selectors -&gt; (list) List of column selectors. Selectors can be used to select columns from the dataset. When selectors are undefined, configuration will be applied to all supported columns. Constraints: o min: 1 (structure) Selector of a column from a dataset for profile job configuration. One selector includes either a column name or a regular expression. Regex -&gt; (string) A regular expression for selecting a column from a dataset. Constraints: o min: 1 o max: 255 Name -&gt; (string) The name of a column from a dataset. Constraints: o min: 1 o max: 255 Statistics -&gt; (structure) [required] Configuration for evaluations. Statistics can be used to select evaluations and override parameters of evalua- tions. IncludedStatistics -&gt; (list) List of included evaluations. When the list is unde- fined, all supported evaluations will be included. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Overrides -&gt; (list) List of overrides for evaluations. Constraints: o min: 1 (structure) Override of a particular evaluation for a profile job. Statistic -&gt; (string) [required] The name of an evaluation Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Parameters -&gt; (map) [required] A map that includes overrides of an evaluations parameters. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9]+$ value -&gt; (string) Constraints: o min: 1 o max: 32768 EntityDetectorConfiguration -&gt; (structure) Configuration of entity detection for a profile job. When unde- fined, entity detection is disabled. EntityTypes -&gt; (list) [required] Entity types to detect. Can be any of the following: o USA_SSN o EMAIL o USA_ITIN o USA_PASSPORT_NUMBER o PHONE_NUMBER o USA_DRIVING_LICENSE o BANK_ACCOUNT o CREDIT_CARD o IP_ADDRESS o MAC_ADDRESS o USA_DEA_NUMBER o USA_HCPCS_CODE o USA_NATIONAL_PROVIDER_IDENTIFIER o USA_NATIONAL_DRUG_CODE o USA_HEALTH_INSURANCE_CLAIM_NUMBER o USA_MEDICARE_BENEFICIARY_IDENTIFIER o USA_CPT_CODE o PERSON_NAME o DATE The Entity type group USA_ALL is also supported, and includes all of the above entity types except PERSON_NAME and DATE. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Z_][A-Z\\d_]*$ AllowedStatistics -&gt; (list) Configuration of statistics that are allowed to be run on columns that contain detected entities. When undefined, no statistics will be computed on columns that contain detected entities. Constraints: o min: 1 (structure) Configuration of statistics that are allowed to be run on columns that contain detected entities. When undefined, no statistics will be computed on columns that contain detected entities. Statistics -&gt; (list) [required] One or more column statistics to allow for columns that contain detected entities. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ JSON Syntax: { "DatasetStatisticsConfiguration": { "IncludedStatistics": ["string", ...], "Overrides": [ { "Statistic": "string", "Parameters": {"string": "string" ...} } ... ] }, "ProfileColumns": [ { "Regex": "string", "Name": "string" } ... ], "ColumnStatisticsConfigurations": [ { "Selectors": [ { "Regex": "string", "Name": "string" } ... ], "Statistics": { "IncludedStatistics": ["string", ...], "Overrides": [ { "Statistic": "string", "Parameters": {"string": "string" ...} } ... ] } } ... ], "EntityDetectorConfiguration": { "EntityTypes": ["string", ...], "AllowedStatistics": [ { "Statistics": ["string", ...] } ... ] } }
     /// </summary>
@@ -73,9 +134,6 @@ public record AwsDatabrewCreateProfileJobOptions : AwsOptions
     /// </summary>
     [CliOption("--validation-configurations", GroupValues = true)]
     public IEnumerable<string>? ValidationConfigurations { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// Metadata tags to apply to this job. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -100,5 +158,21 @@ public record AwsDatabrewCreateProfileJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

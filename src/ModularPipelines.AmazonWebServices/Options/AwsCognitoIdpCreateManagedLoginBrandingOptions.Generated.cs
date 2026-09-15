@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "create-managed-login-branding")]
-public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions
+public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new set of branding settings for a user pool style and asso- ciates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and im- age files in an Assets array. To send the JSON object Document type pa- rameter in Settings , you might need to update to the most recent ver- sion of your Amazon Web Services SDK. To create a new style with de- fault settings, se...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to create a new branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    public AwsCognitoIdpCreateManagedLoginBrandingOptions(
+        string UserPoolId,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsCognitoIdpCreateManagedLoginBrandingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpCreateManagedLoginBrandingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpCreateManagedLoginBrandingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to create a new branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
-    [CliFlag("--use-cognito-provided-values")]
+    /// <summary>
+    /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding editor. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+    /// </summary>
+    [CliFlag("--use-cognito-provided-values", NegatedName = "--no-use-cognito-provided-values")]
     public bool? UseCognitoProvidedValues { get; set; }
 
     /// <summary>
@@ -47,5 +94,21 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

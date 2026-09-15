@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "get-task-instance")]
-public record AwsMwaaServerlessGetTaskInstanceOptions : AwsOptions
+public record AwsMwaaServerlessGetTaskInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves detailed information about a specific task instance within a workflow run. Task instances represent individual tasks that are exe- cuted as part of a workflow in the Amazon Managed Workflows for Apache Airflow Serverless environment. Each task instance runs in an isolated ECS container with dedicated resources and security boundaries. The service tracks task execution state, retry attempts, and provides de- tailed timing and error information for troubleshooting and monitoring purposes...
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the task instance. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="TaskInstanceId">The unique identifier of the task instance to retrieve. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    /// <param name="RunId">The unique identifier of the workflow run that contains the task in- stance. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    public AwsMwaaServerlessGetTaskInstanceOptions(
+        string WorkflowArn,
+        string TaskInstanceId,
+        string RunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+        global::System.ArgumentNullException.ThrowIfNull(TaskInstanceId);
+        this.TaskInstanceId = TaskInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+    }
+
+    private AwsMwaaServerlessGetTaskInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessGetTaskInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessGetTaskInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow that contains the task instance. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    public string? WorkflowArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the task instance to retrieve. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--task-instance-id")]
-    public string? TaskInstanceId { get; set; }
+    public string? TaskInstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the workflow run that contains the task in- stance. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--run-id")]
-    public string? RunId { get; set; }
+    public string? RunId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

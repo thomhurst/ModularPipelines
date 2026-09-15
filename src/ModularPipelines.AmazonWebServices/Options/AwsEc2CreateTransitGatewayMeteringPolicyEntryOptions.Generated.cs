@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-transit-gateway-metering-policy-entry")]
-public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions
+public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--transit-gateway-metering-policy-id")]
-    public string? TransitGatewayMeteringPolicyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an entry in a transit gateway metering policy to define traffic measurement rules. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayMeteringPolicyId">The ID of the transit gateway metering policy to add the entry to.</param>
+    /// <param name="PolicyRuleNumber">The rule number for the metering policy entry. Rules are processed in order from lowest to highest number.</param>
+    /// <param name="MeteredAccount">The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: o source-attachment-owner o destination-attachment-owner o transit-gateway-owner</param>
+    public AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions(
+        string TransitGatewayMeteringPolicyId,
+        int PolicyRuleNumber,
+        AwsEc2CreateTransitGatewayMeteringPolicyEntryMeteredAccount MeteredAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayMeteringPolicyId);
+        this.TransitGatewayMeteringPolicyId = TransitGatewayMeteringPolicyId;
+        this.PolicyRuleNumber = PolicyRuleNumber;
+        global::System.ArgumentNullException.ThrowIfNull(MeteredAccount);
+        this.MeteredAccount = MeteredAccount;
+    }
+
+    private AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway metering policy to add the entry to.
+    /// </summary>
+    [CliOption("--transit-gateway-metering-policy-id")]
+    public string? TransitGatewayMeteringPolicyId { get; private init; }
+
+    /// <summary>
+    /// The rule number for the metering policy entry. Rules are processed in order from lowest to highest number.
+    /// </summary>
     [CliOption("--policy-rule-number")]
-    public int? PolicyRuleNumber { get; set; }
+    public int? PolicyRuleNumber { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: o source-attachment-owner o destination-attachment-owner o transit-gateway-owner
+    /// </summary>
+    [CliOption("--metered-account")]
+    public AwsEc2CreateTransitGatewayMeteringPolicyEntryMeteredAccount? MeteredAccount { get; private init; }
 
     /// <summary>
     /// The ID of the source transit gateway attachment for traffic match- ing.
@@ -82,10 +135,10 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions
     [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CliOption("--metered-account")]
-    public string? MeteredAccount { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -93,5 +146,21 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

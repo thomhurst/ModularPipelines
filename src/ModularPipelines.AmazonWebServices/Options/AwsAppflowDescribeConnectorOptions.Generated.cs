@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "describe-connector")]
-public record AwsAppflowDescribeConnectorOptions : AwsOptions
+public record AwsAppflowDescribeConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the given custom connector registered in your Amazon Web Ser- vices account. This API can be used for custom connectors that are reg- istered in your account and also for Amazon authored connectors. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorType">The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot</param>
+    public AwsAppflowDescribeConnectorOptions(
+        string ConnectorType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorType);
+        this.ConnectorType = ConnectorType;
+    }
+
+    private AwsAppflowDescribeConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowDescribeConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowDescribeConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// </summary>
     [CliOption("--connector-type")]
-    public string? ConnectorType { get; set; }
+    public string? ConnectorType { get; private init; }
 
     /// <summary>
     /// The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
@@ -35,5 +72,21 @@ public record AwsAppflowDescribeConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

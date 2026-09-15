@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "start-automation-execution")]
-public record AwsSsmStartAutomationExecutionOptions : AwsOptions
+public record AwsSsmStartAutomationExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates execution of an Automation runbook. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentName">The name of the SSM document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Sharing SSM documents in the Amazon Web Services Systems Manager User Guide . Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    public AwsSsmStartAutomationExecutionOptions(
+        string DocumentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentName);
+        this.DocumentName = DocumentName;
+    }
+
+    private AwsSsmStartAutomationExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmStartAutomationExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmStartAutomationExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SSM document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Sharing SSM documents in the Amazon Web Services Systems Manager User Guide . Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// </summary>
     [CliOption("--document-name")]
-    public string? DocumentName { get; set; }
+    public string? DocumentName { get; private init; }
 
     /// <summary>
     /// The version of the Automation runbook to use for this execution. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
@@ -111,5 +148,21 @@ public record AwsSsmStartAutomationExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "replicate-secret-to-regions")]
-public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions
+public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replicates the secret to a new Regions. See Multi-Region secrets . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager events with CloudTrail . Required permissions: secretsmanager:ReplicateSecretToRegions . If the primary secret is encrypted with a KMS key other than aws/se- cretsmanager , you also need kms:Decrypt permission to the...
+    /// </summary>
+    /// <param name="SecretId">The ARN or name of the secret to replicate. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AddReplicaRegions">A list of Regions in which to replicate the secret. Constraints: o min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the se- cret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: o min: 0 o max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]</param>
+    public AwsSecretsmanagerReplicateSecretToRegionsOptions(
+        string SecretId,
+        IEnumerable<string> AddReplicaRegions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretId);
+        this.SecretId = SecretId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AddReplicaRegions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AddReplicaRegions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AddReplicaRegions));
+            }
+
+            AddReplicaRegions = materialized;
+        }
+        this.AddReplicaRegions = AddReplicaRegions;
+    }
+
+    private AwsSecretsmanagerReplicateSecretToRegionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerReplicateSecretToRegionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerReplicateSecretToRegionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or name of the secret to replicate. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
-    public string? SecretId { get; set; }
+    public string? SecretId { get; private init; }
 
+    /// <summary>
+    /// A list of Regions in which to replicate the secret. Constraints: o min: 1 (structure) A custom type that specifies a Region and the KmsKeyId for a replica secret. Region -&gt; (string) A Region code. For a list of Region codes, see Name and code of Regions . Constraints: o min: 1 o max: 128 o pattern: ^([a-z]+-)+\d+$ KmsKeyId -&gt; (string) The ARN, key ID, or alias of the KMS key to encrypt the se- cret. If you don't include this field, Secrets Manager uses aws/secretsmanager . Constraints: o min: 0 o max: 2048 Shorthand Syntax: Region=string,KmsKeyId=string ... JSON Syntax: [ { "Region": "string", "KmsKeyId": "string" } ... ]
+    /// </summary>
     [CliOption("--add-replica-regions", GroupValues = true)]
-    public IEnumerable<string>? AddReplicaRegions { get; set; }
+    public IEnumerable<string>? AddReplicaRegions { get; private init; }
 
-    [CliFlag("--force-overwrite-replica-secret")]
+    /// <summary>
+    /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
+    /// </summary>
+    [CliFlag("--force-overwrite-replica-secret", NegatedName = "--no-force-overwrite-replica-secret")]
     public bool? ForceOverwriteReplicaSecret { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -37,5 +95,21 @@ public record AwsSecretsmanagerReplicateSecretToRegionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

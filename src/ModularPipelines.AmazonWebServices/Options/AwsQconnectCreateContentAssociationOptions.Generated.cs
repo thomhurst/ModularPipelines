@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,26 +23,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "create-content-association")]
-public record AwsQconnectCreateContentAssociationOptions : AwsOptions
+public record AwsQconnectCreateContentAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an association between a content resource in a knowledge base and step-by-step guides . Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content asso- ciation to integrate Amazon Q in Connect and step-by-step guides. After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's de- tected, it also provides them with the option to start the step-by-step guide that y...
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="ContentId">The identifier of the content. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AssociationType">The type of association. Possible values: o AMAZON_CONNECT_GUIDE</param>
+    /// <param name="Association">The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amazonConnectGuideAssociation. amazonConnectGuideAssociation -&gt; (structure) The data of the step-by-step guide association. flowId -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+ Shorthand Syntax: amazonConnectGuideAssociation={flowId=string} JSON Syntax: { "amazonConnectGuideAssociation": { "flowId": "string" } }</param>
+    public AwsQconnectCreateContentAssociationOptions(
+        string KnowledgeBaseId,
+        string ContentId,
+        AwsQconnectCreateContentAssociationAssociationType AssociationType,
+        string Association
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(ContentId);
+        this.ContentId = ContentId;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
+        this.AssociationType = AssociationType;
+        global::System.ArgumentNullException.ThrowIfNull(Association);
+        this.Association = Association;
+    }
+
+    private AwsQconnectCreateContentAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectCreateContentAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectCreateContentAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the content. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
+    [CliOption("--content-id")]
+    public string? ContentId { get; private init; }
+
+    /// <summary>
+    /// The type of association. Possible values: o AMAZON_CONNECT_GUIDE
+    /// </summary>
+    [CliOption("--association-type")]
+    public AwsQconnectCreateContentAssociationAssociationType? AssociationType { get; private init; }
+
+    /// <summary>
+    /// The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amazonConnectGuideAssociation. amazonConnectGuideAssociation -&gt; (structure) The data of the step-by-step guide association. flowId -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow. Constraints: o min: 1 o max: 2048 o pattern: arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+ Shorthand Syntax: amazonConnectGuideAssociation={flowId=string} JSON Syntax: { "amazonConnectGuideAssociation": { "flowId": "string" } }
+    /// </summary>
+    [CliOption("--association")]
+    public string? Association { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
-
-    [CliOption("--content-id")]
-    public string? ContentId { get; set; }
-
-    [CliOption("--association-type")]
-    public string? AssociationType { get; set; }
-
-    [CliOption("--association")]
-    public string? Association { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +112,21 @@ public record AwsQconnectCreateContentAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

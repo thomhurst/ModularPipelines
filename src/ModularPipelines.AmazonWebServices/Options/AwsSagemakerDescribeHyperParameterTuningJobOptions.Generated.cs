@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-hyper-parameter-tuning-job")]
-public record AwsSagemakerDescribeHyperParameterTuningJobOptions : AwsOptions
+public record AwsSagemakerDescribeHyperParameterTuningJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HyperParameterTuningJobName">The name of the tuning job. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    public AwsSagemakerDescribeHyperParameterTuningJobOptions(
+        string HyperParameterTuningJobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HyperParameterTuningJobName);
+        this.HyperParameterTuningJobName = HyperParameterTuningJobName;
+    }
+
+    private AwsSagemakerDescribeHyperParameterTuningJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeHyperParameterTuningJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeHyperParameterTuningJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tuning job. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// </summary>
     [CliOption("--hyper-parameter-tuning-job-name")]
-    public string? HyperParameterTuningJobName { get; set; }
+    public string? HyperParameterTuningJobName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

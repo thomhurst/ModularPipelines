@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "disassociate-connection-from-lag")]
-public record AwsDirectconnectDisassociateConnectionFromLagOptions : AwsOptions
+public record AwsDirectconnectDisassociateConnectionFromLagOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociates a connection from a link aggregation group (LAG). The connection is interrupted and re-established as a standalone connection (the connection is not deleted; to delete the connection, use the DeleteConnection request). If the LAG has associated virtual interfaces or hosted connections, they remain associated with the LAG. A disasso- ciated connection owned by an Direct Connect Partner is automatically converted to an interconnect. If disassociating the connection would cause the LA...
+    /// </summary>
+    /// <param name="ConnectionId">The ID of the connection.</param>
+    /// <param name="LagId">The ID of the LAG.</param>
+    public AwsDirectconnectDisassociateConnectionFromLagOptions(
+        string ConnectionId,
+        string LagId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(LagId);
+        this.LagId = LagId;
+    }
+
+    private AwsDirectconnectDisassociateConnectionFromLagOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectDisassociateConnectionFromLagOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectDisassociateConnectionFromLagOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the connection.
+    /// </summary>
+    [CliOption("--connection-id")]
+    public string? ConnectionId { get; private init; }
+
+    /// <summary>
+    /// The ID of the LAG.
+    /// </summary>
     [CliOption("--lag-id")]
-    public string? LagId { get; set; }
+    public string? LagId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

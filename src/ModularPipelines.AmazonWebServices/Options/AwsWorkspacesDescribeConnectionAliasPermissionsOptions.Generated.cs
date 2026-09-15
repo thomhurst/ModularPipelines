@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "describe-connection-alias-permissions")]
-public record AwsWorkspacesDescribeConnectionAliasPermissionsOptions : AwsOptions
+public record AwsWorkspacesDescribeConnectionAliasPermissionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified con- nection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AliasId">The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    public AwsWorkspacesDescribeConnectionAliasPermissionsOptions(
+        string AliasId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+    }
+
+    private AwsWorkspacesDescribeConnectionAliasPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesDescribeConnectionAliasPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesDescribeConnectionAliasPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the connection alias. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// </summary>
     [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    public string? AliasId { get; private init; }
 
     /// <summary>
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
@@ -43,5 +80,21 @@ public record AwsWorkspacesDescribeConnectionAliasPermissionsOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

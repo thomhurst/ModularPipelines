@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearch", "describe-domain-endpoint-options")]
-public record AwsCloudsearchDescribeDomainEndpointOptionsOptions : AwsOptions
+public record AwsCloudsearchDescribeDomainEndpointOptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--deployed")]
+    /// <summary>
+    /// Returns the domain's endpoint options, specifically whether all re- quests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">A string that represents the name of a domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    public AwsCloudsearchDescribeDomainEndpointOptionsOptions(
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsCloudsearchDescribeDomainEndpointOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchDescribeDomainEndpointOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchDescribeDomainEndpointOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string that represents the name of a domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// Whether to retrieve the latest configuration (which might be in a Processing state) or the current, active configuration. Defaults to false .
+    /// </summary>
+    [CliFlag("--deployed", NegatedName = "--no-deployed")]
     public bool? Deployed { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsCloudsearchDescribeDomainEndpointOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

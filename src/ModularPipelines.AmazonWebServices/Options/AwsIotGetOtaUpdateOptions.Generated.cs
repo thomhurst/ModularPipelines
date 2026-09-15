@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "get-ota-update")]
-public record AwsIotGetOtaUpdateOptions : AwsOptions
+public record AwsIotGetOtaUpdateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets an OTA update. Requires permission to access the GetOTAUpdate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OtaUpdateId">The OTA update ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotGetOtaUpdateOptions(
+        string OtaUpdateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OtaUpdateId);
+        this.OtaUpdateId = OtaUpdateId;
+    }
+
+    private AwsIotGetOtaUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotGetOtaUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotGetOtaUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The OTA update ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--ota-update-id")]
-    public string? OtaUpdateId { get; set; }
+    public string? OtaUpdateId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

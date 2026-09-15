@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "create-receipt-filter")]
-public record AwsSesCreateReceiptFilterOptions : AwsOptions
+public record AwsSesCreateReceiptFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new IP address filter. For information about setting up IP address filters, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Filter">A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it. Name -&gt; (string) [required] The name of the IP address filter. The name must meet the fol- lowing requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), under- scores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer. IpFilter -&gt; (structure) [required] A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them. Policy -&gt; (string) [required] Indicates whether to block or allow incoming mail from the specified IP addresses. Possible values: o Block o Allow Cidr -&gt; (string) [required] A single IP address or a range of IP addresses to block or allow, specified in Classless Inter-Domain Routing (CIDR) no- tation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317 . Shorthand Syntax: Name=string,IpFilter={Policy=string,Cidr=string} JSON Syntax: { "Name": "string", "IpFilter": { "Policy": "Block"|"Allow", "Cidr": "string" } }</param>
+    public AwsSesCreateReceiptFilterOptions(
+        string Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsSesCreateReceiptFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesCreateReceiptFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesCreateReceiptFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it. Name -&gt; (string) [required] The name of the IP address filter. The name must meet the fol- lowing requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), under- scores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer. IpFilter -&gt; (structure) [required] A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them. Policy -&gt; (string) [required] Indicates whether to block or allow incoming mail from the specified IP addresses. Possible values: o Block o Allow Cidr -&gt; (string) [required] A single IP address or a range of IP addresses to block or allow, specified in Classless Inter-Domain Routing (CIDR) no- tation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317 . Shorthand Syntax: Name=string,IpFilter={Policy=string,Cidr=string} JSON Syntax: { "Name": "string", "IpFilter": { "Policy": "Block"|"Allow", "Cidr": "string" } }
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public string? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

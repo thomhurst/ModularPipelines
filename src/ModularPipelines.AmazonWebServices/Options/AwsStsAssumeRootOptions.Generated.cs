@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "assume-root")]
-public record AwsStsAssumeRootOptions : AwsOptions
+public record AwsStsAssumeRootOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-principal")]
-    public string? TargetPrincipal { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a set of short term credentials you can use to perform privi- leged tasks on a member account in your organization. You must use cre- dentials from an Organizations management account or a delegated admin- istrator account for IAM to call AssumeRoot . You cannot use root user credentials to make this call. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see Centralize root access for member accounts...
+    /// </summary>
+    /// <param name="TargetPrincipal">The member account principal ARN or account ID. Constraints: o min: 12 o max: 2048</param>
+    /// <param name="TaskPolicyArn">The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: o IAMAuditRootUserCredentials o IAMCreateRootUserPassword o IAMDeleteRootUserCredentials o S3UnlockBucketPolicy o SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }</param>
+    public AwsStsAssumeRootOptions(
+        string TargetPrincipal,
+        string TaskPolicyArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetPrincipal);
+        this.TargetPrincipal = TargetPrincipal;
+        global::System.ArgumentNullException.ThrowIfNull(TaskPolicyArn);
+        this.TaskPolicyArn = TaskPolicyArn;
+    }
+
+    private AwsStsAssumeRootOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsAssumeRootOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsAssumeRootOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The member account principal ARN or account ID. Constraints: o min: 12 o max: 2048
+    /// </summary>
+    [CliOption("--target-principal")]
+    public string? TargetPrincipal { get; private init; }
+
+    /// <summary>
+    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: o IAMAuditRootUserCredentials o IAMCreateRootUserPassword o IAMDeleteRootUserCredentials o S3UnlockBucketPolicy o SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }
+    /// </summary>
     [CliOption("--task-policy-arn")]
-    public string? TaskPolicyArn { get; set; }
+    public string? TaskPolicyArn { get; private init; }
 
     /// <summary>
     /// The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 sec- onds (15 minutes). If you specify a value higher than this setting, the operation fails. By default, the value is set to 900 seconds. Constraints: o min: 0 o max: 900
@@ -33,10 +78,30 @@ public record AwsStsAssumeRootOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
+    [SecretValue]
+    [CliOption("--minimum-session-token-size")]
+    public int? MinimumSessionTokenSize { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

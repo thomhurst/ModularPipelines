@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "create-source-location")]
-public record AwsMediatailorCreateSourceLocationOptions : AwsOptions
+public record AwsMediatailorCreateSourceLocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HttpConfiguration">The source's HTTP package configurations. BaseUrl -&gt; (string) [required] The base URL for the source location host server. This string must include the protocol, such as https:// . Shorthand Syntax: BaseUrl=string JSON Syntax: { "BaseUrl": "string" }</param>
+    /// <param name="SourceLocationName">The name associated with the source location.</param>
+    public AwsMediatailorCreateSourceLocationOptions(
+        string HttpConfiguration,
+        string SourceLocationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HttpConfiguration);
+        this.HttpConfiguration = HttpConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocationName);
+        this.SourceLocationName = SourceLocationName;
+    }
+
+    private AwsMediatailorCreateSourceLocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorCreateSourceLocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorCreateSourceLocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source's HTTP package configurations. BaseUrl -&gt; (string) [required] The base URL for the source location host server. This string must include the protocol, such as https:// . Shorthand Syntax: BaseUrl=string JSON Syntax: { "BaseUrl": "string" }
+    /// </summary>
+    [CliOption("--http-configuration")]
+    public string? HttpConfiguration { get; private init; }
+
+    /// <summary>
+    /// The name associated with the source location.
+    /// </summary>
+    [CliOption("--source-location-name")]
+    public string? SourceLocationName { get; private init; }
+
     /// <summary>
     /// Access configuration parameters. Configures the type of authentica- tion used to access content from your source location. AccessType -&gt; (string) The type of authentication used to access content from HttpCon- figuration::BaseUrl on your source location. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source loca- tion baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4 , you must meet these requirements: o You must allow MediaTailor to access your S3 bucket by grant- ing mediatailor.amazonaws.com principal access in IAM. For in- formation about configuring access in IAM, see Access manage- ment in the IAM User Guide. o The mediatailor.amazonaws.com service principal must have per- missions to read all top level manifests referenced by the VodSource packaging configurations. o The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations. AUTODETECT_SIGV4 - AWS Signature Version 4 authentication for a set of supported services: MediaPackage Version 2 and Ama- zon S3 hosted virtual-style access. If your source location base URL is a MediaPackage Version 2 endpoint or an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the resource where your source con- tent is stored. Before you can use AUTODETECT_SIGV4 with a MediaPackage Version 2 endpoint, you must meet these requirements: o You must grant MediaTailor access to your MediaPackage end- point by granting mediatailor.amazonaws.com principal access in an Origin Access policy on the endpoint. o Your MediaTailor source location base URL must be a MediaPack- age V2 endpoint. o The caller of the API must have mediapackagev2:GetObject IAM permissions to read all top level manifests referenced by the MediaTailor source packaging configurations. Before you can use AUTODETECT_SIGV4 with an Amazon S3 bucket, you must meet these requirements: o You must grant MediaTailor access to your S3 bucket by grant- ing mediatailor.amazonaws.com principal access in IAM. For more information about configuring access in IAM, see Access management in the IAM User Guide. . o The mediatailor.amazonaws.com service principal must have per- missions to read all top-level manifests referenced by the VodSource packaging configurations. o The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations. Possible values: o S3_SIGV4 o SECRETS_MANAGER_ACCESS_TOKEN o AUTODETECT_SIGV4 SecretsManagerAccessTokenConfiguration -&gt; (structure) AWS Secrets Manager access token configuration parameters. HeaderName -&gt; (string) The name of the HTTP header used to supply the access token in requests to the source location. SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the AWS Secrets Manager se- cret that contains the access token. SecretStringKey -&gt; (string) The AWS Secrets Manager SecretString key associated with the access token. MediaTailor uses the key to look up Secret- String key and value pair containing the access token. Shorthand Syntax: AccessType=string,SecretsManagerAccessTokenConfiguration={HeaderName=string,SecretArn=string,SecretStringKey=string} JSON Syntax: { "AccessType": "S3_SIGV4"|"SECRETS_MANAGER_ACCESS_TOKEN"|"AUTODETECT_SIGV4", "SecretsManagerAccessTokenConfiguration": { "HeaderName": "string", "SecretArn": "string", "SecretStringKey": "string" } }
     /// </summary>
@@ -34,17 +84,11 @@ public record AwsMediatailorCreateSourceLocationOptions : AwsOptions
     [CliOption("--default-segment-delivery-configuration")]
     public string? DefaultSegmentDeliveryConfiguration { get; set; }
 
-    [CliOption("--http-configuration")]
-    public string? HttpConfiguration { get; set; }
-
     /// <summary>
     /// A list of the segment delivery configurations associated with this resource. (structure) The segment delivery configuration settings. BaseUrl -&gt; (string) The base URL of the host or path of the segment delivery server that you're using to serve segments. This is typically a content delivery network (CDN). The URL can be absolute or relative. To use an absolute URL include the protocol, such as https://example.com/some/path . To use a relative URL specify the relative path, such as /some/path* . Name -&gt; (string) A unique identifier used to distinguish between multiple seg- ment delivery configurations in a source location. Shorthand Syntax: BaseUrl=string,Name=string ... JSON Syntax: [ { "BaseUrl": "string", "Name": "string" } ... ]
     /// </summary>
     [CliOption("--segment-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentDeliveryConfigurations { get; set; }
-
-    [CliOption("--source-location-name")]
-    public string? SourceLocationName { get; set; }
 
     /// <summary>
     /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organiza- tion, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -57,5 +101,21 @@ public record AwsMediatailorCreateSourceLocationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

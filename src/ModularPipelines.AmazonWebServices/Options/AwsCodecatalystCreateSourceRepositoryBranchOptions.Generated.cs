@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecatalyst", "create-source-repository-branch")]
-public record AwsCodecatalystCreateSourceRepositoryBranchOptions : AwsOptions
+public record AwsCodecatalystCreateSourceRepositoryBranchOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a branch in a specified source repository in Amazon CodeCata- lyst. NOTE: This API only creates a branch in a source repository hosted in Ama- zon CodeCatalyst. You cannot use this API to create a branch in a linked repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="SourceRepositoryName">The name of the repository where you want to create a branch. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]*</param>
+    /// <param name="Name">The name for the branch you're creating. Constraints: o min: 1 o max: 100</param>
+    public AwsCodecatalystCreateSourceRepositoryBranchOptions(
+        string SpaceName,
+        string ProjectName,
+        string SourceRepositoryName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceName);
+        this.SpaceName = SpaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRepositoryName);
+        this.SourceRepositoryName = SourceRepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsCodecatalystCreateSourceRepositoryBranchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecatalystCreateSourceRepositoryBranchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecatalystCreateSourceRepositoryBranchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--space-name")]
-    public string? SpaceName { get; set; }
+    public string? SpaceName { get; private init; }
 
+    /// <summary>
+    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
 
+    /// <summary>
+    /// The name of the repository where you want to create a branch. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]*
+    /// </summary>
     [CliOption("--source-repository-name")]
-    public string? SourceRepositoryName { get; set; }
+    public string? SourceRepositoryName { get; private init; }
 
+    /// <summary>
+    /// The name for the branch you're creating. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The commit ID in an existing branch from which you want to create the new branch.
@@ -44,5 +102,21 @@ public record AwsCodecatalystCreateSourceRepositoryBranchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

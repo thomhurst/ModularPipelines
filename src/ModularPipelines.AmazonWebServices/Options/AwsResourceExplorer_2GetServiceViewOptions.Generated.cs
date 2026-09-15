@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-explorer-2", "get-service-view")]
-public record AwsResourceExplorer_2GetServiceViewOptions : AwsOptions
+public record AwsResourceExplorer_2GetServiceViewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceViewArn">The Amazon Resource Name (ARN) of the service view to retrieve de- tails for. Constraints: o min: 1 o max: 1011</param>
+    public AwsResourceExplorer_2GetServiceViewOptions(
+        string ServiceViewArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceViewArn);
+        this.ServiceViewArn = ServiceViewArn;
+    }
+
+    private AwsResourceExplorer_2GetServiceViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceExplorer_2GetServiceViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceExplorer_2GetServiceViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the service view to retrieve de- tails for. Constraints: o min: 1 o max: 1011
+    /// </summary>
     [CliOption("--service-view-arn")]
-    public string? ServiceViewArn { get; set; }
+    public string? ServiceViewArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

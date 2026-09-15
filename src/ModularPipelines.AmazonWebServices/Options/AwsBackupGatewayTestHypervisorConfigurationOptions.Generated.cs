@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-gateway", "test-hypervisor-configuration")]
-public record AwsBackupGatewayTestHypervisorConfigurationOptions : AwsOptions
+public record AwsBackupGatewayTestHypervisorConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+</param>
+    public AwsBackupGatewayTestHypervisorConfigurationOptions(
+        string GatewayArn,
+        string Host
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        global::System.ArgumentNullException.ThrowIfNull(Host);
+        this.Host = Host;
+    }
+
+    private AwsBackupGatewayTestHypervisorConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGatewayTestHypervisorConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGatewayTestHypervisorConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway to the hypervisor to test. Constraints: o min: 50 o max: 180 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// </summary>
+    [CliOption("--gateway-arn")]
+    public string? GatewayArn { get; private init; }
+
+    /// <summary>
+    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+
+    /// </summary>
     [CliOption("--host")]
-    public string? Host { get; set; }
+    public string? Host { get; private init; }
 
     /// <summary>
     /// The username for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
@@ -46,5 +90,21 @@ public record AwsBackupGatewayTestHypervisorConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

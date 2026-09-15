@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "get-artifact-url")]
-public record AwsAmplifyGetArtifactUrlOptions : AwsOptions
+public record AwsAmplifyGetArtifactUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the artifact info that corresponds to an artifact id. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ArtifactId">The unique ID for an artifact. Constraints: o max: 255 o pattern: (?s).*</param>
+    public AwsAmplifyGetArtifactUrlOptions(
+        string ArtifactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactId);
+        this.ArtifactId = ArtifactId;
+    }
+
+    private AwsAmplifyGetArtifactUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyGetArtifactUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyGetArtifactUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an artifact. Constraints: o max: 255 o pattern: (?s).*
+    /// </summary>
     [CliOption("--artifact-id")]
-    public string? ArtifactId { get; set; }
+    public string? ArtifactId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

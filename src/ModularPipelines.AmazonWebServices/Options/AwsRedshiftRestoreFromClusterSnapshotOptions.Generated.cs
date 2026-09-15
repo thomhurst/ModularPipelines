@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "restore-from-cluster-snapshot")]
-public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
+public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cluster from a snapshot. By default, Amazon Redshift cre- ates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new clus- ter is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyClus- ter API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you ca...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The identifier of the cluster that will be created from restoring the snapshot. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647</param>
+    public AwsRedshiftRestoreFromClusterSnapshotOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftRestoreFromClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftRestoreFromClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftRestoreFromClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster that will be created from restoring the snapshot. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o Alphabetic characters must be lowercase. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. o Must be unique for all clusters within an Amazon Web Services ac- count. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn , but not both. Example: my-snapshot-id Constraints: o max: 2147483647
@@ -48,7 +84,7 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150 -65535 . For clusters with RG or RA3 nodes, must be within the ranges 5431 -5455 or 8191 -8215 .
     /// </summary>
     [CliOption("--port")]
-    public AwsRedshiftRestoreFromClusterSnapshotPort? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a Constraints: o max: 2147483647
@@ -56,7 +92,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CliFlag("--allow-version-upgrade")]
+    /// <summary>
+    /// If true , major version upgrades can be applied during the mainte- nance window to the Amazon Redshift engine that is running on the cluster. Default: true
+    /// </summary>
+    [CliFlag("--allow-version-upgrade", NegatedName = "--no-allow-version-upgrade")]
     public bool? AllowVersionUpgrade { get; set; }
 
     /// <summary>
@@ -65,7 +104,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--cluster-subnet-group-name")]
     public string? ClusterSubnetGroupName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// If true , the cluster can be accessed from a public network. Default: false
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -140,7 +182,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
-    [CliFlag("--enhanced-vpc-routing")]
+    /// <summary>
+    /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false
+    /// </summary>
+    [CliFlag("--enhanced-vpc-routing", NegatedName = "--no-enhanced-vpc-routing")]
     public bool? EnhancedVpcRouting { get; set; }
 
     /// <summary>
@@ -173,7 +218,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CliFlag("--availability-zone-relocation")]
+    /// <summary>
+    /// The option to enable relocation for an Amazon Redshift cluster be- tween Availability Zones after the cluster is restored.
+    /// </summary>
+    [CliFlag("--availability-zone-relocation", NegatedName = "--no-availability-zone-relocation")]
     public bool? AvailabilityZoneRelocation { get; set; }
 
     /// <summary>
@@ -200,16 +248,21 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--target-reserved-node-offering-id")]
     public string? TargetReservedNodeOfferingId { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Enables support for restoring an unencrypted snapshot to a cluster encrypted with Key Management Service (KMS) and a customer managed key.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
-    [CliFlag("--manage-master-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
+    /// </summary>
+    [CliFlag("--manage-master-password", NegatedName = "--no-manage-master-password")]
     public bool? ManageMasterPassword { get; set; }
 
     /// <summary>
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true. Constraints: o max: 2147483647
     /// </summary>
-    [SecretValue]
     [CliOption("--master-password-secret-kms-key-id")]
     public string? MasterPasswordSecretKmsKeyId { get; set; }
 
@@ -219,7 +272,10 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// If true, the snapshot will be restored to a cluster deployed in two Availability Zones.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
@@ -239,5 +295,21 @@ public record AwsRedshiftRestoreFromClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

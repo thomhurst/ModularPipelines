@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "update-standards-control")]
-public record AwsSecurityhubUpdateStandardsControlOptions : AwsOptions
+public record AwsSecurityhubUpdateStandardsControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to control whether an individual security standard control is en- abled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUp- datable value NOT_READY_FOR_UPDATES . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StandardsControlArn">The ARN of the security standard control to enable or disable. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubUpdateStandardsControlOptions(
+        string StandardsControlArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StandardsControlArn);
+        this.StandardsControlArn = StandardsControlArn;
+    }
+
+    private AwsSecurityhubUpdateStandardsControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubUpdateStandardsControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubUpdateStandardsControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the security standard control to enable or disable. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--standards-control-arn")]
-    public string? StandardsControlArn { get; set; }
+    public string? StandardsControlArn { get; private init; }
 
     /// <summary>
     /// The updated status of the security standard control. Possible values: o ENABLED o DISABLED
@@ -42,5 +79,21 @@ public record AwsSecurityhubUpdateStandardsControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

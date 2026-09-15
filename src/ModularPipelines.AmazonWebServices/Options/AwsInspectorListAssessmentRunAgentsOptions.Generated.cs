@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "list-assessment-run-agents")]
-public record AwsInspectorListAssessmentRunAgentsOptions : AwsOptions
+public record AwsInspectorListAssessmentRunAgentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the agents of the assessment runs that are specified by the ARNs of the assessment runs. See also: AWS API Documentation list-assessment-run-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
+    /// </summary>
+    /// <param name="AssessmentRunArn">The ARN that specifies the assessment run whose agents you want to list. Constraints: o min: 1 o max: 300</param>
+    public AwsInspectorListAssessmentRunAgentsOptions(
+        string AssessmentRunArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentRunArn);
+        this.AssessmentRunArn = AssessmentRunArn;
+    }
+
+    private AwsInspectorListAssessmentRunAgentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorListAssessmentRunAgentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorListAssessmentRunAgentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that specifies the assessment run whose agents you want to list. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--assessment-run-arn")]
-    public string? AssessmentRunArn { get; set; }
+    public string? AssessmentRunArn { get; private init; }
 
     /// <summary>
     /// You can use this parameter to specify a subset of data to be in- cluded in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match. agentHealths -&gt; (list) [required] The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY . Constraints: o min: 0 o max: 10 (string) Possible values: o HEALTHY o UNHEALTHY o UNKNOWN agentHealthCodes -&gt; (list) [required] The detailed health state of the agent. Values can be set to IDLE , RUNNING , SHUTDOWN , UNHEALTHY , THROTTLED , and UNKNOWN . Constraints: o min: 0 o max: 10 (string) Possible values: o IDLE o RUNNING o SHUTDOWN o UNHEALTHY o THROTTLED o UNKNOWN Shorthand Syntax: agentHealths=string,string,agentHealthCodes=string,string JSON Syntax: { "agentHealths": ["HEALTHY"|"UNHEALTHY"|"UNKNOWN", ...], "agentHealthCodes": ["IDLE"|"RUNNING"|"SHUTDOWN"|"UNHEALTHY"|"THROTTLED"|"UNKNOWN", ...] }
     /// </summary>
-    [CliOption("--filter", GroupValues = true)]
-    public IEnumerable<string>? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +92,21 @@ public record AwsInspectorListAssessmentRunAgentsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

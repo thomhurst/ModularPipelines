@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-activation")]
-public record AwsSsmCreateActivationOptions : AwsOptions
+public record AwsSsmCreateActivationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager tools. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about re- quirements for managing on-premises machines using Systems Manager, see Using Ama...
+    /// </summary>
+    /// <param name="IamRole">The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in a hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64</param>
+    public AwsSsmCreateActivationOptions(
+        string IamRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamRole);
+        this.IamRole = IamRole;
+    }
+
+    private AwsSsmCreateActivationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateActivationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateActivationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide As- sumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com . For more information, see Create the IAM service role required for Systems Manager in a hybrid and multicloud environments in the Amazon Web Services Systems Man- ager User Guide . NOTE: You can't specify an IAM service-linked role for this parameter. You must create a unique role. Constraints: o max: 64
+    /// </summary>
+    [CliOption("--iam-role")]
+    public string? IamRole { get; private init; }
+
     /// <summary>
     /// A user-defined description of the resource that you want to register with Systems Manager. WARNING: Don't enter personally identifiable information in this field. Constraints: o min: 0 o max: 256
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsSsmCreateActivationOptions : AwsOptions
     /// </summary>
     [CliOption("--default-instance-name")]
     public string? DefaultInstanceName { get; set; }
-
-    [CliOption("--iam-role")]
-    public string? IamRole { get; set; }
 
     /// <summary>
     /// Specify the maximum number of managed nodes you want to register. The default value is 1 . Constraints: o min: 1 o max: 1000
@@ -65,5 +102,21 @@ public record AwsSsmCreateActivationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

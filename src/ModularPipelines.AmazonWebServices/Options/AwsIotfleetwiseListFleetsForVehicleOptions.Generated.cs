@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "list-fleets-for-vehicle")]
-public record AwsIotfleetwiseListFleetsForVehicleOptions : AwsOptions
+public record AwsIotfleetwiseListFleetsForVehicleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of IDs for all fleets that the vehicle is associated with. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets-for-vehicle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
+    /// </summary>
+    /// <param name="VehicleName">The ID of the vehicle to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    public AwsIotfleetwiseListFleetsForVehicleOptions(
+        string VehicleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VehicleName);
+        this.VehicleName = VehicleName;
+    }
+
+    private AwsIotfleetwiseListFleetsForVehicleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwiseListFleetsForVehicleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwiseListFleetsForVehicleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the vehicle to retrieve information about. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// </summary>
     [CliOption("--vehicle-name")]
-    public string? VehicleName { get; set; }
+    public string? VehicleName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsIotfleetwiseListFleetsForVehicleOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

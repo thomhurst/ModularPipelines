@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-phone-number")]
-public record AwsConnectUpdatePhoneNumberOptions : AwsOptions
+public record AwsConnectUpdatePhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates your claimed phone number from its current Connect Customer in- stance or traffic distribution group to another Connect Customer in- stance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is at- tached to the correct flow in the target instance or traffic distri- bution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It does...
+    /// </summary>
+    /// <param name="PhoneNumberId">A unique identifier for the phone number.</param>
+    public AwsConnectUpdatePhoneNumberOptions(
+        string PhoneNumberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberId);
+        this.PhoneNumberId = PhoneNumberId;
+    }
+
+    private AwsConnectUpdatePhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdatePhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdatePhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the phone number.
+    /// </summary>
     [CliOption("--phone-number-id")]
-    public string? PhoneNumberId { get; set; }
+    public string? PhoneNumberId { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn .
@@ -49,5 +86,21 @@ public record AwsConnectUpdatePhoneNumberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

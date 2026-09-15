@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "accept-domain-transfer-from-another-aws-account")]
-public record AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions : AwsOptions
+public record AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Accepts the transfer of a domain from another Amazon Web Services ac- count to the currentAmazon Web Services account. You initiate a trans- fer between Amazon Web Services accounts using TransferDomainToAnotherAwsAccount . If you use the CLI command at accept-domain-transfer-from-another-aws-account , use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either ListOperations or GetOperationDetail to determ...
+    /// </summary>
+    /// <param name="DomainName">The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255</param>
+    /// <param name="Password">The password that was returned by the TransferDomainToAnotherAwsAccount request.</param>
+    public AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions(
+        string DomainName,
+        string Password
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+    }
+
+    private AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsAcceptDomainTransferFromAnotherAwsAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount re- quest. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The password that was returned by the TransferDomainToAnotherAwsAccount request.
+    /// </summary>
     [SecretValue]
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public string? Password { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

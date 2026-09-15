@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "list-resolver-endpoint-ip-addresses")]
-public record AwsRoute53resolverListResolverEndpointIpAddressesOptions : AwsOptions
+public record AwsRoute53resolverListResolverEndpointIpAddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the IP addresses for a specified Resolver endpoint. See also: AWS API Documentation list-resolver-endpoint-ip-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpAddresses
+    /// </summary>
+    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to get IP addresses for. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverListResolverEndpointIpAddressesOptions(
+        string ResolverEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverEndpointId);
+        this.ResolverEndpointId = ResolverEndpointId;
+    }
+
+    private AwsRoute53resolverListResolverEndpointIpAddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverListResolverEndpointIpAddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverListResolverEndpointIpAddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Resolver endpoint that you want to get IP addresses for. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--resolver-endpoint-id")]
-    public string? ResolverEndpointId { get; set; }
+    public string? ResolverEndpointId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsRoute53resolverListResolverEndpointIpAddressesOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

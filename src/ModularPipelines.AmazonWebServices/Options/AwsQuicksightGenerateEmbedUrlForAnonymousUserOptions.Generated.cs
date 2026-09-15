@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "generate-embed-url-for-anonymous-user")]
-public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions
+public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates an embed URL that you can use to embed an Amazon Quick dash- board or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL: o It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again. o The URL validity period should not be confused with the...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick custom namespace, set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AuthorizedResourceArns">The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dash- board ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call. (string) Syntax: "string" "string" ...</param>
+    /// <param name="ExperienceConfiguration">The configuration of the experience that you are embedding. Dashboard -&gt; (structure) The type of embedding experience. In this case, Amazon Quick Sight dashboards. InitialDashboardId -&gt; (string) [required] The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be in- cluded in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException . Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ EnabledFeatures -&gt; (list) A list of all enabled features of a specified anonymous dash- board. (string) Possible values: o SHARED_VIEW DisabledFeatures -&gt; (list) A list of all disabled features of a specified anonymous dashboard. (string) Possible values: o SHARED_VIEW FeatureConfigurations -&gt; (structure) The feature configuration for an embedded dashboard. SharedView -&gt; (structure) The shared view settings of an embedded dashboard. Enabled -&gt; (boolean) [required] The shared view settings of an embedded dashboard. DashboardVisual -&gt; (structure) The type of embedding experience. In this case, Amazon Quick Sight visuals. InitialDashboardVisualId -&gt; (structure) [required] The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in re- sponse is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the vi- sual belongs to must be included in the Authorize- dResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException . DashboardId -&gt; (string) [required] The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for de- velopers section of the Embed visual pane of the visual's on-visual menu of the Quick console. You can also get the DashboardId with a ListDashboards API operation. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ SheetId -&gt; (string) [required] The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-vi- sual menu of the Quick console. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ VisualId -&gt; (string) [required] The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Em- bed visual pane of the visual's on-visual menu of the Amazon Quick Sight console. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ QSearchBar -&gt; (structure) The Q search bar that you want to use for anonymous user embed- ding. InitialTopicId -&gt; (string) [required] The Quick Sight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException er- ror. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+ GenerativeQnA -&gt; (structure) The Generative Q&amp;A experience that you want to use for anonymous user embedding. InitialTopicId -&gt; (string) [required] The Quick Sight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is in- cluded in the output URL. When the URL in response is ac- cessed, Quick Sight renders the Generative Q&amp;A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experi- ence topic must be included in the AuthorizedResourceArns pa- rameter. Otherwise, the request fails with an InvalidParame- terValueException error. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+ JSON Syntax: { "Dashboard": { "InitialDashboardId": "string", "EnabledFeatures": ["SHARED_VIEW", ...], "DisabledFeatures": ["SHARED_VIEW", ...], "FeatureConfigurations": { "SharedView": { "Enabled": true|false } } }, "DashboardVisual": { "InitialDashboardVisualId": { "DashboardId": "string", "SheetId": "string", "VisualId": "string" } }, "QSearchBar": { "InitialTopicId": "string" }, "GenerativeQnA": { "InitialTopicId": "string" } }</param>
+    public AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions(
+        string AwsAccountId,
+        string Namespace,
+        IEnumerable<string> AuthorizedResourceArns,
+        string ExperienceConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuthorizedResourceArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuthorizedResourceArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuthorizedResourceArns));
+            }
+
+            AuthorizedResourceArns = materialized;
+        }
+        this.AuthorizedResourceArns = AuthorizedResourceArns;
+        global::System.ArgumentNullException.ThrowIfNull(ExperienceConfiguration);
+        this.ExperienceConfiguration = ExperienceConfiguration;
+    }
+
+    private AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that contains the dash- board that you're embedding. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick custom namespace, set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dash- board ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--authorized-resource-arns", GroupValues = true)]
+    public IEnumerable<string>? AuthorizedResourceArns { get; private init; }
+
+    /// <summary>
+    /// The configuration of the experience that you are embedding. Dashboard -&gt; (structure) The type of embedding experience. In this case, Amazon Quick Sight dashboards. InitialDashboardId -&gt; (string) [required] The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be in- cluded in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException . Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ EnabledFeatures -&gt; (list) A list of all enabled features of a specified anonymous dash- board. (string) Possible values: o SHARED_VIEW DisabledFeatures -&gt; (list) A list of all disabled features of a specified anonymous dashboard. (string) Possible values: o SHARED_VIEW FeatureConfigurations -&gt; (structure) The feature configuration for an embedded dashboard. SharedView -&gt; (structure) The shared view settings of an embedded dashboard. Enabled -&gt; (boolean) [required] The shared view settings of an embedded dashboard. DashboardVisual -&gt; (structure) The type of embedding experience. In this case, Amazon Quick Sight visuals. InitialDashboardVisualId -&gt; (structure) [required] The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in re- sponse is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the vi- sual belongs to must be included in the Authorize- dResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException . DashboardId -&gt; (string) [required] The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for de- velopers section of the Embed visual pane of the visual's on-visual menu of the Quick console. You can also get the DashboardId with a ListDashboards API operation. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ SheetId -&gt; (string) [required] The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-vi- sual menu of the Quick console. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ VisualId -&gt; (string) [required] The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Em- bed visual pane of the visual's on-visual menu of the Amazon Quick Sight console. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+ QSearchBar -&gt; (structure) The Q search bar that you want to use for anonymous user embed- ding. InitialTopicId -&gt; (string) [required] The Quick Sight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException er- ror. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+ GenerativeQnA -&gt; (structure) The Generative Q&amp;A experience that you want to use for anonymous user embedding. InitialTopicId -&gt; (string) [required] The Quick Sight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is in- cluded in the output URL. When the URL in response is ac- cessed, Quick Sight renders the Generative Q&amp;A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experi- ence topic must be included in the AuthorizedResourceArns pa- rameter. Otherwise, the request fails with an InvalidParame- terValueException error. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+ JSON Syntax: { "Dashboard": { "InitialDashboardId": "string", "EnabledFeatures": ["SHARED_VIEW", ...], "DisabledFeatures": ["SHARED_VIEW", ...], "FeatureConfigurations": { "SharedView": { "Enabled": true|false } } }, "DashboardVisual": { "InitialDashboardVisualId": { "DashboardId": "string", "SheetId": "string", "VisualId": "string" } }, "QSearchBar": { "InitialTopicId": "string" }, "GenerativeQnA": { "InitialTopicId": "string" } }
+    /// </summary>
+    [CliOption("--experience-configuration")]
+    public string? ExperienceConfiguration { get; private init; }
 
     /// <summary>
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range. Constraints: o min: 15 o max: 600
@@ -30,20 +108,11 @@ public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions
     [CliOption("--session-lifetime-in-minutes")]
     public int? SessionLifetimeInMinutes { get; set; }
 
-    [CliOption("--namespace")]
-    public string? Namespace { get; set; }
-
     /// <summary>
     /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level se- curity (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser , o Treat SessionTags as security credentials. Do not expose Session- Tags to end users or client-side code. o Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify. o Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants. o Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access. Besides, these are not the tags used for the Amazon Web Services re- source tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick User Guide . Constraints: o min: 1 o max: 50 (structure) The key-value pair used for the row-level security tags feature. Key -&gt; (string) [required] The key for the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value that you want to assign the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--session-tags", GroupValues = true)]
     public IEnumerable<string>? SessionTags { get; set; }
-
-    [CliOption("--authorized-resource-arns", GroupValues = true)]
-    public IEnumerable<string>? AuthorizedResourceArns { get; set; }
-
-    [CliOption("--experience-configuration")]
-    public string? ExperienceConfiguration { get; set; }
 
     /// <summary>
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter over- rides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use * . For example, https://*.sapp.amazon.com includes all subdo- mains under https://sapp.amazon.com . (string) Syntax: "string" "string" ...
@@ -56,5 +125,21 @@ public record AwsQuicksightGenerateEmbedUrlForAnonymousUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-agents")]
-public record AwsQuicksightSearchAgentsOptions : AwsOptions
+public record AwsQuicksightSearchAgentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for agents based on specified filters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agents. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters to apply when searching agents. Constraints: o min: 1 o max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: o StringEquals o StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]</param>
+    public AwsQuicksightSearchAgentsOptions(
+        string AwsAccountId,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchAgentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchAgentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchAgentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the agents. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The filters to apply when searching agents. Constraints: o min: 1 o max: 1 (structure) A filter to apply when searching agents. Name -&gt; (string) The name of the field to filter on. Possible values: o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o AGENT_NAME Operator -&gt; (string) The comparison operator to use for the filter. Possible values: o StringEquals o StringLike Value -&gt; (string) The value to filter on. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"AGENT_NAME", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return. Constraints: o min: 1 o max: 100
@@ -46,5 +101,21 @@ public record AwsQuicksightSearchAgentsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

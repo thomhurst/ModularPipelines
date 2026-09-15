@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "put-compliance-items")]
-public record AwsSsmPutComplianceItemsOptions : AwsOptions
+public record AwsSsmPutComplianceItemsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a compliance type and other compliance details on a desig- nated resource. This operation lets you register custom compliance de- tails with a resource. This call overwrites existing compliance infor- mation on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: o ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. o ExecutionType: Specify patch, ...
+    /// </summary>
+    /// <param name="ResourceId">Specify an ID for this resource. For a managed node, this is the node ID. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceType">Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: o min: 1 o max: 50</param>
+    /// <param name="ComplianceType">Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+</param>
+    /// <param name="ExecutionSummary">A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExe- cutionTargets command or check the association execution his- tory in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: o max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: o max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }</param>
+    /// <param name="Items">Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: o min: 0 o max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB ar- ticle. Title -&gt; (string) The title of the compliance item. For example, if the compli- ance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: o max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFORMATIONAL o UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLI- ANT or NON_COMPLIANT. Possible values: o COMPLIANT o NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]</param>
+    public AwsSsmPutComplianceItemsOptions(
+        string ResourceId,
+        string ResourceType,
+        string ComplianceType,
+        string ExecutionSummary,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ComplianceType);
+        this.ComplianceType = ComplianceType;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionSummary);
+        this.ExecutionSummary = ExecutionSummary;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsSsmPutComplianceItemsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmPutComplianceItemsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmPutComplianceItemsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify an ID for this resource. For a managed node, this is the node ID. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: o min: 1 o max: 50
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+
+    /// </summary>
     [CliOption("--compliance-type")]
-    public string? ComplianceType { get; set; }
+    public string? ComplianceType { get; private init; }
 
+    /// <summary>
+    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExe- cutionTargets command or check the association execution his- tory in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: o max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: o max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }
+    /// </summary>
     [CliOption("--execution-summary")]
-    public string? ExecutionSummary { get; set; }
+    public string? ExecutionSummary { get; private init; }
 
+    /// <summary>
+    /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: o min: 0 o max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB ar- ticle. Title -&gt; (string) The title of the compliance item. For example, if the compli- ance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: o max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFORMATIONAL o UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLI- ANT or NON_COMPLIANT. Possible values: o COMPLIANT o NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     /// <summary>
     /// MD5 or SHA-256 content hash. The content hash is used to determine if existing information should be overwritten or ignored. If the content hashes match, the request to put compliance information is ignored. Constraints: o max: 256
@@ -54,5 +130,21 @@ public record AwsSsmPutComplianceItemsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

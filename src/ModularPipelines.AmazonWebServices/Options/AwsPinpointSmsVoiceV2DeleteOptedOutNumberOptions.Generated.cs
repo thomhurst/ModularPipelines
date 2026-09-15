@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "delete-opted-out-number")]
-public record AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--opt-out-list-name")]
-    public string? OptOutListName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OptOutListName">The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="OptedOutNumber">The phone number, in E.164 format, to remove from the OptOutList. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    public AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions(
+        string OptOutListName,
+        string OptedOutNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptOutListName);
+        this.OptOutListName = OptOutListName;
+        global::System.ArgumentNullException.ThrowIfNull(OptedOutNumber);
+        this.OptedOutNumber = OptedOutNumber;
+    }
+
+    private AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The OptOutListName or OptOutListArn to remove the phone number from. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--opt-out-list-name")]
+    public string? OptOutListName { get; private init; }
+
+    /// <summary>
+    /// The phone number, in E.164 format, to remove from the OptOutList. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// </summary>
     [CliOption("--opted-out-number")]
-    public string? OptedOutNumber { get; set; }
+    public string? OptedOutNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

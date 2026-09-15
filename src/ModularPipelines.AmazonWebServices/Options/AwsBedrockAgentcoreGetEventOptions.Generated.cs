@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-event")]
-public record AwsBedrockAgentcoreGetEventOptions : AwsOptions
+public record AwsBedrockAgentcoreGetEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a specific event in an AgentCore Memory re- source. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource containing the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SessionId">The identifier of the session containing the event. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*</param>
+    /// <param name="ActorId">The identifier of the actor associated with the event. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="EventId">The identifier of the event to retrieve. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+</param>
+    public AwsBedrockAgentcoreGetEventOptions(
+        string MemoryId,
+        string SessionId,
+        string ActorId,
+        string EventId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(ActorId);
+        this.ActorId = ActorId;
+        global::System.ArgumentNullException.ThrowIfNull(EventId);
+        this.EventId = EventId;
+    }
+
+    private AwsBedrockAgentcoreGetEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource containing the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    public string? MemoryId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the session containing the event. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the actor associated with the event. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// </summary>
     [CliOption("--actor-id")]
-    public string? ActorId { get; set; }
+    public string? ActorId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the event to retrieve. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+
+    /// </summary>
     [CliOption("--event-id")]
-    public string? EventId { get; set; }
+    public string? EventId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

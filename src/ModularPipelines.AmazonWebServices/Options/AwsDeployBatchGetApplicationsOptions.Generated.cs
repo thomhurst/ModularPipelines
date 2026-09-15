@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "batch-get-applications")]
-public record AwsDeployBatchGetApplicationsOptions : AwsOptions
+public record AwsDeployBatchGetApplicationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about one or more applications. The maximum number of applications that can be returned is 100. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationNames">A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...</param>
+    public AwsDeployBatchGetApplicationsOptions(
+        IEnumerable<string> ApplicationNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ApplicationNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApplicationNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ApplicationNames));
+            }
+
+            ApplicationNames = materialized;
+        }
+        this.ApplicationNames = ApplicationNames;
+    }
+
+    private AwsDeployBatchGetApplicationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployBatchGetApplicationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployBatchGetApplicationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of application names separated by spaces. The maximum number of application names you can specify is 100. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--application-names", GroupValues = true)]
-    public IEnumerable<string>? ApplicationNames { get; set; }
+    public IEnumerable<string>? ApplicationNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

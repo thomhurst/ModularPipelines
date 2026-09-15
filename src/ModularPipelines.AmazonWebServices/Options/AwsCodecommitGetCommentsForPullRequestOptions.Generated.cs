@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-comments-for-pull-request")]
-public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions
+public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
+    public AwsCodecommitGetCommentsForPullRequestOptions(
+        string PullRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+    }
+
+    private AwsCodecommitGetCommentsForPullRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetCommentsForPullRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetCommentsForPullRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request. To get this ID, use ListPullRequests .
+    /// </summary>
     [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    public string? PullRequestId { get; private init; }
 
     /// <summary>
     /// The name of the repository that contains the pull request. Require- ment is conditional: repositoryName must be specified when be- foreCommitId and afterCommitId are included. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
@@ -67,5 +104,21 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

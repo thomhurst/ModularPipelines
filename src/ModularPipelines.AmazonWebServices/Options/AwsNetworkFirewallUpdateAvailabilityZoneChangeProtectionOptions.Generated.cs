@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "update-availability-zone-change-protection")]
-public record AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions : AwsOptions
+public record AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents acciden- tal changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environ- ments. When enabled, you must disable this protection before using Associ- ateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AvailabilityZoneChangeProtection">ity-zone-change-protection (boolean) [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .</param>
+    public AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions(
+        bool AvailabilityZoneChangeProtection
+    )
+    {
+        this.AvailabilityZoneChangeProtection = AvailabilityZoneChangeProtection;
+    }
+
+    private AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ity-zone-change-protection (boolean) [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
+    [CliFlag("--availability-zone-change-protection", NegatedName = "--no-availability-zone-change-protection")]
+    public bool? AvailabilityZoneChangeProtection { get; private init; }
+
     /// <summary>
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
@@ -41,16 +80,26 @@ public record AwsNetworkFirewallUpdateAvailabilityZoneChangeProtectionOptions : 
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    /// <summary>
-    /// | --no-availabil- ity-zone-change-protection (boolean) [required] A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
-    /// </summary>
-    [CliFlag("--availability-zone-change-protection")]
-    public bool? AvailabilityZoneChangeProtection { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

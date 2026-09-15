@@ -11,26 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --signalnodetype.
+/// Allowed values for --signal-node-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotfleetwiseListSignalCatalogNodesSignalNodeType
 {
-    [EnumValue("SENSOR")]
-    Sensor = 1,
-
     [EnumValue("ACTUATOR")]
-    Actuator = 2,
+    Actuator,
 
     [EnumValue("ATTRIBUTE")]
-    Attribute = 3,
+    Attribute,
 
     [EnumValue("BRANCH")]
-    Branch = 4,
-
-    [EnumValue("CUSTOM_STRUCT")]
-    CustomStruct = 5,
+    Branch,
 
     [EnumValue("CUSTOM_PROPERTY")]
-    CustomProperty = 6
+    CustomProperty,
+
+    [EnumValue("CUSTOM_STRUCT")]
+    CustomStruct,
+
+    [EnumValue("SENSOR")]
+    Sensor
 }

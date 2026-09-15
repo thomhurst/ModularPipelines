@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "start-game-session-placement")]
-public record AwsGameliftStartGameSessionPlacementOptions : AwsOptions
+public record AwsGameliftStartGameSessionPlacementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--placement-id")]
-    public string? PlacementId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Makes a request to start a new game session using a game session queue. When processing a placement request, Amazon GameLift Servers looks for the best possible available resource to host the game session, based on how the queue is configured to prioritize factors such as resource cost, latency, and location. After selecting an available resource, Amazon GameLift Servers prompts the resource to start a game session. A plac...
+    /// </summary>
+    /// <param name="PlacementId">A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="GameSessionQueueName">Name of the queue to use to place the new game session. You can use either the queue name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$</param>
+    /// <param name="MaximumPlayerSessionCount">The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0</param>
+    public AwsGameliftStartGameSessionPlacementOptions(
+        string PlacementId,
+        string GameSessionQueueName,
+        int MaximumPlayerSessionCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlacementId);
+        this.PlacementId = PlacementId;
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionQueueName);
+        this.GameSessionQueueName = GameSessionQueueName;
+        this.MaximumPlayerSessionCount = MaximumPlayerSessionCount;
+    }
+
+    private AwsGameliftStartGameSessionPlacementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftStartGameSessionPlacementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftStartGameSessionPlacementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
+    [CliOption("--placement-id")]
+    public string? PlacementId { get; private init; }
+
+    /// <summary>
+    /// Name of the queue to use to place the new game session. You can use either the queue name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$
+    /// </summary>
     [CliOption("--game-session-queue-name")]
-    public string? GameSessionQueueName { get; set; }
+    public string? GameSessionQueueName { get; private init; }
+
+    /// <summary>
+    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--maximum-player-session-count")]
+    public int? MaximumPlayerSessionCount { get; private init; }
 
     /// <summary>
     /// A set of key-value pairs that can store custom data in a game ses- sion. For example: {"Key": "difficulty", "Value": "novice"} . NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys contain- ing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API re- sults. Constraints: o max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game ses- sion's map, level of difficulty, or remaining time. The diffi- culty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: o max: 32 Value -&gt; (string) [required] The game property value. Constraints: o max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--game-properties", GroupValues = true)]
     public IEnumerable<string>? GameProperties { get; set; }
-
-    [CliOption("--maximum-player-session-count")]
-    public int? MaximumPlayerSessionCount { get; set; }
 
     /// <summary>
     /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: o min: 1 o max: 1024
@@ -71,5 +121,21 @@ public record AwsGameliftStartGameSessionPlacementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

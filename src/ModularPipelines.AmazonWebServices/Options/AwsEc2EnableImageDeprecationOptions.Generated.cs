@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-image-deprecation")]
-public record AwsEc2EnableImageDeprecationOptions : AwsOptions
+public record AwsEc2EnableImageDeprecationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageId">The ID of the AMI.</param>
+    /// <param name="DeprecateAt">The date and time to deprecate the AMI, in UTC, in the following format: YYYY -MM -DD T*HH* :MM :SS Z. If you specify a value for seconds, Amazon EC2 rounds the seconds to the nearest minute. You cant specify a date in the past. The upper limit for DeprecateAt is 10 years from now, except for public AMIs, where the upper limit is 2 years from the creation date.</param>
+    public AwsEc2EnableImageDeprecationOptions(
+        string ImageId,
+        string DeprecateAt
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        global::System.ArgumentNullException.ThrowIfNull(DeprecateAt);
+        this.DeprecateAt = DeprecateAt;
+    }
+
+    private AwsEc2EnableImageDeprecationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableImageDeprecationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableImageDeprecationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the AMI.
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
+    /// <summary>
+    /// The date and time to deprecate the AMI, in UTC, in the following format: YYYY -MM -DD T*HH* :MM :SS Z. If you specify a value for seconds, Amazon EC2 rounds the seconds to the nearest minute. You cant specify a date in the past. The upper limit for DeprecateAt is 10 years from now, except for public AMIs, where the upper limit is 2 years from the creation date.
+    /// </summary>
     [CliOption("--deprecate-at")]
-    public string? DeprecateAt { get; set; }
+    public string? DeprecateAt { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsEc2EnableImageDeprecationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

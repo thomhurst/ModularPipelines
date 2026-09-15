@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "list-opportunities")]
-public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions
+public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This request accepts a list of filters that retrieve opportunity sub- sets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the op- portunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportu- nities action. W...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    public AwsPartnercentralSellingListOpportunitiesOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralSellingListOpportunitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingListOpportunitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingListOpportunitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate . SortOrder -&gt; (string) [required] Sort order. Default: Descending Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Field name to sort by. Possible values: o LastModifiedDate o Identifier o CustomerCompanyName o CreatedDate o TargetCloseDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "LastModifiedDate"|"Identifier"|"CustomerCompanyName"|"CreatedDate"|"TargetCloseDate" }
@@ -97,5 +134,21 @@ public record AwsPartnercentralSellingListOpportunitiesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

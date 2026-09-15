@@ -22,14 +22,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ebs", "get-snapshot-block")]
 public record AwsEbsGetSnapshotBlockOptions : AwsOptions
 {
+    /// <summary>
+    /// Returns the data in a block in an Amazon Elastic Block Store snapshot. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SnapshotId">The ID of the snapshot containing the block from which to get data. WARNING: If the specified snapshot is encrypted, you must have permission to use the KMS key that was used to encrypt the snapshot. For more information, see Using encryption in the Amazon Elastic Compute Cloud User Guide . Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$</param>
+    /// <param name="BlockIndex">The block index of the block in which to read the data. A block in- dex is a logical index in units of 512 KiB blocks. To identify the block index, divide the logical offset of the data in the logical volume by the block size (logical offset of data/524288 ). The logi- cal offset of the data must be 512 KiB aligned. Constraints: o min: 0</param>
+    /// <param name="BlockToken">The block token of the block from which to get data. You can obtain the BlockToken by running the ListChangedBlocks or ListSnapshot- Blocks operations. Constraints: o max: 256 o pattern: ^[A-Za-z0-9+/=]+$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsEbsGetSnapshotBlockOptions(
+        string SnapshotId,
+        int BlockIndex,
+        string BlockToken,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
+        this.SnapshotId = SnapshotId;
+        this.BlockIndex = BlockIndex;
+        global::System.ArgumentNullException.ThrowIfNull(BlockToken);
+        this.BlockToken = BlockToken;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string SnapshotId, out int BlockIndex, out string BlockToken, out string Outfile)
+    {
+        SnapshotId = this.SnapshotId;
+        BlockIndex = this.BlockIndex;
+        BlockToken = this.BlockToken;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The ID of the snapshot containing the block from which to get data. WARNING: If the specified snapshot is encrypted, you must have permission to use the KMS key that was used to encrypt the snapshot. For more information, see Using encryption in the Amazon Elastic Compute Cloud User Guide . Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
+    /// </summary>
     [CliOption("--snapshot-id")]
-    public string? SnapshotId { get; set; }
+    public string SnapshotId { get; private init; }
 
+    /// <summary>
+    /// The block index of the block in which to read the data. A block in- dex is a logical index in units of 512 KiB blocks. To identify the block index, divide the logical offset of the data in the logical volume by the block size (logical offset of data/524288 ). The logi- cal offset of the data must be 512 KiB aligned. Constraints: o min: 0
+    /// </summary>
     [CliOption("--block-index")]
-    public int? BlockIndex { get; set; }
+    public int BlockIndex { get; private init; }
 
+    /// <summary>
+    /// The block token of the block from which to get data. You can obtain the BlockToken by running the ListChangedBlocks or ListSnapshot- Blocks operations. Constraints: o max: 256 o pattern: ^[A-Za-z0-9+/=]+$ outfile (string) [required] Filename where the content will be saved
+    /// </summary>
     [SecretValue]
     [CliOption("--block-token")]
-    public string? BlockToken { get; set; }
+    public string BlockToken { get; private init; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-subscription-filter")]
-public record AwsLogsPutSubscriptionFilterOptions : AwsOptions
+public record AwsLogsPutSubscriptionFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters: o An Amazon Kinesis data stream belonging to the same account as the s...
+    /// </summary>
+    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="FilterName">A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="FilterPattern">A filter pattern for subscribing to a filtered stream of log events. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="DestinationArn">The ARN of the destination to deliver matching log events to. Cur- rently, the supported destinations are: o An Amazon Kinesis stream belonging to the same account as the sub- scription filter, for same-account delivery. o A logical destination (specified using an ARN) belonging to a dif- ferent account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM pol- icy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . o A Kinesis Data Firehose delivery stream belonging to the same ac- count as the subscription filter, for same-account delivery. o A Lambda function belonging to the same account as the subscrip- tion filter, for same-account delivery. Constraints: o min: 1</param>
+    public AwsLogsPutSubscriptionFilterOptions(
+        string LogGroupName,
+        string FilterName,
+        string FilterPattern,
+        string DestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(FilterName);
+        this.FilterName = FilterName;
+        global::System.ArgumentNullException.ThrowIfNull(FilterPattern);
+        this.FilterPattern = FilterPattern;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationArn);
+        this.DestinationArn = DestinationArn;
+    }
+
+    private AwsLogsPutSubscriptionFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutSubscriptionFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutSubscriptionFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    public string? LogGroupName { get; private init; }
 
+    /// <summary>
+    /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
     [CliOption("--filter-name")]
-    public string? FilterName { get; set; }
+    public string? FilterName { get; private init; }
 
+    /// <summary>
+    /// A filter pattern for subscribing to a filtered stream of log events. Constraints: o min: 0 o max: 1024
+    /// </summary>
     [CliOption("--filter-pattern")]
-    public string? FilterPattern { get; set; }
+    public string? FilterPattern { get; private init; }
 
+    /// <summary>
+    /// The ARN of the destination to deliver matching log events to. Cur- rently, the supported destinations are: o An Amazon Kinesis stream belonging to the same account as the sub- scription filter, for same-account delivery. o A logical destination (specified using an ARN) belonging to a dif- ferent account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM pol- icy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . o A Kinesis Data Firehose delivery stream belonging to the same ac- count as the subscription filter, for same-account delivery. o A Lambda function belonging to the same account as the subscrip- tion filter, for same-account delivery. Constraints: o min: 1
+    /// </summary>
     [CliOption("--destination-arn")]
-    public string? DestinationArn { get; set; }
+    public string? DestinationArn { get; private init; }
 
     /// <summary>
     /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destina- tion for cross-account delivery. Constraints: o min: 1
@@ -46,7 +104,10 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions
     [CliOption("--distribution")]
     public AwsLogsPutSubscriptionFilterDistribution? Distribution { get; set; }
 
-    [CliFlag("--apply-on-transformed-logs")]
+    /// <summary>
+    /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer . If the log group uses either a log-group level or account-level transformer, and you specify true , the subscription filter will be applied on the transformed version of the log events instead of the original ingested log events.
+    /// </summary>
+    [CliFlag("--apply-on-transformed-logs", NegatedName = "--no-apply-on-transformed-logs")]
     public bool? ApplyOnTransformedLogs { get; set; }
 
     /// <summary>
@@ -66,5 +127,21 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

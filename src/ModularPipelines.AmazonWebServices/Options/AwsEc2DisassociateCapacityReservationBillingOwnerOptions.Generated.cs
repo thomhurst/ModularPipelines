@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disassociate-capacity-reservation-billing-owner")]
-public record AwsEc2DisassociateCapacityReservationBillingOwnerOptions : AwsOptions
+public record AwsEc2DisassociateCapacityReservationBillingOwnerOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
+    /// <param name="UnusedReservationBillingOwnerId">The ID of the consumer account to which the request was sent. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    public AwsEc2DisassociateCapacityReservationBillingOwnerOptions(
+        string CapacityReservationId,
+        string UnusedReservationBillingOwnerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+        global::System.ArgumentNullException.ThrowIfNull(UnusedReservationBillingOwnerId);
+        this.UnusedReservationBillingOwnerId = UnusedReservationBillingOwnerId;
+    }
+
+    private AwsEc2DisassociateCapacityReservationBillingOwnerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisassociateCapacityReservationBillingOwnerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisassociateCapacityReservationBillingOwnerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Capacity Reservation.
+    /// </summary>
     [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    public string? CapacityReservationId { get; private init; }
 
+    /// <summary>
+    /// The ID of the consumer account to which the request was sent. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// </summary>
     [CliOption("--unused-reservation-billing-owner-id")]
-    public string? UnusedReservationBillingOwnerId { get; set; }
+    public string? UnusedReservationBillingOwnerId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

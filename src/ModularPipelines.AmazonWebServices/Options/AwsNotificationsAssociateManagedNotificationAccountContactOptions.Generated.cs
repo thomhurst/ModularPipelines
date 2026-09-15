@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "associate-managed-notification-account-contact")]
-public record AwsNotificationsAssociateManagedNotificationAccountContactOptions : AwsOptions
+public record AwsNotificationsAssociateManagedNotificationAccountContactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--contact-identifier")]
-    public string? ContactIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an Account Contact with a particular ManagedNotificationCon- figuration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactIdentifier">A unique value of an Account Contact Type to associate with the Man- agedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    public AwsNotificationsAssociateManagedNotificationAccountContactOptions(
+        AwsNotificationsAssociateManagedNotificationAccountContactContactIdentifier ContactIdentifier,
+        string ManagedNotificationConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactIdentifier);
+        this.ContactIdentifier = ContactIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ManagedNotificationConfigurationArn);
+        this.ManagedNotificationConfigurationArn = ManagedNotificationConfigurationArn;
+    }
+
+    private AwsNotificationsAssociateManagedNotificationAccountContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsAssociateManagedNotificationAccountContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsAssociateManagedNotificationAccountContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique value of an Account Contact Type to associate with the Man- agedNotificationConfiguration . Possible values: o ACCOUNT_PRIMARY o ACCOUNT_ALTERNATE_BILLING o ACCOUNT_ALTERNATE_OPERATIONS o ACCOUNT_ALTERNATE_SECURITY
+    /// </summary>
+    [CliOption("--contact-identifier")]
+    public AwsNotificationsAssociateManagedNotificationAccountContactContactIdentifier? ContactIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the Account Contact. Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
-    public string? ManagedNotificationConfigurationArn { get; set; }
+    public string? ManagedNotificationConfigurationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-traffic-policy-instances-by-hosted-zone")]
-public record AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions : AwsOptions
+public record AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about the traffic policy instances that you created in a specified hosted zone. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTraf- ficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traf- fic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use th...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want to list traffic policy in- stances for. Constraints: o max: 32</param>
+    public AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions(
+        string HostedZoneId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+    }
+
+    private AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone that you want to list traffic policy in- stances for. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
     /// <summary>
     /// If the value of IsTruncated in the previous response is true, you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancename , specify the value of Traf- ficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance in the next group of traf- fic policy instances. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Constraints: o max: 1024
@@ -34,7 +72,7 @@ public record AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions : AwsOptio
     /// If the value of IsTruncated in the previous response is true, you have more traffic policy instances. To get more traffic policy in- stances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype , specify the value of Traf- ficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traf- fic policy instances. If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get. Possible values: o SOA o A o TXT o NS o CNAME o MX o NAPTR o PTR o SRV o SPF o AAAA o CAA o DS o TLSA o SSHFP o SVCB o HTTPS
     /// </summary>
     [CliOption("--traffic-policy-instance-type-marker")]
-    public string? TrafficPolicyInstanceTypeMarker { get; set; }
+    public AwsRoute53ListTrafficPolicyInstancesByHostedZoneTrafficPolicyInstanceTypeMarker? TrafficPolicyInstanceTypeMarker { get; set; }
 
     /// <summary>
     /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traf- fic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , Traf- ficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
@@ -47,5 +85,21 @@ public record AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

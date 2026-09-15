@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "terminate-responsibility-transfer")]
-public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOptions
+public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified respon- sibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransfer- Terminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Orga...
+    /// </summary>
+    /// <param name="Id">ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$</param>
+    public AwsOrganizationsTerminateResponsibilityTransferOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsOrganizationsTerminateResponsibilityTransferOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsTerminateResponsibilityTransferOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsTerminateResponsibilityTransferOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// Timestamp when the responsibility transfer is to end.
@@ -35,5 +72,21 @@ public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "unshare-directory")]
-public record AwsDsUnshareDirectoryOptions : AwsOptions
+public record AwsDsUnshareDirectoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Stops the directory sharing between the directory owner and consumer accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UnshareTarget">Identifier for the directory consumer account with whom the direc- tory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }</param>
+    public AwsDsUnshareDirectoryOptions(
+        string DirectoryId,
+        string UnshareTarget
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(UnshareTarget);
+        this.UnshareTarget = UnshareTarget;
+    }
+
+    private AwsDsUnshareDirectoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUnshareDirectoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUnshareDirectoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// Identifier for the directory consumer account with whom the direc- tory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }
+    /// </summary>
     [CliOption("--unshare-target")]
-    public string? UnshareTarget { get; set; }
+    public string? UnshareTarget { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "remove-endpoints")]
-public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions
+public record AwsGlobalacceleratorRemoveEndpointsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-identifiers", GroupValues = true)]
-    public IEnumerable<string>? EndpointIdentifiers { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for remov- ing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the UpdateEndpointGroup API operation. There are two advantages to using AddEndpoints to remove endpoints instead: o It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in...
+    /// </summary>
+    /// <param name="EndpointIdentifiers">The identifiers of the endpoints that you want to remove. Constraints: o min: 1 o max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or inter- net-facing. Constraints: o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorRemoveEndpointsOptions(
+        IEnumerable<string> EndpointIdentifiers,
+        string EndpointGroupArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndpointIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndpointIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndpointIdentifiers));
+            }
+
+            EndpointIdentifiers = materialized;
+        }
+        this.EndpointIdentifiers = EndpointIdentifiers;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointGroupArn);
+        this.EndpointGroupArn = EndpointGroupArn;
+    }
+
+    private AwsGlobalacceleratorRemoveEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorRemoveEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorRemoveEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifiers of the endpoints that you want to remove. Constraints: o min: 1 o max: 10 (structure) A complex type for an endpoint. Specifies information about the endpoint to remove from the endpoint group. EndpointId -&gt; (string) [required] An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or inter- net-facing. Constraints: o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Shorthand Syntax: EndpointId=string,ClientIPPreservationEnabled=boolean ... JSON Syntax: [ { "EndpointId": "string", "ClientIPPreservationEnabled": true|false } ... ]
+    /// </summary>
+    [CliOption("--endpoint-identifiers", GroupValues = true)]
+    public IEnumerable<string>? EndpointIdentifiers { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255
+    /// </summary>
     [CliOption("--endpoint-group-arn")]
-    public string? EndpointGroupArn { get; set; }
+    public string? EndpointGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

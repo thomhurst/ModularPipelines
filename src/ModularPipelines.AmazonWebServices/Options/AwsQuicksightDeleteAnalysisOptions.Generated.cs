@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "delete-analysis")]
-public record AwsQuicksightDeleteAnalysisOptions : AwsOptions
+public record AwsQuicksightDeleteAnalysisOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recov- ery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnaly- sis API opera...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account where you want to delete an analysis. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AnalysisId">The ID of the analysis that you're deleting. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    public AwsQuicksightDeleteAnalysisOptions(
+        string AwsAccountId,
+        string AnalysisId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisId);
+        this.AnalysisId = AnalysisId;
+    }
+
+    private AwsQuicksightDeleteAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDeleteAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDeleteAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account where you want to delete an analysis. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The ID of the analysis that you're deleting. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--analysis-id")]
-    public string? AnalysisId { get; set; }
+    public string? AnalysisId { get; private init; }
 
     /// <summary>
     /// A value that specifies the number of days that Amazon Quick Sight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30. Constraints: o min: 7 o max: 30
@@ -33,7 +77,10 @@ public record AwsQuicksightDeleteAnalysisOptions : AwsOptions
     [CliOption("--recovery-window-in-days")]
     public int? RecoveryWindowInDays { get; set; }
 
-    [CliFlag("--force-delete-without-recovery")]
+    /// <summary>
+    /// This option defaults to the value NoForceDeleteWithoutRecovery . To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
+    /// </summary>
+    [CliFlag("--force-delete-without-recovery", NegatedName = "--no-force-delete-without-recovery")]
     public bool? ForceDeleteWithoutRecovery { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsQuicksightDeleteAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

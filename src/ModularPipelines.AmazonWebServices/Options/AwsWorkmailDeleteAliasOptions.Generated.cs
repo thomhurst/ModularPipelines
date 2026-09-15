@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "delete-alias")]
-public record AwsWorkmailDeleteAliasOptions : AwsOptions
+public record AwsWorkmailDeleteAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Remove one or more specified aliases from a set of aliases for a given user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier for the member (user or group) from which to have the aliases removed. Constraints: o min: 12 o max: 256</param>
+    /// <param name="Alias">The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}</param>
+    public AwsWorkmailDeleteAliasOptions(
+        string OrganizationId,
+        string EntityId,
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(EntityId);
+        this.EntityId = EntityId;
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    private AwsWorkmailDeleteAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailDeleteAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailDeleteAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the member (user or group) from which to have the aliases removed. Constraints: o min: 12 o max: 256
+    /// </summary>
     [CliOption("--entity-id")]
-    public string? EntityId { get; set; }
+    public string? EntityId { get; private init; }
 
+    /// <summary>
+    /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set). Constraints: o min: 1 o max: 254 o pattern: [a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}
+    /// </summary>
     [CliOption("--alias")]
-    public string? Alias { get; set; }
+    public string? Alias { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

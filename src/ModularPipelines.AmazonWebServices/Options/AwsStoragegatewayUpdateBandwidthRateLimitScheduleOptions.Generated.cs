@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-bandwidth-rate-limit-schedule")]
-public record AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions : AwsOptions
+public record AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This operation is supported for volume, tape, and S3 file gateways. S3 file gateways sup- port bandwidth rate limits for upload only. FSx file gateways do not support bandwidth rate limits. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="BandwidthRateLimitIntervals">An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty. Constraints: o min: 0 o max: 20 (structure) Describes a bandwidth rate limit interval for a gateway. A band- width rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a pe- riod of time on one or more days of the week, during which band- width rate limits are specified for uploading, downloading, or both. NOTE: FSx File Gateway does not support this feature. StartHourOfDay -&gt; (integer) [required] The hour of the day to start the bandwidth rate limit inter- val. Constraints: o min: 0 o max: 23 StartMinuteOfHour -&gt; (integer) [required] The minute of the hour to start the bandwidth rate limit in- terval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0 . Constraints: o min: 0 o max: 59 EndHourOfDay -&gt; (integer) [required] The hour of the day to end the bandwidth rate limit interval. Constraints: o min: 0 o max: 23 EndMinuteOfHour -&gt; (integer) [required] The minute of the hour to end the bandwidth rate limit inter- val. WARNING: The bandwidth rate limit interval ends at the end of the minute. To end an interval at the end of an hour, use the value 59 . Constraints: o min: 0 o max: 59 DaysOfWeek -&gt; (list) [required] The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday. Constraints: o min: 1 o max: 7 (integer) Constraints: o min: 0 o max: 6 AverageUploadRateLimitInBitsPerSec -&gt; (long) The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not ap- pear in the response if the upload rate limit is not set. NOTE: For Tape Gateway and Volume Gateway, the minimum value is 51200 . This field is required for S3 File Gateway, and the mini- mum value is 104857600 . Constraints: o min: 51200 AverageDownloadRateLimitInBitsPerSec -&gt; (long) The average download rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the download rate limit is not set. NOTE: S3 File Gateway does not support this feature. Constraints: o min: 102400 Shorthand Syntax: StartHourOfDay=integer,StartMinuteOfHour=integer,EndHourOfDay=integer,EndMinuteOfHour=integer,DaysOfWeek=integer,integer,AverageUploadRateLimitInBitsPerSec=long,AverageDownloadRateLimitInBitsPerSec=long ... JSON Syntax: [ { "StartHourOfDay": integer, "StartMinuteOfHour": integer, "EndHourOfDay": integer, "EndMinuteOfHour": integer, "DaysOfWeek": [integer, ...], "AverageUploadRateLimitInBitsPerSec": long, "AverageDownloadRateLimitInBitsPerSec": long } ... ]</param>
+    public AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions(
+        string GatewayArn,
+        IEnumerable<string> BandwidthRateLimitIntervals
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BandwidthRateLimitIntervals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BandwidthRateLimitIntervals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BandwidthRateLimitIntervals));
+            }
+
+            BandwidthRateLimitIntervals = materialized;
+        }
+        this.BandwidthRateLimitIntervals = BandwidthRateLimitIntervals;
+    }
+
+    private AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--gateway-arn")]
+    public string? GatewayArn { get; private init; }
+
+    /// <summary>
+    /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty. Constraints: o min: 0 o max: 20 (structure) Describes a bandwidth rate limit interval for a gateway. A band- width rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a pe- riod of time on one or more days of the week, during which band- width rate limits are specified for uploading, downloading, or both. NOTE: FSx File Gateway does not support this feature. StartHourOfDay -&gt; (integer) [required] The hour of the day to start the bandwidth rate limit inter- val. Constraints: o min: 0 o max: 23 StartMinuteOfHour -&gt; (integer) [required] The minute of the hour to start the bandwidth rate limit in- terval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0 . Constraints: o min: 0 o max: 59 EndHourOfDay -&gt; (integer) [required] The hour of the day to end the bandwidth rate limit interval. Constraints: o min: 0 o max: 23 EndMinuteOfHour -&gt; (integer) [required] The minute of the hour to end the bandwidth rate limit inter- val. WARNING: The bandwidth rate limit interval ends at the end of the minute. To end an interval at the end of an hour, use the value 59 . Constraints: o min: 0 o max: 59 DaysOfWeek -&gt; (list) [required] The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday. Constraints: o min: 1 o max: 7 (integer) Constraints: o min: 0 o max: 6 AverageUploadRateLimitInBitsPerSec -&gt; (long) The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not ap- pear in the response if the upload rate limit is not set. NOTE: For Tape Gateway and Volume Gateway, the minimum value is 51200 . This field is required for S3 File Gateway, and the mini- mum value is 104857600 . Constraints: o min: 51200 AverageDownloadRateLimitInBitsPerSec -&gt; (long) The average download rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the download rate limit is not set. NOTE: S3 File Gateway does not support this feature. Constraints: o min: 102400 Shorthand Syntax: StartHourOfDay=integer,StartMinuteOfHour=integer,EndHourOfDay=integer,EndMinuteOfHour=integer,DaysOfWeek=integer,integer,AverageUploadRateLimitInBitsPerSec=long,AverageDownloadRateLimitInBitsPerSec=long ... JSON Syntax: [ { "StartHourOfDay": integer, "StartMinuteOfHour": integer, "EndHourOfDay": integer, "EndMinuteOfHour": integer, "DaysOfWeek": [integer, ...], "AverageUploadRateLimitInBitsPerSec": long, "AverageDownloadRateLimitInBitsPerSec": long } ... ]
+    /// </summary>
     [CliOption("--bandwidth-rate-limit-intervals", GroupValues = true)]
-    public IEnumerable<string>? BandwidthRateLimitIntervals { get; set; }
+    public IEnumerable<string>? BandwidthRateLimitIntervals { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

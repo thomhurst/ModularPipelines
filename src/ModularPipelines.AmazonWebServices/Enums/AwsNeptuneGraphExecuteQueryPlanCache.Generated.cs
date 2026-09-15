@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --plancache.
+/// Allowed values for --plan-cache.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNeptuneGraphExecuteQueryPlanCache
 {
-    [EnumValue("ENABLED")]
-    Enabled = 1,
+    [EnumValue("AUTO")]
+    Auto,
 
     [EnumValue("DISABLED")]
-    Disabled = 2,
+    Disabled,
 
-    [EnumValue("AUTO")]
-    Auto = 3
+    [EnumValue("ENABLED")]
+    Enabled
 }

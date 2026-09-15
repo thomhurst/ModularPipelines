@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "update-place-index")]
-public record AwsLocationUpdatePlaceIndexOptions : AwsOptions
+public record AwsLocationUpdatePlaceIndexOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o UpdatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// </summary>
+    /// <param name="IndexName">The name of the place index resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    public AwsLocationUpdatePlaceIndexOptions(
+        string IndexName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+    }
+
+    private AwsLocationUpdatePlaceIndexOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationUpdatePlaceIndexOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationUpdatePlaceIndexOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the place index resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    public string? IndexName { get; private init; }
 
     /// <summary>
     /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
@@ -48,5 +85,21 @@ public record AwsLocationUpdatePlaceIndexOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "enable-client-authentication")]
-public record AwsDsEnableClientAuthenticationOptions : AwsOptions
+public record AwsDsEnableClientAuthenticationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables alternative client authentication methods for the specified di- rectory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the specified directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Type">The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Con- nector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in your self-managed AD. Possible values: o SmartCard o SmartCardOrPassword</param>
+    public AwsDsEnableClientAuthenticationOptions(
+        string DirectoryId,
+        AwsDsEnableClientAuthenticationType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsDsEnableClientAuthenticationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsEnableClientAuthenticationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsEnableClientAuthenticationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the specified directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Con- nector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in your self-managed AD. Possible values: o SmartCard o SmartCardOrPassword
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsDsEnableClientAuthenticationType? Type { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

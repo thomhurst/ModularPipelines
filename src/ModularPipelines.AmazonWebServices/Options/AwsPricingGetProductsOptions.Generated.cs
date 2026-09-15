@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing", "get-products")]
-public record AwsPricingGetProductsOptions : AwsOptions
+public record AwsPricingGetProductsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of all products that match the filter criteria. See also: AWS API Documentation get-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PriceList
+    /// </summary>
+    /// <param name="ServiceCode">The code for the service whose products you want to retrieve.</param>
+    public AwsPricingGetProductsOptions(
+        string ServiceCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+    }
+
+    private AwsPricingGetProductsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingGetProductsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingGetProductsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The code for the service whose products you want to retrieve.
+    /// </summary>
     [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    public string? ServiceCode { get; private init; }
 
     /// <summary>
     /// The list of filters that limit the returned products. only products that match all filters are returned. Constraints: o min: 0 o max: 50 (structure) The constraints that you want all returned products to match. Type -&gt; (string) [required] The type of filter that you want to use. Valid values are: o TERM_MATCH : Returns only products that match both the given filter field and the given value. o EQUALS : Returns products that have a field value exactly matching the provided value. o CONTAINS : Returns products where the field value contains the provided value as a substring. o ANY_OF : Returns products where the field value is any of the provided values. o NONE_OF : Returns products where the field value is not any of the provided values. Possible values: o TERM_MATCH o EQUALS o CONTAINS o ANY_OF o NONE_OF Field -&gt; (string) [required] The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a ser- vice code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode , and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Ama- zon EC2 volumes. Constraints: o min: 1 o max: 1024 Value -&gt; (string) [required] The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2 . If you're filtering by at- tribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS vol- ume. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Type=string,Field=string,Value=string ... JSON Syntax: [ { "Type": "TERM_MATCH"|"EQUALS"|"CONTAINS"|"ANY_OF"|"NONE_OF", "Field": "string", "Value": "string" } ... ]
@@ -61,5 +98,21 @@ public record AwsPricingGetProductsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

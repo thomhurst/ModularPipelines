@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "create-channel-group")]
-public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions
+public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides pre- dictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can cre- ate only one channel group with each request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsMediapackagev2CreateChannelGroupOptions(
+        string ChannelGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+    }
+
+    private AwsMediapackagev2CreateChannelGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2CreateChannelGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2CreateChannelGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    public string? ChannelGroupName { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 256 o pattern: [\S]+
@@ -50,5 +87,21 @@ public record AwsMediapackagev2CreateChannelGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

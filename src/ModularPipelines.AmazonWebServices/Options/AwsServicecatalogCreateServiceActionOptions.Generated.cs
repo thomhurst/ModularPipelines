@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "create-service-action")]
-public record AwsServicecatalogCreateServiceActionOptions : AwsOptions
+public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a self-service action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The self-service action name. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_\-.]*</param>
+    /// <param name="DefinitionType">The service action definition type. For example, SSM_AUTOMATION . Possible values: o SSM_AUTOMATION</param>
+    /// <param name="Definition">The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}</param>
+    public AwsServicecatalogCreateServiceActionOptions(
+        string Name,
+        AwsServicecatalogCreateServiceActionDefinitionType DefinitionType,
+        IReadOnlyList<KeyValue> Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DefinitionType);
+        this.DefinitionType = DefinitionType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Definition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Definition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Definition));
+            }
+
+            Definition = materialized;
+        }
+        this.Definition = Definition;
+    }
+
+    private AwsServicecatalogCreateServiceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogCreateServiceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogCreateServiceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The self-service action name. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_\-.]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The service action definition type. For example, SSM_AUTOMATION . Possible values: o SSM_AUTOMATION
+    /// </summary>
     [CliOption("--definition-type")]
-    public string? DefinitionType { get; set; }
+    public AwsServicecatalogCreateServiceActionDefinitionType? DefinitionType { get; private init; }
 
+    /// <summary>
+    /// The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
+    /// </summary>
     [CliOption("--definition", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Definition { get; set; }
+    public IReadOnlyList<KeyValue>? Definition { get; private init; }
 
     /// <summary>
     /// The self-service action description. Constraints: o max: 1024
@@ -56,5 +119,21 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

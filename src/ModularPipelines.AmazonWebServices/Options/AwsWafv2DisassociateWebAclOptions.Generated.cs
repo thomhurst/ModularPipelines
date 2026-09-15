@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "disassociate-web-acl")]
-public record AwsWafv2DisassociateWebAclOptions : AwsOptions
+public record AwsWafv2DisassociateWebAclOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates the specified resource from its web ACL association, if it has one. Use this for all resource types except for Amazon CloudFront distribu- tions. For Amazon CloudFront, call UpdateDistribution for the distribu- tion and provide an empty web ACL ID. For information, see UpdateDistribution in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected re- source type. For details, see P...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. The ARN must be in one of the following formats: o For an Application Load Balancer: `` arn:partition :elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. o For an Amazon API Gateway REST API: `` arn:partition :apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. o For an AppSync GraphQL API: `` arn:partition :appsync:region :account-id :apis/GraphQLApiId `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. o For an Amazon Cognito user pool: `` arn:partition :cognito-idp:region :account-id :user- pool/user-pool-id `` System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline literal start-string without end-string. o For an App Runner service: `` arn:partition :apprunner:region :account-id :service/apprun- ner-service-name /apprunner-service-id `` System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline literal start-string without end-string. o For an Amazon Web Services Verified Access instance: `` arn:partition :ec2:region :account-id :verified-access-in- stance/instance-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. o For an Amplify application: `` arn:partition :amplify:region :account-id :apps/app-id `` System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline literal start-string without end-string. o For an Amazon Bedrock AgentCore Gateway: `` arn:partition :bedrock-agentcore:region :account-id :gateway/gate- way-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    public AwsWafv2DisassociateWebAclOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsWafv2DisassociateWebAclOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2DisassociateWebAclOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2DisassociateWebAclOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. The ARN must be in one of the following formats: o For an Application Load Balancer: `` arn:partition :elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. o For an Amazon API Gateway REST API: `` arn:partition :apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. o For an AppSync GraphQL API: `` arn:partition :appsync:region :account-id :apis/GraphQLApiId `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. o For an Amazon Cognito user pool: `` arn:partition :cognito-idp:region :account-id :user- pool/user-pool-id `` System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline literal start-string without end-string. o For an App Runner service: `` arn:partition :apprunner:region :account-id :service/apprun- ner-service-name /apprunner-service-id `` System Message: WARNING/2 (&lt;string&gt;:, line 97) Inline literal start-string without end-string. o For an Amazon Web Services Verified Access instance: `` arn:partition :ec2:region :account-id :verified-access-in- stance/instance-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. o For an Amplify application: `` arn:partition :amplify:region :account-id :apps/app-id `` System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline literal start-string without end-string. o For an Amazon Bedrock AgentCore Gateway: `` arn:partition :bedrock-agentcore:region :account-id :gateway/gate- way-id `` System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline literal start-string without end-string. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

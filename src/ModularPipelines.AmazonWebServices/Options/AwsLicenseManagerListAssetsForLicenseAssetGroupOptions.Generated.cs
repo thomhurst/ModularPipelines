@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "list-assets-for-license-asset-group")]
-public record AwsLicenseManagerListAssetsForLicenseAssetGroupOptions : AwsOptions
+public record AwsLicenseManagerListAssetsForLicenseAssetGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--license-asset-group-arn")]
-    public string? LicenseAssetGroupArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists assets for a license asset group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseAssetGroupArn">Amazon Resource Name (ARN) of the license asset group.</param>
+    /// <param name="AssetType">Asset type. The possible values are Instance | License | LicenseCon- figuration .</param>
+    public AwsLicenseManagerListAssetsForLicenseAssetGroupOptions(
+        string LicenseAssetGroupArn,
+        string AssetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseAssetGroupArn);
+        this.LicenseAssetGroupArn = LicenseAssetGroupArn;
+        global::System.ArgumentNullException.ThrowIfNull(AssetType);
+        this.AssetType = AssetType;
+    }
+
+    private AwsLicenseManagerListAssetsForLicenseAssetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerListAssetsForLicenseAssetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerListAssetsForLicenseAssetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the license asset group.
+    /// </summary>
+    [CliOption("--license-asset-group-arn")]
+    public string? LicenseAssetGroupArn { get; private init; }
+
+    /// <summary>
+    /// Asset type. The possible values are Instance | License | LicenseCon- figuration .
+    /// </summary>
     [CliOption("--asset-type")]
-    public string? AssetType { get; set; }
+    public string? AssetType { get; private init; }
 
     /// <summary>
     /// Maximum number of results to return in a single call.
@@ -46,5 +90,21 @@ public record AwsLicenseManagerListAssetsForLicenseAssetGroupOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

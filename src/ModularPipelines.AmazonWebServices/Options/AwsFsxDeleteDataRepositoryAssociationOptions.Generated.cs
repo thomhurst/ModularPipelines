@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "delete-data-repository-association")]
-public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions
+public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file sys- tem from the Amazon S3 bucket. When deleting a data repository associa- tion, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associ- ations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssociationId">The ID of the data repository association that you want to delete. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$</param>
+    public AwsFsxDeleteDataRepositoryAssociationOptions(
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsFsxDeleteDataRepositoryAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxDeleteDataRepositoryAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxDeleteDataRepositoryAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the data repository association that you want to delete. Constraints: o min: 13 o max: 23 o pattern: ^(dra-[0-9a-f]{8,})$
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
@@ -32,7 +69,10 @@ public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--delete-data-in-file-system")]
+    /// <summary>
+    /// Set to true to delete the data in the file system that corresponds to the data repository association.
+    /// </summary>
+    [CliFlag("--delete-data-in-file-system", NegatedName = "--no-delete-data-in-file-system")]
     public bool? DeleteDataInFileSystem { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -40,5 +80,21 @@ public record AwsFsxDeleteDataRepositoryAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehubv2", "delete-service-function-resources")]
-public record AwsResiliencehubv2DeleteServiceFunctionResourcesOptions : AwsOptions
+public record AwsResiliencehubv2DeleteServiceFunctionResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes resources from a service function. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="ServiceFunctionId">The identifier of the service function to remove resources from. Constraints: o min: 1 o max: 255 o pattern: \S{1,255}</param>
+    /// <param name="Resources">The list of resources to remove from the service function. Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...</param>
+    public AwsResiliencehubv2DeleteServiceFunctionResourcesOptions(
+        string ServiceArn,
+        string ServiceFunctionId,
+        IEnumerable<string> Resources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceFunctionId);
+        this.ServiceFunctionId = ServiceFunctionId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Resources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Resources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Resources));
+            }
+
+            Resources = materialized;
+        }
+        this.Resources = Resources;
+    }
+
+    private AwsResiliencehubv2DeleteServiceFunctionResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubv2DeleteServiceFunctionResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubv2DeleteServiceFunctionResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
+    /// <summary>
+    /// The identifier of the service function to remove resources from. Constraints: o min: 1 o max: 255 o pattern: \S{1,255}
+    /// </summary>
     [CliOption("--service-function-id")]
-    public string? ServiceFunctionId { get; set; }
+    public string? ServiceFunctionId { get; private init; }
 
+    /// <summary>
+    /// The list of resources to remove from the service function. Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resources", GroupValues = true)]
-    public IEnumerable<string>? Resources { get; set; }
+    public IEnumerable<string>? Resources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

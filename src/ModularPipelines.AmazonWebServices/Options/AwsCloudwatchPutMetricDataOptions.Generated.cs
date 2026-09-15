@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-metric-data")]
-public record AwsCloudwatchPutMetricDataOptions : AwsOptions
+public record AwsCloudwatchPutMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics . You can publish metrics with associated entity data (so that related telemetry can be found and viewed together), or publish metric data by itself. To send entity data with your metrics, use the EntityMetricD...
+    /// </summary>
+    /// <param name="Namespace">The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not sup- ported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/ Constraints: o min: 1 o max: 255 o pattern: [^:].*</param>
+    public AwsCloudwatchPutMetricDataOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsCloudwatchPutMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not sup- ported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/ Constraints: o min: 1 o max: 255 o pattern: [^:].*
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// The data for the metrics. Use this parameter if your metrics do not contain associated entities. The array can include no more than 1000 metrics per call. The limit of metrics allowed, 1000, is the sum of both EntityMetric- Data and MetricData metrics. (structure) Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric. MetricName -&gt; (string) [required] The name of the metric. Constraints: o min: 1 o max: 255 Dimensions -&gt; (list) The dimensions associated with the metric. Constraints: o max: 30 (structure) A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that metric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric. Name -&gt; (string) [required] The name of the dimension. Dimension names must con- tain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (: ). ASCII control characters are not supported as part of dimension names. Constraints: o min: 1 o max: 255 Value -&gt; (string) [required] The value of the dimension. Dimension values must con- tain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values. Constraints: o min: 1 o max: 1024 Timestamp -&gt; (timestamp) The time the metric data was received, expressed as the num- ber of milliseconds since Jan 1, 1970 00:00:00 UTC. Value -&gt; (double) The value for the metric. Although the parameter accepts numbers of type Double, Cloud- Watch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. StatisticValues -&gt; (structure) The statistical values for the metric. SampleCount -&gt; (double) [required] The number of samples used for the statistic set. Sum -&gt; (double) [required] The sum of values for the sample set. Minimum -&gt; (double) [required] The minimum value of the sample set. Maximum -&gt; (double) [required] The maximum value of the sample set. Values -&gt; (list) Array of numbers representing the values for the metric dur- ing the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array spec- ifies the number of times that value occurred during the pe- riod. You can include up to 150 unique values in each PutMet- ricData action that specifies a Values array. Although the Values array accepts numbers of type Double , CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In ad- dition, special values (for example, NaN, +Infinity, -Infin- ity) are not supported. (double) Counts -&gt; (list) Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period. If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array. (double) Unit -&gt; (string) When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None StorageResolution -&gt; (integer) Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolu- tion metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom met- rics. For more information about high-resolution metrics, see High-Resolution Metrics in the Amazon CloudWatch User Guide . This field is optional, if you do not specify it the default of 60 is used. Constraints: o min: 1 Shorthand Syntax: MetricName=string,Dimensions=[{Name=string,Value=string},{Name=string,Value=string}],Timestamp=timestamp,Value=double,StatisticValues={SampleCount=double,Sum=double,Minimum=double,Maximum=double},Values=double,double,Counts=double,double,Unit=string,StorageResolution=integer ... JSON Syntax: [ { "MetricName": "string", "Dimensions": [ { "Name": "string", "Value": "string" } ... ], "Timestamp": timestamp, "Value": double, "StatisticValues": { "SampleCount": double, "Sum": double, "Minimum": double, "Maximum": double }, "Values": [double, ...], "Counts": [double, ...], "Unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None", "StorageResolution": integer } ... ]
@@ -36,7 +73,10 @@ public record AwsCloudwatchPutMetricDataOptions : AwsOptions
     [CliOption("--entity-metric-data", GroupValues = true)]
     public IEnumerable<string>? EntityMetricData { get; set; }
 
-    [CliFlag("--strict-entity-validation")]
+    /// <summary>
+    /// Whether to accept valid metric data when an invalid entity is sent. o When set to true : Any validation error (for entity or metric data) will fail the entire request, and no data will be ingested. The failed operation will return a 400 result with the error. o When set to false : Validation errors in the entity will not asso- ciate the metric with the entity, but the metric data will still be accepted and ingested. Validation errors in the metric data will fail the entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a 200 status, but an additional response header will contain information about the validation errors. The new header, X-Amzn-Failure-Message is an enumeration of the following values: o InvalidEntity - The provided entity is invalid. o InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid. o InvalidAttributes - The provided Attributes of an entity is in- valid. o InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid. o EntitySizeTooLarge - The number of EntityMetricData objects al- lowed is 2. o MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type . For details of the requirements for specifying an entity, see How to add related information to telemetry in the CloudWatch User Guide . This parameter is required when EntityMetricData is included.
+    /// </summary>
+    [CliFlag("--strict-entity-validation", NegatedName = "--no-strict-entity-validation")]
     public bool? StrictEntityValidation { get; set; }
 
     [CliOption("--metric-name")]
@@ -68,5 +108,21 @@ public record AwsCloudwatchPutMetricDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

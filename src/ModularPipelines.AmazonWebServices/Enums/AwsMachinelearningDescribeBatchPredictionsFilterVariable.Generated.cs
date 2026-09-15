@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --filtervariable.
+/// Allowed values for --filter-variable.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMachinelearningDescribeBatchPredictionsFilterVariable
 {
     [EnumValue("CreatedAt")]
-    CreatedAt = 1,
-
-    [EnumValue("LastUpdatedAt")]
-    LastUpdatedAt = 2,
-
-    [EnumValue("Status")]
-    Status = 3,
-
-    [EnumValue("Name")]
-    Name = 4,
-
-    [EnumValue("IAMUser")]
-    IamUser = 5,
-
-    [EnumValue("MLModelId")]
-    MlModelId = 6,
+    CreatedAt,
 
     [EnumValue("DataSourceId")]
-    DataSourceId = 7,
+    DataSourceId,
 
     [EnumValue("DataURI")]
-    DataUri = 8
+    DataUri,
+
+    [EnumValue("IAMUser")]
+    IamUser,
+
+    [EnumValue("LastUpdatedAt")]
+    LastUpdatedAt,
+
+    [EnumValue("MLModelId")]
+    MlModelId,
+
+    [EnumValue("Name")]
+    Name,
+
+    [EnumValue("Status")]
+    Status
 }

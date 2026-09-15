@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "restore-from-recovery-point")]
-public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions
+public record AwsRedshiftServerlessRestoreFromRecoveryPointOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--maintain-integration")]
-    public bool? MaintainIntegration { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Restore the data from a recovery point. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceName">The name of the namespace to restore data into. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="RecoveryPointId">The unique identifier of the recovery point to restore from.</param>
+    /// <param name="WorkgroupName">The name of the workgroup used to restore data. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessRestoreFromRecoveryPointOptions(
+        string NamespaceName,
+        string RecoveryPointId,
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointId);
+        this.RecoveryPointId = RecoveryPointId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessRestoreFromRecoveryPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessRestoreFromRecoveryPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessRestoreFromRecoveryPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the namespace to restore data into. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
     [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
+    public string? NamespaceName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the recovery point to restore from.
+    /// </summary>
     [CliOption("--recovery-point-id")]
-    public string? RecoveryPointId { get; set; }
+    public string? RecoveryPointId { get; private init; }
 
+    /// <summary>
+    /// The name of the workgroup used to restore data. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
     [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
+    public string? WorkgroupName { get; private init; }
+
+    /// <summary>
+    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// </summary>
+    [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
+    public bool? MaintainIntegration { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

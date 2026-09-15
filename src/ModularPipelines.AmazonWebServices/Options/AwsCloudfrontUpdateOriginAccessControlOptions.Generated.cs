@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-origin-access-control")]
-public record AwsCloudfrontUpdateOriginAccessControlOptions : AwsOptions
+public record AwsCloudfrontUpdateOriginAccessControlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--origin-access-control-config")]
-    public string? OriginAccessControlConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a CloudFront origin access control. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OriginAccessControlConfig">An origin access control. Name -&gt; (string) [required] A name to identify the origin access control. You can specify up to 64 characters. Description -&gt; (string) A description of the origin access control. SigningProtocol -&gt; (string) [required] The signing protocol of the origin access control, which deter- mines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a . Possible values: o sigv4 o sigv4a SigningBehavior -&gt; (string) [required] Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced set- tings in the Amazon CloudFront Developer Guide . This field can have one of the following values: o always CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists. o never CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distri- butions that use this origin access control. o no-override If the viewer request doesn't contain the Autho- rization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARN- ING: To pass along the ``Authorization`` header from the viewer request, you *must* add the ``Authorization`` header to a `cache policy &lt;https://docs.aws.amazon.com/AmazonCloud- Front/latest/DeveloperGuide/controlling-the-cache-key.html&gt;`__ for all cache behaviors that use origins associated with this origin access control. Possible values: o never o always o no-override OriginAccessControlOriginType -&gt; (string) [required] The type of origin that this origin access control is for. Possible values: o s3 o mediastore o mediapackagev2 o lambda Shorthand Syntax: Name=string,Description=string,SigningProtocol=string,SigningBehavior=string,OriginAccessControlOriginType=string JSON Syntax: { "Name": "string", "Description": "string", "SigningProtocol": "sigv4"|"sigv4a", "SigningBehavior": "never"|"always"|"no-override", "OriginAccessControlOriginType": "s3"|"mediastore"|"mediapackagev2"|"lambda" }</param>
+    /// <param name="Id">The unique identifier of the origin access control that you are up- dating.</param>
+    public AwsCloudfrontUpdateOriginAccessControlOptions(
+        string OriginAccessControlConfig,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginAccessControlConfig);
+        this.OriginAccessControlConfig = OriginAccessControlConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontUpdateOriginAccessControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateOriginAccessControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateOriginAccessControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An origin access control. Name -&gt; (string) [required] A name to identify the origin access control. You can specify up to 64 characters. Description -&gt; (string) A description of the origin access control. SigningProtocol -&gt; (string) [required] The signing protocol of the origin access control, which deter- mines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a . Possible values: o sigv4 o sigv4a SigningBehavior -&gt; (string) [required] Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced set- tings in the Amazon CloudFront Developer Guide . This field can have one of the following values: o always CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists. o never CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distri- butions that use this origin access control. o no-override If the viewer request doesn't contain the Autho- rization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARN- ING: To pass along the ``Authorization`` header from the viewer request, you *must* add the ``Authorization`` header to a `cache policy &lt;https://docs.aws.amazon.com/AmazonCloud- Front/latest/DeveloperGuide/controlling-the-cache-key.html&gt;`__ for all cache behaviors that use origins associated with this origin access control. Possible values: o never o always o no-override OriginAccessControlOriginType -&gt; (string) [required] The type of origin that this origin access control is for. Possible values: o s3 o mediastore o mediapackagev2 o lambda Shorthand Syntax: Name=string,Description=string,SigningProtocol=string,SigningBehavior=string,OriginAccessControlOriginType=string JSON Syntax: { "Name": "string", "Description": "string", "SigningProtocol": "sigv4"|"sigv4a", "SigningBehavior": "never"|"always"|"no-override", "OriginAccessControlOriginType": "s3"|"mediastore"|"mediapackagev2"|"lambda" }
+    /// </summary>
+    [CliOption("--origin-access-control-config")]
+    public string? OriginAccessControlConfig { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the origin access control that you are up- dating.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The current version (ETag value) of the origin access control that you are updating.
@@ -38,5 +82,21 @@ public record AwsCloudfrontUpdateOriginAccessControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

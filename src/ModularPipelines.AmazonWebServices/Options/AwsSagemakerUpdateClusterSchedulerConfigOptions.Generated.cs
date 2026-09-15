@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-cluster-scheduler-config")]
-public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions
+public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-scheduler-config-id")]
-    public string? ClusterSchedulerConfigId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update the cluster policy configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterSchedulerConfigId">ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}</param>
+    /// <param name="TargetVersion">Target version.</param>
+    public AwsSagemakerUpdateClusterSchedulerConfigOptions(
+        string ClusterSchedulerConfigId,
+        int TargetVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterSchedulerConfigId);
+        this.ClusterSchedulerConfigId = ClusterSchedulerConfigId;
+        this.TargetVersion = TargetVersion;
+    }
+
+    private AwsSagemakerUpdateClusterSchedulerConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateClusterSchedulerConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateClusterSchedulerConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the cluster policy. Constraints: o min: 0 o max: 12 o pattern: [a-z0-9]{12}
+    /// </summary>
+    [CliOption("--cluster-scheduler-config-id")]
+    public string? ClusterSchedulerConfigId { get; private init; }
+
+    /// <summary>
+    /// Target version.
+    /// </summary>
     [CliOption("--target-version")]
-    public int? TargetVersion { get; set; }
+    public int? TargetVersion { get; private init; }
 
     /// <summary>
     /// Cluster policy configuration. PriorityClasses -&gt; (list) List of the priority classes, PriorityClass , of the cluster policy. When specified, these class configurations define how tasks are queued. Constraints: o min: 0 o max: 10 (structure) Priority class configuration. When included in Priority- Classes , these class configurations define how tasks are queued. Name -&gt; (string) [required] Name of the priority class. Constraints: o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9]){0,39}? Weight -&gt; (integer) [required] Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the high- est. Weight 0 is the default. Constraints: o min: 0 o max: 100 FairShare -&gt; (string) When enabled, entities borrow idle compute based on their as- signed FairShareWeight . When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled . Possible values: o Enabled o Disabled IdleResourceSharing -&gt; (string) Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automat- ically calculated and made available for entities to borrow. Possible values: o Enabled o Disabled Shorthand Syntax: PriorityClasses=[{Name=string,Weight=integer},{Name=string,Weight=integer}],FairShare=string,IdleResourceSharing=string JSON Syntax: { "PriorityClasses": [ { "Name": "string", "Weight": integer } ... ], "FairShare": "Enabled"|"Disabled", "IdleResourceSharing": "Enabled"|"Disabled" }
@@ -44,5 +87,21 @@ public record AwsSagemakerUpdateClusterSchedulerConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-image-version")]
-public record AwsSagemakerCreateImageVersionOptions : AwsOptions
+public record AwsSagemakerCreateImageVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by Ba- seImage . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BaseImage">The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the follow- ing format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: o min: 1 o max: 255 o pattern: .*</param>
+    /// <param name="ImageName">The ImageName of the Image to create a version of. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerCreateImageVersionOptions(
+        string BaseImage,
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaseImage);
+        this.BaseImage = BaseImage;
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    private AwsSagemakerCreateImageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateImageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateImageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the follow- ing format: &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; Constraints: o min: 1 o max: 255 o pattern: .*
+    /// </summary>
     [CliOption("--base-image")]
-    public string? BaseImage { get; set; }
+    public string? BaseImage { get; private init; }
+
+    /// <summary>
+    /// The ImageName of the Image to create a version of. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--image-name")]
+    public string? ImageName { get; private init; }
 
     /// <summary>
     /// A unique ID. If not specified, the Amazon Web Services CLI and Ama- zon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+
@@ -32,9 +79,6 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--image-name")]
-    public string? ImageName { get; set; }
 
     /// <summary>
     /// A list of aliases created with the image version. (string) Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+) Syntax: "string" "string" ...
@@ -72,7 +116,10 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions
     [CliOption("--processor")]
     public AwsSagemakerCreateImageVersionProcessor? Processor { get; set; }
 
-    [CliFlag("--horovod")]
+    /// <summary>
+    /// Indicates Horovod compatibility.
+    /// </summary>
+    [CliFlag("--horovod", NegatedName = "--no-horovod")]
     public bool? Horovod { get; set; }
 
     /// <summary>
@@ -86,5 +133,21 @@ public record AwsSagemakerCreateImageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

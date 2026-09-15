@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralSellingListEngagementResourceAssociationsResourceType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("Opportunity")]
-    Opportunity = 1
+    Opportunity
 }

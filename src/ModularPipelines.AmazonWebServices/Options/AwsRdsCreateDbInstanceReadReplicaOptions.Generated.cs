@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-instance-read-replica")]
-public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
+public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, Post- greSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB in- stance using a read replica in the Amazon RDS User Guide . Amazon Aurora doesn't s...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.</param>
+    public AwsRdsCreateDbInstanceReadReplicaOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsRdsCreateDbInstanceReadReplicaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbInstanceReadReplicaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbInstanceReadReplicaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
+    /// </summary>
     [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
     /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, except for the following engines: o Db2 - Can have up to three replicas. o Oracle - Can have up to five read replicas. o SQL Server - Can have up to five read replicas. Constraints: o Must be the identifier of an existing Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server DB instance. o Can't be specified if the SourceDBClusterIdentifier parameter is also specified. o For the limitations of Oracle read replicas, see Version and li- censing considerations for RDS for Oracle replicas in the Amazon RDS User Guide . o For the limitations of SQL Server read replicas, see Read replica limitations with SQL Server in the Amazon RDS User Guide . o The specified DB instance must have automatic backups enabled, that is, its backup retention period must be greater than 0. o If the source DB instance is in the same Amazon Web Services Re- gion as the read replica, specify a valid DB instance identifier. o If the source DB instance is in a different Amazon Web Services Region from the read replica, specify a valid DB instance ARN. For more information, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . This doesn't apply to SQL Server or RDS Custom, which don't support cross-Region replicas.
@@ -50,10 +87,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the read replica is in a Multi-AZ deployment. You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source is a Multi-AZ DB in- stance or a Multi-AZ DB cluster. This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -80,7 +123,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -107,7 +153,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the read replica to snap- shots of the read replica. By default, tags aren't copied.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -134,7 +183,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -143,7 +195,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--database-insights-mode")]
     public AwsRdsCreateDbInstanceReadReplicaDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to enable Performance Insights for the read replica. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -170,10 +225,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--use-default-processor-features")]
+    /// <summary>
+    /// Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom DB instances.
+    /// </summary>
+    [CliFlag("--use-default-processor-features", NegatedName = "--no-use-default-processor-features")]
     public bool? UseDefaultProcessorFeatures { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -219,7 +280,10 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--replica-mode")]
     public AwsRdsCreateDbInstanceReadReplicaReplicaMode? ReplicaMode { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts read replica. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the read replica from outside of its virtual private cloud (VPC) on your lo- cal network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -258,10 +322,16 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
     [CliOption("--source-db-cluster-identifier")]
     public string? SourceDbClusterIdentifier { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
-    [CliFlag("--upgrade-storage-config")]
+    /// <summary>
+    /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
+    /// </summary>
+    [CliFlag("--upgrade-storage-config", NegatedName = "--no-upgrade-storage-config")]
     public bool? UpgradeStorageConfig { get; set; }
 
     /// <summary>
@@ -293,5 +363,21 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-comment-reactions")]
-public record AwsCodecommitGetCommentReactionsOptions : AwsOptions
+public record AwsCodecommitGetCommentReactionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about reactions to a specified comment ID. Reac- tions from users who have been deleted will not be included in the count. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommentId">The ID of the comment for which you want to get reactions informa- tion.</param>
+    public AwsCodecommitGetCommentReactionsOptions(
+        string CommentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommentId);
+        this.CommentId = CommentId;
+    }
+
+    private AwsCodecommitGetCommentReactionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetCommentReactionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetCommentReactionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the comment for which you want to get reactions informa- tion.
+    /// </summary>
     [CliOption("--comment-id")]
-    public string? CommentId { get; set; }
+    public string? CommentId { get; private init; }
 
     /// <summary>
     /// Optional. The Amazon Resource Name (ARN) of the user or identity for which you want to get reaction information.
@@ -49,5 +86,21 @@ public record AwsCodecommitGetCommentReactionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

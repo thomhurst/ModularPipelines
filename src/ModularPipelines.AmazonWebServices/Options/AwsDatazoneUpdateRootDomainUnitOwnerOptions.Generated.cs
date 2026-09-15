@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "update-root-domain-unit-owner")]
-public record AwsDatazoneUpdateRootDomainUnitOwnerOptions : AwsOptions
+public record AwsDatazoneUpdateRootDomainUnitOwnerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the owner of the root domain unit. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where the root domain unit owner is to be up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="CurrentOwner">The current owner of the root domain unit. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*</param>
+    /// <param name="NewOwner">The new owner of the root domain unit.</param>
+    public AwsDatazoneUpdateRootDomainUnitOwnerOptions(
+        string DomainIdentifier,
+        string CurrentOwner,
+        string NewOwner
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentOwner);
+        this.CurrentOwner = CurrentOwner;
+        global::System.ArgumentNullException.ThrowIfNull(NewOwner);
+        this.NewOwner = NewOwner;
+    }
+
+    private AwsDatazoneUpdateRootDomainUnitOwnerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneUpdateRootDomainUnitOwnerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneUpdateRootDomainUnitOwnerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where the root domain unit owner is to be up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The current owner of the root domain unit. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).*
+    /// </summary>
     [CliOption("--current-owner")]
-    public string? CurrentOwner { get; set; }
+    public string? CurrentOwner { get; private init; }
 
+    /// <summary>
+    /// The new owner of the root domain unit.
+    /// </summary>
     [CliOption("--new-owner")]
-    public string? NewOwner { get; set; }
+    public string? NewOwner { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
@@ -43,5 +94,21 @@ public record AwsDatazoneUpdateRootDomainUnitOwnerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

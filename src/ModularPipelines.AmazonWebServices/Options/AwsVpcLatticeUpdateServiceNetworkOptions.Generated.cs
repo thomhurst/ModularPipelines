@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-service-network")]
-public record AwsVpcLatticeUpdateServiceNetworkOptions : AwsOptions
+public record AwsVpcLatticeUpdateServiceNetworkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-network-identifier")]
-    public string? ServiceNetworkIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified service network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
+    /// <param name="AuthType">The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM</param>
+    public AwsVpcLatticeUpdateServiceNetworkOptions(
+        string ServiceNetworkIdentifier,
+        AwsVpcLatticeUpdateServiceNetworkAuthType AuthType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkIdentifier);
+        this.ServiceNetworkIdentifier = ServiceNetworkIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AuthType);
+        this.AuthType = AuthType;
+    }
+
+    private AwsVpcLatticeUpdateServiceNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateServiceNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateServiceNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service network. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--service-network-identifier")]
+    public string? ServiceNetworkIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM
+    /// </summary>
     [CliOption("--auth-type")]
-    public string? AuthType { get; set; }
+    public AwsVpcLatticeUpdateServiceNetworkAuthType? AuthType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

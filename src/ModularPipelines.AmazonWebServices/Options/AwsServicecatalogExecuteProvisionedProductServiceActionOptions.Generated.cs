@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "execute-provisioned-product-service-action")]
-public record AwsServicecatalogExecuteProvisionedProductServiceActionOptions : AwsOptions
+public record AwsServicecatalogExecuteProvisionedProductServiceActionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--provisioned-product-id")]
-    public string? ProvisionedProductId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Executes a self-service action against a provisioned product. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ServiceActionId">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogExecuteProvisionedProductServiceActionOptions(
+        string ProvisionedProductId,
+        string ServiceActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductId);
+        this.ProvisionedProductId = ProvisionedProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceActionId);
+        this.ServiceActionId = ServiceActionId;
+    }
+
+    private AwsServicecatalogExecuteProvisionedProductServiceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogExecuteProvisionedProductServiceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogExecuteProvisionedProductServiceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioned-product-id")]
+    public string? ProvisionedProductId { get; private init; }
+
+    /// <summary>
+    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--service-action-id")]
-    public string? ServiceActionId { get; set; }
+    public string? ServiceActionId { get; private init; }
 
     /// <summary>
     /// An idempotency token that uniquely identifies the execute request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -53,5 +97,21 @@ public record AwsServicecatalogExecuteProvisionedProductServiceActionOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

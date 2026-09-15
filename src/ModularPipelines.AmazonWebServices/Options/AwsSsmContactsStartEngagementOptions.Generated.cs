@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "start-engagement")]
-public record AwsSsmContactsStartEngagementOptions : AwsOptions
+public record AwsSsmContactsStartEngagementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact being engaged. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="Sender">The user that started the engagement. Constraints: o max: 255 o pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$</param>
+    /// <param name="Subject">The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$</param>
+    /// <param name="Content">The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 8192 o pattern: ^[.\s\S]*$</param>
+    public AwsSsmContactsStartEngagementOptions(
+        string ContactId,
+        string Sender,
+        string Subject,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(Sender);
+        this.Sender = Sender;
+        global::System.ArgumentNullException.ThrowIfNull(Subject);
+        this.Subject = Subject;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsSsmContactsStartEngagementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsStartEngagementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsStartEngagementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the contact being engaged. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The user that started the engagement. Constraints: o max: 255 o pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$
+    /// </summary>
     [CliOption("--sender")]
-    public string? Sender { get; set; }
+    public string? Sender { get; private init; }
 
+    /// <summary>
+    /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
+    /// </summary>
     [CliOption("--subject")]
-    public string? Subject { get; set; }
+    public string? Subject { get; private init; }
 
+    /// <summary>
+    /// The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 8192 o pattern: ^[.\s\S]*$
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
     /// <summary>
     /// The insecure subject of the message that was sent to the contact. Use this field for engagements to SMS . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
@@ -64,5 +122,21 @@ public record AwsSsmContactsStartEngagementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

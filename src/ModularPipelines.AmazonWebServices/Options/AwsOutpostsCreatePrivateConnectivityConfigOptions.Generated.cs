@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "create-private-connectivity-config")]
-public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions
+public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--outpost-id")]
-    public string? OutpostId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates the private connectivity configuration for the specified Out- post. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="VpcInformationList">Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can spec- ify at most one entry. Constraints: o min: 1 o max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Cur- rently, only one subnet is supported. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Ser- vices Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be as- sociated with it. Constraints: o min: 1 o max: 25 o pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]</param>
+    public AwsOutpostsCreatePrivateConnectivityConfigOptions(
+        string OutpostId,
+        IEnumerable<string> VpcInformationList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostId);
+        this.OutpostId = OutpostId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcInformationList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcInformationList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcInformationList));
+            }
+
+            VpcInformationList = materialized;
+        }
+        this.VpcInformationList = VpcInformationList;
+    }
+
+    private AwsOutpostsCreatePrivateConnectivityConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsCreatePrivateConnectivityConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsCreatePrivateConnectivityConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--outpost-id")]
+    public string? OutpostId { get; private init; }
+
+    /// <summary>
+    /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can spec- ify at most one entry. Constraints: o min: 1 o max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Cur- rently, only one subnet is supported. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Ser- vices Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be as- sociated with it. Constraints: o min: 1 o max: 25 o pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]
+    /// </summary>
     [CliOption("--vpc-information-list", GroupValues = true)]
-    public IEnumerable<string>? VpcInformationList { get; set; }
+    public IEnumerable<string>? VpcInformationList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

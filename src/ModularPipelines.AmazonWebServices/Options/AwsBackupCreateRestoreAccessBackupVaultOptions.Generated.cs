@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-restore-access-backup-vault")]
-public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions
+public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceBackupVaultArn">The ARN of the source backup vault containing the recovery points to which temporary access is requested.</param>
+    public AwsBackupCreateRestoreAccessBackupVaultOptions(
+        string SourceBackupVaultArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackupVaultArn);
+        this.SourceBackupVaultArn = SourceBackupVaultArn;
+    }
+
+    private AwsBackupCreateRestoreAccessBackupVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateRestoreAccessBackupVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateRestoreAccessBackupVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the source backup vault containing the recovery points to which temporary access is requested.
+    /// </summary>
     [CliOption("--source-backup-vault-arn")]
-    public string? SourceBackupVaultArn { get; set; }
+    public string? SourceBackupVaultArn { get; private init; }
 
     /// <summary>
     /// The name of the backup vault to associate with an MPA approval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
@@ -54,5 +91,21 @@ public record AwsBackupCreateRestoreAccessBackupVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

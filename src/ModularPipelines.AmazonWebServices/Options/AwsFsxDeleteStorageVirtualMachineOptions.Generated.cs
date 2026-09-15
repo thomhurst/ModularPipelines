@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "delete-storage-virtual-machine")]
-public record AwsFsxDeleteStorageVirtualMachineOptions : AwsOptions
+public record AwsFsxDeleteStorageVirtualMachineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StorageVirtualMachineId">The ID of the SVM that you want to delete. Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$</param>
+    public AwsFsxDeleteStorageVirtualMachineOptions(
+        string StorageVirtualMachineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageVirtualMachineId);
+        this.StorageVirtualMachineId = StorageVirtualMachineId;
+    }
+
+    private AwsFsxDeleteStorageVirtualMachineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxDeleteStorageVirtualMachineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxDeleteStorageVirtualMachineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the SVM that you want to delete. Constraints: o min: 21 o max: 21 o pattern: ^(svm-[0-9a-f]{17,})$
+    /// </summary>
+    [CliOption("--storage-virtual-machine-id")]
+    public string? StorageVirtualMachineId { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
@@ -29,13 +69,26 @@ public record AwsFsxDeleteStorageVirtualMachineOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--storage-virtual-machine-id")]
-    public string? StorageVirtualMachineId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

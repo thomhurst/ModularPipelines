@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "delete-contact-flow-module-alias")]
-public record AwsConnectDeleteContactFlowModuleAliasOptions : AwsOptions
+public record AwsConnectDeleteContactFlowModuleAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes an alias reference, breaking the named connection to the under- lying module version without affecting the version itself. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 500</param>
+    /// <param name="AliasId">The identifier of the alias. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectDeleteContactFlowModuleAliasOptions(
+        string InstanceId,
+        string ContactFlowModuleId,
+        string AliasId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowModuleId);
+        this.ContactFlowModuleId = ContactFlowModuleId;
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+    }
+
+    private AwsConnectDeleteContactFlowModuleAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDeleteContactFlowModuleAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDeleteContactFlowModuleAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the flow module. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--contact-flow-module-id")]
-    public string? ContactFlowModuleId { get; set; }
+    public string? ContactFlowModuleId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the alias. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    public string? AliasId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

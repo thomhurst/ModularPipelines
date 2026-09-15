@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +23,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-workload")]
-public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
+public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a work- load can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter i...
+    /// </summary>
+    /// <param name="WorkloadName">The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100</param>
+    /// <param name="Description">The description for the workload. Constraints: o min: 3 o max: 250</param>
+    /// <param name="Environment">The environment for the workload. Possible values: o PRODUCTION o PREPRODUCTION</param>
+    /// <param name="Lenses">The list of lenses associated with the workload. Each lens is iden- tified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the work- load, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    public AwsWellarchitectedCreateWorkloadOptions(
+        string WorkloadName,
+        string Description,
+        AwsWellarchitectedCreateWorkloadEnvironment Environment,
+        IEnumerable<string> Lenses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadName);
+        this.WorkloadName = WorkloadName;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Lenses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Lenses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Lenses));
+            }
+
+            Lenses = materialized;
+        }
+        this.Lenses = Lenses;
+    }
+
+    private AwsWellarchitectedCreateWorkloadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateWorkloadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateWorkloadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100
+    /// </summary>
     [CliOption("--workload-name")]
-    public string? WorkloadName { get; set; }
+    public string? WorkloadName { get; private init; }
 
+    /// <summary>
+    /// The description for the workload. Constraints: o min: 3 o max: 250
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// The environment for the workload. Possible values: o PRODUCTION o PREPRODUCTION
+    /// </summary>
     [CliOption("--environment")]
-    public string? Environment { get; set; }
+    public AwsWellarchitectedCreateWorkloadEnvironment? Environment { get; private init; }
+
+    /// <summary>
+    /// The list of lenses associated with the workload. Each lens is iden- tified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the work- load, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--lenses", GroupValues = true)]
+    public IEnumerable<string>? Lenses { get; private init; }
 
     /// <summary>
     /// The list of Amazon Web Services account IDs associated with the workload. Constraints: o min: 0 o max: 100 (string) An Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
@@ -79,9 +152,6 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
     /// </summary>
     [CliOption("--industry")]
     public string? Industry { get; set; }
-
-    [CliOption("--lenses", GroupValues = true)]
-    public IEnumerable<string>? Lenses { get; set; }
 
     /// <summary>
     /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
@@ -137,5 +207,21 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

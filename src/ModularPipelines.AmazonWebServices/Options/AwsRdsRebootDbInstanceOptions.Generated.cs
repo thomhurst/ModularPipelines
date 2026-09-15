@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "reboot-db-instance")]
-public record AwsRdsRebootDbInstanceOptions : AwsOptions
+public record AwsRdsRebootDbInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-failover")]
+    /// <summary>
+    /// You might need to reboot your DB instance, usually for maintenance rea- sons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB in- stance status is set to rebooting. For more information about rebooting, see Rebooting a DB Instanc...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    public AwsRdsRebootDbInstanceOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsRdsRebootDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRebootDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRebootDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the reboot is conducted through a Multi-AZ failover. Constraint: You can't enable force failover if the instance isn't configured for Multi-AZ.
+    /// </summary>
+    [CliFlag("--force-failover", NegatedName = "--no-force-failover")]
     public bool? ForceFailover { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsRdsRebootDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

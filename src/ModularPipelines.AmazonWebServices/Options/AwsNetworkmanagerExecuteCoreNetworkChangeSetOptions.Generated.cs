@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "execute-core-network-change-set")]
-public record AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions : AwsOptions
+public record AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Executes a change set on your core network. Deploys changes globally based on the policy submitted.. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="PolicyVersionId">The ID of the policy version.</param>
+    public AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions(
+        string CoreNetworkId,
+        int PolicyVersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        this.PolicyVersionId = PolicyVersionId;
+    }
+
+    private AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerExecuteCoreNetworkChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
+    [CliOption("--core-network-id")]
+    public string? CoreNetworkId { get; private init; }
+
+    /// <summary>
+    /// The ID of the policy version.
+    /// </summary>
     [CliOption("--policy-version-id")]
-    public int? PolicyVersionId { get; set; }
+    public int? PolicyVersionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

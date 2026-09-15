@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "update-public-dns-namespace")]
-public record AwsServicediscoveryUpdatePublicDnsNamespaceOptions : AwsOptions
+public record AwsServicediscoveryUpdatePublicDnsNamespaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a public DNS namespace. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace being updated. Constraints: o max: 255</param>
+    /// <param name="Namespace">Updated properties for the public DNS namespace. Description -&gt; (string) An updated description for the public DNS namespace. Constraints: o max: 1024 Properties -&gt; (structure) Properties to be updated in the public DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the hosted zone for the public DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the public DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of nega- tive caching. Constraints: o min: 0 o max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }</param>
+    public AwsServicediscoveryUpdatePublicDnsNamespaceOptions(
+        string Id,
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    private AwsServicediscoveryUpdatePublicDnsNamespaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryUpdatePublicDnsNamespaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryUpdatePublicDnsNamespaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the namespace being updated. Constraints: o max: 255
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Updated properties for the public DNS namespace. Description -&gt; (string) An updated description for the public DNS namespace. Constraints: o max: 1024 Properties -&gt; (structure) Properties to be updated in the public DNS namespace. DnsProperties -&gt; (structure) [required] Updated DNS properties for the hosted zone for the public DNS namespace. SOA -&gt; (structure) [required] Updated fields for the Start of Authority (SOA) record for the hosted zone for the public DNS namespace. TTL -&gt; (long) [required] The updated time to live (TTL) for purposes of nega- tive caching. Constraints: o min: 0 o max: 2147483647 JSON Syntax: { "Description": "string", "Properties": { "DnsProperties": { "SOA": { "TTL": long } } } }
+    /// </summary>
+    [CliOption("--namespace")]
+    public string? Namespace { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and that allows failed UpdatePublicDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
@@ -30,13 +77,26 @@ public record AwsServicediscoveryUpdatePublicDnsNamespaceOptions : AwsOptions
     [CliOption("--updater-request-id")]
     public string? UpdaterRequestId { get; set; }
 
-    [CliOption("--namespace")]
-    public string? Namespace { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

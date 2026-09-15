@@ -17,11 +17,11 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsKendraCreateIndexEdition
 {
     [EnumValue("DEVELOPER_EDITION")]
-    DeveloperEdition = 1,
+    DeveloperEdition,
 
     [EnumValue("ENTERPRISE_EDITION")]
-    EnterpriseEdition = 2,
+    EnterpriseEdition,
 
     [EnumValue("GEN_AI_ENTERPRISE_EDITION")]
-    GenAiEnterpriseEdition = 3
+    GenAiEnterpriseEdition
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "batch-describe-data-table-value")]
-public record AwsConnectBatchDescribeDataTableValueOptions : AwsOptions
+public record AwsConnectBatchDescribeDataTableValueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves multiple values from a data table without evaluating expres- sions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Values">A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]</param>
+    public AwsConnectBatchDescribeDataTableValueOptions(
+        string InstanceId,
+        string DataTableId,
+        IEnumerable<string> Values
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataTableId);
+        this.DataTableId = DataTableId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Values);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Values));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Values));
+            }
+
+            Values = materialized;
+        }
+        this.Values = Values;
+    }
+
+    private AwsConnectBatchDescribeDataTableValueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectBatchDescribeDataTableValueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectBatchDescribeDataTableValueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--data-table-id")]
-    public string? DataTableId { get; set; }
+    public string? DataTableId { get; private init; }
 
+    /// <summary>
+    /// A list of value identifiers to retrieve, each specifying primary values and attribute names. (structure) A data table value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string" } ... ]
+    /// </summary>
     [CliOption("--values", GroupValues = true)]
-    public IEnumerable<string>? Values { get; set; }
+    public IEnumerable<string>? Values { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

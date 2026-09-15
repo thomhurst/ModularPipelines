@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lex-runtime", "delete-session")]
-public record AwsLexRuntimeDeleteSessionOptions : AwsOptions
+public record AwsLexRuntimeDeleteSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes session information for a specified bot, alias, and user ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotName">The name of the bot that contains the session data.</param>
+    /// <param name="BotAlias">The alias in use for the bot that contains the session data.</param>
+    /// <param name="UserId">The identifier of the user associated with the session data. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
+    public AwsLexRuntimeDeleteSessionOptions(
+        string BotName,
+        string BotAlias,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotName);
+        this.BotName = BotName;
+        global::System.ArgumentNullException.ThrowIfNull(BotAlias);
+        this.BotAlias = BotAlias;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsLexRuntimeDeleteSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexRuntimeDeleteSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexRuntimeDeleteSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bot that contains the session data.
+    /// </summary>
     [CliOption("--bot-name")]
-    public string? BotName { get; set; }
+    public string? BotName { get; private init; }
 
+    /// <summary>
+    /// The alias in use for the bot that contains the session data.
+    /// </summary>
     [CliOption("--bot-alias")]
-    public string? BotAlias { get; set; }
+    public string? BotAlias { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user associated with the session data. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

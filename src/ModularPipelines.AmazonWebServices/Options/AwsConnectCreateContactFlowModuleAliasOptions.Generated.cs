@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-contact-flow-module-alias")]
-public record AwsConnectCreateContactFlowModuleAliasOptions : AwsOptions
+public record AwsConnectCreateContactFlowModuleAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a named alias that points to a specific version of a contact flow module. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ContactFlowModuleVersion">The version of the flow module. Constraints: o min: 1</param>
+    /// <param name="AliasName">The name of the alias. Constraints: o min: 1 o max: 100 o pattern: ^([$0-9a-zA-Z][_-]?)+$</param>
+    public AwsConnectCreateContactFlowModuleAliasOptions(
+        string InstanceId,
+        string ContactFlowModuleId,
+        int ContactFlowModuleVersion,
+        string AliasName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowModuleId);
+        this.ContactFlowModuleId = ContactFlowModuleId;
+        this.ContactFlowModuleVersion = ContactFlowModuleVersion;
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+    }
+
+    private AwsConnectCreateContactFlowModuleAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateContactFlowModuleAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateContactFlowModuleAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the flow module. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--contact-flow-module-id")]
+    public string? ContactFlowModuleId { get; private init; }
+
+    /// <summary>
+    /// The version of the flow module. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--contact-flow-module-version")]
+    public int? ContactFlowModuleVersion { get; private init; }
+
+    /// <summary>
+    /// The name of the alias. Constraints: o min: 1 o max: 100 o pattern: ^([$0-9a-zA-Z][_-]?)+$
+    /// </summary>
+    [CliOption("--alias-name")]
+    public string? AliasName { get; private init; }
 
     /// <summary>
     /// The description of the alias.
@@ -30,19 +96,26 @@ public record AwsConnectCreateContactFlowModuleAliasOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--contact-flow-module-id")]
-    public string? ContactFlowModuleId { get; set; }
-
-    [CliOption("--contact-flow-module-version")]
-    public int? ContactFlowModuleVersion { get; set; }
-
-    [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

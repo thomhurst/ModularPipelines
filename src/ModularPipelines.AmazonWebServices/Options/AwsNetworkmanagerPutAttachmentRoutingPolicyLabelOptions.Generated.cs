@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "put-attachment-routing-policy-label")]
-public record AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions : AwsOptions
+public record AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Applies a routing policy label to an attachment for traffic routing de- cisions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of the core network containing the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="AttachmentId">The ID of the attachment to apply the routing policy label to. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="RoutingPolicyLabel">The routing policy label to apply to the attachment. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions(
+        string CoreNetworkId,
+        string AttachmentId,
+        string RoutingPolicyLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentId);
+        this.AttachmentId = AttachmentId;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingPolicyLabel);
+        this.RoutingPolicyLabel = RoutingPolicyLabel;
+    }
+
+    private AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the core network containing the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    public string? CoreNetworkId { get; private init; }
 
+    /// <summary>
+    /// The ID of the attachment to apply the routing policy label to. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--attachment-id")]
-    public string? AttachmentId { get; set; }
+    public string? AttachmentId { get; private init; }
 
+    /// <summary>
+    /// The routing policy label to apply to the attachment. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--routing-policy-label")]
-    public string? RoutingPolicyLabel { get; set; }
+    public string? RoutingPolicyLabel { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
@@ -43,5 +94,21 @@ public record AwsNetworkmanagerPutAttachmentRoutingPolicyLabelOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

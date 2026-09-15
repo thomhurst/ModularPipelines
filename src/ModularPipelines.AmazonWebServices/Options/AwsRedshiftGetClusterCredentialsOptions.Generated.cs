@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "get-cluster-credentials")]
-public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions
+public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a database user name and temporary password with temporary au- thorization to log on to an Amazon Redshift database. The action re- turns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 min- ute...
+    /// </summary>
+    /// <param name="DbUser">The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same per- missions as the existing user. If DbUser doesn't exist in the data- base and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Data- base Developer Guide. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647</param>
+    public AwsRedshiftGetClusterCredentialsOptions(
+        string DbUser
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbUser);
+        this.DbUser = DbUser;
+    }
+
+    private AwsRedshiftGetClusterCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftGetClusterCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftGetClusterCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same per- missions as the existing user. If DbUser doesn't exist in the data- base and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Data- base Developer Guide. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--db-user")]
-    public string? DbUser { get; set; }
+    public string? DbUser { get; private init; }
 
     /// <summary>
     /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
@@ -42,7 +79,10 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CliFlag("--auto-create")]
+    /// <summary>
+    /// Create a database user with the name specified for the user named in DbUser if one does not exist.
+    /// </summary>
+    [CliFlag("--auto-create", NegatedName = "--no-auto-create")]
     public bool? AutoCreate { get; set; }
 
     /// <summary>
@@ -62,5 +102,21 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

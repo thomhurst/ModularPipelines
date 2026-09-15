@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "create-account")]
-public record AwsOrganizationsCreateAccountOptions : AwsOptions
+public record AwsOrganizationsCreateAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email")]
-    public string? Email { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the back- ground. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the re- quest, do one o...
+    /// </summary>
+    /// <param name="Email">The email address of the owner to assign to the new member account. This email address must not already be associated with another Ama- zon Web Services account. You must use a valid email address to com- plete account creation. The rules for a valid email address: o The address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ; , | % &amp; o The local name can't begin with a dot (.) o The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) o The domain name can't begin or end with a hyphen (-) or dot (.) o The domain name must contain at least one dot You can't access the root user of the account or remove an account that was created with an invalid email address. Constraints: o min: 6 o max: 64 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+</param>
+    /// <param name="AccountName">The friendly name of the member account. Constraints: o min: 1 o max: 50 o pattern: [\u0020-\u007E]+</param>
+    public AwsOrganizationsCreateAccountOptions(
+        string Email,
+        string AccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+    }
+
+    private AwsOrganizationsCreateAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsCreateAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsCreateAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email address of the owner to assign to the new member account. This email address must not already be associated with another Ama- zon Web Services account. You must use a valid email address to com- plete account creation. The rules for a valid email address: o The address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ; , | % &amp; o The local name can't begin with a dot (.) o The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) o The domain name can't begin or end with a hyphen (-) or dot (.) o The domain name must contain at least one dot You can't access the root user of the account or remove an account that was created with an invalid email address. Constraints: o min: 6 o max: 64 o pattern: [^\s@]+@[^\s@]+\.[^\s@]+
+    /// </summary>
+    [CliOption("--email")]
+    public string? Email { get; private init; }
+
+    /// <summary>
+    /// The friendly name of the member account. Constraints: o min: 1 o max: 50 o pattern: [\u0020-\u007E]+
+    /// </summary>
     [CliOption("--account-name")]
-    public string? AccountName { get; set; }
+    public string? AccountName { get; private init; }
 
     /// <summary>
     /// The name of an IAM role that Organizations automatically preconfig- ures in the new member account. This role trusts the management ac- count, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to Orga- nizationAccountAccessRole . For more information about how to use this role to access the member account, see the following links: o Creating the OrganizationAccountAccessRole in an invited member account in the Organizations User Guide o Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles in the IAM User Guide The regex pattern that is used to validate this parameter. The pat- tern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@- Constraints: o max: 64 o pattern: [\w+=,.@-]{1,64}
@@ -51,5 +95,21 @@ public record AwsOrganizationsCreateAccountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

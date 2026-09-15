@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "import-notebook")]
-public record AwsAthenaImportNotebookOptions : AwsOptions
+public record AwsAthenaImportNotebookOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or Note- BookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be im- ported is 10 megabytes. If an ipynb file with the same name already ex- ists in the workgroup, throws an error. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkGroup">The name of the Spark enabled workgroup to import the notebook to. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="Name">The name of the notebook to import. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+</param>
+    /// <param name="Type">The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB</param>
+    public AwsAthenaImportNotebookOptions(
+        string WorkGroup,
+        string Name,
+        AwsAthenaImportNotebookType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsAthenaImportNotebookOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaImportNotebookOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaImportNotebookOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Spark enabled workgroup to import the notebook to. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
+    [CliOption("--work-group")]
+    public string? WorkGroup { get; private init; }
+
+    /// <summary>
+    /// The name of the notebook to import. Constraints: o min: 1 o max: 255 o pattern: (?!.*[/:\\])[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The notebook content type. Currently, the only valid type is IPYNB . Possible values: o IPYNB
+    /// </summary>
+    [CliOption("--type")]
+    public AwsAthenaImportNotebookType? Type { get; private init; }
 
     /// <summary>
     /// The notebook content to be imported. The payload must be in ipynb format. Constraints: o min: 1 o max: 10485760
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// A URI that specifies the Amazon S3 location of a notebook file in ipynb format. Constraints: o max: 1024 o pattern: ^(https|s3|S3)://([^/]+)/?(.*)$
@@ -55,5 +107,21 @@ public record AwsAthenaImportNotebookOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

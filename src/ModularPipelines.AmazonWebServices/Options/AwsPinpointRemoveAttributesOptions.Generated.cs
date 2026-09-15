@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "remove-attributes")]
-public record AwsPinpointRemoveAttributesOptions : AwsOptions
+public record AwsPinpointRemoveAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Ama- zon Pinpoint will stop capturing new or changed values for these at- tributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="AttributeType">The type of attribute or attributes to remove. Valid values are: o endpoint-custom-attributes - Custom attributes that describe end- points, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. o endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app ses- sions or the number of items left in a cart. o endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.</param>
+    /// <param name="UpdateAttributesRequest">Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can spec- ify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }</param>
+    public AwsPinpointRemoveAttributesOptions(
+        string ApplicationId,
+        string AttributeType,
+        string UpdateAttributesRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeType);
+        this.AttributeType = AttributeType;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateAttributesRequest);
+        this.UpdateAttributesRequest = UpdateAttributesRequest;
+    }
+
+    private AwsPinpointRemoveAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointRemoveAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointRemoveAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The type of attribute or attributes to remove. Valid values are: o endpoint-custom-attributes - Custom attributes that describe end- points, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. o endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app ses- sions or the number of items left in a cart. o endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
+    /// </summary>
     [CliOption("--attribute-type")]
-    public string? AttributeType { get; set; }
+    public string? AttributeType { get; private init; }
 
+    /// <summary>
+    /// Specifies one or more attributes to remove from all the endpoints that are associated with an application. Blacklist -&gt; (list) An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can spec- ify a glob pattern that an attribute name must match in order for the attribute to be removed. (string) Shorthand Syntax: Blacklist=string,string JSON Syntax: { "Blacklist": ["string", ...] }
+    /// </summary>
     [CliOption("--update-attributes-request")]
-    public string? UpdateAttributesRequest { get; set; }
+    public string? UpdateAttributesRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

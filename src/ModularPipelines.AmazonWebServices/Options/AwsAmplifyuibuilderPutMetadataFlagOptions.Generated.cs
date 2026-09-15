@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifyuibuilder", "put-metadata-flag")]
-public record AwsAmplifyuibuilderPutMetadataFlagOptions : AwsOptions
+public record AwsAmplifyuibuilderPutMetadataFlagOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stores the metadata information about a feature on a form. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for the Amplify app.</param>
+    /// <param name="EnvironmentName">The name of the backend environment that is part of the Amplify app.</param>
+    /// <param name="FeatureName">The name of the feature associated with the metadata.</param>
+    /// <param name="Body">The metadata information to store. newValue -&gt; (string) [required] The new information to store. Shorthand Syntax: newValue=string JSON Syntax: { "newValue": "string" }</param>
+    public AwsAmplifyuibuilderPutMetadataFlagOptions(
+        string AppId,
+        string EnvironmentName,
+        string FeatureName,
+        string Body
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(FeatureName);
+        this.FeatureName = FeatureName;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+    }
+
+    private AwsAmplifyuibuilderPutMetadataFlagOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyuibuilderPutMetadataFlagOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyuibuilderPutMetadataFlagOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for the Amplify app.
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The name of the backend environment that is part of the Amplify app.
+    /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentName { get; set; }
+    public string? EnvironmentName { get; private init; }
 
+    /// <summary>
+    /// The name of the feature associated with the metadata.
+    /// </summary>
     [CliOption("--feature-name")]
-    public string? FeatureName { get; set; }
+    public string? FeatureName { get; private init; }
 
+    /// <summary>
+    /// The metadata information to store. newValue -&gt; (string) [required] The new information to store. Shorthand Syntax: newValue=string JSON Syntax: { "newValue": "string" }
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string? Body { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

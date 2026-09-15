@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "create-map")]
-public record AwsLocationCreateMapOptions : AwsOptions
+public record AwsLocationCreateMapOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--map-name")]
-    public string? MapName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o CreateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+    /// </summary>
+    /// <param name="MapName">The name for the map resource. Requirements: o Must contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique map resource name. o No spaces allowed. For example, ExampleMap . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Configuration">Specifies the MapConfiguration , including the map style, for the map resource that you create. The map style defines the look of maps and the data provider for your map resource. Style -&gt; (string) [required] Specifies the map style selected from an available data provider. Valid Esri map styles : o VectorEsriDarkGrayCanvas The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content. o RasterEsriImagery The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satel- lite imagery worldwide. o VectorEsriLightGrayCanvas The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your the- matic content. o VectorEsriTopographic The Esri Light map style, which pro- vides a detailed vector basemap with a classic Esri map style. o VectorEsriStreets The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a clas- sic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map. o VectorEsriNavigation The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices. Valid HERE Technologies map styles : o VectorHereContrast The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. NOTE: The VectorHereContrast style has been renamed from Vec- torHereBerlin . VectorHereBerlin has been deprecated, but will continue to work in applications that use it. o VectorHereExplore A default HERE map style containing a neu- tral, global map and its features including roads, buildings, landmarks, and water features. It also now includes a fully designed map of Japan. o VectorHereExploreTruck A global map containing truck restric- tions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics. o RasterHereExploreSatellite A global map containing high reso- lution satellite imagery. o HybridHereExploreSatellite A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles re- trieved. NOTE: Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are re- trieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved. Valid GrabMaps map styles : o VectorGrabStandardLight The Grab Standard Light map style provides a basemap with detailed land use coloring, area names, roads, landmarks, and points of interest covering Southeast Asia. o VectorGrabStandardDark The Grab Standard Dark map style pro- vides a dark variation of the standard basemap covering South- east Asia. NOTE: Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1 ). For more information, see GrabMaps coun- tries and area covered . Valid Open Data map styles : o VectorOpenDataStandardLight The Open Data Standard Light map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. o VectorOpenDataStandardDark Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. o VectorOpenDataVisualizationLight The Open Data Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data. o VectorOpenDataVisualizationDark The Open Data Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+ PoliticalView -&gt; (string) Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific po- litical views, you can choose a view, such as IND for the Indian view. Default is unset. NOTE: Not all map resources or styles support political view styles. See Political views for more information. Constraints: o min: 3 o max: 3 o pattern: [A-Z]{3} CustomLayers -&gt; (list) Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom lay- ers, you can enable layer(s), such as POI layer for the Vec- torEsriNavigation style. Default is unset . NOTE: Not all map resources or styles support custom layers. See Custom Layers for more information. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\w]+ Shorthand Syntax: Style=string,PoliticalView=string,CustomLayers=string,string JSON Syntax: { "Style": "string", "PoliticalView": "string", "CustomLayers": ["string", ...] }</param>
+    public AwsLocationCreateMapOptions(
+        string MapName,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MapName);
+        this.MapName = MapName;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsLocationCreateMapOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCreateMapOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCreateMapOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the map resource. Requirements: o Must contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique map resource name. o No spaces allowed. For example, ExampleMap . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--map-name")]
+    public string? MapName { get; private init; }
+
+    /// <summary>
+    /// Specifies the MapConfiguration , including the map style, for the map resource that you create. The map style defines the look of maps and the data provider for your map resource. Style -&gt; (string) [required] Specifies the map style selected from an available data provider. Valid Esri map styles : o VectorEsriDarkGrayCanvas The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content. o RasterEsriImagery The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satel- lite imagery worldwide. o VectorEsriLightGrayCanvas The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your the- matic content. o VectorEsriTopographic The Esri Light map style, which pro- vides a detailed vector basemap with a classic Esri map style. o VectorEsriStreets The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a clas- sic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map. o VectorEsriNavigation The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices. Valid HERE Technologies map styles : o VectorHereContrast The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. NOTE: The VectorHereContrast style has been renamed from Vec- torHereBerlin . VectorHereBerlin has been deprecated, but will continue to work in applications that use it. o VectorHereExplore A default HERE map style containing a neu- tral, global map and its features including roads, buildings, landmarks, and water features. It also now includes a fully designed map of Japan. o VectorHereExploreTruck A global map containing truck restric- tions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics. o RasterHereExploreSatellite A global map containing high reso- lution satellite imagery. o HybridHereExploreSatellite A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles re- trieved. NOTE: Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are re- trieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved. Valid GrabMaps map styles : o VectorGrabStandardLight The Grab Standard Light map style provides a basemap with detailed land use coloring, area names, roads, landmarks, and points of interest covering Southeast Asia. o VectorGrabStandardDark The Grab Standard Dark map style pro- vides a dark variation of the standard basemap covering South- east Asia. NOTE: Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1 ). For more information, see GrabMaps coun- tries and area covered . Valid Open Data map styles : o VectorOpenDataStandardLight The Open Data Standard Light map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. o VectorOpenDataStandardDark Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. o VectorOpenDataVisualizationLight The Open Data Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data. o VectorOpenDataVisualizationDark The Open Data Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+ PoliticalView -&gt; (string) Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific po- litical views, you can choose a view, such as IND for the Indian view. Default is unset. NOTE: Not all map resources or styles support political view styles. See Political views for more information. Constraints: o min: 3 o max: 3 o pattern: [A-Z]{3} CustomLayers -&gt; (list) Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom lay- ers, you can enable layer(s), such as POI layer for the Vec- torEsriNavigation style. Default is unset . NOTE: Not all map resources or styles support custom layers. See Custom Layers for more information. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\w]+ Shorthand Syntax: Style=string,PoliticalView=string,CustomLayers=string,string JSON Syntax: { "Style": "string", "PoliticalView": "string", "CustomLayers": ["string", ...] }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
@@ -52,5 +96,21 @@ public record AwsLocationCreateMapOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

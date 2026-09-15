@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "describe-resource-collection-health")]
-public record AwsDevopsGuruDescribeResourceCollectionHealthOptions : AwsOptions
+public record AwsDevopsGuruDescribeResourceCollectionHealthOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Ser- vices resources collection. The two types of Amazon Web Services re- source collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Service...
+    /// </summary>
+    /// <param name="ResourceCollectionType">An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Ama- zon Web Services CloudFormation stacks and Amazon Web Services re- sources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: o AWS_CLOUD_FORMATION o AWS_SERVICE o AWS_TAGS</param>
+    public AwsDevopsGuruDescribeResourceCollectionHealthOptions(
+        AwsDevopsGuruDescribeResourceCollectionHealthResourceCollectionType ResourceCollectionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCollectionType);
+        this.ResourceCollectionType = ResourceCollectionType;
+    }
+
+    private AwsDevopsGuruDescribeResourceCollectionHealthOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruDescribeResourceCollectionHealthOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruDescribeResourceCollectionHealthOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Ama- zon Web Services CloudFormation stacks and Amazon Web Services re- sources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key . You can specify up to 500 Amazon Web Services CloudFormation stacks. Possible values: o AWS_CLOUD_FORMATION o AWS_SERVICE o AWS_TAGS
+    /// </summary>
     [CliOption("--resource-collection-type")]
-    public string? ResourceCollectionType { get; set; }
+    public AwsDevopsGuruDescribeResourceCollectionHealthResourceCollectionType? ResourceCollectionType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +81,21 @@ public record AwsDevopsGuruDescribeResourceCollectionHealthOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

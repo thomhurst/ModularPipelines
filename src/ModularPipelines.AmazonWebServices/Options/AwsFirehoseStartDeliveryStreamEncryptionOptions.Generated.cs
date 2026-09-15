@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firehose", "start-delivery-stream-encryption")]
-public record AwsFirehoseStartDeliveryStreamEncryptionOptions : AwsOptions
+public record AwsFirehoseStartDeliveryStreamEncryptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to ENABLING , and then to ENABLED . The encryption status of a Firehose stream is the Status property in DeliveryStreamEncryptionConfiguration . If the operation fails, the encryption status changes to ENABLING_FAILED . You can continue to read and write data to your Firehose stream while the encryption s...
+    /// </summary>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream for which you want to enable server-side encryption (SSE). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsFirehoseStartDeliveryStreamEncryptionOptions(
+        string DeliveryStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryStreamName);
+        this.DeliveryStreamName = DeliveryStreamName;
+    }
+
+    private AwsFirehoseStartDeliveryStreamEncryptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFirehoseStartDeliveryStreamEncryptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFirehoseStartDeliveryStreamEncryptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Firehose stream for which you want to enable server-side encryption (SSE). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--delivery-stream-name")]
-    public string? DeliveryStreamName { get; set; }
+    public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
     /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE). KeyARN -&gt; (string) If you set KeyType to CUSTOMER_MANAGED_CMK , you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to Amazon Web Services_OWNED_CMK , Firehose uses a service-account CMK. Constraints: o min: 1 o max: 512 o pattern: arn:.*:kms:[a-zA-Z0-9\-]+:\d{12}:key/[a-zA-Z_0-9+=,.@\-_/]+ KeyType -&gt; (string) [required] Indicates the type of customer master key (CMK) to use for en- cryption. The default setting is Amazon Web Services_OWNED_CMK . For more information about CMKs, see Customer Master Keys (CMKs) . When you invoke CreateDeliveryStream or StartDeliveryStrea- mEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Firehose service to use the customer managed CMK to perform encryption and decryption. Firehose manages that grant. When you invoke StartDeliveryStreamEncryption to change the CMK for a Firehose stream that is encrypted with a customer managed CMK, Firehose schedules the grant it had on the old CMK for re- tirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 Firehose streams. If a CreateDeliveryStream or StartDeliv- eryStreamEncryption operation exceeds this limit, Firehose throws a LimitExceededException . WARNING: To encrypt your Firehose stream, use symmetric CMKs. Firehose doesn't support asymmetric CMKs. For information about sym- metric and asymmetric CMKs, see About Symmetric and Asymmet- ric CMKs in the Amazon Web Services Key Management Service developer guide. Possible values: o AWS_OWNED_CMK o CUSTOMER_MANAGED_CMK Shorthand Syntax: KeyARN=string,KeyType=string JSON Syntax: { "KeyARN": "string", "KeyType": "AWS_OWNED_CMK"|"CUSTOMER_MANAGED_CMK" }
@@ -35,5 +72,21 @@ public record AwsFirehoseStartDeliveryStreamEncryptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

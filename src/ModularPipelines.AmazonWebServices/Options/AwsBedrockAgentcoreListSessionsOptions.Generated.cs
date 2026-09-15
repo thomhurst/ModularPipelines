@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "list-sessions")]
-public record AwsBedrockAgentcoreListSessionsOptions : AwsOptions
+public record AwsBedrockAgentcoreListSessionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists sessions in an AgentCore Memory resource based on specified cri- teria. We recommend using pagination to ensure that the operation re- turns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able paginatio...
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource for which to list sessions. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ActorId">The identifier of the actor for which to list sessions. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    public AwsBedrockAgentcoreListSessionsOptions(
+        string MemoryId,
+        string ActorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(ActorId);
+        this.ActorId = ActorId;
+    }
+
+    private AwsBedrockAgentcoreListSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreListSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreListSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource for which to list sessions. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the actor for which to list sessions. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// </summary>
     [CliOption("--actor-id")]
-    public string? ActorId { get; set; }
+    public string? ActorId { get; private init; }
 
     /// <summary>
     /// Filter criteria to apply when listing sessions. eventFilter -&gt; (string) The event filter condition to apply. Use this to filter sessions based on event presence. Possible values: o HAS_EVENTS Shorthand Syntax: eventFilter=string JSON Syntax: { "eventFilter": "HAS_EVENTS" }
@@ -58,5 +102,21 @@ public record AwsBedrockAgentcoreListSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

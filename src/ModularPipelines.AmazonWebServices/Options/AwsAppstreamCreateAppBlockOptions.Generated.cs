@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-app-block")]
-public record AwsAppstreamCreateAppBlockOptions : AwsOptions
+public record AwsAppstreamCreateAppBlockOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the de- tails about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be as- signed to a single app block. This is only supported for Elastic fleets. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the app block. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="SourceS3Location">The source S3 location of the app block. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    public AwsAppstreamCreateAppBlockOptions(
+        string Name,
+        string SourceS3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SourceS3Location);
+        this.SourceS3Location = SourceS3Location;
+    }
+
+    private AwsAppstreamCreateAppBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateAppBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateAppBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the app block. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The source S3 location of the app block. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
+    [CliOption("--source-s3-location")]
+    public string? SourceS3Location { get; private init; }
 
     /// <summary>
     /// The description of the app block. Constraints: o max: 256
@@ -37,9 +84,6 @@ public record AwsAppstreamCreateAppBlockOptions : AwsOptions
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
-
-    [CliOption("--source-s3-location")]
-    public string? SourceS3Location { get; set; }
 
     /// <summary>
     /// The setup script details of the app block. This must be provided for the CUSTOM PackagingType. ScriptS3Location -&gt; (structure) [required] The S3 object location for the script. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateAppli- cation) o SessionScriptS3Location (Actions: CreateFleet and Update- Fleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 ExecutablePath -&gt; (string) [required] The run path for the script. Constraints: o min: 1 ExecutableParameters -&gt; (string) The runtime parameters passed to the run path for the script. Constraints: o min: 1 TimeoutInSeconds -&gt; (integer) [required] The run timeout, in seconds, for the script. Shorthand Syntax: ScriptS3Location={S3Bucket=string,S3Key=string},ExecutablePath=string,ExecutableParameters=string,TimeoutInSeconds=integer JSON Syntax: { "ScriptS3Location": { "S3Bucket": "string", "S3Key": "string" }, "ExecutablePath": "string", "ExecutableParameters": "string", "TimeoutInSeconds": integer }
@@ -70,5 +114,21 @@ public record AwsAppstreamCreateAppBlockOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

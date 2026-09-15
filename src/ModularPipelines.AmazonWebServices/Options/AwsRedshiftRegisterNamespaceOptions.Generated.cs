@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "register-namespace")]
-public record AwsRedshiftRegisterNamespaceOptions : AwsOptions
+public record AwsRedshiftRegisterNamespaceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--namespace-identifier")]
-    public string? NamespaceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceIdentifier">The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdenti- fier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: o max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: o max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: o max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }</param>
+    /// <param name="ConsumerIdentifiers">An array containing the ID of the consumer account that you want to register the namespace to. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    public AwsRedshiftRegisterNamespaceOptions(
+        string NamespaceIdentifier,
+        IEnumerable<string> ConsumerIdentifiers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceIdentifier);
+        this.NamespaceIdentifier = NamespaceIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConsumerIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConsumerIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConsumerIdentifiers));
+            }
+
+            ConsumerIdentifiers = materialized;
+        }
+        this.ConsumerIdentifiers = ConsumerIdentifiers;
+    }
+
+    private AwsRedshiftRegisterNamespaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftRegisterNamespaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftRegisterNamespaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the cluster or serverless namespace that you want to register. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ServerlessIdentifier, ProvisionedIdenti- fier. ServerlessIdentifier -&gt; (structure) The identifier for a serverless namespace. NamespaceIdentifier -&gt; (string) [required] The unique identifier for the serverless namespace. Constraints: o max: 2147483647 WorkgroupIdentifier -&gt; (string) [required] The unique identifier for the workgroup associated with the serverless namespace. Constraints: o max: 2147483647 ProvisionedIdentifier -&gt; (structure) The identifier for a provisioned cluster. ClusterIdentifier -&gt; (string) [required] The unique identifier for the provisioned cluster. Constraints: o max: 2147483647 Shorthand Syntax: ServerlessIdentifier={NamespaceIdentifier=string,WorkgroupIdentifier=string},ProvisionedIdentifier={ClusterIdentifier=string} JSON Syntax: { "ServerlessIdentifier": { "NamespaceIdentifier": "string", "WorkgroupIdentifier": "string" }, "ProvisionedIdentifier": { "ClusterIdentifier": "string" } }
+    /// </summary>
+    [CliOption("--namespace-identifier")]
+    public string? NamespaceIdentifier { get; private init; }
+
+    /// <summary>
+    /// An array containing the ID of the consumer account that you want to register the namespace to. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--consumer-identifiers", GroupValues = true)]
-    public IEnumerable<string>? ConsumerIdentifiers { get; set; }
+    public IEnumerable<string>? ConsumerIdentifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

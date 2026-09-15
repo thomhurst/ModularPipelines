@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsPutSubscriptionFilterDistribution
 {
-    [EnumValue("Random")]
-    Random = 1,
-
     [EnumValue("ByLogStream")]
-    ByLogStream = 2
+    ByLogStream,
+
+    [EnumValue("Random")]
+    Random
 }

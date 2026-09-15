@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-edge", "send-heartbeat")]
-public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions
+public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use to get the current status of devices registered on SageMaker Edge Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentVersion">Returns the version of the agent. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+</param>
+    /// <param name="DeviceName">The unique name of the device. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    public AwsSagemakerEdgeSendHeartbeatOptions(
+        string AgentVersion,
+        string DeviceName,
+        string DeviceFleetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceName);
+        this.DeviceName = DeviceName;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceFleetName);
+        this.DeviceFleetName = DeviceFleetName;
+    }
+
+    private AwsSagemakerEdgeSendHeartbeatOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerEdgeSendHeartbeatOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerEdgeSendHeartbeatOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns the version of the agent. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+
+    /// </summary>
+    [CliOption("--agent-version")]
+    public string? AgentVersion { get; private init; }
+
+    /// <summary>
+    /// The unique name of the device. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// </summary>
+    [CliOption("--device-name")]
+    public string? DeviceName { get; private init; }
+
+    /// <summary>
+    /// The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// </summary>
+    [CliOption("--device-fleet-name")]
+    public string? DeviceFleetName { get; private init; }
+
     /// <summary>
     /// For internal use. Returns a list of SageMaker Edge Manager agent op- erating metrics. (structure) Information required for edge device metrics. Dimension -&gt; (string) The dimension of metrics published. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9\/])*$ MetricName -&gt; (string) Returns the name of the metric. Constraints: o min: 4 o max: 100 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ Value -&gt; (double) Returns the value of the metric. Timestamp -&gt; (timestamp) Timestamp of when the metric was requested. Shorthand Syntax: Dimension=string,MetricName=string,Value=double,Timestamp=timestamp ... JSON Syntax: [ { "Dimension": "string", "MetricName": "string", "Value": double, "Timestamp": timestamp } ... ]
     /// </summary>
@@ -33,15 +93,6 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions
     [CliOption("--models", GroupValues = true)]
     public IEnumerable<string>? Models { get; set; }
 
-    [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
-
-    [CliOption("--device-name")]
-    public string? DeviceName { get; set; }
-
-    [CliOption("--device-fleet-name")]
-    public string? DeviceFleetName { get; set; }
-
     /// <summary>
     /// Returns the result of a deployment on the device. DeploymentName -&gt; (string) The name and unique ID of the deployment. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatus -&gt; (string) Returns the bucket error code. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ DeploymentStatusMessage -&gt; (string) Returns the detailed error message. DeploymentStartTime -&gt; (timestamp) The timestamp of when the deployment was started on the agent. DeploymentEndTime -&gt; (timestamp) The timestamp of when the deployment was ended, and the agent got the deployment results. DeploymentModels -&gt; (list) Returns a list of models deployed on the agent. (structure) ModelHandle -&gt; (string) The unique handle of the model. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelName -&gt; (string) The name of the model. Constraints: o min: 4 o max: 255 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$ ModelVersion -&gt; (string) The version of the model. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\ \_\.]+ DesiredState -&gt; (string) The desired state of the model. Possible values: o DEPLOY o UNDEPLOY State -&gt; (string) Returns the current state of the model. Possible values: o DEPLOY o UNDEPLOY Status -&gt; (string) Returns the deployment status of the model. Possible values: o SUCCESS o FAIL StatusReason -&gt; (string) Returns the error message for the deployment status re- sult. RollbackFailureReason -&gt; (string) Returns the error message if there is a rollback. Shorthand Syntax: DeploymentName=string,DeploymentStatus=string,DeploymentStatusMessage=string,DeploymentStartTime=timestamp,DeploymentEndTime=timestamp,DeploymentModels=[{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string},{ModelHandle=string,ModelName=string,ModelVersion=string,DesiredState=string,State=string,Status=string,StatusReason=string,RollbackFailureReason=string}] JSON Syntax: { "DeploymentName": "string", "DeploymentStatus": "string", "DeploymentStatusMessage": "string", "DeploymentStartTime": timestamp, "DeploymentEndTime": timestamp, "DeploymentModels": [ { "ModelHandle": "string", "ModelName": "string", "ModelVersion": "string", "DesiredState": "DEPLOY"|"UNDEPLOY", "State": "DEPLOY"|"UNDEPLOY", "Status": "SUCCESS"|"FAIL", "StatusReason": "string", "RollbackFailureReason": "string" } ... ] }
     /// </summary>
@@ -53,5 +104,21 @@ public record AwsSagemakerEdgeSendHeartbeatOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

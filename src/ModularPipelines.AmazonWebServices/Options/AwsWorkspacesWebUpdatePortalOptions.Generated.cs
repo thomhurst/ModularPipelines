@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "update-portal")]
-public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions
+public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a web portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalArn">The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    public AwsWorkspacesWebUpdatePortalOptions(
+        string PortalArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalArn);
+        this.PortalArn = PortalArn;
+    }
+
+    private AwsWorkspacesWebUpdatePortalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebUpdatePortalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebUpdatePortalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// </summary>
     [CliOption("--portal-arn")]
-    public string? PortalArn { get; set; }
+    public string? PortalArn { get; private init; }
 
     /// <summary>
     /// The name of the web portal. This is not visible to users who log into the web portal. Constraints: o min: 1 o max: 64 o pattern: .+
@@ -60,5 +97,21 @@ public record AwsWorkspacesWebUpdatePortalOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

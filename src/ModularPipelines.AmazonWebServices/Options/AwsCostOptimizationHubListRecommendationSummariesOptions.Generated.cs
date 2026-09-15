@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cost-optimization-hub", "list-recommendation-summaries")]
-public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOptions
+public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommenda- tions. NOTE: The following filters are not supported for this API: recommenda- tionIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- m...
+    /// </summary>
+    /// <param name="GroupBy">The grouping of recommendations by a dimension.</param>
+    public AwsCostOptimizationHubListRecommendationSummariesOptions(
+        string GroupBy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+        this.GroupBy = GroupBy;
+    }
+
+    private AwsCostOptimizationHubListRecommendationSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCostOptimizationHubListRecommendationSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCostOptimizationHubListRecommendationSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The grouping of recommendations by a dimension.
+    /// </summary>
+    [CliOption("--group-by")]
+    public string? GroupBy { get; private init; }
+
     /// <summary>
     /// Describes a filter that returns a more specific list of recommenda- tions. Filters recommendations by different dimensions. restartNeeded -&gt; (boolean) Whether or not implementing the recommendation requires a restart. rollbackPossible -&gt; (boolean) Whether or not implementing the recommendation can be rolled back. implementationEfforts -&gt; (list) The effort required to implement the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o VeryLow o Low o Medium o High o VeryHigh accountIds -&gt; (list) The account to which the recommendation applies. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9]{12} regions -&gt; (list) The Amazon Web Services Region of the resource. Constraints: o min: 1 o max: 100 (string) resourceTypes -&gt; (list) The resource type of the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o Ec2Instance o LambdaFunction o EbsVolume o EcsService o Ec2AutoScalingGroup o Ec2InstanceSavingsPlans o ComputeSavingsPlans o SageMakerSavingsPlans o Ec2ReservedInstances o RdsReservedInstances o OpenSearchReservedInstances o RedshiftReservedInstances o ElastiCacheReservedInstances o RdsDbInstanceStorage o RdsDbInstance o AuroraDbClusterStorage o DynamoDbReservedCapacity o MemoryDbReservedInstances o NatGateway o DynamoDBTable o ElastiCacheCluster o MemoryDBCluster o DocumentDBCluster o WorkSpaces o SageMakerEndpoint actionTypes -&gt; (list) The type of action you can take by adopting the recommendation. Constraints: o min: 1 o max: 100 (string) Possible values: o Rightsize o Stop o Upgrade o PurchaseSavingsPlans o PurchaseReservedInstances o MigrateToGraviton o Delete o ScaleIn tags -&gt; (list) A list of tags assigned to the recommendation. Constraints: o min: 1 o max: 100 (structure) The tag structure that contains a tag key and value. key -&gt; (string) The key that's associated with the tag. value -&gt; (string) The value that's associated with the tag. resourceIds -&gt; (list) The resource ID of the recommendation. Constraints: o min: 1 o max: 100 (string) resourceArns -&gt; (list) The Amazon Resource Name (ARN) of the recommendation. Constraints: o min: 1 o max: 100 (string) recommendationIds -&gt; (list) The IDs for the recommendations. Constraints: o min: 1 o max: 100 (string) Shorthand Syntax: restartNeeded=boolean,rollbackPossible=boolean,implementationEfforts=string,string,accountIds=string,string,regions=string,string,resourceTypes=string,string,actionTypes=string,string,tags=[{key=string,value=string},{key=string,value=string}],resourceIds=string,string,resourceArns=string,string,recommendationIds=string,string JSON Syntax: { "restartNeeded": true|false, "rollbackPossible": true|false, "implementationEfforts": ["VeryLow"|"Low"|"Medium"|"High"|"VeryHigh", ...], "accountIds": ["string", ...], "regions": ["string", ...], "resourceTypes": ["Ec2Instance"|"LambdaFunction"|"EbsVolume"|"EcsService"|"Ec2AutoScalingGroup"|"Ec2InstanceSavingsPlans"|"ComputeSavingsPlans"|"SageMakerSavingsPlans"|"Ec2ReservedInstances"|"RdsReservedInstances"|"OpenSearchReservedInstances"|"RedshiftReservedInstances"|"ElastiCacheReservedInstances"|"RdsDbInstanceStorage"|"RdsDbInstance"|"AuroraDbClusterStorage"|"DynamoDbReservedCapacity"|"MemoryDbReservedInstances"|"NatGateway"|"DynamoDBTable"|"ElastiCacheCluster"|"MemoryDBCluster"|"DocumentDBCluster"|"WorkSpaces"|"SageMakerEndpoint", ...], "actionTypes": ["Rightsize"|"Stop"|"Upgrade"|"PurchaseSavingsPlans"|"PurchaseReservedInstances"|"MigrateToGraviton"|"Delete"|"ScaleIn", ...], "tags": [ { "key": "string", "value": "string" } ... ], "resourceIds": ["string", ...], "resourceArns": ["string", ...], "recommendationIds": ["string", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
-
-    [CliOption("--group-by")]
-    public string? GroupBy { get; set; }
 
     /// <summary>
     /// Additional metrics to be returned for the request. The only valid value is savingsPercentage . Constraints: o min: 1 o max: 100 (string) Possible values: o SavingsPercentage Syntax: "string" "string" ...
@@ -61,5 +98,21 @@ public record AwsCostOptimizationHubListRecommendationSummariesOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

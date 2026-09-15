@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "get-case")]
-public record AwsConnectcasesGetCaseOptions : AwsOptions
+public record AwsConnectcasesGetCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a specific case if it exists. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Fields">A list of unique field identifiers. Constraints: o min: 1 o max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]</param>
+    public AwsConnectcasesGetCaseOptions(
+        string CaseId,
+        string DomainId,
+        IEnumerable<string> Fields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsConnectcasesGetCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesGetCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesGetCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// A list of unique field identifiers. Constraints: o min: 1 o max: 220 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: id=string ... JSON Syntax: [ { "id": "string" } ... ]
+    /// </summary>
     [CliOption("--fields", GroupValues = true)]
-    public IEnumerable<string>? Fields { get; set; }
+    public IEnumerable<string>? Fields { get; private init; }
 
     /// <summary>
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
@@ -43,5 +105,21 @@ public record AwsConnectcasesGetCaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

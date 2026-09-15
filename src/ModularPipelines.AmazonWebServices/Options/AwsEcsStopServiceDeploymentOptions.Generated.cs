@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "stop-service-deployment")]
-public record AwsEcsStopServiceDeploymentOptions : AwsOptions
+public record AwsEcsStopServiceDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops an ongoing service deployment. The following stop types are avaiable: o ROLLBACK - This option rolls back the service deployment to the pre- vious service revision. You can use this option even if you didn't configure the service deployment for the rollback option. For more information, see Stopping Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceDeploymentArn">The ARN of the service deployment that you want to stop.</param>
+    public AwsEcsStopServiceDeploymentOptions(
+        string ServiceDeploymentArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceDeploymentArn);
+        this.ServiceDeploymentArn = ServiceDeploymentArn;
+    }
+
+    private AwsEcsStopServiceDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsStopServiceDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsStopServiceDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the service deployment that you want to stop.
+    /// </summary>
     [CliOption("--service-deployment-arn")]
-    public string? ServiceDeploymentArn { get; set; }
+    public string? ServiceDeploymentArn { get; private init; }
 
     /// <summary>
     /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK . Possible values: o ABORT o ROLLBACK
@@ -36,5 +73,21 @@ public record AwsEcsStopServiceDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

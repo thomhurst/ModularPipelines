@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("launch-wizard", "update-deployment")]
-public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions
+public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a deployment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Specifications">The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: o min: 1 o max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsLaunchWizardUpdateDeploymentOptions(
+        string DeploymentId,
+        IReadOnlyList<KeyValue> Specifications
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Specifications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Specifications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Specifications));
+            }
+
+            Specifications = materialized;
+        }
+        this.Specifications = Specifications;
+    }
+
+    private AwsLaunchWizardUpdateDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLaunchWizardUpdateDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLaunchWizardUpdateDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the deployment. Constraints: o min: 2 o max: 128 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--deployment-id")]
+    public string? DeploymentId { get; private init; }
+
+    /// <summary>
+    /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications . To retrieve the specifications required to create a deployment for other workloads, use the ` GetWorkloadDeploymentPattern https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html`__ operation. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9-:]+ value -&gt; (string) Constraints: o min: 1 o max: 1500 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--specifications", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Specifications { get; set; }
+    public IReadOnlyList<KeyValue>? Specifications { get; private init; }
 
     /// <summary>
     /// The name of the workload version. Constraints: o min: 5 o max: 30 o pattern: (([A-Za-z0-9][a-zA-Z0-9-]*)|(\d+\.\d+\.\d+))
@@ -40,10 +95,16 @@ public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions
     [CliOption("--deployment-pattern-version-name")]
     public string? DeploymentPatternVersionName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the update even if validation warnings are present.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -51,5 +112,21 @@ public record AwsLaunchWizardUpdateDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "list-inference-executions")]
-public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions
+public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all inference executions that have been performed by the speci- fied inference scheduler. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler for the inference execution listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    public AwsLookoutequipmentListInferenceExecutionsOptions(
+        string InferenceSchedulerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InferenceSchedulerName);
+        this.InferenceSchedulerName = InferenceSchedulerName;
+    }
+
+    private AwsLookoutequipmentListInferenceExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentListInferenceExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentListInferenceExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the inference scheduler for the inference execution listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
+    [CliOption("--inference-scheduler-name")]
+    public string? InferenceSchedulerName { get; private init; }
+
     /// <summary>
     /// An opaque pagination token indicating where to continue the listing of inference executions. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
     /// </summary>
@@ -35,9 +75,6 @@ public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
-
-    [CliOption("--inference-scheduler-name")]
-    public string? InferenceSchedulerName { get; set; }
 
     /// <summary>
     /// The time reference in the inferenced dataset after which Amazon Lookout for Equipment started the inference execution.
@@ -62,5 +99,21 @@ public record AwsLookoutequipmentListInferenceExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

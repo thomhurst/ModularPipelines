@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-reviewer", "list-code-reviews")]
-public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions
+public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all the code reviews that the customer has created in the past 90 days. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of code reviews to list in the response. Possible values: o PullRequest o RepositoryAnalysis</param>
+    public AwsCodeguruReviewerListCodeReviewsOptions(
+        AwsCodeguruReviewerListCodeReviewsType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsCodeguruReviewerListCodeReviewsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruReviewerListCodeReviewsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruReviewerListCodeReviewsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of code reviews to list in the response. Possible values: o PullRequest o RepositoryAnalysis
+    /// </summary>
+    [CliOption("--type")]
+    public AwsCodeguruReviewerListCodeReviewsType? Type { get; private init; }
+
     /// <summary>
     /// List of provider types for filtering that needs to be applied before displaying the result. For example, providerTypes=[GitHub] lists code reviews from GitHub. Constraints: o min: 1 o max: 3 (string) Possible values: o CodeCommit o GitHub o Bitbucket o GitHubEnterpriseServer o S3Bucket Syntax: "string" "string" ...
     /// </summary>
@@ -39,9 +80,6 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions
     /// </summary>
     [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// The maximum number of results that are returned per call. The de- fault is 100. Constraints: o min: 1 o max: 100
@@ -61,5 +99,21 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

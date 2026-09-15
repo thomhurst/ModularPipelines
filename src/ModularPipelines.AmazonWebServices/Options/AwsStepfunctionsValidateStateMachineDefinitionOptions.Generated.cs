@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "validate-state-machine-definition")]
-public record AwsStepfunctionsValidateStateMachineDefinitionOptions : AwsOptions
+public record AwsStepfunctionsValidateStateMachineDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition : o Integrate automated checks into your code review or Continuous Inte- gration (CI) process to check state machine definitions before start- ing deployments. o Run validation from a Git pre-commit hook to verify the ...
+    /// </summary>
+    /// <param name="Definition">The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: o min: 1 o max: 1048576</param>
+    public AwsStepfunctionsValidateStateMachineDefinitionOptions(
+        string Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+    }
+
+    private AwsStepfunctionsValidateStateMachineDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsValidateStateMachineDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsValidateStateMachineDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL). Constraints: o min: 1 o max: 1048576
+    /// </summary>
     [CliOption("--definition")]
-    public string? Definition { get; set; }
+    public string? Definition { get; private init; }
 
     /// <summary>
     /// The target type of state machine for this definition. The default is STANDARD . Possible values: o STANDARD o EXPRESS
@@ -48,5 +85,21 @@ public record AwsStepfunctionsValidateStateMachineDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

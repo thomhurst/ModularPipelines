@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-retention-policy")]
-public record AwsLogsPutRetentionPolicyOptions : AwsOptions
+public record AwsLogsPutRetentionPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group. NOTE: CloudWatch Logs doesn't immediately delete log events when they reach their retention setting. It typically takes up to 72 hours af- ter that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log even...
+    /// </summary>
+    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="RetentionInDays">The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use DeleteRetentionPolicy .</param>
+    public AwsLogsPutRetentionPolicyOptions(
+        string LogGroupName,
+        int RetentionInDays
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+        this.RetentionInDays = RetentionInDays;
+    }
+
+    private AwsLogsPutRetentionPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutRetentionPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutRetentionPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--log-group-name")]
+    public string? LogGroupName { get; private init; }
+
+    /// <summary>
+    /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use DeleteRetentionPolicy .
+    /// </summary>
     [CliOption("--retention-in-days")]
-    public int? RetentionInDays { get; set; }
+    public int? RetentionInDays { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,16 +23,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-ota-task")]
-public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an over-the-air (OTA) task to target a device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3Url">The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="OtaType">The frequency type for the over-the-air (OTA) task. Possible values: o ONE_TIME o CONTINUOUS</param>
+    public AwsIotManagedIntegrationsCreateOtaTaskOptions(
+        string S3Url,
+        AwsIotManagedIntegrationsCreateOtaTaskOtaType OtaType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Url);
+        this.S3Url = S3Url;
+        global::System.ArgumentNullException.ThrowIfNull(OtaType);
+        this.OtaType = OtaType;
+    }
+
+    private AwsIotManagedIntegrationsCreateOtaTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateOtaTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateOtaTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--s3-url")]
+    public string? S3Url { get; private init; }
+
+    /// <summary>
+    /// The frequency type for the over-the-air (OTA) task. Possible values: o ONE_TIME o CONTINUOUS
+    /// </summary>
+    [CliOption("--ota-type")]
+    public AwsIotManagedIntegrationsCreateOtaTaskOtaType? OtaType { get; private init; }
+
     /// <summary>
     /// The description of the over-the-air (OTA) task. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--s3-url")]
-    public string? S3Url { get; set; }
 
     /// <summary>
     /// The connection protocol the over-the-air (OTA) task uses to update the device. Possible values: o HTTP
@@ -56,9 +103,6 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
     /// </summary>
     [CliOption("--ota-mechanism")]
     public AwsIotManagedIntegrationsCreateOtaTaskOtaMechanism? OtaMechanism { get; set; }
-
-    [CliOption("--ota-type")]
-    public string? OtaType { get; set; }
 
     /// <summary>
     /// The query string to add things to the thing group.
@@ -96,5 +140,21 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

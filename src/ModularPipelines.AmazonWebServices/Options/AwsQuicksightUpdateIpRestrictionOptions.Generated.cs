@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-ip-restriction")]
-public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions
+public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule , Vp- cIdRestrictionRule , or VpcEndpointIdRestrictionRule . To use this op- eration, you must provide the entire map of rules. You can use the De- scribeIpRestriction operation to get the current rule map. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the IP rules. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    public AwsQuicksightUpdateIpRestrictionOptions(
+        string AwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+    }
+
+    private AwsQuicksightUpdateIpRestrictionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateIpRestrictionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateIpRestrictionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the IP rules. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
     /// <summary>
     /// A map that describes the updated IP rules with CIDR ranges and de- scriptions. key -&gt; (string) Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[1-9]))$ value -&gt; (string) Constraints: o min: 0 o max: 150 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -43,7 +80,10 @@ public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions
     [CliOption("--vpc-endpoint-id-restriction-rule-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VpcEndpointIdRestrictionRuleMap { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// A value that specifies whether IP rules are turned on.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -51,5 +91,21 @@ public record AwsQuicksightUpdateIpRestrictionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

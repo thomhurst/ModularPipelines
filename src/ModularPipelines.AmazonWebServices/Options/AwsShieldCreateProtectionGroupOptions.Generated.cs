@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "create-protection-group")]
-public record AwsShieldCreateProtectionGroupOptions : AwsOptions
+public record AwsShieldCreateProtectionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProtectionGroupId">The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
+    /// <param name="Aggregation">Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. o Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. o Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. o Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: o SUM o MEAN o MAX</param>
+    /// <param name="Pattern">The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: o ALL o ARBITRARY o BY_RESOURCE_TYPE</param>
+    public AwsShieldCreateProtectionGroupOptions(
+        string ProtectionGroupId,
+        AwsShieldCreateProtectionGroupAggregation Aggregation,
+        AwsShieldCreateProtectionGroupPattern Pattern
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectionGroupId);
+        this.ProtectionGroupId = ProtectionGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Aggregation);
+        this.Aggregation = Aggregation;
+        global::System.ArgumentNullException.ThrowIfNull(Pattern);
+        this.Pattern = Pattern;
+    }
+
+    private AwsShieldCreateProtectionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldCreateProtectionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldCreateProtectionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the protection group. You use this to identify the pro- tection group in lists and to manage the protection group, for exam- ple to update, delete, or describe it. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// </summary>
     [CliOption("--protection-group-id")]
-    public string? ProtectionGroupId { get; set; }
+    public string? ProtectionGroupId { get; private init; }
 
+    /// <summary>
+    /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events. o Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically. o Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers. o Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include Amazon CloudFront and origin resources for CloudFront distributions. Possible values: o SUM o MEAN o MAX
+    /// </summary>
     [CliOption("--aggregation")]
-    public string? Aggregation { get; set; }
+    public AwsShieldCreateProtectionGroupAggregation? Aggregation { get; private init; }
 
+    /// <summary>
+    /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. Possible values: o ALL o ARBITRARY o BY_RESOURCE_TYPE
+    /// </summary>
     [CliOption("--pattern")]
-    public string? Pattern { get; set; }
+    public AwsShieldCreateProtectionGroupPattern? Pattern { get; private init; }
 
     /// <summary>
     /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting. Possible values: o CLOUDFRONT_DISTRIBUTION o ROUTE_53_HOSTED_ZONE o ELASTIC_IP_ALLOCATION o CLASSIC_LOAD_BALANCER o APPLICATION_LOAD_BALANCER o GLOBAL_ACCELERATOR
@@ -54,5 +105,21 @@ public record AwsShieldCreateProtectionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

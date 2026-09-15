@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "describe-import-task-batches")]
-public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions
+public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets detailed information about the individual batches within an import task, including their status and any error messages. For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImportId">The ID of the import task to get batch information for. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+</param>
+    public AwsLogsDescribeImportTaskBatchesOptions(
+        string ImportId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportId);
+        this.ImportId = ImportId;
+    }
+
+    private AwsLogsDescribeImportTaskBatchesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDescribeImportTaskBatchesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDescribeImportTaskBatchesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the import task to get batch information for. Constraints: o min: 1 o max: 256 o pattern: [\-a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--import-id")]
-    public string? ImportId { get; set; }
+    public string? ImportId { get; private init; }
 
     /// <summary>
     /// Optional filter to list import batches by their status. Accepts mul- tiple status values: IN_PROGRESS, CANCELLED, COMPLETED and FAILED. (string) Possible values: o IN_PROGRESS o CANCELLED o COMPLETED o FAILED Syntax: "string" "string" ...
@@ -49,5 +86,21 @@ public record AwsLogsDescribeImportTaskBatchesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

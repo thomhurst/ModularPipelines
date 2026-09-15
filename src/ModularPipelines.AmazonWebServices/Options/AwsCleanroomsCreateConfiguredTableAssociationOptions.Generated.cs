@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-configured-table-association")]
-public record AwsCleanroomsCreateConfiguredTableAssociationOptions : AwsOptions
+public record AwsCleanroomsCreateConfiguredTableAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configured table association. A configured table association links a configured table with a collaboration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the configured table association. This name is used to query the underlying configured table. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?</param>
+    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. The configured table is associated to the collaboration that this membership belongs to. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredTableIdentifier">A unique identifier for the configured table to be associated to. Currently accepts a configured table ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="RoleArn">The service will assume this role to access catalog metadata and query the table. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+</param>
+    public AwsCleanroomsCreateConfiguredTableAssociationOptions(
+        string Name,
+        string MembershipIdentifier,
+        string ConfiguredTableIdentifier,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredTableIdentifier);
+        this.ConfiguredTableIdentifier = ConfiguredTableIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsCleanroomsCreateConfiguredTableAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateConfiguredTableAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateConfiguredTableAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configured table association. This name is used to query the underlying configured table. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for one of your memberships for a collaboration. The configured table is associated to the collaboration that this membership belongs to. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the configured table to be associated to. Currently accepts a configured table ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--configured-table-identifier")]
+    public string? ConfiguredTableIdentifier { get; private init; }
+
+    /// <summary>
+    /// The service will assume this role to access catalog metadata and query the table. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A description for the configured table association. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
-
-    [CliOption("--configured-table-identifier")]
-    public string? ConfiguredTableIdentifier { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +109,21 @@ public record AwsCleanroomsCreateConfiguredTableAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

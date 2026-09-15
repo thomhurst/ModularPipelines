@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-notification-content")]
-public record AwsConnectUpdateNotificationContentOptions : AwsOptions
+public record AwsConnectUpdateNotificationContentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the localized content of an existing notification. This opera- tion applies to all users for whom the notification was sent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="NotificationId">The unique identifier for the notification to update. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Content">The updated localized content of the notification. A map of locale codes and values. Maximum 500 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 characters. Constraints: o min: 0 o max: 500 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
+    public AwsConnectUpdateNotificationContentOptions(
+        string InstanceId,
+        string NotificationId,
+        IReadOnlyList<KeyValue> Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationId);
+        this.NotificationId = NotificationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Content);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Content));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Content));
+            }
+
+            Content = materialized;
+        }
+        this.Content = Content;
+    }
+
+    private AwsConnectUpdateNotificationContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateNotificationContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateNotificationContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the notification to update. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--notification-id")]
-    public string? NotificationId { get; set; }
+    public string? NotificationId { get; private init; }
 
+    /// <summary>
+    /// The updated localized content of the notification. A map of locale codes and values. Maximum 500 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 characters. Constraints: o min: 0 o max: 500 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
+    /// </summary>
     [CliOption("--content", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Content { get; set; }
+    public IReadOnlyList<KeyValue>? Content { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

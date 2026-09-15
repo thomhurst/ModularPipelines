@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "start-experiment-run")]
-public record AwsAppConfigStartExperimentRunOptions : AwsOptions
+public record AwsAppConfigStartExperimentRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experi- ment definition. NOTE: Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigStartExperimentRunOptions(
+        string ApplicationIdentifier,
+        string ExperimentDefinitionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentDefinitionIdentifier);
+        this.ExperimentDefinitionIdentifier = ExperimentDefinitionIdentifier;
+    }
+
+    private AwsAppConfigStartExperimentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigStartExperimentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigStartExperimentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--application-identifier")]
+    public string? ApplicationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--experiment-definition-identifier")]
-    public string? ExperimentDefinitionIdentifier { get; set; }
+    public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
     /// A description of this experiment run. Constraints: o min: 0 o max: 1024
@@ -63,5 +107,21 @@ public record AwsAppConfigStartExperimentRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

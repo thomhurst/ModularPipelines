@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "add-custom-routing-endpoints")]
-public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions
+public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-configurations", GroupValues = true)]
-    public IEnumerable<string>? EndpointConfigurations { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate a virtual private cloud (VPC) subnet endpoint with your cus- tom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, ...
+    /// </summary>
+    /// <param name="EndpointConfigurations">The list of endpoint objects to add to a custom routing accelerator. Constraints: o min: 1 o max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorAddCustomRoutingEndpointsOptions(
+        IEnumerable<string> EndpointConfigurations,
+        string EndpointGroupArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndpointConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndpointConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndpointConfigurations));
+            }
+
+            EndpointConfigurations = materialized;
+        }
+        this.EndpointConfigurations = EndpointConfigurations;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointGroupArn);
+        this.EndpointGroupArn = EndpointGroupArn;
+    }
+
+    private AwsGlobalacceleratorAddCustomRoutingEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorAddCustomRoutingEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorAddCustomRoutingEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of endpoint objects to add to a custom routing accelerator. Constraints: o min: 1 o max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--endpoint-configurations", GroupValues = true)]
+    public IEnumerable<string>? EndpointConfigurations { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: o max: 255
+    /// </summary>
     [CliOption("--endpoint-group-arn")]
-    public string? EndpointGroupArn { get; set; }
+    public string? EndpointGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

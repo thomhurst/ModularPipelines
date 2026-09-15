@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,25 +22,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-rule")]
-public record AwsVpcLatticeCreateRuleOptions : AwsOptions
+public record AwsVpcLatticeCreateRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more condi- tions. For more information, see Listener rules in the Amazon VPC Lat- tice User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ListenerIdentifier">The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))</param>
+    /// <param name="Name">The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 63 o pattern: (?!rule-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Match">The rule match. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpMatch. httpMatch -&gt; (structure) The HTTP criteria that a rule must match. method -&gt; (string) The HTTP method type. Constraints: o min: 0 o max: 16 pathMatch -&gt; (structure) The path match. match -&gt; (tagged union structure) [required] The type of path match. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: exact, prefix. exact -&gt; (string) An exact match of the path. Constraints: o min: 1 o max: 200 o pattern: /[a-zA-Z0-9@:%_+.~#?&amp;/=-]* prefix -&gt; (string) A prefix match of the path. Constraints: o min: 1 o max: 200 o pattern: /[a-zA-Z0-9@:%_+.~#?&amp;/=-]* caseSensitive -&gt; (boolean) Indicates whether the match is case sensitive. headerMatches -&gt; (list) The header matches. Matches incoming requests with rule based on request header value before applying rule action. Constraints: o min: 1 o max: 5 (structure) Describes the constraints for a header match. Matches in- coming requests with rule based on request header value before applying rule action. name -&gt; (string) [required] The name of the header. Constraints: o min: 1 o max: 100 match -&gt; (tagged union structure) [required] The header match type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: exact, pre- fix, contains. exact -&gt; (string) An exact type match. Constraints: o min: 1 o max: 200 prefix -&gt; (string) A prefix type match. Matches the value with the prefix. Constraints: o min: 1 o max: 200 contains -&gt; (string) A contains type match. Constraints: o min: 1 o max: 200 caseSensitive -&gt; (boolean) Indicates whether the match is case sensitive. JSON Syntax: { "httpMatch": { "method": "string", "pathMatch": { "match": { "exact": "string", "prefix": "string" }, "caseSensitive": true|false }, "headerMatches": [ { "name": "string", "match": { "exact": "string", "prefix": "string", "contains": "string" }, "caseSensitive": true|false } ... ] } }</param>
+    /// <param name="Priority">The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority. Constraints: o min: 1 o max: 2000</param>
+    /// <param name="Action">The action for the default rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: forward, fixedResponse. forward -&gt; (structure) The forward action. Traffic that matches the rule is forwarded to the specified target groups. targetGroups -&gt; (list) [required] The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selec- tion of each target group. This means that requests are dis- tributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group. Constraints: o min: 1 o max: 10 (structure) Describes the weight of a target group. targetGroupIdentifier -&gt; (string) [required] The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:target- group/tg-[0-9a-z]{17})) weight -&gt; (integer) Only required if you specify multiple target groups for a forward action. The weight determines how re- quests are distributed to the target group. For exam- ple, if you specify two target groups, each with a weight of 10, each target group receives half the re- quests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100. Constraints: o min: 0 o max: 999 fixedResponse -&gt; (structure) The fixed response action. The rule returns a custom HTTP re- sponse. statusCode -&gt; (integer) [required] The HTTP response code. Only 404 and 500 status codes are supported. Constraints: o min: 100 o max: 599 JSON Syntax: { "forward": { "targetGroups": [ { "targetGroupIdentifier": "string", "weight": integer } ... ] }, "fixedResponse": { "statusCode": integer } }</param>
+    public AwsVpcLatticeCreateRuleOptions(
+        string ServiceIdentifier,
+        string ListenerIdentifier,
+        string Name,
+        string Match,
+        int Priority,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceIdentifier);
+        this.ServiceIdentifier = ServiceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ListenerIdentifier);
+        this.ListenerIdentifier = ListenerIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Match);
+        this.Match = Match;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsVpcLatticeCreateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--service-identifier")]
-    public string? ServiceIdentifier { get; set; }
+    public string? ServiceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID or ARN of the listener. Constraints: o min: 20 o max: 2048 o pattern: ((listener-[0-9a-z]{17})|(^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}/listener/lis- tener-[0-9a-z]{17}$))
+    /// </summary>
     [CliOption("--listener-identifier")]
-    public string? ListenerIdentifier { get; set; }
+    public string? ListenerIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 63 o pattern: (?!rule-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The rule match. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpMatch. httpMatch -&gt; (structure) The HTTP criteria that a rule must match. method -&gt; (string) The HTTP method type. Constraints: o min: 0 o max: 16 pathMatch -&gt; (structure) The path match. match -&gt; (tagged union structure) [required] The type of path match. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: exact, prefix. exact -&gt; (string) An exact match of the path. Constraints: o min: 1 o max: 200 o pattern: /[a-zA-Z0-9@:%_+.~#?&amp;/=-]* prefix -&gt; (string) A prefix match of the path. Constraints: o min: 1 o max: 200 o pattern: /[a-zA-Z0-9@:%_+.~#?&amp;/=-]* caseSensitive -&gt; (boolean) Indicates whether the match is case sensitive. headerMatches -&gt; (list) The header matches. Matches incoming requests with rule based on request header value before applying rule action. Constraints: o min: 1 o max: 5 (structure) Describes the constraints for a header match. Matches in- coming requests with rule based on request header value before applying rule action. name -&gt; (string) [required] The name of the header. Constraints: o min: 1 o max: 100 match -&gt; (tagged union structure) [required] The header match type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: exact, pre- fix, contains. exact -&gt; (string) An exact type match. Constraints: o min: 1 o max: 200 prefix -&gt; (string) A prefix type match. Matches the value with the prefix. Constraints: o min: 1 o max: 200 contains -&gt; (string) A contains type match. Constraints: o min: 1 o max: 200 caseSensitive -&gt; (boolean) Indicates whether the match is case sensitive. JSON Syntax: { "httpMatch": { "method": "string", "pathMatch": { "match": { "exact": "string", "prefix": "string" }, "caseSensitive": true|false }, "headerMatches": [ { "name": "string", "match": { "exact": "string", "prefix": "string", "contains": "string" }, "caseSensitive": true|false } ... ] } }
+    /// </summary>
     [CliOption("--match")]
-    public string? Match { get; set; }
+    public string? Match { get; private init; }
 
+    /// <summary>
+    /// The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority. Constraints: o min: 1 o max: 2000
+    /// </summary>
     [CliOption("--priority")]
-    public int? Priority { get; set; }
+    public int? Priority { get; private init; }
 
+    /// <summary>
+    /// The action for the default rule. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: forward, fixedResponse. forward -&gt; (structure) The forward action. Traffic that matches the rule is forwarded to the specified target groups. targetGroups -&gt; (list) [required] The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selec- tion of each target group. This means that requests are dis- tributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group. Constraints: o min: 1 o max: 10 (structure) Describes the weight of a target group. targetGroupIdentifier -&gt; (string) [required] The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:target- group/tg-[0-9a-z]{17})) weight -&gt; (integer) Only required if you specify multiple target groups for a forward action. The weight determines how re- quests are distributed to the target group. For exam- ple, if you specify two target groups, each with a weight of 10, each target group receives half the re- quests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100. Constraints: o min: 0 o max: 999 fixedResponse -&gt; (structure) The fixed response action. The rule returns a custom HTTP re- sponse. statusCode -&gt; (integer) [required] The HTTP response code. Only 404 and 500 status codes are supported. Constraints: o min: 100 o max: 599 JSON Syntax: { "forward": { "targetGroups": [ { "targetGroupIdentifier": "string", "weight": integer } ... ] }, "fixedResponse": { "statusCode": integer } }
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
@@ -59,5 +130,21 @@ public record AwsVpcLatticeCreateRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

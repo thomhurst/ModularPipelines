@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr-public", "create-repository")]
-public record AwsEcrPublicCreateRepositoryOptions : AwsOptions
+public record AwsEcrPublicCreateRepositoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a repository in a public registry. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/ng- inx-web-app ). Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    public AwsEcrPublicCreateRepositoryOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsEcrPublicCreateRepositoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPublicCreateRepositoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPublicCreateRepositoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/ng- inx-web-app ). Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
     /// <summary>
     /// The details about the repository that are publicly visible in the Amazon ECR Public Gallery. description -&gt; (string) A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery. Constraints: o max: 1024 architectures -&gt; (list) The system architecture that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported architectures appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be re- trieved using the API but isn't discoverable in the Amazon ECR Public Gallery. o ARM o ARM 64 o x86 o x86-64 Constraints: o max: 50 (string) Constraints: o min: 1 o max: 50 operatingSystems -&gt; (list) The operating systems that the images in the repository are com- patible with. On the Amazon ECR Public Gallery, the following supported operating systems appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be re- trieved using the API but isn't discoverable in the Amazon ECR Public Gallery. o Linux o Windows Constraints: o max: 50 (string) Constraints: o min: 1 o max: 50 logoImageBlob -&gt; (blob) The base64-encoded repository logo payload. NOTE: The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: o min: 0 o max: 512000 aboutText -&gt; (string) A detailed description of the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The text must be in markdown format. Constraints: o max: 25600 usageText -&gt; (string) Detailed information about how to use the contents of the repos- itory. It's publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and addi- tional usage details for users of the repository. The text must be in markdown format. Constraints: o max: 25600 Shorthand Syntax: description=string,architectures=string,string,operatingSystems=string,string,logoImageBlob=blob,aboutText=string,usageText=string JSON Syntax: { "description": "string", "architectures": ["string", ...], "operatingSystems": ["string", ...], "logoImageBlob": blob, "aboutText": "string", "usageText": "string" }
@@ -41,5 +78,21 @@ public record AwsEcrPublicCreateRepositoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

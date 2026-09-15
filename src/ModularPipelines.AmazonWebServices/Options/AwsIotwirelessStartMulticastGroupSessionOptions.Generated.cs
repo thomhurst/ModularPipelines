@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "start-multicast-group-session")]
-public record AwsIotwirelessStartMulticastGroupSessionOptions : AwsOptions
+public record AwsIotwirelessStartMulticastGroupSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a multicast group session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the multicast group. Constraints: o max: 256</param>
+    /// <param name="Lorawan">The LoRaWAN information used with the multicast session. DlDr -&gt; (integer) Downlink data rate. Constraints: o min: 0 o max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: o min: 100000000 o max: 1000000000 SessionStartTime -&gt; (timestamp) Timestamp of when the multicast group session is to start. SessionTimeout -&gt; (integer) How long before a multicast group session is to timeout. NOTE: We recommend that you provide a timeout value that is a power-of-two (such as 64, 128, 256). If a non-power-of-two value is provided, it will automatically be rounded up to the next supported power-of-two within the allowed range. Constraints: o min: 60 o max: 172800 PingSlotPeriod -&gt; (integer) The PingSlotPeriod value. Constraints: o min: 32 o max: 4096 Shorthand Syntax: DlDr=integer,DlFreq=integer,SessionStartTime=timestamp,SessionTimeout=integer,PingSlotPeriod=integer JSON Syntax: { "DlDr": integer, "DlFreq": integer, "SessionStartTime": timestamp, "SessionTimeout": integer, "PingSlotPeriod": integer }</param>
+    public AwsIotwirelessStartMulticastGroupSessionOptions(
+        string Id,
+        string Lorawan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(Lorawan);
+        this.Lorawan = Lorawan;
+    }
+
+    private AwsIotwirelessStartMulticastGroupSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessStartMulticastGroupSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessStartMulticastGroupSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the multicast group. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The LoRaWAN information used with the multicast session. DlDr -&gt; (integer) Downlink data rate. Constraints: o min: 0 o max: 15 DlFreq -&gt; (integer) Downlink frequency. Constraints: o min: 100000000 o max: 1000000000 SessionStartTime -&gt; (timestamp) Timestamp of when the multicast group session is to start. SessionTimeout -&gt; (integer) How long before a multicast group session is to timeout. NOTE: We recommend that you provide a timeout value that is a power-of-two (such as 64, 128, 256). If a non-power-of-two value is provided, it will automatically be rounded up to the next supported power-of-two within the allowed range. Constraints: o min: 60 o max: 172800 PingSlotPeriod -&gt; (integer) The PingSlotPeriod value. Constraints: o min: 32 o max: 4096 Shorthand Syntax: DlDr=integer,DlFreq=integer,SessionStartTime=timestamp,SessionTimeout=integer,PingSlotPeriod=integer JSON Syntax: { "DlDr": integer, "DlFreq": integer, "SessionStartTime": timestamp, "SessionTimeout": integer, "PingSlotPeriod": integer }
+    /// </summary>
     [CliOption("--lorawan")]
-    public string? Lorawan { get; set; }
+    public string? Lorawan { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

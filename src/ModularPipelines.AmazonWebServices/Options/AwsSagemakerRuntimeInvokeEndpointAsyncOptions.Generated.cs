@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-runtime", "invoke-endpoint-async")]
-public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions : AwsOptions
+public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get infer- ences from the model hosted at the specified endpoint in an asynchro- nous manner. Inference requests sent to this API are enqueued for asynchronous pro- cessing. The processing of the inference request may or may not com- plete before you receive a response from this API. The response from this API will not contain the result of the inference request but con- ...
+    /// </summary>
+    /// <param name="EndpointName">The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    public AwsSagemakerRuntimeInvokeEndpointAsyncOptions(
+        string EndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+    }
+
+    private AwsSagemakerRuntimeInvokeEndpointAsyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerRuntimeInvokeEndpointAsyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerRuntimeInvokeEndpointAsyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
 
     /// <summary>
     /// The MIME type of the input data in the request body. Constraints: o max: 1024 o pattern: \p{ASCII}*
@@ -89,5 +126,21 @@ public record AwsSagemakerRuntimeInvokeEndpointAsyncOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

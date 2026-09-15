@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-patch-baseline-for-patch-group")]
-public record AwsSsmGetPatchBaselineForPatchGroupOptions : AwsOptions
+public record AwsSsmGetPatchBaselineForPatchGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the patch baseline that should be used for the specified patch group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PatchGroup">The name of the patch group whose patch baseline should be re- trieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    public AwsSsmGetPatchBaselineForPatchGroupOptions(
+        string PatchGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchGroup);
+        this.PatchGroup = PatchGroup;
+    }
+
+    private AwsSsmGetPatchBaselineForPatchGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetPatchBaselineForPatchGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetPatchBaselineForPatchGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the patch group whose patch baseline should be re- trieved. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// </summary>
     [CliOption("--patch-group")]
-    public string? PatchGroup { get; set; }
+    public string? PatchGroup { get; private init; }
 
     /// <summary>
     /// Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS . Possible values: o WINDOWS o AMAZON_LINUX o AMAZON_LINUX_2 o AMAZON_LINUX_2022 o UBUNTU o REDHAT_ENTERPRISE_LINUX o SUSE o CENTOS o ORACLE_LINUX o DEBIAN o MACOS o RASPBIAN o ROCKY_LINUX o ALMA_LINUX o AMAZON_LINUX_2023
     /// </summary>
     [CliOption("--operating-system")]
-    public string? OperatingSystem { get; set; }
+    public AwsSsmGetPatchBaselineForPatchGroupOperatingSystem? OperatingSystem { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,31 +20,124 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-vpc-connection")]
-public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions
+public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new VPC connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="VpcConnectionId">The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000 o pattern: [\w\-]+</param>
+    /// <param name="Name">The display name for the VPC connection. Constraints: o min: 1 o max: 128</param>
+    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="RoleArn">The IAM role to associate with the VPC connection. Constraints: o min: 20 o max: 2048</param>
+    public AwsQuicksightCreateVpcConnectionOptions(
+        string AwsAccountId,
+        string VpcConnectionId,
+        string Name,
+        IEnumerable<string> SubnetIds,
+        IEnumerable<string> SecurityGroupIds,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConnectionId);
+        this.VpcConnectionId = VpcConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsQuicksightCreateVpcConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateVpcConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateVpcConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the account where you want to create a new VPC connection. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the VPC connection that you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--vpc-connection-id")]
-    public string? VpcConnectionId { get; set; }
+    public string? VpcConnectionId { get; private init; }
 
+    /// <summary>
+    /// The display name for the VPC connection. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
+    /// <summary>
+    /// A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
+
+    /// <summary>
+    /// The IAM role to associate with the VPC connection. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A list of IP addresses of DNS resolver endpoints for the VPC connec- tion. Constraints: o max: 15 (string) Constraints: o min: 7 o max: 15 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-resolvers", GroupValues = true)]
     public IEnumerable<string>? DnsResolvers { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs for the resource tag or tags assigned to the VPC connection. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -56,5 +150,21 @@ public record AwsQuicksightCreateVpcConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

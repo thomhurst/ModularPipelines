@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "batch-associate-resources-to-custom-line-item")]
-public record AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions : AwsOptions
+public record AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a batch of resources to a percentage custom line item. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetArn">A percentage custom line item ARN to associate the resources to. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="ResourceArns">A list containing the ARNs of the resources to be associated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(custom- lineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...</param>
+    public AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions(
+        string TargetArn,
+        IEnumerable<string> ResourceArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceArns));
+            }
+
+            ResourceArns = materialized;
+        }
+        this.ResourceArns = ResourceArns;
+    }
+
+    private AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A percentage custom line item ARN to associate the resources to. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--target-arn")]
+    public string? TargetArn { get; private init; }
+
+    /// <summary>
+    /// A list containing the ARNs of the resources to be associated. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:(custom- lineitem|billinggroup)/)?[a-zA-Z0-9]{10,12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
-    public IEnumerable<string>? ResourceArns { get; set; }
+    public IEnumerable<string>? ResourceArns { get; private init; }
 
     /// <summary>
     /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
@@ -38,5 +93,21 @@ public record AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

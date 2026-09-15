@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "send-workflow-step-action")]
-public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions
+public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StepExecutionId">Uniquely identifies the workflow step that sent the step action. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image build version associated with the workflow step execution. This value must match the image that owns the waiting step. If the ARN does not correspond to the image running the workflow, then the request fails with a validation error. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="Action">The action to perform on the paused workflow step. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP</param>
+    public AwsImagebuilderSendWorkflowStepActionOptions(
+        string StepExecutionId,
+        string ImageBuildVersionArn,
+        AwsImagebuilderSendWorkflowStepActionAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StepExecutionId);
+        this.StepExecutionId = StepExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(ImageBuildVersionArn);
+        this.ImageBuildVersionArn = ImageBuildVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsImagebuilderSendWorkflowStepActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderSendWorkflowStepActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderSendWorkflowStepActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Uniquely identifies the workflow step that sent the step action. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--step-execution-id")]
-    public string? StepExecutionId { get; set; }
+    public string? StepExecutionId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image build version associated with the workflow step execution. This value must match the image that owns the waiting step. If the ARN does not correspond to the image running the workflow, then the request fails with a validation error. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// </summary>
     [CliOption("--image-build-version-arn")]
-    public string? ImageBuildVersionArn { get; set; }
+    public string? ImageBuildVersionArn { get; private init; }
 
+    /// <summary>
+    /// The action to perform on the paused workflow step. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsImagebuilderSendWorkflowStepActionAction? Action { get; private init; }
 
     /// <summary>
     /// The reason for the action. This value is stored with the step execu- tion record and is accessible in subsequent workflow steps via step output references. Constraints: o min: 1 o max: 1024
@@ -38,7 +90,7 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions
     public string? Reason { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -49,5 +101,21 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

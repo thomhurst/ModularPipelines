@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "list-resource-snapshots")]
-public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions
+public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a list of resource view snapshots based on specified crite- ria. This operation supports various use cases, including: o Fetching all snapshots associated with an engagement. o Retrieving snapshots of a specific resource type within an engage- ment. o Obtaining snapshots for a particular resource using a specified tem- plate. o Accessing the latest snapshot of a resource within an engagement. o Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapsho...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="EngagementIdentifier">The unique identifier of the engagement associated with the snap- shots. Constraints: o pattern: eng-[0-9a-z]{14}</param>
+    public AwsPartnercentralSellingListResourceSnapshotsOptions(
+        string Catalog,
+        string EngagementIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(EngagementIdentifier);
+        this.EngagementIdentifier = EngagementIdentifier;
+    }
+
+    private AwsPartnercentralSellingListResourceSnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingListResourceSnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingListResourceSnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog related to the request. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the engagement associated with the snap- shots. Constraints: o pattern: eng-[0-9a-z]{14}
+    /// </summary>
     [CliOption("--engagement-identifier")]
-    public string? EngagementIdentifier { get; set; }
+    public string? EngagementIdentifier { get; private init; }
 
     /// <summary>
     /// Filters the response to include only snapshots of the specified re- source type. Possible values: o Opportunity
@@ -77,5 +121,21 @@ public record AwsPartnercentralSellingListResourceSnapshotsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

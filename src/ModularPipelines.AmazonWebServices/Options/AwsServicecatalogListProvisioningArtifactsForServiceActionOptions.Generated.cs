@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "list-provisioning-artifacts-for-service-action")]
-public record AwsServicecatalogListProvisioningArtifactsForServiceActionOptions : AwsOptions
+public record AwsServicecatalogListProvisioningArtifactsForServiceActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all provisioning artifacts (also known as versions) for the spec- ified self-service action. See also: AWS API Documentation list-provisioning-artifacts-for-service-action is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the ...
+    /// </summary>
+    /// <param name="ServiceActionId">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogListProvisioningArtifactsForServiceActionOptions(
+        string ServiceActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceActionId);
+        this.ServiceActionId = ServiceActionId;
+    }
+
+    private AwsServicecatalogListProvisioningArtifactsForServiceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogListProvisioningArtifactsForServiceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogListProvisioningArtifactsForServiceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--service-action-id")]
-    public string? ServiceActionId { get; set; }
+    public string? ServiceActionId { get; private init; }
 
     /// <summary>
     /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 20
@@ -55,5 +92,21 @@ public record AwsServicecatalogListProvisioningArtifactsForServiceActionOptions 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

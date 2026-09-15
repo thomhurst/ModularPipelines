@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "delete-custom-action-type")]
-public record AwsCodepipelineDeleteCustomActionTypeOptions : AwsOptions
+public record AwsCodepipelineDeleteCustomActionTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. WARNING: To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field. See als...
+    /// </summary>
+    /// <param name="Category">The category of the custom action that you want to delete, such as source or deploy. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute</param>
+    /// <param name="Provider">The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+</param>
+    /// <param name="ActionVersion">The version of the custom action to delete. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+</param>
+    public AwsCodepipelineDeleteCustomActionTypeOptions(
+        AwsCodepipelineDeleteCustomActionTypeCategory Category,
+        string Provider,
+        string ActionVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Category);
+        this.Category = Category;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+        global::System.ArgumentNullException.ThrowIfNull(ActionVersion);
+        this.ActionVersion = ActionVersion;
+    }
+
+    private AwsCodepipelineDeleteCustomActionTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineDeleteCustomActionTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineDeleteCustomActionTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The category of the custom action that you want to delete, such as source or deploy. Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute
+    /// </summary>
     [CliOption("--category")]
-    public string? Category { get; set; }
+    public AwsCodepipelineDeleteCustomActionTypeCategory? Category { get; private init; }
 
+    /// <summary>
+    /// The provider of the service used in the custom action, such as Cod- eDeploy. Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+
+    /// </summary>
     [CliOption("--provider")]
-    public string? Provider { get; set; }
+    public string? Provider { get; private init; }
 
+    /// <summary>
+    /// The version of the custom action to delete. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+
+    /// </summary>
     [CliOption("--action-version")]
-    public string? ActionVersion { get; set; }
+    public string? ActionVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

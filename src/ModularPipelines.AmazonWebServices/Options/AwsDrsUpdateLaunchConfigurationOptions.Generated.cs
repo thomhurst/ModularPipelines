@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-launch-configuration")]
-public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
+public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a LaunchConfiguration by Source Server ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsDrsUpdateLaunchConfigurationOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsDrsUpdateLaunchConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateLaunchConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateLaunchConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    public string? SourceServerId { get; private init; }
 
     /// <summary>
     /// The name of the launch configuration. Constraints: o min: 0 o max: 128
@@ -43,10 +80,16 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Whether we want to copy the tags of the Source Server to the EC2 ma- chine of the Recovery Instance.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -55,7 +98,10 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--licensing")]
     public string? Licensing { get; set; }
 
-    [CliFlag("--post-launch-enabled")]
+    /// <summary>
+    /// Whether we want to enable post-launch actions for the Source Server.
+    /// </summary>
+    [CliFlag("--post-launch-enabled", NegatedName = "--no-post-launch-enabled")]
     public bool? PostLaunchEnabled { get; set; }
 
     /// <summary>
@@ -75,5 +121,21 @@ public record AwsDrsUpdateLaunchConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

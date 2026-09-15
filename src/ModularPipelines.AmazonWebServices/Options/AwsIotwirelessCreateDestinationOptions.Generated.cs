@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "create-destination")]
-public record AwsIotwirelessCreateDestinationOptions : AwsOptions
+public record AwsIotwirelessCreateDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new destination that maps a device message to an AWS IoT rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the new resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ExpressionType">The type of value in Expression . Possible values: o RuleName o MqttTopic</param>
+    /// <param name="Expression">The rule name or topic rule to send messages to. Constraints: o max: 2048</param>
+    /// <param name="RoleArn">The ARN of the IAM Role that authorizes the destination. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotwirelessCreateDestinationOptions(
+        string Name,
+        AwsIotwirelessCreateDestinationExpressionType ExpressionType,
+        string Expression,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ExpressionType);
+        this.ExpressionType = ExpressionType;
+        global::System.ArgumentNullException.ThrowIfNull(Expression);
+        this.Expression = Expression;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotwirelessCreateDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessCreateDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessCreateDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of value in Expression . Possible values: o RuleName o MqttTopic
+    /// </summary>
     [CliOption("--expression-type")]
-    public string? ExpressionType { get; set; }
+    public AwsIotwirelessCreateDestinationExpressionType? ExpressionType { get; private init; }
 
+    /// <summary>
+    /// The rule name or topic rule to send messages to. Constraints: o max: 2048
+    /// </summary>
     [CliOption("--expression")]
-    public string? Expression { get; set; }
+    public string? Expression { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM Role that authorizes the destination. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The description of the new resource. Constraints: o max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The tags to attach to the new destination. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -58,5 +117,21 @@ public record AwsIotwirelessCreateDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

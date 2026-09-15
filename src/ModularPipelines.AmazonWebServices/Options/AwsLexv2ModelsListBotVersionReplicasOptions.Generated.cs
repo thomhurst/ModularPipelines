@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-bot-version-replicas")]
-public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions
+public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Contains information about all the versions replication statuses ap- plicable for Global Resiliency. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The request for the unique ID in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ReplicaRegion">The request for the region used in the list of replicated bots. Constraints: o min: 2 o max: 25</param>
+    public AwsLexv2ModelsListBotVersionReplicasOptions(
+        string BotId,
+        string ReplicaRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicaRegion);
+        this.ReplicaRegion = ReplicaRegion;
+    }
+
+    private AwsLexv2ModelsListBotVersionReplicasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListBotVersionReplicasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListBotVersionReplicasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The request for the unique ID in the list of replicated bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--bot-id")]
+    public string? BotId { get; private init; }
+
+    /// <summary>
+    /// The request for the region used in the list of replicated bots. Constraints: o min: 2 o max: 25
+    /// </summary>
     [CliOption("--replica-region")]
-    public string? ReplicaRegion { get; set; }
+    public string? ReplicaRegion { get; private init; }
 
     /// <summary>
     /// The maximum results given in the list of replicated bots. Constraints: o min: 1 o max: 1000
@@ -52,5 +96,21 @@ public record AwsLexv2ModelsListBotVersionReplicasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

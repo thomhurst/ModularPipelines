@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create-configuration-profile")]
-public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions
+public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a configuration profile, which is information that enables App- Config to access the configuration source. Valid configuration sources include the following: o Configuration data in YAML, JSON, and other formats stored in the Ap- pConfig hosted configuration store o Configuration data stored as objects in an Amazon Simple Storage Ser- vice (Amazon S3) bucket o Pipelines stored in CodePipeline o Secrets stored in Secrets Manager o Standard and secure string parameters stored in Amazon Web...
+    /// </summary>
+    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Name">A name for the configuration profile. Constraints: o min: 1 o max: 128</param>
+    /// <param name="LocationUri">A URI to locate the configuration. You can specify the following: o For the AppConfig hosted configuration store and for feature flags, specify hosted . o For an Amazon Web Services Systems Manager Parameter Store parame- ter, specify either the parameter name in the format ssm-parame- ter://&lt;parameter name&gt; or the ARN. o For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. o For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. o For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json o For an SSM document, specify either the document name in the for- mat ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigCreateConfigurationProfileOptions(
+        string ApplicationId,
+        string Name,
+        string LocationUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(LocationUri);
+        this.LocationUri = LocationUri;
+    }
+
+    private AwsAppConfigCreateConfigurationProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigCreateConfigurationProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigCreateConfigurationProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// A name for the configuration profile. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A URI to locate the configuration. You can specify the following: o For the AppConfig hosted configuration store and for feature flags, specify hosted . o For an Amazon Web Services Systems Manager Parameter Store parame- ter, specify either the parameter name in the format ssm-parame- ter://&lt;parameter name&gt; or the ARN. o For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline ://&lt;pipeline name&gt;. o For an Secrets Manager secret, specify the URI in the following format: secretsmanager ://&lt;secret name&gt;. o For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json o For an SSM document, specify either the document name in the for- mat ssm-document://&lt;document name&gt; or the Amazon Resource Name (ARN). Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--location-uri")]
+    public string? LocationUri { get; private init; }
 
     /// <summary>
     /// A description of the configuration profile. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--location-uri")]
-    public string? LocationUri { get; set; }
 
     /// <summary>
     /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri . WARNING: A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration. Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$
@@ -72,5 +123,21 @@ public record AwsAppConfigCreateConfigurationProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

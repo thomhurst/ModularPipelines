@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "update-security-config")]
-public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions
+public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100</param>
+    /// <param name="ConfigVersion">The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?</param>
+    public AwsOpensearchserverlessUpdateSecurityConfigOptions(
+        string Id,
+        string ConfigVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigVersion);
+        this.ConfigVersion = ConfigVersion;
+    }
+
+    private AwsOpensearchserverlessUpdateSecurityConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessUpdateSecurityConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessUpdateSecurityConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?
+    /// </summary>
     [CliOption("--config-version")]
-    public string? ConfigVersion { get; set; }
+    public string? ConfigVersion { get; private init; }
 
     /// <summary>
     /// A description of the security configuration. Constraints: o min: 1 o max: 1000
@@ -64,5 +108,21 @@ public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

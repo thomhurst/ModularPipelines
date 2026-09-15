@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "update-firewall-domains")]
-public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions
+public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the firewall domain list from an array of domain specifica- tions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallDomainListId">The ID of the domain list whose domains you want to update. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Operation">What you want DNS Firewall to do with the domains that you are pro- viding: o ADD - Add the domains to the ones that are already in the domain list. o REMOVE - Search the domain list for the domains and remove them from the list. o REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: o ADD o REMOVE o REPLACE</param>
+    /// <param name="Domains">A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the fol- lowing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    public AwsRoute53resolverUpdateFirewallDomainsOptions(
+        string FirewallDomainListId,
+        AwsRoute53resolverUpdateFirewallDomainsOperation Operation,
+        IEnumerable<string> Domains
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallDomainListId);
+        this.FirewallDomainListId = FirewallDomainListId;
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Domains);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Domains));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Domains));
+            }
+
+            Domains = materialized;
+        }
+        this.Domains = Domains;
+    }
+
+    private AwsRoute53resolverUpdateFirewallDomainsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverUpdateFirewallDomainsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverUpdateFirewallDomainsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain list whose domains you want to update. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--firewall-domain-list-id")]
-    public string? FirewallDomainListId { get; set; }
+    public string? FirewallDomainListId { get; private init; }
 
+    /// <summary>
+    /// What you want DNS Firewall to do with the domains that you are pro- viding: o ADD - Add the domains to the ones that are already in the domain list. o REMOVE - Search the domain list for the domains and remove them from the list. o REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: o ADD o REMOVE o REPLACE
+    /// </summary>
     [CliOption("--operation")]
-    public string? Operation { get; set; }
+    public AwsRoute53resolverUpdateFirewallDomainsOperation? Operation { get; private init; }
 
+    /// <summary>
+    /// A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the fol- lowing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--domains", GroupValues = true)]
-    public IEnumerable<string>? Domains { get; set; }
+    public IEnumerable<string>? Domains { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

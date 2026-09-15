@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("meteringmarketplace", "resolve-customer")]
-public record AwsMeteringmarketplaceResolveCustomerOptions : AwsOptions
+public record AwsMeteringmarketplaceResolveCustomerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// ResolveCustomer is called by a SaaS application during the registra- tion process. When a buyer visits your website during the registra- tion process, the buyer submits a registration token through their browser. The registration token is resolved through this API to ob- tain a CustomerIdentifier along with the CustomerAWSAccountId , Pro- ductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New ...
+    /// </summary>
+    /// <param name="RegistrationToken">When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The reg- istration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: o pattern: [\s\S]+</param>
+    public AwsMeteringmarketplaceResolveCustomerOptions(
+        string RegistrationToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationToken);
+        this.RegistrationToken = RegistrationToken;
+    }
+
+    private AwsMeteringmarketplaceResolveCustomerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMeteringmarketplaceResolveCustomerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMeteringmarketplaceResolveCustomerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The reg- istration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . NOTE: For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification. Constraints: o pattern: [\s\S]+
+    /// </summary>
     [SecretValue]
     [CliOption("--registration-token")]
-    public string? RegistrationToken { get; set; }
+    public string? RegistrationToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

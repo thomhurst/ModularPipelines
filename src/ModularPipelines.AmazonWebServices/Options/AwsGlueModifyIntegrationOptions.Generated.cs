@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "modify-integration")]
-public record AwsGlueModifyIntegrationOptions : AwsOptions
+public record AwsGlueModifyIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a Zero-ETL integration in the caller's account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationIdentifier">The Amazon Resource Name (ARN) for the integration. Constraints: o min: 1 o max: 128</param>
+    public AwsGlueModifyIntegrationOptions(
+        string IntegrationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationIdentifier);
+        this.IntegrationIdentifier = IntegrationIdentifier;
+    }
+
+    private AwsGlueModifyIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueModifyIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueModifyIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the integration. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--integration-identifier")]
-    public string? IntegrationIdentifier { get; set; }
+    public string? IntegrationIdentifier { get; private init; }
 
     /// <summary>
     /// A description of the integration. Constraints: o max: 1000 o pattern: [\S\s]*
@@ -53,5 +90,21 @@ public record AwsGlueModifyIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

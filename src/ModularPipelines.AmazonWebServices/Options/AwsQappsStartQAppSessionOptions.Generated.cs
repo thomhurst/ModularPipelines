@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "start-q-app-session")]
-public record AwsQappsStartQAppSessionOptions : AwsOptions
+public record AwsQappsStartQAppSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new session for an Amazon Q App, allowing inputs to be pro- vided and the app to be run. NOTE: Each Q App session will be condensed into a single conversation in the web experience. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="AppId">The unique identifier of the Q App to start a session for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="AppVersion">The version of the Q App to use for the session. Constraints: o min: 0 o max: 2147483647</param>
+    public AwsQappsStartQAppSessionOptions(
+        string InstanceId,
+        string AppId,
+        int AppVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        this.AppVersion = AppVersion;
+    }
+
+    private AwsQappsStartQAppSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsStartQAppSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsStartQAppSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Q App to start a session for. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The version of the Q App to use for the session. Constraints: o min: 0 o max: 2147483647
+    /// </summary>
     [CliOption("--app-version")]
-    public int? AppVersion { get; set; }
+    public int? AppVersion { get; private init; }
 
     /// <summary>
     /// Optional initial input values to provide for the Q App session. Constraints: o min: 0 o max: 20 (structure) The value or result associated with a card in a Amazon Q App session. cardId -&gt; (string) [required] The unique identifier of the card. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} value -&gt; (string) [required] The value or result associated with the card. Constraints: o min: 0 o max: 40000 submissionMutation -&gt; (structure) The structure that describes how the current form card value is mutated. Only applies for form cards when multiple re- sponses are allowed. submissionId -&gt; (string) [required] The unique identifier of the submission. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} mutationType -&gt; (string) [required] The operation that is performed on a submission. Possible values: o edit o delete o add Shorthand Syntax: cardId=string,value=string,submissionMutation={submissionId=string,mutationType=string} ... JSON Syntax: [ { "cardId": "string", "value": "string", "submissionMutation": { "submissionId": "string", "mutationType": "edit"|"delete"|"add" } } ... ]
@@ -54,5 +104,21 @@ public record AwsQappsStartQAppSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -16,15 +16,15 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheModifyReplicationGroupDurability
 {
-    [EnumValue("default")]
-    Default = 1,
-
     [EnumValue("async")]
-    Async = 2,
+    Async,
 
-    [EnumValue("sync")]
-    Sync = 3,
+    [EnumValue("default")]
+    Default,
 
     [EnumValue("disabled")]
-    Disabled = 4
+    Disabled,
+
+    [EnumValue("sync")]
+    Sync
 }

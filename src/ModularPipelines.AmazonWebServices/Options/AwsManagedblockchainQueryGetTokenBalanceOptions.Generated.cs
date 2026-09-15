@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "get-token-balance")]
-public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions
+public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions, IValidatableObject
 {
-    [SecretValue]
-    [CliOption("--token-identifier")]
-    public string? TokenIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TokenIdentifier">The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
+    /// <param name="OwnerIdentifier">The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }</param>
+    public AwsManagedblockchainQueryGetTokenBalanceOptions(
+        string TokenIdentifier,
+        string OwnerIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TokenIdentifier);
+        this.TokenIdentifier = TokenIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OwnerIdentifier);
+        this.OwnerIdentifier = OwnerIdentifier;
+    }
+
+    private AwsManagedblockchainQueryGetTokenBalanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryGetTokenBalanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryGetTokenBalanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
+    /// </summary>
+    [CliOption("--token-identifier")]
+    public string? TokenIdentifier { get; private init; }
+
+    /// <summary>
+    /// The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
+    /// </summary>
     [CliOption("--owner-identifier")]
-    public string? OwnerIdentifier { get; set; }
+    public string? OwnerIdentifier { get; private init; }
 
     /// <summary>
     /// The time for when the TokenBalance is requested or the current time if a time is not provided in the request. NOTE: This time will only be recorded up to the second. time -&gt; (timestamp) The container of the Timestamp of the blockchain instant. NOTE: This timestamp will only be recorded up to the second. Shorthand Syntax: time=timestamp JSON Syntax: { "time": timestamp }
@@ -40,5 +82,21 @@ public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

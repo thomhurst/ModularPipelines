@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supplychain", "send-data-integration-event")]
-public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions
+public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Ser- vices service before being processed and stored in data lake. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="EventType">The data event type. o scn.data.dataset - Send data directly to any specified dataset. o scn.data.supplyplan - Send data to supply_plan dataset. o scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. o scn.data.shipmentstop - Send data to shipment_stop dataset. o scn.data.shipment - Send data to shipment dataset. o scn.data.reservation - Send data to reservation dataset. o scn.data.processproduct - Send data to process_product dataset. o scn.data.processoperation - Send data to process_operation dataset. o scn.data.processheader - Send data to process_header dataset. o scn.data.forecast - Send data to forecast dataset. o scn.data.inventorylevel - Send data to inv_level dataset. o scn.data.inboundorder - Send data to inbound_order dataset. o scn.data.inboundorderline - Send data to inbound_order_line dataset. o scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. o scn.data.outboundorderline - Send data to outbound_order_line dataset. o scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: o scn.data.forecast o scn.data.inventorylevel o scn.data.inboundorder o scn.data.inboundorderline o scn.data.inboundorderlineschedule o scn.data.outboundorderline o scn.data.outboundshipment o scn.data.processheader o scn.data.processoperation o scn.data.processproduct o scn.data.reservation o scn.data.shipment o scn.data.shipmentstop o scn.data.shipmentstoporder o scn.data.supplyplan o scn.data.dataset</param>
+    /// <param name="Data">The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: o min: 1 o max: 1048576</param>
+    /// <param name="EventGroupId">Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: o min: 1 o max: 255</param>
+    public AwsSupplychainSendDataIntegrationEventOptions(
+        string InstanceId,
+        AwsSupplychainSendDataIntegrationEventEventType EventType,
+        string Data,
+        string EventGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+        global::System.ArgumentNullException.ThrowIfNull(Data);
+        this.Data = Data;
+        global::System.ArgumentNullException.ThrowIfNull(EventGroupId);
+        this.EventGroupId = EventGroupId;
+    }
+
+    private AwsSupplychainSendDataIntegrationEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupplychainSendDataIntegrationEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupplychainSendDataIntegrationEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The data event type. o scn.data.dataset - Send data directly to any specified dataset. o scn.data.supplyplan - Send data to supply_plan dataset. o scn.data.shipmentstoporder - Send data to shipment_stop_order dataset. o scn.data.shipmentstop - Send data to shipment_stop dataset. o scn.data.shipment - Send data to shipment dataset. o scn.data.reservation - Send data to reservation dataset. o scn.data.processproduct - Send data to process_product dataset. o scn.data.processoperation - Send data to process_operation dataset. o scn.data.processheader - Send data to process_header dataset. o scn.data.forecast - Send data to forecast dataset. o scn.data.inventorylevel - Send data to inv_level dataset. o scn.data.inboundorder - Send data to inbound_order dataset. o scn.data.inboundorderline - Send data to inbound_order_line dataset. o scn.data.inboundorderlineschedule - Send data to inbound_order_line_schedule dataset. o scn.data.outboundorderline - Send data to outbound_order_line dataset. o scn.data.outboundshipment - Send data to outbound_shipment dataset. Possible values: o scn.data.forecast o scn.data.inventorylevel o scn.data.inboundorder o scn.data.inboundorderline o scn.data.inboundorderlineschedule o scn.data.outboundorderline o scn.data.outboundshipment o scn.data.processheader o scn.data.processoperation o scn.data.processproduct o scn.data.reservation o scn.data.shipment o scn.data.shipmentstop o scn.data.shipmentstoporder o scn.data.supplyplan o scn.data.dataset
+    /// </summary>
     [CliOption("--event-type")]
-    public string? EventType { get; set; }
+    public AwsSupplychainSendDataIntegrationEventEventType? EventType { get; private init; }
 
+    /// <summary>
+    /// The data payload of the event, should follow the data schema of the target dataset, or see Data entities supported in AWS Supply Chain . To send single data record, use JsonObject format; to send multiple data records, use JsonArray format. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id internal field that is not allowed to be provided by client directly, they will be auto populated. Constraints: o min: 1 o max: 1048576
+    /// </summary>
     [CliOption("--data")]
-    public string? Data { get; set; }
+    public string? Data { get; private init; }
 
+    /// <summary>
+    /// Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--event-group-id")]
-    public string? EventGroupId { get; set; }
+    public string? EventGroupId { get; private init; }
 
     /// <summary>
     /// The timestamp (in epoch seconds) associated with the event. If not provided, it will be assigned with current timestamp.
@@ -58,5 +117,21 @@ public record AwsSupplychainSendDataIntegrationEventOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-mlflow-app")]
-public record AwsSagemakerCreateMlflowAppOptions : AwsOptions
+public record AwsSagemakerCreateMlflowAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A string identifying the MLflow app name. This string is not part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="ArtifactStoreUri">The S3 URI for a general purpose bucket to use as the MLflow App ar- tifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3. The role should have the AmazonS3FullAccess permission. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateMlflowAppOptions(
+        string Name,
+        string ArtifactStoreUri,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactStoreUri);
+        this.ArtifactStoreUri = ArtifactStoreUri;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateMlflowAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateMlflowAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateMlflowAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string identifying the MLflow app name. This string is not part of the tracking server ARN. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The S3 URI for a general purpose bucket to use as the MLflow App ar- tifact store. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*)
+    /// </summary>
     [CliOption("--artifact-store-uri")]
-    public string? ArtifactStoreUri { get; set; }
+    public string? ArtifactStoreUri { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3. The role should have the AmazonS3FullAccess permission. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. If you don't specify a value, the MLflow App is not encrypted with a customer-managed key. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]*
@@ -72,5 +123,21 @@ public record AwsSagemakerCreateMlflowAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

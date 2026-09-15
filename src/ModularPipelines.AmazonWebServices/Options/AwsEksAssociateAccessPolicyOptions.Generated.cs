@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "associate-access-policy")]
-public record AwsEksAssociateAccessPolicyOptions : AwsOptions
+public record AwsEksAssociateAccessPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and dis- associating access policies to and from access entries in the Amazon EKS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the IAM user or role for the Ac- cessEntry that you're associating the access policy to.</param>
+    /// <param name="PolicyArn">The ARN of the AccessPolicy that you're associating. For a list of ARNs, use ListAccessPolicies .</param>
+    /// <param name="AccessScope">The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: o cluster o namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }</param>
+    public AwsEksAssociateAccessPolicyOptions(
+        string ClusterName,
+        string PrincipalArn,
+        string PolicyArn,
+        string AccessScope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(AccessScope);
+        this.AccessScope = AccessScope;
+    }
+
+    private AwsEksAssociateAccessPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksAssociateAccessPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksAssociateAccessPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM user or role for the Ac- cessEntry that you're associating the access policy to.
+    /// </summary>
     [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
+    public string? PrincipalArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the AccessPolicy that you're associating. For a list of ARNs, use ListAccessPolicies .
+    /// </summary>
     [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    public string? PolicyArn { get; private init; }
 
+    /// <summary>
+    /// The scope for the AccessPolicy . You can scope access policies to an entire cluster or to specific Kubernetes namespaces. type -&gt; (string) The scope type of an access policy. Possible values: o cluster o namespace namespaces -&gt; (list) A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type . (string) Shorthand Syntax: type=string,namespaces=string,string JSON Syntax: { "type": "cluster"|"namespace", "namespaces": ["string", ...] }
+    /// </summary>
     [CliOption("--access-scope")]
-    public string? AccessScope { get; set; }
+    public string? AccessScope { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

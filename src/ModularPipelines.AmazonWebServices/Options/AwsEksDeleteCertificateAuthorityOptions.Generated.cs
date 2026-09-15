@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "delete-certificate-authority")]
-public record AwsEksDeleteCertificateAuthorityOptions : AwsOptions
+public record AwsEksDeleteCertificateAuthorityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingSta- tus is IN_USE ) to remove the outgoing CA, first activate the succes- sor CA with ` ActivateCertificateAuthority https://docs.aws.amazon.com/eks/latest/APIReference/API_ActivateCertificateAuthority.html`__ . Amazon EKS also protects ...
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="CertificateAuthorityId">The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.</param>
+    public AwsEksDeleteCertificateAuthorityOptions(
+        string ClusterName,
+        string CertificateAuthorityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityId);
+        this.CertificateAuthorityId = CertificateAuthorityId;
+    }
+
+    private AwsEksDeleteCertificateAuthorityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksDeleteCertificateAuthorityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksDeleteCertificateAuthorityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.
+    /// </summary>
     [CliOption("--certificate-authority-id")]
-    public string? CertificateAuthorityId { get; set; }
+    public string? CertificateAuthorityId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -40,5 +84,21 @@ public record AwsEksDeleteCertificateAuthorityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

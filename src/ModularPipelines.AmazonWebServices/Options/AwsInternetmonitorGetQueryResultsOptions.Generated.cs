@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("internetmonitor", "get-query-results")]
-public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions
+public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including exam- ples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor to return data for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="QueryId">The ID of the query that you want to return data results for. A QueryId is an internally-generated identifier for a specific query.</param>
+    public AwsInternetmonitorGetQueryResultsOptions(
+        string MonitorName,
+        string QueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(QueryId);
+        this.QueryId = QueryId;
+    }
+
+    private AwsInternetmonitorGetQueryResultsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInternetmonitorGetQueryResultsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInternetmonitorGetQueryResultsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor to return data for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--monitor-name")]
+    public string? MonitorName { get; private init; }
+
+    /// <summary>
+    /// The ID of the query that you want to return data results for. A QueryId is an internally-generated identifier for a specific query.
+    /// </summary>
     [CliOption("--query-id")]
-    public string? QueryId { get; set; }
+    public string? QueryId { get; private init; }
 
     /// <summary>
     /// The token for the next set of results. You receive this token from a previous call.
@@ -46,5 +90,21 @@ public record AwsInternetmonitorGetQueryResultsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

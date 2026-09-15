@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-dataset")]
-public record AwsForecastCreateDataSetOptions : AwsOptions
+public record AwsForecastCreateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Forecast dataset. The information about the dataset that you provide helps Forecast understand how to consume the data for model training. This includes the following: o * DataFrequency * - How frequently your historical time-series data is collected. System Message: WARNING/2 (&lt;string&gt;:, line 26) Inline emphasis start-string without end-string. o * Domain * and * DatasetType * - Each dataset has an associated dataset domain and a type within the domain. Amazon Forecast provide...
+    /// </summary>
+    /// <param name="DataSetName">A name for the dataset. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="Domain">The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain pa- rameter of the CreateDatasetGroup operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires item_id , timestamp , and demand fields to be present in your data. For more information, see Importing datasets . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS</param>
+    /// <param name="DataSetType">The dataset type. Valid values depend on the chosen Domain . Possible values: o TARGET_TIME_SERIES o RELATED_TIME_SERIES o ITEM_METADATA</param>
+    /// <param name="Schema">The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and Dataset- Type that you choose determine the minimum required fields in your training data. For information about the required fields for a spe- cific dataset domain and type, see Dataset Domains and Dataset Types . Attributes -&gt; (list) An array of attributes specifying the name and type of each field in a dataset. Constraints: o min: 1 o max: 100 (structure) An attribute of a schema, which defines a dataset field. A schema attribute is required for every field in a dataset. The Schema object contains an array of SchemaAttribute ob- jects. AttributeName -&gt; (string) The name of the dataset field. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* AttributeType -&gt; (string) The data type of the field. For a related time series dataset, other than date, item_id, and forecast dimensions attributes, all attrib- utes should be of numerical type (integer/float). Possible values: o string o integer o float o timestamp o geolocation Shorthand Syntax: Attributes=[{AttributeName=string,AttributeType=string},{AttributeName=string,AttributeType=string}] JSON Syntax: { "Attributes": [ { "AttributeName": "string", "AttributeType": "string"|"integer"|"float"|"timestamp"|"geolocation" } ... ] }</param>
+    public AwsForecastCreateDataSetOptions(
+        string DataSetName,
+        AwsForecastCreateDataSetDomain Domain,
+        AwsForecastCreateDataSetDataSetType DataSetType,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
+        this.DataSetType = DataSetType;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    private AwsForecastCreateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the dataset. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
 
+    /// <summary>
+    /// The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain pa- rameter of the CreateDatasetGroup operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType , Amazon Forecast requires item_id , timestamp , and demand fields to be present in your data. For more information, see Importing datasets . Possible values: o RETAIL o CUSTOM o INVENTORY_PLANNING o EC2_CAPACITY o WORK_FORCE o WEB_TRAFFIC o METRICS
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public AwsForecastCreateDataSetDomain? Domain { get; private init; }
 
+    /// <summary>
+    /// The dataset type. Valid values depend on the chosen Domain . Possible values: o TARGET_TIME_SERIES o RELATED_TIME_SERIES o ITEM_METADATA
+    /// </summary>
     [CliOption("--dataset-type")]
-    public string? DataSetType { get; set; }
+    public AwsForecastCreateDataSetDataSetType? DataSetType { get; private init; }
+
+    /// <summary>
+    /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and Dataset- Type that you choose determine the minimum required fields in your training data. For information about the required fields for a spe- cific dataset domain and type, see Dataset Domains and Dataset Types . Attributes -&gt; (list) An array of attributes specifying the name and type of each field in a dataset. Constraints: o min: 1 o max: 100 (structure) An attribute of a schema, which defines a dataset field. A schema attribute is required for every field in a dataset. The Schema object contains an array of SchemaAttribute ob- jects. AttributeName -&gt; (string) The name of the dataset field. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]* AttributeType -&gt; (string) The data type of the field. For a related time series dataset, other than date, item_id, and forecast dimensions attributes, all attrib- utes should be of numerical type (integer/float). Possible values: o string o integer o float o timestamp o geolocation Shorthand Syntax: Attributes=[{AttributeName=string,AttributeType=string},{AttributeName=string,AttributeType=string}] JSON Syntax: { "Attributes": [ { "AttributeName": "string", "AttributeType": "string"|"integer"|"float"|"timestamp"|"geolocation" } ... ] }
+    /// </summary>
+    [CliOption("--schema")]
+    public string? Schema { get; private init; }
 
     /// <summary>
     /// The frequency of data collection. This parameter is required for RE- LATED_TIME_SERIES datasets. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indi- cates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 min- utes, because that is equivalent to 1 hour. The valid values for each frequency are the following: o Minute - 1-59 o Hour - 1-23 o Day - 1-6 o Week - 1-4 o Month - 1-11 o Year - 1 Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". Constraints: o min: 1 o max: 5 o pattern: ^Y|M|W|D|H|30min|15min|10min|5min|1min$
     /// </summary>
     [CliOption("--data-frequency")]
     public string? DataFrequency { get; set; }
-
-    [CliOption("--schema")]
-    public string? Schema { get; set; }
 
     /// <summary>
     /// An Key Management Service (KMS) key and the Identity and Access Man- agement (IAM) role that Amazon Forecast can assume to access the key. RoleArn -&gt; (string) [required] The ARN of the IAM role that Amazon Forecast can assume to ac- cess the KMS key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the KMS key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: RoleArn=string,KMSKeyArn=string JSON Syntax: { "RoleArn": "string", "KMSKeyArn": "string" }
@@ -56,5 +115,21 @@ public record AwsForecastCreateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

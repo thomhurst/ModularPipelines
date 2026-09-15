@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "list-recommendations")]
-public record AwsDevopsGuruListRecommendationsOptions : AwsOptions
+public record AwsDevopsGuruListRecommendationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of a specified insight's recommendations. Each recommen- dation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// </summary>
+    /// <param name="InsightId">The ID of the requested insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$</param>
+    public AwsDevopsGuruListRecommendationsOptions(
+        string InsightId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InsightId);
+        this.InsightId = InsightId;
+    }
+
+    private AwsDevopsGuruListRecommendationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruListRecommendationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruListRecommendationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the requested insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// </summary>
     [CliOption("--insight-id")]
-    public string? InsightId { get; set; }
+    public string? InsightId { get; private init; }
 
     /// <summary>
     /// A locale that specifies the language to use for recommendations. Possible values: o DE_DE o EN_US o EN_GB o ES_ES o FR_FR o IT_IT o JA_JP o KO_KR o PT_BR o ZH_CN o ZH_TW
@@ -56,5 +93,21 @@ public record AwsDevopsGuruListRecommendationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "send-pipeline-execution-step-failure")]
-public record AwsSagemakerSendPipelineExecutionStepFailureOptions : AwsOptions
+public record AwsSagemakerSendPipelineExecutionStepFailureOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CallbackToken">The pipeline generated token from the Amazon SQS queue. Constraints: o min: 10 o max: 10 o pattern: [a-zA-Z0-9]+</param>
+    public AwsSagemakerSendPipelineExecutionStepFailureOptions(
+        string CallbackToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CallbackToken);
+        this.CallbackToken = CallbackToken;
+    }
+
+    private AwsSagemakerSendPipelineExecutionStepFailureOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerSendPipelineExecutionStepFailureOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerSendPipelineExecutionStepFailureOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pipeline generated token from the Amazon SQS queue. Constraints: o min: 10 o max: 10 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [SecretValue]
     [CliOption("--callback-token")]
-    public string? CallbackToken { get; set; }
+    public string? CallbackToken { get; private init; }
 
     /// <summary>
     /// A message describing why the step failed. Constraints: o min: 0 o max: 256
@@ -44,5 +81,21 @@ public record AwsSagemakerSendPipelineExecutionStepFailureOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

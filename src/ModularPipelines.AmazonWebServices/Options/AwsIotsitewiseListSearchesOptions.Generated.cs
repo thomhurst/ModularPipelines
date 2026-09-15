@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "list-searches")]
-public record AwsIotsitewiseListSearchesOptions : AwsOptions
+public record AwsIotsitewiseListSearchesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with optional filters (status, search type, group, and started-at time range) and are paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation list-searches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. Wh...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace whose searches are listed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    public AwsIotsitewiseListSearchesOptions(
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    private AwsIotsitewiseListSearchesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseListSearchesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseListSearchesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace whose searches are listed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
 
     /// <summary>
     /// Optional filters that restrict which searches are returned. statusFilter -&gt; (list) Returns only searches whose status is one of the listed values. Constraints: o min: 1 o max: 4 (string) The lifecycle status of a search. Possible values: o QUEUED o RUNNING o SUCCEEDED o FAILED startedAfter -&gt; (timestamp) Returns only searches started at or after this time. startedBefore -&gt; (timestamp) Returns only searches started at or before this time. groupIdFilter -&gt; (list) Returns only searches whose groupId is one of the listed values. Constraints: o min: 1 o max: 100 (string) A caller-supplied identifier used to group related searches together. Constraints: o min: 2 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]* searchTypeFilter -&gt; (list) Returns only searches whose searchType is one of the listed val- ues. Constraints: o min: 1 o max: 2 (string) The search strategy, which trades off latency against recall. DEEP runs the full semantic and structured search for the highest-quality matches; QUICK returns faster, lower-recall results. When searchType is omitted on a request, the search defaults to QUICK . Possible values: o DEEP o QUICK Shorthand Syntax: statusFilter=string,string,startedAfter=timestamp,startedBefore=timestamp,groupIdFilter=string,string,searchTypeFilter=string,string JSON Syntax: { "statusFilter": ["QUEUED"|"RUNNING"|"SUCCEEDED"|"FAILED", ...], "startedAfter": timestamp, "startedBefore": timestamp, "groupIdFilter": ["string", ...], "searchTypeFilter": ["DEEP"|"QUICK", ...] }
@@ -55,5 +92,21 @@ public record AwsIotsitewiseListSearchesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

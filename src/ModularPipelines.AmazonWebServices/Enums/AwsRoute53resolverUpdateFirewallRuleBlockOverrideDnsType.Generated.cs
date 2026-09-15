@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --blockoverridednstype.
+/// Allowed values for --block-override-dns-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRoute53resolverUpdateFirewallRuleBlockOverrideDnsType
 {
     [EnumValue("CNAME")]
-    Cname = 1
+    Cname,
+
+    [EnumValue("o")]
+    O
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,22 +23,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-notifications", "create-notification-rule")]
-public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions
+public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat ap- plications clients configured for Slack) where you want to receive them. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the notification rule. Notification rule names must be unique in your Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\-_ ]+$</param>
+    /// <param name="EventTypeIds">A list of event types associated with this notification rule. For a list of allowed events, see EventTypeSummary . (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...</param>
+    /// <param name="Resource">The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in Code- Pipeline, repositories in CodeCommit, and build projects in Code- Build. Constraints: o pattern: ^arn:aws[^:\s]*:[^:\s]*:[^:\s]*:[0-9]{12}:[^\s]+$</param>
+    /// <param name="Targets">A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Amazon Q Developer in chat applications clients to associate with the notification rule. Constraints: o max: 10 (structure) Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients asso- ciated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat appli- cations topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are speci- fied as SNS . o Amazon Q Developer in chat applications clients are speci- fied as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat appli- cations client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string ... JSON Syntax: [ { "TargetType": "string", "TargetAddress": "string" } ... ]</param>
+    /// <param name="DetailType">The level of detail to include in the notifications for this re- source. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemen- tal information provided by CodeStar Notifications and/or the ser- vice for the resource for which the notification is created. Possible values: o BASIC o FULL</param>
+    public AwsCodestarNotificationsCreateNotificationRuleOptions(
+        string Name,
+        IEnumerable<string> EventTypeIds,
+        string Resource,
+        IEnumerable<string> Targets,
+        AwsCodestarNotificationsCreateNotificationRuleDetailType DetailType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventTypeIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventTypeIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventTypeIds));
+            }
+
+            EventTypeIds = materialized;
+        }
+        this.EventTypeIds = EventTypeIds;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+        global::System.ArgumentNullException.ThrowIfNull(DetailType);
+        this.DetailType = DetailType;
+    }
+
+    private AwsCodestarNotificationsCreateNotificationRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarNotificationsCreateNotificationRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarNotificationsCreateNotificationRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the notification rule. Notification rule names must be unique in your Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\-_ ]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A list of event types associated with this notification rule. For a list of allowed events, see EventTypeSummary . (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--event-type-ids", GroupValues = true)]
-    public IEnumerable<string>? EventTypeIds { get; set; }
+    public IEnumerable<string>? EventTypeIds { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource to associate with the notification rule. Supported resources include pipelines in Code- Pipeline, repositories in CodeCommit, and build projects in Code- Build. Constraints: o pattern: ^arn:aws[^:\s]*:[^:\s]*:[^:\s]*:[0-9]{12}:[^\s]+$
+    /// </summary>
     [CliOption("--resource")]
-    public string? Resource { get; set; }
+    public string? Resource { get; private init; }
 
+    /// <summary>
+    /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Amazon Q Developer in chat applications clients to associate with the notification rule. Constraints: o max: 10 (structure) Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients asso- ciated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat appli- cations topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are speci- fied as SNS . o Amazon Q Developer in chat applications clients are speci- fied as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat appli- cations client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string ... JSON Syntax: [ { "TargetType": "string", "TargetAddress": "string" } ... ]
+    /// </summary>
     [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
+    public IEnumerable<string>? Targets { get; private init; }
 
+    /// <summary>
+    /// The level of detail to include in the notifications for this re- source. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemen- tal information provided by CodeStar Notifications and/or the ser- vice for the resource for which the notification is created. Possible values: o BASIC o FULL
+    /// </summary>
     [CliOption("--detail-type")]
-    public string? DetailType { get; set; }
+    public AwsCodestarNotificationsCreateNotificationRuleDetailType? DetailType { get; private init; }
 
     /// <summary>
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request with the same parameters is received and a to- ken is included, the request returns information about the initial request that used that token. NOTE: The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency to- ken is created for you. Constraints: o min: 1 o max: 256 o pattern: ^[\w:/-]+$
@@ -63,5 +150,21 @@ public record AwsCodestarNotificationsCreateNotificationRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

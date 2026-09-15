@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-gateway", "import-hypervisor-configuration")]
-public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions
+public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Connect to a hypervisor by importing its configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+</param>
+    public AwsBackupGatewayImportHypervisorConfigurationOptions(
+        string Name,
+        string Host
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Host);
+        this.Host = Host;
+    }
+
+    private AwsBackupGatewayImportHypervisorConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGatewayImportHypervisorConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGatewayImportHypervisorConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+
+    /// </summary>
     [CliOption("--host")]
-    public string? Host { get; set; }
+    public string? Host { get; private init; }
 
     /// <summary>
     /// The username for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
@@ -58,5 +102,21 @@ public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

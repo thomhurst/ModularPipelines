@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "start-project-version")]
-public record AwsRekognitionStartProjectVersionOptions : AwsOptions
+public record AwsRekognitionStartProjectVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-version-arn")]
-    public string? ProjectVersionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use De- scribeProjectVersions . Once the model is running, you can detect custom labels in new images by calling DetectCustomLabels . NOTE: You are charged for the amount of time that the model is running. To stop a running model, call StopProjectVersion . This operation requires permissions to pe...
+    /// </summary>
+    /// <param name="ProjectVersionArn">The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="MinInferenceUnits">The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: o min: 1</param>
+    public AwsRekognitionStartProjectVersionOptions(
+        string ProjectVersionArn,
+        int MinInferenceUnits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectVersionArn);
+        this.ProjectVersionArn = ProjectVersionArn;
+        this.MinInferenceUnits = MinInferenceUnits;
+    }
+
+    private AwsRekognitionStartProjectVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionStartProjectVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionStartProjectVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name(ARN) of the model version that you want to start. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
+    [CliOption("--project-version-arn")]
+    public string? ProjectVersionArn { get; private init; }
+
+    /// <summary>
+    /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. Constraints: o min: 1
+    /// </summary>
     [CliOption("--min-inference-units")]
-    public int? MinInferenceUnits { get; set; }
+    public int? MinInferenceUnits { get; private init; }
 
     /// <summary>
     /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom La- bels doesn't auto-scale the model. Constraints: o min: 1
@@ -38,5 +81,21 @@ public record AwsRekognitionStartProjectVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

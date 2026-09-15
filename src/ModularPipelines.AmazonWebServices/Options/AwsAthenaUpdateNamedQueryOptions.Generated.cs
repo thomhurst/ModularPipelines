@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "update-named-query")]
-public record AwsAthenaUpdateNamedQueryOptions : AwsOptions
+public record AwsAthenaUpdateNamedQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--named-query-id")]
-    public string? NamedQueryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a NamedQuery object. The database or workgroup cannot be up- dated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamedQueryId">The unique identifier (UUID) of the query. Constraints: o min: 1 o max: 128 o pattern: \S+</param>
+    /// <param name="Name">The name of the query. Constraints: o min: 1 o max: 128</param>
+    /// <param name="QueryString">The contents of the query with all query statements. Constraints: o min: 1 o max: 262144</param>
+    public AwsAthenaUpdateNamedQueryOptions(
+        string NamedQueryId,
+        string Name,
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamedQueryId);
+        this.NamedQueryId = NamedQueryId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsAthenaUpdateNamedQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaUpdateNamedQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaUpdateNamedQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (UUID) of the query. Constraints: o min: 1 o max: 128 o pattern: \S+
+    /// </summary>
+    [CliOption("--named-query-id")]
+    public string? NamedQueryId { get; private init; }
+
+    /// <summary>
+    /// The name of the query. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The contents of the query with all query statements. Constraints: o min: 1 o max: 262144
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
 
     /// <summary>
     /// The query description. Constraints: o min: 0 o max: 1024
@@ -33,13 +87,26 @@ public record AwsAthenaUpdateNamedQueryOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

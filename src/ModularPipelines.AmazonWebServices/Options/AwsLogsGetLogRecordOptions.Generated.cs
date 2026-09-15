@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "get-log-record")]
-public record AwsLogsGetLogRecordOptions : AwsOptions
+public record AwsLogsGetLogRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--log-record-pointer")]
-    public string? LogRecordPointer { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--unmask")]
+    /// <summary>
+    /// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the lo- gRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogRecordPointer">The pointer corresponding to the log event record you want to re- trieve. You get this from the response of a GetQueryResults opera- tion. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.</param>
+    public AwsLogsGetLogRecordOptions(
+        string LogRecordPointer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogRecordPointer);
+        this.LogRecordPointer = LogRecordPointer;
+    }
+
+    private AwsLogsGetLogRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsGetLogRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsGetLogRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pointer corresponding to the log event record you want to re- trieve. You get this from the response of a GetQueryResults opera- tion. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
+    /// </summary>
+    [CliOption("--log-record-pointer")]
+    public string? LogRecordPointer { get; private init; }
+
+    /// <summary>
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false . To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    /// </summary>
+    [CliFlag("--unmask", NegatedName = "--no-unmask")]
     public bool? Unmask { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsLogsGetLogRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

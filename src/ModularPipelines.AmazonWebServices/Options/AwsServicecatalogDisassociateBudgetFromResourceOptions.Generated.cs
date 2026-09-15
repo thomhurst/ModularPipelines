@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "disassociate-budget-from-resource")]
-public record AwsServicecatalogDisassociateBudgetFromResourceOptions : AwsOptions
+public record AwsServicecatalogDisassociateBudgetFromResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--budget-name")]
-    public string? BudgetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociates the specified budget from the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BudgetName">The name of the budget you want to disassociate. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ResourceId">The resource identifier you want to disassociate from. Either a portfolio-id or a product-id. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogDisassociateBudgetFromResourceOptions(
+        string BudgetName,
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BudgetName);
+        this.BudgetName = BudgetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsServicecatalogDisassociateBudgetFromResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogDisassociateBudgetFromResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogDisassociateBudgetFromResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the budget you want to disassociate. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--budget-name")]
+    public string? BudgetName { get; private init; }
+
+    /// <summary>
+    /// The resource identifier you want to disassociate from. Either a portfolio-id or a product-id. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

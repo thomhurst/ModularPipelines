@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-compliance-details-by-config-rule")]
-public record AwsConfigserviceGetComplianceDetailsByConfigRuleOptions : AwsOptions
+public record AwsConfigserviceGetComplianceDetailsByConfigRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the evaluation results for the specified Config rule. The re- sults indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each re- source complies with the rule. See also: AWS API Documentation get-compliance-details-by-config-rule is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When u...
+    /// </summary>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 64</param>
+    public AwsConfigserviceGetComplianceDetailsByConfigRuleOptions(
+        string ConfigRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigRuleName);
+        this.ConfigRuleName = ConfigRuleName;
+    }
+
+    private AwsConfigserviceGetComplianceDetailsByConfigRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetComplianceDetailsByConfigRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetComplianceDetailsByConfigRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--config-rule-name")]
-    public string? ConfigRuleName { get; set; }
+    public string? ConfigRuleName { get; private init; }
 
     /// <summary>
     /// Filters the results by compliance. INSUFFICIENT_DATA is a valid ComplianceType that is returned when an Config rule cannot be evaluated. However, INSUFFI- CIENT_DATA cannot be used as a ComplianceType for filtering re- sults. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
@@ -55,5 +92,21 @@ public record AwsConfigserviceGetComplianceDetailsByConfigRuleOptions : AwsOptio
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-inference-recommendations-job-steps")]
-public record AwsSagemakerListInferenceRecommendationsJobStepsOptions : AwsOptions
+public record AwsSagemakerListInferenceRecommendationsJobStepsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types. See also: AWS API Documentation list-inference-recommendations-job-steps is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated ...
+    /// </summary>
+    /// <param name="JobName">The name for the Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    public AwsSagemakerListInferenceRecommendationsJobStepsOptions(
+        string JobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+    }
+
+    private AwsSagemakerListInferenceRecommendationsJobStepsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListInferenceRecommendationsJobStepsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListInferenceRecommendationsJobStepsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// </summary>
     [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    public string? JobName { get; private init; }
 
     /// <summary>
     /// A filter to return benchmarks of a specified status. If this field is left empty, then all benchmarks are returned. Possible values: o PENDING o IN_PROGRESS o COMPLETED o FAILED o STOPPING o STOPPED o DELETING o DELETED
@@ -62,5 +99,21 @@ public record AwsSagemakerListInferenceRecommendationsJobStepsOptions : AwsOptio
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

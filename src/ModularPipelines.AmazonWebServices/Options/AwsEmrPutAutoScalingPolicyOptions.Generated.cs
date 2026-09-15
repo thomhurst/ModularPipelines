@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "put-auto-scaling-policy")]
-public record AwsEmrPutAutoScalingPolicyOptions : AwsOptions
+public record AwsEmrPutAutoScalingPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and ter- minates Amazon EC2 instances in response to the value of a CloudWatch metric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterId">Specifies the ID of a cluster. The instance group to which the auto- matic scaling policy is applied is within this cluster. Constraints: o max: 256</param>
+    /// <param name="InstanceGroupId">Specifies the ID of the instance group to which the automatic scal- ing policy is applied. Constraints: o max: 256</param>
+    /// <param name="AutoScalingPolicy">Specifies the definition of the automatic scaling policy. Constraints -&gt; (structure) [required] The upper and lower Amazon EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an in- stance group to grow above or below these limits. MinCapacity -&gt; (integer) [required] The lower boundary of Amazon EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances be- low this boundary. MaxCapacity -&gt; (integer) [required] The upper boundary of Amazon EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary. Rules -&gt; (list) [required] The scale-in and scale-out rules that comprise the automatic scaling policy. (structure) A scale-in or scale-out rule that defines scaling activity, including the CloudWatch metric alarm that triggers activity, how Amazon EC2 instances are added or removed, and the peri- odicity of adjustments. The automatic scaling policy for an instance group can comprise one or more automatic scaling rules. Name -&gt; (string) [required] The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy. Description -&gt; (string) A friendly, more verbose description of the automatic scaling rule. Action -&gt; (structure) [required] The conditions that trigger an automatic scaling activ- ity. Market -&gt; (string) Not available for instance groups. Instance groups use the market type specified for the group. Possible values: o ON_DEMAND o SPOT SimpleScalingPolicyConfiguration -&gt; (structure) [re- quired] The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the ad- justment. AdjustmentType -&gt; (string) The way in which Amazon EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is trig- gered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the Amazon EC2 instance count increments or decrements by Scalin- gAdjustment , which should be expressed as an in- teger. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling ac- tivity results in an instance group with the num- ber of Amazon EC2 instances specified by Scalin- gAdjustment , which should be expressed as a posi- tive integer. Possible values: o CHANGE_IN_CAPACITY o PERCENT_CHANGE_IN_CAPACITY o EXACT_CAPACITY ScalingAdjustment -&gt; (integer) [required] The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's Amazon EC2 in- stance count while a negative number removes in- stances. If AdjustmentType is set to EXACT_CAPAC- ITY , the number should only be a positive inte- ger. If AdjustmentType is set to PER- CENT_CHANGE_IN_CAPACITY , the value should express the percentage as an integer. For example, -20 in- dicates a decrease in 20% increments of cluster capacity. CoolDown -&gt; (integer) The amount of time, in seconds, after a scaling activity completes before any further trigger-re- lated scaling activities can start. The default value is 0. Trigger -&gt; (structure) [required] The CloudWatch alarm definition that determines when au- tomatic scaling activity is triggered. CloudWatchAlarmDefinition -&gt; (structure) [required] The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins. ComparisonOperator -&gt; (string) [required] Determines how the metric specified by MetricName is compared to the value specified by Threshold . Possible values: o GREATER_THAN_OR_EQUAL o GREATER_THAN o LESS_THAN o LESS_THAN_OR_EQUAL EvaluationPeriods -&gt; (integer) The number of periods, in five-minute increments, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1 . MetricName -&gt; (string) [required] The name of the CloudWatch metric that is watched to determine an alarm condition. Namespace -&gt; (string) The namespace for the CloudWatch metric. The de- fault is AWS/ElasticMapReduce . Period -&gt; (integer) [required] The period, in seconds, over which the statistic is applied. CloudWatch metrics for Amazon EMR are emitted every five minutes (300 seconds), so if you specify a CloudWatch metric, specify 300 . Statistic -&gt; (string) The statistic to apply to the metric associated with the alarm. The default is AVERAGE . Possible values: o SAMPLE_COUNT o AVERAGE o SUM o MINIMUM o MAXIMUM Threshold -&gt; (double) [required] The value against which the specified statistic is compared. Constraints: o min: 0.0 Unit -&gt; (string) The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric. Possible values: o NONE o SECONDS o MICRO_SECONDS o MILLI_SECONDS o BYTES o KILO_BYTES o MEGA_BYTES o GIGA_BYTES o TERA_BYTES o BITS o KILO_BITS o MEGA_BITS o GIGA_BITS o TERA_BITS o PERCENT o COUNT o BYTES_PER_SECOND o KILO_BYTES_PER_SECOND o MEGA_BYTES_PER_SECOND o GIGA_BYTES_PER_SECOND o TERA_BYTES_PER_SECOND o BITS_PER_SECOND o KILO_BITS_PER_SECOND o MEGA_BITS_PER_SECOND o GIGA_BITS_PER_SECOND o TERA_BITS_PER_SECOND o COUNT_PER_SECOND Dimensions -&gt; (list) A CloudWatch metric dimension. (structure) A CloudWatch dimension, which is specified us- ing a Key (known as a Name in CloudWatch), Value pair. By default, Amazon EMR uses one di- mension whose Key is JobFlowID and Value is a variable representing the cluster ID, which is ${emr.clusterId} . This enables the rule to bootstrap when the cluster ID becomes avail- able. Key -&gt; (string) The dimension name. Value -&gt; (string) The dimension value. JSON Syntax: { "Constraints": { "MinCapacity": integer, "MaxCapacity": integer }, "Rules": [ { "Name": "string", "Description": "string", "Action": { "Market": "ON_DEMAND"|"SPOT", "SimpleScalingPolicyConfiguration": { "AdjustmentType": "CHANGE_IN_CAPACITY"|"PERCENT_CHANGE_IN_CAPACITY"|"EXACT_CAPACITY", "ScalingAdjustment": integer, "CoolDown": integer } }, "Trigger": { "CloudWatchAlarmDefinition": { "ComparisonOperator": "GREATER_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN"|"LESS_THAN_OR_EQUAL", "EvaluationPeriods": integer, "MetricName": "string", "Namespace": "string", "Period": integer, "Statistic": "SAMPLE_COUNT"|"AVERAGE"|"SUM"|"MINIMUM"|"MAXIMUM", "Threshold": double, "Unit": "NONE"|"SECONDS"|"MICRO_SECONDS"|"MILLI_SECONDS"|"BYTES"|"KILO_BYTES"|"MEGA_BYTES"|"GIGA_BYTES"|"TERA_BYTES"|"BITS"|"KILO_BITS"|"MEGA_BITS"|"GIGA_BITS"|"TERA_BITS"|"PERCENT"|"COUNT"|"BYTES_PER_SECOND"|"KILO_BYTES_PER_SECOND"|"MEGA_BYTES_PER_SECOND"|"GIGA_BYTES_PER_SECOND"|"TERA_BYTES_PER_SECOND"|"BITS_PER_SECOND"|"KILO_BITS_PER_SECOND"|"MEGA_BITS_PER_SECOND"|"GIGA_BITS_PER_SECOND"|"TERA_BITS_PER_SECOND"|"COUNT_PER_SECOND", "Dimensions": [ { "Key": "string", "Value": "string" } ... ] } } } ... ] }</param>
+    public AwsEmrPutAutoScalingPolicyOptions(
+        string ClusterId,
+        string InstanceGroupId,
+        string AutoScalingPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceGroupId);
+        this.InstanceGroupId = InstanceGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingPolicy);
+        this.AutoScalingPolicy = AutoScalingPolicy;
+    }
+
+    private AwsEmrPutAutoScalingPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrPutAutoScalingPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrPutAutoScalingPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of a cluster. The instance group to which the auto- matic scaling policy is applied is within this cluster. Constraints: o max: 256
+    /// </summary>
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string? ClusterId { get; private init; }
 
+    /// <summary>
+    /// Specifies the ID of the instance group to which the automatic scal- ing policy is applied. Constraints: o max: 256
+    /// </summary>
     [CliOption("--instance-group-id")]
-    public string? InstanceGroupId { get; set; }
+    public string? InstanceGroupId { get; private init; }
 
+    /// <summary>
+    /// Specifies the definition of the automatic scaling policy. Constraints -&gt; (structure) [required] The upper and lower Amazon EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an in- stance group to grow above or below these limits. MinCapacity -&gt; (integer) [required] The lower boundary of Amazon EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances be- low this boundary. MaxCapacity -&gt; (integer) [required] The upper boundary of Amazon EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary. Rules -&gt; (list) [required] The scale-in and scale-out rules that comprise the automatic scaling policy. (structure) A scale-in or scale-out rule that defines scaling activity, including the CloudWatch metric alarm that triggers activity, how Amazon EC2 instances are added or removed, and the peri- odicity of adjustments. The automatic scaling policy for an instance group can comprise one or more automatic scaling rules. Name -&gt; (string) [required] The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy. Description -&gt; (string) A friendly, more verbose description of the automatic scaling rule. Action -&gt; (structure) [required] The conditions that trigger an automatic scaling activ- ity. Market -&gt; (string) Not available for instance groups. Instance groups use the market type specified for the group. Possible values: o ON_DEMAND o SPOT SimpleScalingPolicyConfiguration -&gt; (structure) [re- quired] The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the ad- justment. AdjustmentType -&gt; (string) The way in which Amazon EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is trig- gered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the Amazon EC2 instance count increments or decrements by Scalin- gAdjustment , which should be expressed as an in- teger. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling ac- tivity results in an instance group with the num- ber of Amazon EC2 instances specified by Scalin- gAdjustment , which should be expressed as a posi- tive integer. Possible values: o CHANGE_IN_CAPACITY o PERCENT_CHANGE_IN_CAPACITY o EXACT_CAPACITY ScalingAdjustment -&gt; (integer) [required] The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's Amazon EC2 in- stance count while a negative number removes in- stances. If AdjustmentType is set to EXACT_CAPAC- ITY , the number should only be a positive inte- ger. If AdjustmentType is set to PER- CENT_CHANGE_IN_CAPACITY , the value should express the percentage as an integer. For example, -20 in- dicates a decrease in 20% increments of cluster capacity. CoolDown -&gt; (integer) The amount of time, in seconds, after a scaling activity completes before any further trigger-re- lated scaling activities can start. The default value is 0. Trigger -&gt; (structure) [required] The CloudWatch alarm definition that determines when au- tomatic scaling activity is triggered. CloudWatchAlarmDefinition -&gt; (structure) [required] The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins. ComparisonOperator -&gt; (string) [required] Determines how the metric specified by MetricName is compared to the value specified by Threshold . Possible values: o GREATER_THAN_OR_EQUAL o GREATER_THAN o LESS_THAN o LESS_THAN_OR_EQUAL EvaluationPeriods -&gt; (integer) The number of periods, in five-minute increments, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1 . MetricName -&gt; (string) [required] The name of the CloudWatch metric that is watched to determine an alarm condition. Namespace -&gt; (string) The namespace for the CloudWatch metric. The de- fault is AWS/ElasticMapReduce . Period -&gt; (integer) [required] The period, in seconds, over which the statistic is applied. CloudWatch metrics for Amazon EMR are emitted every five minutes (300 seconds), so if you specify a CloudWatch metric, specify 300 . Statistic -&gt; (string) The statistic to apply to the metric associated with the alarm. The default is AVERAGE . Possible values: o SAMPLE_COUNT o AVERAGE o SUM o MINIMUM o MAXIMUM Threshold -&gt; (double) [required] The value against which the specified statistic is compared. Constraints: o min: 0.0 Unit -&gt; (string) The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric. Possible values: o NONE o SECONDS o MICRO_SECONDS o MILLI_SECONDS o BYTES o KILO_BYTES o MEGA_BYTES o GIGA_BYTES o TERA_BYTES o BITS o KILO_BITS o MEGA_BITS o GIGA_BITS o TERA_BITS o PERCENT o COUNT o BYTES_PER_SECOND o KILO_BYTES_PER_SECOND o MEGA_BYTES_PER_SECOND o GIGA_BYTES_PER_SECOND o TERA_BYTES_PER_SECOND o BITS_PER_SECOND o KILO_BITS_PER_SECOND o MEGA_BITS_PER_SECOND o GIGA_BITS_PER_SECOND o TERA_BITS_PER_SECOND o COUNT_PER_SECOND Dimensions -&gt; (list) A CloudWatch metric dimension. (structure) A CloudWatch dimension, which is specified us- ing a Key (known as a Name in CloudWatch), Value pair. By default, Amazon EMR uses one di- mension whose Key is JobFlowID and Value is a variable representing the cluster ID, which is ${emr.clusterId} . This enables the rule to bootstrap when the cluster ID becomes avail- able. Key -&gt; (string) The dimension name. Value -&gt; (string) The dimension value. JSON Syntax: { "Constraints": { "MinCapacity": integer, "MaxCapacity": integer }, "Rules": [ { "Name": "string", "Description": "string", "Action": { "Market": "ON_DEMAND"|"SPOT", "SimpleScalingPolicyConfiguration": { "AdjustmentType": "CHANGE_IN_CAPACITY"|"PERCENT_CHANGE_IN_CAPACITY"|"EXACT_CAPACITY", "ScalingAdjustment": integer, "CoolDown": integer } }, "Trigger": { "CloudWatchAlarmDefinition": { "ComparisonOperator": "GREATER_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN"|"LESS_THAN_OR_EQUAL", "EvaluationPeriods": integer, "MetricName": "string", "Namespace": "string", "Period": integer, "Statistic": "SAMPLE_COUNT"|"AVERAGE"|"SUM"|"MINIMUM"|"MAXIMUM", "Threshold": double, "Unit": "NONE"|"SECONDS"|"MICRO_SECONDS"|"MILLI_SECONDS"|"BYTES"|"KILO_BYTES"|"MEGA_BYTES"|"GIGA_BYTES"|"TERA_BYTES"|"BITS"|"KILO_BITS"|"MEGA_BITS"|"GIGA_BITS"|"TERA_BITS"|"PERCENT"|"COUNT"|"BYTES_PER_SECOND"|"KILO_BYTES_PER_SECOND"|"MEGA_BYTES_PER_SECOND"|"GIGA_BYTES_PER_SECOND"|"TERA_BYTES_PER_SECOND"|"BITS_PER_SECOND"|"KILO_BITS_PER_SECOND"|"MEGA_BITS_PER_SECOND"|"GIGA_BITS_PER_SECOND"|"TERA_BITS_PER_SECOND"|"COUNT_PER_SECOND", "Dimensions": [ { "Key": "string", "Value": "string" } ... ] } } } ... ] }
+    /// </summary>
     [CliOption("--auto-scaling-policy")]
-    public string? AutoScalingPolicy { get; set; }
+    public string? AutoScalingPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

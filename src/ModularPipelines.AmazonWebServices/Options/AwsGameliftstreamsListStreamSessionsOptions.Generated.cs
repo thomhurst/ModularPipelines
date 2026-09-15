@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "list-stream-sessions")]
-public record AwsGameliftstreamsListStreamSessionsOptions : AwsOptions
+public record AwsGameliftstreamsListStreamSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting. To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed. This operation returns the requested stream sessions in no particular order. See also: AWS API Documentation list-stream-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginat...
+    /// </summary>
+    /// <param name="Identifier">The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsListStreamSessionsOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsGameliftstreamsListStreamSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsListStreamSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsListStreamSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
     /// <summary>
     /// Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status. Possible values: o ACTIVATING o ACTIVE o CONNECTED o PENDING_CLIENT_RECONNECTION o RECONNECTING o TERMINATING o TERMINATED o ERROR
     /// </summary>
@@ -34,9 +74,6 @@ public record AwsGameliftstreamsListStreamSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--export-files-status")]
     public AwsGameliftstreamsListStreamSessionsExportFilesStatus? ExportFilesStatus { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -62,5 +99,21 @@ public record AwsGameliftstreamsListStreamSessionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

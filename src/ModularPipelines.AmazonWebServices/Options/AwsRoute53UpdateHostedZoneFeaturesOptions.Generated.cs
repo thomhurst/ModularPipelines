@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "update-hosted-zone-features")]
-public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions
+public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--enable-accelerated-recovery")]
+    /// <summary>
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: o max: 32</param>
+    public AwsRoute53UpdateHostedZoneFeaturesOptions(
+        string HostedZoneId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+    }
+
+    private AwsRoute53UpdateHostedZoneFeaturesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53UpdateHostedZoneFeaturesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53UpdateHostedZoneFeaturesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: o max: 32
+    /// </summary>
+    [CliOption("--hosted-zone-id")]
+    public string? HostedZoneId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to dis- able it.
+    /// </summary>
+    [CliFlag("--enable-accelerated-recovery", NegatedName = "--no-enable-accelerated-recovery")]
     public bool? EnableAcceleratedRecovery { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

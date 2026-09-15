@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "disassociate-resource-share")]
-public record AwsRamDisassociateResourceShareOptions : AwsOptions
+public record AwsRamDisassociateResourceShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the specified principals, resources, or source constraints from participating in the specified resource share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceShareArn">Specifies Amazon Resource Name (ARN) of the resource share that you want to remove resources or principals from.</param>
+    public AwsRamDisassociateResourceShareOptions(
+        string ResourceShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareArn);
+        this.ResourceShareArn = ResourceShareArn;
+    }
+
+    private AwsRamDisassociateResourceShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamDisassociateResourceShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamDisassociateResourceShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies Amazon Resource Name (ARN) of the resource share that you want to remove resources or principals from.
+    /// </summary>
     [CliOption("--resource-share-arn")]
-    public string? ResourceShareArn { get; set; }
+    public string? ResourceShareArn { get; private init; }
 
     /// <summary>
     /// Specifies a list of Amazon Resource Names (ARNs) for one or more re- sources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share. (string) Syntax: "string" "string" ...
@@ -55,5 +92,21 @@ public record AwsRamDisassociateResourceShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

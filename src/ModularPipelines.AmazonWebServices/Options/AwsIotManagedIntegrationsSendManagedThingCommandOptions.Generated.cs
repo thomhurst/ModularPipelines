@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "send-managed-thing-command")]
-public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptions
+public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--managed-thing-id")]
-    public string? ManagedThingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Send the command to the device represented by the managed thing. See also: AWS API Documentation send-managed-thing-command uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="ManagedThingId">The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="Endpoints">The device endpoint. Constraints: o min: 1 o max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: o min: 1 o max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: o min: 1 o max: 5 (structure) Action for an Amazon Web Services capability, con- taining the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: o pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: o pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTra- ceId for a response command. Constraints: o min: 16 o max: 20 o pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]</param>
+    public AwsIotManagedIntegrationsSendManagedThingCommandOptions(
+        string ManagedThingId,
+        IEnumerable<string> Endpoints
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagedThingId);
+        this.ManagedThingId = ManagedThingId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+    }
+
+    private AwsIotManagedIntegrationsSendManagedThingCommandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsSendManagedThingCommandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsSendManagedThingCommandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id of the device. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// </summary>
+    [CliOption("--managed-thing-id")]
+    public string? ManagedThingId { get; private init; }
+
+    /// <summary>
+    /// The device endpoint. Constraints: o min: 1 o max: 5 (structure) The endpoint for a managed thing when sending a command. endpointId -&gt; (string) [required] The id of the endpoint for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ capabilities -&gt; (list) [required] Describe the endpoint with an id, a name, and the relevant capabilities for sending commands. Constraints: o min: 1 o max: 5 (structure) The command capabilities added for the managed thing id -&gt; (string) [required] Describe the capability with an id. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] Describe the capability with an name. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] Describe the capability with a version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9][0-9]*) actions -&gt; (list) [required] Describe the command capability with the actions it supports. Constraints: o min: 1 o max: 5 (structure) Action for an Amazon Web Services capability, con- taining the action parameters for control. name -&gt; (string) [required] Describe a capability action with a name. Constraints: o pattern: [/a-zA-Z]+ ref -&gt; (string) Describe a capability action with an reference. Constraints: o pattern: [a-zA-Z.]+ actionTraceId -&gt; (string) Describe a capability action with an actionTra- ceId for a response command. Constraints: o min: 16 o max: 20 o pattern: [a-zA-Z0-9]+=(?:_[0-9]+)? parameters -&gt; (document) Describe a capability action with a capability property. JSON Syntax: [ { "endpointId": "string", "capabilities": [ { "id": "string", "name": "string", "version": "string", "actions": [ { "name": "string", "ref": "string", "actionTraceId": "string", "parameters": {...} } ... ] } ... ] } ... ]
+    /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
-    public IEnumerable<string>? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints { get; private init; }
 
     /// <summary>
     /// The ID tracking the current discovery process for one connector as- sociation. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
@@ -44,5 +99,21 @@ public record AwsIotManagedIntegrationsSendManagedThingCommandOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

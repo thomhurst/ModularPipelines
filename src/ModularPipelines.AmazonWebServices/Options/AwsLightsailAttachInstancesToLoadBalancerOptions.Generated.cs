@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "attach-instances-to-load-balancer")]
-public record AwsLightsailAttachInstancesToLoadBalancerOptions : AwsOptions
+public record AwsLightsailAttachInstancesToLoadBalancerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based ac- cess control via resource tags applied to the resource identified by load balancer name . For more information, see the Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceNames">An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail in- stances you can create in your account (20). (string) Constraints: o pattern: \w[\w\-]*\w Syntax: "string" "string" ...</param>
+    public AwsLightsailAttachInstancesToLoadBalancerOptions(
+        string LoadBalancerName,
+        IEnumerable<string> InstanceNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceNames));
+            }
+
+            InstanceNames = materialized;
+        }
+        this.InstanceNames = InstanceNames;
+    }
+
+    private AwsLightsailAttachInstancesToLoadBalancerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailAttachInstancesToLoadBalancerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailAttachInstancesToLoadBalancerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail in- stances you can create in your account (20). (string) Constraints: o pattern: \w[\w\-]*\w Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--instance-names", GroupValues = true)]
-    public IEnumerable<string>? InstanceNames { get; set; }
+    public IEnumerable<string>? InstanceNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

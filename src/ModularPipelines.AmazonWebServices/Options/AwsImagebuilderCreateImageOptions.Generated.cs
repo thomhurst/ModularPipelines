@@ -12,17 +12,57 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution con- figuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn. See also: AWS API Documentation
+/// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-image")]
-public record AwsImagebuilderCreateImageOptions : AwsOptions
+public record AwsImagebuilderCreateImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
+    public AwsImagebuilderCreateImageOptions(
+        string InfrastructureConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InfrastructureConfigurationArn);
+        this.InfrastructureConfigurationArn = InfrastructureConfigurationArn;
+    }
+
+    private AwsImagebuilderCreateImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$
+    /// </summary>
+    [CliOption("--infrastructure-configuration-arn")]
+    public string? InfrastructureConfigurationArn { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
@@ -41,16 +81,16 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
     [CliOption("--distribution-configuration-arn")]
     public string? DistributionConfigurationArn { get; set; }
 
-    [CliOption("--infrastructure-configuration-arn")]
-    public string? InfrastructureConfigurationArn { get; set; }
-
     /// <summary>
-    /// The image tests configuration of the image. imageTestsEnabled -&gt; (boolean) Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution. timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. NOTE: The timeout property is not currently active. This value is ignored. Constraints: o min: 60 o max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
+    /// The image tests configuration of the image. imageTestsEnabled -&gt; (boolean) Specifies whether tests run after building the image. When en- abled, tests run after the image build and before image distrib- ution. Defaults to true . timeoutMinutes -&gt; (integer) The maximum time in minutes that tests are permitted to run. NOTE: The timeout property is not currently active. This value is ignored. Constraints: o min: 60 o max: 1440 Shorthand Syntax: imageTestsEnabled=boolean,timeoutMinutes=integer JSON Syntax: { "imageTestsEnabled": true|false, "timeoutMinutes": integer }
     /// </summary>
     [CliOption("--image-tests-configuration")]
     public string? ImageTestsConfiguration { get; set; }
 
-    [CliFlag("--enhanced-image-metadata-enabled")]
+    /// <summary>
+    /// abled (boolean) Specifies whether to collect additional information about the image being created, including the operating system (OS) version and pack- age list. Defaults to true .
+    /// </summary>
+    [CliFlag("--enhanced-image-metadata-enabled", NegatedName = "--no-enhanced-image-metadata-enabled")]
     public bool? EnhancedImageMetadataEnabled { get; set; }
 
     /// <summary>
@@ -60,7 +100,7 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -85,7 +125,7 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
     public string? ExecutionRole { get; set; }
 
     /// <summary>
-    /// Define logging configuration for the image build process. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
+    /// The logging configuration for the image build process. logGroupName -&gt; (string) The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/image- builder/image-name . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-_/\.]{1,512}$ Shorthand Syntax: logGroupName=string JSON Syntax: { "logGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
@@ -95,5 +135,21 @@ public record AwsImagebuilderCreateImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

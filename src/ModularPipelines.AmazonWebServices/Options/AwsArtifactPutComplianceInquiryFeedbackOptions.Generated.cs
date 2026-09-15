@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "put-compliance-inquiry-feedback")]
-public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions
+public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits feedback on a compliance inquiry response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComplianceInquiryId">The unique identifier for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}</param>
+    /// <param name="Rating">The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: o THUMBS_UP o THUMBS_DOWN</param>
+    public AwsArtifactPutComplianceInquiryFeedbackOptions(
+        string ComplianceInquiryId,
+        AwsArtifactPutComplianceInquiryFeedbackRating Rating
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComplianceInquiryId);
+        this.ComplianceInquiryId = ComplianceInquiryId;
+        global::System.ArgumentNullException.ThrowIfNull(Rating);
+        this.Rating = Rating;
+    }
+
+    private AwsArtifactPutComplianceInquiryFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArtifactPutComplianceInquiryFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArtifactPutComplianceInquiryFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}
+    /// </summary>
     [CliOption("--compliance-inquiry-id")]
-    public string? ComplianceInquiryId { get; set; }
+    public string? ComplianceInquiryId { get; private init; }
+
+    /// <summary>
+    /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN. Possible values: o THUMBS_UP o THUMBS_DOWN
+    /// </summary>
+    [CliOption("--rating")]
+    public AwsArtifactPutComplianceInquiryFeedbackRating? Rating { get; private init; }
 
     /// <summary>
     /// The sequential identifier of the query to provide feedback on.
     /// </summary>
     [CliOption("--query-identifier")]
     public int? QueryIdentifier { get; set; }
-
-    [CliOption("--rating")]
-    public string? Rating { get; set; }
 
     /// <summary>
     /// The response revision ID. Use this value to prevent submitting feed- back on a stale response.
@@ -64,5 +109,21 @@ public record AwsArtifactPutComplianceInquiryFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

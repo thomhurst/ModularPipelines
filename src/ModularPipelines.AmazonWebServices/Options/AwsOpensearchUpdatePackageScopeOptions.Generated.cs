@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "update-package-scope")]
-public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions
+public record AwsOpensearchUpdatePackageScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the scope of a package. Scope of the package defines users who can view and associate a package. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageId">ID of the package whose scope is being updated. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="Operation">The operation to perform on the package scope (e.g., add/re- move/override users). Possible values: o ADD o OVERRIDE o REMOVE</param>
+    /// <param name="PackageUserList">List of users to be added or removed from the package scope. (string) Constraints: o min: 6 o max: 12 o pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...</param>
+    public AwsOpensearchUpdatePackageScopeOptions(
+        string PackageId,
+        AwsOpensearchUpdatePackageScopeOperation Operation,
+        IEnumerable<string> PackageUserList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackageUserList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PackageUserList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackageUserList));
+            }
+
+            PackageUserList = materialized;
+        }
+        this.PackageUserList = PackageUserList;
+    }
+
+    private AwsOpensearchUpdatePackageScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchUpdatePackageScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchUpdatePackageScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the package whose scope is being updated. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// </summary>
     [CliOption("--package-id")]
-    public string? PackageId { get; set; }
+    public string? PackageId { get; private init; }
 
+    /// <summary>
+    /// The operation to perform on the package scope (e.g., add/re- move/override users). Possible values: o ADD o OVERRIDE o REMOVE
+    /// </summary>
     [CliOption("--operation")]
-    public string? Operation { get; set; }
+    public AwsOpensearchUpdatePackageScopeOperation? Operation { get; private init; }
 
+    /// <summary>
+    /// List of users to be added or removed from the package scope. (string) Constraints: o min: 6 o max: 12 o pattern: ^[0-9]{12}$|^GLOBAL$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--package-user-list", GroupValues = true)]
-    public IEnumerable<string>? PackageUserList { get; set; }
+    public IEnumerable<string>? PackageUserList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

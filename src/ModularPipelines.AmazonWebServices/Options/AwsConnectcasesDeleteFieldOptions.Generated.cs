@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "delete-field")]
-public record AwsConnectcasesDeleteFieldOptions : AwsOptions
+public record AwsConnectcasesDeleteFieldOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a field from a cases template. After a field is deleted: o You can still retrieve the field by calling BatchGetField . o You cannot update a deleted field by calling UpdateField ; it throws a ValidationException . o Deleted fields are not included in the ListFields response. o Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted. o Calling GetCase with a deleted field identifier returns the deleted field's ...
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="FieldId">Unique identifier of the field. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectcasesDeleteFieldOptions(
+        string DomainId,
+        string FieldId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(FieldId);
+        this.FieldId = FieldId;
+    }
+
+    private AwsConnectcasesDeleteFieldOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesDeleteFieldOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesDeleteFieldOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// Unique identifier of the field. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--field-id")]
-    public string? FieldId { get; set; }
+    public string? FieldId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

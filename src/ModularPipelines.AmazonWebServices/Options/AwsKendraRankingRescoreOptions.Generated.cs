@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra-ranking", "rescore")]
-public record AwsKendraRankingRescoreOptions : AwsOptions
+public record AwsKendraRankingRescoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Rescores or re-ranks search results from a search service such as OpenSearch (self managed). You use the semantic search capabilities of Amazon Kendra Intelligent Ranking to improve the search service's re- sults. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RescoreExecutionPlanId">The identifier of the rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for pro- visioning the Rescore API. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="SearchQuery">The input query from the search service. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Documents">The list of documents for Amazon Kendra Intelligent Ranking to rescore or rank on. Constraints: o min: 1 (structure) Information about a document from a search service such as OpenSearch (self managed). Amazon Kendra Intelligent Ranking uses this information to rank and score on. Id -&gt; (string) [required] The identifier of the document from the search service. Constraints: o min: 1 o max: 2048 GroupId -&gt; (string) The optional group identifier of the document from the search service. Documents with the same group identifier are grouped together and processed as one document within the service. Constraints: o min: 1 o max: 2048 Title -&gt; (string) The title of the search service's document. Constraints: o min: 1 o max: 1024 Body -&gt; (string) The body text of the search service's document. Constraints: o min: 1 o max: 2048 o pattern: ^\P{C}*$ TokenizedTitle -&gt; (list) The title of the search service's document represented as a list of tokens or words. You must choose to provide Title or TokenizedTitle . You cannot provide both. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 TokenizedBody -&gt; (list) The body text of the search service's document represented as a list of tokens or words. You must choose to provide Body or TokenizedBody . You cannot provide both. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 OriginalScore -&gt; (float) [required] The original document score or rank from the search service. Amazon Kendra Intelligent Ranking gives the document a new score or rank based on its intelligent search algorithms. Constraints: o min: -100000 o max: 100000 Shorthand Syntax: Id=string,GroupId=string,Title=string,Body=string,TokenizedTitle=string,string,TokenizedBody=string,string,OriginalScore=float ... JSON Syntax: [ { "Id": "string", "GroupId": "string", "Title": "string", "Body": "string", "TokenizedTitle": ["string", ...], "TokenizedBody": ["string", ...], "OriginalScore": float } ... ]</param>
+    public AwsKendraRankingRescoreOptions(
+        string RescoreExecutionPlanId,
+        string SearchQuery,
+        IEnumerable<string> Documents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RescoreExecutionPlanId);
+        this.RescoreExecutionPlanId = RescoreExecutionPlanId;
+        global::System.ArgumentNullException.ThrowIfNull(SearchQuery);
+        this.SearchQuery = SearchQuery;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Documents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Documents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Documents));
+            }
+
+            Documents = materialized;
+        }
+        this.Documents = Documents;
+    }
+
+    private AwsKendraRankingRescoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraRankingRescoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraRankingRescoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for pro- visioning the Rescore API. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--rescore-execution-plan-id")]
-    public string? RescoreExecutionPlanId { get; set; }
+    public string? RescoreExecutionPlanId { get; private init; }
 
+    /// <summary>
+    /// The input query from the search service. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--search-query")]
-    public string? SearchQuery { get; set; }
+    public string? SearchQuery { get; private init; }
 
+    /// <summary>
+    /// The list of documents for Amazon Kendra Intelligent Ranking to rescore or rank on. Constraints: o min: 1 (structure) Information about a document from a search service such as OpenSearch (self managed). Amazon Kendra Intelligent Ranking uses this information to rank and score on. Id -&gt; (string) [required] The identifier of the document from the search service. Constraints: o min: 1 o max: 2048 GroupId -&gt; (string) The optional group identifier of the document from the search service. Documents with the same group identifier are grouped together and processed as one document within the service. Constraints: o min: 1 o max: 2048 Title -&gt; (string) The title of the search service's document. Constraints: o min: 1 o max: 1024 Body -&gt; (string) The body text of the search service's document. Constraints: o min: 1 o max: 2048 o pattern: ^\P{C}*$ TokenizedTitle -&gt; (list) The title of the search service's document represented as a list of tokens or words. You must choose to provide Title or TokenizedTitle . You cannot provide both. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 TokenizedBody -&gt; (list) The body text of the search service's document represented as a list of tokens or words. You must choose to provide Body or TokenizedBody . You cannot provide both. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 OriginalScore -&gt; (float) [required] The original document score or rank from the search service. Amazon Kendra Intelligent Ranking gives the document a new score or rank based on its intelligent search algorithms. Constraints: o min: -100000 o max: 100000 Shorthand Syntax: Id=string,GroupId=string,Title=string,Body=string,TokenizedTitle=string,string,TokenizedBody=string,string,OriginalScore=float ... JSON Syntax: [ { "Id": "string", "GroupId": "string", "Title": "string", "Body": "string", "TokenizedTitle": ["string", ...], "TokenizedBody": ["string", ...], "OriginalScore": float } ... ]
+    /// </summary>
     [CliOption("--documents", GroupValues = true)]
-    public IEnumerable<string>? Documents { get; set; }
+    public IEnumerable<string>? Documents { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

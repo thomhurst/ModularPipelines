@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "generate-organizations-access-report")]
-public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions
+public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organi- zational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM an...
+    /// </summary>
+    /// <param name="EntityPath">The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0exam- ple/ou-rge0-awsabcde/123456789012 . Constraints: o min: 19 o max: 427 o pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*</param>
+    public AwsIamGenerateOrganizationsAccessReportOptions(
+        string EntityPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntityPath);
+        this.EntityPath = EntityPath;
+    }
+
+    private AwsIamGenerateOrganizationsAccessReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGenerateOrganizationsAccessReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGenerateOrganizationsAccessReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde . The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5 . Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0exam- ple/ou-rge0-awsabcde/123456789012 . Constraints: o min: 19 o max: 427 o pattern: ^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*
+    /// </summary>
     [CliOption("--entity-path")]
-    public string? EntityPath { get; set; }
+    public string? EntityPath { get; private init; }
 
     /// <summary>
     /// The identifier of the Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account prin- cipal that is limited by the SCP attempted to access an Amazon Web Services service. Constraints: o pattern: ^p-[0-9a-zA-Z_]{8,128}$
@@ -35,5 +72,21 @@ public record AwsIamGenerateOrganizationsAccessReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

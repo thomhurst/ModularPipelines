@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "update-package-group-origin-configuration")]
-public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsOptions
+public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Docu...
+    /// </summary>
+    /// <param name="Domain">The name of the domain which contains the package group for which to update the origin configuration. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group for which to update the origin con- figuration. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    public AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions(
+        string Domain,
+        string PackageGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(PackageGroup);
+        this.PackageGroup = PackageGroup;
+    }
+
+    private AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain which contains the package group for which to update the origin configuration. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The pattern of the package group for which to update the origin con- figuration. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// </summary>
+    [CliOption("--package-group")]
+    public string? PackageGroup { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
-
-    [CliOption("--package-group")]
-    public string? PackageGroup { get; set; }
 
     /// <summary>
     /// The origin configuration settings that determine how package ver- sions can enter repositories. key -&gt; (string) Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH value -&gt; (string) Possible values: o ALLOW o ALLOW_SPECIFIC_REPOSITORIES o BLOCK o INHERIT Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EXTERNAL_UPSTREAM INTERNAL_UPSTREAM PUBLISH JSON Syntax: {"EXTERNAL_UPSTREAM"|"INTERNAL_UPSTREAM"|"PUBLISH": "ALLOW"|"ALLOW_SPECIFIC_REPOSITORIES"|"BLOCK"|"INHERIT" ...}
@@ -57,5 +101,21 @@ public record AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

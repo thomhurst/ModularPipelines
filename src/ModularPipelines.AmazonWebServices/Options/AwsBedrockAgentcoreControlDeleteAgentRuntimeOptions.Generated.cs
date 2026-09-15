@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "delete-agent-runtime")]
-public record AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions : AwsOptions
+public record AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an Amazon Bedrock AgentCore Runtime, or a single version of an AgentCore Runtime when you provide the version qualifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentRuntimeId">The unique identifier of the AgentCore Runtime to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}</param>
+    public AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions(
+        string AgentRuntimeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentRuntimeId);
+        this.AgentRuntimeId = AgentRuntimeId;
+    }
+
+    private AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the AgentCore Runtime to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--agent-runtime-id")]
-    public string? AgentRuntimeId { get; set; }
+    public string? AgentRuntimeId { get; private init; }
 
     /// <summary>
     /// The version of the AgentCore Runtime to delete. When you provide this value, only that version is deleted. When you omit it, the en- tire AgentCore Runtime and all of its versions are deleted. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
@@ -43,5 +80,21 @@ public record AwsBedrockAgentcoreControlDeleteAgentRuntimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

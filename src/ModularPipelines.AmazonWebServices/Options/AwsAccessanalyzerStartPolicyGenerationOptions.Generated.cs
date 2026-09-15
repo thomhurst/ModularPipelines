@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "start-policy-generation")]
-public record AwsAccessanalyzerStartPolicyGenerationOptions : AwsOptions
+public record AwsAccessanalyzerStartPolicyGenerationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the policy generation request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyGenerationDetails">Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are gen- erating a policy. Constraints: o pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }</param>
+    public AwsAccessanalyzerStartPolicyGenerationOptions(
+        string PolicyGenerationDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyGenerationDetails);
+        this.PolicyGenerationDetails = PolicyGenerationDetails;
+    }
+
+    private AwsAccessanalyzerStartPolicyGenerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerStartPolicyGenerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerStartPolicyGenerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains the ARN of the IAM entity (user or role) for which you are generating a policy. principalArn -&gt; (string) [required] The ARN of the IAM entity (user or role) for which you are gen- erating a policy. Constraints: o pattern: arn:[^:]*:iam::[^:]*:(role|user)/.{1,576} Shorthand Syntax: principalArn=string JSON Syntax: { "principalArn": "string" }
+    /// </summary>
     [CliOption("--policy-generation-details")]
-    public string? PolicyGenerationDetails { get; set; }
+    public string? PolicyGenerationDetails { get; private init; }
 
     /// <summary>
     /// A CloudTrailDetails object that contains details about a Trail that you want to analyze to generate policies. trails -&gt; (list) [required] A Trail object that contains settings for a trail. (structure) Contains details about the CloudTrail trail being analyzed to generate a policy. cloudTrailArn -&gt; (string) [required] Specifies the ARN of the trail. The format of a trail ARN is arn:aws:cloudtrail:us-east-2:123456789012:trail/My- Trail . Constraints: o pattern: arn:[^:]*:cloud- trail:[^:]*:[^:]*:trail/.{1,576} regions -&gt; (list) A list of regions to get CloudTrail data from and analyze to generate a policy. (string) allRegions -&gt; (boolean) Possible values are true or false . If set to true , IAM Access Analyzer retrieves CloudTrail data from all re- gions to analyze and generate a policy. accessRole -&gt; (string) [required] The ARN of the service role that IAM Access Analyzer uses to ac- cess your CloudTrail trail and service last accessed informa- tion. Constraints: o pattern: arn:[^:]*:iam::[^:]*:role/.{1,576} startTime -&gt; (timestamp) [required] The start of the time range for which IAM Access Analyzer re- views your CloudTrail events. Events with a timestamp before this time are not considered to generate a policy. endTime -&gt; (timestamp) The end of the time range for which IAM Access Analyzer reviews your CloudTrail events. Events with a timestamp after this time are not considered to generate a policy. If this is not included in the request, the default value is the current time. JSON Syntax: { "trails": [ { "cloudTrailArn": "string", "regions": ["string", ...], "allRegions": true|false } ... ], "accessRole": "string", "startTime": timestamp, "endTime": timestamp }
@@ -43,5 +80,21 @@ public record AwsAccessanalyzerStartPolicyGenerationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

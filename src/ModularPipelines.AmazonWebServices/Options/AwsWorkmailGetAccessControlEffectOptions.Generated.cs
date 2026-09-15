@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "get-access-control-effect")]
-public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions
+public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the effects of an organization's access control rules as they ap- ply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or imperson- ation role ID. Impersonation role ID can only be used with Action EWS. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="IpAddress">The IPv4 address. Constraints: o min: 1 o max: 15 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$</param>
+    /// <param name="Action">The access protocol action. Valid values include ActiveSync , Au- toDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+</param>
+    public AwsWorkmailGetAccessControlEffectOptions(
+        string OrganizationId,
+        string IpAddress,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(IpAddress);
+        this.IpAddress = IpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsWorkmailGetAccessControlEffectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailGetAccessControlEffectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailGetAccessControlEffectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The IPv4 address. Constraints: o min: 1 o max: 15 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    /// </summary>
     [CliOption("--ip-address")]
-    public string? IpAddress { get; set; }
+    public string? IpAddress { get; private init; }
 
+    /// <summary>
+    /// The access protocol action. Valid values include ActiveSync , Au- toDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// The user ID. Constraints: o min: 12 o max: 256
@@ -47,5 +98,21 @@ public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

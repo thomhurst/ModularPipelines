@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-deployment", "put-deployment-parameter")]
-public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
+public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a deployment parameter and is targeted by catalog and agreementId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$</param>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z_-]+$</param>
+    /// <param name="DeploymentParameter">The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the iden- tifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: o min: 1 o max: 400 o pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: o min: 1 o max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }</param>
+    /// <param name="ProductId">The product for which AWS Marketplace will save secrets for the buy- ers account. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$</param>
+    public AwsMarketplaceDeploymentPutDeploymentParameterOptions(
+        string AgreementId,
+        string Catalog,
+        string DeploymentParameter,
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentParameter);
+        this.DeploymentParameter = DeploymentParameter;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    private AwsMarketplaceDeploymentPutDeploymentParameterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceDeploymentPutDeploymentParameterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceDeploymentPutDeploymentParameterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$
+    /// </summary>
+    [CliOption("--agreement-id")]
+    public string? AgreementId { get; private init; }
+
+    /// <summary>
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z_-]+$
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource. name -&gt; (string) [required] The desired name of the deployment parameter. This is the iden- tifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource. Constraints: o min: 1 o max: 400 o pattern: ^[a-zA-Z0-9/_+=.@-]+$ secretString -&gt; (string) [required] The text to encrypt and store in the secret. Constraints: o min: 1 o max: 15000 Shorthand Syntax: name=string,secretString=string JSON Syntax: { "name": "string", "secretString": "string" }
+    /// </summary>
+    [CliOption("--deployment-parameter")]
+    public string? DeploymentParameter { get; private init; }
+
+    /// <summary>
+    /// The product for which AWS Marketplace will save secrets for the buy- ers account. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9_/-]+$
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
 
     /// <summary>
     /// The idempotency token for deployment parameters. A unique identifier for the new version. NOTE: This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request. Constraints: o min: 32 o max: 64 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$
@@ -36,17 +100,11 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--deployment-parameter")]
-    public string? DeploymentParameter { get; set; }
-
     /// <summary>
     /// The date when deployment parameters expire and are scheduled for deletion.
     /// </summary>
     [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
 
     /// <summary>
     /// A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9/_+=.:@-]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -59,5 +117,21 @@ public record AwsMarketplaceDeploymentPutDeploymentParameterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

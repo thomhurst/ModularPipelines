@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudhsmv2", "modify-backup-attributes")]
-public record AwsCloudhsmv2ModifyBackupAttributesOptions : AwsOptions
+public record AwsCloudhsmv2ModifyBackupAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--backup-id")]
-    public string? BackupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--never-expires")]
-    public bool? NeverExpires { get; set; }
+    /// <summary>
+    /// Modifies attributes for CloudHSM backup. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupId">The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="NeverExpires">Specifies whether the service should exempt a backup from the reten- tion policy for the cluster. True exempts a backup from the reten- tion policy. False means the service applies the backup retention policy defined at the cluster.</param>
+    public AwsCloudhsmv2ModifyBackupAttributesOptions(
+        string BackupId,
+        bool NeverExpires
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupId);
+        this.BackupId = BackupId;
+        this.NeverExpires = NeverExpires;
+    }
+
+    private AwsCloudhsmv2ModifyBackupAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudhsmv2ModifyBackupAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudhsmv2ModifyBackupAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation. Constraints: o pattern: backup-[2-7a-zA-Z]{11,16}
+    /// </summary>
+    [CliOption("--backup-id")]
+    public string? BackupId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the service should exempt a backup from the reten- tion policy for the cluster. True exempts a backup from the reten- tion policy. False means the service applies the backup retention policy defined at the cluster.
+    /// </summary>
+    [CliFlag("--never-expires", NegatedName = "--no-never-expires")]
+    public bool? NeverExpires { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

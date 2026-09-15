@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "copy-db-snapshot")]
-public record AwsRdsCopyDbSnapshotOptions : AwsOptions
+public record AwsRdsCopyDbSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-db-snapshot-identifier")]
-    public string? SourceDbSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one Amazon Web Services Region to another. In that case, the Amazon Web Services Region where you call the CopyDB- Snapshot operation is the destination Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS Custom. For more information about copying snapshots, see Copying a DB Snapshot in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDbSnapshotIdentifier">The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805 . If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snap- shot-20130805 . Constraints: o Must specify a valid source snapshot in the "available" state. Example: rds:mydb-2012-04-02-00-01 Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-in- stance1-snapshot-20130805</param>
+    /// <param name="TargetDbSnapshotIdentifier">The identifier for the copy of the snapshot. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-snapshot</param>
+    public AwsRdsCopyDbSnapshotOptions(
+        string SourceDbSnapshotIdentifier,
+        string TargetDbSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbSnapshotIdentifier);
+        this.SourceDbSnapshotIdentifier = SourceDbSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbSnapshotIdentifier);
+        this.TargetDbSnapshotIdentifier = TargetDbSnapshotIdentifier;
+    }
+
+    private AwsRdsCopyDbSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCopyDbSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCopyDbSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805 . If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snap- shot-20130805 . Constraints: o Must specify a valid source snapshot in the "available" state. Example: rds:mydb-2012-04-02-00-01 Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-in- stance1-snapshot-20130805
+    /// </summary>
+    [CliOption("--source-db-snapshot-identifier")]
+    public string? SourceDbSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier for the copy of the snapshot. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-snapshot
+    /// </summary>
     [CliOption("--target-db-snapshot-identifier")]
-    public string? TargetDbSnapshotIdentifier { get; set; }
+    public string? TargetDbSnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier for an encrypted DB snap- shot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you copy an encrypted DB snapshot from your Amazon Web Services account, you can specify a value for this parameter to encrypt the copy with a new KMS key. If you don't specify a value for this para- meter, then the copy of the DB snapshot is encrypted with the same Amazon Web Services KMS key as the source DB snapshot. If you copy an encrypted DB snapshot that is shared from another Amazon Web Services account, then you must specify a value for this parameter. If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted. If you copy an encrypted snapshot to a different Amazon Web Services Region, then you must specify an Amazon Web Services KMS key identi- fier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region.
@@ -40,7 +83,10 @@ public record AwsRdsCopyDbSnapshotOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags aren't copied.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -65,9 +111,12 @@ public record AwsRdsCopyDbSnapshotOptions : AwsOptions
     /// Configures the location where RDS will store copied snapshots. Valid Values: o local (Dedicated Local Zone) o outposts (Amazon Web Services Outposts) o region (Amazon Web Services Region)
     /// </summary>
     [CliOption("--snapshot-target")]
-    public AwsRdsCopyDbSnapshotSnapshotTarget? SnapshotTarget { get; set; }
+    public string? SnapshotTarget { get; set; }
 
-    [CliFlag("--copy-option-group")]
+    /// <summary>
+    /// Specifies whether to copy the DB option group associated with the source DB snapshot to the target Amazon Web Services account and as- sociate with the target DB snapshot. The associated option group can be copied only with cross-account snapshot copy calls.
+    /// </summary>
+    [CliFlag("--copy-option-group", NegatedName = "--no-copy-option-group")]
     public bool? CopyOptionGroup { get; set; }
 
     /// <summary>
@@ -87,5 +136,21 @@ public record AwsRdsCopyDbSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

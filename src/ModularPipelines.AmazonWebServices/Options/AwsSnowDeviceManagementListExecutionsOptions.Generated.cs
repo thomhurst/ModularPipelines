@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snow-device-management", "list-executions")]
-public record AwsSnowDeviceManagementListExecutionsOptions : AwsOptions
+public record AwsSnowDeviceManagementListExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the status of tasks for one or more target devices. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executions
+    /// </summary>
+    /// <param name="TaskId">The ID of the task. Constraints: o min: 1 o max: 64</param>
+    public AwsSnowDeviceManagementListExecutionsOptions(
+        string TaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+    }
+
+    private AwsSnowDeviceManagementListExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowDeviceManagementListExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowDeviceManagementListExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the task. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--task-id")]
+    public string? TaskId { get; private init; }
+
     /// <summary>
     /// A structure used to filter the tasks by their current state. Possible values: o QUEUED o IN_PROGRESS o CANCELED o FAILED o SUCCEEDED o REJECTED o TIMED_OUT
     /// </summary>
     [CliOption("--state")]
     public AwsSnowDeviceManagementListExecutionsState? State { get; set; }
-
-    [CliOption("--task-id")]
-    public string? TaskId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -56,5 +93,21 @@ public record AwsSnowDeviceManagementListExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

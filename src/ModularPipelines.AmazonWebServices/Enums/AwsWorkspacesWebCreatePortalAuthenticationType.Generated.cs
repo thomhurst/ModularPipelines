@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authenticationtype.
+/// Allowed values for --authentication-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesWebCreatePortalAuthenticationType
 {
-    [EnumValue("Standard")]
-    Standard = 1,
-
     [EnumValue("IAM_Identity_Center")]
-    IamIdentityCenter = 2
+    IamIdentityCenter,
+
+    [EnumValue("Standard")]
+    Standard
 }

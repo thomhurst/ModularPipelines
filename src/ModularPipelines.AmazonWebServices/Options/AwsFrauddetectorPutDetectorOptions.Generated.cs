@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "put-detector")]
-public record AwsFrauddetectorPutDetectorOptions : AwsOptions
+public record AwsFrauddetectorPutDetectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a detector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    public AwsFrauddetectorPutDetectorOptions(
+        string DetectorId,
+        string EventTypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
+        this.EventTypeName = EventTypeName;
+    }
+
+    private AwsFrauddetectorPutDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorPutDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorPutDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
+    [CliOption("--event-type-name")]
+    public string? EventTypeName { get; private init; }
 
     /// <summary>
     /// The description of the detector. Constraints: o min: 1 o max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--event-type-name")]
-    public string? EventTypeName { get; set; }
 
     /// <summary>
     /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsFrauddetectorPutDetectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

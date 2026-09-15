@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "create-stored-iscsi-volume")]
-public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions
+public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a volume on a specified gateway. This operation is only sup- ported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume....
+    /// </summary>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="DiskId">The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gate- way. Constraints: o min: 1 o max: 300</param>
+    /// <param name="PreserveExistingData"></param>
+    /// <param name="TargetName">The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$</param>
+    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.</param>
+    public AwsStoragegatewayCreateStoredIscsiVolumeOptions(
+        string GatewayArn,
+        string DiskId,
+        bool PreserveExistingData,
+        string TargetName,
+        AwsStoragegatewayCreateStoredIscsiVolumeNetworkInterfaceId NetworkInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        global::System.ArgumentNullException.ThrowIfNull(DiskId);
+        this.DiskId = DiskId;
+        this.PreserveExistingData = PreserveExistingData;
+        global::System.ArgumentNullException.ThrowIfNull(TargetName);
+        this.TargetName = TargetName;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+    }
+
+    private AwsStoragegatewayCreateStoredIscsiVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayCreateStoredIscsiVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayCreateStoredIscsiVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--gateway-arn")]
+    public string? GatewayArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gate- way. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--disk-id")]
-    public string? DiskId { get; set; }
+    public string? DiskId { get; private init; }
+
+    [CliFlag("--preserve-existing-data", NegatedName = "--no-preserve-existing-data")]
+    public bool? PreserveExistingData { get; private init; }
+
+    /// <summary>
+    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$
+    /// </summary>
+    [CliOption("--target-name")]
+    public string? TargetName { get; private init; }
+
+    /// <summary>
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.
+    /// </summary>
+    [CliOption("--network-interface-id")]
+    public AwsStoragegatewayCreateStoredIscsiVolumeNetworkInterfaceId? NetworkInterfaceId { get; private init; }
 
     /// <summary>
     /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference . Constraints: o pattern: \Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\z
@@ -33,16 +104,10 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CliFlag("--preserve-existing-data")]
-    public bool? PreserveExistingData { get; set; }
-
-    [CliOption("--target-name")]
-    public string? TargetName { get; set; }
-
-    [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
-
-    [CliFlag("--kms-encrypted")]
+    /// <summary>
+    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// </summary>
+    [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
@@ -62,5 +127,21 @@ public record AwsStoragegatewayCreateStoredIscsiVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

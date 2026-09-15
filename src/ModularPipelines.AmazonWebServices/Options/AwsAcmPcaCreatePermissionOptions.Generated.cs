@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm-pca", "create-permission")]
-public record AwsAcmPcaCreatePermissionOptions : AwsOptions
+public record AwsAcmPcaCreatePermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-authority-arn")]
-    public string? CertificateAuthorityArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Grants one or more permissions on a private CA to the Certificate Man- ager (ACM) service principal (acm.amazonaws.com ). These permissions allow ACM to issue and renew ACM certificates that reside in the same Amazon Web Services account as the CA. You can list current permissions with the ListPermissions action and revoke them with the DeletePermission action. About Permissions o If the private CA and the certificates it issues reside in the same account, you can use CreatePermission to grant p...
+    /// </summary>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the CA that grants the permis- sions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Principal">The Amazon Web Services service or identity that receives the per- mission. At this time, the only valid principal is acm.amazonaws.com . Constraints: o min: 0 o max: 128 o pattern: [^*]+</param>
+    /// <param name="Actions">The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and List- Permissions . Constraints: o min: 1 o max: 3 (string) Possible values: o IssueCertificate o GetCertificate o ListPermissions Syntax: "string" "string" ...</param>
+    public AwsAcmPcaCreatePermissionOptions(
+        string CertificateAuthorityArn,
+        string Principal,
+        IEnumerable<string> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityArn);
+        this.CertificateAuthorityArn = CertificateAuthorityArn;
+        global::System.ArgumentNullException.ThrowIfNull(Principal);
+        this.Principal = Principal;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsAcmPcaCreatePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmPcaCreatePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmPcaCreatePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the CA that grants the permis- sions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
+    [CliOption("--certificate-authority-arn")]
+    public string? CertificateAuthorityArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services service or identity that receives the per- mission. At this time, the only valid principal is acm.amazonaws.com . Constraints: o min: 0 o max: 128 o pattern: [^*]+
+    /// </summary>
     [CliOption("--principal")]
-    public string? Principal { get; set; }
+    public string? Principal { get; private init; }
+
+    /// <summary>
+    /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate , GetCertificate , and List- Permissions . Constraints: o min: 1 o max: 3 (string) Possible values: o IssueCertificate o GetCertificate o ListPermissions Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
     /// The ID of the calling account. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
@@ -33,13 +98,26 @@ public record AwsAcmPcaCreatePermissionOptions : AwsOptions
     [CliOption("--source-account")]
     public string? SourceAccount { get; set; }
 
-    [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

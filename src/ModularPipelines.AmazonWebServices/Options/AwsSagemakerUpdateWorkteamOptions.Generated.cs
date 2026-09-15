@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-workteam")]
-public record AwsSagemakerUpdateWorkteamOptions : AwsOptions
+public record AwsSagemakerUpdateWorkteamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing work team with new member definitions or descrip- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkteamName">The name of the work team to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateWorkteamOptions(
+        string WorkteamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkteamName);
+        this.WorkteamName = WorkteamName;
+    }
+
+    private AwsSagemakerUpdateWorkteamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateWorkteamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateWorkteamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the work team to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--workteam-name")]
-    public string? WorkteamName { get; set; }
+    public string? WorkteamName { get; private init; }
 
     /// <summary>
     /// A list of MemberDefinition objects that contains objects that iden- tify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition . For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition . You should not provide input for both of these parameters in a single request. For workforces created using Amazon Cognito, private work teams cor- respond to Amazon Cognito user groups within the user pool used to create a workforce. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and User- Pool values. To add a Amazon Cognito user group to an existing worker pool, see Adding groups to a User Pool . For more information about user pools, see `Amazon Cognito User Pools . For workforces created using your own OIDC IdP, specify the user groups that you want to include in your private work team in Oid- cMemberDefinition by listing those groups in Groups . Be aware that user groups that are already in the work team must also be listed in Groups when you make this request to remain on the work team. If you do not include these user groups, they will no longer be associated with the work team you update. Constraints: o min: 1 o max: 10 (structure) Defines an Amazon Cognito or your own OIDC IdP user group that is part of a work team. CognitoMemberDefinition -&gt; (structure) The Amazon Cognito user group that is part of the work team. UserPool -&gt; (string) [required] An identifier for a user pool. The user pool must be in the same region as the service that you are calling. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+ UserGroup -&gt; (string) [required] An identifier for a user group. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ ClientId -&gt; (string) [required] An identifier for an application client. You must create the app client ID using Amazon Cognito. Constraints: o min: 1 o max: 1024 o pattern: [ -~]+ OidcMemberDefinition -&gt; (structure) A list user groups that exist in your OIDC Identity Provider (IdP). One to ten groups can be used to create a single pri- vate work team. When you add a user group to the list of Groups , you can add that user group to one or more private work teams. If you add a user group to a private work team, all workers in that user group are added to the work team. Groups -&gt; (list) A list of comma seperated strings that identifies user groups in your OIDC IdP. Each user group is made up of a group of private workers. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 63 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Shorthand Syntax: CognitoMemberDefinition={UserPool=string,UserGroup=string,ClientId=string},OidcMemberDefinition={Groups=[string,string]} ... JSON Syntax: [ { "CognitoMemberDefinition": { "UserPool": "string", "UserGroup": "string", "ClientId": "string" }, "OidcMemberDefinition": { "Groups": ["string", ...] } } ... ]
@@ -53,5 +90,21 @@ public record AwsSagemakerUpdateWorkteamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "create-flow")]
-public record AwsMediaconnectCreateFlowOptions : AwsOptions
+public record AwsMediaconnectCreateFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the flow.</param>
+    public AwsMediaconnectCreateFlowOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMediaconnectCreateFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectCreateFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectCreateFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the flow.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The Availability Zone that you want to create the flow in. These op- tions are limited to the Availability Zones within the current Ama- zon Web Services Region.
     /// </summary>
@@ -40,9 +80,6 @@ public record AwsMediaconnectCreateFlowOptions : AwsOptions
     /// </summary>
     [CliOption("--media-streams", GroupValues = true)]
     public IEnumerable<string>? MediaStreams { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The outputs that you want to add to this flow. (structure) A request to add an output to a flow. CidrAllowList -&gt; (list) The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. (string) Description -&gt; (string) A description of the output. This description appears only on the Audit Manager console and will not be seen by the end user. Destination -&gt; (string) The IP address from which video will be sent to output desti- nations. Encryption -&gt; (structure) The type of key used for the encryption. If no keyType is provided, the service will use the default setting (sta- tic-key). Allowable encryption types: static-key. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-charac- ter string, to be used with the key for encrypting con- tent. This parameter is not valid for static key encryp- tion. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) [required] The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE en- cryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. MaxLatency -&gt; (integer) The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams. MediaStreamOutputConfigurations -&gt; (list) The media streams that are associated with the output, and the parameters for those associations. (structure) The media stream that you want to associate with the out- put, and the parameters for that association. DestinationConfigurations -&gt; (list) The media streams that you want to associate with the output. (structure) The definition of a media stream that you want to associate with the output. DestinationIp -&gt; (string) [required] The IP address where you want MediaConnect to send contents of the media stream. DestinationPort -&gt; (integer) [required] The port that you want MediaConnect to use when it distributes the media stream to the output. Interface -&gt; (structure) [required] The VPC interface that you want to use for the media stream associated with the output. Name -&gt; (string) [required] The name of the VPC interface. EncodingName -&gt; (string) [required] The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv. Possible values: o jxsv o raw o smpte291 o pcm EncodingParameters -&gt; (structure) A collection of parameters that determine how Media- Connect will convert the content. These fields only apply to outputs on flows that have a CDI source. CompressionFactor -&gt; (double) [required] A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFac- tor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive. EncoderProfile -&gt; (string) [required] A setting on the encoder that drives compression settings. This property only applies to video me- dia streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol. Possible values: o main o high MediaStreamName -&gt; (string) [required] The name of the media stream that is associated with the output. MinLatency -&gt; (integer) The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal po- tential latency of that connection. The latency of the stream is set to the highest number between the senders minimum la- tency and the receivers minimum latency. Name -&gt; (string) The name of the output. This value must be unique within the current flow. Port -&gt; (integer) The port to use when content is distributed to this output. Protocol -&gt; (string) The protocol to use for the output. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy pur- poses only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq RemoteId -&gt; (string) The remote ID for the Zixi-pull output stream. SenderControlPort -&gt; (integer) The port that the flow uses to send outbound requests to ini- tiate connection with the sender. SmoothingLatency -&gt; (integer) The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams. StreamId -&gt; (string) The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams. VpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this out- put. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. OutputStatus -&gt; (string) An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED. Possible values: o ENABLED o DISABLED NdiSpeedHqQuality -&gt; (integer) A quality setting for the NDI Speed HQ encoder. NdiProgramName -&gt; (string) A suffix for the name of the NDI sender that the flow cre- ates. If a custom name isn't specified, MediaConnect uses the output name. OutputTags -&gt; (map) The key-value pairs that can be used to tag and organize the output. key -&gt; (string) value -&gt; (string) RouterIntegrationState -&gt; (string) Indicates whether to enable or disable router integration when creating a new flow output. Possible values: o ENABLED o DISABLED RouterIntegrationTransitEncryption -&gt; (structure) The configuration that defines how content is encrypted dur- ing transit between the MediaConnect router and a MediaCon- nect flow. EncryptionKeyType -&gt; (string) The type of encryption key to use for flow transit en- cryption. Possible values: o SECRETS_MANAGER o AUTOMATIC EncryptionKeyConfiguration -&gt; (tagged union structure) [re- quired] The configuration details for the encryption key. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: SecretsManager, Au- tomatic. SecretsManager -&gt; (structure) The configuration settings for transit encryption us- ing Secrets Manager, including the secret ARN and role ARN. SecretArn -&gt; (string) [required] The ARN of the Secrets Manager secret used for transit encryption. Constraints: o pattern: arn:(aws[a-zA-Z-]*):secretsman- ager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@-]+ RoleArn -&gt; (string) [required] The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret. Constraints: o pattern: arn:(aws[a-zA-Z-]*):iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]+ Automatic -&gt; (structure) Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation. NdiOutputTimecodeSource -&gt; (string) Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE . o EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead. o UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent. Possible values: o EMBEDDED_TIMECODE o UTC_SYSTEM_TIME JSON Syntax: [ { "CidrAllowList": ["string", ...], "Description": "string", "Destination": "string", "Encryption": { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }, "MaxLatency": integer, "MediaStreamOutputConfigurations": [ { "DestinationConfigurations": [ { "DestinationIp": "string", "DestinationPort": integer, "Interface": { "Name": "string" } } ... ], "EncodingName": "jxsv"|"raw"|"smpte291"|"pcm", "EncodingParameters": { "CompressionFactor": double, "EncoderProfile": "main"|"high" }, "MediaStreamName": "string" } ... ], "MinLatency": integer, "Name": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "RemoteId": "string", "SenderControlPort": integer, "SmoothingLatency": integer, "StreamId": "string", "VpcInterfaceAttachment": { "VpcInterfaceName": "string" }, "OutputStatus": "ENABLED"|"DISABLED", "NdiSpeedHqQuality": integer, "NdiProgramName": "string", "OutputTags": {"string": "string" ...}, "RouterIntegrationState": "ENABLED"|"DISABLED", "RouterIntegrationTransitEncryption": { "EncryptionKeyType": "SECRETS_MANAGER"|"AUTOMATIC", "EncryptionKeyConfiguration": { "SecretsManager": { "SecretArn": "string", "RoleArn": "string" }, "Automatic": { } } }, "NdiOutputTimecodeSource": "EMBEDDED_TIMECODE"|"UTC_SYSTEM_TIME" } ... ]
@@ -115,5 +152,21 @@ public record AwsMediaconnectCreateFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

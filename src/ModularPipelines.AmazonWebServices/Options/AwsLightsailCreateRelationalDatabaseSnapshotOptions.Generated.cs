@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-relational-database-snapshot")]
-public record AwsLightsailCreateRelationalDatabaseSnapshotOptions : AwsOptions
+public record AwsLightsailCreateRelationalDatabaseSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of the database on which to base your new snapshot. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseSnapshotName">The name for your new database snapshot. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailCreateRelationalDatabaseSnapshotOptions(
+        string RelationalDatabaseName,
+        string RelationalDatabaseSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseSnapshotName);
+        this.RelationalDatabaseSnapshotName = RelationalDatabaseSnapshotName;
+    }
+
+    private AwsLightsailCreateRelationalDatabaseSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateRelationalDatabaseSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database on which to base your new snapshot. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--relational-database-name")]
+    public string? RelationalDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name for your new database snapshot. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--relational-database-snapshot-name")]
-    public string? RelationalDatabaseSnapshotName { get; set; }
+    public string? RelationalDatabaseSnapshotName { get; private init; }
 
     /// <summary>
     /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -38,5 +82,21 @@ public record AwsLightsailCreateRelationalDatabaseSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

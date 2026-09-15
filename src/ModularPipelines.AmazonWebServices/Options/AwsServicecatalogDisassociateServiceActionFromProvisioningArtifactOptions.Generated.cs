@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "disassociate-service-action-from-provisioning-artifact")]
-public record AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions : AwsOptions
+public record AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates the specified self-service action association from the specified provisioning artifact. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductId">The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ServiceActionId">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions(
+        string ProductId,
+        string ProvisioningArtifactId,
+        string ServiceActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactId);
+        this.ProvisioningArtifactId = ProvisioningArtifactId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceActionId);
+        this.ServiceActionId = ServiceActionId;
+    }
+
+    private AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the provisioning artifact. For example, pa-4abcd- jnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--provisioning-artifact-id")]
-    public string? ProvisioningArtifactId { get; set; }
+    public string? ProvisioningArtifactId { get; private init; }
 
+    /// <summary>
+    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--service-action-id")]
-    public string? ServiceActionId { get; set; }
+    public string? ServiceActionId { get; private init; }
 
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
@@ -49,5 +100,21 @@ public record AwsServicecatalogDisassociateServiceActionFromProvisioningArtifact
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

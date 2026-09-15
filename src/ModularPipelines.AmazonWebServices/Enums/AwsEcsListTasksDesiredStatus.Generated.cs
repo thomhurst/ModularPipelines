@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --desiredstatus.
+/// Allowed values for --desired-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListTasksDesiredStatus
 {
-    [EnumValue("RUNNING")]
-    Running = 1,
-
     [EnumValue("PENDING")]
-    Pending = 2,
+    Pending,
+
+    [EnumValue("RUNNING")]
+    Running,
 
     [EnumValue("STOPPED")]
-    Stopped = 3
+    Stopped
 }

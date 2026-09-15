@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "create-workspace-api-key")]
-public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions
+public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyName">Specifies the name of the key. Keynames must be unique to the work- space. Constraints: o min: 1 o max: 100</param>
+    /// <param name="KeyRole">Specifies the permission level of the key. Valid values: ADMIN | EDITOR | VIEWER System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string.</param>
+    /// <param name="SecondsToLive">Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: o min: 1 o max: 2592000</param>
+    /// <param name="WorkspaceId">The ID of the workspace to create an API key. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaCreateWorkspaceApiKeyOptions(
+        string KeyName,
+        string KeyRole,
+        int SecondsToLive,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(KeyRole);
+        this.KeyRole = KeyRole;
+        this.SecondsToLive = SecondsToLive;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaCreateWorkspaceApiKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaCreateWorkspaceApiKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaCreateWorkspaceApiKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the key. Keynames must be unique to the work- space. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--key-name")]
-    public string? KeyName { get; set; }
+    public string? KeyName { get; private init; }
 
+    /// <summary>
+    /// Specifies the permission level of the key. Valid values: ADMIN | EDITOR | VIEWER System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string.
+    /// </summary>
     [CliOption("--key-role")]
-    public string? KeyRole { get; set; }
+    public string? KeyRole { get; private init; }
 
+    /// <summary>
+    /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: o min: 1 o max: 2592000
+    /// </summary>
     [CliOption("--seconds-to-live")]
-    public int? SecondsToLive { get; set; }
+    public int? SecondsToLive { get; private init; }
 
+    /// <summary>
+    /// The ID of the workspace to create an API key. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

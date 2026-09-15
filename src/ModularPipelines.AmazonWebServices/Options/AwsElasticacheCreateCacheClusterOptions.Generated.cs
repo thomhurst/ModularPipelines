@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-cache-cluster")]
-public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
+public record AwsElasticacheCreateCacheClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheClusterId">The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 50 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.</param>
+    public AwsElasticacheCreateCacheClusterOptions(
+        string CacheClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheClusterId);
+        this.CacheClusterId = CacheClusterId;
+    }
+
+    private AwsElasticacheCreateCacheClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateCacheClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateCacheClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The node group (shard) identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 50 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.
+    /// </summary>
     [CliOption("--cache-cluster-id")]
-    public string? CacheClusterId { get; set; }
+    public string? CacheClusterId { get; private init; }
 
     /// <summary>
     /// The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the speci- fied replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Avail- ability Zones that provide the best spread of read replicas across Availability Zones. NOTE: This parameter is only valid if the Engine parameter is redis .
@@ -134,7 +171,10 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for pre- vious versions.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
@@ -180,7 +220,10 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
     [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
-    [CliFlag("--transit-encryption-enabled")]
+    /// <summary>
+    /// A flag that enables in-transit encryption when set to true.
+    /// </summary>
+    [CliFlag("--transit-encryption-enabled", NegatedName = "--no-transit-encryption-enabled")]
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>
@@ -200,5 +243,21 @@ public record AwsElasticacheCreateCacheClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

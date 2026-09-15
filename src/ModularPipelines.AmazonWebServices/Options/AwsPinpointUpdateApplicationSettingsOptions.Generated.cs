@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-application-settings")]
-public record AwsPinpointUpdateApplicationSettingsOptions : AwsOptions
+public record AwsPinpointUpdateApplicationSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the settings for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="WriteApplicationSettingsRequest">Specifies the default settings for an application. CampaignHook -&gt; (structure) The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the ap- plication. To override these settings and define custom settings for a spe- cific campaign, use the CampaignHook object of the Campaignre- source. LambdaFunctionName -&gt; (string) The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to customize a segment for a campaign. Mode -&gt; (string) The mode that Amazon Pinpoint uses to invoke the AWS Lambda function. Possible values are: o FILTER - Invoke the function to customize the segment that's used by a campaign. o DELIVERY - (Deprecated) Previously, invoked the function to send a campaign through a custom channel. This functional- ity is not supported anymore. To send a campaign through a custom channel, use the CustomDeliveryConfiguration and CampaignCustomMessage objects of the campaign. Possible values: o DELIVERY o FILTER WebUrl -&gt; (string) The web URL that Amazon Pinpoint calls to invoke the AWS Lambda function over HTTPS. CloudWatchMetricsEnabled -&gt; (boolean) Specifies whether to enable application-related alarms in Amazon CloudWatch. EventTaggingEnabled -&gt; (boolean) Limits -&gt; (structure) The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaignresource or the Journeyre- source, respectively. Daily -&gt; (integer) The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of mes- sages that campaigns and journeys can send to a single end- point during a 24-hour period. The maximum value is 100. MaximumDuration -&gt; (integer) The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds. MessagesPerSecond -&gt; (integer) The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 1. The maximum value is 20,000. Total -&gt; (integer) The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. If a cam- paign recurs, this setting applies to all runs of the cam- paign. The maximum value is 100. Session -&gt; (integer) The maximum total number of messages that the campaign can send per user session. QuietTime -&gt; (structure) The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to end- points, if all the following conditions are met: o The EndpointDemographic.Timezone property of the endpoint is set to a valid value. o The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). o The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific cam- paign or journey, use the Campaignresource or the Journeyre- source to define a custom quiet time for the campaign or jour- ney. End -&gt; (string) The specific time when quiet time ends. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to rep- resent 2:30 PM. Start -&gt; (string) The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the min- utes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM. JourneyLimits -&gt; (structure) The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource. DailyCap -&gt; (integer) The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply. TimeframeCap -&gt; (structure) The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys. Cap -&gt; (integer) The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maxi- mum value is 100. If set to 0, this limit will not apply. Days -&gt; (integer) The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply. TotalCap -&gt; (integer) The default maximum number of messages that a single journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply. Shorthand Syntax: CampaignHook={LambdaFunctionName=string,Mode=string,WebUrl=string},CloudWatchMetricsEnabled=boolean,EventTaggingEnabled=boolean,Limits={Daily=integer,MaximumDuration=integer,MessagesPerSecond=integer,Total=integer,Session=integer},QuietTime={End=string,Start=string},JourneyLimits={DailyCap=integer,TimeframeCap={Cap=integer,Days=integer},TotalCap=integer} JSON Syntax: { "CampaignHook": { "LambdaFunctionName": "string", "Mode": "DELIVERY"|"FILTER", "WebUrl": "string" }, "CloudWatchMetricsEnabled": true|false, "EventTaggingEnabled": true|false, "Limits": { "Daily": integer, "MaximumDuration": integer, "MessagesPerSecond": integer, "Total": integer, "Session": integer }, "QuietTime": { "End": "string", "Start": "string" }, "JourneyLimits": { "DailyCap": integer, "TimeframeCap": { "Cap": integer, "Days": integer }, "TotalCap": integer } }</param>
+    public AwsPinpointUpdateApplicationSettingsOptions(
+        string ApplicationId,
+        string WriteApplicationSettingsRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(WriteApplicationSettingsRequest);
+        this.WriteApplicationSettingsRequest = WriteApplicationSettingsRequest;
+    }
+
+    private AwsPinpointUpdateApplicationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateApplicationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateApplicationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Specifies the default settings for an application. CampaignHook -&gt; (structure) The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the ap- plication. To override these settings and define custom settings for a spe- cific campaign, use the CampaignHook object of the Campaignre- source. LambdaFunctionName -&gt; (string) The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to customize a segment for a campaign. Mode -&gt; (string) The mode that Amazon Pinpoint uses to invoke the AWS Lambda function. Possible values are: o FILTER - Invoke the function to customize the segment that's used by a campaign. o DELIVERY - (Deprecated) Previously, invoked the function to send a campaign through a custom channel. This functional- ity is not supported anymore. To send a campaign through a custom channel, use the CustomDeliveryConfiguration and CampaignCustomMessage objects of the campaign. Possible values: o DELIVERY o FILTER WebUrl -&gt; (string) The web URL that Amazon Pinpoint calls to invoke the AWS Lambda function over HTTPS. CloudWatchMetricsEnabled -&gt; (boolean) Specifies whether to enable application-related alarms in Amazon CloudWatch. EventTaggingEnabled -&gt; (boolean) Limits -&gt; (structure) The default sending limits for campaigns in the application. To override these limits and define custom limits for a specific campaign or journey, use the Campaignresource or the Journeyre- source, respectively. Daily -&gt; (integer) The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of mes- sages that campaigns and journeys can send to a single end- point during a 24-hour period. The maximum value is 100. MaximumDuration -&gt; (integer) The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds. MessagesPerSecond -&gt; (integer) The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 1. The maximum value is 20,000. Total -&gt; (integer) The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. If a cam- paign recurs, this setting applies to all runs of the cam- paign. The maximum value is 100. Session -&gt; (integer) The maximum total number of messages that the campaign can send per user session. QuietTime -&gt; (structure) The default quiet time for campaigns in the application. Quiet time is a specific time range when messages aren't sent to end- points, if all the following conditions are met: o The EndpointDemographic.Timezone property of the endpoint is set to a valid value. o The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). o The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific cam- paign or journey, use the Campaignresource or the Journeyre- source to define a custom quiet time for the campaign or jour- ney. End -&gt; (string) The specific time when quiet time ends. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to rep- resent 2:30 PM. Start -&gt; (string) The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the min- utes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM. JourneyLimits -&gt; (structure) The default sending limits for journeys in the application. These limits apply to each journey for the application but can be overridden, on a per journey basis, with the JourneyLimits resource. DailyCap -&gt; (integer) The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply. TimeframeCap -&gt; (structure) The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys. Cap -&gt; (integer) The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maxi- mum value is 100. If set to 0, this limit will not apply. Days -&gt; (integer) The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply. TotalCap -&gt; (integer) The default maximum number of messages that a single journey can sent to a single endpoint. The maximum value is 100. If set to 0, this limit will not apply. Shorthand Syntax: CampaignHook={LambdaFunctionName=string,Mode=string,WebUrl=string},CloudWatchMetricsEnabled=boolean,EventTaggingEnabled=boolean,Limits={Daily=integer,MaximumDuration=integer,MessagesPerSecond=integer,Total=integer,Session=integer},QuietTime={End=string,Start=string},JourneyLimits={DailyCap=integer,TimeframeCap={Cap=integer,Days=integer},TotalCap=integer} JSON Syntax: { "CampaignHook": { "LambdaFunctionName": "string", "Mode": "DELIVERY"|"FILTER", "WebUrl": "string" }, "CloudWatchMetricsEnabled": true|false, "EventTaggingEnabled": true|false, "Limits": { "Daily": integer, "MaximumDuration": integer, "MessagesPerSecond": integer, "Total": integer, "Session": integer }, "QuietTime": { "End": "string", "Start": "string" }, "JourneyLimits": { "DailyCap": integer, "TimeframeCap": { "Cap": integer, "Days": integer }, "TotalCap": integer } }
+    /// </summary>
     [CliOption("--write-application-settings-request")]
-    public string? WriteApplicationSettingsRequest { get; set; }
+    public string? WriteApplicationSettingsRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

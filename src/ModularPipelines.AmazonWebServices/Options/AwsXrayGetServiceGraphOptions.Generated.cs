@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "get-service-graph")]
-public record AwsXrayGetServiceGraphOptions : AwsOptions
+public record AwsXrayGetServiceGraphOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a document that describes services that process incoming re- quests, and downstream services that they call as a result. Root ser- vices process incoming requests and make calls to downstream services. Root services are applications that use the Amazon Web Services X-Ray SDK . Downstream services can be other applications, Amazon Web Ser- vices resources, HTTP web APIs, or SQL databases. See also: AWS API Documentation get-service-graph is a paginated operation. Multiple API calls may ...
+    /// </summary>
+    /// <param name="StartTime">The start of the time frame for which to generate a graph.</param>
+    /// <param name="EndTime">The end of the timeframe for which to generate a graph.</param>
+    public AwsXrayGetServiceGraphOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsXrayGetServiceGraphOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayGetServiceGraphOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayGetServiceGraphOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start of the time frame for which to generate a graph.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the timeframe for which to generate a graph.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// The name of a group based on which you want to generate a graph. Constraints: o min: 1 o max: 32
@@ -58,5 +102,21 @@ public record AwsXrayGetServiceGraphOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

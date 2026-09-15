@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "delete-organization-config-rule")]
-public record AwsConfigserviceDeleteOrganizationConfigRuleOptions : AwsOptions
+public record AwsConfigserviceDeleteOrganizationConfigRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified organization Config rule and all of its evalua- tion results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a dele- gated administrator, you must ensure Organizations ListDelegatedAdmin- istrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a rule while it is in ...
+    /// </summary>
+    /// <param name="OrganizationConfigRuleName">The name of organization Config rule that you want to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsConfigserviceDeleteOrganizationConfigRuleOptions(
+        string OrganizationConfigRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationConfigRuleName);
+        this.OrganizationConfigRuleName = OrganizationConfigRuleName;
+    }
+
+    private AwsConfigserviceDeleteOrganizationConfigRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDeleteOrganizationConfigRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDeleteOrganizationConfigRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of organization Config rule that you want to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
     [CliOption("--organization-config-rule-name")]
-    public string? OrganizationConfigRuleName { get; set; }
+    public string? OrganizationConfigRuleName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

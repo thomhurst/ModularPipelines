@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --includetruststorecontents.
+/// Allowed values for --include-trust-store-contents.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMailmanagerGetIngressPointIncludeTrustStoreContents
 {
     [EnumValue("EXCLUDE")]
-    Exclude = 1,
+    Exclude,
 
     [EnumValue("INCLUDE")]
-    Include = 2
+    Include
 }

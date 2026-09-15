@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "create-sol-network-instance")]
-public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions
+public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Creating a network in- stance is the third step after creating a network package. For more in- formation about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instan- tiat...
+    /// </summary>
+    /// <param name="NsName">Network instance name. Constraints: o min: 1 o max: 100</param>
+    /// <param name="NsdInfoId">ID for network service descriptor. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    public AwsTnbCreateSolNetworkInstanceOptions(
+        string NsName,
+        string NsdInfoId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsName);
+        this.NsName = NsName;
+        global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
+        this.NsdInfoId = NsdInfoId;
+    }
+
+    private AwsTnbCreateSolNetworkInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbCreateSolNetworkInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbCreateSolNetworkInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Network instance name. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--ns-name")]
+    public string? NsName { get; private init; }
+
+    /// <summary>
+    /// ID for network service descriptor. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--nsd-info-id")]
+    public string? NsdInfoId { get; private init; }
+
     /// <summary>
     /// Network instance description. Constraints: o min: 0 o max: 255
     /// </summary>
     [CliOption("--ns-description")]
     public string? NsDescription { get; set; }
-
-    [CliOption("--ns-name")]
-    public string? NsName { get; set; }
-
-    [CliOption("--nsd-info-id")]
-    public string? NsdInfoId { get; set; }
 
     /// <summary>
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +89,21 @@ public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

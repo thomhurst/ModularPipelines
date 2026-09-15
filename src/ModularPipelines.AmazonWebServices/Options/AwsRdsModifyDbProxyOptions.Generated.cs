@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-db-proxy")]
-public record AwsRdsModifyDbProxyOptions : AwsOptions
+public record AwsRdsModifyDbProxyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the settings for an existing DB proxy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbProxyName">The identifier for the DBProxy to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    public AwsRdsModifyDbProxyOptions(
+        string DbProxyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbProxyName);
+        this.DbProxyName = DbProxyName;
+    }
+
+    private AwsRdsModifyDbProxyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyDbProxyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyDbProxyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the DBProxy to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--db-proxy-name")]
-    public string? DbProxyName { get; set; }
+    public string? DbProxyName { get; private init; }
 
     /// <summary>
     /// The new identifier for the DBProxy . An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
@@ -43,7 +80,10 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
-    [CliFlag("--require-tls")]
+    /// <summary>
+    /// Whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy, even if the associated data- base doesn't use TLS.
+    /// </summary>
+    [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
 
     /// <summary>
@@ -52,7 +92,10 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
     [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CliFlag("--debug-logging")]
+    /// <summary>
+    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// </summary>
+    [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
 
     /// <summary>
@@ -72,5 +115,21 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

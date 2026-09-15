@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "create-upload")]
-public record AwsDevicefarmCreateUploadOptions : AwsOptions
+public record AwsDevicefarmCreateUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads an app or test scripts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">The ARN of the project for the upload. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Name">The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Type">The upload's upload type. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC</param>
+    public AwsDevicefarmCreateUploadOptions(
+        string ProjectArn,
+        string Name,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsDevicefarmCreateUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmCreateUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmCreateUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the project for the upload. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
     [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    public string? ProjectArn { get; private init; }
 
+    /// <summary>
+    /// The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The upload's upload type. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The upload's content type (for example, application/octet-stream ). Constraints: o min: 0 o max: 64
@@ -41,5 +92,21 @@ public record AwsDevicefarmCreateUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

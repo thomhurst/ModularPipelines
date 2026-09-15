@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("taxsettings", "put-supplemental-tax-registration")]
-public record AwsTaxsettingsPutSupplementalTaxRegistrationOptions : AwsOptions
+public record AwsTaxsettingsPutSupplementalTaxRegistrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stores supplemental tax registration for a single account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TaxRegistrationEntry">The supplemental TRN information that will be stored for the caller account ID. registrationId -&gt; (string) [required] The supplemental TRN unique identifier. Constraints: o min: 1 o max: 200 o pattern: (?!\s*$)[\s\S]+ registrationType -&gt; (string) [required] Type of supplemental TRN. Currently, this can only be VAT. Possible values: o VAT legalName -&gt; (string) [required] The legal name associated with your TRN registration. Constraints: o min: 1 o max: 200 o pattern: (?!\s*$)[\s\S]+ address -&gt; (structure) [required] The details of the address associated with the TRN information. addressLine1 -&gt; (string) The first line of the address. Constraints: o min: 1 o max: 180 o pattern: (?!\s*$)[\s\S]+ addressLine2 -&gt; (string) The second line of the address, if applicable. Constraints: o min: 1 o max: 60 o pattern: (?!\s*$)[\s\S]+ addressLine3 -&gt; (string) The third line of the address, if applicable. Currently, the Tax Settings API accepts the addressLine3 parameter only for Saudi Arabia. When you specify a TRN in Saudi Arabia, you must enter the addressLine3 and specify the building number for the address. For example, you might enter 1234 . Constraints: o min: 1 o max: 60 o pattern: (?!\s*$)[\s\S]+ districtOrCounty -&gt; (string) The district or county the address is located. NOTE: For addresses in Brazil, this parameter uses the name of the neighborhood. When you set a TRN in Brazil, use dis- trictOrCounty for the neighborhood name. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ city -&gt; (string) The city that the address is in. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ stateOrRegion -&gt; (string) The state, region, or province that the address is located. This field is only required for Canada, India, United Arab Emirates, Romania, and Brazil (CPF). It is optional for all other countries. If this is required for tax settings, use the same name as shown on the Tax Settings page. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ postalCode -&gt; (string) [required] The postal code associated with the address. Constraints: o min: 1 o max: 20 o pattern: (?!\s*$)[\s\S]+ countryCode -&gt; (string) [required] The country code for the country that the address is in. Constraints: o min: 2 o max: 2 o pattern: [a-zA-Z]+ Shorthand Syntax: registrationId=string,registrationType=string,legalName=string,address={addressLine1=string,addressLine2=string,addressLine3=string,districtOrCounty=string,city=string,stateOrRegion=string,postalCode=string,countryCode=string} JSON Syntax: { "registrationId": "string", "registrationType": "VAT", "legalName": "string", "address": { "addressLine1": "string", "addressLine2": "string", "addressLine3": "string", "districtOrCounty": "string", "city": "string", "stateOrRegion": "string", "postalCode": "string", "countryCode": "string" } }</param>
+    public AwsTaxsettingsPutSupplementalTaxRegistrationOptions(
+        string TaxRegistrationEntry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaxRegistrationEntry);
+        this.TaxRegistrationEntry = TaxRegistrationEntry;
+    }
+
+    private AwsTaxsettingsPutSupplementalTaxRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTaxsettingsPutSupplementalTaxRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTaxsettingsPutSupplementalTaxRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The supplemental TRN information that will be stored for the caller account ID. registrationId -&gt; (string) [required] The supplemental TRN unique identifier. Constraints: o min: 1 o max: 200 o pattern: (?!\s*$)[\s\S]+ registrationType -&gt; (string) [required] Type of supplemental TRN. Currently, this can only be VAT. Possible values: o VAT legalName -&gt; (string) [required] The legal name associated with your TRN registration. Constraints: o min: 1 o max: 200 o pattern: (?!\s*$)[\s\S]+ address -&gt; (structure) [required] The details of the address associated with the TRN information. addressLine1 -&gt; (string) The first line of the address. Constraints: o min: 1 o max: 180 o pattern: (?!\s*$)[\s\S]+ addressLine2 -&gt; (string) The second line of the address, if applicable. Constraints: o min: 1 o max: 60 o pattern: (?!\s*$)[\s\S]+ addressLine3 -&gt; (string) The third line of the address, if applicable. Currently, the Tax Settings API accepts the addressLine3 parameter only for Saudi Arabia. When you specify a TRN in Saudi Arabia, you must enter the addressLine3 and specify the building number for the address. For example, you might enter 1234 . Constraints: o min: 1 o max: 60 o pattern: (?!\s*$)[\s\S]+ districtOrCounty -&gt; (string) The district or county the address is located. NOTE: For addresses in Brazil, this parameter uses the name of the neighborhood. When you set a TRN in Brazil, use dis- trictOrCounty for the neighborhood name. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ city -&gt; (string) The city that the address is in. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ stateOrRegion -&gt; (string) The state, region, or province that the address is located. This field is only required for Canada, India, United Arab Emirates, Romania, and Brazil (CPF). It is optional for all other countries. If this is required for tax settings, use the same name as shown on the Tax Settings page. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ postalCode -&gt; (string) [required] The postal code associated with the address. Constraints: o min: 1 o max: 20 o pattern: (?!\s*$)[\s\S]+ countryCode -&gt; (string) [required] The country code for the country that the address is in. Constraints: o min: 2 o max: 2 o pattern: [a-zA-Z]+ Shorthand Syntax: registrationId=string,registrationType=string,legalName=string,address={addressLine1=string,addressLine2=string,addressLine3=string,districtOrCounty=string,city=string,stateOrRegion=string,postalCode=string,countryCode=string} JSON Syntax: { "registrationId": "string", "registrationType": "VAT", "legalName": "string", "address": { "addressLine1": "string", "addressLine2": "string", "addressLine3": "string", "districtOrCounty": "string", "city": "string", "stateOrRegion": "string", "postalCode": "string", "countryCode": "string" } }
+    /// </summary>
     [CliOption("--tax-registration-entry")]
-    public string? TaxRegistrationEntry { get; set; }
+    public string? TaxRegistrationEntry { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

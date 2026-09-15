@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "update-facet")]
-public record AwsClouddirectoryUpdateFacetOptions : AwsOptions
+public record AwsClouddirectoryUpdateFacetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Does the following: o Adds new Attributes , Rules , or ObjectTypes . o Updates existing Attributes , Rules , or ObjectTypes . o Deletes existing Attributes , Rules , or ObjectTypes . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the Facet . For more information, see arns .</param>
+    /// <param name="Name">The name of the facet. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsClouddirectoryUpdateFacetOptions(
+        string SchemaArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsClouddirectoryUpdateFacetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryUpdateFacetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryUpdateFacetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Facet . For more information, see arns .
+    /// </summary>
+    [CliOption("--schema-arn")]
+    public string? SchemaArn { get; private init; }
+
+    /// <summary>
+    /// The name of the facet. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// List of attributes that need to be updated in a given schema Facet . Each attribute is followed by AttributeAction , which specifies the type of update operation to perform. (structure) A structure that contains information used to update an at- tribute. Attribute -&gt; (structure) The attribute to update. Name -&gt; (string) [required] The name of the facet attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ AttributeDefinition -&gt; (structure) A facet attribute consists of either a definition or a reference. This structure contains the attribute defini- tion. See Attribute References for more information. Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules attached to the attribute definition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parame- ters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are as- sociated with the rule. key -&gt; (string) value -&gt; (string) AttributeReference -&gt; (structure) An attribute reference that is associated with the at- tribute. See Attribute References for more information. TargetFacetName -&gt; (string) [required] The target facet name that is associated with the facet reference. See Attribute References for more in- formation. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ TargetAttributeName -&gt; (string) [required] The target attribute name that is associated with the facet reference. See Attribute References for more in- formation. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ RequiredBehavior -&gt; (string) The required behavior of the FacetAttribute . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED Action -&gt; (string) The action to perform when updating the attribute. Possible values: o CREATE_OR_UPDATE o DELETE JSON Syntax: [ { "Attribute": { "Name": "string", "AttributeDefinition": { "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...} }, "AttributeReference": { "TargetFacetName": "string", "TargetAttributeName": "string" }, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" }, "Action": "CREATE_OR_UPDATE"|"DELETE" } ... ]
@@ -45,5 +89,21 @@ public record AwsClouddirectoryUpdateFacetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

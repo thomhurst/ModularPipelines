@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "accept-agreement-payment-request")]
-public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--payment-request-id")]
-    public string? PaymentRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows buyers (acceptors) to accept a payment request that is in PEND- ING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentRequestId">The unique identifier of the payment request to accept. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    public AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions(
+        string PaymentRequestId,
+        string AgreementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentRequestId);
+        this.PaymentRequestId = PaymentRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+    }
+
+    private AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the payment request to accept. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--payment-request-id")]
+    public string? PaymentRequestId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// </summary>
     [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    public string? AgreementId { get; private init; }
 
     /// <summary>
     /// An optional purchase order reference that buyers can provide to as- sociate the payment request with their internal purchase order sys- tem. Constraints: o min: 1
@@ -38,5 +82,21 @@ public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

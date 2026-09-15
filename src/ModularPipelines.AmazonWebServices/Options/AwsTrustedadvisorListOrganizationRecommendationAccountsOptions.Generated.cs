@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "list-organization-recommendation-accounts")]
-public record AwsTrustedadvisorListOrganizationRecommendationAccountsOptions : AwsOptions
+public record AwsTrustedadvisorListOrganizationRecommendationAccountsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-organization-recommendation-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. Wh...
+    /// </summary>
+    /// <param name="OrganizationRecommendationIdentifier">The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+</param>
+    public AwsTrustedadvisorListOrganizationRecommendationAccountsOptions(
+        string OrganizationRecommendationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationRecommendationIdentifier);
+        this.OrganizationRecommendationIdentifier = OrganizationRecommendationIdentifier;
+    }
+
+    private AwsTrustedadvisorListOrganizationRecommendationAccountsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorListOrganizationRecommendationAccountsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorListOrganizationRecommendationAccountsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+
+    /// </summary>
     [CliOption("--organization-recommendation-identifier")]
-    public string? OrganizationRecommendationIdentifier { get; set; }
+    public string? OrganizationRecommendationIdentifier { get; private init; }
 
     /// <summary>
     /// An account affected by this organization recommendation Constraints: o min: 12 o max: 12 o pattern: \d+
@@ -55,5 +92,21 @@ public record AwsTrustedadvisorListOrganizationRecommendationAccountsOptions : A
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-spot-fleet-request-history")]
-public record AwsEc2DescribeSpotFleetRequestHistoryOptions : AwsOptions
+public record AwsEc2DescribeSpotFleetRequestHistoryOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the events for the specified Spot Fleet request during the specified time. Spot Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. Spot Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpotFleetRequestId">The ID of the Spot Fleet request.</param>
+    /// <param name="StartTime">The starting date and time for the events, in UTC format (for exam- ple, YYYY -MM -DD T*HH* :MM :SS Z).</param>
+    public AwsEc2DescribeSpotFleetRequestHistoryOptions(
+        string SpotFleetRequestId,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpotFleetRequestId);
+        this.SpotFleetRequestId = SpotFleetRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    private AwsEc2DescribeSpotFleetRequestHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeSpotFleetRequestHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeSpotFleetRequestHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Spot Fleet request.
+    /// </summary>
     [CliOption("--spot-fleet-request-id")]
-    public string? SpotFleetRequestId { get; set; }
+    public string? SpotFleetRequestId { get; private init; }
+
+    /// <summary>
+    /// The starting date and time for the events, in UTC format (for exam- ple, YYYY -MM -DD T*HH* :MM :SS Z).
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The type of events to describe. By default, all events are de- scribed. Possible values: o instanceChange o fleetRequestChange o error o information
     /// </summary>
     [CliOption("--event-type")]
     public AwsEc2DescribeSpotFleetRequestHistoryEventType? EventType { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
 
     /// <summary>
     /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
@@ -56,5 +103,21 @@ public record AwsEc2DescribeSpotFleetRequestHistoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

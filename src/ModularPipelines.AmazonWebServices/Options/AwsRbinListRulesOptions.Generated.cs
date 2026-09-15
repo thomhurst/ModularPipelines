@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rbin", "list-rules")]
-public record AwsRbinListRulesOptions : AwsOptions
+public record AwsRbinListRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the Recycle Bin retention rules in the Region. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
+    /// </summary>
+    /// <param name="ResourceType">The resource type retained by the retention rule. Only retention rules that retain the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To list retention rules that retain EBS volumes, specify EBS_VOL- UME . o To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT . o To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME</param>
+    public AwsRbinListRulesOptions(
+        AwsRbinListRulesResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsRbinListRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRbinListRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRbinListRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource type retained by the retention rule. Only retention rules that retain the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To list retention rules that retain EBS volumes, specify EBS_VOL- UME . o To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT . o To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsRbinListRulesResourceType? ResourceType { get; private init; }
 
     /// <summary>
     /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule. Constraints: o min: 0 o max: 50 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
@@ -68,5 +105,21 @@ public record AwsRbinListRulesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

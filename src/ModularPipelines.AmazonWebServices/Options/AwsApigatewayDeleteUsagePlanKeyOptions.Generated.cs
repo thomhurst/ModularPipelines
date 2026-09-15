@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "delete-usage-plan-key")]
-public record AwsApigatewayDeleteUsagePlanKeyOptions : AwsOptions
+public record AwsApigatewayDeleteUsagePlanKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--usage-plan-id")]
-    public string? UsagePlanId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a usage plan key and remove the underlying API key from the as- sociated usage plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UsagePlanId">The Id of the UsagePlan resource representing the usage plan con- taining the to-be-deleted UsagePlanKey resource representing a plan customer.</param>
+    /// <param name="KeyId">The Id of the UsagePlanKey resource to be deleted.</param>
+    public AwsApigatewayDeleteUsagePlanKeyOptions(
+        string UsagePlanId,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsagePlanId);
+        this.UsagePlanId = UsagePlanId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    private AwsApigatewayDeleteUsagePlanKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayDeleteUsagePlanKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayDeleteUsagePlanKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Id of the UsagePlan resource representing the usage plan con- taining the to-be-deleted UsagePlanKey resource representing a plan customer.
+    /// </summary>
+    [CliOption("--usage-plan-id")]
+    public string? UsagePlanId { get; private init; }
+
+    /// <summary>
+    /// The Id of the UsagePlanKey resource to be deleted.
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

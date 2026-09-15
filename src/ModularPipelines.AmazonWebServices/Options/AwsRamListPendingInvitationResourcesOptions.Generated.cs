@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "list-pending-invitation-resources")]
-public record AwsRamListPendingInvitationResourcesOptions : AwsOptions
+public record AwsRamListPendingInvitationResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't ac- cepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no...
+    /// </summary>
+    /// <param name="ResourceShareInvitationArn">Specifies the Amazon Resource Name (ARN) of the invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.</param>
+    public AwsRamListPendingInvitationResourcesOptions(
+        string ResourceShareInvitationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareInvitationArn);
+        this.ResourceShareInvitationArn = ResourceShareInvitationArn;
+    }
+
+    private AwsRamListPendingInvitationResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamListPendingInvitationResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamListPendingInvitationResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.
+    /// </summary>
     [CliOption("--resource-share-invitation-arn")]
-    public string? ResourceShareInvitationArn { get; set; }
+    public string? ResourceShareInvitationArn { get; private init; }
 
     /// <summary>
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
@@ -50,5 +87,21 @@ public record AwsRamListPendingInvitationResourcesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-gateway", "put-hypervisor-property-mappings")]
-public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions : AwsOptions
+public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity proper- ties available from the hypervisor to the properties available in Ama- zon Web Services. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="VmwareToAwsTagMappings">This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: o min: 1 o max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: o min: 1 o max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)</param>
+    public AwsBackupGatewayPutHypervisorPropertyMappingsOptions(
+        string HypervisorArn,
+        IEnumerable<string> VmwareToAwsTagMappings,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HypervisorArn);
+        this.HypervisorArn = HypervisorArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VmwareToAwsTagMappings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VmwareToAwsTagMappings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VmwareToAwsTagMappings));
+            }
+
+            VmwareToAwsTagMappings = materialized;
+        }
+        this.VmwareToAwsTagMappings = VmwareToAwsTagMappings;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsBackupGatewayPutHypervisorPropertyMappingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupGatewayPutHypervisorPropertyMappingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupGatewayPutHypervisorPropertyMappingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the hypervisor. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// </summary>
     [CliOption("--hypervisor-arn")]
-    public string? HypervisorArn { get; set; }
+    public string? HypervisorArn { get; private init; }
 
+    /// <summary>
+    /// This action requests the mappings of VMware tags to the Amazon Web Services tags. (structure) This displays the mapping of VMware tags to the corresponding Amazon Web Services tags. VmwareCategory -&gt; (string) [required] The is the category of VMware. Constraints: o min: 1 o max: 80 VmwareTagName -&gt; (string) [required] This is the user-defined name of a VMware tag. Constraints: o min: 1 o max: 80 AwsTagKey -&gt; (string) [required] The key part of the Amazon Web Services tag's key-value pair. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) AwsTagValue -&gt; (string) [required] The value part of the Amazon Web Services tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: VmwareCategory=string,VmwareTagName=string,AwsTagKey=string,AwsTagValue=string ... JSON Syntax: [ { "VmwareCategory": "string", "VmwareTagName": "string", "AwsTagKey": "string", "AwsTagValue": "string" } ... ]
+    /// </summary>
     [CliOption("--vmware-to-aws-tag-mappings", GroupValues = true)]
-    public IEnumerable<string>? VmwareToAwsTagMappings { get; set; }
+    public IEnumerable<string>? VmwareToAwsTagMappings { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\S+)
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

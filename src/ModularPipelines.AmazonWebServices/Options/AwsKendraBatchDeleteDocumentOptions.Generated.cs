@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "batch-delete-document")]
-public record AwsKendraBatchDeleteDocumentOptions : AwsOptions
+public record AwsKendraBatchDeleteDocumentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error mes- sages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentSta- tus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDelete...
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index that contains the documents to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="DocumentIdList">One or more identifiers for documents to delete from the index. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    public AwsKendraBatchDeleteDocumentOptions(
+        string IndexId,
+        IEnumerable<string> DocumentIdList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DocumentIdList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DocumentIdList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DocumentIdList));
+            }
+
+            DocumentIdList = materialized;
+        }
+        this.DocumentIdList = DocumentIdList;
+    }
+
+    private AwsKendraBatchDeleteDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraBatchDeleteDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraBatchDeleteDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index that contains the documents to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// One or more identifiers for documents to delete from the index. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--document-id-list", GroupValues = true)]
-    public IEnumerable<string>? DocumentIdList { get; set; }
+    public IEnumerable<string>? DocumentIdList { get; private init; }
 
     /// <summary>
     /// Maps a particular data source sync job to a particular data source. DataSourceId -&gt; (string) [required] The ID of the data source that is running the sync job. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* DataSourceSyncJobId -&gt; (string) The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are in- dexed/deleted at the index level without sync job metrics in- cluded. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: DataSourceId=string,DataSourceSyncJobId=string JSON Syntax: { "DataSourceId": "string", "DataSourceSyncJobId": "string" }
@@ -38,5 +93,21 @@ public record AwsKendraBatchDeleteDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

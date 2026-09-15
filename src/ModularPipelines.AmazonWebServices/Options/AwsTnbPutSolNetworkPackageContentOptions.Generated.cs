@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,24 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "put-sol-network-package-content")]
-public record AwsTnbPutSolNetworkPackageContentOptions : AwsOptions
+public record AwsTnbPutSolNetworkPackageContentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="File">Network package file.</param>
+    /// <param name="NsdInfoId">Network service descriptor info ID. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    public AwsTnbPutSolNetworkPackageContentOptions(
+        string File,
+        string NsdInfoId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
+        this.NsdInfoId = NsdInfoId;
+    }
+
+    private AwsTnbPutSolNetworkPackageContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbPutSolNetworkPackageContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbPutSolNetworkPackageContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Network package file.
+    /// </summary>
+    [CliOption("--file")]
+    public string? File { get; private init; }
+
+    /// <summary>
+    /// Network service descriptor info ID. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--nsd-info-id")]
+    public string? NsdInfoId { get; private init; }
+
     /// <summary>
     /// Network package content type. Possible values: o application/zip
     /// </summary>
     [CliOption("--content-type")]
-    public AwsTnbPutSolNetworkPackageContentContentType? ContentType { get; set; }
-
-    [CliOption("--file")]
-    public string? File { get; set; }
-
-    [CliOption("--nsd-info-id")]
-    public string? NsdInfoId { get; set; }
+    public string? ContentType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

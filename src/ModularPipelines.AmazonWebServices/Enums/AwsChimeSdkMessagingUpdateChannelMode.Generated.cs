@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsChimeSdkMessagingUpdateChannelMode
 {
-    [EnumValue("UNRESTRICTED")]
-    Unrestricted = 1,
-
     [EnumValue("RESTRICTED")]
-    Restricted = 2
+    Restricted,
+
+    [EnumValue("UNRESTRICTED")]
+    Unrestricted
 }

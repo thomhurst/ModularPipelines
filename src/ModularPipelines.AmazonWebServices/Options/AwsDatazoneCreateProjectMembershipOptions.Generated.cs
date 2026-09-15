@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-project-membership")]
-public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions
+public record AwsDatazoneCreateProjectMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a project membership in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which project membership is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The ID of the project for which this project membership was created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Member">The project member whose project membership was created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }</param>
+    /// <param name="Designation">The designation of the project membership. Possible values: o PROJECT_OWNER o PROJECT_CONTRIBUTOR o PROJECT_CATALOG_VIEWER o PROJECT_CATALOG_CONSUMER o PROJECT_CATALOG_STEWARD</param>
+    public AwsDatazoneCreateProjectMembershipOptions(
+        string DomainIdentifier,
+        string ProjectIdentifier,
+        string Member,
+        AwsDatazoneCreateProjectMembershipDesignation Designation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdentifier);
+        this.ProjectIdentifier = ProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Designation);
+        this.Designation = Designation;
+    }
+
+    private AwsDatazoneCreateProjectMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateProjectMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateProjectMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which project membership is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the project for which this project membership was created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--project-identifier")]
-    public string? ProjectIdentifier { get; set; }
+    public string? ProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// The project member whose project membership was created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userIdentifier, groupIdentifier. userIdentifier -&gt; (string) The user ID of a project member. groupIdentifier -&gt; (string) The ID of the group of a project member. Shorthand Syntax: userIdentifier=string,groupIdentifier=string JSON Syntax: { "userIdentifier": "string", "groupIdentifier": "string" }
+    /// </summary>
     [CliOption("--member")]
-    public string? Member { get; set; }
+    public string? Member { get; private init; }
 
+    /// <summary>
+    /// The designation of the project membership. Possible values: o PROJECT_OWNER o PROJECT_CONTRIBUTOR o PROJECT_CATALOG_VIEWER o PROJECT_CATALOG_CONSUMER o PROJECT_CATALOG_STEWARD
+    /// </summary>
     [CliOption("--designation")]
-    public string? Designation { get; set; }
+    public AwsDatazoneCreateProjectMembershipDesignation? Designation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

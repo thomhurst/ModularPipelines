@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "delete-mailbox-permissions")]
-public record AwsWorkmailDeleteMailboxPermissionsOptions : AwsOptions
+public record AwsWorkmailDeleteMailboxPermissionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes permissions granted to a member (user or group). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier of the organization under which the member (user or group) exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier of the entity that owns the mailbox. The identifier can be UserId or Group Id , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="GranteeId">The identifier of the entity for which to delete granted permis- sions. The identifier can be UserId, ResourceID, or Group Id , Username or Groupname , or email . o Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: grantee@domain.tld o Grantee name: grantee Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    public AwsWorkmailDeleteMailboxPermissionsOptions(
+        string OrganizationId,
+        string EntityId,
+        string GranteeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(EntityId);
+        this.EntityId = EntityId;
+        global::System.ArgumentNullException.ThrowIfNull(GranteeId);
+        this.GranteeId = GranteeId;
+    }
+
+    private AwsWorkmailDeleteMailboxPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailDeleteMailboxPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailDeleteMailboxPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the organization under which the member (user or group) exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the entity that owns the mailbox. The identifier can be UserId or Group Id , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--entity-id")]
-    public string? EntityId { get; set; }
+    public string? EntityId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the entity for which to delete granted permis- sions. The identifier can be UserId, ResourceID, or Group Id , Username or Groupname , or email . o Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: grantee@domain.tld o Grantee name: grantee Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--grantee-id")]
-    public string? GranteeId { get; set; }
+    public string? GranteeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

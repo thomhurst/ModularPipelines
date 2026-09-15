@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "disassociate-license")]
-public record AwsGrafanaDisassociateLicenseOptions : AwsOptions
+public record AwsGrafanaDisassociateLicenseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the Grafana Enterprise license from a workspace. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace to remove the Grafana Enterprise license from. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="LicenseType">The type of license to remove from the workspace. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL</param>
+    public AwsGrafanaDisassociateLicenseOptions(
+        string WorkspaceId,
+        AwsGrafanaDisassociateLicenseLicenseType LicenseType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(LicenseType);
+        this.LicenseType = LicenseType;
+    }
+
+    private AwsGrafanaDisassociateLicenseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaDisassociateLicenseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaDisassociateLicenseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace to remove the Grafana Enterprise license from. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The type of license to remove from the workspace. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL
+    /// </summary>
     [CliOption("--license-type")]
-    public string? LicenseType { get; set; }
+    public AwsGrafanaDisassociateLicenseLicenseType? LicenseType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

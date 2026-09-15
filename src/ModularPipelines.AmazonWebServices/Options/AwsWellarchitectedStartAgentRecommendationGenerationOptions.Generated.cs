@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "start-agent-recommendation-generation")]
-public record AwsWellarchitectedStartAgentRecommendationGenerationOptions : AwsOptions
+public record AwsWellarchitectedStartAgentRecommendationGenerationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--profile-arn")]
-    public string? ProfileArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates a new recommendation generation process for the specified op- timization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGenera- tion to check status. See also: AWS API Documentation start-agent-recommendation-generation uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, n...
+    /// </summary>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the optimization profile to use for generating recommendations. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="Types">The types of recommendations to generate. Constraints: o min: 1 o max: 1 (string) Possible values: o RESOURCE o ARCHITECTURE o APPLICATION Syntax: "string" "string" ...</param>
+    /// <param name="Scope">Scope configuration to focus the generation on specific pillars or goals. pillars -&gt; (list) [required] The Well-Architected Tool Framework pillars to include in the generation scope. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE goalIds -&gt; (list) Specific goal IDs to focus on during recommendation generation. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} items -&gt; (list) Optional per-pillar item filtering configuration. (structure) Item configuration for a specific Well-Architected Tool Framework pillar. pillar -&gt; (string) [required] The pillar this item configuration applies to. Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE ids -&gt; (list) [required] A list of item IDs to process for this pillar, such as best practice IDs, Amazon Web Services service names, or resource ARNs. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 JSON Syntax: { "pillars": ["COST_OPTIMIZATION"|"SECURITY"|"RESILIENCE"|"PERFORMANCE"|"OPERATIONAL_EXCELLENCE", ...], "goalIds": ["string", ...], "items": [ { "pillar": "COST_OPTIMIZATION"|"SECURITY"|"RESILIENCE"|"PERFORMANCE"|"OPERATIONAL_EXCELLENCE", "ids": ["string", ...] } ... ] }</param>
+    public AwsWellarchitectedStartAgentRecommendationGenerationOptions(
+        string ProfileArn,
+        IEnumerable<string> Types,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileArn);
+        this.ProfileArn = ProfileArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Types);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Types));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Types));
+            }
+
+            Types = materialized;
+        }
+        this.Types = Types;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsWellarchitectedStartAgentRecommendationGenerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedStartAgentRecommendationGenerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedStartAgentRecommendationGenerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the optimization profile to use for generating recommendations. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--profile-arn")]
+    public string? ProfileArn { get; private init; }
+
+    /// <summary>
+    /// The types of recommendations to generate. Constraints: o min: 1 o max: 1 (string) Possible values: o RESOURCE o ARCHITECTURE o APPLICATION Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--types", GroupValues = true)]
-    public IEnumerable<string>? Types { get; set; }
+    public IEnumerable<string>? Types { get; private init; }
+
+    /// <summary>
+    /// Scope configuration to focus the generation on specific pillars or goals. pillars -&gt; (list) [required] The Well-Architected Tool Framework pillars to include in the generation scope. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE goalIds -&gt; (list) Specific goal IDs to focus on during recommendation generation. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} items -&gt; (list) Optional per-pillar item filtering configuration. (structure) Item configuration for a specific Well-Architected Tool Framework pillar. pillar -&gt; (string) [required] The pillar this item configuration applies to. Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE ids -&gt; (list) [required] A list of item IDs to process for this pillar, such as best practice IDs, Amazon Web Services service names, or resource ARNs. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 JSON Syntax: { "pillars": ["COST_OPTIMIZATION"|"SECURITY"|"RESILIENCE"|"PERFORMANCE"|"OPERATIONAL_EXCELLENCE", ...], "goalIds": ["string", ...], "items": [ { "pillar": "COST_OPTIMIZATION"|"SECURITY"|"RESILIENCE"|"PERFORMANCE"|"OPERATIONAL_EXCELLENCE", "ids": ["string", ...] } ... ] }
+    /// </summary>
+    [CliOption("--scope")]
+    public string? Scope { get; private init; }
 
     /// <summary>
     /// An optional name for this generation process to help identify it in lists and logs. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9_-]+
@@ -39,13 +104,26 @@ public record AwsWellarchitectedStartAgentRecommendationGenerationOptions : AwsO
     [CliOption("--additional-context")]
     public string? AdditionalContext { get; set; }
 
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("voice-id", "update-domain")]
-public record AwsVoiceIdUpdateDomainOptions : AwsOptions
+public record AwsVoiceIdUpdateDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Descrip- tion' is not provided, it is removed from the domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The identifier of the domain to be updated. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="Name">The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
+    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the do- main's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
+    public AwsVoiceIdUpdateDomainOptions(
+        string DomainId,
+        string Name,
+        string ServerSideEncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ServerSideEncryptionConfiguration);
+        this.ServerSideEncryptionConfiguration = ServerSideEncryptionConfiguration;
+    }
+
+    private AwsVoiceIdUpdateDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVoiceIdUpdateDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVoiceIdUpdateDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the domain to be updated. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the do- main's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// </summary>
+    [CliOption("--server-side-encryption-configuration")]
+    public string? ServerSideEncryptionConfiguration { get; private init; }
+
     /// <summary>
     /// A brief description about this domain. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--server-side-encryption-configuration")]
-    public string? ServerSideEncryptionConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

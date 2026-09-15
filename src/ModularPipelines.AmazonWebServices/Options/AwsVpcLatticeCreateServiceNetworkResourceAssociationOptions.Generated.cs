@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-service-network-resource-association")]
-public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsOptions
+public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive con- nections through the service network, including through a service net- work VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceConfigurationIdentifier">The ID of the resource configuration to associate with the service network. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkIdentifier">The ID of the service network to associate with the resource config- uration. Constraints: o min: 3 o max: 2048</param>
+    public AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions(
+        string ResourceConfigurationIdentifier,
+        string ServiceNetworkIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfigurationIdentifier);
+        this.ResourceConfigurationIdentifier = ResourceConfigurationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkIdentifier);
+        this.ServiceNetworkIdentifier = ServiceNetworkIdentifier;
+    }
+
+    private AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource configuration to associate with the service network. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--resource-configuration-identifier")]
+    public string? ResourceConfigurationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the service network to associate with the resource config- uration. Constraints: o min: 3 o max: 2048
+    /// </summary>
+    [CliOption("--service-network-identifier")]
+    public string? ServiceNetworkIdentifier { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
     /// </summary>
@@ -30,13 +80,10 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--resource-configuration-identifier")]
-    public string? ResourceConfigurationIdentifier { get; set; }
-
-    [CliOption("--service-network-identifier")]
-    public string? ServiceNetworkIdentifier { get; set; }
-
-    [CliFlag("--private-dns-enabled")]
+    /// <summary>
+    /// Indicates if private DNS is enabled for the service network resource association.
+    /// </summary>
+    [CliFlag("--private-dns-enabled", NegatedName = "--no-private-dns-enabled")]
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
@@ -50,5 +97,21 @@ public record AwsVpcLatticeCreateServiceNetworkResourceAssociationOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

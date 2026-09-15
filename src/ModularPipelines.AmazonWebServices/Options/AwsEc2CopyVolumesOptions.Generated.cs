@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "copy-volumes")]
-public record AwsEc2CopyVolumesOptions : AwsOptions
+public record AwsEc2CopyVolumesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a crash-consistent, point-in-time copy of an existing Amazon EBS volume within the same Availability Zone. The volume copy can be attached to an Amazon EC2 instance once it reaches the available state. For more information, see Copy an Amazon EBS volume . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceVolumeId">The ID of the source EBS volume to copy.</param>
+    public AwsEc2CopyVolumesOptions(
+        string SourceVolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceVolumeId);
+        this.SourceVolumeId = SourceVolumeId;
+    }
+
+    private AwsEc2CopyVolumesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CopyVolumesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CopyVolumesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source EBS volume to copy.
+    /// </summary>
     [CliOption("--source-volume-id")]
-    public string? SourceVolumeId { get; set; }
+    public string? SourceVolumeId { get; private init; }
 
     /// <summary>
     /// The number of I/O operations per second (IOPS) to provision for the volume copy. Required for io1 and io2 volumes. Optional for gp3 vol- umes. Omit for all other volume types. Full provisioned IOPS perfor- mance can be achieved only once the volume copy is fully initial- ized. Valid ranges: o gp3: 3,000 (default )``- 80,000`` IOPS o io1: 100 - 64,000 IOPS o io2: 100 - 256,000 IOPS NOTE: Instances built on the Nitro System can support up to 256,000 IOPS. Other instances can support up to 32,000 IOPS.
@@ -44,7 +81,10 @@ public record AwsEc2CopyVolumesOptions : AwsOptions
     [CliOption("--volume-type")]
     public AwsEc2CopyVolumesVolumeType? VolumeType { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -53,7 +93,10 @@ public record AwsEc2CopyVolumesOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--multi-attach-enabled")]
+    /// <summary>
+    /// Indicates whether to enable Amazon EBS Multi-Attach for the volume copy. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro instances in the same Availability Zone simultaneously. Supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach .
+    /// </summary>
+    [CliFlag("--multi-attach-enabled", NegatedName = "--no-multi-attach-enabled")]
     public bool? MultiAttachEnabled { get; set; }
 
     /// <summary>
@@ -69,10 +112,38 @@ public record AwsEc2CopyVolumesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
+    /// <summary>
+    /// Indicates whether to encrypt the volume copy. If the source volume is encrypted, the service always encrypts the copy regardless of this value. Set to true to encrypt a copy of an unencrypted source volume during the copy operation. If you set Encrypted to true but do not specify KmsKeyId , the service uses the default KMS key for EBS encryption in your account.
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
+    public bool? Encrypted { get; set; }
+
+    /// <summary>
+    /// The identifier of the KMS key to use for encryption of the volume copy. Specify a symmetric encryption KMS key. You can specify a KMS key using the key ID, key ARN, alias name, or alias ARN. If you set Encrypted to true but do not specify this parameter, the service uses the default KMS key for EBS encryption in your account. For cross-account volume copies, this must be a KMS key in the calling account.
+    /// </summary>
+    [CliOption("--kms-key-id")]
+    public string? KmsKeyId { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

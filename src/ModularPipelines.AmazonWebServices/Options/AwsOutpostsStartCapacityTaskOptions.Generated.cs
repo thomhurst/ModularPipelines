@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "start-capacity-task")]
-public record AwsOutpostsStartCapacityTaskOptions : AwsOptions
+public record AwsOutpostsStartCapacityTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outposts associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="InstancePools">The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: o min: 0 o max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]</param>
+    public AwsOutpostsStartCapacityTaskOptions(
+        string OutpostIdentifier,
+        IEnumerable<string> InstancePools
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstancePools);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstancePools));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstancePools));
+            }
+
+            InstancePools = materialized;
+        }
+        this.InstancePools = InstancePools;
+    }
+
+    private AwsOutpostsStartCapacityTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsStartCapacityTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsStartCapacityTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the Outposts associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    public string? OutpostIdentifier { get; private init; }
+
+    /// <summary>
+    /// The instance pools specified in the capacity task. (structure) The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity. InstanceType -&gt; (string) [required] The instance type of the hosts. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9\-]+\.[a-z0-9\-]+$ Count -&gt; (integer) [required] The number of instances for the specified instance type. Constraints: o min: 0 o max: 9999 Shorthand Syntax: InstanceType=string,Count=integer ... JSON Syntax: [ { "InstanceType": "string", "Count": integer } ... ]
+    /// </summary>
+    [CliOption("--instance-pools", GroupValues = true)]
+    public IEnumerable<string>? InstancePools { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Web Services Outposts order associated with the specified capacity task. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$
@@ -37,16 +95,16 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions
     [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CliOption("--instance-pools", GroupValues = true)]
-    public IEnumerable<string>? InstancePools { get; set; }
-
     /// <summary>
     /// List of user-specified running instances that must not be stopped in order to free up the capacity needed to run the capacity task. Instances -&gt; (list) List of user-specified instances that must not be stopped. (string) Constraints: o min: 11 o max: 32 o pattern: ^i-[0-9a-z]+$ AccountIds -&gt; (list) IDs of the accounts that own each instance that must not be stopped. (string) The ID of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: \d{12} Services -&gt; (list) Names of the services that own each instance that must not be stopped in order to free up the capacity needed to run the ca- pacity task. (string) Possible values: o AWS o EC2 o EKS o ELASTICACHE o ELB o RDS o ROUTE53 Shorthand Syntax: Instances=string,string,AccountIds=string,string,Services=string,string JSON Syntax: { "Instances": ["string", ...], "AccountIds": ["string", ...], "Services": ["AWS"|"EC2"|"EKS"|"ELASTICACHE"|"ELB"|"RDS"|"ROUTE53", ...] }
     /// </summary>
     [CliOption("--instances-to-exclude")]
     public string? InstancesToExclude { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// You can request a dry run to determine if the instance type and in- stance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -60,5 +118,21 @@ public record AwsOutpostsStartCapacityTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

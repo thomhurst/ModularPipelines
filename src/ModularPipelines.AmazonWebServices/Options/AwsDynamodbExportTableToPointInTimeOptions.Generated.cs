@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "export-table-to-point-in-time")]
-public record AwsDynamodbExportTableToPointInTimeOptions : AwsOptions
+public record AwsDynamodbExportTableToPointInTimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableArn">The Amazon Resource Name (ARN) associated with the table to export. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="S3Bucket">The name of the Amazon S3 bucket to export the snapshot to. Constraints: o max: 255 o pattern: ^[a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+$</param>
+    public AwsDynamodbExportTableToPointInTimeOptions(
+        string TableArn,
+        string S3Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableArn);
+        this.TableArn = TableArn;
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+    }
+
+    private AwsDynamodbExportTableToPointInTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbExportTableToPointInTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbExportTableToPointInTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) associated with the table to export. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--table-arn")]
-    public string? TableArn { get; set; }
+    public string? TableArn { get; private init; }
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket to export the snapshot to. Constraints: o max: 255 o pattern: ^[a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+$
+    /// </summary>
+    [CliOption("--s3-bucket")]
+    public string? S3Bucket { get; private init; }
 
     /// <summary>
     /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snap- shot of the table's state at this point in time.
@@ -38,9 +85,6 @@ public record AwsDynamodbExportTableToPointInTimeOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
 
     /// <summary>
     /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in. NOTE: S3BucketOwner is a required parameter when exporting to a S3 bucket in another account. Constraints: o pattern: [0-9]{12}
@@ -89,5 +133,21 @@ public record AwsDynamodbExportTableToPointInTimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "remove-entity-owner")]
-public record AwsDatazoneRemoveEntityOwnerOptions : AwsOptions
+public record AwsDatazoneRemoveEntityOwnerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes an owner from an entity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to remove an owner from an en- tity. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the entity from which you want to remove an owner. Possible values: o DOMAIN_UNIT</param>
+    /// <param name="EntityIdentifier">The ID of the entity from which you want to remove an owner.</param>
+    /// <param name="Owner">The owner that you want to remove from an entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }</param>
+    public AwsDatazoneRemoveEntityOwnerOptions(
+        string DomainIdentifier,
+        AwsDatazoneRemoveEntityOwnerEntityType EntityType,
+        string EntityIdentifier,
+        string Owner
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Owner);
+        this.Owner = Owner;
+    }
+
+    private AwsDatazoneRemoveEntityOwnerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneRemoveEntityOwnerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneRemoveEntityOwnerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where you want to remove an owner from an en- tity. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the entity from which you want to remove an owner. Possible values: o DOMAIN_UNIT
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneRemoveEntityOwnerEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The ID of the entity from which you want to remove an owner.
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The owner that you want to remove from an entity. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: user, group. user -&gt; (structure) Specifies that the domain unit owner is a user. userIdentifier -&gt; (string) [required] The ID of the owner user. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\d{12}:.+$).* group -&gt; (structure) Specifies that the domain unit owner is a group. groupIdentifier -&gt; (string) [required] The ID of the domain unit owners group. Constraints: o pattern: .*(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+).* Shorthand Syntax: user={userIdentifier=string},group={groupIdentifier=string} JSON Syntax: { "user": { "userIdentifier": "string" }, "group": { "groupIdentifier": "string" } }
+    /// </summary>
     [CliOption("--owner")]
-    public string? Owner { get; set; }
+    public string? Owner { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
@@ -46,5 +105,21 @@ public record AwsDatazoneRemoveEntityOwnerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

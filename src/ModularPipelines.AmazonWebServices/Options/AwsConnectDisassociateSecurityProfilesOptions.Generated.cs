@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "disassociate-security-profiles")]
-public record AwsConnectDisassociateSecurityProfilesOptions : AwsOptions
+public record AwsConnectDisassociateSecurityProfilesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="SecurityProfiles">List of Security Profile Object. Constraints: o min: 1 o max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]</param>
+    /// <param name="EntityType">Only supported type is AI_AGENT. Possible values: o USER o AI_AGENT</param>
+    /// <param name="EntityArn">ARN of a Q in Connect AI Agent. Constraints: o min: 1</param>
+    public AwsConnectDisassociateSecurityProfilesOptions(
+        string InstanceId,
+        IEnumerable<string> SecurityProfiles,
+        AwsConnectDisassociateSecurityProfilesEntityType EntityType,
+        string EntityArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityProfiles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityProfiles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityProfiles));
+            }
+
+            SecurityProfiles = materialized;
+        }
+        this.SecurityProfiles = SecurityProfiles;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityArn);
+        this.EntityArn = EntityArn;
+    }
+
+    private AwsConnectDisassociateSecurityProfilesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDisassociateSecurityProfilesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDisassociateSecurityProfilesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// List of Security Profile Object. Constraints: o min: 1 o max: 10 (structure) Security profile items. Id -&gt; (string) Id of a security profile item. Shorthand Syntax: Id=string ... JSON Syntax: [ { "Id": "string" } ... ]
+    /// </summary>
     [CliOption("--security-profiles", GroupValues = true)]
-    public IEnumerable<string>? SecurityProfiles { get; set; }
+    public IEnumerable<string>? SecurityProfiles { get; private init; }
 
+    /// <summary>
+    /// Only supported type is AI_AGENT. Possible values: o USER o AI_AGENT
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsConnectDisassociateSecurityProfilesEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// ARN of a Q in Connect AI Agent. Constraints: o min: 1
+    /// </summary>
     [CliOption("--entity-arn")]
-    public string? EntityArn { get; set; }
+    public string? EntityArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

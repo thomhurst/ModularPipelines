@@ -10,28 +10,83 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a signed JSON Web Token (JWT) that represents the calling Ama- zon Web Services identity. The returned JWT can be used to authenticate with external services that support OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified using the veri- fication keys published at the issuer's JWKS endpoint. See also: AWS API Documentation
+/// Returns a signed JSON Web Token (JWT) that represents the calling Ama- zon Web Services identity. The returned JWT can be used to authenticate with external services that support OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified using the veri- fication keys published at the issuer's JWKS endpoint. NOTE: The GetWebIdentityToken API is not available on the STS Global end- point. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "get-web-identity-token")]
-public record AwsStsGetWebIdentityTokenOptions : AwsOptions
+public record AwsStsGetWebIdentityTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a signed JSON Web Token (JWT) that represents the calling Ama- zon Web Services identity. The returned JWT can be used to authenticate with external services that support OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified using the veri- fication keys published at the issuer's JWKS endpoint. NOTE: The GetWebIdentityToken API is not available on the STS Global end- point. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Audience">The intended recipient of the web identity token. This value popu- lates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external ser- vice should verify this claim to ensure the token was intended for their use. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1000 Syntax: "string" "string" ...</param>
+    /// <param name="SigningAlgorithm">The cryptographic algorithm to use for signing the JSON Web Token (JWT). Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with SHA-384). Constraints: o min: 5 o max: 5</param>
+    public AwsStsGetWebIdentityTokenOptions(
+        IEnumerable<string> Audience,
+        string SigningAlgorithm
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Audience);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Audience));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Audience));
+            }
+
+            Audience = materialized;
+        }
+        this.Audience = Audience;
+        global::System.ArgumentNullException.ThrowIfNull(SigningAlgorithm);
+        this.SigningAlgorithm = SigningAlgorithm;
+    }
+
+    private AwsStsGetWebIdentityTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsGetWebIdentityTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsGetWebIdentityTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The intended recipient of the web identity token. This value popu- lates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external ser- vice should verify this claim to ensure the token was intended for their use. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1000 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--audience", GroupValues = true)]
-    public IEnumerable<string>? Audience { get; set; }
+    public IEnumerable<string>? Audience { get; private init; }
+
+    /// <summary>
+    /// The cryptographic algorithm to use for signing the JSON Web Token (JWT). Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with SHA-384). Constraints: o min: 5 o max: 5
+    /// </summary>
+    [CliOption("--signing-algorithm")]
+    public string? SigningAlgorithm { get; private init; }
 
     /// <summary>
     /// The duration, in seconds, for which the JSON Web Token (JWT) will remain valid. The value can range from 60 seconds (1 minute) to 3600 seconds (1 hour). If not specified, the default duration is 300 sec- onds (5 minutes). The token is designed to be short-lived and should be used for proof of identity, then exchanged for credentials or short-lived tokens in the external service. Constraints: o min: 60 o max: 3600
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
-
-    [CliOption("--signing-algorithm")]
-    public string? SigningAlgorithm { get; set; }
 
     /// <summary>
     /// An optional list of tags to include in the JSON Web Token (JWT). These tags are added as custom claims to the JWT and can be used by the downstream service for authorization decisions. Constraints: o max: 50 (structure) You can pass custom key-value pair attributes when you assume a role or federate a user. These are called session tags. You can then use the session tags to control access to resources. For more information, see Tagging Amazon Web Services STS Sessions in the IAM User Guide . Key -&gt; (string) [required] The key for a session tag. You can pass up to 50 session tags. The plain text session tag keys cant exceed 128 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide . Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value for a session tag. You can pass up to 50 session tags. The plain text session tag values cant exceed 256 characters. For these and addi- tional limits, see IAM and STS Character Limits in the IAM User Guide . Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +99,21 @@ public record AwsStsGetWebIdentityTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "get-snapshots")]
-public record AwsKendraGetSnapshotsOptions : AwsOptions
+public record AwsKendraGetSnapshotsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the ap- plication is. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index to get search metrics data. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Interval">The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: o THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. o ONE_WEEK_AGO : The previous week, starting on the Sunday and end- ing on the following Saturday. o TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. o THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. o ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. o TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: o THIS_MONTH o THIS_WEEK o ONE_WEEK_AGO o TWO_WEEKS_AGO o ONE_MONTH_AGO o TWO_MONTHS_AGO</param>
+    /// <param name="MetricType">The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining in- sights with search analytics . Possible values: o QUERIES_BY_COUNT o QUERIES_BY_ZERO_CLICK_RATE o QUERIES_BY_ZERO_RESULT_RATE o DOCS_BY_CLICK_COUNT o AGG_QUERY_DOC_METRICS o TREND_QUERY_DOC_METRICS</param>
+    public AwsKendraGetSnapshotsOptions(
+        string IndexId,
+        AwsKendraGetSnapshotsInterval Interval,
+        AwsKendraGetSnapshotsMetricType MetricType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(Interval);
+        this.Interval = Interval;
+        global::System.ArgumentNullException.ThrowIfNull(MetricType);
+        this.MetricType = MetricType;
+    }
+
+    private AwsKendraGetSnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraGetSnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraGetSnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index to get search metrics data. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// The time interval or time window to get search metrics data. The time interval uses the time zone of your index. You can view data in the following time windows: o THIS_WEEK : The current week, starting on the Sunday and ending on the day before the current date. o ONE_WEEK_AGO : The previous week, starting on the Sunday and end- ing on the following Saturday. o TWO_WEEKS_AGO : The week before the previous week, starting on the Sunday and ending on the following Saturday. o THIS_MONTH : The current month, starting on the first day of the month and ending on the day before the current date. o ONE_MONTH_AGO : The previous month, starting on the first day of the month and ending on the last day of the month. o TWO_MONTHS_AGO : The month before the previous month, starting on the first day of the month and ending on last day of the month. Possible values: o THIS_MONTH o THIS_WEEK o ONE_WEEK_AGO o TWO_WEEKS_AGO o ONE_MONTH_AGO o TWO_MONTHS_AGO
+    /// </summary>
     [CliOption("--interval")]
-    public string? Interval { get; set; }
+    public AwsKendraGetSnapshotsInterval? Interval { get; private init; }
 
+    /// <summary>
+    /// The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see Gaining in- sights with search analytics . Possible values: o QUERIES_BY_COUNT o QUERIES_BY_ZERO_CLICK_RATE o QUERIES_BY_ZERO_RESULT_RATE o DOCS_BY_CLICK_COUNT o AGG_QUERY_DOC_METRICS o TREND_QUERY_DOC_METRICS
+    /// </summary>
     [CliOption("--metric-type")]
-    public string? MetricType { get; set; }
+    public AwsKendraGetSnapshotsMetricType? MetricType { get; private init; }
 
     /// <summary>
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of search metrics data. Constraints: o min: 1 o max: 800
@@ -49,5 +101,21 @@ public record AwsKendraGetSnapshotsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling-plans", "describe-scaling-plan-resources")]
-public record AwsAutoscalingPlansDescribeScalingPlanResourcesOptions : AwsOptions
+public record AwsAutoscalingPlansDescribeScalingPlanResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scaling-plan-name")]
-    public string? ScalingPlanName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the scalable resources in the specified scaling plan. See also: AWS API Documentation describe-scaling-plan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScalingPlanResources
+    /// </summary>
+    /// <param name="ScalingPlanName">The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+</param>
+    /// <param name="ScalingPlanVersion">The version number of the scaling plan. Currently, the only valid value is 1 .</param>
+    public AwsAutoscalingPlansDescribeScalingPlanResourcesOptions(
+        string ScalingPlanName,
+        int ScalingPlanVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScalingPlanName);
+        this.ScalingPlanName = ScalingPlanName;
+        this.ScalingPlanVersion = ScalingPlanVersion;
+    }
+
+    private AwsAutoscalingPlansDescribeScalingPlanResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingPlansDescribeScalingPlanResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingPlansDescribeScalingPlanResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+
+    /// </summary>
+    [CliOption("--scaling-plan-name")]
+    public string? ScalingPlanName { get; private init; }
+
+    /// <summary>
+    /// The version number of the scaling plan. Currently, the only valid value is 1 .
+    /// </summary>
     [CliOption("--scaling-plan-version")]
-    public int? ScalingPlanVersion { get; set; }
+    public int? ScalingPlanVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +95,21 @@ public record AwsAutoscalingPlansDescribeScalingPlanResourcesOptions : AwsOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

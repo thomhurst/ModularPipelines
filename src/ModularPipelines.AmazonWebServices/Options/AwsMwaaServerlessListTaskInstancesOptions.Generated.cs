@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "list-task-instances")]
-public record AwsMwaaServerlessListTaskInstancesOptions : AwsOptions
+public record AwsMwaaServerlessListTaskInstancesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all task instances for a specific workflow run, with optional pagination support. See also: AWS API Documentation list-task-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TaskInstances
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="RunId">The unique identifier of the workflow run for which you want a list of task instances. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    public AwsMwaaServerlessListTaskInstancesOptions(
+        string WorkflowArn,
+        string RunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+    }
+
+    private AwsMwaaServerlessListTaskInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessListTaskInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessListTaskInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow that contains the run. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--workflow-arn")]
+    public string? WorkflowArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the workflow run for which you want a list of task instances. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--run-id")]
-    public string? RunId { get; set; }
+    public string? RunId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsMwaaServerlessListTaskInstancesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-intelligent-tiering-configuration")]
-public record AwsS3apiPutBucketIntelligentTieringConfigurationOptions : AwsOptions
+public record AwsS3apiPutBucketIntelligentTieringConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and h...
+    /// </summary>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.</param>
+    /// <param name="Id">The ID used to identify the S3 Intelligent-Tiering configuration.</param>
+    /// <param name="IntelligentTieringConfiguration">Container for S3 Intelligent-Tiering configuration. Id -&gt; (string) [required] The ID used to identify the S3 Intelligent-Tiering configura- tion. Filter -&gt; (structure) Specifies a bucket filter. The configuration only includes ob- jects that meet the filter's criteria. Prefix -&gt; (string) An object key name prefix that identifies the subset of ob- jects to which the rule applies. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Tag -&gt; (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predi- cates in order for the filter to apply. Prefix -&gt; (string) An object key name prefix that identifies the subset of objects to which the configuration applies. Tags -&gt; (list) All of these tags must exist in the object's tag set in order for the configuration to apply. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Status -&gt; (string) [required] Specifies the status of the configuration. Possible values: o Enabled o Disabled Tierings -&gt; (list) [required] Specifies the S3 Intelligent-Tiering storage class tier of the configuration. (structure) The S3 Intelligent-Tiering storage class is designed to opti- mize storage costs by automatically moving data to the most cost-effective storage access tier, without additional opera- tional overhead. Days -&gt; (integer) [required] The number of consecutive days of no access after which an object will be eligible to be transitioned to the cor- responding tier. The minimum number of days specified for Archive Access tier must be at least 90 days and Deep Archive Access tier must be at least 180 days. The maxi- mum can be up to 2 years (730 days). AccessTier -&gt; (string) [required] S3 Intelligent-Tiering access tier. See Storage class for automatically optimizing frequently and infrequently ac- cessed objects for a list of access tiers in the S3 In- telligent-Tiering storage class. Possible values: o ARCHIVE_ACCESS o DEEP_ARCHIVE_ACCESS JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } }, "Status": "Enabled"|"Disabled", "Tierings": [ { "Days": integer, "AccessTier": "ARCHIVE_ACCESS"|"DEEP_ARCHIVE_ACCESS" } ... ] }</param>
+    public AwsS3apiPutBucketIntelligentTieringConfigurationOptions(
+        string Bucket,
+        string Id,
+        string IntelligentTieringConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(IntelligentTieringConfiguration);
+        this.IntelligentTieringConfiguration = IntelligentTieringConfiguration;
+    }
+
+    private AwsS3apiPutBucketIntelligentTieringConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketIntelligentTieringConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketIntelligentTieringConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The ID used to identify the S3 Intelligent-Tiering configuration.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Container for S3 Intelligent-Tiering configuration. Id -&gt; (string) [required] The ID used to identify the S3 Intelligent-Tiering configura- tion. Filter -&gt; (structure) Specifies a bucket filter. The configuration only includes ob- jects that meet the filter's criteria. Prefix -&gt; (string) An object key name prefix that identifies the subset of ob- jects to which the rule applies. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Tag -&gt; (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predi- cates in order for the filter to apply. Prefix -&gt; (string) An object key name prefix that identifies the subset of objects to which the configuration applies. Tags -&gt; (list) All of these tags must exist in the object's tag set in order for the configuration to apply. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Status -&gt; (string) [required] Specifies the status of the configuration. Possible values: o Enabled o Disabled Tierings -&gt; (list) [required] Specifies the S3 Intelligent-Tiering storage class tier of the configuration. (structure) The S3 Intelligent-Tiering storage class is designed to opti- mize storage costs by automatically moving data to the most cost-effective storage access tier, without additional opera- tional overhead. Days -&gt; (integer) [required] The number of consecutive days of no access after which an object will be eligible to be transitioned to the cor- responding tier. The minimum number of days specified for Archive Access tier must be at least 90 days and Deep Archive Access tier must be at least 180 days. The maxi- mum can be up to 2 years (730 days). AccessTier -&gt; (string) [required] S3 Intelligent-Tiering access tier. See Storage class for automatically optimizing frequently and infrequently ac- cessed objects for a list of access tiers in the S3 In- telligent-Tiering storage class. Possible values: o ARCHIVE_ACCESS o DEEP_ARCHIVE_ACCESS JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } }, "Status": "Enabled"|"Disabled", "Tierings": [ { "Days": integer, "AccessTier": "ARCHIVE_ACCESS"|"DEEP_ARCHIVE_ACCESS" } ... ] }
+    /// </summary>
+    [CliOption("--intelligent-tiering-configuration")]
+    public string? IntelligentTieringConfiguration { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -33,13 +87,26 @@ public record AwsS3apiPutBucketIntelligentTieringConfigurationOptions : AwsOptio
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliOption("--intelligent-tiering-configuration")]
-    public string? IntelligentTieringConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

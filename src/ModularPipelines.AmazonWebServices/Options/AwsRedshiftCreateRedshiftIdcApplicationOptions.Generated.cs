@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-redshift-idc-application")]
-public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions
+public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--idc-instance-arn")]
-    public string? IdcInstanceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Redshift application for use with IAM Identity Cen- ter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdcInstanceArn">The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: o max: 2147483647</param>
+    /// <param name="RedshiftIdcApplicationName">The name of the Redshift application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="IdcDisplayName">The display name for the Amazon Redshift IAM Identity Center appli- cation instance. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+</param>
+    /// <param name="IamRoleArn">The IAM role ARN for the Amazon Redshift IAM Identity Center appli- cation instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateRedshiftIdcApplicationOptions(
+        string IdcInstanceArn,
+        string RedshiftIdcApplicationName,
+        string IdcDisplayName,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdcInstanceArn);
+        this.IdcInstanceArn = IdcInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(RedshiftIdcApplicationName);
+        this.RedshiftIdcApplicationName = RedshiftIdcApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(IdcDisplayName);
+        this.IdcDisplayName = IdcDisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsRedshiftCreateRedshiftIdcApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateRedshiftIdcApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateRedshiftIdcApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the IAM Identity Center instance where Amazon Redshift creates a new managed application. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--idc-instance-arn")]
+    public string? IdcInstanceArn { get; private init; }
+
+    /// <summary>
+    /// The name of the Redshift application in IAM Identity Center. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--redshift-idc-application-name")]
-    public string? RedshiftIdcApplicationName { get; set; }
+    public string? RedshiftIdcApplicationName { get; private init; }
+
+    /// <summary>
+    /// The display name for the Amazon Redshift IAM Identity Center appli- cation instance. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--idc-display-name")]
+    public string? IdcDisplayName { get; private init; }
+
+    /// <summary>
+    /// The IAM role ARN for the Amazon Redshift IAM Identity Center appli- cation instance. It has the required permissions to be assumed and invoke the IDC Identity Center API. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--iam-role-arn")]
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// The namespace for the Amazon Redshift IAM Identity Center applica- tion instance. It determines which managed application verifies the connection token. Constraints: o min: 1 o max: 127 o pattern: ^[a-zA-Z0-9_+.#@$-]+$
     /// </summary>
     [CliOption("--identity-namespace")]
     public string? IdentityNamespace { get; set; }
-
-    [CliOption("--idc-display-name")]
-    public string? IdcDisplayName { get; set; }
-
-    [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
 
     /// <summary>
     /// The token issuer list for the Amazon Redshift IAM Identity Center application instance. (structure) The authorized token issuer for the Amazon Redshift IAM Identity Center application. TrustedTokenIssuerArn -&gt; (string) The ARN for the authorized token issuer for integrating Ama- zon Redshift with IDC Identity Center. Constraints: o max: 2147483647 AuthorizedAudiencesList -&gt; (list) The list of audiences for the authorized token issuer for in- tegrating Amazon Redshift with IDC Identity Center. (string) Constraints: o max: 2147483647 Shorthand Syntax: TrustedTokenIssuerArn=string,AuthorizedAudiencesList=string,string ... JSON Syntax: [ { "TrustedTokenIssuerArn": "string", "AuthorizedAudiencesList": ["string", ...] } ... ]
@@ -77,5 +135,21 @@ public record AwsRedshiftCreateRedshiftIdcApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

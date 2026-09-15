@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "create-whatsapp-message-template-from-library")]
-public record AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions : AwsOptions
+public record AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--meta-library-template")]
-    public string? MetaLibraryTemplate { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new WhatsApp message template using a template from Meta's template library. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetaLibraryTemplate">The template configuration from Meta's library, including customiza- tions for buttons and body text. templateName -&gt; (string) [required] The name to assign to the template. Constraints: o min: 1 o max: 512 libraryTemplateName -&gt; (string) [required] The name of the template in Meta's library. Constraints: o min: 1 o max: 512 templateCategory -&gt; (string) [required] The category of the template (for example, UTILITY or MARKET- ING). Constraints: o min: 1 o max: 100 templateLanguage -&gt; (string) [required] The language code for the template (for example, en_US). Constraints: o min: 1 o max: 6 libraryTemplateButtonInputs -&gt; (list) Button customizations for the template. (structure) Configuration options for customizing buttons in a template from Meta's library. type -&gt; (string) The type of button (for example, QUICK_REPLY, CALL, or URL). Constraints: o min: 1 o max: 25 phoneNumber -&gt; (string) The phone number in E.164 format for CALL-type buttons. Constraints: o min: 1 o max: 20 url -&gt; (map) The URL with dynamic parameters for URL-type buttons. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 30 value -&gt; (string) Constraints: o min: 1 o max: 400 otpType -&gt; (string) The type of one-time password for OTP buttons. Constraints: o min: 1 o max: 25 zeroTapTermsAccepted -&gt; (boolean) When true, indicates acceptance of zero-tap terms for the button. supportedApps -&gt; (list) List of supported applications for this button type. (map) Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 30 value -&gt; (string) Constraints: o min: 1 o max: 100 libraryTemplateBodyInputs -&gt; (structure) Body text customizations for the template. addContactNumber -&gt; (boolean) When true, includes a contact number in the template body. addLearnMoreLink -&gt; (boolean) When true, includes a "learn more" link in the template body. addSecurityRecommendation -&gt; (boolean) When true, includes security recommendations in the template body. addTrackPackageLink -&gt; (boolean) When true, includes a package tracking link in the template body. codeExpirationMinutes -&gt; (integer) The number of minutes until a verification code or OTP ex- pires. JSON Syntax: { "templateName": "string", "libraryTemplateName": "string", "templateCategory": "string", "templateLanguage": "string", "libraryTemplateButtonInputs": [ { "type": "string", "phoneNumber": "string", "url": {"string": "string" ...}, "otpType": "string", "zeroTapTermsAccepted": true|false, "supportedApps": [ {"string": "string" ...} ... ] } ... ], "libraryTemplateBodyInputs": { "addContactNumber": true|false, "addLearnMoreLink": true|false, "addSecurityRecommendation": true|false, "addTrackPackageLink": true|false, "codeExpirationMinutes": integer } }</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account to associate with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    public AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions(
+        string MetaLibraryTemplate,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetaLibraryTemplate);
+        this.MetaLibraryTemplate = MetaLibraryTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The template configuration from Meta's library, including customiza- tions for buttons and body text. templateName -&gt; (string) [required] The name to assign to the template. Constraints: o min: 1 o max: 512 libraryTemplateName -&gt; (string) [required] The name of the template in Meta's library. Constraints: o min: 1 o max: 512 templateCategory -&gt; (string) [required] The category of the template (for example, UTILITY or MARKET- ING). Constraints: o min: 1 o max: 100 templateLanguage -&gt; (string) [required] The language code for the template (for example, en_US). Constraints: o min: 1 o max: 6 libraryTemplateButtonInputs -&gt; (list) Button customizations for the template. (structure) Configuration options for customizing buttons in a template from Meta's library. type -&gt; (string) The type of button (for example, QUICK_REPLY, CALL, or URL). Constraints: o min: 1 o max: 25 phoneNumber -&gt; (string) The phone number in E.164 format for CALL-type buttons. Constraints: o min: 1 o max: 20 url -&gt; (map) The URL with dynamic parameters for URL-type buttons. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 30 value -&gt; (string) Constraints: o min: 1 o max: 400 otpType -&gt; (string) The type of one-time password for OTP buttons. Constraints: o min: 1 o max: 25 zeroTapTermsAccepted -&gt; (boolean) When true, indicates acceptance of zero-tap terms for the button. supportedApps -&gt; (list) List of supported applications for this button type. (map) Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 30 value -&gt; (string) Constraints: o min: 1 o max: 100 libraryTemplateBodyInputs -&gt; (structure) Body text customizations for the template. addContactNumber -&gt; (boolean) When true, includes a contact number in the template body. addLearnMoreLink -&gt; (boolean) When true, includes a "learn more" link in the template body. addSecurityRecommendation -&gt; (boolean) When true, includes security recommendations in the template body. addTrackPackageLink -&gt; (boolean) When true, includes a package tracking link in the template body. codeExpirationMinutes -&gt; (integer) The number of minutes until a verification code or OTP ex- pires. JSON Syntax: { "templateName": "string", "libraryTemplateName": "string", "templateCategory": "string", "templateLanguage": "string", "libraryTemplateButtonInputs": [ { "type": "string", "phoneNumber": "string", "url": {"string": "string" ...}, "otpType": "string", "zeroTapTermsAccepted": true|false, "supportedApps": [ {"string": "string" ...} ... ] } ... ], "libraryTemplateBodyInputs": { "addContactNumber": true|false, "addLearnMoreLink": true|false, "addSecurityRecommendation": true|false, "addTrackPackageLink": true|false, "codeExpirationMinutes": integer } }
+    /// </summary>
+    [CliOption("--meta-library-template")]
+    public string? MetaLibraryTemplate { get; private init; }
+
+    /// <summary>
+    /// The ID of the WhatsApp Business Account to associate with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

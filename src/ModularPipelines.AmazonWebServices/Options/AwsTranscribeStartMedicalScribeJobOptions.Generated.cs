@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "start-medical-scribe-job")]
-public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
+public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Transcribes patient-clinician conversations and generates clinical notes. Amazon Web Services HealthScribe automatically provides rich conversa- tion transcripts, identifies speaker roles, classifies dialogues, ex- tracts medical terms, and generates preliminary clinical notes. To learn more about these features, refer to Amazon Web Services Health- Scribe . To make a StartMedicalScribeJob request, you must first upload your me- dia file into an Amazon S3 bucket; you can then specify the Amazon ...
+    /// </summary>
+    /// <param name="MedicalScribeJobName">A unique name, chosen by you, for your Medical Scribe job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="Media">Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the Media formats section in the Amazon S3 Developer Guide. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }</param>
+    /// <param name="OutputBucketName">The name of the Amazon S3 bucket where you want your Medical Scribe output stored. Do not include the S3:// prefix of the specified bucket. Note that the role specified in the DataAccessRoleArn request para- meter must have permission to use the specified location. You can change Amazon S3 permissions using the Amazon Web Services Manage- ment Console . See also Permissions Required for IAM User Roles . Constraints: o max: 64 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files, write to the output bucket, and use your KMS key if supplied. If the role that you specify doesnt have the appropriate permissions your re- quest fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$</param>
+    /// <param name="Settings">Makes it possible to control how your Medical Scribe job is processed using a MedicalScribeSettings object. Specify ChannelIden- tification if ChannelDefinitions are set. Enabled ShowSpeakerLabels if ChannelIdentification and ChannelDefinitions are not set. One and only one of ChannelIdentification and ShowSpeakerLabels must be set. If ShowSpeakerLabels is set, MaxSpeakerLabels must also be set. Use Settings to specify a vocabulary or vocabulary filter or both using VocabularyName , VocabularyFilterName . VocabularyFilterMethod must be specified if VocabularyFilterName is set. ShowSpeakerLabels -&gt; (boolean) Enables speaker partitioning (diarization) in your Medical Scribe output. Speaker partitioning labels the speech from indi- vidual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels . For more information, see Partitioning speakers (diarization) . MaxSpeakerLabels -&gt; (integer) Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the speci- fied number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true. Constraints: o min: 2 o max: 30 ChannelIdentification -&gt; (boolean) Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel in- dependently, then appends the output for each channel into one transcript. For more information, see Transcribing multi-channel audio . VocabularyName -&gt; (string) The name of the custom vocabulary you want to include in your Medical Scribe request. Custom vocabulary names are case sensi- tive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+ VocabularyFilterName -&gt; (string) The name of the custom vocabulary filter you want to include in your Medical Scribe request. Custom vocabulary filter names are case sensitive. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod . Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+ VocabularyFilterMethod -&gt; (string) Specify how you want your custom vocabulary filter applied to your transcript. To replace words with *** , choose mask . To delete words, choose remove . To flag words without changing them, choose tag . Possible values: o remove o mask o tag ClinicalNoteGenerationSettings -&gt; (structure) Specify settings for the clinical note generation. NoteTemplate -&gt; (string) Specify one of the following templates to use for the clini- cal note summary. The default is HISTORY_AND_PHYSICAL . o HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Sys- tems, Past Medical History, Assessment, and Plan. o GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Interven- tion, Response, Progress, and Plan. o BIRP: Focuses on the patient's behavioral patterns and re- sponses. Examples of sections include Behavior, Interven- tion, Response, and Plan. o SIRP: Emphasizes the situational context of therapy. Exam- ples of sections include Situation, Intervention, Response, and Plan. o DAP: Provides a simplified format for clinical documenta- tion. Examples of sections include Data, Assessment, and Plan. o BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan. o PHYSICAL_SOAP: Physical health focused documentation for- mat. Examples of sections include Subjective, Objective, Assessment, and Plan. Possible values: o HISTORY_AND_PHYSICAL o GIRPP o BIRP o SIRP o DAP o BEHAVIORAL_SOAP o PHYSICAL_SOAP Shorthand Syntax: ShowSpeakerLabels=boolean,MaxSpeakerLabels=integer,ChannelIdentification=boolean,VocabularyName=string,VocabularyFilterName=string,VocabularyFilterMethod=string,ClinicalNoteGenerationSettings={NoteTemplate=string} JSON Syntax: { "ShowSpeakerLabels": true|false, "MaxSpeakerLabels": integer, "ChannelIdentification": true|false, "VocabularyName": "string", "VocabularyFilterName": "string", "VocabularyFilterMethod": "remove"|"mask"|"tag", "ClinicalNoteGenerationSettings": { "NoteTemplate": "HISTORY_AND_PHYSICAL"|"GIRPP"|"BIRP"|"SIRP"|"DAP"|"BEHAVIORAL_SOAP"|"PHYSICAL_SOAP" } }</param>
+    public AwsTranscribeStartMedicalScribeJobOptions(
+        string MedicalScribeJobName,
+        string Media,
+        string OutputBucketName,
+        string DataAccessRoleArn,
+        string Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MedicalScribeJobName);
+        this.MedicalScribeJobName = MedicalScribeJobName;
+        global::System.ArgumentNullException.ThrowIfNull(Media);
+        this.Media = Media;
+        global::System.ArgumentNullException.ThrowIfNull(OutputBucketName);
+        this.OutputBucketName = OutputBucketName;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Settings);
+        this.Settings = Settings;
+    }
+
+    private AwsTranscribeStartMedicalScribeJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeStartMedicalScribeJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeStartMedicalScribeJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name, chosen by you, for your Medical Scribe job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictEx- ception error. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--medical-scribe-job-name")]
-    public string? MedicalScribeJobName { get; set; }
+    public string? MedicalScribeJobName { get; private init; }
 
+    /// <summary>
+    /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the Media formats section in the Amazon S3 Developer Guide. MediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to transcribe. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ RedactedMediaFileUri -&gt; (string) The Amazon S3 location of the media file you want to redact. For example: o s3://DOC-EXAMPLE-BUCKET/my-media-file.flac o s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request. WARNING: RedactedMediaFileUri produces a redacted audio file in addi- tion to a redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob ) transcription requests. Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+ Shorthand Syntax: MediaFileUri=string,RedactedMediaFileUri=string JSON Syntax: { "MediaFileUri": "string", "RedactedMediaFileUri": "string" }
+    /// </summary>
     [CliOption("--media")]
-    public string? Media { get; set; }
+    public string? Media { get; private init; }
 
+    /// <summary>
+    /// The name of the Amazon S3 bucket where you want your Medical Scribe output stored. Do not include the S3:// prefix of the specified bucket. Note that the role specified in the DataAccessRoleArn request para- meter must have permission to use the specified location. You can change Amazon S3 permissions using the Amazon Web Services Manage- ment Console . See also Permissions Required for IAM User Roles . Constraints: o max: 64 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]
+    /// </summary>
     [CliOption("--output-bucket-name")]
-    public string? OutputBucketName { get; set; }
+    public string? OutputBucketName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files, write to the output bucket, and use your KMS key if supplied. If the role that you specify doesnt have the appropriate permissions your re- quest fails. IAM role ARNs have the format arn:partition:iam::ac- count:role/role-name-with-path . For example: arn:aws:iam::111122223333:role/Admin . For more information, see IAM ARNs . Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// Makes it possible to control how your Medical Scribe job is processed using a MedicalScribeSettings object. Specify ChannelIden- tification if ChannelDefinitions are set. Enabled ShowSpeakerLabels if ChannelIdentification and ChannelDefinitions are not set. One and only one of ChannelIdentification and ShowSpeakerLabels must be set. If ShowSpeakerLabels is set, MaxSpeakerLabels must also be set. Use Settings to specify a vocabulary or vocabulary filter or both using VocabularyName , VocabularyFilterName . VocabularyFilterMethod must be specified if VocabularyFilterName is set. ShowSpeakerLabels -&gt; (boolean) Enables speaker partitioning (diarization) in your Medical Scribe output. Speaker partitioning labels the speech from indi- vidual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels . For more information, see Partitioning speakers (diarization) . MaxSpeakerLabels -&gt; (integer) Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the speci- fied number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true. Constraints: o min: 2 o max: 30 ChannelIdentification -&gt; (boolean) Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel in- dependently, then appends the output for each channel into one transcript. For more information, see Transcribing multi-channel audio . VocabularyName -&gt; (string) The name of the custom vocabulary you want to include in your Medical Scribe request. Custom vocabulary names are case sensi- tive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+ VocabularyFilterName -&gt; (string) The name of the custom vocabulary filter you want to include in your Medical Scribe request. Custom vocabulary filter names are case sensitive. Note that if you include VocabularyFilterName in your request, you must also include VocabularyFilterMethod . Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+ VocabularyFilterMethod -&gt; (string) Specify how you want your custom vocabulary filter applied to your transcript. To replace words with *** , choose mask . To delete words, choose remove . To flag words without changing them, choose tag . Possible values: o remove o mask o tag ClinicalNoteGenerationSettings -&gt; (structure) Specify settings for the clinical note generation. NoteTemplate -&gt; (string) Specify one of the following templates to use for the clini- cal note summary. The default is HISTORY_AND_PHYSICAL . o HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Sys- tems, Past Medical History, Assessment, and Plan. o GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Interven- tion, Response, Progress, and Plan. o BIRP: Focuses on the patient's behavioral patterns and re- sponses. Examples of sections include Behavior, Interven- tion, Response, and Plan. o SIRP: Emphasizes the situational context of therapy. Exam- ples of sections include Situation, Intervention, Response, and Plan. o DAP: Provides a simplified format for clinical documenta- tion. Examples of sections include Data, Assessment, and Plan. o BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan. o PHYSICAL_SOAP: Physical health focused documentation for- mat. Examples of sections include Subjective, Objective, Assessment, and Plan. Possible values: o HISTORY_AND_PHYSICAL o GIRPP o BIRP o SIRP o DAP o BEHAVIORAL_SOAP o PHYSICAL_SOAP Shorthand Syntax: ShowSpeakerLabels=boolean,MaxSpeakerLabels=integer,ChannelIdentification=boolean,VocabularyName=string,VocabularyFilterName=string,VocabularyFilterMethod=string,ClinicalNoteGenerationSettings={NoteTemplate=string} JSON Syntax: { "ShowSpeakerLabels": true|false, "MaxSpeakerLabels": integer, "ChannelIdentification": true|false, "VocabularyName": "string", "VocabularyFilterName": "string", "VocabularyFilterMethod": "remove"|"mask"|"tag", "ClinicalNoteGenerationSettings": { "NoteTemplate": "HISTORY_AND_PHYSICAL"|"GIRPP"|"BIRP"|"SIRP"|"DAP"|"BEHAVIORAL_SOAP"|"PHYSICAL_SOAP" } }
+    /// </summary>
+    [CliOption("--settings")]
+    public string? Settings { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your Medical Scribe output. KMS key ARNs have the format arn:partition:kms:region:ac- count:key/key-id . For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab . For more information, see KMS key ARNs . If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permis- sion to use the specified KMS key. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
@@ -42,12 +113,6 @@ public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
     /// </summary>
     [CliOption("--kms-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KmsEncryptionContext { get; set; }
-
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
-
-    [CliOption("--settings")]
-    public string? Settings { get; set; }
 
     /// <summary>
     /// Makes it possible to specify which speaker is on which channel. For example, if the clinician is the first participant to speak, you would set ChannelId of the first ChannelDefinition in the list to 0 (to indicate the first channel) and ParticipantRole to CLINICIAN (to indicate that it's the clinician speaking). Then you would set the ChannelId of the second ChannelDefinition in the list to 1 (to indi- cate the second channel) and ParticipantRole to PATIENT (to indicate that it's the patient speaking). Constraints: o min: 2 o max: 2 (structure) Indicates which speaker is on which channel. The options are CLINICIAN and PATIENT ChannelId -&gt; (integer) [required] Specify the audio channel you want to define. Constraints: o min: 0 o max: 1 ParticipantRole -&gt; (string) [required] Specify the participant that you want to flag. The options are CLINICIAN and PATIENT Possible values: o PATIENT o CLINICIAN Shorthand Syntax: ChannelId=integer,ParticipantRole=string ... JSON Syntax: [ { "ChannelId": integer, "ParticipantRole": "PATIENT"|"CLINICIAN" } ... ]
@@ -72,5 +137,21 @@ public record AwsTranscribeStartMedicalScribeJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

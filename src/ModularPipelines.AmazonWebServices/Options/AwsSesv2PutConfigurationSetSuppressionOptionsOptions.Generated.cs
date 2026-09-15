@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-configuration-set-suppression-options")]
-public record AwsSesv2PutConfigurationSetSuppressionOptionsOptions : AwsOptions
+public record AwsSesv2PutConfigurationSetSuppressionOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Specify the suppression list preferences for a configuration set. You can also use this operation to specify a SuppressionScope to override the suppression scope of the tenant or account for emails sent using this configuration set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The name of the configuration set to change the suppression list preferences for.</param>
+    public AwsSesv2PutConfigurationSetSuppressionOptionsOptions(
+        string ConfigurationSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+    }
+
+    private AwsSesv2PutConfigurationSetSuppressionOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutConfigurationSetSuppressionOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutConfigurationSetSuppressionOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration set to change the suppression list preferences for.
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
     /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this con- figuration set. Can be one of the following: o TENANT Use the tenant's suppression list. o ACCOUNT Use the account-level suppression list. Possible values: o ACCOUNT o TENANT
     /// </summary>
     [CliOption("--suppression-scope")]
-    public AwsSesv2PutConfigurationSetSuppressionSuppressionScope? SuppressionScope { get; set; }
+    public AwsSesv2PutConfigurationSetSuppressionOptionsSuppressionScope? SuppressionScope { get; set; }
 
     /// <summary>
     /// A list that contains the reasons that email addresses are automati- cally added to the suppression list for your account or for a spe- cific tenant. This list can contain any or all of the following: o COMPLAINT Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint. o BOUNCE Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
@@ -48,5 +85,21 @@ public record AwsSesv2PutConfigurationSetSuppressionOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

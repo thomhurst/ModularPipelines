@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-proxy-endpoint")]
-public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions
+public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DBProxyEndpoint . Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbProxyName">The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyEndpointName">The name of the DB proxy endpoint to create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="VpcSubnetIds">The VPC subnet IDs for the DB proxy endpoint that you create. You can specify a different set of subnet IDs than for the original DB proxy. (string) Syntax: "string" "string" ...</param>
+    public AwsRdsCreateDbProxyEndpointOptions(
+        string DbProxyName,
+        string DbProxyEndpointName,
+        IEnumerable<string> VpcSubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbProxyName);
+        this.DbProxyName = DbProxyName;
+        global::System.ArgumentNullException.ThrowIfNull(DbProxyEndpointName);
+        this.DbProxyEndpointName = DbProxyEndpointName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSubnetIds));
+            }
+
+            VpcSubnetIds = materialized;
+        }
+        this.VpcSubnetIds = VpcSubnetIds;
+    }
+
+    private AwsRdsCreateDbProxyEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbProxyEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbProxyEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB proxy associated with the DB proxy endpoint that you create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--db-proxy-name")]
-    public string? DbProxyName { get; set; }
+    public string? DbProxyName { get; private init; }
 
+    /// <summary>
+    /// The name of the DB proxy endpoint to create. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--db-proxy-endpoint-name")]
-    public string? DbProxyEndpointName { get; set; }
+    public string? DbProxyEndpointName { get; private init; }
 
+    /// <summary>
+    /// The VPC subnet IDs for the DB proxy endpoint that you create. You can specify a different set of subnet IDs than for the original DB proxy. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--vpc-subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSubnetIds { get; set; }
+    public IEnumerable<string>? VpcSubnetIds { get; private init; }
 
     /// <summary>
     /// The VPC security group IDs for the DB proxy endpoint that you cre- ate. You can specify a different set of security group IDs than for the original DB proxy. The default is the default security group for the VPC. (string) Syntax: "string" "string" ...
@@ -53,12 +115,28 @@ public record AwsRdsCreateDbProxyEndpointOptions : AwsOptions
     /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
-    public AwsRdsCreateDbProxyEndpointEndpointNetworkType? EndpointNetworkType { get; set; }
+    public string? EndpointNetworkType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

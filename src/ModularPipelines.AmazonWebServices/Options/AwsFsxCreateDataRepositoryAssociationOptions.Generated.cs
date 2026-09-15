@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "create-data-repository-association")]
-public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions
+public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associa- tions are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or ...
+    /// </summary>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="DataRepositoryPath">The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path spec- ifies where in the S3 data repository files will be imported from or exported to. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$</param>
+    public AwsFsxCreateDataRepositoryAssociationOptions(
+        string FileSystemId,
+        string DataRepositoryPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(DataRepositoryPath);
+        this.DataRepositoryPath = DataRepositoryPath;
+    }
+
+    private AwsFsxCreateDataRepositoryAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCreateDataRepositoryAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCreateDataRepositoryAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
     [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path spec- ifies where in the S3 data repository files will be imported from or exported to. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$
+    /// </summary>
+    [CliOption("--data-repository-path")]
+    public string? DataRepositoryPath { get; private init; }
 
     /// <summary>
     /// A path on the file system that points to a high-level directory (such as /ns1/ ) or subdirectory (such as /ns1/subdir/ ) that will be mapped 1-1 with DataRepositoryPath . The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/ , then you cannot link an- other data repository with file system path /ns1/ns2 . This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory. NOTE: If you specify only a forward slash (/ ) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system. Constraints: o min: 1 o max: 4096 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,4096}$
@@ -31,13 +78,10 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions
     [CliOption("--file-system-path")]
     public string? FileSystemPath { get; set; }
 
-    [CliOption("--data-repository-path")]
-    public string? DataRepositoryPath { get; set; }
-
     /// <summary>
-    /// | --no-batch-im- port-meta-data-on-create (boolean) Set to true to run an import data repository task to import metadata from the data repository to the file system after the data reposi- tory association is created. Default is false .
+    /// port-meta-data-on-create (boolean) Set to true to run an import data repository task to import metadata from the data repository to the file system after the data reposi- tory association is created. Default is false .
     /// </summary>
-    [CliFlag("--batch-import-meta-data-on-create")]
+    [CliFlag("--batch-import-meta-data-on-create", NegatedName = "--no-batch-import-meta-data-on-create")]
     public bool? BatchImportMetaDataOnCreate { get; set; }
 
     /// <summary>
@@ -70,5 +114,21 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

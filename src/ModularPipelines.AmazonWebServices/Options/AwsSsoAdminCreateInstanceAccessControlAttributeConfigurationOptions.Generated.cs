@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "create-instance-access-control-attribute-configuration")]
-public record AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions : AwsOptions
+public record AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new at- tributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide . NOTE: After a successful response, call DescribeInstanceAccessControlAt- tributeConfiguration to validate that InstanceAccessControlAttribut- eConfiguration was created. See also: AWS ...
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="InstanceAccessControlAttributeConfiguration"></param>
+    public AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions(
+        string InstanceArn,
+        string InstanceAccessControlAttributeConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceAccessControlAttributeConfiguration);
+        this.InstanceAccessControlAttributeConfiguration = InstanceAccessControlAttributeConfiguration;
+    }
+
+    private AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminCreateInstanceAccessControlAttributeConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
     [CliOption("--instance-access-control-attribute-configuration")]
-    public string? InstanceAccessControlAttributeConfiguration { get; set; }
+    public string? InstanceAccessControlAttributeConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

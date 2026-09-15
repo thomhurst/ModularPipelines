@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "create-training-dataset")]
-public record AwsCleanroomsmlCreateTrainingDataSetOptions : AwsOptions
+public record AwsCleanroomsmlCreateTrainingDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the training dataset. This name must be unique in your account and region. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="RoleArn">The ARN of the IAM role that Clean Rooms ML can assume to read the data referred to in the dataSource field of each dataset. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+</param>
+    /// <param name="TrainingData">An array of information that lists the Dataset objects, which speci- fies the dataset type and details on its location and schema. You must provide a role that has read access to these tables. Constraints: o min: 1 o max: 1 (structure) Defines where the training dataset is located, what type of data it contains, and how to access the data. type -&gt; (string) [required] What type of information is found in the dataset. Possible values: o INTERACTIONS inputConfig -&gt; (structure) [required] A DatasetInputConfig object that defines the data source and schema mapping. schema -&gt; (list) [required] The schema information for the training data. Constraints: o min: 1 o max: 100 (structure) Metadata for a column. columnName -&gt; (string) [required] The name of a column. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? columnTypes -&gt; (list) [required] The data type of column. Constraints: o min: 1 o max: 1 (string) Possible values: o USER_ID o ITEM_ID o TIMESTAMP o CATEGORICAL_FEATURE o NUMERICAL_FEATURE dataSource -&gt; (structure) [required] A DataSource object that specifies the Glue data source for the training data. glueDataSource -&gt; (structure) [required] A GlueDataSource object that defines the catalog ID, database name, and table name for the training data. tableName -&gt; (string) [required] The Glue table that contains the training data. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? databaseName -&gt; (string) [required] The Glue database that contains the training data. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))? catalogId -&gt; (string) The Glue catalog that contains the training data. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: [ { "type": "INTERACTIONS", "inputConfig": { "schema": [ { "columnName": "string", "columnTypes": ["USER_ID"|"ITEM_ID"|"TIMESTAMP"|"CATEGORICAL_FEATURE"|"NUMERICAL_FEATURE", ...] } ... ], "dataSource": { "glueDataSource": { "tableName": "string", "databaseName": "string", "catalogId": "string" } } } } ... ]</param>
+    public AwsCleanroomsmlCreateTrainingDataSetOptions(
+        string Name,
+        string RoleArn,
+        IEnumerable<string> TrainingData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TrainingData);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TrainingData));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TrainingData));
+            }
+
+            TrainingData = materialized;
+        }
+        this.TrainingData = TrainingData;
+    }
+
+    private AwsCleanroomsmlCreateTrainingDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlCreateTrainingDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlCreateTrainingDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the training dataset. This name must be unique in your account and region. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that Clean Rooms ML can assume to read the data referred to in the dataSource field of each dataset. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// An array of information that lists the Dataset objects, which speci- fies the dataset type and details on its location and schema. You must provide a role that has read access to these tables. Constraints: o min: 1 o max: 1 (structure) Defines where the training dataset is located, what type of data it contains, and how to access the data. type -&gt; (string) [required] What type of information is found in the dataset. Possible values: o INTERACTIONS inputConfig -&gt; (structure) [required] A DatasetInputConfig object that defines the data source and schema mapping. schema -&gt; (list) [required] The schema information for the training data. Constraints: o min: 1 o max: 100 (structure) Metadata for a column. columnName -&gt; (string) [required] The name of a column. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? columnTypes -&gt; (list) [required] The data type of column. Constraints: o min: 1 o max: 1 (string) Possible values: o USER_ID o ITEM_ID o TIMESTAMP o CATEGORICAL_FEATURE o NUMERICAL_FEATURE dataSource -&gt; (structure) [required] A DataSource object that specifies the Glue data source for the training data. glueDataSource -&gt; (structure) [required] A GlueDataSource object that defines the catalog ID, database name, and table name for the training data. tableName -&gt; (string) [required] The Glue table that contains the training data. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? databaseName -&gt; (string) [required] The Glue database that contains the training data. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))? catalogId -&gt; (string) The Glue catalog that contains the training data. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: [ { "type": "INTERACTIONS", "inputConfig": { "schema": [ { "columnName": "string", "columnTypes": ["USER_ID"|"ITEM_ID"|"TIMESTAMP"|"CATEGORICAL_FEATURE"|"NUMERICAL_FEATURE", ...] } ... ], "dataSource": { "glueDataSource": { "tableName": "string", "databaseName": "string", "catalogId": "string" } } } } ... ]
+    /// </summary>
     [CliOption("--training-data", GroupValues = true)]
-    public IEnumerable<string>? TrainingData { get; set; }
+    public IEnumerable<string>? TrainingData { get; private init; }
 
     /// <summary>
     /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an op- tional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You can- not edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +110,21 @@ public record AwsCleanroomsmlCreateTrainingDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

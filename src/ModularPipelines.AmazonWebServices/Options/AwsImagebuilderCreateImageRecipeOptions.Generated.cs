@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-image-recipe")]
-public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
+public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new image recipe. Image recipes define how images are config- ured, tested, and assessed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the image recipe. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the image recipe. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
+    /// <param name="ParentImage">The base image for customizations specified in the image recipe. You can specify the parent image using one of the following options: o AMI ID o Image Builder image Amazon Resource Name (ARN) o Amazon Web Services Systems Manager (SSM) Parameter Store Parame- ter, prefixed by ssm: , followed by the parameter name or ARN. o Amazon Web Services Marketplace product ID If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access to the AMI, and the AMI must be in the source Region. Constraints: o min: 1 o max: 1024</param>
+    public AwsImagebuilderCreateImageRecipeOptions(
+        string Name,
+        string SemanticVersion,
+        string ParentImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
+        this.SemanticVersion = SemanticVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ParentImage);
+        this.ParentImage = ParentImage;
+    }
+
+    private AwsImagebuilderCreateImageRecipeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateImageRecipeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateImageRecipeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image recipe. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The semantic version of the image recipe. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// </summary>
+    [CliOption("--semantic-version")]
+    public string? SemanticVersion { get; private init; }
+
+    /// <summary>
+    /// The base image for customizations specified in the image recipe. You can specify the parent image using one of the following options: o AMI ID o Image Builder image Amazon Resource Name (ARN) o Amazon Web Services Systems Manager (SSM) Parameter Store Parame- ter, prefixed by ssm: , followed by the parameter name or ARN. o Amazon Web Services Marketplace product ID If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access to the AMI, and the AMI must be in the source Region. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--parent-image")]
+    public string? ParentImage { get; private init; }
 
     /// <summary>
     /// The description of the image recipe. Constraints: o min: 1 o max: 1024
@@ -32,20 +89,14 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--semantic-version")]
-    public string? SemanticVersion { get; set; }
-
     /// <summary>
     /// The components included in the image recipe. Constraints: o min: 1 (structure) Configuration details of the component. componentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the component. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) A group of parameter settings that Image Builder uses to con- figure the component for a specific recipe. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named component parameter. name -&gt; (string) [required] The name of the component parameter to set. Constraints: o min: 1 o max: 256 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named component parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* JSON Syntax: [ { "componentArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ] } ... ]
     /// </summary>
     [CliOption("--components", GroupValues = true)]
     public IEnumerable<string>? Components { get; set; }
 
-    [CliOption("--parent-image")]
-    public string? ParentImage { get; set; }
-
     /// <summary>
-    /// The block device mappings of the image recipe. (structure) Defines block device mappings for the instance used to configure your image. deviceName -&gt; (string) The device to which these mappings apply. Constraints: o min: 1 o max: 1024 ebs -&gt; (structure) Use to manage Amazon EBS-specific configuration for this map- ping. encrypted -&gt; (boolean) Use to configure device encryption. deleteOnTermination -&gt; (boolean) Use to configure delete on termination of the associated device. iops -&gt; (integer) Use to configure device IOPS. Constraints: o min: 100 o max: 64000 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more informa- tion, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024 snapshotId -&gt; (string) The snapshot that defines the device contents. Constraints: o min: 1 o max: 1024 volumeSize -&gt; (integer) Use to override the device's volume size. Constraints: o min: 1 o max: 16000 volumeType -&gt; (string) Use to override the device's volume type. Possible values: o standard o io1 o io2 o gp2 o gp3 o sc1 o st1 throughput -&gt; (integer) For GP3 volumes only The throughput in MiB/s that the volume supports. Constraints: o min: 125 o max: 1000 virtualName -&gt; (string) Use to manage instance ephemeral devices. Constraints: o min: 1 o max: 1024 noDevice -&gt; (string) Use to remove a mapping from the base image. Constraints: o min: 0 o max: 0 Shorthand Syntax: deviceName=string,ebs={encrypted=boolean,deleteOnTermination=boolean,iops=integer,kmsKeyId=string,snapshotId=string,volumeSize=integer,volumeType=string,throughput=integer},virtualName=string,noDevice=string ... JSON Syntax: [ { "deviceName": "string", "ebs": { "encrypted": true|false, "deleteOnTermination": true|false, "iops": integer, "kmsKeyId": "string", "snapshotId": "string", "volumeSize": integer, "volumeType": "standard"|"io1"|"io2"|"gp2"|"gp3"|"sc1"|"st1", "throughput": integer }, "virtualName": "string", "noDevice": "string" } ... ]
+    /// The block device mappings of the image recipe. (structure) Defines block device mappings for the instance used to configure your image. deviceName -&gt; (string) The device to which these mappings apply. Constraints: o min: 1 o max: 1024 ebs -&gt; (structure) The Amazon EBS-specific configuration for this mapping. encrypted -&gt; (boolean) Specifies whether to encrypt the device. deleteOnTermination -&gt; (boolean) Specifies whether to delete the associated device on ter- mination. iops -&gt; (integer) The IOPS value for the device. Required only when volume- Type is io1 or io2. Constraints: o min: 100 o max: 64000 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more informa- tion, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024 snapshotId -&gt; (string) The snapshot that defines the device contents. Constraints: o min: 1 o max: 1024 volumeSize -&gt; (integer) Overrides the volume size for the device. Constraints: o min: 1 o max: 16000 volumeType -&gt; (string) Overrides the volume type for the device. Possible values: o standard o io1 o io2 o gp2 o gp3 o sc1 o st1 throughput -&gt; (integer) For GP3 volumes only The throughput in MiB/s that the volume supports. Constraints: o min: 125 o max: 1000 virtualName -&gt; (string) The virtual device name for instance ephemeral devices. Constraints: o min: 1 o max: 1024 noDevice -&gt; (string) Specifies a mapping to remove from the base image. Constraints: o min: 0 o max: 0 Shorthand Syntax: deviceName=string,ebs={encrypted=boolean,deleteOnTermination=boolean,iops=integer,kmsKeyId=string,snapshotId=string,volumeSize=integer,volumeType=string,throughput=integer},virtualName=string,noDevice=string ... JSON Syntax: [ { "deviceName": "string", "ebs": { "encrypted": true|false, "deleteOnTermination": true|false, "iops": integer, "kmsKeyId": "string", "snapshotId": "string", "volumeSize": integer, "volumeType": "standard"|"io1"|"io2"|"gp2"|"gp3"|"sc1"|"st1", "throughput": integer }, "virtualName": "string", "noDevice": "string" } ... ]
     /// </summary>
     [CliOption("--block-device-mappings", GroupValues = true)]
     public IEnumerable<string>? BlockDeviceMappings { get; set; }
@@ -63,7 +114,7 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     public string? WorkingDirectory { get; set; }
 
     /// <summary>
-    /// Specify additional settings and launch scripts for your build in- stances. systemsManagerAgent -&gt; (structure) Contains settings for the Systems Manager agent on your build instance. uninstallAfterBuild -&gt; (boolean) Controls whether the Systems Manager agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. default value is false. The default behavior of uninstallAfterBuild is to remove the SSM Agent if it was installed by EC2 Image Builder userDataOverride -&gt; (string) Use this property to provide commands or a command script to run when you launch your build instance. The userDataOverride property replaces any commands that Image Builder might have added to ensure that Systems Manager is in- stalled on your Linux build instance. If you override the user data, make sure that you add commands to install Systems Man- ager, if it is not pre-installed on your base image. NOTE: The user data is always base 64 encoded. For example, the following commands are encoded as IyEvYmluL2Jhc2gKbWtkaX- IgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$ : #!/bin/bash mkdir -p /var/bb/ touch /var Constraints: o min: 1 o max: 21847 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$ Shorthand Syntax: systemsManagerAgent={uninstallAfterBuild=boolean},userDataOverride=string JSON Syntax: { "systemsManagerAgent": { "uninstallAfterBuild": true|false }, "userDataOverride": "string" }
+    /// The additional settings and launch scripts for your build instances. systemsManagerAgent -&gt; (structure) Contains settings for the Systems Manager agent on your build instance. uninstallAfterBuild -&gt; (boolean) Controls whether the Systems Manager agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. default value is false. The default behavior of uninstallAfterBuild is to remove the SSM Agent if it was installed by EC2 Image Builder userDataOverride -&gt; (string) Use this property to provide commands or a command script to run when you launch your build instance. The userDataOverride property replaces any commands that Image Builder might have added to ensure that Systems Manager is in- stalled on your Linux build instance. If you override the user data, make sure that you add commands to install Systems Man- ager, if it is not pre-installed on your base image. NOTE: The user data is always base 64 encoded. For example, the following commands are encoded as IyEvYmluL2Jhc2gKbWtkaX- IgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$ : #!/bin/bash mkdir -p /var/bb/ touch /var Constraints: o min: 1 o max: 21847 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$ Shorthand Syntax: systemsManagerAgent={uninstallAfterBuild=boolean},userDataOverride=string JSON Syntax: { "systemsManagerAgent": { "uninstallAfterBuild": true|false }, "userDataOverride": "string" }
     /// </summary>
     [CliOption("--additional-instance-configuration")]
     public string? AdditionalInstanceConfiguration { get; set; }
@@ -81,16 +132,38 @@ public record AwsImagebuilderCreateImageRecipeOptions : AwsOptions
     public IEnumerable<string>? AmiWatermarks { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
+
+    /// <summary>
+    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

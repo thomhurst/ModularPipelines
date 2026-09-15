@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +21,109 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "unlink-identity")]
-public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions
+public record AwsCognitoIdentityUnlinkIdentityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="Logins">A set of optional name-value pairs that map provider names to provider tokens. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="LoginsToRemove">Provider names to unlink from this identity. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    public AwsCognitoIdentityUnlinkIdentityOptions(
+        string IdentityId,
+        IReadOnlyList<KeyValue> Logins,
+        IEnumerable<string> LoginsToRemove
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityId);
+        this.IdentityId = IdentityId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Logins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Logins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Logins));
+            }
+
+            Logins = materialized;
+        }
+        this.Logins = Logins;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LoginsToRemove);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LoginsToRemove));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LoginsToRemove));
+            }
+
+            LoginsToRemove = materialized;
+        }
+        this.LoginsToRemove = LoginsToRemove;
+    }
+
+    private AwsCognitoIdentityUnlinkIdentityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityUnlinkIdentityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityUnlinkIdentityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
     [CliOption("--identity-id")]
-    public string? IdentityId { get; set; }
+    public string? IdentityId { get; private init; }
 
+    /// <summary>
+    /// A set of optional name-value pairs that map provider names to provider tokens. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--logins", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Logins { get; set; }
+    public IReadOnlyList<KeyValue>? Logins { get; private init; }
 
+    /// <summary>
+    /// Provider names to unlink from this identity. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--logins-to-remove", GroupValues = true)]
-    public IEnumerable<string>? LoginsToRemove { get; set; }
+    public IEnumerable<string>? LoginsToRemove { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

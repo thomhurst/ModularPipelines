@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "update-dashboard")]
-public record AwsIotsitewiseUpdateDashboardOptions : AwsOptions
+public record AwsIotsitewiseUpdateDashboardOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: The IoT SiteWise Monitor feature will no longer be open to new cus- tomers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing cus- tomers can continue to use the service as normal. For more informa- tion, see IoT SiteWise Monitor availability change . Updates an IoT SiteWise Monitor dashboard. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DashboardId">The ID of the dashboard to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="DashboardName">A new friendly name for the dashboard. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="DashboardDefinition">The new dashboard definition, as specified in a JSON literal. o IoT SiteWise Monitor (Classic) see Create dashboards (CLI) o IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI) in the IoT SiteWise User Guide Constraints: o min: 0 o max: 204800 o pattern: .+</param>
+    public AwsIotsitewiseUpdateDashboardOptions(
+        string DashboardId,
+        string DashboardName,
+        string DashboardDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+        global::System.ArgumentNullException.ThrowIfNull(DashboardName);
+        this.DashboardName = DashboardName;
+        global::System.ArgumentNullException.ThrowIfNull(DashboardDefinition);
+        this.DashboardDefinition = DashboardDefinition;
+    }
+
+    private AwsIotsitewiseUpdateDashboardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseUpdateDashboardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseUpdateDashboardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the dashboard to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
+    [CliOption("--dashboard-id")]
+    public string? DashboardId { get; private init; }
+
+    /// <summary>
+    /// A new friendly name for the dashboard. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// </summary>
     [CliOption("--dashboard-name")]
-    public string? DashboardName { get; set; }
+    public string? DashboardName { get; private init; }
+
+    /// <summary>
+    /// The new dashboard definition, as specified in a JSON literal. o IoT SiteWise Monitor (Classic) see Create dashboards (CLI) o IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI) in the IoT SiteWise User Guide Constraints: o min: 0 o max: 204800 o pattern: .+
+    /// </summary>
+    [CliOption("--dashboard-definition")]
+    public string? DashboardDefinition { get; private init; }
 
     /// <summary>
     /// A new description for the dashboard. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--dashboard-description")]
     public string? DashboardDescription { get; set; }
-
-    [CliOption("--dashboard-definition")]
-    public string? DashboardDefinition { get; set; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -49,5 +100,21 @@ public record AwsIotsitewiseUpdateDashboardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

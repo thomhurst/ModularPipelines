@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "batch-modify-cluster-snapshots")]
-public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions
+public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the settings for a set of cluster snapshots. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SnapshotIdentifierList">A list of snapshot identifiers you want to modify. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    public AwsRedshiftBatchModifyClusterSnapshotsOptions(
+        IEnumerable<string> SnapshotIdentifierList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SnapshotIdentifierList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SnapshotIdentifierList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SnapshotIdentifierList));
+            }
+
+            SnapshotIdentifierList = materialized;
+        }
+        this.SnapshotIdentifierList = SnapshotIdentifierList;
+    }
+
+    private AwsRedshiftBatchModifyClusterSnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftBatchModifyClusterSnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftBatchModifyClusterSnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of snapshot identifiers you want to modify. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--snapshot-identifier-list", GroupValues = true)]
-    public IEnumerable<string>? SnapshotIdentifierList { get; set; }
+    public IEnumerable<string>? SnapshotIdentifierList { get; private init; }
 
     /// <summary>
     /// The number of days that a manual snapshot is retained. If you spec- ify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its cur- rent value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option.
@@ -30,7 +78,10 @@ public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions
     [CliOption("--manual-snapshot-retention-period")]
     public int? ManualSnapshotRetentionPeriod { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// A boolean value indicating whether to override an exception if the retention period has passed.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +89,21 @@ public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

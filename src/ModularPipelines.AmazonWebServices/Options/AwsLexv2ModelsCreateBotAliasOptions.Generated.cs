@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-bot-alias")]
-public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions
+public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applica- tions use to call the Amazon Lex bot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotAliasName">The alias to create. The name must be unique for the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="BotId">The unique identifier of the bot that the alias applies to. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsLexv2ModelsCreateBotAliasOptions(
+        string BotAliasName,
+        string BotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotAliasName);
+        this.BotAliasName = BotAliasName;
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+    }
+
+    private AwsLexv2ModelsCreateBotAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateBotAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateBotAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alias to create. The name must be unique for the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// </summary>
     [CliOption("--bot-alias-name")]
-    public string? BotAliasName { get; set; }
+    public string? BotAliasName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the bot that the alias applies to. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--bot-id")]
+    public string? BotId { get; private init; }
 
     /// <summary>
     /// A description of the alias. Use this description to help identify the alias. Constraints: o min: 0 o max: 2000
@@ -55,9 +102,6 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions
     [CliOption("--sentiment-analysis-settings")]
     public string? SentimentAnalysisSettings { get; set; }
 
-    [CliOption("--bot-id")]
-    public string? BotId { get; set; }
-
     /// <summary>
     /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -69,5 +113,21 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

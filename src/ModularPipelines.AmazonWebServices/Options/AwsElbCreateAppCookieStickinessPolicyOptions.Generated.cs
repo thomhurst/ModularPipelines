@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "create-app-cookie-stickiness-policy")]
-public record AwsElbCreateAppCookieStickinessPolicyOptions : AwsOptions
+public record AwsElbCreateAppCookieStickinessPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners. This policy is similar to the policy created by CreateLBCookieSticki- nessPolicy , except that the lifetime of the special Elastic Load Bal- ancing cookie, AWSELB , follows the lifetime of the application-gener- ated cookie specified in the policy configuration. The load balancer only inserts a new stickiness cookie when th...
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="PolicyName">The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.</param>
+    /// <param name="CookieName">The name of the application cookie used for stickiness.</param>
+    public AwsElbCreateAppCookieStickinessPolicyOptions(
+        string LoadBalancerName,
+        string PolicyName,
+        string CookieName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(CookieName);
+        this.CookieName = CookieName;
+    }
+
+    private AwsElbCreateAppCookieStickinessPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbCreateAppCookieStickinessPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbCreateAppCookieStickinessPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
+    /// <summary>
+    /// The name of the application cookie used for stickiness.
+    /// </summary>
     [CliOption("--cookie-name")]
-    public string? CookieName { get; set; }
+    public string? CookieName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

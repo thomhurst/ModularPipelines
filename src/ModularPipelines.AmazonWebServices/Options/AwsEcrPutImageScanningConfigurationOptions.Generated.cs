@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-image-scanning-configuration")]
-public record AwsEcrPutImageScanningConfigurationOptions : AwsOptions
+public record AwsEcrPutImageScanningConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: The PutImageScanningConfiguration API is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration . Updates the image scanning configuration for the specified repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository in which to update the image scanning configuration setting. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageScanningConfiguration">The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities af- ter being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after be- ing pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }</param>
+    public AwsEcrPutImageScanningConfigurationOptions(
+        string RepositoryName,
+        string ImageScanningConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageScanningConfiguration);
+        this.ImageScanningConfiguration = ImageScanningConfiguration;
+    }
+
+    private AwsEcrPutImageScanningConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutImageScanningConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutImageScanningConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository in which to update the image scanning configuration setting. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities af- ter being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after be- ing pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }
+    /// </summary>
+    [CliOption("--image-scanning-configuration")]
+    public string? ImageScanningConfiguration { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image scanning con- figuration setting. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--image-scanning-configuration")]
-    public string? ImageScanningConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

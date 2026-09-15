@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "enter-standby")]
-public record AwsAutoscalingEnterStandbyOptions : AwsOptions
+public record AwsAutoscalingEnterStandbyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Moves the specified instances into the standby state. If you choose to decrement the desired capacity of the Auto Scaling group, the instances can enter standby as long as the desired capacity of the Auto Scaling group after the instances are placed into standby is equal to or greater than the minimum capacity of the group. If you choose not to decrement the desired capacity of the Auto Scaling group, the Auto Scaling group launches new instances to replace the in- stances on standby. For more i...
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ShouldDecrementDesiredCapacity">pacity (boolean) [required] Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.</param>
+    public AwsAutoscalingEnterStandbyOptions(
+        string AutoScalingGroupName,
+        bool ShouldDecrementDesiredCapacity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        this.ShouldDecrementDesiredCapacity = ShouldDecrementDesiredCapacity;
+    }
+
+    private AwsAutoscalingEnterStandbyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingEnterStandbyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingEnterStandbyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// pacity (boolean) [required] Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
+    /// </summary>
+    [CliFlag("--should-decrement-desired-capacity", NegatedName = "--no-should-decrement-desired-capacity")]
+    public bool? ShouldDecrementDesiredCapacity { get; private init; }
+
     /// <summary>
     /// The IDs of the instances. You can specify up to 20 instances. (string) Constraints: o min: 1 o max: 19 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
     public IEnumerable<string>? InstanceIds { get; set; }
 
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
-
-    [CliFlag("--should-decrement-desired-capacity")]
-    public bool? ShouldDecrementDesiredCapacity { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

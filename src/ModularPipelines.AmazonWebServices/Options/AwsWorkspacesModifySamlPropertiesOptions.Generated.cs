@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-saml-properties")]
-public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions
+public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies multiple properties related to SAML 2.0 authentication, in- cluding the enablement status, user access URL, and relay state parame- ter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The directory identifier for which you want to configure SAML prop- erties. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    public AwsWorkspacesModifySamlPropertiesOptions(
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsWorkspacesModifySamlPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifySamlPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifySamlPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The directory identifier for which you want to configure SAML prop- erties. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     /// <summary>
     /// The properties for configuring SAML 2.0 authentication. Status -&gt; (string) Indicates the status of SAML 2.0 authentication. These statuses include the following. o If the setting is DISABLED , end users will be directed to lo- gin with their directory credentials. o If the setting is ENABLED , end users will be directed to lo- gin via the user access URL. Users attempting to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to connect. o If the setting is ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK , end users will be directed to login via the user access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication from connecting as if SAML 2.0 authentication was disabled. Possible values: o DISABLED o ENABLED o ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK UserAccessUrl -&gt; (string) The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in order to feder- ate from the IdP and directly access the application, without any SAML 2.0 service provider (SP) bindings. Constraints: o min: 8 o max: 200 o pattern: ^(http|https)\://\S+$ RelayStateParameterName -&gt; (string) The relay state parameter name supported by the SAML 2.0 iden- tity provider (IdP). When the end user is redirected to the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query parameter to the URL along with the relay state endpoint to return the user to the client application session. To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state URL. Con- sult your IdP documentation for more information. Constraints: o min: 1 Shorthand Syntax: Status=string,UserAccessUrl=string,RelayStateParameterName=string JSON Syntax: { "Status": "DISABLED"|"ENABLED"|"ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK", "UserAccessUrl": "string", "RelayStateParameterName": "string" }
@@ -41,5 +78,21 @@ public record AwsWorkspacesModifySamlPropertiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

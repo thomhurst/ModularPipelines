@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-policy-summary")]
-public record AwsBedrockAgentcoreControlGetPolicySummaryOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetPolicySummaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-engine-id")]
-    public string? PolicyEngineId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a metadata-only summary of a specific policy without decrypt- ing customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for re- source discovery, inventory, and integration scenarios where only meta- data is needed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyEngineId">The identifier of the policy engine that manages the policy to re- trieve the summary for. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyId">The unique identifier of the policy to retrieve the summary for. This must be a valid policy ID that exists within the specified pol- icy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    public AwsBedrockAgentcoreControlGetPolicySummaryOptions(
+        string PolicyEngineId,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyEngineId);
+        this.PolicyEngineId = PolicyEngineId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    private AwsBedrockAgentcoreControlGetPolicySummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetPolicySummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetPolicySummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the policy engine that manages the policy to re- trieve the summary for. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
+    [CliOption("--policy-engine-id")]
+    public string? PolicyEngineId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the policy to retrieve the summary for. This must be a valid policy ID that exists within the specified pol- icy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    public string? PolicyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

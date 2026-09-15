@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "update-direct-connect-gateway")]
-public record AwsDirectconnectUpdateDirectConnectGatewayOptions : AwsOptions
+public record AwsDirectconnectUpdateDirectConnectGatewayOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--direct-connect-gateway-id")]
-    public string? DirectConnectGatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the name of a current Direct Connect gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectConnectGatewayId">The ID of the Direct Connect gateway to update.</param>
+    /// <param name="NewDirectConnectGatewayName">The new name for the Direct Connect gateway.</param>
+    public AwsDirectconnectUpdateDirectConnectGatewayOptions(
+        string DirectConnectGatewayId,
+        string NewDirectConnectGatewayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectConnectGatewayId);
+        this.DirectConnectGatewayId = DirectConnectGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(NewDirectConnectGatewayName);
+        this.NewDirectConnectGatewayName = NewDirectConnectGatewayName;
+    }
+
+    private AwsDirectconnectUpdateDirectConnectGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectUpdateDirectConnectGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectUpdateDirectConnectGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Direct Connect gateway to update.
+    /// </summary>
+    [CliOption("--direct-connect-gateway-id")]
+    public string? DirectConnectGatewayId { get; private init; }
+
+    /// <summary>
+    /// The new name for the Direct Connect gateway.
+    /// </summary>
     [CliOption("--new-direct-connect-gateway-name")]
-    public string? NewDirectConnectGatewayName { get; set; }
+    public string? NewDirectConnectGatewayName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

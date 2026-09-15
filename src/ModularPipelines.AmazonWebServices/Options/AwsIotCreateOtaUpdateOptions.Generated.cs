@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-ota-update")]
-public record AwsIotCreateOtaUpdateOptions : AwsOptions
+public record AwsIotCreateOtaUpdateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the CreateOTAUpdate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OtaUpdateId">The ID of the OTA update to be created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Targets">The devices targeted to receive OTA updates. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Files">The files to be streamed by the OTA update. Constraints: o min: 1 (structure) Describes a file to be associated with an OTA update. fileName -&gt; (string) The name of the file. fileType -&gt; (integer) An integer value you can include in the job document to allow your devices to identify the type of file received from the cloud. Constraints: o min: 0 o max: 255 fileVersion -&gt; (string) The file version. fileLocation -&gt; (structure) The location of the updated firmware. stream -&gt; (structure) The stream that contains the OTA update. streamId -&gt; (string) The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ fileId -&gt; (integer) The ID of a file associated with a stream. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the updated firmware in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. codeSigning -&gt; (structure) The code signing method of the file. awsSignerJobId -&gt; (string) The ID of the AWSSignerJob which was created to sign the file. startSigningJobParameter -&gt; (structure) Describes the code-signing job. signingProfileParameter -&gt; (structure) Describes the code-signing profile. certificateArn -&gt; (string) Certificate ARN. platform -&gt; (string) The hardware platform of your device. certificatePathOnDevice -&gt; (string) The location of the code-signing certificate on your device. signingProfileName -&gt; (string) The code-signing profile name. destination -&gt; (structure) The location to write the code-signed file. s3Destination -&gt; (structure) Describes the location in S3 of the updated firmware. bucket -&gt; (string) The S3 bucket that contains the updated firmware. Constraints: o min: 1 prefix -&gt; (string) The S3 prefix. customCodeSigning -&gt; (structure) A custom method for code signing a file. signature -&gt; (structure) The signature for the file. inlineDocument -&gt; (blob) A base64 encoded binary representation of the code signing signature. certificateChain -&gt; (structure) The certificate chain. certificateName -&gt; (string) The name of the certificate. inlineDocument -&gt; (string) A base64 encoded binary representation of the code signing certificate chain. hashAlgorithm -&gt; (string) The hash algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signa- ture algorithm. For example, FreeRTOS uses SHA256 or SHA1 , so you can pass either of them based on which was used for generating the signature. signatureAlgorithm -&gt; (string) The signature algorithm used to code sign the file. You can use a string as the algorithm name if the tar- get over-the-air (OTA) update devices are able to ver- ify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses ECDSA or RSA , so you can pass either of them based on which was used for generating the signature. attributes -&gt; (map) A list of name-attribute pairs. They won't be sent to devices as a part of the Job document. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* JSON Syntax: [ { "fileName": "string", "fileType": integer, "fileVersion": "string", "fileLocation": { "stream": { "streamId": "string", "fileId": integer }, "s3Location": { "bucket": "string", "key": "string", "version": "string" } }, "codeSigning": { "awsSignerJobId": "string", "startSigningJobParameter": { "signingProfileParameter": { "certificateArn": "string", "platform": "string", "certificatePathOnDevice": "string" }, "signingProfileName": "string", "destination": { "s3Destination": { "bucket": "string", "prefix": "string" } } }, "customCodeSigning": { "signature": { "inlineDocument": blob }, "certificateChain": { "certificateName": "string", "inlineDocument": "string" }, "hashAlgorithm": "string", "signatureAlgorithm": "string" } }, "attributes": {"string": "string" ...} } ... ]</param>
+    /// <param name="RoleArn">The IAM role that grants Amazon Web Services IoT Core access to the Amazon S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotCreateOtaUpdateOptions(
+        string OtaUpdateId,
+        IEnumerable<string> Targets,
+        IEnumerable<string> Files,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OtaUpdateId);
+        this.OtaUpdateId = OtaUpdateId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotCreateOtaUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateOtaUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateOtaUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the OTA update to be created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--ota-update-id")]
-    public string? OtaUpdateId { get; set; }
+    public string? OtaUpdateId { get; private init; }
+
+    /// <summary>
+    /// The devices targeted to receive OTA updates. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; private init; }
+
+    /// <summary>
+    /// The files to be streamed by the OTA update. Constraints: o min: 1 (structure) Describes a file to be associated with an OTA update. fileName -&gt; (string) The name of the file. fileType -&gt; (integer) An integer value you can include in the job document to allow your devices to identify the type of file received from the cloud. Constraints: o min: 0 o max: 255 fileVersion -&gt; (string) The file version. fileLocation -&gt; (structure) The location of the updated firmware. stream -&gt; (structure) The stream that contains the OTA update. streamId -&gt; (string) The stream ID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+ fileId -&gt; (integer) The ID of a file associated with a stream. Constraints: o min: 0 o max: 255 s3Location -&gt; (structure) The location of the updated firmware in S3. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. codeSigning -&gt; (structure) The code signing method of the file. awsSignerJobId -&gt; (string) The ID of the AWSSignerJob which was created to sign the file. startSigningJobParameter -&gt; (structure) Describes the code-signing job. signingProfileParameter -&gt; (structure) Describes the code-signing profile. certificateArn -&gt; (string) Certificate ARN. platform -&gt; (string) The hardware platform of your device. certificatePathOnDevice -&gt; (string) The location of the code-signing certificate on your device. signingProfileName -&gt; (string) The code-signing profile name. destination -&gt; (structure) The location to write the code-signed file. s3Destination -&gt; (structure) Describes the location in S3 of the updated firmware. bucket -&gt; (string) The S3 bucket that contains the updated firmware. Constraints: o min: 1 prefix -&gt; (string) The S3 prefix. customCodeSigning -&gt; (structure) A custom method for code signing a file. signature -&gt; (structure) The signature for the file. inlineDocument -&gt; (blob) A base64 encoded binary representation of the code signing signature. certificateChain -&gt; (structure) The certificate chain. certificateName -&gt; (string) The name of the certificate. inlineDocument -&gt; (string) A base64 encoded binary representation of the code signing certificate chain. hashAlgorithm -&gt; (string) The hash algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signa- ture algorithm. For example, FreeRTOS uses SHA256 or SHA1 , so you can pass either of them based on which was used for generating the signature. signatureAlgorithm -&gt; (string) The signature algorithm used to code sign the file. You can use a string as the algorithm name if the tar- get over-the-air (OTA) update devices are able to ver- ify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses ECDSA or RSA , so you can pass either of them based on which was used for generating the signature. attributes -&gt; (map) A list of name-attribute pairs. They won't be sent to devices as a part of the Job document. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* JSON Syntax: [ { "fileName": "string", "fileType": integer, "fileVersion": "string", "fileLocation": { "stream": { "streamId": "string", "fileId": integer }, "s3Location": { "bucket": "string", "key": "string", "version": "string" } }, "codeSigning": { "awsSignerJobId": "string", "startSigningJobParameter": { "signingProfileParameter": { "certificateArn": "string", "platform": "string", "certificatePathOnDevice": "string" }, "signingProfileName": "string", "destination": { "s3Destination": { "bucket": "string", "prefix": "string" } } }, "customCodeSigning": { "signature": { "inlineDocument": blob }, "certificateChain": { "certificateName": "string", "inlineDocument": "string" }, "hashAlgorithm": "string", "signatureAlgorithm": "string" } }, "attributes": {"string": "string" ...} } ... ]
+    /// </summary>
+    [CliOption("--files", GroupValues = true)]
+    public IEnumerable<string>? Files { get; private init; }
+
+    /// <summary>
+    /// The IAM role that grants Amazon Web Services IoT Core access to the Amazon S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The description of the OTA update. Constraints: o max: 2028 o pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
     /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol. Constraints: o min: 1 o max: 2 (string) Possible values: o MQTT o HTTP Syntax: "string" "string" ...
@@ -70,12 +156,6 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
     [CliOption("--aws-job-timeout-config")]
     public string? AwsJobTimeoutConfig { get; set; }
 
-    [CliOption("--files", GroupValues = true)]
-    public IEnumerable<string>? Files { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     /// <summary>
     /// A list of additional OTA update parameters, which are name-value pairs. They won't be sent to devices as a part of the Job document. key -&gt; (string) value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -93,5 +173,21 @@ public record AwsIotCreateOtaUpdateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "create-permission-version")]
-public record AwsRamCreatePermissionVersionOptions : AwsOptions
+public record AwsRamCreatePermissionVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--permission-arn")]
-    public string? PermissionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use ReplacePermissionAssociations to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions b...
+    /// </summary>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the customer managed permission you're creating a new version for.</param>
+    /// <param name="PolicyTemplate">A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.</param>
+    public AwsRamCreatePermissionVersionOptions(
+        string PermissionArn,
+        string PolicyTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PermissionArn);
+        this.PermissionArn = PermissionArn;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyTemplate);
+        this.PolicyTemplate = PolicyTemplate;
+    }
+
+    private AwsRamCreatePermissionVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamCreatePermissionVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamCreatePermissionVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the customer managed permission you're creating a new version for.
+    /// </summary>
+    [CliOption("--permission-arn")]
+    public string? PermissionArn { get; private init; }
+
+    /// <summary>
+    /// A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.
+    /// </summary>
     [CliOption("--policy-template")]
-    public string? PolicyTemplate { get; set; }
+    public string? PolicyTemplate { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -40,5 +84,21 @@ public record AwsRamCreatePermissionVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

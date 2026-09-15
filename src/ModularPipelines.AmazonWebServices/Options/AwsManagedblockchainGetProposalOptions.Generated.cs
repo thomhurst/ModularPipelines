@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "get-proposal")]
-public record AwsManagedblockchainGetProposalOptions : AwsOptions
+public record AwsManagedblockchainGetProposalOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32</param>
+    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: o min: 1 o max: 32</param>
+    public AwsManagedblockchainGetProposalOptions(
+        string NetworkId,
+        string ProposalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(ProposalId);
+        this.ProposalId = ProposalId;
+    }
+
+    private AwsManagedblockchainGetProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainGetProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainGetProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the proposal. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--proposal-id")]
-    public string? ProposalId { get; set; }
+    public string? ProposalId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

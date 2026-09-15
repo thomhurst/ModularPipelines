@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,23 +23,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "create-kx-volume")]
-public record AwsFinspaceCreateKxVolumeOptions : AwsOptions
+public record AwsFinspaceCreateKxVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new volume with a specific amount of throughput and storage capacity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeType">The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: o NAS_1</param>
+    /// <param name="VolumeName">A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="AzMode">The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI</param>
+    /// <param name="AvailabilityZoneIds">The identifier of the availability zones. (string) Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...</param>
+    public AwsFinspaceCreateKxVolumeOptions(
+        string EnvironmentId,
+        AwsFinspaceCreateKxVolumeVolumeType VolumeType,
+        string VolumeName,
+        AwsFinspaceCreateKxVolumeAzMode AzMode,
+        IEnumerable<string> AvailabilityZoneIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeType);
+        this.VolumeType = VolumeType;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeName);
+        this.VolumeName = VolumeName;
+        global::System.ArgumentNullException.ThrowIfNull(AzMode);
+        this.AzMode = AzMode;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AvailabilityZoneIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AvailabilityZoneIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AvailabilityZoneIds));
+            }
+
+            AvailabilityZoneIds = materialized;
+        }
+        this.AvailabilityZoneIds = AvailabilityZoneIds;
+    }
+
+    private AwsFinspaceCreateKxVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceCreateKxVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceCreateKxVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment, whose clusters can at- tach to the volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration . Possible values: o NAS_1
+    /// </summary>
+    [CliOption("--volume-type")]
+    public AwsFinspaceCreateKxVolumeVolumeType? VolumeType { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
+    [CliOption("--volume-name")]
+    public string? VolumeName { get; private init; }
+
+    /// <summary>
+    /// The number of availability zones you want to assign per volume. Cur- rently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ. Possible values: o SINGLE o MULTI
+    /// </summary>
+    [CliOption("--az-mode")]
+    public AwsFinspaceCreateKxVolumeAzMode? AzMode { get; private init; }
+
+    /// <summary>
+    /// The identifier of the availability zones. (string) Constraints: o min: 8 o max: 12 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--availability-zone-ids", GroupValues = true)]
+    public IEnumerable<string>? AvailabilityZoneIds { get; private init; }
+
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--volume-type")]
-    public string? VolumeType { get; set; }
-
-    [CliOption("--volume-name")]
-    public string? VolumeName { get; set; }
 
     /// <summary>
     /// A description of the volume. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
@@ -51,12 +134,6 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions
     [CliOption("--nas1-configuration")]
     public string? Nas1Configuration { get; set; }
 
-    [CliOption("--az-mode")]
-    public string? AzMode { get; set; }
-
-    [CliOption("--availability-zone-ids", GroupValues = true)]
-    public IEnumerable<string>? AvailabilityZoneIds { get; set; }
-
     /// <summary>
     /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+-=._:@ ]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -68,5 +145,21 @@ public record AwsFinspaceCreateKxVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

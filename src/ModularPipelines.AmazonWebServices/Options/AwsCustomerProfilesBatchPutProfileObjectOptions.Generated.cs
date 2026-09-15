@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "batch-put-profile-object")]
-public record AwsCustomerProfilesBatchPutProfileObjectOptions : AwsOptions
+public record AwsCustomerProfilesBatchPutProfileObjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an in- ferred profile can get created if it is not mapped to an existing pro- file. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already ex- i...
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="Items">A list of items to add to the domain. Constraints: o min: 1 o max: 10 (structure) An item to add to the domain as part of a batch request. Id -&gt; (string) [required] A unique identifier for this item in the batch request. Used to correlate items in the response. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Object -&gt; (string) [required] A string that is serialized from a JSON object. Constraints: o min: 1 o max: 256000 Shorthand Syntax: Id=string,Object=string ... JSON Syntax: [ { "Id": "string", "Object": "string" } ... ]</param>
+    public AwsCustomerProfilesBatchPutProfileObjectOptions(
+        string DomainName,
+        string ObjectTypeName,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectTypeName);
+        this.ObjectTypeName = ObjectTypeName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsCustomerProfilesBatchPutProfileObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesBatchPutProfileObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesBatchPutProfileObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// </summary>
     [CliOption("--object-type-name")]
-    public string? ObjectTypeName { get; set; }
+    public string? ObjectTypeName { get; private init; }
 
+    /// <summary>
+    /// A list of items to add to the domain. Constraints: o min: 1 o max: 10 (structure) An item to add to the domain as part of a batch request. Id -&gt; (string) [required] A unique identifier for this item in the batch request. Used to correlate items in the response. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Object -&gt; (string) [required] A string that is serialized from a JSON object. Constraints: o min: 1 o max: 256000 Shorthand Syntax: Id=string,Object=string ... JSON Syntax: [ { "Id": "string", "Object": "string" } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

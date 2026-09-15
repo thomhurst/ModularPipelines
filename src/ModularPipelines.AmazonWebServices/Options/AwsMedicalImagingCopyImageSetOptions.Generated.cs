@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "copy-image-set")]
-public record AwsMedicalImagingCopyImageSetOptions : AwsOptions
+public record AwsMedicalImagingCopyImageSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copy an image set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="SourceImageSetId">The source image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="CopyImageSetInformation">Copy image set information. sourceImageSet -&gt; (structure) [required] The source image set. latestVersionId -&gt; (string) [required] The latest version identifier for the source image set. Constraints: o pattern: \d+ DICOMCopies -&gt; (structure) Contains MetadataCopies structure and wraps information re- lated to specific copy use cases. For example, when copying subsets. copiableAttributes -&gt; (string) [required] The JSON string used to specify a subset of SOP Instances to copy from source to destination image set. Constraints: o min: 1 o max: 260000 destinationImageSet -&gt; (structure) The destination image set. imageSetId -&gt; (string) [required] The image set identifier for the destination image set. Constraints: o pattern: [0-9a-z]{32} latestVersionId -&gt; (string) [required] The latest version identifier for the destination image set. Constraints: o pattern: \d+ Shorthand Syntax: sourceImageSet={latestVersionId=string,DICOMCopies={copiableAttributes=string}},destinationImageSet={imageSetId=string,latestVersionId=string} JSON Syntax: { "sourceImageSet": { "latestVersionId": "string", "DICOMCopies": { "copiableAttributes": "string" } }, "destinationImageSet": { "imageSetId": "string", "latestVersionId": "string" } }</param>
+    public AwsMedicalImagingCopyImageSetOptions(
+        string DatastoreId,
+        string SourceImageSetId,
+        string CopyImageSetInformation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceImageSetId);
+        this.SourceImageSetId = SourceImageSetId;
+        global::System.ArgumentNullException.ThrowIfNull(CopyImageSetInformation);
+        this.CopyImageSetInformation = CopyImageSetInformation;
+    }
+
+    private AwsMedicalImagingCopyImageSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedicalImagingCopyImageSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedicalImagingCopyImageSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    public string? DatastoreId { get; private init; }
 
+    /// <summary>
+    /// The source image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
     [CliOption("--source-image-set-id")]
-    public string? SourceImageSetId { get; set; }
+    public string? SourceImageSetId { get; private init; }
 
+    /// <summary>
+    /// Copy image set information. sourceImageSet -&gt; (structure) [required] The source image set. latestVersionId -&gt; (string) [required] The latest version identifier for the source image set. Constraints: o pattern: \d+ DICOMCopies -&gt; (structure) Contains MetadataCopies structure and wraps information re- lated to specific copy use cases. For example, when copying subsets. copiableAttributes -&gt; (string) [required] The JSON string used to specify a subset of SOP Instances to copy from source to destination image set. Constraints: o min: 1 o max: 260000 destinationImageSet -&gt; (structure) The destination image set. imageSetId -&gt; (string) [required] The image set identifier for the destination image set. Constraints: o pattern: [0-9a-z]{32} latestVersionId -&gt; (string) [required] The latest version identifier for the destination image set. Constraints: o pattern: \d+ Shorthand Syntax: sourceImageSet={latestVersionId=string,DICOMCopies={copiableAttributes=string}},destinationImageSet={imageSetId=string,latestVersionId=string} JSON Syntax: { "sourceImageSet": { "latestVersionId": "string", "DICOMCopies": { "copiableAttributes": "string" } }, "destinationImageSet": { "imageSetId": "string", "latestVersionId": "string" } }
+    /// </summary>
     [CliOption("--copy-image-set-information")]
-    public string? CopyImageSetInformation { get; set; }
+    public string? CopyImageSetInformation { get; private init; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Providing this parameter will force completion of the CopyImageSet operation, even if there are inconsistent Patient, Study, and/or Se- ries level metadata elements between the sourceImageSet and destina- tionImageSet .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--promote-to-primary")]
+    /// <summary>
+    /// Providing this parameter will configure the CopyImageSet operation to promote the given image set to the primary DICOM hierarchy. If successful, a new primary image set ID will be returned as the des- tination image set.
+    /// </summary>
+    [CliFlag("--promote-to-primary", NegatedName = "--no-promote-to-primary")]
     public bool? PromoteToPrimary { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +98,21 @@ public record AwsMedicalImagingCopyImageSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "delete-compute-quota")]
-public record AwsSagemakerDeleteComputeQuotaOptions : AwsOptions
+public record AwsSagemakerDeleteComputeQuotaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the compute allocation from the cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComputeQuotaId">ID of the compute allocation definition. Constraints: o pattern: [a-z0-9]{12}</param>
+    public AwsSagemakerDeleteComputeQuotaOptions(
+        string ComputeQuotaId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComputeQuotaId);
+        this.ComputeQuotaId = ComputeQuotaId;
+    }
+
+    private AwsSagemakerDeleteComputeQuotaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDeleteComputeQuotaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDeleteComputeQuotaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the compute allocation definition. Constraints: o pattern: [a-z0-9]{12}
+    /// </summary>
     [CliOption("--compute-quota-id")]
-    public string? ComputeQuotaId { get; set; }
+    public string? ComputeQuotaId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

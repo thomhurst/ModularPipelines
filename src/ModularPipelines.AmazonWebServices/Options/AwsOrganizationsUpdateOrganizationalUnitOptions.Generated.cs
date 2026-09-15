@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "update-organizational-unit")]
-public record AwsOrganizationsUpdateOrganizationalUnitOptions : AwsOptions
+public record AwsOrganizationsUpdateOrganizationalUnitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. You can only call this operation from the management account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationalUnitId">ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$</param>
+    public AwsOrganizationsUpdateOrganizationalUnitOptions(
+        string OrganizationalUnitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationalUnitId);
+        this.OrganizationalUnitId = OrganizationalUnitId;
+    }
+
+    private AwsOrganizationsUpdateOrganizationalUnitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsUpdateOrganizationalUnitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsUpdateOrganizationalUnitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a sec- ond "-" dash and from 8 to 32 additional lowercase letters or dig- its. Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$
+    /// </summary>
     [CliOption("--organizational-unit-id")]
-    public string? OrganizationalUnitId { get; set; }
+    public string? OrganizationalUnitId { get; private init; }
 
     /// <summary>
     /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
@@ -35,5 +72,21 @@ public record AwsOrganizationsUpdateOrganizationalUnitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

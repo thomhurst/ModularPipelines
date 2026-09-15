@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-fleet-advisor-collector")]
-public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions
+public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Creates a Fleet Advisor collector using the specified parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollectorName">The name of your Fleet Advisor collector (for example, sample-col- lector ).</param>
+    /// <param name="ServiceAccessRoleArn">The IAM role that grants permissions to access the specified Amazon S3 bucket.</param>
+    /// <param name="S3BucketName">The Amazon S3 bucket that the Fleet Advisor collector uses to store inventory metadata.</param>
+    public AwsDmsCreateFleetAdvisorCollectorOptions(
+        string CollectorName,
+        string ServiceAccessRoleArn,
+        string S3BucketName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectorName);
+        this.CollectorName = CollectorName;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccessRoleArn);
+        this.ServiceAccessRoleArn = ServiceAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+    }
+
+    private AwsDmsCreateFleetAdvisorCollectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateFleetAdvisorCollectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateFleetAdvisorCollectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your Fleet Advisor collector (for example, sample-col- lector ).
+    /// </summary>
     [CliOption("--collector-name")]
-    public string? CollectorName { get; set; }
+    public string? CollectorName { get; private init; }
+
+    /// <summary>
+    /// The IAM role that grants permissions to access the specified Amazon S3 bucket.
+    /// </summary>
+    [CliOption("--service-access-role-arn")]
+    public string? ServiceAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 bucket that the Fleet Advisor collector uses to store inventory metadata.
+    /// </summary>
+    [CliOption("--s3-bucket-name")]
+    public string? S3BucketName { get; private init; }
 
     /// <summary>
     /// A summary description of your Fleet Advisor collector.
@@ -30,16 +87,26 @@ public record AwsDmsCreateFleetAdvisorCollectorOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--service-access-role-arn")]
-    public string? ServiceAccessRoleArn { get; set; }
-
-    [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

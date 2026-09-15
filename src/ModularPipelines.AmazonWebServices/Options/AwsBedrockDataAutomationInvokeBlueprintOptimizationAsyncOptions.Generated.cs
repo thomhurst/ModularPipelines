@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "invoke-blueprint-optimization-async")]
-public record AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions : AwsOptions
+public record AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Invoke an async job to perform Blueprint Optimization See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Blueprint">Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }</param>
+    /// <param name="Samples">List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]</param>
+    /// <param name="OutputConfiguration">Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    public AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions(
+        string Blueprint,
+        IEnumerable<string> Samples,
+        string OutputConfiguration,
+        string DataAutomationProfileArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Blueprint);
+        this.Blueprint = Blueprint;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Samples);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Samples));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Samples));
+            }
+
+            Samples = materialized;
+        }
+        this.Samples = Samples;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
+        this.OutputConfiguration = OutputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DataAutomationProfileArn);
+        this.DataAutomationProfileArn = DataAutomationProfileArn;
+    }
+
+    private AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Blueprint to be optimized blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,stage=string JSON Syntax: { "blueprintArn": "string", "stage": "DEVELOPMENT"|"LIVE" }
+    /// </summary>
     [CliOption("--blueprint")]
-    public string? Blueprint { get; set; }
+    public string? Blueprint { get; private init; }
 
+    /// <summary>
+    /// List of Blueprint Optimization Samples (structure) Blueprint Recommendation Sample assetS3Object -&gt; (structure) [required] S3 Object of the asset s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 groundTruthS3Object -&gt; (structure) [required] Ground truth for the Blueprint and Asset combination s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: assetS3Object={s3Uri=string,version=string},groundTruthS3Object={s3Uri=string,version=string} ... JSON Syntax: [ { "assetS3Object": { "s3Uri": "string", "version": "string" }, "groundTruthS3Object": { "s3Uri": "string", "version": "string" } } ... ]
+    /// </summary>
     [CliOption("--samples", GroupValues = true)]
-    public IEnumerable<string>? Samples { get; set; }
+    public IEnumerable<string>? Samples { get; private init; }
 
+    /// <summary>
+    /// Output configuration where the results should be placed s3Object -&gt; (structure) [required] S3 object. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Object={s3Uri=string,version=string} JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" } }
+    /// </summary>
     [CliOption("--output-configuration")]
-    public string? OutputConfiguration { get; set; }
+    public string? OutputConfiguration { get; private init; }
 
+    /// <summary>
+    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// </summary>
     [CliOption("--data-automation-profile-arn")]
-    public string? DataAutomationProfileArn { get; set; }
+    public string? DataAutomationProfileArn { get; private init; }
 
     /// <summary>
     /// Encryption configuration. kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: o min: 1 key -&gt; (string) Encryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
@@ -50,5 +119,21 @@ public record AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "batch-create-variable")]
-public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions
+public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a batch of variables. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VariableEntries">The list of variables for the batch create variable request. Constraints: o min: 1 o max: 25 (structure) A variable in the list of variables for the batch create vari- able request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FIN- GERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NU- MERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIP- PING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]</param>
+    public AwsFrauddetectorBatchCreateVariableOptions(
+        IEnumerable<string> VariableEntries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VariableEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VariableEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VariableEntries));
+            }
+
+            VariableEntries = materialized;
+        }
+        this.VariableEntries = VariableEntries;
+    }
+
+    private AwsFrauddetectorBatchCreateVariableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorBatchCreateVariableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorBatchCreateVariableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of variables for the batch create variable request. Constraints: o min: 1 o max: 25 (structure) A variable in the list of variables for the batch create vari- able request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FIN- GERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NU- MERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIP- PING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]
+    /// </summary>
     [CliOption("--variable-entries", GroupValues = true)]
-    public IEnumerable<string>? VariableEntries { get; set; }
+    public IEnumerable<string>? VariableEntries { get; private init; }
 
     /// <summary>
     /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -35,5 +83,21 @@ public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

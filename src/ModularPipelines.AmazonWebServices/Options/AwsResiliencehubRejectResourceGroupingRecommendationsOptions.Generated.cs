@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "reject-resource-grouping-recommendations")]
-public record AwsResiliencehubRejectResourceGroupingRecommendationsOptions : AwsOptions
+public record AwsResiliencehubRejectResourceGroupingRecommendationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Rejects resource grouping recommendations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Entries">List of resource grouping recommendations you have selected to ex- clude from your application. Constraints: o min: 1 o max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: o DistinctBusinessPurpose o SeparateDataConcern o DistinctUserGroupHandling o Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]</param>
+    public AwsResiliencehubRejectResourceGroupingRecommendationsOptions(
+        string AppArn,
+        IEnumerable<string> Entries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsResiliencehubRejectResourceGroupingRecommendationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubRejectResourceGroupingRecommendationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubRejectResourceGroupingRecommendationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// List of resource grouping recommendations you have selected to ex- clude from your application. Constraints: o min: 1 o max: 30 (structure) Indicates the rejected grouping recommendation. groupingRecommendationId -&gt; (string) [required] Indicates the identifier of the grouping recommendation. Constraints: o min: 1 o max: 255 rejectionReason -&gt; (string) Indicates the reason you had selected while rejecting a grouping recommendation. Possible values: o DistinctBusinessPurpose o SeparateDataConcern o DistinctUserGroupHandling o Other Shorthand Syntax: groupingRecommendationId=string,rejectionReason=string ... JSON Syntax: [ { "groupingRecommendationId": "string", "rejectionReason": "DistinctBusinessPurpose"|"SeparateDataConcern"|"DistinctUserGroupHandling"|"Other" } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

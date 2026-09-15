@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-pull-request-description")]
-public record AwsCodecommitUpdatePullRequestDescriptionOptions : AwsOptions
+public record AwsCodecommitUpdatePullRequestDescriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces the contents of the description of a pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
+    /// <param name="Description">The updated content of the description for the pull request. This content replaces the existing description. Constraints: o max: 10240</param>
+    public AwsCodecommitUpdatePullRequestDescriptionOptions(
+        string PullRequestId,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsCodecommitUpdatePullRequestDescriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdatePullRequestDescriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdatePullRequestDescriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request. To get this ID, use ListPullRequests .
+    /// </summary>
+    [CliOption("--pull-request-id")]
+    public string? PullRequestId { get; private init; }
+
+    /// <summary>
+    /// The updated content of the description for the pull request. This content replaces the existing description. Constraints: o max: 10240
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "create-message-template-attachment")]
-public record AwsQconnectCreateMessageTemplateAttachmentOptions : AwsOptions
+public record AwsQconnectCreateMessageTemplateAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="MessageTemplateId">The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}</param>
+    /// <param name="ContentDisposition">The presentation information for the attachment file. Possible values: o ATTACHMENT</param>
+    /// <param name="Name">The name of the attachment file being uploaded. The name should in- clude the file extension. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{N}_\s&amp;@()+,;=\-]+\.[A-Za-z0-9]+</param>
+    /// <param name="Body">The body of the attachment file being uploaded. It should be encoded using base64 encoding. Constraints: o min: 1</param>
+    public AwsQconnectCreateMessageTemplateAttachmentOptions(
+        string KnowledgeBaseId,
+        string MessageTemplateId,
+        AwsQconnectCreateMessageTemplateAttachmentContentDisposition ContentDisposition,
+        string Name,
+        string Body
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(MessageTemplateId);
+        this.MessageTemplateId = MessageTemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(ContentDisposition);
+        this.ContentDisposition = ContentDisposition;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+    }
+
+    private AwsQconnectCreateMessageTemplateAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectCreateMessageTemplateAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectCreateMessageTemplateAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    public string? KnowledgeBaseId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}
+    /// </summary>
     [CliOption("--message-template-id")]
-    public string? MessageTemplateId { get; set; }
+    public string? MessageTemplateId { get; private init; }
 
+    /// <summary>
+    /// The presentation information for the attachment file. Possible values: o ATTACHMENT
+    /// </summary>
     [CliOption("--content-disposition")]
-    public string? ContentDisposition { get; set; }
+    public AwsQconnectCreateMessageTemplateAttachmentContentDisposition? ContentDisposition { get; private init; }
 
+    /// <summary>
+    /// The name of the attachment file being uploaded. The name should in- clude the file extension. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{N}_\s&amp;@()+,;=\-]+\.[A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The body of the attachment file being uploaded. It should be encoded using base64 encoding. Constraints: o min: 1
+    /// </summary>
     [CliOption("--body")]
-    public string? Body { get; set; }
+    public string? Body { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
@@ -49,5 +115,21 @@ public record AwsQconnectCreateMessageTemplateAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "check-document-access")]
-public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions
+public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application. This is required to iden- tify the specific Amazon Q Business application context for the doc- ument access check. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="UserId">The unique identifier of the user. Used to check the access permis- sions for this specific user against the document's ACL. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="DocumentId">The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*</param>
+    public AwsQbusinessCheckDocumentAccessOptions(
+        string ApplicationId,
+        string IndexId,
+        string UserId,
+        string DocumentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentId);
+        this.DocumentId = DocumentId;
+    }
+
+    private AwsQbusinessCheckDocumentAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessCheckDocumentAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessCheckDocumentAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application. This is required to iden- tify the specific Amazon Q Business application context for the doc- ument access check. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the user. Used to check the access permis- sions for this specific user against the document's ACL. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the document. Specifies which document's access permissions are being checked. Constraints: o min: 1 o max: 1825 o pattern: \P{C}*
+    /// </summary>
     [CliOption("--document-id")]
-    public string? DocumentId { get; set; }
+    public string? DocumentId { get; private init; }
 
     /// <summary>
     /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
@@ -44,5 +102,21 @@ public record AwsQbusinessCheckDocumentAccessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

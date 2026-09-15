@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "set-default-sender-id")]
-public record AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets default sender ID on a configuration set. When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationSetName">The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="SenderId">The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the de- fault sender ID on the configuration set specified on SendTextMes- sage will be used if no dedicated origination phone numbers or reg- istered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+</param>
+    public AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions(
+        string ConfigurationSetName,
+        string SenderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        global::System.ArgumentNullException.ThrowIfNull(SenderId);
+        this.SenderId = SenderId;
+    }
+
+    private AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--configuration-set-name")]
+    public string? ConfigurationSetName { get; private init; }
+
+    /// <summary>
+    /// The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the de- fault sender ID on the configuration set specified on SendTextMes- sage will be used if no dedicated origination phone numbers or reg- istered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+
+    /// </summary>
     [CliOption("--sender-id")]
-    public string? SenderId { get; set; }
+    public string? SenderId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

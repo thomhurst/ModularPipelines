@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "batch-put-geofence")]
-public record AwsLocationBatchPutGeofenceOptions : AwsOptions
+public record AwsLocationBatchPutGeofenceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-name")]
-    public string? CollectionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a ge- ofence ID is included in the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollectionName">The geofence collection storing the geofences. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Entries">The batch of geofences to be stored in a geofence collection. Constraints: o min: 1 o max: 10 (structure) Contains geofence geometry details. GeofenceId -&gt; (string) [required] The identifier for the geofence to be stored in a given ge- ofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Geometry -&gt; (structure) [required] Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf pa- rameter. Including multiple geometry types in the same re- quest will return a validation error. NOTE: The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format sup- ports a maximum of 100,000 vertices. Polygon -&gt; (list) A Polygon is a list of up to 250 linear rings which rep- resent the shape of a geofence. This list must include 1 exterior ring (representing the outer perimeter of the geofence), and can optionally include up to 249 interior rings (representing polygonal spaces within the perime- ter, which are excluded from the geofence area). A linear ring is an array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary). Each vertex is a 2-dimensional point repre- sented as an array of doubles of length 2: [longitude, latitude] . Each linear ring is represented as an array of arrays of doubles ([[longitude, latitude], [longitude, latitude], ...] ). The vertices for the exterior ring must be listed in counter-clockwise sequence. Vertices for all interior rings must be listed in clockwise sequence. The list of linear rings that describe the entire Polygon is represented as an array of arrays of arrays of doubles ([[[longitude, latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude, latitude], ...], ...] ). The exterior ring must be listed first, before any in- terior rings. NOTE: The following additional requirements and limitations apply to geometries defined using the Polygon parame- ter: o The entire Polygon must consist of no more than 1,000 vertices, including all vertices from the ex- terior ring and all interior rings. o Rings must not touch or cross each other. o All interior rings must be fully contained within the exterior ring. o Interior rings must not contain other interior rings. o No ring is permitted to intersect itself. Constraints: o min: 1 o max: 250 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) Circle -&gt; (structure) A circle on the earth, as defined by a center point and a radius. Center -&gt; (list) [required] A single point geometry, specifying the center of the circle, using WGS 84 coordinates, in the form [longi- tude, latitude] . Constraints: o min: 2 o max: 2 (double) Radius -&gt; (double) [required] The radius of the circle in meters. Must be greater than zero and no larger than 100,000 (100 kilometers). Geobuf -&gt; (blob) Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. This parameter can contain a Geobuf-encoded GeoJSON geom- etry object of type Polygon OR MultiPolygon . For more information and specific configuration requirements for these object types, see Polygon and MultiPolygon . NOTE: The following limitations apply specifically to geome- tries defined using the Geobuf parameter, and su- percede the corresponding limitations of the Polygon and MultiPolygon parameters: o A Polygon in Geobuf format can have up to 25,000 rings and up to 100,000 total vertices, including all vertices from all component rings. o A MultiPolygon in Geobuf format can contain up to 10,000 Polygons and up to 100,000 total vertices, including all vertices from all component Polygons . Constraints: o min: 0 o max: 700000 MultiPolygon -&gt; (list) A MultiPolygon is a list of up to 250 Polygon elements which represent the shape of a geofence. The Polygon com- ponents of a MultiPolygon geometry can define separate geographical areas that are considered part of the same geofence, perimeters of larger exterior areas with smaller interior spaces that are excluded from the ge- ofence, or some combination of these use cases to form complex geofence boundaries. For more information and specific configuration require- ments for the Polygon components that form a MultiPolygon , see Polygon . NOTE: The following additional requirements and limitations apply to geometries defined using the MultiPolygon pa- rameter: o The entire MultiPolygon must consist of no more than 1,000 vertices, including all vertices from all com- ponent Polygons . o Each edge of a component Polygon must intersect no more than 5 edges from other Polygons . Parallel edges that are shared but do not cross are not counted toward this limit. o The total number of intersecting edges of component Polygons must be no more than 100,000. Parallel edges that are shared but do not cross are not counted toward this limit. Constraints: o min: 1 o max: 250 (list) Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) GeofenceProperties -&gt; (map) Associates one of more properties with the geofence. A prop- erty is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value" Constraints: o min: 0 o max: 3 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 40 JSON Syntax: [ { "GeofenceId": "string", "Geometry": { "Polygon": [ [ [double, ...] ... ] ... ], "Circle": { "Center": [double, ...], "Radius": double }, "Geobuf": blob, "MultiPolygon": [ [ [ [double, ...] ... ] ... ] ... ] }, "GeofenceProperties": {"string": "string" ...} } ... ]</param>
+    public AwsLocationBatchPutGeofenceOptions(
+        string CollectionName,
+        IEnumerable<string> Entries
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionName);
+        this.CollectionName = CollectionName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsLocationBatchPutGeofenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationBatchPutGeofenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationBatchPutGeofenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The geofence collection storing the geofences. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--collection-name")]
+    public string? CollectionName { get; private init; }
+
+    /// <summary>
+    /// The batch of geofences to be stored in a geofence collection. Constraints: o min: 1 o max: 10 (structure) Contains geofence geometry details. GeofenceId -&gt; (string) [required] The identifier for the geofence to be stored in a given ge- ofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Geometry -&gt; (structure) [required] Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf pa- rameter. Including multiple geometry types in the same re- quest will return a validation error. NOTE: The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format sup- ports a maximum of 100,000 vertices. Polygon -&gt; (list) A Polygon is a list of up to 250 linear rings which rep- resent the shape of a geofence. This list must include 1 exterior ring (representing the outer perimeter of the geofence), and can optionally include up to 249 interior rings (representing polygonal spaces within the perime- ter, which are excluded from the geofence area). A linear ring is an array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary). Each vertex is a 2-dimensional point repre- sented as an array of doubles of length 2: [longitude, latitude] . Each linear ring is represented as an array of arrays of doubles ([[longitude, latitude], [longitude, latitude], ...] ). The vertices for the exterior ring must be listed in counter-clockwise sequence. Vertices for all interior rings must be listed in clockwise sequence. The list of linear rings that describe the entire Polygon is represented as an array of arrays of arrays of doubles ([[[longitude, latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude, latitude], ...], ...] ). The exterior ring must be listed first, before any in- terior rings. NOTE: The following additional requirements and limitations apply to geometries defined using the Polygon parame- ter: o The entire Polygon must consist of no more than 1,000 vertices, including all vertices from the ex- terior ring and all interior rings. o Rings must not touch or cross each other. o All interior rings must be fully contained within the exterior ring. o Interior rings must not contain other interior rings. o No ring is permitted to intersect itself. Constraints: o min: 1 o max: 250 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) Circle -&gt; (structure) A circle on the earth, as defined by a center point and a radius. Center -&gt; (list) [required] A single point geometry, specifying the center of the circle, using WGS 84 coordinates, in the form [longi- tude, latitude] . Constraints: o min: 2 o max: 2 (double) Radius -&gt; (double) [required] The radius of the circle in meters. Must be greater than zero and no larger than 100,000 (100 kilometers). Geobuf -&gt; (blob) Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. This parameter can contain a Geobuf-encoded GeoJSON geom- etry object of type Polygon OR MultiPolygon . For more information and specific configuration requirements for these object types, see Polygon and MultiPolygon . NOTE: The following limitations apply specifically to geome- tries defined using the Geobuf parameter, and su- percede the corresponding limitations of the Polygon and MultiPolygon parameters: o A Polygon in Geobuf format can have up to 25,000 rings and up to 100,000 total vertices, including all vertices from all component rings. o A MultiPolygon in Geobuf format can contain up to 10,000 Polygons and up to 100,000 total vertices, including all vertices from all component Polygons . Constraints: o min: 0 o max: 700000 MultiPolygon -&gt; (list) A MultiPolygon is a list of up to 250 Polygon elements which represent the shape of a geofence. The Polygon com- ponents of a MultiPolygon geometry can define separate geographical areas that are considered part of the same geofence, perimeters of larger exterior areas with smaller interior spaces that are excluded from the ge- ofence, or some combination of these use cases to form complex geofence boundaries. For more information and specific configuration require- ments for the Polygon components that form a MultiPolygon , see Polygon . NOTE: The following additional requirements and limitations apply to geometries defined using the MultiPolygon pa- rameter: o The entire MultiPolygon must consist of no more than 1,000 vertices, including all vertices from all com- ponent Polygons . o Each edge of a component Polygon must intersect no more than 5 edges from other Polygons . Parallel edges that are shared but do not cross are not counted toward this limit. o The total number of intersecting edges of component Polygons must be no more than 100,000. Parallel edges that are shared but do not cross are not counted toward this limit. Constraints: o min: 1 o max: 250 (list) Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) GeofenceProperties -&gt; (map) Associates one of more properties with the geofence. A prop- erty is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value" Constraints: o min: 0 o max: 3 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 40 JSON Syntax: [ { "GeofenceId": "string", "Geometry": { "Polygon": [ [ [double, ...] ... ] ... ], "Circle": { "Center": [double, ...], "Radius": double }, "Geobuf": blob, "MultiPolygon": [ [ [ [double, ...] ... ] ... ] ... ] }, "GeofenceProperties": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

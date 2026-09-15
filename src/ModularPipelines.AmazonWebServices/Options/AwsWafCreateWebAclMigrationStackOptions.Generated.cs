@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "create-web-acl-migration-stack")]
-public record AwsWafCreateWebAclMigrationStackOptions : AwsOptions
+public record AwsWafCreateWebAclMigrationStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the lat- est version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, in- cluding caveats and manual steps to complete the mi...
+    /// </summary>
+    /// <param name="WebAclId">The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="S3BucketName">The name of the Amazon S3 bucket to store the CloudFormation tem- plate in. The S3 bucket must be configured as follows for the migra- tion: o The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . o The bucket must be in the Region where you are deploying the tem- plate. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. o The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples sec- tion. Constraints: o min: 3 o max: 63 o pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*</param>
+    /// <param name="IgnoreUnsupportedType"></param>
+    public AwsWafCreateWebAclMigrationStackOptions(
+        string WebAclId,
+        string S3BucketName,
+        bool IgnoreUnsupportedType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclId);
+        this.WebAclId = WebAclId;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        this.IgnoreUnsupportedType = IgnoreUnsupportedType;
+    }
+
+    private AwsWafCreateWebAclMigrationStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafCreateWebAclMigrationStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafCreateWebAclMigrationStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--web-acl-id")]
-    public string? WebAclId { get; set; }
+    public string? WebAclId { get; private init; }
 
+    /// <summary>
+    /// The name of the Amazon S3 bucket to store the CloudFormation tem- plate in. The S3 bucket must be configured as follows for the migra- tion: o The bucket name must start with aws-waf-migration- . For example, aws-waf-migration-my-web-acl . o The bucket must be in the Region where you are deploying the tem- plate. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2. o The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples sec- tion. Constraints: o min: 3 o max: 63 o pattern: ^aws-waf-migration-[0-9A-Za-z\.\-_]*
+    /// </summary>
     [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
+    public string? S3BucketName { get; private init; }
 
-    [CliFlag("--ignore-unsupported-type")]
-    public bool? IgnoreUnsupportedType { get; set; }
+    [CliFlag("--ignore-unsupported-type", NegatedName = "--no-ignore-unsupported-type")]
+    public bool? IgnoreUnsupportedType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

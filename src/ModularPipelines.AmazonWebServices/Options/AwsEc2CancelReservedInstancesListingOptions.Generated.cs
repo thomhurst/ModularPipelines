@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "cancel-reserved-instances-listing")]
-public record AwsEc2CancelReservedInstancesListingOptions : AwsOptions
+public record AwsEc2CancelReservedInstancesListingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels the specified Reserved Instance listing in the Reserved In- stance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedInstancesListingId">The ID of the Reserved Instance listing.</param>
+    public AwsEc2CancelReservedInstancesListingOptions(
+        string ReservedInstancesListingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedInstancesListingId);
+        this.ReservedInstancesListingId = ReservedInstancesListingId;
+    }
+
+    private AwsEc2CancelReservedInstancesListingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CancelReservedInstancesListingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CancelReservedInstancesListingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Reserved Instance listing.
+    /// </summary>
     [CliOption("--reserved-instances-listing-id")]
-    public string? ReservedInstancesListingId { get; set; }
+    public string? ReservedInstancesListingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

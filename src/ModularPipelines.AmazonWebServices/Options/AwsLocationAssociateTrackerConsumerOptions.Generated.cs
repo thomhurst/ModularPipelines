@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "associate-tracker-consumer")]
-public record AwsLocationAssociateTrackerConsumerOptions : AwsOptions
+public record AwsLocationAssociateTrackerConsumerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an association between a geofence collection and a tracker re- source. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker re- source. NOTE: Currently not supported Cross-account configurations, such as cre- ating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackerName">The name of the tracker resource to be associated with a geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="ConsumerArn">The Amazon Resource Name (ARN) for the geofence collection to be as- sociated to tracker resource. Used when you need to specify a re- source across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    public AwsLocationAssociateTrackerConsumerOptions(
+        string TrackerName,
+        string ConsumerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+        global::System.ArgumentNullException.ThrowIfNull(ConsumerArn);
+        this.ConsumerArn = ConsumerArn;
+    }
+
+    private AwsLocationAssociateTrackerConsumerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationAssociateTrackerConsumerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationAssociateTrackerConsumerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracker resource to be associated with a geofence collection. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--tracker-name")]
+    public string? TrackerName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the geofence collection to be as- sociated to tracker resource. Used when you need to specify a re- source across all Amazon Web Services. o Format example: arn:aws:geo:region:account-id:geofence-collec- tion/ExampleGeofenceCollectionConsumer Constraints: o min: 0 o max: 1600 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// </summary>
     [CliOption("--consumer-arn")]
-    public string? ConsumerArn { get; set; }
+    public string? ConsumerArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

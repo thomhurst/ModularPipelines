@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-flow-logs-integration-template")]
-public record AwsEc2GetFlowLogsIntegrationTemplateOptions : AwsOptions
+public record AwsEc2GetFlowLogsIntegrationTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the tem- plate to do the following: o Create a table in Athena that maps fields to a custom log format o Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis o Create a table part...
+    /// </summary>
+    /// <param name="FlowLogId">The ID of the flow log.</param>
+    /// <param name="ConfigDeliveryS3DestinationArn">To store the CloudFormation template in Amazon S3, specify the loca- tion in Amazon S3.</param>
+    /// <param name="IntegrateServices">Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: o min: 1 o max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated Cloud- Formation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: o none o daily o weekly o monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }</param>
+    public AwsEc2GetFlowLogsIntegrationTemplateOptions(
+        string FlowLogId,
+        string ConfigDeliveryS3DestinationArn,
+        string IntegrateServices
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowLogId);
+        this.FlowLogId = FlowLogId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigDeliveryS3DestinationArn);
+        this.ConfigDeliveryS3DestinationArn = ConfigDeliveryS3DestinationArn;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrateServices);
+        this.IntegrateServices = IntegrateServices;
+    }
+
+    private AwsEc2GetFlowLogsIntegrationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetFlowLogsIntegrationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetFlowLogsIntegrationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the flow log.
+    /// </summary>
     [CliOption("--flow-log-id")]
-    public string? FlowLogId { get; set; }
+    public string? FlowLogId { get; private init; }
 
+    /// <summary>
+    /// To store the CloudFormation template in Amazon S3, specify the loca- tion in Amazon S3.
+    /// </summary>
     [CliOption("--config-delivery-s3-destination-arn")]
-    public string? ConfigDeliveryS3DestinationArn { get; set; }
+    public string? ConfigDeliveryS3DestinationArn { get; private init; }
 
+    /// <summary>
+    /// Information about the service integration. AthenaIntegrations -&gt; (list) Information about the integration with Amazon Athena. Constraints: o min: 1 o max: 10 (structure) Describes integration options for Amazon Athena. IntegrationResultS3DestinationArn -&gt; (string) [required] The location in Amazon S3 to store the generated Cloud- Formation template. PartitionLoadFrequency -&gt; (string) [required] The schedule for adding new partitions to the table. Possible values: o none o daily o weekly o monthly PartitionStartDate -&gt; (timestamp) The start date for the partition. PartitionEndDate -&gt; (timestamp) The end date for the partition. Shorthand Syntax: AthenaIntegrations=[{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp},{IntegrationResultS3DestinationArn=string,PartitionLoadFrequency=string,PartitionStartDate=timestamp,PartitionEndDate=timestamp}] JSON Syntax: { "AthenaIntegrations": [ { "IntegrationResultS3DestinationArn": "string", "PartitionLoadFrequency": "none"|"daily"|"weekly"|"monthly", "PartitionStartDate": timestamp, "PartitionEndDate": timestamp } ... ] }
+    /// </summary>
     [CliOption("--integrate-services")]
-    public string? IntegrateServices { get; set; }
+    public string? IntegrateServices { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

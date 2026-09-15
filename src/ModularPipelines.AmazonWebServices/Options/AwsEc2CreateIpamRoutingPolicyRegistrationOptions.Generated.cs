@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-ipam-routing-policy-registration")]
-public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
+public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a routing policy registration and publishes Route Origin Autho- rizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association.</param>
+    /// <param name="Cidr">The IP address prefix in CIDR notation to authorize in the ROA.</param>
+    /// <param name="Asns">The Autonomous System Numbers (ASNs) authorized to originate the prefix. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2CreateIpamRoutingPolicyRegistrationOptions(
+        string IpamInternetRegistryAssociationId,
+        string Cidr,
+        IEnumerable<string> Asns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamInternetRegistryAssociationId);
+        this.IpamInternetRegistryAssociationId = IpamInternetRegistryAssociationId;
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Asns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Asns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Asns));
+            }
+
+            Asns = materialized;
+        }
+        this.Asns = Asns;
+    }
+
+    private AwsEc2CreateIpamRoutingPolicyRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateIpamRoutingPolicyRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateIpamRoutingPolicyRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM internet registry association.
+    /// </summary>
+    [CliOption("--ipam-internet-registry-association-id")]
+    public string? IpamInternetRegistryAssociationId { get; private init; }
+
+    /// <summary>
+    /// The IP address prefix in CIDR notation to authorize in the ROA.
+    /// </summary>
+    [CliOption("--cidr")]
+    public string? Cidr { get; private init; }
+
+    /// <summary>
+    /// The Autonomous System Numbers (ASNs) authorized to originate the prefix. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--asns", GroupValues = true)]
+    public IEnumerable<string>? Asns { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--ipam-internet-registry-association-id")]
-    public string? IpamInternetRegistryAssociationId { get; set; }
-
-    [CliOption("--cidr")]
-    public string? Cidr { get; set; }
-
-    [CliOption("--asns", GroupValues = true)]
-    public IEnumerable<string>? Asns { get; set; }
-
-    [CliFlag("--permit-more-specific-announcements")]
+    /// <summary>
+    /// nouncements (boolean) Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false .
+    /// </summary>
+    [CliFlag("--permit-more-specific-announcements", NegatedName = "--no-permit-more-specific-announcements")]
     public bool? PermitMoreSpecificAnnouncements { get; set; }
 
     /// <summary>
@@ -49,7 +117,10 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the creation of the routing policy registration even if it conflicts with an announced route. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -64,5 +135,21 @@ public record AwsEc2CreateIpamRoutingPolicyRegistrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

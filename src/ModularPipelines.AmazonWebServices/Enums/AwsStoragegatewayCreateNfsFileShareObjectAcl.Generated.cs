@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --objectacl.
+/// Allowed values for --object-acl.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayCreateNfsFileShareObjectAcl
 {
-    [EnumValue("private")]
-    Private = 1,
-
-    [EnumValue("public-read")]
-    PublicRead = 2,
-
-    [EnumValue("public-read-write")]
-    PublicReadWrite = 3,
-
     [EnumValue("authenticated-read")]
-    AuthenticatedRead = 4,
-
-    [EnumValue("bucket-owner-read")]
-    BucketOwnerRead = 5,
-
-    [EnumValue("bucket-owner-full-control")]
-    BucketOwnerFullControl = 6,
+    AuthenticatedRead,
 
     [EnumValue("aws-exec-read")]
-    AwsExecRead = 7
+    AwsExecRead,
+
+    [EnumValue("bucket-owner-full-control")]
+    BucketOwnerFullControl,
+
+    [EnumValue("bucket-owner-read")]
+    BucketOwnerRead,
+
+    [EnumValue("private")]
+    Private,
+
+    [EnumValue("public-read")]
+    PublicRead,
+
+    [EnumValue("public-read-write")]
+    PublicReadWrite
 }

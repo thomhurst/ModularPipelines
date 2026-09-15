@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-attached-file-upload")]
-public record AwsConnectStartAttachedFileUploadOptions : AwsOptions
+public record AwsConnectStartAttachedFileUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your con- tent. WARNING: You may only use this API to upload attachments to a Connect Cus- tomer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FileName">A case-sensitive name of the attached file being uploaded. Constraints: o min: 1 o max: 256 o pattern: ^\P{C}*$</param>
+    /// <param name="FileSizeInBytes">The size of the attached file in bytes. Constraints: o min: 1</param>
+    /// <param name="FileUseCaseType">The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING</param>
+    /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
+    public AwsConnectStartAttachedFileUploadOptions(
+        string InstanceId,
+        string FileName,
+        int FileSizeInBytes,
+        AwsConnectStartAttachedFileUploadFileUseCaseType FileUseCaseType,
+        string AssociatedResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        this.FileSizeInBytes = FileSizeInBytes;
+        global::System.ArgumentNullException.ThrowIfNull(FileUseCaseType);
+        this.FileUseCaseType = FileUseCaseType;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceArn);
+        this.AssociatedResourceArn = AssociatedResourceArn;
+    }
+
+    private AwsConnectStartAttachedFileUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartAttachedFileUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartAttachedFileUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A case-sensitive name of the attached file being uploaded. Constraints: o min: 1 o max: 256 o pattern: ^\P{C}*$
+    /// </summary>
+    [CliOption("--file-name")]
+    public string? FileName { get; private init; }
+
+    /// <summary>
+    /// The size of the attached file in bytes. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--file-size-in-bytes")]
+    public int? FileSizeInBytes { get; private init; }
+
+    /// <summary>
+    /// The use case for the file. WARNING: Only ATTACHMENTS are supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING
+    /// </summary>
+    [CliOption("--file-use-case-type")]
+    public AwsConnectStartAttachedFileUploadFileUseCaseType? FileUseCaseType { get; private init; }
+
+    /// <summary>
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.
+    /// </summary>
+    [CliOption("--associated-resource-arn")]
+    public string? AssociatedResourceArn { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
     /// </summary>
@@ -30,26 +110,11 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
-    [CliOption("--file-name")]
-    public string? FileName { get; set; }
-
-    [CliOption("--file-size-in-bytes")]
-    public int? FileSizeInBytes { get; set; }
-
     /// <summary>
     /// Optional override for the expiry of the pre-signed S3 URL in sec- onds. The default value is 300. Constraints: o min: 5 o max: 300
     /// </summary>
     [CliOption("--url-expiry-in-seconds")]
     public int? UrlExpiryInSeconds { get; set; }
-
-    [CliOption("--file-use-case-type")]
-    public string? FileUseCaseType { get; set; }
-
-    [CliOption("--associated-resource-arn")]
-    public string? AssociatedResourceArn { get; set; }
 
     /// <summary>
     /// Represents the identity that created the file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ConnectUserArn, AWSIdentityArn. ConnectUserArn -&gt; (string) An agent ARN representing a connect user . AWSIdentityArn -&gt; (string) STS or IAM ARN representing the identity of API Caller. SDK users cannot populate this and this value is calculated automat- ically if ConnectUserArn is not provided. Shorthand Syntax: ConnectUserArn=string,AWSIdentityArn=string JSON Syntax: { "ConnectUserArn": "string", "AWSIdentityArn": "string" }
@@ -68,5 +133,21 @@ public record AwsConnectStartAttachedFileUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

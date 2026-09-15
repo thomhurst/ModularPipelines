@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "create-replication-configuration")]
-public record AwsEfsCreateReplicationConfigurationOptions : AwsOptions
+public record AwsEfsCreateReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-file-system-id")]
-    public string? SourceFileSystemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a replication conguration to either a new or existing EFS file system. For more information, see Amazon EFS replication in the Amazon EFS User Guide . The replication configuration specifies the following: o Source file system The EFS file system that you want to replicate. o Destination file system The destination file system to which the source file system is replicated. There can only be one destination file system in a replication configuration. NOTE: A file system can be part of onl...
+    /// </summary>
+    /// <param name="SourceFileSystemId">Specifies the Amazon EFS file system that you want to replicate. This file system cannot already be a source or destination file sys- tem in another replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="Destinations">An array of destination configuration objects. Only one destination configuration object is supported. (structure) Describes the new or existing destination file system for the replication configuration. o If you want to replicate to a new file system, do not specify the File System ID for the destination file system. Amazon EFS creates a new, empty file system. For One Zone storage, spec- ify the Availability Zone to create the file system in. To use an Key Management Service key other than the default KMS key, then specify it. For more information, see Configuring repli- cation to new Amazon EFS file system in the Amazon EFS User Guide . NOTE: After the file system is created, you cannot change the KMS key or the performance mode. o If you want to replicate to an existing file system that's in the same account as the source file system, then you need to provide the ID or Amazon Resource Name (ARN) of the file sys- tem to which to replicate. The file system's replication over- write protection must be disabled. For more information, see Replicating to an existing file system in the Amazon EFS User Guide . o If you are replicating the file system to a file system that's in a different account than the source file system (cross-ac- count replication), you need to provide the ARN for the file system and the IAM role that allows Amazon EFS to perform replication on the destination account. The file system's replication overwrite protection must be disabled. For more information, see Replicating across Amazon Web Services ac- counts in the Amazon EFS User Guide . Region -&gt; (string) To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the desti- nation file system. The Region must be enabled for the Amazon Web Services account that owns the source file system. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Reference Guide . Constraints: o min: 1 o max: 64 o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$ AvailabilityZoneName -&gt; (string) To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the des- tination file system. Constraints: o min: 1 o max: 64 o pattern: .+ KmsKeyId -&gt; (string) Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem . This ID can be in one of the following formats: o Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab . o ARN - The ARN for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab . o Key alias - A previously created display name for a key, for example alias/projectKey1 . o Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1 . Constraints: o max: 2048 o pattern: ^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|mrk-[0-9a-f]{32}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(key/mrk-[0-9a-f]{32})|(alias/[a-zA-Z0-9/_-]+))))$ FileSystemId -&gt; (string) The ID or ARN of the file system to use for the destination. For cross-account replication, this must be an ARN. The file system's replication overwrite replication must be disabled. If no ID or ARN is specified, then a new file system is cre- ated. NOTE: When you initially configure replication to an existing file system, Amazon EFS writes data to or removes exist- ing data from the destination file system to match data in the source file system. If you don't want to change data in the destination file system, then you should replicate to a new file system instead. For more informa- tion, see https://docs.aws.amazon.com/efs/latest/ug/create-replication.html . Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesys- tem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$ RoleArn -&gt; (string) Amazon Resource Name (ARN) of the IAM role in the source ac- count that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and re- quired for cross-account replication. Constraints: o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: Region=string,AvailabilityZoneName=string,KmsKeyId=string,FileSystemId=string,RoleArn=string ... JSON Syntax: [ { "Region": "string", "AvailabilityZoneName": "string", "KmsKeyId": "string", "FileSystemId": "string", "RoleArn": "string" } ... ]</param>
+    public AwsEfsCreateReplicationConfigurationOptions(
+        string SourceFileSystemId,
+        IEnumerable<string> Destinations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFileSystemId);
+        this.SourceFileSystemId = SourceFileSystemId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Destinations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Destinations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Destinations));
+            }
+
+            Destinations = materialized;
+        }
+        this.Destinations = Destinations;
+    }
+
+    private AwsEfsCreateReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsCreateReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsCreateReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon EFS file system that you want to replicate. This file system cannot already be a source or destination file sys- tem in another replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
+    [CliOption("--source-file-system-id")]
+    public string? SourceFileSystemId { get; private init; }
+
+    /// <summary>
+    /// An array of destination configuration objects. Only one destination configuration object is supported. (structure) Describes the new or existing destination file system for the replication configuration. o If you want to replicate to a new file system, do not specify the File System ID for the destination file system. Amazon EFS creates a new, empty file system. For One Zone storage, spec- ify the Availability Zone to create the file system in. To use an Key Management Service key other than the default KMS key, then specify it. For more information, see Configuring repli- cation to new Amazon EFS file system in the Amazon EFS User Guide . NOTE: After the file system is created, you cannot change the KMS key or the performance mode. o If you want to replicate to an existing file system that's in the same account as the source file system, then you need to provide the ID or Amazon Resource Name (ARN) of the file sys- tem to which to replicate. The file system's replication over- write protection must be disabled. For more information, see Replicating to an existing file system in the Amazon EFS User Guide . o If you are replicating the file system to a file system that's in a different account than the source file system (cross-ac- count replication), you need to provide the ARN for the file system and the IAM role that allows Amazon EFS to perform replication on the destination account. The file system's replication overwrite protection must be disabled. For more information, see Replicating across Amazon Web Services ac- counts in the Amazon EFS User Guide . Region -&gt; (string) To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the desti- nation file system. The Region must be enabled for the Amazon Web Services account that owns the source file system. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Reference Guide . Constraints: o min: 1 o max: 64 o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$ AvailabilityZoneName -&gt; (string) To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the des- tination file system. Constraints: o min: 1 o max: 64 o pattern: .+ KmsKeyId -&gt; (string) Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem . This ID can be in one of the following formats: o Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab . o ARN - The ARN for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab . o Key alias - A previously created display name for a key, for example alias/projectKey1 . o Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1 . Constraints: o max: 2048 o pattern: ^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|mrk-[0-9a-f]{32}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(key/mrk-[0-9a-f]{32})|(alias/[a-zA-Z0-9/_-]+))))$ FileSystemId -&gt; (string) The ID or ARN of the file system to use for the destination. For cross-account replication, this must be an ARN. The file system's replication overwrite replication must be disabled. If no ID or ARN is specified, then a new file system is cre- ated. NOTE: When you initially configure replication to an existing file system, Amazon EFS writes data to or removes exist- ing data from the destination file system to match data in the source file system. If you don't want to change data in the destination file system, then you should replicate to a new file system instead. For more informa- tion, see https://docs.aws.amazon.com/efs/latest/ug/create-replication.html . Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesys- tem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$ RoleArn -&gt; (string) Amazon Resource Name (ARN) of the IAM role in the source ac- count that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and re- quired for cross-account replication. Constraints: o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: Region=string,AvailabilityZoneName=string,KmsKeyId=string,FileSystemId=string,RoleArn=string ... JSON Syntax: [ { "Region": "string", "AvailabilityZoneName": "string", "KmsKeyId": "string", "FileSystemId": "string", "RoleArn": "string" } ... ]
+    /// </summary>
     [CliOption("--destinations", GroupValues = true)]
-    public IEnumerable<string>? Destinations { get; set; }
+    public IEnumerable<string>? Destinations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

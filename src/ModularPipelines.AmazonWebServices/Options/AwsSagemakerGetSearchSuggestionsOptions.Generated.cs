@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "get-search-suggestions")]
-public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions
+public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// An auto-complete API for the search functionality in the SageMaker con- sole. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Resource">The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job</param>
+    public AwsSagemakerGetSearchSuggestionsOptions(
+        AwsSagemakerGetSearchSuggestionsResource Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    private AwsSagemakerGetSearchSuggestionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerGetSearchSuggestionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerGetSearchSuggestionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job
+    /// </summary>
     [CliOption("--resource")]
-    public string? Resource { get; set; }
+    public AwsSagemakerGetSearchSuggestionsResource? Resource { get; private init; }
 
     /// <summary>
     /// Limits the property names that are included in the response. PropertyNameQuery -&gt; (structure) Defines a property name hint. Only property names that begin with the specified hint are included in the response. PropertyNameHint -&gt; (string) [required] Text that begins a property's name. Constraints: o min: 0 o max: 100 o pattern: .* Shorthand Syntax: PropertyNameQuery={PropertyNameHint=string} JSON Syntax: { "PropertyNameQuery": { "PropertyNameHint": "string" } }
@@ -35,5 +73,21 @@ public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

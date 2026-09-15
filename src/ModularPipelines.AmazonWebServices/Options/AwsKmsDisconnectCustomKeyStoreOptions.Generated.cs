@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "disconnect-custom-key-store")]
-public record AwsKmsDisconnectCustomKeyStoreOptions : AwsOptions
+public record AwsKmsDisconnectCustomKeyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disconnects the custom key store from its backing key store. This oper- ation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso- lation and control of a key store that you own and manage. While a custom key store is d...
+    /// </summary>
+    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores oper- ation. Constraints: o min: 1 o max: 64</param>
+    public AwsKmsDisconnectCustomKeyStoreOptions(
+        string CustomKeyStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomKeyStoreId);
+        this.CustomKeyStoreId = CustomKeyStoreId;
+    }
+
+    private AwsKmsDisconnectCustomKeyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsDisconnectCustomKeyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsDisconnectCustomKeyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores oper- ation. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--custom-key-store-id")]
-    public string? CustomKeyStoreId { get; set; }
+    public string? CustomKeyStoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

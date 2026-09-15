@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "list-vm-entitlements")]
-public record AwsEvsListVmEntitlementsOptions : AwsOptions
+public record AwsEvsListVmEntitlementsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the Windows Server License entitlements for virtual machines in an Amazon EVS environment. Returns existing entitlements for virtual machines associated with the specified environment and connector. See also: AWS API Documentation list-vm-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginat...
+    /// </summary>
+    /// <param name="EnvironmentId">A unique ID for the environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="ConnectorId">A unique ID for the connector. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})</param>
+    /// <param name="EntitlementType">The type of entitlement to list. Possible values: o WINDOWS_SERVER</param>
+    public AwsEvsListVmEntitlementsOptions(
+        string EnvironmentId,
+        string ConnectorId,
+        AwsEvsListVmEntitlementsEntitlementType EntitlementType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(EntitlementType);
+        this.EntitlementType = EntitlementType;
+    }
+
+    private AwsEvsListVmEntitlementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsListVmEntitlementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsListVmEntitlementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// A unique ID for the connector. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    public string? ConnectorId { get; private init; }
 
+    /// <summary>
+    /// The type of entitlement to list. Possible values: o WINDOWS_SERVER
+    /// </summary>
     [CliOption("--entitlement-type")]
-    public string? EntitlementType { get; set; }
+    public AwsEvsListVmEntitlementsEntitlementType? EntitlementType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +107,21 @@ public record AwsEvsListVmEntitlementsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

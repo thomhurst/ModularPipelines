@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-encryption-configuration")]
-public record AwsIotUpdateEncryptionConfigurationOptions : AwsOptions
+public record AwsIotUpdateEncryptionConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Ser- vices account. Before using this API, you must set up permissions for Amazon Web Ser- vices IoT Core to access KMS. For more information, see Data encryp...
+    /// </summary>
+    /// <param name="EncryptionType">The type of the KMS key. Possible values: o CUSTOMER_MANAGED_KMS_KEY o AWS_OWNED_KMS_KEY</param>
+    public AwsIotUpdateEncryptionConfigurationOptions(
+        AwsIotUpdateEncryptionConfigurationEncryptionType EncryptionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionType);
+        this.EncryptionType = EncryptionType;
+    }
+
+    private AwsIotUpdateEncryptionConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateEncryptionConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateEncryptionConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the KMS key. Possible values: o CUSTOMER_MANAGED_KMS_KEY o AWS_OWNED_KMS_KEY
+    /// </summary>
     [CliOption("--encryption-type")]
-    public string? EncryptionType { get; set; }
+    public AwsIotUpdateEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
     /// The ARN of the customer managedKMS key. Constraints: o max: 2048
@@ -41,5 +79,21 @@ public record AwsIotUpdateEncryptionConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

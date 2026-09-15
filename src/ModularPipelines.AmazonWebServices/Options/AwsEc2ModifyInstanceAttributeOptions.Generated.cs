@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-attribute")]
-public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
+public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--source-dest-check")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    public AwsEc2ModifyInstanceAttributeOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2ModifyInstanceAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true , source/destination checks are enabled; otherwise, they are disabled. The default value is true . You must disable source/destination checks if the instance runs ser- vices such as network address translation, routing, or firewalls. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--source-dest-check", NegatedName = "--no-source-dest-check")]
     public bool? SourceDestCheck { get; set; }
 
     /// <summary>
@@ -30,20 +74,23 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     [CliOption("--enclave-options")]
     public string? EnclaveOptions { get; set; }
 
-    [CliFlag("--disable-api-stop")]
+    /// <summary>
+    /// Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance . Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--disable-api-stop", NegatedName = "--no-disable-api-stop")]
     public bool? DisableApiStop { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
 
     /// <summary>
     /// The name of the attribute to modify. NOTE: When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired in- stance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the Modi- fyInstanceNetworkPerformanceOptions operation. WARNING: You can modify the following attributes only: disableApiTermina- tion | instanceType | kernel | ramdisk | instanceInitiatedShut- downBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvme- Support | disableApiStop | enclaveOptions Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop
     /// </summary>
     [CliOption("--attribute")]
-    public string? Attribute { get; set; }
+    public AwsEc2ModifyInstanceAttributeAttribute? Attribute { get; set; }
 
     /// <summary>
     /// A new value for the attribute. Use only with the kernel , ramdisk , userData , disableApiTermination , or instanceInitiatedShutdownBe- havior attribute.
@@ -57,7 +104,10 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     [CliOption("--block-device-mappings", GroupValues = true)]
     public IEnumerable<string>? BlockDeviceMappings { get; set; }
 
-    [CliFlag("--disable-api-termination")]
+    /// <summary>
+    /// Enable or disable termination protection for the instance. If the value is true , you can't terminate the instance using the Amazon EC2 console, command line interface, or API. You can't enable termi- nation protection for Spot Instances. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--disable-api-termination", NegatedName = "--no-disable-api-termination")]
     public bool? DisableApiTermination { get; set; }
 
     /// <summary>
@@ -79,7 +129,7 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     public string? Ramdisk { get; set; }
 
     /// <summary>
-    /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're us- ing, the base64-encoding might be performed for you. For more infor- mation, see Work with instance user data . Value -&gt; (blob) Shorthand Syntax: Value=blob JSON Syntax: { "Value": blob }
+    /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're us- ing, the base64-encoding might be performed for you. For more infor- mation, see Work with instance user data . Value -&gt; (blob) The attribute value. Shorthand Syntax: Value=blob JSON Syntax: { "Value": blob }
     /// </summary>
     [CliOption("--user-data")]
     public string? UserData { get; set; }
@@ -96,7 +146,10 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
-    [CliFlag("--ebs-optimized")]
+    /// <summary>
+    /// Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an op- timized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Addi- tional usage charges apply when using an EBS Optimized instance. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--ebs-optimized", NegatedName = "--no-ebs-optimized")]
     public bool? EbsOptimized { get; set; }
 
     /// <summary>
@@ -105,7 +158,10 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
     [CliOption("--sriov-net-support")]
     public string? SriovNetSupport { get; set; }
 
-    [CliFlag("--ena-support")]
+    /// <summary>
+    /// Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this op- tion with a PV instance can make it unreachable. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// </summary>
+    [CliFlag("--ena-support", NegatedName = "--no-ena-support")]
     public bool? EnaSupport { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -113,5 +169,21 @@ public record AwsEc2ModifyInstanceAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "create-organizational-unit")]
-public record AwsOrganizationsCreateOrganizationalUnitOptions : AwsOptions
+public record AwsOrganizationsCreateOrganizationalUnitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parent-id")]
-    public string? ParentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see Managing organizational units (OUs) in the Organizations User Guide . If the request includes tags, then the ...
+    /// </summary>
+    /// <param name="ParentId">ID for the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="Name">The friendly name to assign to the new OU. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*</param>
+    public AwsOrganizationsCreateOrganizationalUnitOptions(
+        string ParentId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParentId);
+        this.ParentId = ParentId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsOrganizationsCreateOrganizationalUnitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsCreateOrganizationalUnitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsCreateOrganizationalUnitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// </summary>
+    [CliOption("--parent-id")]
+    public string? ParentId { get; private init; }
+
+    /// <summary>
+    /// The friendly name to assign to the new OU. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null . For more information about tagging, see Tagging Organizations resources in the Organizations User Guide. NOTE: If any one of the tags is not valid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created. (structure) A custom key-value pair associated with a resource within your organization. You can attach tags to any of the following organization re- sources. o Amazon Web Services account o Organizational unit (OU) o Organization root o Policy Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,21 @@ public record AwsOrganizationsCreateOrganizationalUnitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

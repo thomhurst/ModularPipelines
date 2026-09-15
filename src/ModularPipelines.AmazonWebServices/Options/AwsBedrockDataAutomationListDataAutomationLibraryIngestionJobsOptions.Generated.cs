@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "list-data-automation-library-ingestion-jobs")]
-public record AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions : AwsOptions
+public record AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all data automation library ingestion jobs See also: AWS API Documentation list-data-automation-library-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: jobs
+    /// </summary>
+    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}</param>
+    public AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions(
+        string LibraryArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LibraryArn);
+        this.LibraryArn = LibraryArn;
+    }
+
+    private AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}
+    /// </summary>
     [CliOption("--library-arn")]
-    public string? LibraryArn { get; set; }
+    public string? LibraryArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

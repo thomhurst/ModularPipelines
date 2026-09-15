@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "delete-template-alias")]
-public record AwsQuicksightDeleteTemplateAliasOptions : AwsOptions
+public record AwsQuicksightDeleteTemplateAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the item to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">The ID for the template that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AliasName">The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by provid- ing the keyword $LATEST in the AliasName parameter. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    public AwsQuicksightDeleteTemplateAliasOptions(
+        string AwsAccountId,
+        string TemplateId,
+        string AliasName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateId);
+        this.TemplateId = TemplateId;
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+    }
+
+    private AwsQuicksightDeleteTemplateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDeleteTemplateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDeleteTemplateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the item to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID for the template that the specified alias is for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--template-id")]
-    public string? TemplateId { get; set; }
+    public string? TemplateId { get; private init; }
 
+    /// <summary>
+    /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by provid- ing the keyword $LATEST in the AliasName parameter. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// </summary>
     [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    public string? AliasName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

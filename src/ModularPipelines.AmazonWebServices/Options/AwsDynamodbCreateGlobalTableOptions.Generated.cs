@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "create-global-table")]
-public record AwsDynamodbCreateGlobalTableOptions : AwsOptions
+public record AwsDynamodbCreateGlobalTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-table-name")]
-    public string? GlobalTableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11....
+    /// </summary>
+    /// <param name="GlobalTableName">The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ReplicationGroup">The Regions where the global table needs to be created. (structure) Represents the properties of a replica. RegionName -&gt; (string) The Region where the replica needs to be created. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]</param>
+    public AwsDynamodbCreateGlobalTableOptions(
+        string GlobalTableName,
+        IEnumerable<string> ReplicationGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalTableName);
+        this.GlobalTableName = GlobalTableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicationGroup);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicationGroup));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicationGroup));
+            }
+
+            ReplicationGroup = materialized;
+        }
+        this.ReplicationGroup = ReplicationGroup;
+    }
+
+    private AwsDynamodbCreateGlobalTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbCreateGlobalTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbCreateGlobalTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--global-table-name")]
+    public string? GlobalTableName { get; private init; }
+
+    /// <summary>
+    /// The Regions where the global table needs to be created. (structure) Represents the properties of a replica. RegionName -&gt; (string) The Region where the replica needs to be created. Shorthand Syntax: RegionName=string ... JSON Syntax: [ { "RegionName": "string" } ... ]
+    /// </summary>
     [CliOption("--replication-group", GroupValues = true)]
-    public IEnumerable<string>? ReplicationGroup { get; set; }
+    public IEnumerable<string>? ReplicationGroup { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

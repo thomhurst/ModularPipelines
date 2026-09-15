@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "install-to-remote-access-session")]
-public record AwsDevicefarmInstallToRemoteAccessSessionOptions : AwsOptions
+public record AwsDevicefarmInstallToRemoteAccessSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--remote-access-session-arn")]
-    public string? RemoteAccessSessionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applica- tions, the file must be in .ipa format. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RemoteAccessSessionArn">The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="AppArn">The ARN of the app about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    public AwsDevicefarmInstallToRemoteAccessSessionOptions(
+        string RemoteAccessSessionArn,
+        string AppArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RemoteAccessSessionArn);
+        this.RemoteAccessSessionArn = RemoteAccessSessionArn;
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+    }
+
+    private AwsDevicefarmInstallToRemoteAccessSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmInstallToRemoteAccessSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmInstallToRemoteAccessSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
+    [CliOption("--remote-access-session-arn")]
+    public string? RemoteAccessSessionArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the app about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
     [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    public string? AppArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

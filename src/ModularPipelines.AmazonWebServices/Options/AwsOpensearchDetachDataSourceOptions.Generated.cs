@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "detach-data-source")]
-public record AwsOpensearchDetachDataSourceOptions : AwsOptions
+public record AwsOpensearchDetachDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a data source from an OpenSearch application. The application must be in the ACTIVE state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a ConflictException if the specified data source has a PENDING attachment, and a ResourceNotFoundException if the data source is not currently attached to the application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application to de- tach the data source from. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    public AwsOpensearchDetachDataSourceOptions(
+        string Id,
+        string DataSourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceArn);
+        this.DataSourceArn = DataSourceArn;
+    }
+
+    private AwsOpensearchDetachDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchDetachDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchDetachDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier or name of the OpenSearch application to de- tach the data source from. Constraints: o pattern: [a-z0-9]{3,30}
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// </summary>
     [CliOption("--data-source-arn")]
-    public string? DataSourceArn { get; set; }
+    public string? DataSourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

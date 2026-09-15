@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --transitiondefaultminimumobjectsize.
+/// Allowed values for --transition-default-minimum-object-size.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiPutBucketLifecycleConfigurationTransitionDefaultMinimumObjectSize
 {
-    [EnumValue("varies_by_storage_class")]
-    VariesByStorageClass = 1,
-
     [EnumValue("all_storage_classes_128K")]
-    AllStorageClasses_128K = 2
+    AllStorageClasses128K,
+
+    [EnumValue("varies_by_storage_class")]
+    VariesByStorageClass
 }

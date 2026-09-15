@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +23,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "create-ip-set")]
-public record AwsGuarddutyCreateIpSetOptions : AwsOptions
+public record AwsGuarddutyCreateIpSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and appli- cations. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Name">The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and un- derscores (_). Constraints: o min: 1 o max: 300</param>
+    /// <param name="Format">The format of the file that contains the IPSet. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300</param>
+    /// <param name="Location">The URI of the file that contains the IPSet. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Activate">A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.</param>
+    public AwsGuarddutyCreateIpSetOptions(
+        string DetectorId,
+        string Name,
+        AwsGuarddutyCreateIpSetFormat Format,
+        string Location,
+        bool Activate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        this.Activate = Activate;
+    }
+
+    private AwsGuarddutyCreateIpSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyCreateIpSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyCreateIpSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and un- derscores (_). Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The format of the file that contains the IPSet. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsGuarddutyCreateIpSetFormat? Format { get; private init; }
 
+    /// <summary>
+    /// The URI of the file that contains the IPSet. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
 
-    [CliFlag("--activate")]
-    public bool? Activate { get; set; }
+    /// <summary>
+    /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
+    /// </summary>
+    [CliFlag("--activate", NegatedName = "--no-activate")]
+    public bool? Activate { get; private init; }
 
     /// <summary>
     /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
@@ -62,5 +127,21 @@ public record AwsGuarddutyCreateIpSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "list-revenue-attributions")]
-public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RevenueAttributionSum...
+    /// </summary>
+    /// <param name="Catalog">The catalog to list revenue attributions from. Possible values: o AWS o Sandbox</param>
+    public AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions(
+        AwsPartnercentralRevenueMeasurementListRevenueAttributionsCatalog Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog to list revenue attributions from. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementListRevenueAttributionsCatalog? Catalog { get; private init; }
 
     /// <summary>
     /// Filter results to only include revenue attributions with the speci- fied identifiers. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cat- alog/[a-zA-Z]+/revenue-attribu- tion/ra-[a-z0-9]{13}|ra-[a-z0-9]{13}) Syntax: "string" "string" ...
@@ -80,5 +117,21 @@ public record AwsPartnercentralRevenueMeasurementListRevenueAttributionsOptions 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

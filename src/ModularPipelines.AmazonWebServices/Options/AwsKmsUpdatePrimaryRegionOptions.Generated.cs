@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "update-primary-region")]
-public record AwsKmsUpdatePrimaryRegionOptions : AwsOptions
+public record AwsKmsUpdatePrimaryRegionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the primary key of a multi-Region key. This operation changes the replica key in the specified Region to a primary key and changes the former primary key to a replica key. For example, suppose you have a primary key in us-east-1 and a replica key in eu-west-2 . If you run UpdatePrimaryRegion with a PrimaryRegion value of eu-west-2 , the primary key is now the key in eu-west-2 , and the key in us-east-1 becomes a replica key. For details, see Change the primary key in a set of multi-Regio...
+    /// </summary>
+    /// <param name="KeyId">Identifies the current primary key. When the operation completes, this KMS key will be a replica key. Specify the key ID or key ARN of a multi-Region primary key. For example: o Key ID: mrk-1234abcd12ab34cd56ef1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="PrimaryRegion">The Amazon Web Services Region of the new primary key. Enter the Re- gion ID, such as us-east-1 or ap-southeast-2 . There must be an ex- isting replica key in this Region. When the operation completes, the multi-Region key in this Region will be the primary key. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,3}\d+$</param>
+    public AwsKmsUpdatePrimaryRegionOptions(
+        string KeyId,
+        string PrimaryRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryRegion);
+        this.PrimaryRegion = PrimaryRegion;
+    }
+
+    private AwsKmsUpdatePrimaryRegionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsUpdatePrimaryRegionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsUpdatePrimaryRegionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the current primary key. When the operation completes, this KMS key will be a replica key. Specify the key ID or key ARN of a multi-Region primary key. For example: o Key ID: mrk-1234abcd12ab34cd56ef1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--key-id")]
+    public string? KeyId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services Region of the new primary key. Enter the Re- gion ID, such as us-east-1 or ap-southeast-2 . There must be an ex- isting replica key in this Region. When the operation completes, the multi-Region key in this Region will be the primary key. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,3}\d+$
+    /// </summary>
     [CliOption("--primary-region")]
-    public string? PrimaryRegion { get; set; }
+    public string? PrimaryRegion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

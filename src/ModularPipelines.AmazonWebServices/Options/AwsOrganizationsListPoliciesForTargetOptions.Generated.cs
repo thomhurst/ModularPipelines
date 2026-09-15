@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "list-policies-for-target")]
-public record AwsOrganizationsListPoliciesForTargetOptions : AwsOptions
+public record AwsOrganizationsListPoliciesForTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-id")]
-    public string? TargetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken ...
+    /// </summary>
+    /// <param name="TargetId">ID for the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="Filter">The type of policy that you want to include in the returned list. You must specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY</param>
+    public AwsOrganizationsListPoliciesForTargetOptions(
+        string TargetId,
+        AwsOrganizationsListPoliciesForTargetFilter Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetId);
+        this.TargetId = TargetId;
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsOrganizationsListPoliciesForTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsListPoliciesForTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsListPoliciesForTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// </summary>
+    [CliOption("--target-id")]
+    public string? TargetId { get; private init; }
+
+    /// <summary>
+    /// The type of policy that you want to include in the returned list. You must specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public AwsOrganizationsListPoliciesForTargetFilter? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +97,21 @@ public record AwsOrganizationsListPoliciesForTargetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

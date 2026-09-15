@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-account-subscription")]
-public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions
+public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an ex- isting Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon Quick Sight User Guide . The person who signs up for Amazon Quick Sight needs to have the correct Identity and Ac...
+    /// </summary>
+    /// <param name="AuthenticationMethod">The method that you want to use to authenticate your Quick Sight ac- count. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: o IAM_AND_QUICKSIGHT o IAM_ONLY o ACTIVE_DIRECTORY o IAM_IDENTITY_CENTER</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountName">The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*</param>
+    /// <param name="NotificationEmail">The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.</param>
+    public AwsQuicksightCreateAccountSubscriptionOptions(
+        AwsQuicksightCreateAccountSubscriptionAuthenticationMethod AuthenticationMethod,
+        string AwsAccountId,
+        string AccountName,
+        string NotificationEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMethod);
+        this.AuthenticationMethod = AuthenticationMethod;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountName);
+        this.AccountName = AccountName;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationEmail);
+        this.NotificationEmail = NotificationEmail;
+    }
+
+    private AwsQuicksightCreateAccountSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateAccountSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateAccountSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The method that you want to use to authenticate your Quick Sight ac- count. If you choose ACTIVE_DIRECTORY , provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER , provide an AdminGroup associated with your IAM Identity Center account. Possible values: o IAM_AND_QUICKSIGHT o IAM_ONLY o ACTIVE_DIRECTORY o IAM_IDENTITY_CENTER
+    /// </summary>
+    [CliOption("--authentication-method")]
+    public AwsQuicksightCreateAccountSubscriptionAuthenticationMethod? AuthenticationMethod { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the account that you're using to create your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; private init; }
+
+    /// <summary>
+    /// The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.
+    /// </summary>
+    [CliOption("--notification-email")]
+    public string? NotificationEmail { get; private init; }
+
     /// <summary>
     /// The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q . If you choose ENTERPRISE_AND_Q , the following parameters are re- quired: o FirstName o LastName o EmailAddress o ContactNumber Possible values: o STANDARD o ENTERPRISE o ENTERPRISE_AND_Q
     /// </summary>
     [CliOption("--edition")]
     public AwsQuicksightCreateAccountSubscriptionEdition? Edition { get; set; }
-
-    [CliOption("--authentication-method")]
-    public string? AuthenticationMethod { get; set; }
-
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
-
-    [CliOption("--account-name")]
-    public string? AccountName { get; set; }
-
-    [CliOption("--notification-email")]
-    public string? NotificationEmail { get; set; }
 
     /// <summary>
     /// The name of your Active Directory. This field is required if AC- TIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
@@ -129,5 +187,21 @@ public record AwsQuicksightCreateAccountSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

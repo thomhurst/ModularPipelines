@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "describe-recovery-snapshots")]
-public record AwsDrsDescribeRecoverySnapshotsOptions : AwsOptions
+public record AwsDrsDescribeRecoverySnapshotsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all Recovery Snapshots for a single Source Server. See also: AWS API Documentation describe-recovery-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="SourceServerId">Filter Recovery Snapshots by Source Server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsDrsDescribeRecoverySnapshotsOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsDrsDescribeRecoverySnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsDescribeRecoverySnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsDescribeRecoverySnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Filter Recovery Snapshots by Source Server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    public string? SourceServerId { get; private init; }
 
     /// <summary>
     /// A set of filters by which to return Recovery Snapshots. fromDateTime -&gt; (string) The start date in a date range query. Constraints: o min: 19 o max: 32 o pattern: [1-9][0-9]*-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?Z toDateTime -&gt; (string) The end date in a date range query. Constraints: o min: 19 o max: 32 o pattern: [1-9][0-9]*-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?Z Shorthand Syntax: fromDateTime=string,toDateTime=string JSON Syntax: { "fromDateTime": "string", "toDateTime": "string" }
@@ -62,5 +99,21 @@ public record AwsDrsDescribeRecoverySnapshotsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

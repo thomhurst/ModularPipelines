@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "update-elasticsearch-domain-config")]
-public record AwsEsUpdateElasticsearchDomainConfigOptions : AwsOptions
+public record AwsEsUpdateElasticsearchDomainConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the cluster configuration of the specified Elasticsearch do- main, setting as setting the instance type and the number of instances. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the Elasticsearch domain that you are updating. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    public AwsEsUpdateElasticsearchDomainConfigOptions(
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsEsUpdateElasticsearchDomainConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsUpdateElasticsearchDomainConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsUpdateElasticsearchDomainConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Elasticsearch domain that you are updating. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     /// <summary>
     /// The type and number of instances to instantiate for the domain clus- ter. InstanceType -&gt; (string) The instance type for an Elasticsearch cluster. UltraWarm in- stance types are not supported for data instances. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch InstanceCount -&gt; (integer) The number of instances in the specified domain cluster. DedicatedMasterEnabled -&gt; (boolean) A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information. ZoneAwarenessEnabled -&gt; (boolean) A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information. ZoneAwarenessConfig -&gt; (structure) Specifies the zone awareness configuration for a domain when zone awareness is enabled. AvailabilityZoneCount -&gt; (integer) An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled DedicatedMasterType -&gt; (string) The instance type for a dedicated master node. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch DedicatedMasterCount -&gt; (integer) Total number of dedicated master nodes, active and on standby, for the cluster. WarmEnabled -&gt; (boolean) True to enable warm storage. WarmType -&gt; (string) The instance type for the Elasticsearch cluster's warm nodes. Possible values: o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch WarmCount -&gt; (integer) The number of warm nodes in the cluster. ColdStorageOptions -&gt; (structure) Specifies the ColdStorageOptions config for Elasticsearch Domain Enabled -&gt; (boolean) [required] Enable cold storage option. Accepted values true or false Shorthand Syntax: InstanceType=string,InstanceCount=integer,DedicatedMasterEnabled=boolean,ZoneAwarenessEnabled=boolean,ZoneAwarenessConfig={AvailabilityZoneCount=integer},DedicatedMasterType=string,DedicatedMasterCount=integer,WarmEnabled=boolean,WarmType=string,WarmCount=integer,ColdStorageOptions={Enabled=boolean} JSON Syntax: { "InstanceType": "m3.medium.elasticsearch"|"m3.large.elasticsearch"|"m3.xlarge.elasticsearch"|"m3.2xlarge.elasticsearch"|"m4.large.elasticsearch"|"m4.xlarge.elasticsearch"|"m4.2xlarge.elasticsearch"|"m4.4xlarge.elasticsearch"|"m4.10xlarge.elasticsearch"|"m5.large.elasticsearch"|"m5.xlarge.elasticsearch"|"m5.2xlarge.elasticsearch"|"m5.4xlarge.elasticsearch"|"m5.12xlarge.elasticsearch"|"r5.large.elasticsearch"|"r5.xlarge.elasticsearch"|"r5.2xlarge.elasticsearch"|"r5.4xlarge.elasticsearch"|"r5.12xlarge.elasticsearch"|"c5.large.elasticsearch"|"c5.xlarge.elasticsearch"|"c5.2xlarge.elasticsearch"|"c5.4xlarge.elasticsearch"|"c5.9xlarge.elasticsearch"|"c5.18xlarge.elasticsearch"|"ultrawarm1.medium.elasticsearch"|"ultrawarm1.large.elasticsearch"|"t2.micro.elasticsearch"|"t2.small.elasticsearch"|"t2.medium.elasticsearch"|"r3.large.elasticsearch"|"r3.xlarge.elasticsearch"|"r3.2xlarge.elasticsearch"|"r3.4xlarge.elasticsearch"|"r3.8xlarge.elasticsearch"|"i2.xlarge.elasticsearch"|"i2.2xlarge.elasticsearch"|"d2.xlarge.elasticsearch"|"d2.2xlarge.elasticsearch"|"d2.4xlarge.elasticsearch"|"d2.8xlarge.elasticsearch"|"c4.large.elasticsearch"|"c4.xlarge.elasticsearch"|"c4.2xlarge.elasticsearch"|"c4.4xlarge.elasticsearch"|"c4.8xlarge.elasticsearch"|"r4.large.elasticsearch"|"r4.xlarge.elasticsearch"|"r4.2xlarge.elasticsearch"|"r4.4xlarge.elasticsearch"|"r4.8xlarge.elasticsearch"|"r4.16xlarge.elasticsearch"|"i3.large.elasticsearch"|"i3.xlarge.elasticsearch"|"i3.2xlarge.elasticsearch"|"i3.4xlarge.elasticsearch"|"i3.8xlarge.elasticsearch"|"i3.16xlarge.elasticsearch", "InstanceCount": integer, "DedicatedMasterEnabled": true|false, "ZoneAwarenessEnabled": true|false, "ZoneAwarenessConfig": { "AvailabilityZoneCount": integer }, "DedicatedMasterType": "m3.medium.elasticsearch"|"m3.large.elasticsearch"|"m3.xlarge.elasticsearch"|"m3.2xlarge.elasticsearch"|"m4.large.elasticsearch"|"m4.xlarge.elasticsearch"|"m4.2xlarge.elasticsearch"|"m4.4xlarge.elasticsearch"|"m4.10xlarge.elasticsearch"|"m5.large.elasticsearch"|"m5.xlarge.elasticsearch"|"m5.2xlarge.elasticsearch"|"m5.4xlarge.elasticsearch"|"m5.12xlarge.elasticsearch"|"r5.large.elasticsearch"|"r5.xlarge.elasticsearch"|"r5.2xlarge.elasticsearch"|"r5.4xlarge.elasticsearch"|"r5.12xlarge.elasticsearch"|"c5.large.elasticsearch"|"c5.xlarge.elasticsearch"|"c5.2xlarge.elasticsearch"|"c5.4xlarge.elasticsearch"|"c5.9xlarge.elasticsearch"|"c5.18xlarge.elasticsearch"|"ultrawarm1.medium.elasticsearch"|"ultrawarm1.large.elasticsearch"|"t2.micro.elasticsearch"|"t2.small.elasticsearch"|"t2.medium.elasticsearch"|"r3.large.elasticsearch"|"r3.xlarge.elasticsearch"|"r3.2xlarge.elasticsearch"|"r3.4xlarge.elasticsearch"|"r3.8xlarge.elasticsearch"|"i2.xlarge.elasticsearch"|"i2.2xlarge.elasticsearch"|"d2.xlarge.elasticsearch"|"d2.2xlarge.elasticsearch"|"d2.4xlarge.elasticsearch"|"d2.8xlarge.elasticsearch"|"c4.large.elasticsearch"|"c4.xlarge.elasticsearch"|"c4.2xlarge.elasticsearch"|"c4.4xlarge.elasticsearch"|"c4.8xlarge.elasticsearch"|"r4.large.elasticsearch"|"r4.xlarge.elasticsearch"|"r4.2xlarge.elasticsearch"|"r4.4xlarge.elasticsearch"|"r4.8xlarge.elasticsearch"|"r4.16xlarge.elasticsearch"|"i3.large.elasticsearch"|"i3.xlarge.elasticsearch"|"i3.2xlarge.elasticsearch"|"i3.4xlarge.elasticsearch"|"i3.8xlarge.elasticsearch"|"i3.16xlarge.elasticsearch", "DedicatedMasterCount": integer, "WarmEnabled": true|false, "WarmType": "ultrawarm1.medium.elasticsearch"|"ultrawarm1.large.elasticsearch", "WarmCount": integer, "ColdStorageOptions": { "Enabled": true|false } }
@@ -104,7 +141,10 @@ public record AwsEsUpdateElasticsearchDomainConfigOptions : AwsOptions
     [CliOption("--auto-tune-options")]
     public string? AutoTuneOptions { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// This flag, when set to True, specifies whether the UpdateElastic- searchDomain request should return the results of validation checks without actually applying the change. This flag, when set to True, specifies the deployment mechanism through which the update shall be applied on the domain. This will not actually perform the Update.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -136,5 +176,21 @@ public record AwsEsUpdateElasticsearchDomainConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

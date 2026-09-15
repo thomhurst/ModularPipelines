@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "disassociate-health-check")]
-public record AwsShieldDisassociateHealthCheckOptions : AwsOptions
+public record AwsShieldDisassociateHealthCheckOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--protection-id")]
-    public string? ProtectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accu- racy in attack detection and response. You define the health check in Route 53 and then associate or disasso- ciate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProtectionId">The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\\-]*</param>
+    /// <param name="HealthCheckArn">The Amazon Resource Name (ARN) of the health check that is associ- ated with the protection. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:route53:::healthcheck/\S{36}$</param>
+    public AwsShieldDisassociateHealthCheckOptions(
+        string ProtectionId,
+        string HealthCheckArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectionId);
+        this.ProtectionId = ProtectionId;
+        global::System.ArgumentNullException.ThrowIfNull(HealthCheckArn);
+        this.HealthCheckArn = HealthCheckArn;
+    }
+
+    private AwsShieldDisassociateHealthCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldDisassociateHealthCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldDisassociateHealthCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (ID) for the Protection object to remove the health check association from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9\\-]*
+    /// </summary>
+    [CliOption("--protection-id")]
+    public string? ProtectionId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the health check that is associ- ated with the protection. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:route53:::healthcheck/\S{36}$
+    /// </summary>
     [CliOption("--health-check-arn")]
-    public string? HealthCheckArn { get; set; }
+    public string? HealthCheckArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-reviewer", "create-code-review")]
-public record AwsCodeguruReviewerCreateCodeReviewOptions : AwsOptions
+public record AwsCodeguruReviewerCreateCodeReviewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use to create a code review with a CodeReviewType of RepositoryAnalysis . This type of code review analyzes all code under a specified branch in an associated repository. PullRequest code reviews are automatically triggered by a pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the code review. The name of each code review in your Amazon Web Services account must be unique. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]*</param>
+    /// <param name="RepositoryAssociationArn">The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . A code review can only be created on an associated repository. This is the ARN of the associated repository. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:asso- cia- tion:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Type">The type of code review to create. This is specified using a CodeReviewType object. You can create a code review only of type RepositoryAnalysis . RepositoryAnalysis -&gt; (structure) [required] A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in CreateCodeReview . RepositoryHead -&gt; (structure) A SourceCodeType that specifies the tip of a branch in an as- sociated repository. BranchName -&gt; (string) [required] The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch. Constraints: o min: 1 o max: 256 SourceCodeType -&gt; (structure) Specifies the source code that is analyzed in a code review. CommitDiff -&gt; (structure) A SourceCodeType that specifies a commit diff created by a pull request on an associated repository. SourceCommit -&gt; (string) The SHA of the source commit used to generate a commit diff. This field is required for a pull request code review. Constraints: o min: 6 o max: 64 DestinationCommit -&gt; (string) The SHA of the destination commit used to generate a commit diff. This field is required for a pull request code review. Constraints: o min: 6 o max: 64 MergeBaseCommit -&gt; (string) The SHA of the merge base of a commit. Constraints: o min: 6 o max: 64 RepositoryHead -&gt; (structure) A SourceCodeType that specifies the tip of a branch in an associated repository. BranchName -&gt; (string) [required] The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch. Constraints: o min: 1 o max: 256 BranchDiff -&gt; (structure) A type of SourceCodeType that specifies a source branch name and a destination branch name in an associated repository. SourceBranchName -&gt; (string) [required] The source branch for a diff in an associated reposi- tory. Constraints: o min: 1 o max: 256 DestinationBranchName -&gt; (string) [required] The destination branch for a diff in an associated repository. Constraints: o min: 1 o max: 256 S3BucketRepository -&gt; (structure) Information about an associated repository in an S3 bucket that includes its name and an S3RepositoryDetails object. The S3RepositoryDetails object includes the name of an S3 bucket, an S3 key for a source code .zip file, and an S3 key for a build artifacts .zip file. S3Bucke- tRepository is required in SourceCodeType for S3Bucke- tRepository based code reviews. Name -&gt; (string) [required] The name of the repository when the ProviderType is S3Bucket . Constraints: o min: 1 o max: 100 o pattern: ^\S[\w.-]*$ Details -&gt; (structure) An S3RepositoryDetails object that specifies the name of an S3 bucket and a CodeArtifacts object. The CodeArtifacts object includes the S3 object keys for a source code .zip file and for a build artifacts .zip file. BucketName -&gt; (string) The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-re- viewer- . Constraints: o min: 3 o max: 63 o pattern: ^\S(.*\S)?$ CodeArtifacts -&gt; (structure) A CodeArtifacts object. The CodeArtifacts object includes the S3 object key for a source code .zip file and for a build artifacts .zip file that con- tains .jar or .class files. SourceCodeArtifactsObjectKey -&gt; (string) [re- quired] The S3 object key for a source code .zip file. This is required for all code reviews. Constraints: o min: 1 o max: 1024 o pattern: ^\S(.*\S)?$ BuildArtifactsObjectKey -&gt; (string) The S3 object key for a build artifacts .zip file that contains .jar or .class files. This is required for a code review with security analysis. For more information, see Create code reviews with GitHub Actions in the Amazon Code- Guru Reviewer User Guide . Constraints: o min: 1 o max: 1024 o pattern: ^\S(.*\S)?$ RequestMetadata -&gt; (structure) Metadata that is associated with a code review. This ap- plies to any type of code review supported by CodeGuru Reviewer. The RequestMetadaa field captures any event metadata. For example, it might capture metadata associ- ated with an event trigger, such as a push or a pull re- quest. RequestId -&gt; (string) The ID of the request. This is required for a pull re- quest code review. Constraints: o min: 1 o max: 64 Requester -&gt; (string) An identifier, such as a name or account ID, that is associated with the requester. The Requester is used to capture the author/actor name of the event request. Constraints: o min: 1 o max: 100 o pattern: ^\S(.*\S)?$ EventInfo -&gt; (structure) Information about the event associated with a code re- view. Name -&gt; (string) The name of the event. The possible names are pull_request , workflow_dispatch , schedule , and push Constraints: o min: 1 o max: 32 o pattern: ^[ \-A-Z_a-z]+$ State -&gt; (string) The state of an event. The state might be open, closed, or another state. Constraints: o min: 1 o max: 32 o pattern: ^[ \-A-Z_a-z]+$ VendorName -&gt; (string) The name of the repository vendor used to upload code to an S3 bucket for a CI/CD code review. For example, if code and artifacts are uploaded to an S3 bucket for a CI/CD code review by GitHub scripts from a GitHub repository, then the repository association's ProviderType is S3Bucket and the CI/CD repository ven- dor name is GitHub. For more information, see the def- inition for ProviderType in RepositoryAssociation . Possible values: o GitHub o GitLab o NativeS3 AnalysisTypes -&gt; (list) They types of analysis performed during a repository analysis or a pull request review. You can specify either Security , Code- Quality , or both. (string) Possible values: o Security o CodeQuality JSON Syntax: { "RepositoryAnalysis": { "RepositoryHead": { "BranchName": "string" }, "SourceCodeType": { "CommitDiff": { "SourceCommit": "string", "DestinationCommit": "string", "MergeBaseCommit": "string" }, "RepositoryHead": { "BranchName": "string" }, "BranchDiff": { "SourceBranchName": "string", "DestinationBranchName": "string" }, "S3BucketRepository": { "Name": "string", "Details": { "BucketName": "string", "CodeArtifacts": { "SourceCodeArtifactsObjectKey": "string", "BuildArtifactsObjectKey": "string" } } }, "RequestMetadata": { "RequestId": "string", "Requester": "string", "EventInfo": { "Name": "string", "State": "string" }, "VendorName": "GitHub"|"GitLab"|"NativeS3" } } }, "AnalysisTypes": ["Security"|"CodeQuality", ...] }</param>
+    public AwsCodeguruReviewerCreateCodeReviewOptions(
+        string Name,
+        string RepositoryAssociationArn,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryAssociationArn);
+        this.RepositoryAssociationArn = RepositoryAssociationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsCodeguruReviewerCreateCodeReviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruReviewerCreateCodeReviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruReviewerCreateCodeReviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the code review. The name of each code review in your Amazon Web Services account must be unique. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations . A code review can only be created on an associated repository. This is the ARN of the associated repository. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:asso- cia- tion:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--repository-association-arn")]
-    public string? RepositoryAssociationArn { get; set; }
+    public string? RepositoryAssociationArn { get; private init; }
 
+    /// <summary>
+    /// The type of code review to create. This is specified using a CodeReviewType object. You can create a code review only of type RepositoryAnalysis . RepositoryAnalysis -&gt; (structure) [required] A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in CreateCodeReview . RepositoryHead -&gt; (structure) A SourceCodeType that specifies the tip of a branch in an as- sociated repository. BranchName -&gt; (string) [required] The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch. Constraints: o min: 1 o max: 256 SourceCodeType -&gt; (structure) Specifies the source code that is analyzed in a code review. CommitDiff -&gt; (structure) A SourceCodeType that specifies a commit diff created by a pull request on an associated repository. SourceCommit -&gt; (string) The SHA of the source commit used to generate a commit diff. This field is required for a pull request code review. Constraints: o min: 6 o max: 64 DestinationCommit -&gt; (string) The SHA of the destination commit used to generate a commit diff. This field is required for a pull request code review. Constraints: o min: 6 o max: 64 MergeBaseCommit -&gt; (string) The SHA of the merge base of a commit. Constraints: o min: 6 o max: 64 RepositoryHead -&gt; (structure) A SourceCodeType that specifies the tip of a branch in an associated repository. BranchName -&gt; (string) [required] The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch. Constraints: o min: 1 o max: 256 BranchDiff -&gt; (structure) A type of SourceCodeType that specifies a source branch name and a destination branch name in an associated repository. SourceBranchName -&gt; (string) [required] The source branch for a diff in an associated reposi- tory. Constraints: o min: 1 o max: 256 DestinationBranchName -&gt; (string) [required] The destination branch for a diff in an associated repository. Constraints: o min: 1 o max: 256 S3BucketRepository -&gt; (structure) Information about an associated repository in an S3 bucket that includes its name and an S3RepositoryDetails object. The S3RepositoryDetails object includes the name of an S3 bucket, an S3 key for a source code .zip file, and an S3 key for a build artifacts .zip file. S3Bucke- tRepository is required in SourceCodeType for S3Bucke- tRepository based code reviews. Name -&gt; (string) [required] The name of the repository when the ProviderType is S3Bucket . Constraints: o min: 1 o max: 100 o pattern: ^\S[\w.-]*$ Details -&gt; (structure) An S3RepositoryDetails object that specifies the name of an S3 bucket and a CodeArtifacts object. The CodeArtifacts object includes the S3 object keys for a source code .zip file and for a build artifacts .zip file. BucketName -&gt; (string) The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-re- viewer- . Constraints: o min: 3 o max: 63 o pattern: ^\S(.*\S)?$ CodeArtifacts -&gt; (structure) A CodeArtifacts object. The CodeArtifacts object includes the S3 object key for a source code .zip file and for a build artifacts .zip file that con- tains .jar or .class files. SourceCodeArtifactsObjectKey -&gt; (string) [re- quired] The S3 object key for a source code .zip file. This is required for all code reviews. Constraints: o min: 1 o max: 1024 o pattern: ^\S(.*\S)?$ BuildArtifactsObjectKey -&gt; (string) The S3 object key for a build artifacts .zip file that contains .jar or .class files. This is required for a code review with security analysis. For more information, see Create code reviews with GitHub Actions in the Amazon Code- Guru Reviewer User Guide . Constraints: o min: 1 o max: 1024 o pattern: ^\S(.*\S)?$ RequestMetadata -&gt; (structure) Metadata that is associated with a code review. This ap- plies to any type of code review supported by CodeGuru Reviewer. The RequestMetadaa field captures any event metadata. For example, it might capture metadata associ- ated with an event trigger, such as a push or a pull re- quest. RequestId -&gt; (string) The ID of the request. This is required for a pull re- quest code review. Constraints: o min: 1 o max: 64 Requester -&gt; (string) An identifier, such as a name or account ID, that is associated with the requester. The Requester is used to capture the author/actor name of the event request. Constraints: o min: 1 o max: 100 o pattern: ^\S(.*\S)?$ EventInfo -&gt; (structure) Information about the event associated with a code re- view. Name -&gt; (string) The name of the event. The possible names are pull_request , workflow_dispatch , schedule , and push Constraints: o min: 1 o max: 32 o pattern: ^[ \-A-Z_a-z]+$ State -&gt; (string) The state of an event. The state might be open, closed, or another state. Constraints: o min: 1 o max: 32 o pattern: ^[ \-A-Z_a-z]+$ VendorName -&gt; (string) The name of the repository vendor used to upload code to an S3 bucket for a CI/CD code review. For example, if code and artifacts are uploaded to an S3 bucket for a CI/CD code review by GitHub scripts from a GitHub repository, then the repository association's ProviderType is S3Bucket and the CI/CD repository ven- dor name is GitHub. For more information, see the def- inition for ProviderType in RepositoryAssociation . Possible values: o GitHub o GitLab o NativeS3 AnalysisTypes -&gt; (list) They types of analysis performed during a repository analysis or a pull request review. You can specify either Security , Code- Quality , or both. (string) Possible values: o Security o CodeQuality JSON Syntax: { "RepositoryAnalysis": { "RepositoryHead": { "BranchName": "string" }, "SourceCodeType": { "CommitDiff": { "SourceCommit": "string", "DestinationCommit": "string", "MergeBaseCommit": "string" }, "RepositoryHead": { "BranchName": "string" }, "BranchDiff": { "SourceBranchName": "string", "DestinationBranchName": "string" }, "S3BucketRepository": { "Name": "string", "Details": { "BucketName": "string", "CodeArtifacts": { "SourceCodeArtifactsObjectKey": "string", "BuildArtifactsObjectKey": "string" } } }, "RequestMetadata": { "RequestId": "string", "Requester": "string", "EventInfo": { "Name": "string", "State": "string" }, "VendorName": "GitHub"|"GitLab"|"NativeS3" } } }, "AnalysisTypes": ["Security"|"CodeQuality", ...] }
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and re- tries. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
@@ -43,5 +94,21 @@ public record AwsCodeguruReviewerCreateCodeReviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

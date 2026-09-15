@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --transitencryptionmode.
+/// Allowed values for --transit-encryption-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheModifyReplicationGroupTransitEncryptionMode
 {
     [EnumValue("preferred")]
-    Preferred = 1,
+    Preferred,
 
     [EnumValue("required")]
-    Required = 2
+    Required
 }

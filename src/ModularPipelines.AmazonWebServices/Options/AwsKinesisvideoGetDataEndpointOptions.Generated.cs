@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "get-data-endpoint")]
-public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions
+public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). NOTE: The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiName">The name of the API action for which to get an endpoint. Possible values: o PUT_MEDIA o GET_MEDIA o LIST_FRAGMENTS o GET_MEDIA_FOR_FRAGMENT_LIST o GET_HLS_STREAMING_SESSION_URL o GET_DASH_STREAMING_SESSION_URL o GET_CLIP o GET_IMAGES</param>
+    public AwsKinesisvideoGetDataEndpointOptions(
+        AwsKinesisvideoGetDataEndpointApiName ApiName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiName);
+        this.ApiName = ApiName;
+    }
+
+    private AwsKinesisvideoGetDataEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoGetDataEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoGetDataEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the API action for which to get an endpoint. Possible values: o PUT_MEDIA o GET_MEDIA o LIST_FRAGMENTS o GET_MEDIA_FOR_FRAGMENT_LIST o GET_HLS_STREAMING_SESSION_URL o GET_DASH_STREAMING_SESSION_URL o GET_CLIP o GET_IMAGES
+    /// </summary>
+    [CliOption("--api-name")]
+    public AwsKinesisvideoGetDataEndpointApiName? ApiName { get; private init; }
+
     /// <summary>
     /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
@@ -33,13 +74,26 @@ public record AwsKinesisvideoGetDataEndpointOptions : AwsOptions
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--api-name")]
-    public string? ApiName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

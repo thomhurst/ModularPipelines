@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "batch-update-standards-control-associations")]
-public record AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions : AwsOptions
+public record AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StandardsControlAssociationUpdates">Updates the enablement status of a security control in a specified standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControl- sUpdatable value NOT_READY_FOR_UPDATES . (structure) An array of requested updates to the enablement status of con- trols in specified standards. The objects in the array include a security control ID, the Amazon Resource Name (ARN) of the stan- dard, the requested enablement status, and the reason for updat- ing the enablement status. StandardsArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard in which you want to update the control's enablement status. Constraints: o pattern: .*\S.* SecurityControlId -&gt; (string) [required] The unique identifier for the security control whose enable- ment status you want to update. Constraints: o pattern: .*\S.* AssociationStatus -&gt; (string) [required] The desired enablement status of the control in the standard. Possible values: o ENABLED o DISABLED UpdatedReason -&gt; (string) The reason for updating the control's enablement status in the standard. Constraints: o pattern: .*\S.* Shorthand Syntax: StandardsArn=string,SecurityControlId=string,AssociationStatus=string,UpdatedReason=string ... JSON Syntax: [ { "StandardsArn": "string", "SecurityControlId": "string", "AssociationStatus": "ENABLED"|"DISABLED", "UpdatedReason": "string" } ... ]</param>
+    public AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions(
+        IEnumerable<string> StandardsControlAssociationUpdates
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StandardsControlAssociationUpdates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StandardsControlAssociationUpdates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StandardsControlAssociationUpdates));
+            }
+
+            StandardsControlAssociationUpdates = materialized;
+        }
+        this.StandardsControlAssociationUpdates = StandardsControlAssociationUpdates;
+    }
+
+    private AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubBatchUpdateStandardsControlAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Updates the enablement status of a security control in a specified standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControl- sUpdatable value NOT_READY_FOR_UPDATES . (structure) An array of requested updates to the enablement status of con- trols in specified standards. The objects in the array include a security control ID, the Amazon Resource Name (ARN) of the stan- dard, the requested enablement status, and the reason for updat- ing the enablement status. StandardsArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard in which you want to update the control's enablement status. Constraints: o pattern: .*\S.* SecurityControlId -&gt; (string) [required] The unique identifier for the security control whose enable- ment status you want to update. Constraints: o pattern: .*\S.* AssociationStatus -&gt; (string) [required] The desired enablement status of the control in the standard. Possible values: o ENABLED o DISABLED UpdatedReason -&gt; (string) The reason for updating the control's enablement status in the standard. Constraints: o pattern: .*\S.* Shorthand Syntax: StandardsArn=string,SecurityControlId=string,AssociationStatus=string,UpdatedReason=string ... JSON Syntax: [ { "StandardsArn": "string", "SecurityControlId": "string", "AssociationStatus": "ENABLED"|"DISABLED", "UpdatedReason": "string" } ... ]
+    /// </summary>
     [CliOption("--standards-control-association-updates", GroupValues = true)]
-    public IEnumerable<string>? StandardsControlAssociationUpdates { get; set; }
+    public IEnumerable<string>? StandardsControlAssociationUpdates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

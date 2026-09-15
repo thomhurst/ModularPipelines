@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "accept-primary-email-update")]
-public record AwsAccountAcceptPrimaryEmailUpdateOptions : AwsOptions
+public record AwsAccountAcceptPrimaryEmailUpdateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email ad- dress) for the specified account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account as- signed. This operation can only be called from the management account or the delegated administrator account of an organization for a member ac- count. NOTE: The management account can't specify its own AccountId . Constraints: o pattern: \d{12}</param>
+    /// <param name="PrimaryEmail">The new primary email address for use with the specified account. This must match the PrimaryEmail from the StartPrimaryEmailUpdate API call. Constraints: o min: 5 o max: 64</param>
+    /// <param name="Otp">The OTP code sent to the PrimaryEmail specified on the StartPrima- ryEmailUpdate API call. Constraints: o pattern: [a-zA-Z0-9]{6}</param>
+    public AwsAccountAcceptPrimaryEmailUpdateOptions(
+        string AccountId,
+        string PrimaryEmail,
+        string Otp
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryEmail);
+        this.PrimaryEmail = PrimaryEmail;
+        global::System.ArgumentNullException.ThrowIfNull(Otp);
+        this.Otp = Otp;
+    }
+
+    private AwsAccountAcceptPrimaryEmailUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountAcceptPrimaryEmailUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountAcceptPrimaryEmailUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count. The specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account as- signed. This operation can only be called from the management account or the delegated administrator account of an organization for a member ac- count. NOTE: The management account can't specify its own AccountId . Constraints: o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The new primary email address for use with the specified account. This must match the PrimaryEmail from the StartPrimaryEmailUpdate API call. Constraints: o min: 5 o max: 64
+    /// </summary>
     [CliOption("--primary-email")]
-    public string? PrimaryEmail { get; set; }
+    public string? PrimaryEmail { get; private init; }
 
+    /// <summary>
+    /// The OTP code sent to the PrimaryEmail specified on the StartPrima- ryEmailUpdate API call. Constraints: o pattern: [a-zA-Z0-9]{6}
+    /// </summary>
     [SecretValue]
     [CliOption("--otp")]
-    public string? Otp { get; set; }
+    public string? Otp { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

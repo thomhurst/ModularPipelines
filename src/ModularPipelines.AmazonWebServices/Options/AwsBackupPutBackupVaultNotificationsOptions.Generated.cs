@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "put-backup-vault-notifications")]
-public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions
+public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Turns on notifications on a backup vault for the specified topic and events. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="SnsTopicArn">The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:My- VaultTopic .</param>
+    /// <param name="BackupVaultEvents">An array of events that indicate the status of jobs to back up re- sources to the backup vault. For the list of supported events, com- mon use cases, and code samples, see Notification options with Backup . (string) Possible values: o BACKUP_JOB_STARTED o BACKUP_JOB_COMPLETED o BACKUP_JOB_SUCCESSFUL o BACKUP_JOB_FAILED o BACKUP_JOB_EXPIRED o RESTORE_JOB_STARTED o RESTORE_JOB_COMPLETED o RESTORE_JOB_SUCCESSFUL o RESTORE_JOB_FAILED o COPY_JOB_STARTED o COPY_JOB_SUCCESSFUL o COPY_JOB_FAILED o RECOVERY_POINT_MODIFIED o BACKUP_PLAN_CREATED o BACKUP_PLAN_MODIFIED o S3_BACKUP_OBJECT_FAILED o S3_RESTORE_OBJECT_FAILED o CONTINUOUS_BACKUP_INTERRUPTED o RECOVERY_POINT_INDEX_COMPLETED o RECOVERY_POINT_INDEX_DELETED o RECOVERY_POINT_INDEXING_FAILED o EKS_RESTORE_OBJECT_FAILED o EKS_RESTORE_OBJECT_SKIPPED o EKS_BACKUP_OBJECT_FAILED o ACCESS_POINT_AVAILABLE o ACCESS_POINT_CREATION_FAILED o ACCESS_POINT_DELETED o ACCESS_POINT_DELETION_FAILED o ACCESS_POINT_EXPIRED o ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...</param>
+    public AwsBackupPutBackupVaultNotificationsOptions(
+        string BackupVaultName,
+        string SnsTopicArn,
+        IEnumerable<string> BackupVaultEvents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(SnsTopicArn);
+        this.SnsTopicArn = SnsTopicArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BackupVaultEvents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BackupVaultEvents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BackupVaultEvents));
+            }
+
+            BackupVaultEvents = materialized;
+        }
+        this.BackupVaultEvents = BackupVaultEvents;
+    }
+
+    private AwsBackupPutBackupVaultNotificationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupPutBackupVaultNotificationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupPutBackupVaultNotificationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:My- VaultTopic .
+    /// </summary>
     [CliOption("--sns-topic-arn")]
-    public string? SnsTopicArn { get; set; }
+    public string? SnsTopicArn { get; private init; }
 
+    /// <summary>
+    /// An array of events that indicate the status of jobs to back up re- sources to the backup vault. For the list of supported events, com- mon use cases, and code samples, see Notification options with Backup . (string) Possible values: o BACKUP_JOB_STARTED o BACKUP_JOB_COMPLETED o BACKUP_JOB_SUCCESSFUL o BACKUP_JOB_FAILED o BACKUP_JOB_EXPIRED o RESTORE_JOB_STARTED o RESTORE_JOB_COMPLETED o RESTORE_JOB_SUCCESSFUL o RESTORE_JOB_FAILED o COPY_JOB_STARTED o COPY_JOB_SUCCESSFUL o COPY_JOB_FAILED o RECOVERY_POINT_MODIFIED o BACKUP_PLAN_CREATED o BACKUP_PLAN_MODIFIED o S3_BACKUP_OBJECT_FAILED o S3_RESTORE_OBJECT_FAILED o CONTINUOUS_BACKUP_INTERRUPTED o RECOVERY_POINT_INDEX_COMPLETED o RECOVERY_POINT_INDEX_DELETED o RECOVERY_POINT_INDEXING_FAILED o EKS_RESTORE_OBJECT_FAILED o EKS_RESTORE_OBJECT_SKIPPED o EKS_BACKUP_OBJECT_FAILED o ACCESS_POINT_AVAILABLE o ACCESS_POINT_CREATION_FAILED o ACCESS_POINT_DELETED o ACCESS_POINT_DELETION_FAILED o ACCESS_POINT_EXPIRED o ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--backup-vault-events", GroupValues = true)]
-    public IEnumerable<string>? BackupVaultEvents { get; set; }
+    public IEnumerable<string>? BackupVaultEvents { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

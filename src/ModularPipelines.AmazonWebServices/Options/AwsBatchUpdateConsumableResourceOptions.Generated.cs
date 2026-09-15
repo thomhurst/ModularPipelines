@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "update-consumable-resource")]
-public record AwsBatchUpdateConsumableResourceOptions : AwsOptions
+public record AwsBatchUpdateConsumableResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a consumable resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConsumableResource">The name or ARN of the consumable resource to be updated.</param>
+    public AwsBatchUpdateConsumableResourceOptions(
+        string ConsumableResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConsumableResource);
+        this.ConsumableResource = ConsumableResource;
+    }
+
+    private AwsBatchUpdateConsumableResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchUpdateConsumableResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchUpdateConsumableResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the consumable resource to be updated.
+    /// </summary>
     [CliOption("--consumable-resource")]
-    public string? ConsumableResource { get; set; }
+    public string? ConsumableResource { get; private init; }
 
     /// <summary>
     /// Indicates how the quantity of the consumable resource will be up- dated. Must be one of: o SET Sets the quantity of the resource to the value specified by the quantity parameter. o ADD Increases the quantity of the resource by the value speci- fied by the quantity parameter. o REMOVE Reduces the quantity of the resource by the value speci- fied by the quantity parameter.
@@ -49,5 +86,21 @@ public record AwsBatchUpdateConsumableResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

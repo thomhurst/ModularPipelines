@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "delete-vpc-peering-connection")]
-public record AwsGameliftDeleteVpcPeeringConnectionOptions : AwsOptions
+public record AwsGameliftDeleteVpcPeeringConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete.. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task S...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="VpcPeeringConnectionId">A unique identifier for a VPC peering connection. Constraints: o min: 1 o max: 1024</param>
+    public AwsGameliftDeleteVpcPeeringConnectionOptions(
+        string FleetId,
+        string VpcPeeringConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcPeeringConnectionId);
+        this.VpcPeeringConnectionId = VpcPeeringConnectionId;
+    }
+
+    private AwsGameliftDeleteVpcPeeringConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeleteVpcPeeringConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeleteVpcPeeringConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for a VPC peering connection. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--vpc-peering-connection-id")]
-    public string? VpcPeeringConnectionId { get; set; }
+    public string? VpcPeeringConnectionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-patch-baseline")]
-public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
+public record AwsSsmUpdatePatchBaselineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing patch baseline. Fields not specified in the re- quest are left unchanged. NOTE: For information about valid key-value pairs in PatchFilters for each supported operating system type, see PatchFilter . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BaselineId">The ID of the patch baseline to update. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    public AwsSsmUpdatePatchBaselineOptions(
+        string BaselineId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaselineId);
+        this.BaselineId = BaselineId;
+    }
+
+    private AwsSsmUpdatePatchBaselineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdatePatchBaselineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdatePatchBaselineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the patch baseline to update. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// </summary>
     [CliOption("--baseline-id")]
-    public string? BaselineId { get; set; }
+    public string? BaselineId { get; private init; }
 
     /// <summary>
     /// The name of the patch baseline. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
@@ -55,7 +92,10 @@ public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
     [CliOption("--approved-patches-compliance-level")]
     public AwsSsmUpdatePatchBaselineApprovedPatchesComplianceLevel? ApprovedPatchesComplianceLevel { get; set; }
 
-    [CliFlag("--approved-patches-enable-non-security")]
+    /// <summary>
+    /// able-non-security (boolean) Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false . Applies to Linux managed nodes only.
+    /// </summary>
+    [CliFlag("--approved-patches-enable-non-security", NegatedName = "--no-approved-patches-enable-non-security")]
     public bool? ApprovedPatchesEnableNonSecurity { get; set; }
 
     /// <summary>
@@ -88,7 +128,10 @@ public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
     [CliOption("--available-security-updates-compliance-status")]
     public AwsSsmUpdatePatchBaselineAvailableSecurityUpdatesComplianceStatus? AvailableSecurityUpdatesComplianceStatus { get; set; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// If True, then all fields that are required by the CreatePatchBase- line operation are also required for this API request. Optional fields that aren't specified are set to null.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -96,5 +139,21 @@ public record AwsSsmUpdatePatchBaselineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

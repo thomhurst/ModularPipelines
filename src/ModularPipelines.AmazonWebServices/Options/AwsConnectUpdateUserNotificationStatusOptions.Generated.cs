@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-user-notification-status")]
-public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions
+public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of a notification for a specific user, such as mark- ing it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="NotificationId">The unique identifier for the notification. Constraints: o min: 1 o max: 256</param>
+    /// <param name="UserId">The identifier of the user whose notification status is being up- dated.</param>
+    /// <param name="Status">The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: o READ o UNREAD o HIDDEN</param>
+    public AwsConnectUpdateUserNotificationStatusOptions(
+        string InstanceId,
+        string NotificationId,
+        string UserId,
+        AwsConnectUpdateUserNotificationStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationId);
+        this.NotificationId = NotificationId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsConnectUpdateUserNotificationStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateUserNotificationStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateUserNotificationStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the notification. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--notification-id")]
-    public string? NotificationId { get; set; }
+    public string? NotificationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user whose notification status is being up- dated.
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The new status for the notification. Valid values are READ, UNREAD, and HIDDEN. Possible values: o READ o UNREAD o HIDDEN
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsConnectUpdateUserNotificationStatusStatus? Status { get; private init; }
 
     /// <summary>
     /// The timestamp when the notification status was last modified. Used for cross-region replication and optimistic locking.
@@ -50,5 +109,21 @@ public record AwsConnectUpdateUserNotificationStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

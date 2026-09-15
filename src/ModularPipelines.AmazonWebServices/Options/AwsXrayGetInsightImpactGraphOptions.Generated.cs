@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "get-insight-impact-graph")]
-public record AwsXrayGetInsightImpactGraphOptions : AwsOptions
+public record AwsXrayGetInsightImpactGraphOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a com- plete service graph, use this API with the GetServiceGraph API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InsightId">The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
+    /// <param name="StartTime">The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.</param>
+    /// <param name="EndTime">The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours.</param>
+    public AwsXrayGetInsightImpactGraphOptions(
+        string InsightId,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InsightId);
+        this.InsightId = InsightId;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsXrayGetInsightImpactGraphOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayGetInsightImpactGraphOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayGetInsightImpactGraphOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--insight-id")]
-    public string? InsightId { get; set; }
+    public string? InsightId { get; private init; }
 
+    /// <summary>
+    /// The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// Specify the pagination token returned by a previous request to re- trieve the next page of results. Constraints: o min: 1 o max: 2000
@@ -43,5 +94,21 @@ public record AwsXrayGetInsightImpactGraphOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

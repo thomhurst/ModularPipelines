@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-data-exports", "get-execution")]
-public record AwsBcmDataExportsGetExecutionOptions : AwsOptions
+public record AwsBcmDataExportsGetExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--export-arn")]
-    public string? ExportArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Exports data based on the source data update. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ExecutionId">The ID for this specific execution. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    public AwsBcmDataExportsGetExecutionOptions(
+        string ExportArn,
+        string ExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportArn);
+        this.ExportArn = ExportArn;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+    }
+
+    private AwsBcmDataExportsGetExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmDataExportsGetExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmDataExportsGetExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
+    [CliOption("--export-arn")]
+    public string? ExportArn { get; private init; }
+
+    /// <summary>
+    /// The ID for this specific execution. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

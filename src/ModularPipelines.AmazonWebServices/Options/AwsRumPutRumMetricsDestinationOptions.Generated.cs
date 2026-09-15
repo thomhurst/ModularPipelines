@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rum", "put-rum-metrics-destination")]
-public record AwsRumPutRumMetricsDestinationOptions : AwsOptions
+public record AwsRumPutRumMetricsDestinationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-monitor-name")]
-    public string? AppMonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see BatchCreateRumMetricDefinitions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that will send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
+    public AwsRumPutRumMetricsDestinationOptions(
+        string AppMonitorName,
+        AwsRumPutRumMetricsDestinationDestination Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
+        this.AppMonitorName = AppMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsRumPutRumMetricsDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRumPutRumMetricsDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRumPutRumMetricsDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CloudWatch RUM app monitor that will send the met- rics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--app-monitor-name")]
+    public string? AppMonitorName { get; private init; }
+
+    /// <summary>
+    /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public AwsRumPutRumMetricsDestinationDestination? Destination { get; private init; }
 
     /// <summary>
     /// Use this parameter only if Destination is Evidently . This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics. Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
@@ -44,5 +89,21 @@ public record AwsRumPutRumMetricsDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

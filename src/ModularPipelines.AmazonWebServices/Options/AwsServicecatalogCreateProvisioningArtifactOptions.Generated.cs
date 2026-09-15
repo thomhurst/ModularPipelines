@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "create-provisioning-artifact")]
-public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions
+public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a provisioning artifact (also known as a version) for the spec- ified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Parameters">The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: o max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: o max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , Import- FromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-tem- plates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[ac- countId]:stack/[StackName]/[resourceId] Constraints: o min: 1 o max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. o CLOUD_FORMATION_TEMPLATE - CloudFormation template o TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file o TERRAFORM_CLOUD - Terraform Cloud configuration file o EXTERNAL - External configuration file Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE_AMI o MARKETPLACE_CAR o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }</param>
+    public AwsServicecatalogCreateProvisioningArtifactOptions(
+        string ProductId,
+        string Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(Parameters);
+        this.Parameters = Parameters;
+    }
+
+    private AwsServicecatalogCreateProvisioningArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogCreateProvisioningArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogCreateProvisioningArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// The configuration for the provisioning artifact. Name -&gt; (string) The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed. Constraints: o max: 8192 Description -&gt; (string) The description of the provisioning artifact, including how it differs from the previous provisioning artifact. Constraints: o max: 8192 Info -&gt; (map) Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL , Import- FromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-tem- plates-ozkq9d3hgiq2-us-east-1/..." ImportFromPhysicalId : The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: arn:aws:cloudformation:[us-east-1]:[ac- countId]:stack/[StackName]/[resourceId] Constraints: o min: 1 o max: 100 key -&gt; (string) value -&gt; (string) Type -&gt; (string) The type of provisioning artifact. o CLOUD_FORMATION_TEMPLATE - CloudFormation template o TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file o TERRAFORM_CLOUD - Terraform Cloud configuration file o EXTERNAL - External configuration file Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE_AMI o MARKETPLACE_CAR o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL DisableTemplateValidation -&gt; (boolean) If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type. Shorthand Syntax: Name=string,Description=string,Info={KeyName1=string,KeyName2=string},Type=string,DisableTemplateValidation=boolean JSON Syntax: { "Name": "string", "Description": "string", "Info": {"string": "string" ...}, "Type": "CLOUD_FORMATION_TEMPLATE"|"MARKETPLACE_AMI"|"MARKETPLACE_CAR"|"TERRAFORM_OPEN_SOURCE"|"TERRAFORM_CLOUD"|"EXTERNAL", "DisableTemplateValidation": true|false }
+    /// </summary>
+    [CliOption("--parameters")]
+    public string? Parameters { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
-
-    [CliOption("--parameters")]
-    public string? Parameters { get; set; }
 
     /// <summary>
     /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -46,5 +90,21 @@ public record AwsServicecatalogCreateProvisioningArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

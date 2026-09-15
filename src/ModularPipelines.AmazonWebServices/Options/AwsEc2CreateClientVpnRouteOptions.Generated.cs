@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-client-vpn-route")]
-public record AwsEc2CreateClientVpnRouteOptions : AwsOptions
+public record AwsEc2CreateClientVpnRouteOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-vpn-endpoint-id")]
-    public string? ClientVpnEndpointId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the available destination network routes. Each route in the route table specifies the path for trac to specic resources or networks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint to which to add the route.</param>
+    /// <param name="DestinationCidrBlock">The IPv4 address range, in CIDR notation, of the route destination. For example: o To add a route for Internet access, enter 0.0.0.0/0 o To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range o To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range o To add a route for the local network, enter the client CIDR range</param>
+    public AwsEc2CreateClientVpnRouteOptions(
+        string ClientVpnEndpointId,
+        string DestinationCidrBlock
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientVpnEndpointId);
+        this.ClientVpnEndpointId = ClientVpnEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCidrBlock);
+        this.DestinationCidrBlock = DestinationCidrBlock;
+    }
+
+    private AwsEc2CreateClientVpnRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateClientVpnRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateClientVpnRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Client VPN endpoint to which to add the route.
+    /// </summary>
+    [CliOption("--client-vpn-endpoint-id")]
+    public string? ClientVpnEndpointId { get; private init; }
+
+    /// <summary>
+    /// The IPv4 address range, in CIDR notation, of the route destination. For example: o To add a route for Internet access, enter 0.0.0.0/0 o To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range o To add a route for an on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR range o To add a route for the local network, enter the client CIDR range
+    /// </summary>
     [CliOption("--destination-cidr-block")]
-    public string? DestinationCidrBlock { get; set; }
+    public string? DestinationCidrBlock { get; private init; }
 
     /// <summary>
     /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, spec- ify local . This parameter is required for VPC-based Client VPN endpoints. For Transit Gateway-based endpoints, this parameter is not required.
@@ -47,7 +91,10 @@ public record AwsEc2CreateClientVpnRouteOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -55,5 +102,21 @@ public record AwsEc2CreateClientVpnRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

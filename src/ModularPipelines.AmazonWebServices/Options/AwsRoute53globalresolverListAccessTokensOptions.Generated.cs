@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "list-access-tokens")]
-public record AwsRoute53globalresolverListAccessTokensOptions : AwsOptions
+public record AwsRoute53globalresolverListAccessTokensOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all access tokens for a DNS view with pagination support. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation list-access-tokens is a paginated operation. Multiple API calls may be issu...
+    /// </summary>
+    /// <param name="DnsViewId">The ID of the DNS view to list the tokens for. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    public AwsRoute53globalresolverListAccessTokensOptions(
+        string DnsViewId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DnsViewId);
+        this.DnsViewId = DnsViewId;
+    }
+
+    private AwsRoute53globalresolverListAccessTokensOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverListAccessTokensOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverListAccessTokensOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the DNS view to list the tokens for. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--dns-view-id")]
-    public string? DnsViewId { get; set; }
+    public string? DnsViewId { get; private init; }
 
     /// <summary>
     /// Filtering parameters. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
@@ -56,5 +93,21 @@ public record AwsRoute53globalresolverListAccessTokensOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

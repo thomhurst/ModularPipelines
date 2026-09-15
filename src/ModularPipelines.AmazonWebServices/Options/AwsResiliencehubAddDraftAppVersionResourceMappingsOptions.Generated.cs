@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "add-draft-app-version-resource-mappings")]
-public record AwsResiliencehubAddDraftAppVersionResourceMappingsOptions : AwsOptions
+public record AwsResiliencehubAddDraftAppVersionResourceMappingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds the source of resource-maps to the draft version of an applica- tion. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources sup- ported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="ResourceMappings">Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual re- sources by using the mapping type RESOURCE . We recommend using the mapping type CFN_STACK if the application is backed by a CloudForma- tion stack. (structure) Defines a resource mapping. appRegistryAppName -&gt; (string) Name of the application this resource is mapped to when the mappingType is AppRegistryApp . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and namespace that this resource is mapped to when the mapping- Type is EKS . NOTE: This parameter accepts values in "eks-cluster/namespace" format. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) Name of the CloudFormation stack this resource is mapped to when the mappingType is CfnStack . Constraints: o min: 1 o max: 255 mappingType -&gt; (string) [required] Specifies the type of resource mapping. Possible values: o CfnStack o Resource o AppRegistryApp o ResourceGroup o Terraform o EKS physicalResourceId -&gt; (structure) [required] Identifier of the physical resource. awsAccountId -&gt; (string) The Amazon Web Services account that owns the physical resource. Constraints: o pattern: ^[0-9]{12}$ awsRegion -&gt; (string) The Amazon Web Services Region that the physical resource is located in. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$ identifier -&gt; (string) [required] Identifier of the physical resource. Constraints: o min: 1 o max: 255 type -&gt; (string) [required] Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) and it can identify the following list of resources: o AWS::ECS::Service o AWS::EFS::FileSystem o AWS::ElasticLoadBalancingV2::LoadBalancer o AWS::Lambda::Function o AWS::SNS::Topic Native The resource identifier is an Resilience Hub-native iden- tifier and it can identify the following list of re- sources: o AWS::ApiGateway::RestApi o AWS::ApiGatewayV2::Api o AWS::AutoScaling::AutoScalingGroup o AWS::DocDB::DBCluster o AWS::DocDB::DBGlobalCluster o AWS::DocDB::DBInstance o AWS::DynamoDB::GlobalTable o AWS::DynamoDB::Table o AWS::EC2::EC2Fleet o AWS::EC2::Instance o AWS::EC2::NatGateway o AWS::EC2::Volume o AWS::ElasticLoadBalancing::LoadBalancer o AWS::RDS::DBCluster o AWS::RDS::DBInstance o AWS::RDS::GlobalCluster o AWS::Route53::RecordSet o AWS::S3::Bucket o AWS::SQS::Queue Possible values: o Arn o Native resourceGroupName -&gt; (string) Name of the Resource Groups that this resource is mapped to when the mappingType is ResourceGroup . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ resourceName -&gt; (string) Name of the resource that this resource is mapped to when the mappingType is Resource . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) Name of the Terraform source that this resource is mapped to when the mappingType is Terraform . Constraints: o min: 1 o max: 255 Shorthand Syntax: appRegistryAppName=string,eksSourceName=string,logicalStackName=string,mappingType=string,physicalResourceId={awsAccountId=string,awsRegion=string,identifier=string,type=string},resourceGroupName=string,resourceName=string,terraformSourceName=string ... JSON Syntax: [ { "appRegistryAppName": "string", "eksSourceName": "string", "logicalStackName": "string", "mappingType": "CfnStack"|"Resource"|"AppRegistryApp"|"ResourceGroup"|"Terraform"|"EKS", "physicalResourceId": { "awsAccountId": "string", "awsRegion": "string", "identifier": "string", "type": "Arn"|"Native" }, "resourceGroupName": "string", "resourceName": "string", "terraformSourceName": "string" } ... ]</param>
+    public AwsResiliencehubAddDraftAppVersionResourceMappingsOptions(
+        string AppArn,
+        IEnumerable<string> ResourceMappings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceMappings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceMappings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceMappings));
+            }
+
+            ResourceMappings = materialized;
+        }
+        this.ResourceMappings = ResourceMappings;
+    }
+
+    private AwsResiliencehubAddDraftAppVersionResourceMappingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubAddDraftAppVersionResourceMappingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubAddDraftAppVersionResourceMappingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual re- sources by using the mapping type RESOURCE . We recommend using the mapping type CFN_STACK if the application is backed by a CloudForma- tion stack. (structure) Defines a resource mapping. appRegistryAppName -&gt; (string) Name of the application this resource is mapped to when the mappingType is AppRegistryApp . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and namespace that this resource is mapped to when the mapping- Type is EKS . NOTE: This parameter accepts values in "eks-cluster/namespace" format. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) Name of the CloudFormation stack this resource is mapped to when the mappingType is CfnStack . Constraints: o min: 1 o max: 255 mappingType -&gt; (string) [required] Specifies the type of resource mapping. Possible values: o CfnStack o Resource o AppRegistryApp o ResourceGroup o Terraform o EKS physicalResourceId -&gt; (structure) [required] Identifier of the physical resource. awsAccountId -&gt; (string) The Amazon Web Services account that owns the physical resource. Constraints: o pattern: ^[0-9]{12}$ awsRegion -&gt; (string) The Amazon Web Services Region that the physical resource is located in. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$ identifier -&gt; (string) [required] Identifier of the physical resource. Constraints: o min: 1 o max: 255 type -&gt; (string) [required] Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) and it can identify the following list of resources: o AWS::ECS::Service o AWS::EFS::FileSystem o AWS::ElasticLoadBalancingV2::LoadBalancer o AWS::Lambda::Function o AWS::SNS::Topic Native The resource identifier is an Resilience Hub-native iden- tifier and it can identify the following list of re- sources: o AWS::ApiGateway::RestApi o AWS::ApiGatewayV2::Api o AWS::AutoScaling::AutoScalingGroup o AWS::DocDB::DBCluster o AWS::DocDB::DBGlobalCluster o AWS::DocDB::DBInstance o AWS::DynamoDB::GlobalTable o AWS::DynamoDB::Table o AWS::EC2::EC2Fleet o AWS::EC2::Instance o AWS::EC2::NatGateway o AWS::EC2::Volume o AWS::ElasticLoadBalancing::LoadBalancer o AWS::RDS::DBCluster o AWS::RDS::DBInstance o AWS::RDS::GlobalCluster o AWS::Route53::RecordSet o AWS::S3::Bucket o AWS::SQS::Queue Possible values: o Arn o Native resourceGroupName -&gt; (string) Name of the Resource Groups that this resource is mapped to when the mappingType is ResourceGroup . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ resourceName -&gt; (string) Name of the resource that this resource is mapped to when the mappingType is Resource . Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) Name of the Terraform source that this resource is mapped to when the mappingType is Terraform . Constraints: o min: 1 o max: 255 Shorthand Syntax: appRegistryAppName=string,eksSourceName=string,logicalStackName=string,mappingType=string,physicalResourceId={awsAccountId=string,awsRegion=string,identifier=string,type=string},resourceGroupName=string,resourceName=string,terraformSourceName=string ... JSON Syntax: [ { "appRegistryAppName": "string", "eksSourceName": "string", "logicalStackName": "string", "mappingType": "CfnStack"|"Resource"|"AppRegistryApp"|"ResourceGroup"|"Terraform"|"EKS", "physicalResourceId": { "awsAccountId": "string", "awsRegion": "string", "identifier": "string", "type": "Arn"|"Native" }, "resourceGroupName": "string", "resourceName": "string", "terraformSourceName": "string" } ... ]
+    /// </summary>
     [CliOption("--resource-mappings", GroupValues = true)]
-    public IEnumerable<string>? ResourceMappings { get; set; }
+    public IEnumerable<string>? ResourceMappings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

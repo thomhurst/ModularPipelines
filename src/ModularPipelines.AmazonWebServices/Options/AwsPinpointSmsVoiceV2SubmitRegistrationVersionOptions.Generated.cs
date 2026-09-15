@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "submit-registration-version")]
-public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registration-id")]
-    public string? RegistrationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--aws-review")]
+    /// <summary>
+    /// Submit the specified registration for review and approval. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions(
+        string RegistrationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationId);
+        this.RegistrationId = RegistrationId;
+    }
+
+    private AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--registration-id")]
+    public string? RegistrationId { get; private init; }
+
+    /// <summary>
+    /// Set to true to request AWS review of the registration. When enabled, AWS will perform additional validation and review of the registra- tion submission before processing.
+    /// </summary>
+    [CliFlag("--aws-review", NegatedName = "--no-aws-review")]
     public bool? AwsReview { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

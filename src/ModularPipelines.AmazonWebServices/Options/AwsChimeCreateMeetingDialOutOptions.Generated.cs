@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "create-meeting-dial-out")]
-public record AwsChimeCreateMeetingDialOutOptions : AwsOptions
+public record AwsChimeCreateMeetingDialOutOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uses the join token and call metadata in a meeting request (From num- ber, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. WARNING: This API is not available in a dedicated namespace. See...
+    /// </summary>
+    /// <param name="MeetingId">The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="FromPhoneNumber">Phone number used as the caller ID when the remote party receives a call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="ToPhoneNumber">Phone number called when inviting someone to a meeting. Constraints: o pattern: ^\+?[1-9]\d{1,14}$</param>
+    /// <param name="JoinToken">Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: o min: 2 o max: 2048 o pattern: ^[a-zA-Z0-9+/]+$</param>
+    public AwsChimeCreateMeetingDialOutOptions(
+        string MeetingId,
+        string FromPhoneNumber,
+        string ToPhoneNumber,
+        string JoinToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeetingId);
+        this.MeetingId = MeetingId;
+        global::System.ArgumentNullException.ThrowIfNull(FromPhoneNumber);
+        this.FromPhoneNumber = FromPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(ToPhoneNumber);
+        this.ToPhoneNumber = ToPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(JoinToken);
+        this.JoinToken = JoinToken;
+    }
+
+    private AwsChimeCreateMeetingDialOutOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeCreateMeetingDialOutOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeCreateMeetingDialOutOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// </summary>
     [CliOption("--meeting-id")]
-    public string? MeetingId { get; set; }
+    public string? MeetingId { get; private init; }
 
+    /// <summary>
+    /// Phone number used as the caller ID when the remote party receives a call. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// </summary>
     [CliOption("--from-phone-number")]
-    public string? FromPhoneNumber { get; set; }
+    public string? FromPhoneNumber { get; private init; }
 
+    /// <summary>
+    /// Phone number called when inviting someone to a meeting. Constraints: o pattern: ^\+?[1-9]\d{1,14}$
+    /// </summary>
     [CliOption("--to-phone-number")]
-    public string? ToPhoneNumber { get; set; }
+    public string? ToPhoneNumber { get; private init; }
 
+    /// <summary>
+    /// Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token. Constraints: o min: 2 o max: 2048 o pattern: ^[a-zA-Z0-9+/]+$
+    /// </summary>
     [SecretValue]
     [CliOption("--join-token")]
-    public string? JoinToken { get; set; }
+    public string? JoinToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

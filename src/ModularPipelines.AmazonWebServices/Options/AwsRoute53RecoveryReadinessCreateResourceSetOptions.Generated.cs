@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-readiness", "create-resource-set")]
-public record AwsRoute53RecoveryReadinessCreateResourceSetOptions : AwsOptions
+public record AwsRoute53RecoveryReadinessCreateResourceSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceSetName">The name of the resource set to create.</param>
+    /// <param name="ResourceSetType">The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScal- ing::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::Customer- Gateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoad- Balancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetRe- source Constraints: o pattern: AWS::[A-Za-z0-9]+::[A-Za-z0-9]+</param>
+    /// <param name="Resources">A list of resource objects in the resource set. (structure) The resource element of a resource set. ComponentId -&gt; (string) The component identifier of the resource, generated when DNS target resource is used. DnsTargetResource -&gt; (structure) The DNS target resource. DomainName -&gt; (string) The domain name that acts as an ingress point to a por- tion of the customer application. HostedZoneArn -&gt; (string) The hosted zone Amazon Resource Name (ARN) that contains the DNS record with the provided name of the target re- source. RecordSetId -&gt; (string) The Route 53 record set ID that uniquely identifies a DNS record, given a name and a type. RecordType -&gt; (string) The type of DNS record of the target resource. TargetResource -&gt; (structure) The target resource of the DNS target resource. NLBResource -&gt; (structure) The Network Load Balancer Resource. Arn -&gt; (string) The Network Load Balancer resource Amazon Resource Name (ARN). R53Resource -&gt; (structure) The Route 53 resource. DomainName -&gt; (string) The DNS target domain name. RecordSetId -&gt; (string) The Route 53 Resource Record Set ID. ReadinessScopes -&gt; (list) A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that this resource is contained within. (string) ResourceArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services re- source. JSON Syntax: [ { "ComponentId": "string", "DnsTargetResource": { "DomainName": "string", "HostedZoneArn": "string", "RecordSetId": "string", "RecordType": "string", "TargetResource": { "NLBResource": { "Arn": "string" }, "R53Resource": { "DomainName": "string", "RecordSetId": "string" } } }, "ReadinessScopes": ["string", ...], "ResourceArn": "string" } ... ]</param>
+    public AwsRoute53RecoveryReadinessCreateResourceSetOptions(
+        string ResourceSetName,
+        string ResourceSetType,
+        IEnumerable<string> Resources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSetName);
+        this.ResourceSetName = ResourceSetName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSetType);
+        this.ResourceSetType = ResourceSetType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Resources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Resources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Resources));
+            }
+
+            Resources = materialized;
+        }
+        this.Resources = Resources;
+    }
+
+    private AwsRoute53RecoveryReadinessCreateResourceSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateResourceSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateResourceSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource set to create.
+    /// </summary>
     [CliOption("--resource-set-name")]
-    public string? ResourceSetName { get; set; }
+    public string? ResourceSetName { get; private init; }
 
+    /// <summary>
+    /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScal- ing::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::Customer- Gateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoad- Balancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetRe- source Constraints: o pattern: AWS::[A-Za-z0-9]+::[A-Za-z0-9]+
+    /// </summary>
     [CliOption("--resource-set-type")]
-    public string? ResourceSetType { get; set; }
+    public string? ResourceSetType { get; private init; }
 
+    /// <summary>
+    /// A list of resource objects in the resource set. (structure) The resource element of a resource set. ComponentId -&gt; (string) The component identifier of the resource, generated when DNS target resource is used. DnsTargetResource -&gt; (structure) The DNS target resource. DomainName -&gt; (string) The domain name that acts as an ingress point to a por- tion of the customer application. HostedZoneArn -&gt; (string) The hosted zone Amazon Resource Name (ARN) that contains the DNS record with the provided name of the target re- source. RecordSetId -&gt; (string) The Route 53 record set ID that uniquely identifies a DNS record, given a name and a type. RecordType -&gt; (string) The type of DNS record of the target resource. TargetResource -&gt; (structure) The target resource of the DNS target resource. NLBResource -&gt; (structure) The Network Load Balancer Resource. Arn -&gt; (string) The Network Load Balancer resource Amazon Resource Name (ARN). R53Resource -&gt; (structure) The Route 53 resource. DomainName -&gt; (string) The DNS target domain name. RecordSetId -&gt; (string) The Route 53 Resource Record Set ID. ReadinessScopes -&gt; (list) A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that this resource is contained within. (string) ResourceArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services re- source. JSON Syntax: [ { "ComponentId": "string", "DnsTargetResource": { "DomainName": "string", "HostedZoneArn": "string", "RecordSetId": "string", "RecordType": "string", "TargetResource": { "NLBResource": { "Arn": "string" }, "R53Resource": { "DomainName": "string", "RecordSetId": "string" } } }, "ReadinessScopes": ["string", ...], "ResourceArn": "string" } ... ]
+    /// </summary>
     [CliOption("--resources", GroupValues = true)]
-    public IEnumerable<string>? Resources { get; set; }
+    public IEnumerable<string>? Resources { get; private init; }
 
     /// <summary>
     /// A tag to associate with the parameters for a resource set. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +104,21 @@ public record AwsRoute53RecoveryReadinessCreateResourceSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

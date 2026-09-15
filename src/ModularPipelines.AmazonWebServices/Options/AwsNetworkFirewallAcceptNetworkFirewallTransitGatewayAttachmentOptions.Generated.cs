@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "accept-network-firewall-transit-gateway-attachment")]
-public record AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions : AwsOptions
+public record AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the neces- sary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to ver- ify the firewall status. To reject an attachmen...
+    /// </summary>
+    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$</param>
+    public AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions(
+        string TransitGatewayAttachmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayAttachmentId);
+        this.TransitGatewayAttachmentId = TransitGatewayAttachmentId;
+    }
+
+    private AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$
+    /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
-    public string? TransitGatewayAttachmentId { get; set; }
+    public string? TransitGatewayAttachmentId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

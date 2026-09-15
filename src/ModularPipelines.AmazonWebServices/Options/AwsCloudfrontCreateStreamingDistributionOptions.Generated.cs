@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-streaming-distribution")]
-public record AwsCloudfrontCreateStreamingDistributionOptions : AwsOptions
+public record AwsCloudfrontCreateStreamingDistributionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time mes- saging protocol (RTMP) distributions on December 31, 2020. For more in- formation, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StreamingDistributionConfig">The streaming distribution's configuration information. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the StreamingDistributionConfig object), CloudFront cre- ates a new distribution. If CallerReference is a value that you already sent in a previ- ous request to create a distribution, CloudFront returns a Dis- tributionAlreadyExists error. S3Origin -&gt; (structure) [required] A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution. DomainName -&gt; (string) [required] The DNS name of the Amazon S3 origin. OriginAccessIdentity -&gt; (string) [required] The CloudFront origin access identity to associate with the distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using ei- ther the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distri- bution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribu- tion configuration and specify the new origin access iden- tity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon CloudFront Developer Guide . Aliases -&gt; (structure) A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. Quantity -&gt; (integer) [required] The number of CNAME aliases, if any, that you want to asso- ciate with this distribution. Items -&gt; (list) A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution. (string) Comment -&gt; (string) [required] Any comments you want to include about the streaming distribu- tion. Logging -&gt; (structure) A complex type that controls whether access logs are written for the streaming distribution. Enabled -&gt; (boolean) [required] Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted. Bucket -&gt; (string) [required] The Amazon S3 bucket to store the access logs in, for exam- ple, amzn-s3-demo-bucket.s3.amazonaws.com . Prefix -&gt; (string) [required] An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for ex- ample, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element. TrustedSigners -&gt; (structure) [required] A complex type that specifies any Amazon Web Services accounts that you want to permit to create signed URLs for private con- tent. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide . Enabled -&gt; (boolean) [required] This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false . Quantity -&gt; (integer) [required] The number of Amazon Web Services accounts in the list. Items -&gt; (list) A list of Amazon Web Services account identifiers. (string) PriceClass -&gt; (string) A complex type that contains information about price class for this streaming distribution. Possible values: o PriceClass_100 o PriceClass_200 o PriceClass_All o None Enabled -&gt; (boolean) [required] Whether the streaming distribution is enabled to accept user re- quests for content. Shorthand Syntax: CallerReference=string,S3Origin={DomainName=string,OriginAccessIdentity=string},Aliases={Quantity=integer,Items=[string,string]},Comment=string,Logging={Enabled=boolean,Bucket=string,Prefix=string},TrustedSigners={Enabled=boolean,Quantity=integer,Items=[string,string]},PriceClass=string,Enabled=boolean JSON Syntax: { "CallerReference": "string", "S3Origin": { "DomainName": "string", "OriginAccessIdentity": "string" }, "Aliases": { "Quantity": integer, "Items": ["string", ...] }, "Comment": "string", "Logging": { "Enabled": true|false, "Bucket": "string", "Prefix": "string" }, "TrustedSigners": { "Enabled": true|false, "Quantity": integer, "Items": ["string", ...] }, "PriceClass": "PriceClass_100"|"PriceClass_200"|"PriceClass_All"|"None", "Enabled": true|false }</param>
+    public AwsCloudfrontCreateStreamingDistributionOptions(
+        string StreamingDistributionConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamingDistributionConfig);
+        this.StreamingDistributionConfig = StreamingDistributionConfig;
+    }
+
+    private AwsCloudfrontCreateStreamingDistributionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateStreamingDistributionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateStreamingDistributionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The streaming distribution's configuration information. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the StreamingDistributionConfig object), CloudFront cre- ates a new distribution. If CallerReference is a value that you already sent in a previ- ous request to create a distribution, CloudFront returns a Dis- tributionAlreadyExists error. S3Origin -&gt; (structure) [required] A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution. DomainName -&gt; (string) [required] The DNS name of the Amazon S3 origin. OriginAccessIdentity -&gt; (string) [required] The CloudFront origin access identity to associate with the distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using ei- ther the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distri- bution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribu- tion configuration and specify the new origin access iden- tity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon CloudFront Developer Guide . Aliases -&gt; (structure) A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. Quantity -&gt; (integer) [required] The number of CNAME aliases, if any, that you want to asso- ciate with this distribution. Items -&gt; (list) A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution. (string) Comment -&gt; (string) [required] Any comments you want to include about the streaming distribu- tion. Logging -&gt; (structure) A complex type that controls whether access logs are written for the streaming distribution. Enabled -&gt; (boolean) [required] Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted. Bucket -&gt; (string) [required] The Amazon S3 bucket to store the access logs in, for exam- ple, amzn-s3-demo-bucket.s3.amazonaws.com . Prefix -&gt; (string) [required] An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for ex- ample, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element. TrustedSigners -&gt; (structure) [required] A complex type that specifies any Amazon Web Services accounts that you want to permit to create signed URLs for private con- tent. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide . Enabled -&gt; (boolean) [required] This field is true if any of the Amazon Web Services accounts in the list are configured as trusted signers. If not, this field is false . Quantity -&gt; (integer) [required] The number of Amazon Web Services accounts in the list. Items -&gt; (list) A list of Amazon Web Services account identifiers. (string) PriceClass -&gt; (string) A complex type that contains information about price class for this streaming distribution. Possible values: o PriceClass_100 o PriceClass_200 o PriceClass_All o None Enabled -&gt; (boolean) [required] Whether the streaming distribution is enabled to accept user re- quests for content. Shorthand Syntax: CallerReference=string,S3Origin={DomainName=string,OriginAccessIdentity=string},Aliases={Quantity=integer,Items=[string,string]},Comment=string,Logging={Enabled=boolean,Bucket=string,Prefix=string},TrustedSigners={Enabled=boolean,Quantity=integer,Items=[string,string]},PriceClass=string,Enabled=boolean JSON Syntax: { "CallerReference": "string", "S3Origin": { "DomainName": "string", "OriginAccessIdentity": "string" }, "Aliases": { "Quantity": integer, "Items": ["string", ...] }, "Comment": "string", "Logging": { "Enabled": true|false, "Bucket": "string", "Prefix": "string" }, "TrustedSigners": { "Enabled": true|false, "Quantity": integer, "Items": ["string", ...] }, "PriceClass": "PriceClass_100"|"PriceClass_200"|"PriceClass_All"|"None", "Enabled": true|false }
+    /// </summary>
     [CliOption("--streaming-distribution-config")]
-    public string? StreamingDistributionConfig { get; set; }
+    public string? StreamingDistributionConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

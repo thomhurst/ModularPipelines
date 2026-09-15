@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "notify-workers")]
-public record AwsMturkNotifyWorkersOptions : AwsOptions
+public record AwsMturkNotifyWorkersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers opera- tion. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Subject">The subject line of the email message to send. Can include up to 200 characters.</param>
+    /// <param name="MessageText">The text of the email message to send. Can include up to 4,096 char- acters</param>
+    /// <param name="WorkerIds">A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...</param>
+    public AwsMturkNotifyWorkersOptions(
+        string Subject,
+        string MessageText,
+        IEnumerable<string> WorkerIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subject);
+        this.Subject = Subject;
+        global::System.ArgumentNullException.ThrowIfNull(MessageText);
+        this.MessageText = MessageText;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(WorkerIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(WorkerIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(WorkerIds));
+            }
+
+            WorkerIds = materialized;
+        }
+        this.WorkerIds = WorkerIds;
+    }
+
+    private AwsMturkNotifyWorkersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkNotifyWorkersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkNotifyWorkersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The subject line of the email message to send. Can include up to 200 characters.
+    /// </summary>
     [CliOption("--subject")]
-    public string? Subject { get; set; }
+    public string? Subject { get; private init; }
 
+    /// <summary>
+    /// The text of the email message to send. Can include up to 4,096 char- acters
+    /// </summary>
     [CliOption("--message-text")]
-    public string? MessageText { get; set; }
+    public string? MessageText { get; private init; }
 
+    /// <summary>
+    /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time. (string) Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--worker-ids", GroupValues = true)]
-    public IEnumerable<string>? WorkerIds { get; set; }
+    public IEnumerable<string>? WorkerIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

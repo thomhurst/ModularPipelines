@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "list-user-import-jobs")]
-public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions
+public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Given a user pool ID, returns user import jobs and their details. Im- port jobs are retained in user pool configuration so that you can stage, stop, start, review, and delete them. For more information about user import, see Importing users from a CSV file . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM perm...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to list import jobs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="MaxResults">The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: o min: 1 o max: 60</param>
+    public AwsCognitoIdpListUserImportJobsOptions(
+        string UserPoolId,
+        int MaxResults
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        this.MaxResults = MaxResults;
+    }
+
+    private AwsCognitoIdpListUserImportJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpListUserImportJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpListUserImportJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to list import jobs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The maximum number of import jobs that you want Amazon Cognito to return in the response. Constraints: o min: 1 o max: 60
+    /// </summary>
     [CliOption("--max-results")]
-    public int? MaxResults { get; set; }
+    public int? MaxResults { get; private init; }
 
     /// <summary>
     /// This API operation returns a limited number of results. The pagina- tion token is an identifier that you can present in an additional API request with the same parameters. When you include the pagina- tion token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items. Constraints: o min: 1 o pattern: [\S]+
@@ -40,5 +83,21 @@ public record AwsCognitoIdpListUserImportJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "delete-replication-group")]
-public record AwsElasticacheDeleteReplicationGroupOptions : AwsOptions
+public record AwsElasticacheDeleteReplicationGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--retain-primary-cluster")]
+    /// <summary>
+    /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while re- taining the primary by setting RetainPrimaryCluster=true . When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this oper...
+    /// </summary>
+    /// <param name="ReplicationGroupId">The identifier for the cluster to be deleted. This parameter is not case sensitive.</param>
+    public AwsElasticacheDeleteReplicationGroupOptions(
+        string ReplicationGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+    }
+
+    private AwsElasticacheDeleteReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDeleteReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDeleteReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the cluster to be deleted. This parameter is not case sensitive.
+    /// </summary>
+    [CliOption("--replication-group-id")]
+    public string? ReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// If set to true , all of the read replicas are deleted, but the pri- mary node is retained.
+    /// </summary>
+    [CliFlag("--retain-primary-cluster", NegatedName = "--no-retain-primary-cluster")]
     public bool? RetainPrimaryCluster { get; set; }
 
     /// <summary>
@@ -38,5 +78,21 @@ public record AwsElasticacheDeleteReplicationGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

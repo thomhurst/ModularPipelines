@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-ml-transform")]
-public record AwsGlueCreateMlTransformOptions : AwsOptions
+public record AwsGlueCreateMlTransformOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicat- ing data. You can provide an optional Description , in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning fr...
+    /// </summary>
+    /// <param name="Name">The unique name that you give the transform when you create it. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="InputRecordTables">A list of Glue table definitions used by the transform. Constraints: o min: 0 o max: 10 (structure) The database and table in the Glue Data Catalog that is used for input or output data. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} } ... ]</param>
+    /// <param name="Parameters">The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type. TransformType -&gt; (string) [required] The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms . Possible values: o FIND_MATCHES FindMatchesParameters -&gt; (structure) The parameters for the find matches algorithm. PrimaryKeyColumnName -&gt; (string) The name of a column that uniquely identifies rows in the source table. Used to help identify matching records. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* PrecisionRecallTradeoff -&gt; (double) The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no prefer- ence; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low preci- sion. The precision metric indicates how often your model is cor- rect when it predicts a match. The recall metric indicates that for an actual match, how of- ten your model predicts the match. Constraints: o min: 0.0 o max: 1.0 AccuracyCostTradeoff -&gt; (double) The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less ac- curate FindMatches transform, sometimes with unacceptable ac- curacy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall. Cost measures how many compute resources, and thus money, are consumed to run the transform. Constraints: o min: 0.0 o max: 1.0 EnforceProvidedLabels -&gt; (boolean) The value to switch on or off to force the output to match the provided labels from users. If the value is True , the find matches transform forces the output to match the pro- vided labels. The results override the normal conflation re- sults. If the value is False , the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the confla- tion execution time. Shorthand Syntax: TransformType=string,FindMatchesParameters={PrimaryKeyColumnName=string,PrecisionRecallTradeoff=double,AccuracyCostTradeoff=double,EnforceProvidedLabels=boolean} JSON Syntax: { "TransformType": "FIND_MATCHES", "FindMatchesParameters": { "PrimaryKeyColumnName": "string", "PrecisionRecallTradeoff": double, "AccuracyCostTradeoff": double, "EnforceProvidedLabels": true|false } }</param>
+    /// <param name="Role">The name or Amazon Resource Name (ARN) of the IAM role with the re- quired permissions. The required permissions include both Glue ser- vice role permissions to Glue resources, and Amazon S3 permissions required by the transform. o This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue . o This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.</param>
+    public AwsGlueCreateMlTransformOptions(
+        string Name,
+        IEnumerable<string> InputRecordTables,
+        string Parameters,
+        string Role
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputRecordTables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputRecordTables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputRecordTables));
+            }
+
+            InputRecordTables = materialized;
+        }
+        this.InputRecordTables = InputRecordTables;
+        global::System.ArgumentNullException.ThrowIfNull(Parameters);
+        this.Parameters = Parameters;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+    }
+
+    private AwsGlueCreateMlTransformOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateMlTransformOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateMlTransformOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name that you give the transform when you create it. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A list of Glue table definitions used by the transform. Constraints: o min: 0 o max: 10 (structure) The database and table in the Glue Data Catalog that is used for input or output data. DatabaseName -&gt; (string) [required] A database name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* TableName -&gt; (string) [required] A table name in the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) A unique identifier for the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ConnectionName -&gt; (string) The name of the connection to the Glue Data Catalog. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalOptions -&gt; (map) Additional options for the table. Currently there are two keys supported: o pushDownPredicate : to filter on partitions without having to list and read all the files in your dataset. o catalogPartitionPredicate : to use server-side partition pruning using partition indexes in the Glue Data Catalog. Constraints: o min: 1 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: DatabaseName=string,TableName=string,CatalogId=string,ConnectionName=string,AdditionalOptions={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DatabaseName": "string", "TableName": "string", "CatalogId": "string", "ConnectionName": "string", "AdditionalOptions": {"string": "string" ...} } ... ]
+    /// </summary>
+    [CliOption("--input-record-tables", GroupValues = true)]
+    public IEnumerable<string>? InputRecordTables { get; private init; }
+
+    /// <summary>
+    /// The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type. TransformType -&gt; (string) [required] The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms . Possible values: o FIND_MATCHES FindMatchesParameters -&gt; (structure) The parameters for the find matches algorithm. PrimaryKeyColumnName -&gt; (string) The name of a column that uniquely identifies rows in the source table. Used to help identify matching records. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* PrecisionRecallTradeoff -&gt; (double) The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no prefer- ence; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low preci- sion. The precision metric indicates how often your model is cor- rect when it predicts a match. The recall metric indicates that for an actual match, how of- ten your model predicts the match. Constraints: o min: 0.0 o max: 1.0 AccuracyCostTradeoff -&gt; (double) The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less ac- curate FindMatches transform, sometimes with unacceptable ac- curacy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall. Cost measures how many compute resources, and thus money, are consumed to run the transform. Constraints: o min: 0.0 o max: 1.0 EnforceProvidedLabels -&gt; (boolean) The value to switch on or off to force the output to match the provided labels from users. If the value is True , the find matches transform forces the output to match the pro- vided labels. The results override the normal conflation re- sults. If the value is False , the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the confla- tion execution time. Shorthand Syntax: TransformType=string,FindMatchesParameters={PrimaryKeyColumnName=string,PrecisionRecallTradeoff=double,AccuracyCostTradeoff=double,EnforceProvidedLabels=boolean} JSON Syntax: { "TransformType": "FIND_MATCHES", "FindMatchesParameters": { "PrimaryKeyColumnName": "string", "PrecisionRecallTradeoff": double, "AccuracyCostTradeoff": double, "EnforceProvidedLabels": true|false } }
+    /// </summary>
+    [CliOption("--parameters")]
+    public string? Parameters { get; private init; }
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the IAM role with the re- quired permissions. The required permissions include both Glue ser- vice role permissions to Glue resources, and Amazon S3 permissions required by the transform. o This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue . o This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
+    /// </summary>
+    [CliOption("--role")]
+    public string? Role { get; private init; }
 
     /// <summary>
     /// A description of the machine learning transform that is being de- fined. The default is an empty string. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--input-record-tables", GroupValues = true)]
-    public IEnumerable<string>? InputRecordTables { get; set; }
-
-    [CliOption("--parameters")]
-    public string? Parameters { get; set; }
-
-    [CliOption("--role")]
-    public string? Role { get; set; }
 
     /// <summary>
     /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most cus- tomers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see Glue Versions in the developer guide. Constraints: o min: 1 o max: 255 o pattern: ^(\w+\.)+\w+$
@@ -94,5 +163,21 @@ public record AwsGlueCreateMlTransformOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

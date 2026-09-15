@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "put-alert-manager-definition")]
-public record AwsAmpPutAlertManagerDefinitionOptions : AwsOptions
+public record AwsAmpPutAlertManagerDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace to update the alert manager definition in. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Data">The alert manager definition to use. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see AlertManagedDefinitionData .</param>
+    public AwsAmpPutAlertManagerDefinitionOptions(
+        string WorkspaceId,
+        string Data
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(Data);
+        this.Data = Data;
+    }
+
+    private AwsAmpPutAlertManagerDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpPutAlertManagerDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpPutAlertManagerDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace to update the alert manager definition in. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The alert manager definition to use. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see AlertManagedDefinitionData .
+    /// </summary>
     [CliOption("--data")]
-    public string? Data { get; set; }
+    public string? Data { get; private init; }
 
     /// <summary>
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -40,5 +84,21 @@ public record AwsAmpPutAlertManagerDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

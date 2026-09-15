@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "delete-cluster")]
-public record AwsKafkaDeleteClusterOptions : AwsOptions
+public record AwsKafkaDeleteClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    public AwsKafkaDeleteClusterOptions(
+        string ClusterArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+    }
+
+    private AwsKafkaDeleteClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaDeleteClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaDeleteClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
     /// <summary>
     /// The current version of the MSK cluster.
@@ -35,5 +72,21 @@ public record AwsKafkaDeleteClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

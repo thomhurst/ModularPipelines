@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-quick-connect-config")]
-public record AwsConnectUpdateQuickConnectConfigOptions : AwsOptions
+public record AwsConnectUpdateQuickConnectConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration settings for the specified quick connect. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="QuickConnectId">The identifier for the quick connect.</param>
+    /// <param name="QuickConnectConfig">Information about the configuration settings for the quick connect. QuickConnectType -&gt; (string) [required] The type of quick connect. In the Connect Customer admin web- site, when you create a quick connect, you are prompted to as- sign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE). Possible values: o USER o QUEUE o PHONE_NUMBER o FLOW UserConfig -&gt; (structure) The user configuration. This is required only if QuickConnect- Type is USER. UserId -&gt; (string) [required] The identifier of the user. ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 QueueConfig -&gt; (structure) The queue configuration. This is required only if QuickConnect- Type is QUEUE. QueueId -&gt; (string) [required] The identifier for the queue. ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 PhoneConfig -&gt; (structure) The phone configuration. This is required only if QuickConnect- Type is PHONE_NUMBER. PhoneNumber -&gt; (string) [required] The phone number in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$ FlowConfig -&gt; (structure) Flow configuration for quick connect setup. ContactFlowId -&gt; (string) [required] The contact flow ID for the quick connect configuration. Constraints: o max: 500 Shorthand Syntax: QuickConnectType=string,UserConfig={UserId=string,ContactFlowId=string},QueueConfig={QueueId=string,ContactFlowId=string},PhoneConfig={PhoneNumber=string},FlowConfig={ContactFlowId=string} JSON Syntax: { "QuickConnectType": "USER"|"QUEUE"|"PHONE_NUMBER"|"FLOW", "UserConfig": { "UserId": "string", "ContactFlowId": "string" }, "QueueConfig": { "QueueId": "string", "ContactFlowId": "string" }, "PhoneConfig": { "PhoneNumber": "string" }, "FlowConfig": { "ContactFlowId": "string" } }</param>
+    public AwsConnectUpdateQuickConnectConfigOptions(
+        string InstanceId,
+        string QuickConnectId,
+        string QuickConnectConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(QuickConnectId);
+        this.QuickConnectId = QuickConnectId;
+        global::System.ArgumentNullException.ThrowIfNull(QuickConnectConfig);
+        this.QuickConnectConfig = QuickConnectConfig;
+    }
+
+    private AwsConnectUpdateQuickConnectConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateQuickConnectConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateQuickConnectConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the quick connect.
+    /// </summary>
     [CliOption("--quick-connect-id")]
-    public string? QuickConnectId { get; set; }
+    public string? QuickConnectId { get; private init; }
 
+    /// <summary>
+    /// Information about the configuration settings for the quick connect. QuickConnectType -&gt; (string) [required] The type of quick connect. In the Connect Customer admin web- site, when you create a quick connect, you are prompted to as- sign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE). Possible values: o USER o QUEUE o PHONE_NUMBER o FLOW UserConfig -&gt; (structure) The user configuration. This is required only if QuickConnect- Type is USER. UserId -&gt; (string) [required] The identifier of the user. ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 QueueConfig -&gt; (structure) The queue configuration. This is required only if QuickConnect- Type is QUEUE. QueueId -&gt; (string) [required] The identifier for the queue. ContactFlowId -&gt; (string) [required] The identifier of the flow. Constraints: o max: 500 PhoneConfig -&gt; (structure) The phone configuration. This is required only if QuickConnect- Type is PHONE_NUMBER. PhoneNumber -&gt; (string) [required] The phone number in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$ FlowConfig -&gt; (structure) Flow configuration for quick connect setup. ContactFlowId -&gt; (string) [required] The contact flow ID for the quick connect configuration. Constraints: o max: 500 Shorthand Syntax: QuickConnectType=string,UserConfig={UserId=string,ContactFlowId=string},QueueConfig={QueueId=string,ContactFlowId=string},PhoneConfig={PhoneNumber=string},FlowConfig={ContactFlowId=string} JSON Syntax: { "QuickConnectType": "USER"|"QUEUE"|"PHONE_NUMBER"|"FLOW", "UserConfig": { "UserId": "string", "ContactFlowId": "string" }, "QueueConfig": { "QueueId": "string", "ContactFlowId": "string" }, "PhoneConfig": { "PhoneNumber": "string" }, "FlowConfig": { "ContactFlowId": "string" } }
+    /// </summary>
     [CliOption("--quick-connect-config")]
-    public string? QuickConnectConfig { get; set; }
+    public string? QuickConnectConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

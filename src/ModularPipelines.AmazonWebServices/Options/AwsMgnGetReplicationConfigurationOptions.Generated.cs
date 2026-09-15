@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "get-replication-configuration")]
-public record AwsMgnGetReplicationConfigurationOptions : AwsOptions
+public record AwsMgnGetReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all ReplicationConfigurations, filtered by Source Server ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">Request to get Replication Configuration by Source Server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsMgnGetReplicationConfigurationOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsMgnGetReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnGetReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnGetReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Request to get Replication Configuration by Source Server ID. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    public string? SourceServerId { get; private init; }
 
     /// <summary>
     /// Request to get Replication Configuration by Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
@@ -35,5 +72,21 @@ public record AwsMgnGetReplicationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "get-mpa-team-association")]
-public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions
+public record AwsPaymentCryptographyGetMpaTeamAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the Multi-Party Approval (MPA) team association for a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o DisassociateMpaTeam See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Action">The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
+    public AwsPaymentCryptographyGetMpaTeamAssociationOptions(
+        AwsPaymentCryptographyGetMpaTeamAssociationAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsPaymentCryptographyGetMpaTeamAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyGetMpaTeamAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyGetMpaTeamAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The protected operation whose MPA team association you want to re- trieve. Currently, the only supported value is IMPORT_ROOT_PUB- LIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsPaymentCryptographyGetMpaTeamAssociationAction? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

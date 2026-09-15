@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "create-mount-target")]
-public record AwsEfsCreateMountTargetOptions : AwsOptions
+public record AwsEfsCreateMountTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple sub- nets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access ...
+    /// </summary>
+    /// <param name="FileSystemId">The ID of the file system for which to create the mount target. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="SubnetId">The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: o min: 15 o max: 47 o pattern: ^subnet-[0-9a-f]{8,40}$</param>
+    public AwsEfsCreateMountTargetOptions(
+        string FileSystemId,
+        string SubnetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+    }
+
+    private AwsEfsCreateMountTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsCreateMountTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsCreateMountTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the file system for which to create the mount target. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone. Constraints: o min: 15 o max: 47 o pattern: ^subnet-[0-9a-f]{8,40}$
+    /// </summary>
     [CliOption("--subnet-id")]
-    public string? SubnetId { get; set; }
+    public string? SubnetId { get; private init; }
 
     /// <summary>
     /// If the IP address type for the mount target is IPv4, then specify the IPv4 address within the address range of the specified subnet. Constraints: o min: 7 o max: 15 o pattern: ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$
@@ -57,5 +101,21 @@ public record AwsEfsCreateMountTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

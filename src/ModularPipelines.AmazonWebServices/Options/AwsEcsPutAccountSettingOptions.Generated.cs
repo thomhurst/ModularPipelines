@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "put-account-setting")]
-public record AwsEcsPutAccountSettingOptions : AwsOptions
+public record AwsEcsPutAccountSettingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for users and roles that do not have specified individual account settings. For more information, see Account Settings in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The Amazon ECS account setting name to modify. The following are the valid values for the account setting name. o serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS fea- tures such as resource tagging. o taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is de- fined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging. o containerInstanceLongArnFormat - When modified, the Amazon Re- source Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is af- fected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID for- mat of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging. o awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the fea- ture is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see Elastic Network Interface Trunking in the Amazon Elastic Container Service Developer Guide . o containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observabil- ity for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects de- tailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to en- hanced . To use Container Insights, set the containerInsights ac- count setting to enabled . For more information, see Monitor Ama- zon ECS containers using Container Insights with enhanced observ- ability in the Amazon Elastic Container Service Developer Guide . o dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see Using a VPC in dual-stack mode . For more information on using IPv6 with tasks launched on Fargate, see Using a VPC in dual-stack mode . o fargateTaskRetirementWaitPeriod - When Amazon Web Services deter- mines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirement- WaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see Amazon Web Services Fargate task maintenance in the Amazon ECS Developer Guide . o fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement. o tagResourceAuthorization - Amazon ECS is introducing tagging au- thorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster . If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more informa- tion, see Grant permission to tag resources on creation in the Amazon ECS Developer Guide . o defaultLogDriverMode - Amazon ECS supports setting a default de- livery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration . The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriver- Mode setting supports two values: blocking and non-blocking . If you don't specify a delivery mode in your container definition's logConfiguration , the mode you specify using this account setting will be used as the default. For more information about log deliv- ery modes, see LogConfiguration . NOTE: On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following: o Set the mode option in your container definition's logCon- figuration as blocking . o Set the defaultLogDriverMode account setting to blocking . o guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Ama- zon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS work- loads with Amazon ECS Runtime Monitoring . Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows</param>
+    /// <param name="Value">The account setting value for the specified principal ARN. Accepted values are enabled , disabled , enhanced , on , and off . When you specify fargateTaskRetirementWaitPeriod for the name , the following are the valid values: o 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks. o 7 - Amazon Web Services sends the notification, and waits 7 calen- dar days to retire the tasks. o 14 - Amazon Web Services sends the notification, and waits 14 cal- endar days to retire the tasks.</param>
+    public AwsEcsPutAccountSettingOptions(
+        AwsEcsPutAccountSettingName Name,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    private AwsEcsPutAccountSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsPutAccountSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsPutAccountSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon ECS account setting name to modify. The following are the valid values for the account setting name. o serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS fea- tures such as resource tagging. o taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is de- fined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging. o containerInstanceLongArnFormat - When modified, the Amazon Re- source Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is af- fected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID for- mat of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging. o awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the fea- ture is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see Elastic Network Interface Trunking in the Amazon Elastic Container Service Developer Guide . o containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observabil- ity for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects de- tailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to en- hanced . To use Container Insights, set the containerInsights ac- count setting to enabled . For more information, see Monitor Ama- zon ECS containers using Container Insights with enhanced observ- ability in the Amazon Elastic Container Service Developer Guide . o dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see Using a VPC in dual-stack mode . For more information on using IPv6 with tasks launched on Fargate, see Using a VPC in dual-stack mode . o fargateTaskRetirementWaitPeriod - When Amazon Web Services deter- mines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirement- WaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see Amazon Web Services Fargate task maintenance in the Amazon ECS Developer Guide . o fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement. o tagResourceAuthorization - Amazon ECS is introducing tagging au- thorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster . If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more informa- tion, see Grant permission to tag resources on creation in the Amazon ECS Developer Guide . o defaultLogDriverMode - Amazon ECS supports setting a default de- livery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration . The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriver- Mode setting supports two values: blocking and non-blocking . If you don't specify a delivery mode in your container definition's logConfiguration , the mode you specify using this account setting will be used as the default. For more information about log deliv- ery modes, see LogConfiguration . NOTE: On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following: o Set the mode option in your container definition's logCon- figuration as blocking . o Set the defaultLogDriverMode account setting to blocking . o guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Ama- zon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see Protecting Amazon ECS work- loads with Amazon ECS Runtime Monitoring . Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows
+    /// </summary>
+    [CliOption("--name")]
+    public AwsEcsPutAccountSettingName? Name { get; private init; }
+
+    /// <summary>
+    /// The account setting value for the specified principal ARN. Accepted values are enabled , disabled , enhanced , on , and off . When you specify fargateTaskRetirementWaitPeriod for the name , the following are the valid values: o 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks. o 7 - Amazon Web Services sends the notification, and waits 7 calen- dar days to retire the tasks. o 14 - Amazon Web Services sends the notification, and waits 14 cal- endar days to retire the tasks.
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
     /// <summary>
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omit- ted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. NOTE: You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod ). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -38,5 +83,21 @@ public record AwsEcsPutAccountSettingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

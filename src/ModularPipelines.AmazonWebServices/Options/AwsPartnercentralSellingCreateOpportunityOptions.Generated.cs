@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "create-opportunity")]
-public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pend- ing Submission . To submit an opportunity, follow these steps: o To create the opportunity, use CreateOpportunity . o To associate a solution with the opportunity, use AssociateOpportu- nity . o To start the engagement with AWS, use StartEngagementFromOpportunity . After submission, you ...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    public AwsPartnercentralSellingCreateOpportunityOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralSellingCreateOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingCreateOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingCreateOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
     /// <summary>
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values: o CosellArchitectural Validation: Confirmation from Amazon Web Ser- vices that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal archi- tectural risks. o CosellBusiness Presentation: Request Amazon Web Services seller's participation in a joint customer presentation. o CosellCompetitive Information: Access to Amazon Web Services com- petitive resources and support for the partner's proposed solu- tion. o CosellPricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals). o CosellTechnical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution. o CosellTotal Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Ser- vices versus on-premises or a traditional hosting environment. o CosellDeal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning). o CosellSupport for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx sup- port. (string) Possible values: o Co-Sell - Architectural Validation o Co-Sell - Business Presentation o Co-Sell - Competitive Information o Co-Sell - Pricing Assistance o Co-Sell - Technical Consultation o Co-Sell - Total Cost of Ownership Evaluation o Co-Sell - Deal Support o Co-Sell - Support for Public Tender / RFx Syntax: "string" "string" ...
@@ -110,5 +147,21 @@ public record AwsPartnercentralSellingCreateOpportunityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

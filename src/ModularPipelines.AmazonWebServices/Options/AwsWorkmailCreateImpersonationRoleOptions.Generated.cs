@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-impersonation-role")]
-public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions
+public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The WorkMail organization to create the new impersonation role within. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the new impersonation role. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+</param>
+    /// <param name="Type">The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: o FULL_ACCESS o READ_ONLY</param>
+    /// <param name="Rules">The list of rules for the impersonation role. Constraints: o min: 0 o max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed ef- fect values are ALLOW or DENY . Possible values: o ALLOW o DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]</param>
+    public AwsWorkmailCreateImpersonationRoleOptions(
+        string OrganizationId,
+        string Name,
+        AwsWorkmailCreateImpersonationRoleType Type,
+        IEnumerable<string> Rules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+    }
+
+    private AwsWorkmailCreateImpersonationRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateImpersonationRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateImpersonationRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkMail organization to create the new impersonation role within. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The name of the new impersonation role. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS . Possible values: o FULL_ACCESS o READ_ONLY
+    /// </summary>
+    [CliOption("--type")]
+    public AwsWorkmailCreateImpersonationRoleType? Type { get; private init; }
+
+    /// <summary>
+    /// The list of rules for the impersonation role. Constraints: o min: 0 o max: 10 (structure) The rules for the given impersonation role. ImpersonationRuleId -&gt; (string) [required] The identifier of the rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Name -&gt; (string) The rule name. Constraints: o min: 1 o max: 64 o pattern: [^\x00-\x1F\x7F\x3C\x3E\x5C]+ Description -&gt; (string) The rule description. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+ Effect -&gt; (string) [required] The effect of the rule when it matches the input. Allowed ef- fect values are ALLOW or DENY . Possible values: o ALLOW o DENY TargetUsers -&gt; (list) A list of user IDs that match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ NotTargetUsers -&gt; (list) A list of user IDs that don't match the rule. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+ Shorthand Syntax: ImpersonationRuleId=string,Name=string,Description=string,Effect=string,TargetUsers=string,string,NotTargetUsers=string,string ... JSON Syntax: [ { "ImpersonationRuleId": "string", "Name": "string", "Description": "string", "Effect": "ALLOW"|"DENY", "TargetUsers": ["string", ...], "NotTargetUsers": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; private init; }
+
     /// <summary>
     /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
     /// </summary>
@@ -29,28 +111,32 @@ public record AwsWorkmailCreateImpersonationRoleOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     /// <summary>
     /// The description of the new impersonation role. Constraints: o min: 1 o max: 256 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F\x3C\x3E\x5C]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--rules", GroupValues = true)]
-    public IEnumerable<string>? Rules { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

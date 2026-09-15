@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "disassociate-origination-identity")]
-public record AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pool-id")]
-    public string? PoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the specified origination identity from an existing pool. If the origination identity isn't associated with the specified pool, an error is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolId">The unique identifier for the pool to disassociate with the origina- tion identity. This value can be either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*</param>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use De- scribeSenderIds to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions(
+        string PoolId,
+        string OriginationIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+        global::System.ArgumentNullException.ThrowIfNull(OriginationIdentity);
+        this.OriginationIdentity = OriginationIdentity;
+    }
+
+    private AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the pool to disassociate with the origina- tion identity. This value can be either the PoolId or PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string? PoolId { get; private init; }
+
+    /// <summary>
+    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use De- scribeSenderIds to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--origination-identity")]
-    public string? OriginationIdentity { get; set; }
+    public string? OriginationIdentity { get; private init; }
 
     /// <summary>
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. This field is optional and is not required for origi- nation identity types that are not country-specific, such as RCS agents. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
@@ -46,5 +90,21 @@ public record AwsPinpointSmsVoiceV2DisassociateOriginationIdentityOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

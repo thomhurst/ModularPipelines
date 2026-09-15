@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "delete-trusted-entity-set")]
-public record AwsGuarddutyDeleteTrustedEntitySetOptions : AwsOptions
+public record AwsGuarddutyDeleteTrustedEntitySetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the trusted entity set that is associated with the specified trustedEntitySetId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="TrustedEntitySetId">The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.</param>
+    public AwsGuarddutyDeleteTrustedEntitySetOptions(
+        string DetectorId,
+        string TrustedEntitySetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(TrustedEntitySetId);
+        this.TrustedEntitySetId = TrustedEntitySetId;
+    }
+
+    private AwsGuarddutyDeleteTrustedEntitySetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyDeleteTrustedEntitySetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyDeleteTrustedEntitySetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.
+    /// </summary>
     [CliOption("--trusted-entity-set-id")]
-    public string? TrustedEntitySetId { get; set; }
+    public string? TrustedEntitySetId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

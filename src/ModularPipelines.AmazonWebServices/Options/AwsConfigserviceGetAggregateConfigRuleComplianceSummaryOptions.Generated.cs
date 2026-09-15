@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-aggregate-config-rule-compliance-summary")]
-public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions : AwsOptions
+public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. NOTE: The results can return an empty result page, but if you have a next- Token, the results are displayed on the next page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    public AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions(
+        string ConfigurationAggregatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+    }
+
+    private AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
     /// Filters the results based on the ConfigRuleComplianceSummaryFilters object. AccountId -&gt; (string) The 12-digit account ID of the source account. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source region where the data is aggregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,AwsRegion=string JSON Syntax: { "AccountId": "string", "AwsRegion": "string" }
@@ -56,5 +93,21 @@ public record AwsConfigserviceGetAggregateConfigRuleComplianceSummaryOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

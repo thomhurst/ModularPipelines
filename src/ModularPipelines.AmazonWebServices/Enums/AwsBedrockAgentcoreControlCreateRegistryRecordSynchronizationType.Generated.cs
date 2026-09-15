@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --synchronizationtype.
+/// Allowed values for --synchronization-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlCreateRegistryRecordSynchronizationType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("URL")]
-    Url = 1
+    Url
 }

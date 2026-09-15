@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "put-resource-set")]
-public record AwsFmsPutResourceSetOptions : AwsOptions
+public record AwsFmsPutResourceSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceSet">Details about the resource set to be created or updated.&gt; Id -&gt; (string) A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to op- erations like update and delete. Constraints: o min: 22 o max: 22 o pattern: ^[a-z0-9A-Z]{22}$ Name -&gt; (string) [required] The descriptive name of the resource set. You can't change the name of a resource set after you create it. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Description -&gt; (string) A description of the resource set. Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ UpdateToken -&gt; (string) An optional token that you can use for optimistic locking. Fire- wall Manager returns a token to your requests that access the resource set. The token marks the state of the resource set re- source at the time of the request. Update tokens are not allowed when creating a resource set. After creation, each subsequent update call to the resource set requires the update token. To make an unconditional change to the resource set, omit the token in your update request. Without the token, Firewall Man- ager performs your updates regardless of whether the resource set has changed since you last retrieved it. To make a conditional change to the resource set, provide the token in your update request. Firewall Manager uses the token to ensure that the resource set hasn't changed since you last re- trieved it. If it has changed, the operation fails with an In- validTokenException . If this happens, retrieve the resource set again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ResourceTypeList -&gt; (list) [required] Determines the resources that can be associated to the resource set. Depending on your setting for max results and the number of resource sets, a single call might not return the full list. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ LastUpdateTime -&gt; (timestamp) The last time that the resource set was changed. ResourceSetStatus -&gt; (string) Indicates whether the resource set is in or out of an admin's Region scope. o ACTIVE - The administrator can manage and delete the resource set. o OUT_OF_ADMIN_SCOPE - The administrator can view the resource set, but they can't edit or delete the resource set. Existing protections stay in place. Any new resource that come into scope of the resource set won't be protected. Possible values: o ACTIVE o OUT_OF_ADMIN_SCOPE Shorthand Syntax: Id=string,Name=string,Description=string,UpdateToken=string,ResourceTypeList=string,string,LastUpdateTime=timestamp,ResourceSetStatus=string JSON Syntax: { "Id": "string", "Name": "string", "Description": "string", "UpdateToken": "string", "ResourceTypeList": ["string", ...], "LastUpdateTime": timestamp, "ResourceSetStatus": "ACTIVE"|"OUT_OF_ADMIN_SCOPE" }</param>
+    public AwsFmsPutResourceSetOptions(
+        string ResourceSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSet);
+        this.ResourceSet = ResourceSet;
+    }
+
+    private AwsFmsPutResourceSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsPutResourceSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsPutResourceSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Details about the resource set to be created or updated.&gt; Id -&gt; (string) A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to op- erations like update and delete. Constraints: o min: 22 o max: 22 o pattern: ^[a-z0-9A-Z]{22}$ Name -&gt; (string) [required] The descriptive name of the resource set. You can't change the name of a resource set after you create it. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Description -&gt; (string) A description of the resource set. Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ UpdateToken -&gt; (string) An optional token that you can use for optimistic locking. Fire- wall Manager returns a token to your requests that access the resource set. The token marks the state of the resource set re- source at the time of the request. Update tokens are not allowed when creating a resource set. After creation, each subsequent update call to the resource set requires the update token. To make an unconditional change to the resource set, omit the token in your update request. Without the token, Firewall Man- ager performs your updates regardless of whether the resource set has changed since you last retrieved it. To make a conditional change to the resource set, provide the token in your update request. Firewall Manager uses the token to ensure that the resource set hasn't changed since you last re- trieved it. If it has changed, the operation fails with an In- validTokenException . If this happens, retrieve the resource set again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ResourceTypeList -&gt; (list) [required] Determines the resources that can be associated to the resource set. Depending on your setting for max results and the number of resource sets, a single call might not return the full list. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ LastUpdateTime -&gt; (timestamp) The last time that the resource set was changed. ResourceSetStatus -&gt; (string) Indicates whether the resource set is in or out of an admin's Region scope. o ACTIVE - The administrator can manage and delete the resource set. o OUT_OF_ADMIN_SCOPE - The administrator can view the resource set, but they can't edit or delete the resource set. Existing protections stay in place. Any new resource that come into scope of the resource set won't be protected. Possible values: o ACTIVE o OUT_OF_ADMIN_SCOPE Shorthand Syntax: Id=string,Name=string,Description=string,UpdateToken=string,ResourceTypeList=string,string,LastUpdateTime=timestamp,ResourceSetStatus=string JSON Syntax: { "Id": "string", "Name": "string", "Description": "string", "UpdateToken": "string", "ResourceTypeList": ["string", ...], "LastUpdateTime": timestamp, "ResourceSetStatus": "ACTIVE"|"OUT_OF_ADMIN_SCOPE" }
+    /// </summary>
     [CliOption("--resource-set")]
-    public string? ResourceSet { get; set; }
+    public string? ResourceSet { get; private init; }
 
     /// <summary>
     /// Retrieves the tags associated with the specified resource set. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services re- source, up to 50 tags for a resource. Constraints: o min: 0 o max: 200 (structure) A collection of key:value pairs associated with an Amazon Web Services resource. The key:value pair can be anything you de- fine. Typically, the tag key represents a category (such as "en- vironment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsFmsPutResourceSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

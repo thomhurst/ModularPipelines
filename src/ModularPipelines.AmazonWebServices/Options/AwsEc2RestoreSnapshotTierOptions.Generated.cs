@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "restore-snapshot-tier")]
-public record AwsEc2RestoreSnapshotTierOptions : AwsOptions
+public record AwsEc2RestoreSnapshotTierOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores an archived Amazon EBS snapshot for use temporarily or perma- nently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see Restore an archived snapshot and modify the restore period or restore type for a temporarily restored snapshot in the Amazon EBS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SnapshotId">The ID of the snapshot to restore.</param>
+    public AwsEc2RestoreSnapshotTierOptions(
+        string SnapshotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
+        this.SnapshotId = SnapshotId;
+    }
+
+    private AwsEc2RestoreSnapshotTierOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2RestoreSnapshotTierOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2RestoreSnapshotTierOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the snapshot to restore.
+    /// </summary>
     [CliOption("--snapshot-id")]
-    public string? SnapshotId { get; set; }
+    public string? SnapshotId { get; private init; }
 
     /// <summary>
     /// Specifies the number of days for which to temporarily restore an archived snapshot. Required for temporary restores only. The snap- shot will be automatically re-archived after this period. To temporarily restore an archived snapshot, specify the number of days and omit the PermanentRestore parameter or set it to false .
@@ -30,10 +67,16 @@ public record AwsEc2RestoreSnapshotTierOptions : AwsOptions
     [CliOption("--temporary-restore-days")]
     public int? TemporaryRestoreDays { get; set; }
 
-    [CliFlag("--permanent-restore")]
+    /// <summary>
+    /// Indicates whether to permanently restore an archived snapshot. To permanently restore an archived snapshot, specify true and omit the RestoreSnapshotTierRequest$TemporaryRestoreDays parameter.
+    /// </summary>
+    [CliFlag("--permanent-restore", NegatedName = "--no-permanent-restore")]
     public bool? PermanentRestore { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +84,21 @@ public record AwsEc2RestoreSnapshotTierOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,128 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pcs", "create-compute-node-group")]
-public record AwsPcsCreateComputeNodeGroupOptions : AwsOptions
+public record AwsPcsCreateComputeNodeGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the lo- gin fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you pro- vide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster to create a compute node group in. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="ComputeNodeGroupName">A name to identify the cluster. Example: MyCluster Constraints: o min: 3 o max: 25 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+</param>
+    /// <param name="SubnetIds">The list of subnet IDs where the compute node group launches in- stances. Subnets must be in the same VPC as the cluster. (string) Syntax: "string" "string" ...</param>
+    /// <param name="CustomLaunchTemplate">An Amazon EC2 launch template PCS uses to launch compute nodes. id -&gt; (string) [required] The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx version -&gt; (string) [required] The version of the EC2 launch template to use to provision in- stances. Shorthand Syntax: id=string,version=string JSON Syntax: { "id": "string", "version": "string" }</param>
+    /// <param name="IamInstanceProfileArn">The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupIn- stance permission and the role name must start with AWSPCS or must have the path /aws-pcs/ . For more information, see IAM instance profiles for PCS in the PCS User Guide . Constraints: o pattern: arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-pro- file/([!-~]{1,510}/)?([\w+=,.@-]{1,128})</param>
+    /// <param name="ScalingConfiguration">Specifies the boundaries of the compute node group auto scaling. minInstanceCount -&gt; (integer) [required] The lower bound of the number of instances allowed in the com- pute fleet. Constraints: o min: 0 maxInstanceCount -&gt; (integer) [required] The upper bound of the number of instances allowed in the com- pute fleet. Constraints: o min: 0 Shorthand Syntax: minInstanceCount=integer,maxInstanceCount=integer JSON Syntax: { "minInstanceCount": integer, "maxInstanceCount": integer }</param>
+    /// <param name="InstanceConfigs">A list of EC2 instance configurations that PCS can provision in the compute node group. (structure) An EC2 instance configuration PCS uses to launch compute nodes. instanceType -&gt; (string) The EC2 instance type that PCS can provision in the compute node group. Example: t2.xlarge Shorthand Syntax: instanceType=string ... JSON Syntax: [ { "instanceType": "string" } ... ]</param>
+    public AwsPcsCreateComputeNodeGroupOptions(
+        string ClusterIdentifier,
+        string ComputeNodeGroupName,
+        IEnumerable<string> SubnetIds,
+        string CustomLaunchTemplate,
+        string IamInstanceProfileArn,
+        string ScalingConfiguration,
+        IEnumerable<string> InstanceConfigs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeNodeGroupName);
+        this.ComputeNodeGroupName = ComputeNodeGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        global::System.ArgumentNullException.ThrowIfNull(CustomLaunchTemplate);
+        this.CustomLaunchTemplate = CustomLaunchTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(IamInstanceProfileArn);
+        this.IamInstanceProfileArn = IamInstanceProfileArn;
+        global::System.ArgumentNullException.ThrowIfNull(ScalingConfiguration);
+        this.ScalingConfiguration = ScalingConfiguration;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceConfigs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceConfigs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceConfigs));
+            }
+
+            InstanceConfigs = materialized;
+        }
+        this.InstanceConfigs = InstanceConfigs;
+    }
+
+    private AwsPcsCreateComputeNodeGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcsCreateComputeNodeGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcsCreateComputeNodeGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ID of the cluster to create a compute node group in. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// A name to identify the cluster. Example: MyCluster Constraints: o min: 3 o max: 25 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+
+    /// </summary>
     [CliOption("--compute-node-group-name")]
-    public string? ComputeNodeGroupName { get; set; }
+    public string? ComputeNodeGroupName { get; private init; }
+
+    /// <summary>
+    /// The list of subnet IDs where the compute node group launches in- stances. Subnets must be in the same VPC as the cluster. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
+    /// <summary>
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes. id -&gt; (string) [required] The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx version -&gt; (string) [required] The version of the EC2 launch template to use to provision in- stances. Shorthand Syntax: id=string,version=string JSON Syntax: { "id": "string", "version": "string" }
+    /// </summary>
+    [CliOption("--custom-launch-template")]
+    public string? CustomLaunchTemplate { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupIn- stance permission and the role name must start with AWSPCS or must have the path /aws-pcs/ . For more information, see IAM instance profiles for PCS in the PCS User Guide . Constraints: o pattern: arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-pro- file/([!-~]{1,510}/)?([\w+=,.@-]{1,128})
+    /// </summary>
+    [CliOption("--iam-instance-profile-arn")]
+    public string? IamInstanceProfileArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the boundaries of the compute node group auto scaling. minInstanceCount -&gt; (integer) [required] The lower bound of the number of instances allowed in the com- pute fleet. Constraints: o min: 0 maxInstanceCount -&gt; (integer) [required] The upper bound of the number of instances allowed in the com- pute fleet. Constraints: o min: 0 Shorthand Syntax: minInstanceCount=integer,maxInstanceCount=integer JSON Syntax: { "minInstanceCount": integer, "maxInstanceCount": integer }
+    /// </summary>
+    [CliOption("--scaling-configuration")]
+    public string? ScalingConfiguration { get; private init; }
+
+    /// <summary>
+    /// A list of EC2 instance configurations that PCS can provision in the compute node group. (structure) An EC2 instance configuration PCS uses to launch compute nodes. instanceType -&gt; (string) The EC2 instance type that PCS can provision in the compute node group. Example: t2.xlarge Shorthand Syntax: instanceType=string ... JSON Syntax: [ { "instanceType": "string" } ... ]
+    /// </summary>
+    [CliOption("--instance-configs", GroupValues = true)]
+    public IEnumerable<string>? InstanceConfigs { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template. Constraints: o pattern: ami-[a-z0-9]+
@@ -36,26 +152,11 @@ public record AwsPcsCreateComputeNodeGroupOptions : AwsOptions
     [CliOption("--ami-id")]
     public string? AmiId { get; set; }
 
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
-
     /// <summary>
     /// Specifies how EC2 instances are purchased on your behalf. PCS sup- ports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capac- ity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide . For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide . For more information about PCS support for interruptible ca- pacity reservations, see Using I-ODCRs with PCS in the PCS User Guide . Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS . If you don't provide this option, it defaults to On-Demand. Possible values: o ONDEMAND o SPOT o CAPACITY_BLOCK o INTERRUPTIBLE_CAPACITY_RESERVATION
     /// </summary>
     [CliOption("--purchase-option")]
     public AwsPcsCreateComputeNodeGroupPurchaseOption? PurchaseOption { get; set; }
-
-    [CliOption("--custom-launch-template")]
-    public string? CustomLaunchTemplate { get; set; }
-
-    [CliOption("--iam-instance-profile-arn")]
-    public string? IamInstanceProfileArn { get; set; }
-
-    [CliOption("--scaling-configuration")]
-    public string? ScalingConfiguration { get; set; }
-
-    [CliOption("--instance-configs", GroupValues = true)]
-    public IEnumerable<string>? InstanceConfigs { get; set; }
 
     /// <summary>
     /// Additional configuration when you specify SPOT as the purchaseOption for the CreateComputeNodeGroup API action. allocationStrategy -&gt; (string) The Amazon EC2 allocation strategy PCS uses to provision EC2 in- stances. PCS supports lowest price , capacity optimized , and price capacity optimized . For more information, see Use alloca- tion strategies to determine how EC2 Fleet or Spot Fleet ful- fills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide . If you don't provide this option, it defaults to price capacity optimized . Possible values: o lowest-price o capacity-optimized o price-capacity-optimized Shorthand Syntax: allocationStrategy=string JSON Syntax: { "allocationStrategy": "lowest-price"|"capacity-optimized"|"price-capacity-optimized" }
@@ -64,7 +165,7 @@ public record AwsPcsCreateComputeNodeGroupOptions : AwsOptions
     public string? SpotOptions { get; set; }
 
     /// <summary>
-    /// Additional options related to the Slurm scheduler. scaleDownIdleTimeInSeconds -&gt; (integer) The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later. Constraints: o min: -1 o max: 10000000 slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. Shorthand Syntax: scaleDownIdleTimeInSeconds=integer,slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}] JSON Syntax: { "scaleDownIdleTimeInSeconds": integer, "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ] }
+    /// Additional options related to the Slurm scheduler. scaleDownIdleTimeInSeconds -&gt; (integer) The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later. Constraints: o min: -1 o max: 10000000 slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. gresCustomSettings -&gt; (list) The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type. (map) A single Slurm gres.conf record, expressed as a map of gres.conf attribute names to their values. For example, {"Name": "gpu", "Type": "a100", "File": "/dev/nvidia[0-7]"} or {"AutoDetect": "nvml"} . PCS adds the NodeName= prefix for the compute node group. WARNING: PCS supports a subset of gres.conf settings. For more in- formation, see Configuring custom GRES settings in PCS in the PCS User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: scaleDownIdleTimeInSeconds=integer,slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}],gresCustomSettings=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}] JSON Syntax: { "scaleDownIdleTimeInSeconds": integer, "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ], "gresCustomSettings": [ {"string": "string" ...} ... ] }
     /// </summary>
     [CliOption("--slurm-configuration")]
     public string? SlurmConfiguration { get; set; }
@@ -93,5 +194,21 @@ public record AwsPcsCreateComputeNodeGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

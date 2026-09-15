@@ -53,7 +53,10 @@ public record AwsEmrContainersListVirtualClustersOptions : AwsOptions
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
-    [CliFlag("--eks-access-entry-integrated")]
+    /// <summary>
+    /// Optional Boolean that specifies whether the operation should return the virtual clusters that have the access entry integration enabled or disabled. If not specified, the operation returns all applicable virtual clusters.
+    /// </summary>
+    [CliFlag("--eks-access-entry-integrated", NegatedName = "--no-eks-access-entry-integrated")]
     public bool? EksAccessEntryIntegrated { get; set; }
 
     [CliOption("--cli-input-json")]

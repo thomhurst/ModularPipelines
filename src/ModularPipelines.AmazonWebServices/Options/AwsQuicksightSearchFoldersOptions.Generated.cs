@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-folders")]
-public record AwsQuicksightSearchFoldersOptions : AwsOptions
+public record AwsQuicksightSearchFoldersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches the subfolders in a folder. See also: AWS API Documentation search-folders is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FolderSummaryList
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters to apply to the search. Currently, you can search only by the parent folder ARN. For example, "Filters": [ { "Name": "PAR- ENT_FOLDER_ARN", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId" } ] . Constraints: o max: 100 (structure) A filter to use to search an Quick Sight folder. Operator -&gt; (string) The comparison operator that you want to use as a filter, for example "Operator": "StringEquals" . Valid values are "StringEquals" and "StringLike" . If you set the operator value to "StringEquals" , you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose folders you want to search in the "Value" field. For example, "Name":"DIRECT_QUICK- SIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" . If you set the value to "StringLike" , you need to provide the name of the folders you are searching for. For example, "Name":"FOLDER_NAME", "Operator": "StringLike", "Value": "Test" . The "StringLike" operator only supports the NAME value FOLDER_NAME . Possible values: o StringEquals o StringLike Name -&gt; (string) The name of a value that you want to use in the filter. For example, "Name": "QUICKSIGHT_OWNER" . Valid values are defined as follows: o QUICKSIGHT_VIEWER_OR_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the folder's owners or viewers are returned. Implicit permis- sions from folders or groups are considered. o QUICKSIGHT_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are considered. o DIRECT_QUICKSIGHT_SOLE_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as the only owner of the folder are returned. Implicit permissions from folders or groups are not considered. o DIRECT_QUICKSIGHT_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are not considered. o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners or viewers of the folders are returned. Im- plicit permissions from folders or groups are not consid- ered. o FOLDER_NAME : Any folders whose names have a substring match to this value will be returned. o PARENT_FOLDER_ARN : Provide an ARN of a folder, and any folders that are directly under that parent folder are re- turned. If you choose to use this option and leave the value blank, all root-level folders in the account are re- turned. Possible values: o PARENT_FOLDER_ARN o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o QUICKSIGHT_VIEWER_OR_OWNER o FOLDER_NAME Value -&gt; (string) The value of the named item (in this example, PAR- ENT_FOLDER_ARN ), that you want to use as a filter. For exam- ple, "Value": "arn:aws:quick- sight:us-east-1:1:folder/folderId" . Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "PARENT_FOLDER_ARN"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"FOLDER_NAME", "Value": "string" } ... ]</param>
+    public AwsQuicksightSearchFoldersOptions(
+        string AwsAccountId,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchFoldersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchFoldersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchFoldersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The filters to apply to the search. Currently, you can search only by the parent folder ARN. For example, "Filters": [ { "Name": "PAR- ENT_FOLDER_ARN", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId" } ] . Constraints: o max: 100 (structure) A filter to use to search an Quick Sight folder. Operator -&gt; (string) The comparison operator that you want to use as a filter, for example "Operator": "StringEquals" . Valid values are "StringEquals" and "StringLike" . If you set the operator value to "StringEquals" , you need to provide an ownership related filter in the "NAME" field and the arn of the user or group whose folders you want to search in the "Value" field. For example, "Name":"DIRECT_QUICK- SIGHT_OWNER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" . If you set the value to "StringLike" , you need to provide the name of the folders you are searching for. For example, "Name":"FOLDER_NAME", "Operator": "StringLike", "Value": "Test" . The "StringLike" operator only supports the NAME value FOLDER_NAME . Possible values: o StringEquals o StringLike Name -&gt; (string) The name of a value that you want to use in the filter. For example, "Name": "QUICKSIGHT_OWNER" . Valid values are defined as follows: o QUICKSIGHT_VIEWER_OR_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the folder's owners or viewers are returned. Implicit permis- sions from folders or groups are considered. o QUICKSIGHT_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are considered. o DIRECT_QUICKSIGHT_SOLE_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as the only owner of the folder are returned. Implicit permissions from folders or groups are not considered. o DIRECT_QUICKSIGHT_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners of the folders are returned. Implicit permissions from folders or groups are not considered. o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER : Provide an ARN of a user or group, and any folders with that ARN listed as one of the owners or viewers of the folders are returned. Im- plicit permissions from folders or groups are not consid- ered. o FOLDER_NAME : Any folders whose names have a substring match to this value will be returned. o PARENT_FOLDER_ARN : Provide an ARN of a folder, and any folders that are directly under that parent folder are re- turned. If you choose to use this option and leave the value blank, all root-level folders in the account are re- turned. Possible values: o PARENT_FOLDER_ARN o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o QUICKSIGHT_VIEWER_OR_OWNER o FOLDER_NAME Value -&gt; (string) The value of the named item (in this example, PAR- ENT_FOLDER_ARN ), that you want to use as a filter. For exam- ple, "Value": "arn:aws:quick- sight:us-east-1:1:folder/folderId" . Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "PARENT_FOLDER_ARN"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"FOLDER_NAME", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +107,21 @@ public record AwsQuicksightSearchFoldersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

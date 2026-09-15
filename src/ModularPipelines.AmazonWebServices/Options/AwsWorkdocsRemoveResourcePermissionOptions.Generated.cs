@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "remove-resource-permission")]
-public record AwsWorkdocsRemoveResourcePermissionOptions : AwsOptions
+public record AwsWorkdocsRemoveResourcePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the permission for the specified principal from the specified resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="PrincipalId">The principal ID of the resource. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    public AwsWorkdocsRemoveResourcePermissionOptions(
+        string ResourceId,
+        string PrincipalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+    }
+
+    private AwsWorkdocsRemoveResourcePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsRemoveResourcePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsRemoveResourcePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The principal ID of the resource. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// </summary>
+    [CliOption("--principal-id")]
+    public string? PrincipalId { get; private init; }
+
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
-
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
-
-    [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
 
     /// <summary>
     /// The principal type of the resource. Possible values: o USER o GROUP o INVITE o ANONYMOUS o ORGANIZATION
@@ -47,5 +91,21 @@ public record AwsWorkdocsRemoveResourcePermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

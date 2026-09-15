@@ -16,39 +16,39 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsRdsDescribeDbRecommendationsLocale
 {
+    [EnumValue("de")]
+    De,
+
     [EnumValue("en")]
-    En = 1,
+    En,
 
     [EnumValue("en_UK")]
-    EnUk = 2,
-
-    [EnumValue("de")]
-    De = 3,
+    EnUk,
 
     [EnumValue("es")]
-    Es = 4,
+    Es,
 
     [EnumValue("fr")]
-    Fr = 5,
+    Fr,
 
     [EnumValue("id")]
-    Id = 6,
+    Id,
 
     [EnumValue("it")]
-    It = 7,
+    It,
 
     [EnumValue("ja")]
-    Ja = 8,
+    Ja,
 
     [EnumValue("ko")]
-    Ko = 9,
+    Ko,
 
     [EnumValue("pt_BR")]
-    PtBr = 10,
-
-    [EnumValue("zh_TW")]
-    ZhTw = 11,
+    PtBr,
 
     [EnumValue("zh_CN")]
-    ZhCn = 12
+    ZhCn,
+
+    [EnumValue("zh_TW")]
+    ZhTw
 }

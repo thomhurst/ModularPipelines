@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "delete-job")]
-public record AwsSagemakerDeleteJobOptions : AwsOptions
+public record AwsSagemakerDeleteJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob . The following operations are related to DeleteJob : o CreateJob o StopJob o DescribeJob See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobName">The name of the job to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="JobCategory">The category of the job to delete. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    public AwsSagemakerDeleteJobOptions(
+        string JobName,
+        AwsSagemakerDeleteJobJobCategory JobCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
+        this.JobCategory = JobCategory;
+    }
+
+    private AwsSagemakerDeleteJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDeleteJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDeleteJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the job to delete. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--job-name")]
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// The category of the job to delete. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// </summary>
     [CliOption("--job-category")]
-    public string? JobCategory { get; set; }
+    public AwsSagemakerDeleteJobJobCategory? JobCategory { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

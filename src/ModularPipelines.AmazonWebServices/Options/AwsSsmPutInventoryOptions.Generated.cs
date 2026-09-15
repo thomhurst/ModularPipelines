@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "put-inventory")]
-public record AwsSsmPutInventoryOptions : AwsOptions
+public record AwsSsmPutInventoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Bulk update custom inventory items on one or more managed nodes. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">An managed node ID where you want to add or update inventory items. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="Items">The inventory items that you want to add or update on managed nodes. Constraints: o min: 1 o max: 30 (structure) Information collected from managed nodes based on your inventory policy document TypeName -&gt; (string) [required] The name of the inventory type. Default inventory item type names start with AWS . Custom inventory type names will start with Custom. Default inventory item types include the follow- ing: AWS:AWSComponent , AWS:Application , AWS:InstanceInfor- mation , AWS:Network , and AWS:WindowsUpdate . Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$ SchemaVersion -&gt; (string) [required] The schema version for the inventory item. Constraints: o pattern: ^([0-9]{1,6})(\.[0-9]{1,6})$ CaptureTime -&gt; (string) [required] The time the inventory information was collected. Constraints: o pattern: ^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$ ContentHash -&gt; (string) MD5 hash of the inventory item type contents. The content hash is used to determine whether to update inventory infor- mation. The PutInventory API doesn't update the inventory item type contents if the MD5 hash hasn't changed since last update. Constraints: o max: 256 Content -&gt; (list) The inventory data of the inventory type. Constraints: o min: 0 o max: 10000 (map) Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Context -&gt; (map) A map of associated properties for a specified inventory type. For example, with this attribute, you can specify the ExecutionId , ExecutionType , ComplianceType properties of the AWS:ComplianceItem type. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: TypeName=string,SchemaVersion=string,CaptureTime=string,ContentHash=string,Content=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}],Context={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "TypeName": "string", "SchemaVersion": "string", "CaptureTime": "string", "ContentHash": "string", "Content": [ {"string": "string" ...} ... ], "Context": {"string": "string" ...} } ... ]</param>
+    public AwsSsmPutInventoryOptions(
+        string InstanceId,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsSsmPutInventoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmPutInventoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmPutInventoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An managed node ID where you want to add or update inventory items. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The inventory items that you want to add or update on managed nodes. Constraints: o min: 1 o max: 30 (structure) Information collected from managed nodes based on your inventory policy document TypeName -&gt; (string) [required] The name of the inventory type. Default inventory item type names start with AWS . Custom inventory type names will start with Custom. Default inventory item types include the follow- ing: AWS:AWSComponent , AWS:Application , AWS:InstanceInfor- mation , AWS:Network , and AWS:WindowsUpdate . Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$ SchemaVersion -&gt; (string) [required] The schema version for the inventory item. Constraints: o pattern: ^([0-9]{1,6})(\.[0-9]{1,6})$ CaptureTime -&gt; (string) [required] The time the inventory information was collected. Constraints: o pattern: ^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$ ContentHash -&gt; (string) MD5 hash of the inventory item type contents. The content hash is used to determine whether to update inventory infor- mation. The PutInventory API doesn't update the inventory item type contents if the MD5 hash hasn't changed since last update. Constraints: o max: 256 Content -&gt; (list) The inventory data of the inventory type. Constraints: o min: 0 o max: 10000 (map) Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Context -&gt; (map) A map of associated properties for a specified inventory type. For example, with this attribute, you can specify the ExecutionId , ExecutionType , ComplianceType properties of the AWS:ComplianceItem type. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: TypeName=string,SchemaVersion=string,CaptureTime=string,ContentHash=string,Content=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}],Context={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "TypeName": "string", "SchemaVersion": "string", "CaptureTime": "string", "ContentHash": "string", "Content": [ {"string": "string" ...} ... ], "Context": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

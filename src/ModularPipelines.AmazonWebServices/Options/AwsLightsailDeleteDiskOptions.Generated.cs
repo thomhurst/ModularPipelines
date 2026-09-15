@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-disk")]
-public record AwsLightsailDeleteDiskOptions : AwsOptions
+public record AwsLightsailDeleteDiskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--disk-name")]
-    public string? DiskName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete-add-ons")]
+    /// <summary>
+    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). NOTE: The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via re- source tags applied to the resource identified by disk name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DiskName">The unique name of the disk you want to delete (my-disk ). Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailDeleteDiskOptions(
+        string DiskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskName);
+        this.DiskName = DiskName;
+    }
+
+    private AwsLightsailDeleteDiskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteDiskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteDiskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the disk you want to delete (my-disk ). Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--disk-name")]
+    public string? DiskName { get; private init; }
+
+    /// <summary>
+    /// A Boolean value to indicate whether to delete all add-ons for the disk.
+    /// </summary>
+    [CliFlag("--force-delete-add-ons", NegatedName = "--no-force-delete-add-ons")]
     public bool? ForceDeleteAddOns { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsLightsailDeleteDiskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

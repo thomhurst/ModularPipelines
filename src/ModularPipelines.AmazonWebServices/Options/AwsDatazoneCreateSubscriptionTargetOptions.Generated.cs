@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,31 +22,149 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-subscription-target")]
-public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions
+public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a subscription target in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which subscription target is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which subscription target is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the subscription target. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Type">The type of the subscription target.</param>
+    /// <param name="SubscriptionTargetConfig">The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]</param>
+    /// <param name="AuthorizedPrincipals">The authorized principals of the subscription target. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...</param>
+    /// <param name="ManageAccessRole">The manage access role that is used to create the subscription tar- get. Constraints: o pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]*</param>
+    /// <param name="ApplicableAssetTypes">The asset types that can be included in the subscription target. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...</param>
+    public AwsDatazoneCreateSubscriptionTargetOptions(
+        string DomainIdentifier,
+        string EnvironmentIdentifier,
+        string Name,
+        string Type,
+        IEnumerable<string> SubscriptionTargetConfig,
+        IEnumerable<string> AuthorizedPrincipals,
+        string ManageAccessRole,
+        IEnumerable<string> ApplicableAssetTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubscriptionTargetConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubscriptionTargetConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubscriptionTargetConfig));
+            }
+
+            SubscriptionTargetConfig = materialized;
+        }
+        this.SubscriptionTargetConfig = SubscriptionTargetConfig;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuthorizedPrincipals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuthorizedPrincipals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuthorizedPrincipals));
+            }
+
+            AuthorizedPrincipals = materialized;
+        }
+        this.AuthorizedPrincipals = AuthorizedPrincipals;
+        global::System.ArgumentNullException.ThrowIfNull(ManageAccessRole);
+        this.ManageAccessRole = ManageAccessRole;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ApplicableAssetTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApplicableAssetTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ApplicableAssetTypes));
+            }
+
+            ApplicableAssetTypes = materialized;
+        }
+        this.ApplicableAssetTypes = ApplicableAssetTypes;
+    }
+
+    private AwsDatazoneCreateSubscriptionTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateSubscriptionTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateSubscriptionTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which subscription target is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the environment in which subscription target is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
+    public string? EnvironmentIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the subscription target. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of the subscription target.
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// The configuration of the subscription target. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
+    /// </summary>
     [CliOption("--subscription-target-config", GroupValues = true)]
-    public IEnumerable<string>? SubscriptionTargetConfig { get; set; }
+    public IEnumerable<string>? SubscriptionTargetConfig { get; private init; }
 
+    /// <summary>
+    /// The authorized principals of the subscription target. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--authorized-principals", GroupValues = true)]
-    public IEnumerable<string>? AuthorizedPrincipals { get; set; }
+    public IEnumerable<string>? AuthorizedPrincipals { get; private init; }
 
+    /// <summary>
+    /// The manage access role that is used to create the subscription tar- get. Constraints: o pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]*
+    /// </summary>
     [CliOption("--manage-access-role")]
-    public string? ManageAccessRole { get; set; }
+    public string? ManageAccessRole { get; private init; }
 
+    /// <summary>
+    /// The asset types that can be included in the subscription target. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--applicable-asset-types", GroupValues = true)]
-    public IEnumerable<string>? ApplicableAssetTypes { get; set; }
+    public IEnumerable<string>? ApplicableAssetTypes { get; private init; }
 
     /// <summary>
     /// The provider of the subscription target.
@@ -71,5 +190,21 @@ public record AwsDatazoneCreateSubscriptionTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

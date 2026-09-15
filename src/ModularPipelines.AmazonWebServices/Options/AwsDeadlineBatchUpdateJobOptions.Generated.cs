@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "batch-update-job")]
-public record AwsDeadlineBatchUpdateJobOptions : AwsOptions
+public record AwsDeadlineBatchUpdateJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates multiple jobs in a single request. This is a batch version of the UpdateJob API. The result of updating each job is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. When you change the status of a job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived job and its steps and tasks are deleted...
+    /// </summary>
+    /// <param name="Jobs">The list of jobs to update. You can specify up to 100 jobs per re- quest. Constraints: o min: 1 o max: 100 (structure) The details of a job to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the job to update. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the job to update. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the job to update. Constraints: o pattern: job-[0-9a-f]{32} targetTaskRunStatus -&gt; (string) The task status to update the job's tasks to. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING priority -&gt; (integer) The job priority to update. Constraints: o min: 0 o max: 100 maxFailedTasksCount -&gt; (integer) The number of task failures before the job stops running and is marked as FAILED . Constraints: o min: 0 o max: 2147483647 maxRetriesPerTask -&gt; (integer) The maximum number of retries per failed tasks. Constraints: o min: 0 o max: 2147483647 lifecycleStatus -&gt; (string) The status of a job in its lifecycle. When you change the status of the job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered. Possible values: o ARCHIVED maxWorkerCount -&gt; (integer) The maximum number of worker hosts that can concurrently process a job. Constraints: o min: -1 o max: 2147483647 name -&gt; (string) The name of the job to update. Constraints: o min: 1 o max: 128 description -&gt; (string) The description of the job to update. Constraints: o min: 0 o max: 2048 Shorthand Syntax: farmId=string,queueId=string,jobId=string,targetTaskRunStatus=string,priority=integer,maxFailedTasksCount=integer,maxRetriesPerTask=integer,lifecycleStatus=string,maxWorkerCount=integer,name=string,description=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "targetTaskRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING", "priority": integer, "maxFailedTasksCount": integer, "maxRetriesPerTask": integer, "lifecycleStatus": "ARCHIVED", "maxWorkerCount": integer, "name": "string", "description": "string" } ... ]</param>
+    public AwsDeadlineBatchUpdateJobOptions(
+        IEnumerable<string> Jobs
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Jobs);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Jobs));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Jobs));
+            }
+
+            Jobs = materialized;
+        }
+        this.Jobs = Jobs;
+    }
+
+    private AwsDeadlineBatchUpdateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineBatchUpdateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineBatchUpdateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of jobs to update. You can specify up to 100 jobs per re- quest. Constraints: o min: 1 o max: 100 (structure) The details of a job to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the job to update. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the job to update. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the job to update. Constraints: o pattern: job-[0-9a-f]{32} targetTaskRunStatus -&gt; (string) The task status to update the job's tasks to. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING priority -&gt; (integer) The job priority to update. Constraints: o min: 0 o max: 100 maxFailedTasksCount -&gt; (integer) The number of task failures before the job stops running and is marked as FAILED . Constraints: o min: 0 o max: 2147483647 maxRetriesPerTask -&gt; (integer) The maximum number of retries per failed tasks. Constraints: o min: 0 o max: 2147483647 lifecycleStatus -&gt; (string) The status of a job in its lifecycle. When you change the status of the job to ARCHIVED , the job can't be scheduled or archived. WARNING: An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered. Possible values: o ARCHIVED maxWorkerCount -&gt; (integer) The maximum number of worker hosts that can concurrently process a job. Constraints: o min: -1 o max: 2147483647 name -&gt; (string) The name of the job to update. Constraints: o min: 1 o max: 128 description -&gt; (string) The description of the job to update. Constraints: o min: 0 o max: 2048 Shorthand Syntax: farmId=string,queueId=string,jobId=string,targetTaskRunStatus=string,priority=integer,maxFailedTasksCount=integer,maxRetriesPerTask=integer,lifecycleStatus=string,maxWorkerCount=integer,name=string,description=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "targetTaskRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING", "priority": integer, "maxFailedTasksCount": integer, "maxRetriesPerTask": integer, "lifecycleStatus": "ARCHIVED", "maxWorkerCount": integer, "name": "string", "description": "string" } ... ]
+    /// </summary>
+    [CliOption("--jobs", GroupValues = true)]
+    public IEnumerable<string>? Jobs { get; private init; }
+
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -29,13 +80,26 @@ public record AwsDeadlineBatchUpdateJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--jobs", GroupValues = true)]
-    public IEnumerable<string>? Jobs { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

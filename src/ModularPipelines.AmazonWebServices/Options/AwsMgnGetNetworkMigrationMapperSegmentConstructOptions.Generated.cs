@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "get-network-migration-mapper-segment-construct")]
-public record AwsMgnGetNetworkMigrationMapperSegmentConstructOptions : AwsOptions
+public record AwsMgnGetNetworkMigrationMapperSegmentConstructOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves detailed information about a specific construct within a map- per segment, including its properties and configuration data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SegmentId">The unique identifier of the mapper segment. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConstructId">The unique identifier of the construct within the segment. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsMgnGetNetworkMigrationMapperSegmentConstructOptions(
+        string NetworkMigrationDefinitionId,
+        string NetworkMigrationExecutionId,
+        string SegmentId,
+        string ConstructId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationExecutionId);
+        this.NetworkMigrationExecutionId = NetworkMigrationExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(SegmentId);
+        this.SegmentId = SegmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConstructId);
+        this.ConstructId = ConstructId;
+    }
+
+    private AwsMgnGetNetworkMigrationMapperSegmentConstructOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnGetNetworkMigrationMapperSegmentConstructOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnGetNetworkMigrationMapperSegmentConstructOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--network-migration-execution-id")]
-    public string? NetworkMigrationExecutionId { get; set; }
+    public string? NetworkMigrationExecutionId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the mapper segment. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--segment-id")]
-    public string? SegmentId { get; set; }
+    public string? SegmentId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the construct within the segment. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--construct-id")]
-    public string? ConstructId { get; set; }
+    public string? ConstructId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

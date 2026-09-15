@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "get-log-events")]
-public record AwsLogsGetLogEventsOptions : AwsOptions
+public record AwsLogsGetLogEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can con- tain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't neces...
+    /// </summary>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    public AwsLogsGetLogEventsOptions(
+        string LogStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogStreamName);
+        this.LogStreamName = LogStreamName;
+    }
+
+    private AwsLogsGetLogEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsGetLogEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsGetLogEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
+    [CliOption("--log-stream-name")]
+    public string? LogStreamName { get; private init; }
+
     /// <summary>
     /// The name of the log group. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsLogsGetLogEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
-
-    [CliOption("--log-stream-name")]
-    public string? LogStreamName { get; set; }
 
     /// <summary>
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp equal to this time or later than this time are included. Events with a time- stamp earlier than this time are not included. NOTE: Set startTime explicitly to reduce the chances of empty pages in the response. Constraints: o min: 0
@@ -62,10 +99,16 @@ public record AwsLogsGetLogEventsOptions : AwsOptions
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CliFlag("--start-from-head")]
+    /// <summary>
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead .
+    /// </summary>
+    [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
 
-    [CliFlag("--unmask")]
+    /// <summary>
+    /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false . To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+    /// </summary>
+    [CliFlag("--unmask", NegatedName = "--no-unmask")]
     public bool? Unmask { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -73,5 +116,21 @@ public record AwsLogsGetLogEventsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

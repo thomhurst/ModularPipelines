@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "delete-policy")]
-public record AwsFmsDeletePolicyOptions : AwsOptions
+public record AwsFmsDeletePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-all-policy-resources")]
+    /// <summary>
+    /// Permanently deletes an Firewall Manager policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyId">The ID of the policy that you want to delete. You can retrieve this ID from PutPolicy and ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    public AwsFmsDeletePolicyOptions(
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    private AwsFmsDeletePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsDeletePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsDeletePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the policy that you want to delete. You can retrieve this ID from PutPolicy and ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string? PolicyId { get; private init; }
+
+    /// <summary>
+    /// If True , the request performs cleanup according to the policy type. For WAF and Shield Advanced policies, the cleanup does the follow- ing: o Deletes rule groups created by Firewall Manager o Removes web ACLs from in-scope resources o Deletes web ACLs that contain no rules or rule groups For security group policies, the cleanup does the following for each security group in the policy: o Disassociates the security group from in-scope resources o Deletes the security group if it was created through Firewall Man- ager and if it's no longer associated with any resources through another policy NOTE: For security group common policies, even if set to False , Fire- wall Manager deletes all security groups created by Firewall Manager that aren't associated with any other resources through another policy. After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope.
+    /// </summary>
+    [CliFlag("--delete-all-policy-resources", NegatedName = "--no-delete-all-policy-resources")]
     public bool? DeleteAllPolicyResources { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsFmsDeletePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

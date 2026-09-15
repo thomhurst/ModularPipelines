@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog-appregistry", "get-application")]
-public record AwsServicecatalogAppregistryGetApplicationOptions : AwsOptions
+public record AwsServicecatalogAppregistryGetApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves metadata information about one of your applications. The ap- plication can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the ex- act same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Application">The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)</param>
+    public AwsServicecatalogAppregistryGetApplicationOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    private AwsServicecatalogAppregistryGetApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogAppregistryGetApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogAppregistryGetApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name, ID, or ARN of the application. Constraints: o min: 1 o max: 256 o pattern: ([-.\w]+)|(arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[-.\w]+)
+    /// </summary>
     [CliOption("--application")]
-    public string? Application { get; set; }
+    public string? Application { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

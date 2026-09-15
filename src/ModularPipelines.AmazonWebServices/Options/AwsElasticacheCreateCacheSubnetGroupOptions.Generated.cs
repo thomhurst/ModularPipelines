@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-cache-subnet-group")]
-public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions
+public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheSubnetGroupName">A name for the cache subnet group. This value is stored as a lower- case string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
+    /// <param name="CacheSubnetGroupDescription">A description for the cache subnet group.</param>
+    /// <param name="SubnetIds">A list of VPC subnet IDs for the cache subnet group. (string) Syntax: "string" "string" ...</param>
+    public AwsElasticacheCreateCacheSubnetGroupOptions(
+        string CacheSubnetGroupName,
+        string CacheSubnetGroupDescription,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheSubnetGroupName);
+        this.CacheSubnetGroupName = CacheSubnetGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(CacheSubnetGroupDescription);
+        this.CacheSubnetGroupDescription = CacheSubnetGroupDescription;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsElasticacheCreateCacheSubnetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateCacheSubnetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateCacheSubnetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the cache subnet group. This value is stored as a lower- case string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
+    /// </summary>
     [CliOption("--cache-subnet-group-name")]
-    public string? CacheSubnetGroupName { get; set; }
+    public string? CacheSubnetGroupName { get; private init; }
 
+    /// <summary>
+    /// A description for the cache subnet group.
+    /// </summary>
     [CliOption("--cache-subnet-group-description")]
-    public string? CacheSubnetGroupDescription { get; set; }
+    public string? CacheSubnetGroupDescription { get; private init; }
 
+    /// <summary>
+    /// A list of VPC subnet IDs for the cache subnet group. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +103,21 @@ public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

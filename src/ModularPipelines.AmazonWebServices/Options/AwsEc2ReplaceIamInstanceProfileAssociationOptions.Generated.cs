@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "replace-iam-instance-profile-association")]
-public record AwsEc2ReplaceIamInstanceProfileAssociationOptions : AwsOptions
+public record AwsEc2ReplaceIamInstanceProfileAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--iam-instance-profile")]
-    public string? IamInstanceProfile { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's asso- ciated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IamInstanceProfile">The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }</param>
+    /// <param name="AssociationId">The ID of the existing IAM instance profile association.</param>
+    public AwsEc2ReplaceIamInstanceProfileAssociationOptions(
+        string IamInstanceProfile,
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamInstanceProfile);
+        this.IamInstanceProfile = IamInstanceProfile;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsEc2ReplaceIamInstanceProfileAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ReplaceIamInstanceProfileAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ReplaceIamInstanceProfileAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }
+    /// </summary>
+    [CliOption("--iam-instance-profile")]
+    public string? IamInstanceProfile { get; private init; }
+
+    /// <summary>
+    /// The ID of the existing IAM instance profile association.
+    /// </summary>
     [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
+    public string? AssociationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

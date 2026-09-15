@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "register-certificate")]
-public record AwsIotRegisterCertificateOptions : AwsOptions
+public record AwsIotRegisterCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the RegisterCertificate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    public AwsIotRegisterCertificateOptions(
+        string CertificatePem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificatePem);
+        this.CertificatePem = CertificatePem;
+    }
+
+    private AwsIotRegisterCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotRegisterCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotRegisterCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--certificate-pem")]
-    public string? CertificatePem { get; set; }
+    public string? CertificatePem { get; private init; }
 
     /// <summary>
     /// The CA certificate used to sign the device certificate being regis- tered. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
@@ -31,7 +68,10 @@ public record AwsIotRegisterCertificateOptions : AwsOptions
     [CliOption("--ca-certificate-pem")]
     public string? CaCertificatePem { get; set; }
 
-    [CliFlag("--set-as-active")]
+    /// <summary>
+    /// A boolean value that specifies if the certificate is set to active. Valid values: ACTIVE | INACTIVE
+    /// </summary>
+    [CliFlag("--set-as-active", NegatedName = "--no-set-as-active")]
     public bool? SetAsActive { get; set; }
 
     /// <summary>
@@ -45,5 +85,21 @@ public record AwsIotRegisterCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

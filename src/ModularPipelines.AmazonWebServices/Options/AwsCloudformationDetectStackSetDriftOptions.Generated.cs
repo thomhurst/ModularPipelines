@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "detect-stack-set-drift")]
-public record AwsCloudformationDetectStackSetDriftOptions : AwsOptions
+public record AwsCloudformationDetectStackSetDriftOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Detect drift on a StackSet. When CloudFormation performs drift detec- tion on a StackSet, it performs drift detection on the stack associated with each stack instance in the StackSet. For more information, see Performing drift detection on CloudFormation StackSets . DetectStackSetDrift returns the OperationId of the StackSet drift detection operation. Use this operation id with DescribeStackSetOp- eration to monitor the progress of the drift detection operation. The drift detection operation may...
+    /// </summary>
+    /// <param name="StackSetName">The name of the StackSet on which to perform the drift detection op- eration. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?</param>
+    public AwsCloudformationDetectStackSetDriftOptions(
+        string StackSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+    }
+
+    private AwsCloudformationDetectStackSetDriftOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDetectStackSetDriftOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDetectStackSetDriftOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the StackSet on which to perform the drift detection op- eration. Constraints: o pattern: [a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
 
     /// <summary>
     /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see StackSet operation options . RegionConcurrencyType -&gt; (string) The concurrency type of deploying StackSets operations in Re- gions, could be in parallel or one Region at a time. Possible values: o SEQUENTIAL o PARALLEL RegionOrder -&gt; (list) The order of the Regions where you want to perform the stack op- eration. (string) Constraints: o pattern: ^[a-zA-Z0-9-]{1,128}$ FailureToleranceCount -&gt; (integer) The number of accounts per Region this operation can fail in be- fore CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 FailureTolerancePercentage -&gt; (integer) The percentage of accounts per Region this stack operation can fail in before CloudFormation stops the operation in that Re- gion. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureToleran- cePercentage , but not both. By default, 0 is specified. Constraints: o min: 0 o max: 100 MaxConcurrentCount -&gt; (integer) The maximum number of accounts in which to perform this opera- tion at one time. This can depend on the value of FailureToler- anceCount depending on your ConcurrencyMode . MaxConcurrentCount is at most one more than the FailureToleranceCount if you're us- ing STRICT_FAILURE_TOLERANCE . Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 MaxConcurrentPercentage -&gt; (integer) The maximum percentage of accounts in which to perform this op- eration at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one in- stead. Note that this setting lets you specify the maximum for opera- tions. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPer- centage , but not both. By default, 1 is specified. Constraints: o min: 1 o max: 100 ConcurrencyMode -&gt; (string) Specifies how the concurrency level behaves during the operation execution. o STRICT_FAILURE_TOLERANCE : This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The ini- tial actual concurrency is set to the lower of either the value of the MaxConcurrentCount , or the value of FailureTol- eranceCount +1. The actual concurrency is then reduced propor- tionally by the number of failures. This is the default behav- ior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar. o SOFT_FAILURE_TOLERANCE : This option decouples FailureToler- anceCount from the actual concurrency. This allows StackSet operations to run at the concurrency level set by the MaxCon- currentCount value, or MaxConcurrentPercentage , regardless of the number of failures. Possible values: o STRICT_FAILURE_TOLERANCE o SOFT_FAILURE_TOLERANCE Shorthand Syntax: RegionConcurrencyType=string,RegionOrder=string,string,FailureToleranceCount=integer,FailureTolerancePercentage=integer,MaxConcurrentCount=integer,MaxConcurrentPercentage=integer,ConcurrencyMode=string JSON Syntax: { "RegionConcurrencyType": "SEQUENTIAL"|"PARALLEL", "RegionOrder": ["string", ...], "FailureToleranceCount": integer, "FailureTolerancePercentage": integer, "MaxConcurrentCount": integer, "MaxConcurrentPercentage": integer, "ConcurrencyMode": "STRICT_FAILURE_TOLERANCE"|"SOFT_FAILURE_TOLERANCE" }
@@ -48,5 +85,21 @@ public record AwsCloudformationDetectStackSetDriftOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

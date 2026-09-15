@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "clone-receipt-rule-set")]
-public record AwsSesCloneReceiptRuleSetOptions : AwsOptions
+public record AwsSesCloneReceiptRuleSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-set-name")]
-    public string? RuleSetName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the Amazon SES Devel- oper Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleSetName">The name of the rule set to create. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer.</param>
+    /// <param name="OriginalRuleSetName">The name of the rule set to clone.</param>
+    public AwsSesCloneReceiptRuleSetOptions(
+        string RuleSetName,
+        string OriginalRuleSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetName);
+        this.RuleSetName = RuleSetName;
+        global::System.ArgumentNullException.ThrowIfNull(OriginalRuleSetName);
+        this.OriginalRuleSetName = OriginalRuleSetName;
+    }
+
+    private AwsSesCloneReceiptRuleSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesCloneReceiptRuleSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesCloneReceiptRuleSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rule set to create. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Start and end with a letter or number. o Contain 64 characters or fewer.
+    /// </summary>
+    [CliOption("--rule-set-name")]
+    public string? RuleSetName { get; private init; }
+
+    /// <summary>
+    /// The name of the rule set to clone.
+    /// </summary>
     [CliOption("--original-rule-set-name")]
-    public string? OriginalRuleSetName { get; set; }
+    public string? OriginalRuleSetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

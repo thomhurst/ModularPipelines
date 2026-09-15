@@ -11,19 +11,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "search-sample-queries")]
-public record AwsCloudtrailSearchSampleQueriesOptions : AwsOptions
+public record AwsCloudtrailSearchSampleQueriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SearchPhrase">The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~\n]*$</param>
+    public AwsCloudtrailSearchSampleQueriesOptions(
+        string SearchPhrase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SearchPhrase);
+        this.SearchPhrase = SearchPhrase;
+    }
+
+    private AwsCloudtrailSearchSampleQueriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailSearchSampleQueriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailSearchSampleQueriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~\n]*$
+    /// </summary>
     [CliOption("--search-phrase")]
-    public string? SearchPhrase { get; set; }
+    public string? SearchPhrase { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return on a single page. The de- fault value is 10. Constraints: o min: 1 o max: 50
@@ -43,5 +80,21 @@ public record AwsCloudtrailSearchSampleQueriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

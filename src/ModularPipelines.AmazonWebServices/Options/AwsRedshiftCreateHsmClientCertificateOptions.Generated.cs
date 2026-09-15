@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-hsm-client-certificate")]
-public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions
+public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more informa- tion, go to Hardware Security Modules in...
+    /// </summary>
+    /// <param name="HsmClientCertificateIdentifier">The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database en- cryption keys. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateHsmClientCertificateOptions(
+        string HsmClientCertificateIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmClientCertificateIdentifier);
+        this.HsmClientCertificateIdentifier = HsmClientCertificateIdentifier;
+    }
+
+    private AwsRedshiftCreateHsmClientCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateHsmClientCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateHsmClientCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database en- cryption keys. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
-    public string? HsmClientCertificateIdentifier { get; set; }
+    public string? HsmClientCertificateIdentifier { get; private init; }
 
     /// <summary>
     /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

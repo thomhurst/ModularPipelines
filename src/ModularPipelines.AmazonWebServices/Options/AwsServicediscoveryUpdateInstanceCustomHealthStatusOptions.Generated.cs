@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "update-instance-custom-health-status")]
-public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOptions
+public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomCon- fig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared name- spaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
+    /// <param name="InstanceId">The ID of the instance that you want to change the health status for. Constraints: o max: 64</param>
+    /// <param name="Status">The new status of the instance, HEALTHY or UNHEALTHY . Possible values: o HEALTHY o UNHEALTHY</param>
+    public AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions(
+        string ServiceId,
+        string InstanceId,
+        AwsServicediscoveryUpdateInstanceCustomHealthStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceId);
+        this.ServiceId = ServiceId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared name- spaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// </summary>
     [CliOption("--service-id")]
-    public string? ServiceId { get; set; }
+    public string? ServiceId { get; private init; }
 
+    /// <summary>
+    /// The ID of the instance that you want to change the health status for. Constraints: o max: 64
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The new status of the instance, HEALTHY or UNHEALTHY . Possible values: o HEALTHY o UNHEALTHY
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsServicediscoveryUpdateInstanceCustomHealthStatusStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

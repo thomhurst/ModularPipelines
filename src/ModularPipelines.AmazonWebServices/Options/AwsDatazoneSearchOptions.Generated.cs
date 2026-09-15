@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "search")]
-public record AwsDatazoneSearchOptions : AwsOptions
+public record AwsDatazoneSearchOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, de- scriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data prod- ucts) and can be filtered using various c...
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SearchScope">The scope of the search. Possible values: o ASSET o GLOSSARY o GLOSSARY_TERM o DATA_PRODUCT</param>
+    public AwsDatazoneSearchOptions(
+        string DomainIdentifier,
+        AwsDatazoneSearchSearchScope SearchScope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SearchScope);
+        this.SearchScope = SearchScope;
+    }
+
+    private AwsDatazoneSearchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneSearchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneSearchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The scope of the search. Possible values: o ASSET o GLOSSARY o GLOSSARY_TERM o DATA_PRODUCT
+    /// </summary>
+    [CliOption("--search-scope")]
+    public AwsDatazoneSearchSearchScope? SearchScope { get; private init; }
 
     /// <summary>
     /// The identifier of the owning project specified for the search. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; set; }
-
-    [CliOption("--search-scope")]
-    public string? SearchScope { get; set; }
 
     /// <summary>
     /// Specifies the text for which to search. Constraints: o min: 1 o max: 512
@@ -88,5 +133,21 @@ public record AwsDatazoneSearchOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

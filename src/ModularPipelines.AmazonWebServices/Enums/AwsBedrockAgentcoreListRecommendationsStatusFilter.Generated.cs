@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreListRecommendationsStatusFilter
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
     [EnumValue("COMPLETED")]
-    Completed = 3,
-
-    [EnumValue("FAILED")]
-    Failed = 4,
+    Completed,
 
     [EnumValue("DELETING")]
-    Deleting = 5
+    Deleting,
+
+    [EnumValue("FAILED")]
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("PENDING")]
+    Pending
 }

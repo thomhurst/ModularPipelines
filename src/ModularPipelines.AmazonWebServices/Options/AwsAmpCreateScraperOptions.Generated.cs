@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "create-scraper")]
-public record AwsAmpCreateScraperOptions : AwsOptions
+public record AwsAmpCreateScraperOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Ser- vice for Prometheus workspaces or CloudWatch datasets. You can config- ure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service dis- covery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transfor- mations to ...
+    /// </summary>
+    /// <param name="ScrapeConfiguration">The configuration file to use in the new scraper. For more informa- tion, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBlob. configurationBlob -&gt; (blob) The base 64 encoded scrape configuration file. Shorthand Syntax: configurationBlob=blob JSON Syntax: { "configurationBlob": blob }</param>
+    /// <param name="Source">The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksConfiguration, vpcConfiguration. eksConfiguration -&gt; (structure) The Amazon EKS cluster from which a scraper collects metrics. clusterArn -&gt; (string) [required] ARN of the Amazon EKS cluster. Constraints: o pattern: arn:aws[-a-z]*:eks:[-a-z0-9]+:[0-9]{12}:cluster/.+ securityGroupIds -&gt; (list) A list of the security group IDs for the Amazon EKS cluster VPC configuration. Constraints: o min: 1 o max: 5 (string) ID of a VPC security group. Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-z]+ subnetIds -&gt; (list) [required] A list of subnet IDs for the Amazon EKS cluster VPC configu- ration. Constraints: o min: 1 o max: 5 (string) ID of a VPC subnet. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-z]+ vpcConfiguration -&gt; (structure) The Amazon VPC configuration for the Prometheus collector when connecting to Amazon MSK clusters. This configuration enables secure, private network connectivity between the collector and your Amazon MSK cluster within your Amazon VPC. securityGroupIds -&gt; (list) [required] The security group IDs that control network access for the Prometheus collector. These security groups must allow the collector to communicate with your Amazon MSK cluster on the required ports. Constraints: o min: 1 o max: 5 (string) ID of a VPC security group. Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-z]+ subnetIds -&gt; (list) [required] The subnet IDs where the Prometheus collector will be de- ployed. The subnets must be in the same Amazon VPC as your Amazon MSK cluster and have network connectivity to the clus- ter. Constraints: o min: 1 o max: 5 (string) ID of a VPC subnet. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-z]+ Shorthand Syntax: eksConfiguration={clusterArn=string,securityGroupIds=[string,string],subnetIds=[string,string]},vpcConfiguration={securityGroupIds=[string,string],subnetIds=[string,string]} JSON Syntax: { "eksConfiguration": { "clusterArn": "string", "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] }, "vpcConfiguration": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] } }</param>
+    /// <param name="Destination">The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ampConfiguration, cloudWatchConfigura- tion. ampConfiguration -&gt; (structure) The Amazon Managed Service for Prometheus workspace to send met- rics to. workspaceArn -&gt; (string) [required] ARN of the Amazon Managed Service for Prometheus workspace. Constraints: o pattern: arn:aws[-a-z]*:aps:[-a-z0-9]+:[0-9]{12}:work- space/.+ cloudWatchConfiguration -&gt; (structure) The CloudWatch dataset to send metrics to. datasetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:&lt;re- gion&gt;:&lt;account-id&gt;:dataset/default . Constraints: o pattern: arn:aws[-a-z]*:cloud- watch:[-a-z0-9]+:[0-9]{12}:dataset\/.+ Shorthand Syntax: ampConfiguration={workspaceArn=string},cloudWatchConfiguration={datasetArn=string} JSON Syntax: { "ampConfiguration": { "workspaceArn": "string" }, "cloudWatchConfiguration": { "datasetArn": "string" } }</param>
+    public AwsAmpCreateScraperOptions(
+        string ScrapeConfiguration,
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScrapeConfiguration);
+        this.ScrapeConfiguration = ScrapeConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsAmpCreateScraperOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpCreateScraperOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpCreateScraperOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration file to use in the new scraper. For more informa- tion, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBlob. configurationBlob -&gt; (blob) The base 64 encoded scrape configuration file. Shorthand Syntax: configurationBlob=blob JSON Syntax: { "configurationBlob": blob }
+    /// </summary>
+    [CliOption("--scrape-configuration")]
+    public string? ScrapeConfiguration { get; private init; }
+
+    /// <summary>
+    /// The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksConfiguration, vpcConfiguration. eksConfiguration -&gt; (structure) The Amazon EKS cluster from which a scraper collects metrics. clusterArn -&gt; (string) [required] ARN of the Amazon EKS cluster. Constraints: o pattern: arn:aws[-a-z]*:eks:[-a-z0-9]+:[0-9]{12}:cluster/.+ securityGroupIds -&gt; (list) A list of the security group IDs for the Amazon EKS cluster VPC configuration. Constraints: o min: 1 o max: 5 (string) ID of a VPC security group. Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-z]+ subnetIds -&gt; (list) [required] A list of subnet IDs for the Amazon EKS cluster VPC configu- ration. Constraints: o min: 1 o max: 5 (string) ID of a VPC subnet. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-z]+ vpcConfiguration -&gt; (structure) The Amazon VPC configuration for the Prometheus collector when connecting to Amazon MSK clusters. This configuration enables secure, private network connectivity between the collector and your Amazon MSK cluster within your Amazon VPC. securityGroupIds -&gt; (list) [required] The security group IDs that control network access for the Prometheus collector. These security groups must allow the collector to communicate with your Amazon MSK cluster on the required ports. Constraints: o min: 1 o max: 5 (string) ID of a VPC security group. Constraints: o min: 0 o max: 255 o pattern: sg-[0-9a-z]+ subnetIds -&gt; (list) [required] The subnet IDs where the Prometheus collector will be de- ployed. The subnets must be in the same Amazon VPC as your Amazon MSK cluster and have network connectivity to the clus- ter. Constraints: o min: 1 o max: 5 (string) ID of a VPC subnet. Constraints: o min: 0 o max: 255 o pattern: subnet-[0-9a-z]+ Shorthand Syntax: eksConfiguration={clusterArn=string,securityGroupIds=[string,string],subnetIds=[string,string]},vpcConfiguration={securityGroupIds=[string,string],subnetIds=[string,string]} JSON Syntax: { "eksConfiguration": { "clusterArn": "string", "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] }, "vpcConfiguration": { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] } }
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ampConfiguration, cloudWatchConfigura- tion. ampConfiguration -&gt; (structure) The Amazon Managed Service for Prometheus workspace to send met- rics to. workspaceArn -&gt; (string) [required] ARN of the Amazon Managed Service for Prometheus workspace. Constraints: o pattern: arn:aws[-a-z]*:aps:[-a-z0-9]+:[0-9]{12}:work- space/.+ cloudWatchConfiguration -&gt; (structure) The CloudWatch dataset to send metrics to. datasetArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:&lt;re- gion&gt;:&lt;account-id&gt;:dataset/default . Constraints: o pattern: arn:aws[-a-z]*:cloud- watch:[-a-z0-9]+:[0-9]{12}:dataset\/.+ Shorthand Syntax: ampConfiguration={workspaceArn=string},cloudWatchConfiguration={datasetArn=string} JSON Syntax: { "ampConfiguration": { "workspaceArn": "string" }, "cloudWatchConfiguration": { "datasetArn": "string" } }
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; private init; }
+
     /// <summary>
     /// (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique. Constraints: o min: 1 o max: 100 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
-
-    [CliOption("--scrape-configuration")]
-    public string? ScrapeConfiguration { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
-    [CliOption("--destination")]
-    public string? Destination { get; set; }
 
     /// <summary>
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source ac- counts. sourceRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ targetRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup . Constraints: o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: sourceRoleArn=string,targetRoleArn=string JSON Syntax: { "sourceRoleArn": "string", "targetRoleArn": "string" }
@@ -68,5 +119,21 @@ public record AwsAmpCreateScraperOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

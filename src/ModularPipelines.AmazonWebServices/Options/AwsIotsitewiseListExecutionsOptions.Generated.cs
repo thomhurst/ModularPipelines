@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "list-executions")]
-public record AwsIotsitewiseListExecutionsOptions : AwsOptions
+public record AwsIotsitewiseListExecutionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-resource-type")]
-    public string? TargetResourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a paginated list of summaries of all executions. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: executionSummaries
+    /// </summary>
+    /// <param name="TargetResourceType">The type of the target resource. Possible values: o ASSET o COMPUTATION_MODEL</param>
+    /// <param name="TargetResourceId">The ID of the target resource. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    public AwsIotsitewiseListExecutionsOptions(
+        AwsIotsitewiseListExecutionsTargetResourceType TargetResourceType,
+        string TargetResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetResourceType);
+        this.TargetResourceType = TargetResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(TargetResourceId);
+        this.TargetResourceId = TargetResourceId;
+    }
+
+    private AwsIotsitewiseListExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseListExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseListExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the target resource. Possible values: o ASSET o COMPUTATION_MODEL
+    /// </summary>
+    [CliOption("--target-resource-type")]
+    public AwsIotsitewiseListExecutionsTargetResourceType? TargetResourceType { get; private init; }
+
+    /// <summary>
+    /// The ID of the target resource. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--target-resource-id")]
-    public string? TargetResourceId { get; set; }
+    public string? TargetResourceId { get; private init; }
 
     /// <summary>
     /// The type of the resolved resource. Possible values: o ASSET
@@ -71,5 +115,21 @@ public record AwsIotsitewiseListExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

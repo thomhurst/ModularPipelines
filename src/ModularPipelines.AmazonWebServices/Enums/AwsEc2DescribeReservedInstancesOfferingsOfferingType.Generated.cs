@@ -11,32 +11,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --offeringtype.
+/// Allowed values for --offering-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2DescribeReservedInstancesOfferingsOfferingType
 {
+    [EnumValue("All")]
+    All,
+
     [EnumValue("Heavy")]
-    Heavy = 1,
-
-    [EnumValue("Utilization")]
-    Utilization = 2,
-
-    [EnumValue("Medium")]
-    Medium = 3,
+    Heavy,
 
     [EnumValue("Light")]
-    Light = 4,
+    Light,
+
+    [EnumValue("Medium")]
+    Medium,
 
     [EnumValue("No")]
-    No = 5,
+    No,
 
-    [EnumValue("Upfront")]
-    Upfront = 6,
+    [EnumValue("o")]
+    O,
 
     [EnumValue("Partial")]
-    Partial = 7,
+    Partial,
 
-    [EnumValue("All")]
-    All = 8
+    [EnumValue("Upfront")]
+    Upfront,
+
+    [EnumValue("Utilization")]
+    Utilization
 }

@@ -17,17 +17,17 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRedshiftDescribeDataSharesForProducerStatus
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
+    Active,
 
     [EnumValue("AUTHORIZED")]
-    Authorized = 2,
-
-    [EnumValue("PENDING_AUTHORIZATION")]
-    PendingAuthorization = 3,
+    Authorized,
 
     [EnumValue("DEAUTHORIZED")]
-    Deauthorized = 4,
+    Deauthorized,
+
+    [EnumValue("PENDING_AUTHORIZATION")]
+    PendingAuthorization,
 
     [EnumValue("REJECTED")]
-    Rejected = 5
+    Rejected
 }

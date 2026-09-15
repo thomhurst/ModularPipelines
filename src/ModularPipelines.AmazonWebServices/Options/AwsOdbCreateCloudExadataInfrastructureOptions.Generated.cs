@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-cloud-exadata-infrastructure")]
-public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
+public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Exadata infrastructure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">A user-friendly name for the Exadata infrastructure. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="Shape">The model name of the Exadata infrastructure. For the list of valid model names, use the ListDbSystemShapes operation. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_\/.=-]+</param>
+    /// <param name="ComputeCount">The number of database servers for the Exadata infrastructure. Valid values for this parameter depend on the shape. To get information about the minimum and maximum values, use the ListDbSystemShapes op- eration.</param>
+    /// <param name="StorageCount">The number of storage servers to activate for this Exadata infra- structure. Valid values for this parameter depend on the shape. To get information about the minimum and maximum values, use the List- DbSystemShapes operation.</param>
+    public AwsOdbCreateCloudExadataInfrastructureOptions(
+        string DisplayName,
+        string Shape,
+        int ComputeCount,
+        int StorageCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Shape);
+        this.Shape = Shape;
+        this.ComputeCount = ComputeCount;
+        this.StorageCount = StorageCount;
+    }
+
+    private AwsOdbCreateCloudExadataInfrastructureOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateCloudExadataInfrastructureOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateCloudExadataInfrastructureOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the Exadata infrastructure. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
+    [CliOption("--display-name")]
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The model name of the Exadata infrastructure. For the list of valid model names, use the ListDbSystemShapes operation. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// </summary>
     [CliOption("--shape")]
-    public string? Shape { get; set; }
+    public string? Shape { get; private init; }
+
+    /// <summary>
+    /// The number of database servers for the Exadata infrastructure. Valid values for this parameter depend on the shape. To get information about the minimum and maximum values, use the ListDbSystemShapes op- eration.
+    /// </summary>
+    [CliOption("--compute-count")]
+    public int? ComputeCount { get; private init; }
+
+    /// <summary>
+    /// The number of storage servers to activate for this Exadata infra- structure. Valid values for this parameter depend on the shape. To get information about the minimum and maximum values, use the List- DbSystemShapes operation.
+    /// </summary>
+    [CliOption("--storage-count")]
+    public int? StorageCount { get; private init; }
 
     /// <summary>
     /// The name of the Availability Zone (AZ) where the Exadata infrastruc- ture is located. This operation requires that you specify a value for either avail- abilityZone or availabilityZoneId . Example: us-east-1a Constraints: o min: 1 o max: 255
@@ -47,9 +109,6 @@ public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--compute-count")]
-    public int? ComputeCount { get; set; }
-
     /// <summary>
     /// The email addresses of contacts to receive notification from Oracle about maintenance updates for the Exadata infrastructure. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: o min: 1 o max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
     /// </summary>
@@ -61,9 +120,6 @@ public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
-
-    [CliOption("--storage-count")]
-    public int? StorageCount { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
@@ -89,5 +145,21 @@ public record AwsOdbCreateCloudExadataInfrastructureOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMarketplaceAgreementListBillingAdjustmentRequestsStatus
 {
+    [EnumValue("COMPLETED")]
+    Completed,
+
     [EnumValue("PENDING")]
-    Pending = 1,
+    Pending,
 
     [EnumValue("VALIDATION_FAILED")]
-    ValidationFailed = 2,
-
-    [EnumValue("COMPLETED")]
-    Completed = 3
+    ValidationFailed
 }

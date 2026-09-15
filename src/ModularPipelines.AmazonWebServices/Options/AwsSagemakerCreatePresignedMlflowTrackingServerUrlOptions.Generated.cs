@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-presigned-mlflow-tracking-server-url")]
-public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOptions
+public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackingServerName">The name of the tracking server to connect to your MLflow UI. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    public AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions(
+        string TrackingServerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackingServerName);
+        this.TrackingServerName = TrackingServerName;
+    }
+
+    private AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracking server to connect to your MLflow UI. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// </summary>
     [CliOption("--tracking-server-name")]
-    public string? TrackingServerName { get; set; }
+    public string? TrackingServerName { get; private init; }
 
     /// <summary>
     /// The duration in seconds that your presigned URL is valid. The pre- signed URL can be used only once. Constraints: o min: 5 o max: 300
@@ -41,5 +78,21 @@ public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identitystore", "update-group")]
-public record AwsIdentitystoreUpdateGroupOptions : AwsOptions
+public record AwsIdentitystoreUpdateGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified group metadata and attributes in the specified identity store. See also: AWS API Documentation update-group uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="GroupId">The identifier for a group in the identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="Operations">A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see Group . Constraints: o min: 1 o max: 100 (structure) An operation that applies to the requested group. This operation might add, replace, or remove an attribute. AttributePath -&gt; (string) [required] A string representation of the path to a given attribute or sub-attribute. Supports JMESPath. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. Shorthand Syntax: AttributePath=string ... JSON Syntax: [ { "AttributePath": "string", "AttributeValue": {...} } ... ]</param>
+    public AwsIdentitystoreUpdateGroupOptions(
+        string IdentityStoreId,
+        string GroupId,
+        IEnumerable<string> Operations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
+        this.IdentityStoreId = IdentityStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Operations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Operations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Operations));
+            }
+
+            Operations = materialized;
+        }
+        this.Operations = Operations;
+    }
+
+    private AwsIdentitystoreUpdateGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIdentitystoreUpdateGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIdentitystoreUpdateGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--identity-store-id")]
-    public string? IdentityStoreId { get; set; }
+    public string? IdentityStoreId { get; private init; }
 
+    /// <summary>
+    /// The identifier for a group in the identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--group-id")]
-    public string? GroupId { get; set; }
+    public string? GroupId { get; private init; }
 
+    /// <summary>
+    /// A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see Group . Constraints: o min: 1 o max: 100 (structure) An operation that applies to the requested group. This operation might add, replace, or remove an attribute. AttributePath -&gt; (string) [required] A string representation of the path to a given attribute or sub-attribute. Supports JMESPath. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (document) The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. Shorthand Syntax: AttributePath=string ... JSON Syntax: [ { "AttributePath": "string", "AttributeValue": {...} } ... ]
+    /// </summary>
     [CliOption("--operations", GroupValues = true)]
-    public IEnumerable<string>? Operations { get; set; }
+    public IEnumerable<string>? Operations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

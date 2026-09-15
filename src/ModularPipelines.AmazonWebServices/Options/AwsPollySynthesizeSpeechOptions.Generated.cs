@@ -23,6 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPollySynthesizeSpeechOptions : AwsOptions
 {
     /// <summary>
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more in- formation, see How it Works . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw</param>
+    /// <param name="Text">Input text to synthesize. If you specify ssml as the TextType , fol- low the SSML format for the input text.</param>
+    /// <param name="VoiceId">Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsPollySynthesizeSpeechOptions(
+        AwsPollySynthesizeSpeechOutputFormat OutputFormat,
+        string Text,
+        string VoiceId,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
+        this.OutputFormat = OutputFormat;
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceId);
+        this.VoiceId = VoiceId;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out AwsPollySynthesizeSpeechOutputFormat OutputFormat, out string Text, out string VoiceId, out string Outfile)
+    {
+        OutputFormat = this.OutputFormat;
+        Text = this.Text;
+        VoiceId = this.VoiceId;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw
+    /// </summary>
+    [CliOption("--output-format")]
+    public AwsPollySynthesizeSpeechOutputFormat OutputFormat { get; private init; }
+
+    /// <summary>
+    /// Input text to synthesize. If you specify ssml as the TextType , fol- low the SSML format for the input text.
+    /// </summary>
+    [CliOption("--text")]
+    public string Text { get; private init; }
+
+    /// <summary>
+    /// Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--voice-id")]
+    public string VoiceId { get; private init; }
+
+    /// <summary>
     /// Specifies the engine (standard , neural , long-form , or generative ) for Amazon Polly to use when processing input text for speech syn- thesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices . Possible values: o standard o neural o long-form o generative
     /// </summary>
     [CliOption("--engine")]
@@ -40,9 +90,6 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
     [CliOption("--lexicon-names", GroupValues = true)]
     public IEnumerable<string>? LexiconNames { get; set; }
 
-    [CliOption("--output-format")]
-    public string? OutputFormat { get; set; }
-
     /// <summary>
     /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for stan- dard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The de- fault value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
     /// </summary>
@@ -55,16 +102,16 @@ public record AwsPollySynthesizeSpeechOptions : AwsOptions
     [CliOption("--speech-mark-types", GroupValues = true)]
     public IEnumerable<string>? SpeechMarkTypes { get; set; }
 
-    [CliOption("--text")]
-    public string? Text { get; set; }
-
     /// <summary>
     /// Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML . Possible values: o ssml o text
     /// </summary>
     [CliOption("--text-type")]
     public AwsPollySynthesizeSpeechTextType? TextType { get; set; }
 
-    [CliOption("--voice-id")]
-    public string? VoiceId { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

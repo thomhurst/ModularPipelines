@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --flowoperationtype.
+/// Allowed values for --flow-operation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkFirewallListFlowOperationsFlowOperationType
 {
-    [EnumValue("FLOW_FLUSH")]
-    FlowFlush = 1,
-
     [EnumValue("FLOW_CAPTURE")]
-    FlowCapture = 2
+    FlowCapture,
+
+    [EnumValue("FLOW_FLUSH")]
+    FlowFlush
 }

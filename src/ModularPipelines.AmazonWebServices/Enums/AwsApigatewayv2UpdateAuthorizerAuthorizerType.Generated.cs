@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --authorizertype.
+/// Allowed values for --authorizer-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayv2UpdateAuthorizerAuthorizerType
 {
-    [EnumValue("REQUEST")]
-    Request = 1,
-
     [EnumValue("JWT")]
-    Jwt = 2
+    Jwt,
+
+    [EnumValue("REQUEST")]
+    Request
 }

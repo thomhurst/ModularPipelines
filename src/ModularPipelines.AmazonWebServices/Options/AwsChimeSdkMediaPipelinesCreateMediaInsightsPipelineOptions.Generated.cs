@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-insights-pipeline")]
-public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a media insights pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MediaInsightsPipelineConfigurationArn">The ARN of the pipeline's configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions(
+        string MediaInsightsPipelineConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MediaInsightsPipelineConfigurationArn);
+        this.MediaInsightsPipelineConfigurationArn = MediaInsightsPipelineConfigurationArn;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the pipeline's configuration. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--media-insights-pipeline-configuration-arn")]
-    public string? MediaInsightsPipelineConfigurationArn { get; set; }
+    public string? MediaInsightsPipelineConfigurationArn { get; private init; }
 
     /// <summary>
     /// The runtime configuration for the Kinesis video stream source of the media insights pipeline. Streams -&gt; (list) [required] The streams in the source runtime configuration of a Kinesis video stream. Constraints: o min: 1 o max: 2 (structure) The configuration settings for a stream. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentNumber -&gt; (string) The unique identifier of the fragment to begin process- ing. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ StreamChannelDefinition -&gt; (structure) [required] The streaming channel definition in the stream configura- tion. NumberOfChannels -&gt; (integer) [required] The number of channels in a streaming channel. Constraints: o min: 1 o max: 2 ChannelDefinitions -&gt; (list) The definitions of the channels in a streaming chan- nel. Constraints: o min: 1 o max: 2 (structure) Defines an audio channel in a Kinesis video stream. ChannelId -&gt; (integer) [required] The channel ID. Constraints: o min: 0 o max: 1 ParticipantRole -&gt; (string) Specifies whether the audio in a channel be- longs to the AGENT or CUSTOMER . Possible values: o AGENT o CUSTOMER MediaEncoding -&gt; (string) [required] Specifies the encoding of your input audio. Supported format: PCM (only signed 16-bit little-endian audio formats, which does not include WAV) For more information, see Media formats in the Amazon Transcribe Developer Guide . Possible values: o pcm MediaSampleRate -&gt; (integer) [required] The sample rate of the input audio (in hertz). Low-quality au- dio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio. Valid Range: Minimum value of 8000. Maximum value of 48000. Constraints: o min: 8000 o max: 48000 JSON Syntax: { "Streams": [ { "StreamArn": "string", "FragmentNumber": "string", "StreamChannelDefinition": { "NumberOfChannels": integer, "ChannelDefinitions": [ { "ChannelId": integer, "ParticipantRole": "AGENT"|"CUSTOMER" } ... ] } } ... ], "MediaEncoding": "pcm", "MediaSampleRate": integer }
@@ -43,7 +79,7 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
     /// The runtime configuration for the Kinesis video recording stream source. Streams -&gt; (list) [required] The stream or streams to be recorded. Constraints: o min: 1 o max: 2 (structure) A structure that holds the settings for recording media. StreamArn -&gt; (string) The ARN of the recording stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ FragmentSelector -&gt; (structure) [required] Describes the timestamp range and timestamp origin of a range of fragments in the Kinesis video stream. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use, Server or Producer . For more information, see StartSelectorType in the Amazon Kinesis Video Streams Developer Guide . Possible values: o ProducerTimestamp o ServerTimestamp TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp for the specified range. EndTimestamp -&gt; (timestamp) [required] The ending timestamp for the specified range. Shorthand Syntax: Streams=[{StreamArn=string},{StreamArn=string}],FragmentSelector={FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp}} JSON Syntax: { "Streams": [ { "StreamArn": "string" } ... ], "FragmentSelector": { "FragmentSelectorType": "ProducerTimestamp"|"ServerTimestamp", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } } }
     /// </summary>
     [CliOption("--kinesis-video-stream-recording-source-runtime-configuration")]
-    public AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineKinesisVideoStreamRecordingSourceRuntimeConfiguration? KinesisVideoStreamRecordingSourceRuntimeConfiguration { get; set; }
+    public string? KinesisVideoStreamRecordingSourceRuntimeConfiguration { get; set; }
 
     /// <summary>
     /// The runtime configuration for the S3 recording sink. If specified, the settings in this structure override any settings in S3Record- ingSinkConfiguration . Destination -&gt; (string) [required] The URI of the S3 bucket used as the sink. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ RecordingFileFormat -&gt; (string) [required] The file format for the media files sent to the Amazon S3 bucket. Possible values: o Wav o Opus Shorthand Syntax: Destination=string,RecordingFileFormat=string JSON Syntax: { "Destination": "string", "RecordingFileFormat": "Wav"|"Opus" }
@@ -69,5 +105,21 @@ public record AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

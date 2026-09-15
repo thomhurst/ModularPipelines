@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("shield", "associate-drt-log-bucket")]
-public record AwsShieldAssociateDrtLogBucketOptions : AwsOptions
+public record AwsShieldAssociateDrtLogBucketOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Authorizes the Shield Response Team (SRT) to access the specified Ama- zon S3 bucket containing log data such as Application Load Balancer ac- cess logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket re- quest, you must be subscribed to the Business Support plan or the Enterprise Support plan . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogBucket">The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$</param>
+    public AwsShieldAssociateDrtLogBucketOptions(
+        string LogBucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogBucket);
+        this.LogBucket = LogBucket;
+    }
+
+    private AwsShieldAssociateDrtLogBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsShieldAssociateDrtLogBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsShieldAssociateDrtLogBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon S3 bucket that contains the logs that you want to share. Constraints: o min: 3 o max: 63 o pattern: ^([a-z]|(\d(?!\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})))([a-z\d]|(\.(?!(\.|-)))|(-(?!\.))){1,61}[a-z\d]$
+    /// </summary>
     [CliOption("--log-bucket")]
-    public string? LogBucket { get; set; }
+    public string? LogBucket { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

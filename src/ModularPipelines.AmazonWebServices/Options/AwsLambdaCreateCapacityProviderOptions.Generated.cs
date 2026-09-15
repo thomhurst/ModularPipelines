@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "create-capacity-provider")]
-public record AwsLambdaCreateCapacityProviderOptions : AwsOptions
+public record AwsLambdaCreateCapacityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityProviderName">The name of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="VpcConfig">The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches com- pute instances. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="PermissionsConfig">The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to man- age compute instances and other Amazon Web Services resources. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }</param>
+    public AwsLambdaCreateCapacityProviderOptions(
+        string CapacityProviderName,
+        string VpcConfig,
+        string PermissionsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityProviderName);
+        this.CapacityProviderName = CapacityProviderName;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConfig);
+        this.VpcConfig = VpcConfig;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionsConfig);
+        this.PermissionsConfig = PermissionsConfig;
+    }
+
+    private AwsLambdaCreateCapacityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCreateCapacityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCreateCapacityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the capacity provider. Constraints: o min: 1 o max: 140 o pattern: (arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:ca- pacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--capacity-provider-name")]
-    public string? CapacityProviderName { get; set; }
+    public string? CapacityProviderName { get; private init; }
 
+    /// <summary>
+    /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched. SubnetIds -&gt; (list) [required] A list of subnet IDs where the capacity provider launches com- pute instances. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 1024 o pattern: subnet-[0-9a-z]* SecurityGroupIds -&gt; (list) [required] A list of security group IDs that control network access for compute instances managed by the capacity provider. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 1024 o pattern: sg-[0-9a-zA-Z]* Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// </summary>
     [CliOption("--vpc-config")]
-    public string? VpcConfig { get; set; }
+    public string? VpcConfig { get; private init; }
 
+    /// <summary>
+    /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources. CapacityProviderOperatorRoleArn -&gt; (string) [required] The ARN of the IAM role that the capacity provider uses to man- age compute instances and other Amazon Web Services resources. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: CapacityProviderOperatorRoleArn=string JSON Syntax: { "CapacityProviderOperatorRoleArn": "string" }
+    /// </summary>
     [CliOption("--permissions-config")]
-    public string? PermissionsConfig { get; set; }
+    public string? PermissionsConfig { get; private init; }
 
     /// <summary>
     /// The instance requirements that specify the compute instance charac- teristics, including architectures and allowed or excluded instance types. Architectures -&gt; (list) A list of supported CPU architectures for compute instances. Valid values include x86_64 and arm64 . Constraints: o min: 1 o max: 1 (string) Possible values: o x86_64 o arm64 AllowedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider is al- lowed to use. If not specified, all compatible instance types are allowed. Constraints: o min: 0 o max: 400 (string) Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\*\-]+ ExcludedInstanceTypes -&gt; (list) A list of EC2 instance types that the capacity provider should not use, even if they meet other requirements. Constraints: o min: 0 o max: 400 (string) Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\*\-]+ Shorthand Syntax: Architectures=string,string,AllowedInstanceTypes=string,string,ExcludedInstanceTypes=string,string JSON Syntax: { "Architectures": ["x86_64"|"arm64", ...], "AllowedInstanceTypes": ["string", ...], "ExcludedInstanceTypes": ["string", ...] }
@@ -72,5 +123,21 @@ public record AwsLambdaCreateCapacityProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

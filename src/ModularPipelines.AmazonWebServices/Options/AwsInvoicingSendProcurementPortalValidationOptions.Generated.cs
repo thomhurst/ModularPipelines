@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("invoicing", "send-procurement-portal-validation")]
-public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions
+public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete val...
+    /// </summary>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    public AwsInvoicingSendProcurementPortalValidationOptions(
+        string ProcurementPortalPreferenceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProcurementPortalPreferenceArn);
+        this.ProcurementPortalPreferenceArn = ProcurementPortalPreferenceArn;
+    }
+
+    private AwsInvoicingSendProcurementPortalValidationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInvoicingSendProcurementPortalValidationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInvoicingSendProcurementPortalValidationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to validate. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
-    public string? ProcurementPortalPreferenceArn { get; set; }
+    public string? ProcurementPortalPreferenceArn { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
@@ -37,5 +74,21 @@ public record AwsInvoicingSendProcurementPortalValidationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

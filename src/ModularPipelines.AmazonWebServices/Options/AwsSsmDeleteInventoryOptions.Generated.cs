@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "delete-inventory")]
-public record AwsSsmDeleteInventoryOptions : AwsOptions
+public record AwsSsmDeleteInventoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a custom inventory type or the data associated with a custom In- ventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TypeName">The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$</param>
+    public AwsSsmDeleteInventoryOptions(
+        string TypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+    }
+
+    private AwsSsmDeleteInventoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDeleteInventoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDeleteInventoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
 
     /// <summary>
     /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all in- ventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want. Possible values: o DisableSchema o DeleteSchema
@@ -32,7 +69,10 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions
     [CliOption("--schema-delete-option")]
     public AwsSsmDeleteInventorySchemaDeleteOption? SchemaDeleteOption { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -47,5 +87,21 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

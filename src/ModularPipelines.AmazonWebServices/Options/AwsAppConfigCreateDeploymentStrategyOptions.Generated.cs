@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create-deployment-strategy")]
-public record AwsAppConfigCreateDeploymentStrategyOptions : AwsOptions
+public record AwsAppConfigCreateDeploymentStrategyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of tar- gets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A name for the deployment strategy. Constraints: o min: 1 o max: 64</param>
+    /// <param name="DeploymentDurationInMinutes">Total amount of time for a deployment to last. NOTE: AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users dur- ing a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the de- ployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments Constraints: o min: 0 o max: 1440</param>
+    /// <param name="GrowthFactor">The percentage of targets to receive a deployed configuration during each interval. Constraints: o min: 1.0 o max: 100.0</param>
+    public AwsAppConfigCreateDeploymentStrategyOptions(
+        string Name,
+        int DeploymentDurationInMinutes,
+        int GrowthFactor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.DeploymentDurationInMinutes = DeploymentDurationInMinutes;
+        this.GrowthFactor = GrowthFactor;
+    }
+
+    private AwsAppConfigCreateDeploymentStrategyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigCreateDeploymentStrategyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigCreateDeploymentStrategyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the deployment strategy. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Total amount of time for a deployment to last. NOTE: AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users dur- ing a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the de- ployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments Constraints: o min: 0 o max: 1440
+    /// </summary>
+    [CliOption("--deployment-duration-in-minutes")]
+    public int? DeploymentDurationInMinutes { get; private init; }
+
+    /// <summary>
+    /// The percentage of targets to receive a deployed configuration during each interval. Constraints: o min: 1.0 o max: 100.0
+    /// </summary>
+    [CliOption("--growth-factor")]
+    public int? GrowthFactor { get; private init; }
 
     /// <summary>
     /// A description of the deployment strategy. Constraints: o min: 0 o max: 1024
@@ -32,17 +87,11 @@ public record AwsAppConfigCreateDeploymentStrategyOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--deployment-duration-in-minutes")]
-    public int? DeploymentDurationInMinutes { get; set; }
-
     /// <summary>
     /// Specifies the amount of time AppConfig monitors for Amazon Cloud- Watch alarms after the configuration has been deployed to 100% of its targets, before considering the deployment to be complete. If an alarm is triggered during this time, AppConfig rolls back the de- ployment. You must configure permissions for AppConfig to roll back based on CloudWatch alarms. For more information, see Configuring permissions for rollback based on Amazon CloudWatch alarms in the AppConfig User Guide . Constraints: o min: 0 o max: 1440
     /// </summary>
     [CliOption("--final-bake-time-in-minutes")]
     public int? FinalBakeTimeInMinutes { get; set; }
-
-    [CliOption("--growth-factor")]
-    public int? GrowthFactor { get; set; }
 
     /// <summary>
     /// The algorithm used to define how percentage grows over time. AppCon- fig supports the following growth types: Linear : For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage . For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system de- ploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the config- uration. Exponential : For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N) . In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows: 2*(2^0) 2*(2^1) 2*(2^2) Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues un- til the configuration has been deployed to all targets. Possible values: o LINEAR o EXPONENTIAL
@@ -67,5 +116,21 @@ public record AwsAppConfigCreateDeploymentStrategyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

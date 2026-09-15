@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "invite-account-to-organization")]
-public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions
+public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invita- tion is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed be- cause your organization is still initializing, wait one hour and then try a...
+    /// </summary>
+    /// <param name="Target">The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that con- tains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }</param>
+    public AwsOrganizationsInviteAccountToOrganizationOptions(
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsOrganizationsInviteAccountToOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsInviteAccountToOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsInviteAccountToOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that con- tains the following elements: { "Type": "ACCOUNT", "Id": "&lt;* **account id number** * &gt;" } If you use the CLI, you can submit this as a single string, similar to the following example: --target Id=123456789012,Type=ACCOUNT If you specify "Type": "ACCOUNT" , you must provide the Amazon Web Services account ID number as the Id . If you specify "Type": "EMAIL" , you must specify the email address that is associated with the account. --target Id=diego@example.com,Type=EMAIL Id -&gt; (string) [required] ID for the participant: Acccount ID, organization ID, or email address. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o min: 1 o max: 64 o pattern: [\s\S]* Type -&gt; (string) [required] The type of ID for the participant. NOTE: ORGANIZATION is valid only in the response context (identify- ing the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only. Possible values: o ACCOUNT o ORGANIZATION o EMAIL Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT"|"ORGANIZATION"|"EMAIL" }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
     /// <summary>
     /// Additional information that you want to include in the generated email to the recipient account owner. Constraints: o max: 1024 o pattern: [\s\S]*
@@ -41,5 +78,21 @@ public record AwsOrganizationsInviteAccountToOrganizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

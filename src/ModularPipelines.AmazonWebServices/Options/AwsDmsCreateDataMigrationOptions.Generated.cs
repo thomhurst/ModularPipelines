@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-data-migration")]
-public record AwsDmsCreateDataMigrationOptions : AwsOptions
+public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a data migration using the provided settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">An identifier for the migration project.</param>
+    /// <param name="DataMigrationType">Specifies if the data migration is full-load only, change data cap- ture (CDC) only, or full-load and CDC. Possible values: o full-load o cdc o full-load-and-cdc</param>
+    /// <param name="ServiceAccessRoleArn">The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.</param>
+    public AwsDmsCreateDataMigrationOptions(
+        string MigrationProjectIdentifier,
+        AwsDmsCreateDataMigrationDataMigrationType DataMigrationType,
+        string ServiceAccessRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DataMigrationType);
+        this.DataMigrationType = DataMigrationType;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccessRoleArn);
+        this.ServiceAccessRoleArn = ServiceAccessRoleArn;
+    }
+
+    private AwsDmsCreateDataMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateDataMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateDataMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the migration project.
+    /// </summary>
+    [CliOption("--migration-project-identifier")]
+    public string? MigrationProjectIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies if the data migration is full-load only, change data cap- ture (CDC) only, or full-load and CDC. Possible values: o full-load o cdc o full-load-and-cdc
+    /// </summary>
+    [CliOption("--data-migration-type")]
+    public AwsDmsCreateDataMigrationDataMigrationType? DataMigrationType { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.
+    /// </summary>
+    [CliOption("--service-access-role-arn")]
+    public string? ServiceAccessRoleArn { get; private init; }
+
     /// <summary>
     /// A user-friendly name for the data migration. Data migration names have the following constraints: o Must begin with a letter, and can only contain ASCII letters, dig- its, and hyphens. o Can't end with a hyphen or contain two consecutive hyphens. o Length must be from 1 to 255 characters.
     /// </summary>
     [CliOption("--data-migration-name")]
     public string? DataMigrationName { get; set; }
 
-    [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
-
-    [CliOption("--data-migration-type")]
-    public string? DataMigrationType { get; set; }
-
-    [CliOption("--service-access-role-arn")]
-    public string? ServiceAccessRoleArn { get; set; }
-
-    [CliFlag("--enable-cloudwatch-logs")]
+    /// <summary>
+    /// Specifies whether to enable CloudWatch logs for the data migration.
+    /// </summary>
+    [CliFlag("--enable-cloudwatch-logs", NegatedName = "--no-enable-cloudwatch-logs")]
     public bool? EnableCloudwatchLogs { get; set; }
 
     /// <summary>
@@ -74,5 +129,21 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

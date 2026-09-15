@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "purchase-offering")]
-public record AwsMedialivePurchaseOfferingOptions : AwsOptions
+public record AwsMedialivePurchaseOfferingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Purchase an offering and create a reservation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Count"></param>
+    /// <param name="OfferingId"></param>
+    public AwsMedialivePurchaseOfferingOptions(
+        int Count,
+        string OfferingId
+    )
+    {
+        this.Count = Count;
+        global::System.ArgumentNullException.ThrowIfNull(OfferingId);
+        this.OfferingId = OfferingId;
+    }
+
+    private AwsMedialivePurchaseOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialivePurchaseOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialivePurchaseOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--count")]
-    public int? Count { get; set; }
+    public int? Count { get; private init; }
+
+    [CliOption("--offering-id")]
+    public string? OfferingId { get; private init; }
 
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--offering-id")]
-    public string? OfferingId { get; set; }
 
     [CliOption("--renewal-settings")]
     public string? RenewalSettings { get; set; }
@@ -48,5 +85,21 @@ public record AwsMedialivePurchaseOfferingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

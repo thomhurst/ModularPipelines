@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "create-data-source-from-s3")]
-public record AwsMachinelearningCreateDataSourceFromS3Options : AwsOptions
+public record AwsMachinelearningCreateDataSourceFromS3Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DataSource object. A DataSource references data that can be used to perform CreateMLModel , CreateEvaluation , or CreateBatchPre- diction operations. CreateDataSourceFromS3 is an asynchronous operation. In response to CreateDataSourceFromS3 , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the DataSource status to PENDING . After the DataSource has been created and is ready for use, Amazon ML sets the Status parameter to COMPLETED . DataSource in the COMPLETED or PEN...
+    /// </summary>
+    /// <param name="DataSourceId">A user-supplied identifier that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSpec">The data specification of a DataSource : o DataLocationS3 - The Amazon S3 location of the observation data. o DataSchemaLocationS3 - The Amazon S3 location of the DataSchema . o DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified. o DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource . Sample - "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}" DataLocationS3 -&gt; (string) [required] The location of the data file(s) used by a DataSource . The URI specifies a data file or an Amazon Simple Storage Service (Ama- zon S3) directory or bucket containing data files. Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? DataRearrangement -&gt; (string) A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource . If the DataRearrange- ment parameter is not provided, all of the input data is used to create the Datasource . There are multiple parameters that control what data is used to create a datasource: o ** percentBegin ** Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML in- cludes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 177) Inline strong start-string without end-string. o ** percentEnd ** Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML includes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 179) Inline strong start-string without end-string. o ** complement ** The complement parameter instructs Amazon ML to use the data that is not included in the range of percent- Begin to percentEnd to create a datasource. The complement pa- rameter is useful if you need to create complementary data- sources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and per- centEnd , along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"per- centBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "comple- ment":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 181) Inline strong start-string without end-string. o ** strategy ** To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential , meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evalua- tion: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"se- quential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd . Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are dis- tributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"ran- dom", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Data- source for training: {"splitting":{"percentBegin":70, "per- centEnd":100, "strategy":"random", "random- Seed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 183) Inline strong start-string without end-string. DataSchema -&gt; (string) A JSON string that represents the schema for an Amazon S3 Data- Source . The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource . You must provide either the DataSchema or the DataSchemaLoca- tionS3 . Define your DataSchema as a series of key-value pairs. attrib- utes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema . { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "field- Name": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "field- Type": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "field- Type": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] } Constraints: o max: 131071 DataSchemaLocationS3 -&gt; (string) Describes the schema location in Amazon S3. You must provide ei- ther the DataSchema or the DataSchemaLocationS3 . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? Shorthand Syntax: DataLocationS3=string,DataRearrangement=string,DataSchema=string,DataSchemaLocationS3=string JSON Syntax: { "DataLocationS3": "string", "DataRearrangement": "string", "DataSchema": "string", "DataSchemaLocationS3": "string" }</param>
+    public AwsMachinelearningCreateDataSourceFromS3Options(
+        string DataSourceId,
+        string DataSpec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSpec);
+        this.DataSpec = DataSpec;
+    }
+
+    private AwsMachinelearningCreateDataSourceFromS3Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningCreateDataSourceFromS3Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningCreateDataSourceFromS3Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied identifier that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// The data specification of a DataSource : o DataLocationS3 - The Amazon S3 location of the observation data. o DataSchemaLocationS3 - The Amazon S3 location of the DataSchema . o DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified. o DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource . Sample - "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}" DataLocationS3 -&gt; (string) [required] The location of the data file(s) used by a DataSource . The URI specifies a data file or an Amazon Simple Storage Service (Ama- zon S3) directory or bucket containing data files. Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? DataRearrangement -&gt; (string) A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource . If the DataRearrange- ment parameter is not provided, all of the input data is used to create the Datasource . There are multiple parameters that control what data is used to create a datasource: o ** percentBegin ** Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML in- cludes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 177) Inline strong start-string without end-string. o ** percentEnd ** Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML includes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 179) Inline strong start-string without end-string. o ** complement ** The complement parameter instructs Amazon ML to use the data that is not included in the range of percent- Begin to percentEnd to create a datasource. The complement pa- rameter is useful if you need to create complementary data- sources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and per- centEnd , along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"per- centBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "comple- ment":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 181) Inline strong start-string without end-string. o ** strategy ** To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential , meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evalua- tion: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"se- quential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd . Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are dis- tributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"ran- dom", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Data- source for training: {"splitting":{"percentBegin":70, "per- centEnd":100, "strategy":"random", "random- Seed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 183) Inline strong start-string without end-string. DataSchema -&gt; (string) A JSON string that represents the schema for an Amazon S3 Data- Source . The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource . You must provide either the DataSchema or the DataSchemaLoca- tionS3 . Define your DataSchema as a series of key-value pairs. attrib- utes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema . { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "field- Name": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "field- Type": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "field- Type": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] } Constraints: o max: 131071 DataSchemaLocationS3 -&gt; (string) Describes the schema location in Amazon S3. You must provide ei- ther the DataSchema or the DataSchemaLocationS3 . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? Shorthand Syntax: DataLocationS3=string,DataRearrangement=string,DataSchema=string,DataSchemaLocationS3=string JSON Syntax: { "DataLocationS3": "string", "DataRearrangement": "string", "DataSchema": "string", "DataSchemaLocationS3": "string" }
+    /// </summary>
+    [CliOption("--data-spec")]
+    public string? DataSpec { get; private init; }
 
     /// <summary>
     /// A user-supplied name or description of the DataSource . Constraints: o max: 1024 o pattern: .*\S.*|^$
@@ -30,10 +77,10 @@ public record AwsMachinelearningCreateDataSourceFromS3Options : AwsOptions
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; set; }
 
-    [CliOption("--data-spec")]
-    public string? DataSpec { get; set; }
-
-    [CliFlag("--compute-statistics")]
+    /// <summary>
+    /// The compute statistics for a DataSource . The statistics are gener- ated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This pa- rameter must be set to true if the DataSourceneeds to be used for MLModel training.
+    /// </summary>
+    [CliFlag("--compute-statistics", NegatedName = "--no-compute-statistics")]
     public bool? ComputeStatistics { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsMachinelearningCreateDataSourceFromS3Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

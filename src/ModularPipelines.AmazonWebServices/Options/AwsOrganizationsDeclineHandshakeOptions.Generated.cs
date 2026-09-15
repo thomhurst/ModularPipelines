@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "decline-handshake")]
-public record AwsOrganizationsDeclineHandshakeOptions : AwsOptions
+public record AwsOrganizationsDeclineHandshakeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the hand- shake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HandshakeId">ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$</param>
+    public AwsOrganizationsDeclineHandshakeOptions(
+        string HandshakeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HandshakeId);
+        this.HandshakeId = HandshakeId;
+    }
+
+    private AwsOrganizationsDeclineHandshakeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsDeclineHandshakeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsDeclineHandshakeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$
+    /// </summary>
     [CliOption("--handshake-id")]
-    public string? HandshakeId { get; set; }
+    public string? HandshakeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "create-recipe-job")]
-public record AwsDatabrewCreateRecipeJobOptions : AwsOptions
+public record AwsDatabrewCreateRecipeJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 240</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job. Constraints: o min: 20 o max: 2048</param>
+    public AwsDatabrewCreateRecipeJobOptions(
+        string Name,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsDatabrewCreateRecipeJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewCreateRecipeJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewCreateRecipeJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 240
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
     /// <summary>
     /// The name of the dataset that this job processes. Constraints: o min: 1 o max: 255
     /// </summary>
@@ -40,9 +90,6 @@ public record AwsDatabrewCreateRecipeJobOptions : AwsOptions
     /// </summary>
     [CliOption("--encryption-mode")]
     public AwsDatabrewCreateRecipeJobEncryptionMode? EncryptionMode { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Enables or disables Amazon CloudWatch logging for the job. If log- ging is enabled, CloudWatch writes one log stream for each job run. Possible values: o ENABLE o DISABLE
@@ -92,9 +139,6 @@ public record AwsDatabrewCreateRecipeJobOptions : AwsOptions
     [CliOption("--recipe-reference")]
     public string? RecipeReference { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     /// <summary>
     /// Metadata tags to apply to this job. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -112,5 +156,21 @@ public record AwsDatabrewCreateRecipeJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

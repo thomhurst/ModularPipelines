@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "delete-agent-memory")]
-public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions
+public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-alias-id")]
-    public string? AgentAliasId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes memory from the specified memory identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsBedrockAgentRuntimeDeleteAgentMemoryOptions(
+        string AgentAliasId,
+        string AgentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentAliasId);
+        this.AgentAliasId = AgentAliasId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+    }
+
+    private AwsBedrockAgentRuntimeDeleteAgentMemoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeDeleteAgentMemoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeDeleteAgentMemoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--agent-alias-id")]
+    public string? AgentAliasId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
     /// <summary>
     /// The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$
@@ -44,5 +88,21 @@ public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

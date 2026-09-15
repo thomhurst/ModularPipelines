@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "stop-code-interpreter-session")]
-public record AwsBedrockAgentcoreStopCodeInterpreterSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreStopCodeInterpreterSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Terminates an active code interpreter session in Amazon Bedrock Agent- Core. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInter- preterSession . The following operations are related to StopCodeInterpreterSession : o StartCodeIn...
+    /// </summary>
+    /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter associated with the session.</param>
+    /// <param name="SessionId">The unique identifier of the code interpreter session to stop. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    public AwsBedrockAgentcoreStopCodeInterpreterSessionOptions(
+        string CodeInterpreterIdentifier,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeInterpreterIdentifier);
+        this.CodeInterpreterIdentifier = CodeInterpreterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsBedrockAgentcoreStopCodeInterpreterSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreStopCodeInterpreterSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreStopCodeInterpreterSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the code interpreter associated with the session.
+    /// </summary>
+    [CliOption("--code-interpreter-identifier")]
+    public string? CodeInterpreterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the code interpreter session to stop. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
+    [CliOption("--session-id")]
+    public string? SessionId { get; private init; }
+
     /// <summary>
     /// The trace identifier for request tracking. Constraints: o min: 0 o max: 1024
     /// </summary>
@@ -33,12 +83,6 @@ public record AwsBedrockAgentcoreStopCodeInterpreterSessionOptions : AwsOptions
     /// </summary>
     [CliOption("--trace-parent")]
     public string? TraceParent { get; set; }
-
-    [CliOption("--code-interpreter-identifier")]
-    public string? CodeInterpreterIdentifier { get; set; }
-
-    [CliOption("--session-id")]
-    public string? SessionId { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -52,5 +96,21 @@ public record AwsBedrockAgentcoreStopCodeInterpreterSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-alias")]
-public record AwsGameliftUpdateAliasOptions : AwsOptions
+public record AwsGameliftUpdateAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AliasId">A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$</param>
+    public AwsGameliftUpdateAliasOptions(
+        string AliasId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+    }
+
+    private AwsGameliftUpdateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the alias that you want to update. You can use either the alias ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^(alias-\S+|arn:.*:alias\/alias-\S+)$
+    /// </summary>
     [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    public string? AliasId { get; private init; }
 
     /// <summary>
     /// A descriptive label that is associated with an alias. Alias names do not need to be unique. Constraints: o min: 1 o max: 1024 o pattern: ^.*\S.*$
@@ -47,5 +84,21 @@ public record AwsGameliftUpdateAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

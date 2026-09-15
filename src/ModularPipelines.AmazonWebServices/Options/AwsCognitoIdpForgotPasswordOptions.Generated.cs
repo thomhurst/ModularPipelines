@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "forgot-password")]
-public record AwsCognitoIdpForgotPasswordOptions : AwsOptions
+public record AwsCognitoIdpForgotPasswordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is deter- mined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client ha...
+    /// </summary>
+    /// <param name="ClientId">The ID of the user pool app client associated with the current signed-in user. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    public AwsCognitoIdpForgotPasswordOptions(
+        string ClientId,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsCognitoIdpForgotPasswordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpForgotPasswordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpForgotPasswordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool app client associated with the current signed-in user. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
 
     /// <summary>
     /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash , see Computing secret hash values . Constraints: o min: 1 o max: 128 o pattern: [\w+=/]+
@@ -38,9 +85,6 @@ public record AwsCognitoIdpForgotPasswordOptions : AwsOptions
     /// </summary>
     [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
-
-    [CliOption("--username")]
-    public string? Username { get; set; }
 
     /// <summary>
     /// Information that supports analytics outcomes with Amazon Pinpoint, including the user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identi- fier, email address, or phone number. AnalyticsEndpointId -&gt; (string) The endpoint ID. Information that you want to pass to Amazon Pinpoint about where to send notifications. Constraints: o min: 0 o max: 131072 Shorthand Syntax: AnalyticsEndpointId=string JSON Syntax: { "AnalyticsEndpointId": "string" }
@@ -59,5 +103,21 @@ public record AwsCognitoIdpForgotPasswordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpn-connection-options")]
-public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions
+public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP ad- dresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavail- able for a brief period while the VPN connection is updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpnConnectionId">The ID of the Site-to-Site VPN connection.</param>
+    public AwsEc2ModifyVpnConnectionOptionsOptions(
+        string VpnConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnectionId);
+        this.VpnConnectionId = VpnConnectionId;
+    }
+
+    private AwsEc2ModifyVpnConnectionOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpnConnectionOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpnConnectionOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Site-to-Site VPN connection.
+    /// </summary>
     [CliOption("--vpn-connection-id")]
-    public string? VpnConnectionId { get; set; }
+    public string? VpnConnectionId { get; private init; }
 
     /// <summary>
     /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: 0.0.0.0/0
@@ -53,9 +90,12 @@ public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions
     /// The desired bandwidth specification for the VPN connection. standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps per tunnel. Large bandwidth is only available for VPN connec- tions attached to a transit gateway or to Cloud WAN. The default value is standard . Possible values: o standard o large
     /// </summary>
     [CliOption("--tunnel-bandwidth")]
-    public AwsEc2ModifyVpnConnectionTunnelBandwidth? TunnelBandwidth { get; set; }
+    public AwsEc2ModifyVpnConnectionOptionsTunnelBandwidth? TunnelBandwidth { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -63,5 +103,21 @@ public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

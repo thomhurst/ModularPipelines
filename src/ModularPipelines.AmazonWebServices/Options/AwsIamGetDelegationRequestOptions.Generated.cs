@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-delegation-request")]
-public record AwsIamGetDelegationRequestOptions : AwsOptions
+public record AwsIamGetDelegationRequestOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--delegation-request-id")]
-    public string? DelegationRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delegation-permission-check")]
+    /// <summary>
+    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRe- quest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delega- tion request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details,...
+    /// </summary>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to retrieve. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    public AwsIamGetDelegationRequestOptions(
+        string DelegationRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DelegationRequestId);
+        this.DelegationRequestId = DelegationRequestId;
+    }
+
+    private AwsIamGetDelegationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetDelegationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetDelegationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the delegation request to retrieve. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// </summary>
+    [CliOption("--delegation-request-id")]
+    public string? DelegationRequestId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a per- mission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckRe- sult response attributes for further details.
+    /// </summary>
+    [CliFlag("--delegation-permission-check", NegatedName = "--no-delegation-permission-check")]
     public bool? DelegationPermissionCheck { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsIamGetDelegationRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

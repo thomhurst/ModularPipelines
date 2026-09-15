@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "update-assessment-framework-share")]
-public record AwsAuditManagerUpdateAssessmentFrameworkShareOptions : AwsOptions
+public record AwsAuditManagerUpdateAssessmentFrameworkShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a share request for a custom framework in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RequestId">The unique identifier for the share request. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED</param>
+    /// <param name="Action">Specifies the update action for the share request. Possible values: o ACCEPT o DECLINE o REVOKE</param>
+    public AwsAuditManagerUpdateAssessmentFrameworkShareOptions(
+        string RequestId,
+        AwsAuditManagerUpdateAssessmentFrameworkShareRequestType RequestType,
+        AwsAuditManagerUpdateAssessmentFrameworkShareAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RequestId);
+        this.RequestId = RequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RequestType);
+        this.RequestType = RequestType;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsAuditManagerUpdateAssessmentFrameworkShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerUpdateAssessmentFrameworkShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerUpdateAssessmentFrameworkShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the share request. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--request-id")]
-    public string? RequestId { get; set; }
+    public string? RequestId { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED
+    /// </summary>
     [CliOption("--request-type")]
-    public string? RequestType { get; set; }
+    public AwsAuditManagerUpdateAssessmentFrameworkShareRequestType? RequestType { get; private init; }
 
+    /// <summary>
+    /// Specifies the update action for the share request. Possible values: o ACCEPT o DECLINE o REVOKE
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsAuditManagerUpdateAssessmentFrameworkShareAction? Action { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

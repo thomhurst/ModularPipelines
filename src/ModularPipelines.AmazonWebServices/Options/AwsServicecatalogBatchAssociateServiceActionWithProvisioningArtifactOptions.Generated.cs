@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "batch-associate-service-action-with-provisioning-artifact")]
-public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions : AwsOptions
+public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates multiple self-service actions with provisioning artifacts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceActionAssociations">One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: o min: 1 o max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]</param>
+    public AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions(
+        IEnumerable<string> ServiceActionAssociations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ServiceActionAssociations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ServiceActionAssociations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ServiceActionAssociations));
+            }
+
+            ServiceActionAssociations = materialized;
+        }
+        this.ServiceActionAssociations = ServiceActionAssociations;
+    }
+
+    private AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: o min: 1 o max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]
+    /// </summary>
     [CliOption("--service-action-associations", GroupValues = true)]
-    public IEnumerable<string>? ServiceActionAssociations { get; set; }
+    public IEnumerable<string>? ServiceActionAssociations { get; private init; }
 
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
@@ -35,5 +83,21 @@ public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifa
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

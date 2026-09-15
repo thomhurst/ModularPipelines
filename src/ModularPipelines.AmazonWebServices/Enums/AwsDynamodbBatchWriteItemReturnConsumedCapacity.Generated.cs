@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --returnconsumedcapacity.
+/// Allowed values for --return-consumed-capacity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDynamodbBatchWriteItemReturnConsumedCapacity
 {
     [EnumValue("INDEXES")]
-    Indexes = 1,
-
-    [EnumValue("TOTAL")]
-    Total = 2,
+    Indexes,
 
     [EnumValue("NONE")]
-    None = 3
+    None,
+
+    [EnumValue("TOTAL")]
+    Total
 }

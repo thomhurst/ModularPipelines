@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-marketplace-model-endpoint")]
-public record AwsBedrockCreateMarketplaceModelEndpointOptions : AwsOptions
+public record AwsBedrockCreateMarketplaceModelEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelSourceIdentifier">The ARN of the model from Amazon Bedrock Marketplace that you want to deploy to the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*</param>
+    /// <param name="EndpointConfig">The configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }</param>
+    /// <param name="EndpointName">The name of the endpoint. This name must be unique within your Ama- zon Web Services account and region. Constraints: o min: 1 o max: 30</param>
+    public AwsBedrockCreateMarketplaceModelEndpointOptions(
+        string ModelSourceIdentifier,
+        string EndpointConfig,
+        string EndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelSourceIdentifier);
+        this.ModelSourceIdentifier = ModelSourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfig);
+        this.EndpointConfig = EndpointConfig;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+    }
+
+    private AwsBedrockCreateMarketplaceModelEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateMarketplaceModelEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateMarketplaceModelEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the model from Amazon Bedrock Marketplace that you want to deploy to the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*
+    /// </summary>
     [CliOption("--model-source-identifier")]
-    public string? ModelSourceIdentifier { get; set; }
+    public string? ModelSourceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The configuration for the endpoint, including the number and type of instances to use. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sageMaker. sageMaker -&gt; (structure) The configuration specific to Amazon SageMaker for the endpoint. initialInstanceCount -&gt; (integer) [required] The number of Amazon EC2 compute instances to deploy for ini- tial endpoint creation. Constraints: o min: 1 instanceType -&gt; (string) [required] The Amazon EC2 compute instance type to deploy for hosting the model. Constraints: o min: 1 o max: 50 executionRole -&gt; (string) [required] The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+ kmsEncryptionKey -&gt; (string) The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+) vpc -&gt; (structure) The VPC configuration for the endpoint. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ JSON Syntax: { "sageMaker": { "initialInstanceCount": integer, "instanceType": "string", "executionRole": "string", "kmsEncryptionKey": "string", "vpc": { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] } } }
+    /// </summary>
     [CliOption("--endpoint-config")]
-    public string? EndpointConfig { get; set; }
+    public string? EndpointConfig { get; private init; }
 
-    [CliFlag("--accept-eula")]
-    public bool? AcceptEula { get; set; }
-
+    /// <summary>
+    /// The name of the endpoint. This name must be unique within your Ama- zon Web Services account and region. Constraints: o min: 1 o max: 30
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
+
+    /// <summary>
+    /// Indicates whether you accept the end-user license agreement (EULA) for the model. Set to true to accept the EULA.
+    /// </summary>
+    [CliFlag("--accept-eula", NegatedName = "--no-accept-eula")]
+    public bool? AcceptEula { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required be- cause Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
@@ -52,5 +106,21 @@ public record AwsBedrockCreateMarketplaceModelEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

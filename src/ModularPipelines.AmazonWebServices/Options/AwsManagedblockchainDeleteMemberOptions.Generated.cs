@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "delete-member")]
-public record AwsManagedblockchainDeleteMemberOptions : AwsOptions
+public record AwsManagedblockchainDeleteMemberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a member. Deleting a member removes the member and all associ- ated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an ap- proved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network i...
+    /// </summary>
+    /// <param name="NetworkId">The unique identifier of the network from which the member is re- moved. Constraints: o min: 1 o max: 32</param>
+    /// <param name="MemberId">The unique identifier of the member to remove. Constraints: o min: 1 o max: 32</param>
+    public AwsManagedblockchainDeleteMemberOptions(
+        string NetworkId,
+        string MemberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+    }
+
+    private AwsManagedblockchainDeleteMemberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainDeleteMemberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainDeleteMemberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network from which the member is re- moved. Constraints: o min: 1 o max: 32
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the member to remove. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

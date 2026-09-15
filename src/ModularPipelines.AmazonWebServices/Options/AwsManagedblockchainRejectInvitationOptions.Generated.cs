@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "reject-invitation")]
-public record AwsManagedblockchainRejectInvitationOptions : AwsOptions
+public record AwsManagedblockchainRejectInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invi- tation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InvitationId">The unique identifier of the invitation to reject. Constraints: o min: 1 o max: 32</param>
+    public AwsManagedblockchainRejectInvitationOptions(
+        string InvitationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvitationId);
+        this.InvitationId = InvitationId;
+    }
+
+    private AwsManagedblockchainRejectInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainRejectInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainRejectInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the invitation to reject. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--invitation-id")]
-    public string? InvitationId { get; set; }
+    public string? InvitationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

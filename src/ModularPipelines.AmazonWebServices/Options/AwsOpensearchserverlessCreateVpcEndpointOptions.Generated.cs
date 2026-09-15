@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "create-vpc-endpoint")]
-public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions
+public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an in- terface endpoint . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the interface endpoint. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="VpcId">The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*</param>
+    /// <param name="SubnetIds">The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...</param>
+    public AwsOpensearchserverlessCreateVpcEndpointOptions(
+        string Name,
+        string VpcId,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsOpensearchserverlessCreateVpcEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessCreateVpcEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessCreateVpcEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the interface endpoint. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The ID of the VPC from which you'll access OpenSearch Serverless. Constraints: o min: 1 o max: 255 o pattern: vpc-[0-9a-z]*
+    /// </summary>
     [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    public string? VpcId { get; private init; }
 
+    /// <summary>
+    /// The ID of one or more subnets from which you'll access OpenSearch Serverless. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-([0-9a-f]{8}|[0-9a-f]{17}) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// The unique identifiers of the security groups that define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 128 o pattern: [\w+\-]+ Syntax: "string" "string" ...
@@ -49,5 +111,21 @@ public record AwsOpensearchserverlessCreateVpcEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

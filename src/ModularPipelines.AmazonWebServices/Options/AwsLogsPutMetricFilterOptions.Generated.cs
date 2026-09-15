@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-metric-filter")]
-public record AwsLogsPutMetricFilterOptions : AwsOptions
+public record AwsLogsPutMetricFilterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract met- ric data from log events ingested through PutLogEvents . The maximum number of metric filters that can be associated with a log group is 100. Using regular expressions in filter patterns is supported. For these filters, there is a quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression pat...
+    /// </summary>
+    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="FilterName">A name for the metric filter. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="FilterPattern">A filter pattern for extracting metric data out of ingested log events. Constraints: o min: 0 o max: 1024</param>
+    /// <param name="MetricTransformations">A collection of information that defines how metric data gets emit- ted. Constraints: o min: 1 o max: 1 (structure) Indicates how to transform ingested log events to metric data in a CloudWatch metric. metricName -&gt; (string) [required] The name of the CloudWatch metric. Constraints: o max: 255 o pattern: [^:*$]* metricNamespace -&gt; (string) [required] A custom namespace to contain your metric in CloudWatch. Use namespaces to group together metrics that are similar. For more information, see Namespaces . Constraints: o max: 255 o pattern: [^:*$]* metricValue -&gt; (string) [required] The value to publish to the CloudWatch metric when a filter pattern matches a log event. Constraints: o max: 100 defaultValue -&gt; (double) (Optional) The value to emit when a filter pattern does not match a log event. This value can be null. dimensions -&gt; (map) The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions. WARNING: Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not spec- ify high-cardinality fields such as IPAddress or re- questID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. CloudWatch Logs disables a metric filter if it generates 1000 different name/value pairs for your specified dimen- sions within a certain amount of time. This helps to pre- vent accidental high charges. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges . key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 255 unit -&gt; (string) The unit to assign to the metric. If you omit this, the unit is set as None . Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None Shorthand Syntax: metricName=string,metricNamespace=string,metricValue=string,defaultValue=double,dimensions={KeyName1=string,KeyName2=string},unit=string ... JSON Syntax: [ { "metricName": "string", "metricNamespace": "string", "metricValue": "string", "defaultValue": double, "dimensions": {"string": "string" ...}, "unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None" } ... ]</param>
+    public AwsLogsPutMetricFilterOptions(
+        string LogGroupName,
+        string FilterName,
+        string FilterPattern,
+        IEnumerable<string> MetricTransformations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(FilterName);
+        this.FilterName = FilterName;
+        global::System.ArgumentNullException.ThrowIfNull(FilterPattern);
+        this.FilterPattern = FilterPattern;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricTransformations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricTransformations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricTransformations));
+            }
+
+            MetricTransformations = materialized;
+        }
+        this.MetricTransformations = MetricTransformations;
+    }
+
+    private AwsLogsPutMetricFilterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutMetricFilterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutMetricFilterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    public string? LogGroupName { get; private init; }
 
+    /// <summary>
+    /// A name for the metric filter. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
     [CliOption("--filter-name")]
-    public string? FilterName { get; set; }
+    public string? FilterName { get; private init; }
 
+    /// <summary>
+    /// A filter pattern for extracting metric data out of ingested log events. Constraints: o min: 0 o max: 1024
+    /// </summary>
     [CliOption("--filter-pattern")]
-    public string? FilterPattern { get; set; }
+    public string? FilterPattern { get; private init; }
 
+    /// <summary>
+    /// A collection of information that defines how metric data gets emit- ted. Constraints: o min: 1 o max: 1 (structure) Indicates how to transform ingested log events to metric data in a CloudWatch metric. metricName -&gt; (string) [required] The name of the CloudWatch metric. Constraints: o max: 255 o pattern: [^:*$]* metricNamespace -&gt; (string) [required] A custom namespace to contain your metric in CloudWatch. Use namespaces to group together metrics that are similar. For more information, see Namespaces . Constraints: o max: 255 o pattern: [^:*$]* metricValue -&gt; (string) [required] The value to publish to the CloudWatch metric when a filter pattern matches a log event. Constraints: o max: 100 defaultValue -&gt; (double) (Optional) The value to emit when a filter pattern does not match a log event. This value can be null. dimensions -&gt; (map) The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions. WARNING: Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not spec- ify high-cardinality fields such as IPAddress or re- questID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. CloudWatch Logs disables a metric filter if it generates 1000 different name/value pairs for your specified dimen- sions within a certain amount of time. This helps to pre- vent accidental high charges. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges . key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 255 unit -&gt; (string) The unit to assign to the metric. If you omit this, the unit is set as None . Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None Shorthand Syntax: metricName=string,metricNamespace=string,metricValue=string,defaultValue=double,dimensions={KeyName1=string,KeyName2=string},unit=string ... JSON Syntax: [ { "metricName": "string", "metricNamespace": "string", "metricValue": "string", "defaultValue": double, "dimensions": {"string": "string" ...}, "unit": "Seconds"|"Microseconds"|"Milliseconds"|"Bytes"|"Kilobytes"|"Megabytes"|"Gigabytes"|"Terabytes"|"Bits"|"Kilobits"|"Megabits"|"Gigabits"|"Terabits"|"Percent"|"Count"|"Bytes/Second"|"Kilobytes/Second"|"Megabytes/Second"|"Gigabytes/Second"|"Terabytes/Second"|"Bits/Second"|"Kilobits/Second"|"Megabits/Second"|"Gigabits/Second"|"Terabits/Second"|"Count/Second"|"None" } ... ]
+    /// </summary>
     [CliOption("--metric-transformations", GroupValues = true)]
-    public IEnumerable<string>? MetricTransformations { get; set; }
+    public IEnumerable<string>? MetricTransformations { get; private init; }
 
-    [CliFlag("--apply-on-transformed-logs")]
+    /// <summary>
+    /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer . If the log group uses either a log-group level or account-level transformer, and you specify true , the metric filter will be ap- plied on the transformed version of the log events instead of the original ingested log events.
+    /// </summary>
+    [CliFlag("--apply-on-transformed-logs", NegatedName = "--no-apply-on-transformed-logs")]
     public bool? ApplyOnTransformedLogs { get; set; }
 
     /// <summary>
@@ -53,5 +125,21 @@ public record AwsLogsPutMetricFilterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

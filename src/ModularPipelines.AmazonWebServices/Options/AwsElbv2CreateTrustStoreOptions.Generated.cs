@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "create-trust-store")]
-public record AwsElbv2CreateTrustStoreOptions : AwsOptions
+public record AwsElbv2CreateTrustStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a trust store. For more information, see Mutual TLS for Application Load Balancers . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the trust store. This name must be unique per region and can't be changed after cre- ation. Constraints: o min: 1 o max: 32 o pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$</param>
+    /// <param name="CaCertificatesBundleS3Bucket">The Amazon S3 bucket for the ca certificates bundle.</param>
+    /// <param name="CaCertificatesBundleS3Key">The Amazon S3 path for the ca certificates bundle.</param>
+    public AwsElbv2CreateTrustStoreOptions(
+        string Name,
+        string CaCertificatesBundleS3Bucket,
+        string CaCertificatesBundleS3Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(CaCertificatesBundleS3Bucket);
+        this.CaCertificatesBundleS3Bucket = CaCertificatesBundleS3Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(CaCertificatesBundleS3Key);
+        this.CaCertificatesBundleS3Key = CaCertificatesBundleS3Key;
+    }
+
+    private AwsElbv2CreateTrustStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2CreateTrustStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2CreateTrustStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the trust store. This name must be unique per region and can't be changed after cre- ation. Constraints: o min: 1 o max: 32 o pattern: ^([a-zA-Z0-9]+-)*[a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 bucket for the ca certificates bundle.
+    /// </summary>
     [CliOption("--ca-certificates-bundle-s3-bucket")]
-    public string? CaCertificatesBundleS3Bucket { get; set; }
+    public string? CaCertificatesBundleS3Bucket { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 path for the ca certificates bundle.
+    /// </summary>
     [CliOption("--ca-certificates-bundle-s3-key")]
-    public string? CaCertificatesBundleS3Key { get; set; }
+    public string? CaCertificatesBundleS3Key { get; private init; }
 
     /// <summary>
     /// The Amazon S3 object version for the ca certificates bundle. If un- defined the current version is used.
@@ -47,5 +98,21 @@ public record AwsElbv2CreateTrustStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dsql", "update-cluster")]
-public record AwsDsqlUpdateClusterOptions : AwsOptions
+public record AwsDsqlUpdateClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties pa- rameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. NOTE: Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL clust...
+    /// </summary>
+    /// <param name="Identifier">The ID of the cluster you want to update. Constraints: o pattern: [a-z0-9]{26}</param>
+    public AwsDsqlUpdateClusterOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsDsqlUpdateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsqlUpdateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsqlUpdateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the cluster you want to update. Constraints: o pattern: [a-z0-9]{26}
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to enable deletion protection in your cluster.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -52,5 +92,21 @@ public record AwsDsqlUpdateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

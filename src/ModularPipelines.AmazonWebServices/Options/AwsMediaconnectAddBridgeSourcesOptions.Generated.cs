@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "add-bridge-sources")]
-public record AwsMediaconnectAddBridgeSourcesOptions : AwsOptions
+public record AwsMediaconnectAddBridgeSourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bridge-arn")]
-    public string? BridgeArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds sources to an existing bridge. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date.</param>
+    /// <param name="Sources">The sources that you want to add to this bridge. (structure) Add an output to a bridge. FlowSource -&gt; (structure) The source of the flow. FlowArn -&gt; (string) [required] The Amazon Resource Number (ARN) of the flow to use as a source of this bridge. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+ FlowVpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this re- source. Name -&gt; (string) [required] The name of the flow source. This name is used to refer- ence the source and must be unique among sources in this bridge. NetworkSource -&gt; (structure) The source of the network. MulticastIp -&gt; (string) [required] The network source multicast IP. MulticastSourceSettings -&gt; (structure) The settings related to the multicast source. MulticastSourceIp -&gt; (string) The IP address of the source for source-specific mul- ticast (SSM). Name -&gt; (string) [required] The name of the network source. This name is used to ref- erence the source and must be unique among sources in this bridge. NetworkName -&gt; (string) [required] The network source's gateway network name. Port -&gt; (integer) [required] The network source port. Protocol -&gt; (string) [required] The network source protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Shorthand Syntax: FlowSource={FlowArn=string,FlowVpcInterfaceAttachment={VpcInterfaceName=string},Name=string},NetworkSource={MulticastIp=string,MulticastSourceSettings={MulticastSourceIp=string},Name=string,NetworkName=string,Port=integer,Protocol=string} ... JSON Syntax: [ { "FlowSource": { "FlowArn": "string", "FlowVpcInterfaceAttachment": { "VpcInterfaceName": "string" }, "Name": "string" }, "NetworkSource": { "MulticastIp": "string", "MulticastSourceSettings": { "MulticastSourceIp": "string" }, "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq" } } ... ]</param>
+    public AwsMediaconnectAddBridgeSourcesOptions(
+        string BridgeArn,
+        IEnumerable<string> Sources
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
+        this.BridgeArn = BridgeArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+    }
+
+    private AwsMediaconnectAddBridgeSourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectAddBridgeSourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectAddBridgeSourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date.
+    /// </summary>
+    [CliOption("--bridge-arn")]
+    public string? BridgeArn { get; private init; }
+
+    /// <summary>
+    /// The sources that you want to add to this bridge. (structure) Add an output to a bridge. FlowSource -&gt; (structure) The source of the flow. FlowArn -&gt; (string) [required] The Amazon Resource Number (ARN) of the flow to use as a source of this bridge. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+ FlowVpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this re- source. Name -&gt; (string) [required] The name of the flow source. This name is used to refer- ence the source and must be unique among sources in this bridge. NetworkSource -&gt; (structure) The source of the network. MulticastIp -&gt; (string) [required] The network source multicast IP. MulticastSourceSettings -&gt; (structure) The settings related to the multicast source. MulticastSourceIp -&gt; (string) The IP address of the source for source-specific mul- ticast (SSM). Name -&gt; (string) [required] The name of the network source. This name is used to ref- erence the source and must be unique among sources in this bridge. NetworkName -&gt; (string) [required] The network source's gateway network name. Port -&gt; (integer) [required] The network source port. Protocol -&gt; (string) [required] The network source protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Shorthand Syntax: FlowSource={FlowArn=string,FlowVpcInterfaceAttachment={VpcInterfaceName=string},Name=string},NetworkSource={MulticastIp=string,MulticastSourceSettings={MulticastSourceIp=string},Name=string,NetworkName=string,Port=integer,Protocol=string} ... JSON Syntax: [ { "FlowSource": { "FlowArn": "string", "FlowVpcInterfaceAttachment": { "VpcInterfaceName": "string" }, "Name": "string" }, "NetworkSource": { "MulticastIp": "string", "MulticastSourceSettings": { "MulticastSourceIp": "string" }, "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq" } } ... ]
+    /// </summary>
     [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    public IEnumerable<string>? Sources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

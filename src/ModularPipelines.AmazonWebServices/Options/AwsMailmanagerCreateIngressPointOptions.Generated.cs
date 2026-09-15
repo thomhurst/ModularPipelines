@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,26 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "create-ingress-point")]
-public record AwsMailmanagerCreateIngressPointOptions : AwsOptions
+public record AwsMailmanagerCreateIngressPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provision a new ingress endpoint resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IngressPointName">A user friendly name for an ingress endpoint resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+</param>
+    /// <param name="Type">The type of the ingress endpoint to create. Possible values: o OPEN o AUTH o MTLS</param>
+    /// <param name="RuleSetId">The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TrafficPolicyId">The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100</param>
+    public AwsMailmanagerCreateIngressPointOptions(
+        string IngressPointName,
+        AwsMailmanagerCreateIngressPointType Type,
+        string RuleSetId,
+        string TrafficPolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IngressPointName);
+        this.IngressPointName = IngressPointName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(RuleSetId);
+        this.RuleSetId = RuleSetId;
+        global::System.ArgumentNullException.ThrowIfNull(TrafficPolicyId);
+        this.TrafficPolicyId = TrafficPolicyId;
+    }
+
+    private AwsMailmanagerCreateIngressPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerCreateIngressPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerCreateIngressPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user friendly name for an ingress endpoint resource. Constraints: o min: 3 o max: 63 o pattern: [A-Za-z0-9_\-]+
+    /// </summary>
+    [CliOption("--ingress-point-name")]
+    public string? IngressPointName { get; private init; }
+
+    /// <summary>
+    /// The type of the ingress endpoint to create. Possible values: o OPEN o AUTH o MTLS
+    /// </summary>
+    [CliOption("--type")]
+    public AwsMailmanagerCreateIngressPointType? Type { get; private init; }
+
+    /// <summary>
+    /// The identifier of an existing rule set that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--rule-set-id")]
+    public string? RuleSetId { get; private init; }
+
+    /// <summary>
+    /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--traffic-policy-id")]
+    public string? TrafficPolicyId { get; private init; }
+
     /// <summary>
     /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--ingress-point-name")]
-    public string? IngressPointName { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--rule-set-id")]
-    public string? RuleSetId { get; set; }
-
-    [CliOption("--traffic-policy-id")]
-    public string? TrafficPolicyId { get; set; }
 
     /// <summary>
     /// If you choose an Authenticated ingress endpoint, you must configure either an SMTP password or a secret ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SmtpPassword, SecretArn, TlsAuthConfigu- ration. SmtpPassword -&gt; (string) The password of the ingress endpoint resource. Constraints: o min: 8 o max: 64 o pattern: [A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{}|.,?]+ SecretArn -&gt; (string) The SecretsManager::Secret ARN of the ingress endpoint resource. Constraints: o pattern: arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+ TlsAuthConfiguration -&gt; (structure) The mutual TLS authentication configuration of the ingress end- point resource. TrustStore -&gt; (structure) The trust store configuration for mutual TLS authentication. CAContent -&gt; (string) [required] The PEM-encoded certificate authority (CA) certificates bundle for the trust store. Constraints: o min: 1 o max: 500000 o pattern: [\P{C}\s]* CrlContent -&gt; (string) The PEM-encoded certificate revocation lists (CRLs) for the trust store. There can be one CRL per certificate au- thority (CA) in the trust store. Constraints: o min: 1 o max: 500000 o pattern: [\P{C}\s]* KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used to en- crypt the trust store contents. Constraints: o pattern: arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+ Shorthand Syntax: SmtpPassword=string,SecretArn=string,TlsAuthConfiguration={TrustStore={CAContent=string,CrlContent=string,KmsKeyArn=string}} JSON Syntax: { "SmtpPassword": "string", "SecretArn": "string", "TlsAuthConfiguration": { "TrustStore": { "CAContent": "string", "CrlContent": "string", "KmsKeyArn": "string" } } }
@@ -71,5 +129,21 @@ public record AwsMailmanagerCreateIngressPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

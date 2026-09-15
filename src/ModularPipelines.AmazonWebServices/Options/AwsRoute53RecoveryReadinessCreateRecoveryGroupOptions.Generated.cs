@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-readiness", "create-recovery-group")]
-public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
+public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the appli- cation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryGroupName">The name of the recovery group to create.</param>
+    public AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions(
+        string RecoveryGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryGroupName);
+        this.RecoveryGroupName = RecoveryGroupName;
+    }
+
+    private AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the recovery group to create.
+    /// </summary>
+    [CliOption("--recovery-group-name")]
+    public string? RecoveryGroupName { get; private init; }
+
     /// <summary>
     /// A list of the cell Amazon Resource Names (ARNs) in the recovery group. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cells", GroupValues = true)]
     public IEnumerable<string>? Cells { get; set; }
-
-    [CliOption("--recovery-group-name")]
-    public string? RecoveryGroupName { get; set; }
 
     /// <summary>
     /// A collection of tags associated with a resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +79,21 @@ public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

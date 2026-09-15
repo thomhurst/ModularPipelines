@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,17 +23,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "create-policy-store")]
-public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions
+public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a policy store. A policy store is a container for policy re- sources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ValidationSettings">Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
+    public AwsVerifiedpermissionsCreatePolicyStoreOptions(
+        string ValidationSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ValidationSettings);
+        this.ValidationSettings = ValidationSettings;
+    }
+
+    private AwsVerifiedpermissionsCreatePolicyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsCreatePolicyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsCreatePolicyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
+    /// </summary>
+    [CliOption("--validation-settings")]
+    public string? ValidationSettings { get; private init; }
+
     /// <summary>
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--validation-settings")]
-    public string? ValidationSettings { get; set; }
 
     /// <summary>
     /// Descriptive text that you can provide to help with identification of the current policy store. Constraints: o min: 0 o max: 150
@@ -63,5 +100,21 @@ public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

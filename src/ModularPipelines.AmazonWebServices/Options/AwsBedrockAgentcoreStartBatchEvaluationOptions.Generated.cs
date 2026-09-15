@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "start-batch-evaluation")]
-public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions
+public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a batch evaluation job that evaluates agent performance across multiple sessions. Batch evaluations pull agent traces from CloudWatch Logs or an existing online evaluation configuration and run specified evaluators and insights against them. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BatchEvaluationName">The name of the batch evaluation. Must be unique within your ac- count. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="DataSourceConfig">The data source configuration that specifies where to pull agent session traces from for evaluation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs, onlineEvaluationConfig- Source. cloudWatchLogs -&gt; (structure) Configuration for pulling agent session traces from CloudWatch Logs. serviceNames -&gt; (list) [required] The list of agent service names to filter traces within the specified log groups. Constraints: o min: 1 o max: 1 (string) logGroupNames -&gt; (list) The list of CloudWatch log group names to read agent traces from. Maximum of 10 log groups. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [.\-_/#A-Za-z0-9]+ logGroupNamePrefixes -&gt; (list) The list of CloudWatch log group name prefixes to read agent traces from. Specify this instead of logGroupNames to match log groups by prefix. Maximum of 5 prefixes. Specify either logGroupNames or logGroupNamePrefixes , not both. One of the two is required. Constraints: o min: 1 o max: 5 (string) Prefix of a CloudWatch Logs log group name. Constraints: o min: 1 o max: 512 o pattern: [.\-_/#A-Za-z0-9]+ filterConfig -&gt; (structure) Optional filter configuration to narrow down which sessions to evaluate. sessionIds -&gt; (list) A list of specific session IDs to evaluate. If specified, only these sessions are included in the evaluation. Constraints: o min: 0 o max: 500 (string) timeRange -&gt; (structure) The time range filter for selecting sessions to evaluate. startTime -&gt; (timestamp) The start time of the time range. Only sessions with activity at or after this timestamp are included. endTime -&gt; (timestamp) The end time of the time range. Only sessions with ac- tivity before this timestamp are included. onlineEvaluationConfigSource -&gt; (structure) Reference an existing OnlineEvaluationConfig as session source onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation con- figuration to use as the session source. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} timeRange -&gt; (structure) Optional session filter configuration to narrow down which sessions from the online evaluation configuration to include. startTime -&gt; (timestamp) The start time of the time range. Only sessions with ac- tivity at or after this timestamp are included. endTime -&gt; (timestamp) The end time of the time range. Only sessions with activ- ity before this timestamp are included. JSON Syntax: { "cloudWatchLogs": { "serviceNames": ["string", ...], "logGroupNames": ["string", ...], "logGroupNamePrefixes": ["string", ...], "filterConfig": { "sessionIds": ["string", ...], "timeRange": { "startTime": timestamp, "endTime": timestamp } } }, "onlineEvaluationConfigSource": { "onlineEvaluationConfigArn": "string", "timeRange": { "startTime": timestamp, "endTime": timestamp } } }</param>
+    public AwsBedrockAgentcoreStartBatchEvaluationOptions(
+        string BatchEvaluationName,
+        string DataSourceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BatchEvaluationName);
+        this.BatchEvaluationName = BatchEvaluationName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceConfig);
+        this.DataSourceConfig = DataSourceConfig;
+    }
+
+    private AwsBedrockAgentcoreStartBatchEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreStartBatchEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreStartBatchEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the batch evaluation. Must be unique within your ac- count. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--batch-evaluation-name")]
-    public string? BatchEvaluationName { get; set; }
+    public string? BatchEvaluationName { get; private init; }
+
+    /// <summary>
+    /// The data source configuration that specifies where to pull agent session traces from for evaluation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs, onlineEvaluationConfig- Source. cloudWatchLogs -&gt; (structure) Configuration for pulling agent session traces from CloudWatch Logs. serviceNames -&gt; (list) [required] The list of agent service names to filter traces within the specified log groups. Constraints: o min: 1 o max: 1 (string) logGroupNames -&gt; (list) The list of CloudWatch log group names to read agent traces from. Maximum of 10 log groups. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [.\-_/#A-Za-z0-9]+ logGroupNamePrefixes -&gt; (list) The list of CloudWatch log group name prefixes to read agent traces from. Specify this instead of logGroupNames to match log groups by prefix. Maximum of 5 prefixes. Specify either logGroupNames or logGroupNamePrefixes , not both. One of the two is required. Constraints: o min: 1 o max: 5 (string) Prefix of a CloudWatch Logs log group name. Constraints: o min: 1 o max: 512 o pattern: [.\-_/#A-Za-z0-9]+ filterConfig -&gt; (structure) Optional filter configuration to narrow down which sessions to evaluate. sessionIds -&gt; (list) A list of specific session IDs to evaluate. If specified, only these sessions are included in the evaluation. Constraints: o min: 0 o max: 500 (string) timeRange -&gt; (structure) The time range filter for selecting sessions to evaluate. startTime -&gt; (timestamp) The start time of the time range. Only sessions with activity at or after this timestamp are included. endTime -&gt; (timestamp) The end time of the time range. Only sessions with ac- tivity before this timestamp are included. onlineEvaluationConfigSource -&gt; (structure) Reference an existing OnlineEvaluationConfig as session source onlineEvaluationConfigArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the online evaluation con- figuration to use as the session source. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:online-evaluation-con- fig\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} timeRange -&gt; (structure) Optional session filter configuration to narrow down which sessions from the online evaluation configuration to include. startTime -&gt; (timestamp) The start time of the time range. Only sessions with ac- tivity at or after this timestamp are included. endTime -&gt; (timestamp) The end time of the time range. Only sessions with activ- ity before this timestamp are included. JSON Syntax: { "cloudWatchLogs": { "serviceNames": ["string", ...], "logGroupNames": ["string", ...], "logGroupNamePrefixes": ["string", ...], "filterConfig": { "sessionIds": ["string", ...], "timeRange": { "startTime": timestamp, "endTime": timestamp } } }, "onlineEvaluationConfigSource": { "onlineEvaluationConfigArn": "string", "timeRange": { "startTime": timestamp, "endTime": timestamp } } }
+    /// </summary>
+    [CliOption("--data-source-config")]
+    public string? DataSourceConfig { get; private init; }
 
     /// <summary>
     /// The list of evaluators to apply during the batch evaluation. Can in- clude both built-in evaluators and custom evaluators. Maximum of 10 evaluators. Constraints: o min: 0 o max: 10 (structure) An evaluator to run against sessions during batch evaluation. evaluatorId -&gt; (string) [required] The unique identifier of the evaluator. Can reference built-in evaluators (e.g., Builtin.Helpfulness ) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
@@ -37,9 +84,6 @@ public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions
     /// </summary>
     [CliOption("--insights", GroupValues = true)]
     public IEnumerable<string>? Insights { get; set; }
-
-    [CliOption("--data-source-config")]
-    public string? DataSourceConfig { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an er- ror. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -72,10 +116,32 @@ public record AwsBedrockAgentcoreStartBatchEvaluationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// Output destination configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchConfig. cloudWatchConfig -&gt; (structure) The CloudWatch Logs configuration for writing evaluation re- sults. logGroupName -&gt; (string) The name of the CloudWatch log group where evaluation results will be written. This value doesn't apply when resultDestina- tion is SOURCE_LOG_GROUP , because results are written back to the trace source log group. The name can't be under the service-reserved /aws/bedrock-agentcore/evaluations/ name- space, apart from the service-managed default group. Constraints: o pattern: $|^[.\-_/#A-Za-z0-9]+ logStreamName -&gt; (string) The name of the CloudWatch log stream where evaluation re- sults will be written. Constraints: o pattern: [^:*]* metricsNamespace -&gt; (string) The CloudWatch metrics namespace where evaluation result met- rics are published. If you omit this value, the service pub- lishes metrics to Bedrock-AgentCore/Evaluations . This value can't begin with AWS/ . Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._#/:-]+ resultDestination -&gt; (string) The destination where evaluation results are written. Valid values: o DEDICATED_LOG_GROUP (default) Writes results to a dedi- cated result log group. o SOURCE_LOG_GROUP Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName . Possible values: o DEDICATED_LOG_GROUP o SOURCE_LOG_GROUP Shorthand Syntax: cloudWatchConfig={logGroupName=string,logStreamName=string,metricsNamespace=string,resultDestination=string} JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "logStreamName": "string", "metricsNamespace": "string", "resultDestination": "DEDICATED_LOG_GROUP"|"SOURCE_LOG_GROUP" } }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

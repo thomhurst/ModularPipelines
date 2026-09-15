@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "list-data-transformation-profile-versions")]
-public record AwsHealthlakeListDataTransformationProfileVersionsOptions : AwsOptions
+public record AwsHealthlakeListDataTransformationProfileVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetData- TransformationProfile to retrieve profile content. Results are pagi- nated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profile-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile whose versions to list. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    public AwsHealthlakeListDataTransformationProfileVersionsOptions(
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    private AwsHealthlakeListDataTransformationProfileVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeListDataTransformationProfileVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeListDataTransformationProfileVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile whose versions to list. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsHealthlakeListDataTransformationProfileVersionsOptions : AwsOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synthetics", "create-canary")]
-public record AwsSyntheticsCreateCanaryOptions : AwsOptions
+public record AwsSyntheticsCreateCanaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the outside-in. Canaries help you check the availability and latency of your web services and troubleshoot anomalies by investigat- ing load time data, screenshots of the UI, logs, and metrics. You can set up a canary to run continuously or just once. Do not use CreateCanary to modify an existing canary. Use UpdateCanary instead. To create canaries, you must have the CloudWatchSyntheticsFullAccess policy. If you are...
+    /// </summary>
+    /// <param name="Name">The name for this canary. Be sure to give it a descriptive name that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more informa- tion, see Security Considerations for Synthetics Canaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Code">A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Ama- zon S3 bucket, the bucket name, key, and version are also included. S3Bucket -&gt; (string) If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the start of the bucket name. Constraints: o min: 1 o max: 1024 S3Key -&gt; (string) The Amazon S3 key of your script. For more information, see Working with Amazon S3 Objects . Constraints: o min: 1 o max: 1024 S3Version -&gt; (string) The Amazon S3 version ID of your script. Constraints: o min: 1 o max: 1024 ZipFile -&gt; (blob) If you input your canary script directly into the canary instead of referring to an Amazon S3 location, the value of this parame- ter is the base64-encoded contents of the .zip file that con- tains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an Amazon S3 location instead of inputting it directly with this parameter. Constraints: o min: 1 o max: 10000000 Handler -&gt; (string) The entry point to use for the source code when running the ca- nary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.pup- peteer-3.4 , the handler must be specified as `` fileName .han- dler`` . For syn-python-selenium-1.1 , syn-nodejs.puppeteer-3.4 , and later runtimes, the handler can be specified as `` file- Name .*functionName* `` , or you can specify a folder where ca- nary scripts reside as `` folder /fileName .*functionName* `` . This field is required when you don't specify BlueprintTypes and is not allowed when you specify BlueprintTypes . Constraints: o min: 0 o max: 128 o pattern: ^(([0-9a-zA-Z_-]+(\/|\.))*[0-9A-Za-z_\\-]+(\.|::)[A-Za-z_][A-Za-z0-9_]*)?$ BlueprintTypes -&gt; (list) BlueprintTypes is a list of templates that enable simplified canary creation. You can create canaries for common monitor- ing scenarios by providing only a JSON configuration file in- stead of writing custom scripts. The only supported value is multi-checks . Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and asser- tion capabilities. When you specify BlueprintTypes , the Handler field cannot be specified since the blueprint provides a pre-de- fined entry point. BlueprintTypes is supported only on canaries for syn-nodejs-3.0 runtime or later. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z_\-\.]+ Dependencies -&gt; (list) A list of dependencies that should be used for running this ca- nary. Specify the dependencies as a key-value pair, where the key is the type of dependency and the value is the dependency reference. Constraints: o min: 0 o max: 1 (structure) A structure that contains information about a dependency for a canary. Type -&gt; (string) The type of dependency. Valid value is LambdaLayer . Possible values: o LambdaLayer Reference -&gt; (string) [required] The dependency reference. For Lambda layers, this is the ARN of the Lambda layer. For more information about Lambda ARN format, see Lambda . Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string,S3Version=string,ZipFile=blob,Handler=string,BlueprintTypes=string,string,Dependencies=[{Type=string,Reference=string},{Type=string,Reference=string}] JSON Syntax: { "S3Bucket": "string", "S3Key": "string", "S3Version": "string", "ZipFile": blob, "Handler": "string", "BlueprintTypes": ["string", ...], "Dependencies": [ { "Type": "LambdaLayer", "Reference": "string" } ... ] }</param>
+    /// <param name="ArtifactS3Location">The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screen- shots, and HAR files. The name of the Amazon S3 bucket can't include a period (.). Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ExecutionRoleArn">The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permis- sions: o s3:PutObject o s3:GetBucketLocation o s3:ListAllMyBuckets o cloudwatch:PutMetricData o logs:CreateLogGroup o logs:CreateLogStream o logs:PutLogEvents Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="Schedule">A structure that contains information about how often the canary is to run and when these test runs are to stop. Expression -&gt; (string) [required] A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(*number unit* ) . unit can be minute , minutes , or hour . For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour) . Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(*expression* ) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see Scheduling canary runs using cron . Constraints: o min: 1 o max: 1024 DurationInSeconds -&gt; (long) How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used. Constraints: o min: 0 o max: 31622400 RetryConfig -&gt; (structure) A structure that contains the retry configuration for a canary MaxRetries -&gt; (integer) [required] The maximum number of retries. The value must be less than or equal to 2. Constraints: o min: 0 o max: 2 Shorthand Syntax: Expression=string,DurationInSeconds=long,RetryConfig={MaxRetries=integer} JSON Syntax: { "Expression": "string", "DurationInSeconds": long, "RetryConfig": { "MaxRetries": integer } }</param>
+    /// <param name="RuntimeVersion">Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see Canary Runtime Versions . Constraints: o min: 1 o max: 1024</param>
+    public AwsSyntheticsCreateCanaryOptions(
+        string Name,
+        string Code,
+        string ArtifactS3Location,
+        string ExecutionRoleArn,
+        string Schedule,
+        string RuntimeVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Code);
+        this.Code = Code;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactS3Location);
+        this.ArtifactS3Location = ArtifactS3Location;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeVersion);
+        this.RuntimeVersion = RuntimeVersion;
+    }
+
+    private AwsSyntheticsCreateCanaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSyntheticsCreateCanaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSyntheticsCreateCanaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for this canary. Be sure to give it a descriptive name that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more informa- tion, see Security Considerations for Synthetics Canaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Ama- zon S3 bucket, the bucket name, key, and version are also included. S3Bucket -&gt; (string) If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the start of the bucket name. Constraints: o min: 1 o max: 1024 S3Key -&gt; (string) The Amazon S3 key of your script. For more information, see Working with Amazon S3 Objects . Constraints: o min: 1 o max: 1024 S3Version -&gt; (string) The Amazon S3 version ID of your script. Constraints: o min: 1 o max: 1024 ZipFile -&gt; (blob) If you input your canary script directly into the canary instead of referring to an Amazon S3 location, the value of this parame- ter is the base64-encoded contents of the .zip file that con- tains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an Amazon S3 location instead of inputting it directly with this parameter. Constraints: o min: 1 o max: 10000000 Handler -&gt; (string) The entry point to use for the source code when running the ca- nary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.pup- peteer-3.4 , the handler must be specified as `` fileName .han- dler`` . For syn-python-selenium-1.1 , syn-nodejs.puppeteer-3.4 , and later runtimes, the handler can be specified as `` file- Name .*functionName* `` , or you can specify a folder where ca- nary scripts reside as `` folder /fileName .*functionName* `` . This field is required when you don't specify BlueprintTypes and is not allowed when you specify BlueprintTypes . Constraints: o min: 0 o max: 128 o pattern: ^(([0-9a-zA-Z_-]+(\/|\.))*[0-9A-Za-z_\\-]+(\.|::)[A-Za-z_][A-Za-z0-9_]*)?$ BlueprintTypes -&gt; (list) BlueprintTypes is a list of templates that enable simplified canary creation. You can create canaries for common monitor- ing scenarios by providing only a JSON configuration file in- stead of writing custom scripts. The only supported value is multi-checks . Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and asser- tion capabilities. When you specify BlueprintTypes , the Handler field cannot be specified since the blueprint provides a pre-de- fined entry point. BlueprintTypes is supported only on canaries for syn-nodejs-3.0 runtime or later. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z_\-\.]+ Dependencies -&gt; (list) A list of dependencies that should be used for running this ca- nary. Specify the dependencies as a key-value pair, where the key is the type of dependency and the value is the dependency reference. Constraints: o min: 0 o max: 1 (structure) A structure that contains information about a dependency for a canary. Type -&gt; (string) The type of dependency. Valid value is LambdaLayer . Possible values: o LambdaLayer Reference -&gt; (string) [required] The dependency reference. For Lambda layers, this is the ARN of the Lambda layer. For more information about Lambda ARN format, see Lambda . Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string,S3Version=string,ZipFile=blob,Handler=string,BlueprintTypes=string,string,Dependencies=[{Type=string,Reference=string},{Type=string,Reference=string}] JSON Syntax: { "S3Bucket": "string", "S3Key": "string", "S3Version": "string", "ZipFile": blob, "Handler": "string", "BlueprintTypes": ["string", ...], "Dependencies": [ { "Type": "LambdaLayer", "Reference": "string" } ... ] }
+    /// </summary>
     [CliOption("--code")]
-    public string? Code { get; set; }
+    public string? Code { get; private init; }
 
+    /// <summary>
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screen- shots, and HAR files. The name of the Amazon S3 bucket can't include a period (.). Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--artifact-s3-location")]
-    public string? ArtifactS3Location { get; set; }
+    public string? ArtifactS3Location { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permis- sions: o s3:PutObject o s3:GetBucketLocation o s3:ListAllMyBuckets o cloudwatch:PutMetricData o logs:CreateLogGroup o logs:CreateLogStream o logs:PutLogEvents Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
+    public string? ExecutionRoleArn { get; private init; }
 
+    /// <summary>
+    /// A structure that contains information about how often the canary is to run and when these test runs are to stop. Expression -&gt; (string) [required] A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(*number unit* ) . unit can be minute , minutes , or hour . For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour) . Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(*expression* ) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see Scheduling canary runs using cron . Constraints: o min: 1 o max: 1024 DurationInSeconds -&gt; (long) How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used. Constraints: o min: 0 o max: 31622400 RetryConfig -&gt; (structure) A structure that contains the retry configuration for a canary MaxRetries -&gt; (integer) [required] The maximum number of retries. The value must be less than or equal to 2. Constraints: o min: 0 o max: 2 Shorthand Syntax: Expression=string,DurationInSeconds=long,RetryConfig={MaxRetries=integer} JSON Syntax: { "Expression": "string", "DurationInSeconds": long, "RetryConfig": { "MaxRetries": integer } }
+    /// </summary>
     [CliOption("--schedule")]
-    public string? Schedule { get; set; }
+    public string? Schedule { get; private init; }
+
+    /// <summary>
+    /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see Canary Runtime Versions . Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; private init; }
 
     /// <summary>
     /// A structure that contains the configuration for individual canary runs, such as timeout value and environment variables. WARNING: Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them. TimeoutInSeconds -&gt; (integer) How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes. Constraints: o min: 3 o max: 840 MemoryInMB -&gt; (integer) The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64. Constraints: o min: 960 o max: 3008 ActiveTracing -&gt; (boolean) Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing enables this canary run to be dis- played in the ServiceLens and X-Ray service maps even if the ca- nary does not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see Canaries and X-Ray tracing . You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime. EnvironmentVariables -&gt; (map) Specifies the keys and values to use for any environment vari- ables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see Runtime environment variables . WARNING: Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the envi- ronment variables are not encrypted on the client side. Do not store sensitive information in them. key -&gt; (string) Constraints: o pattern: [a-zA-Z]([a-zA-Z0-9_])+ value -&gt; (string) EphemeralStorage -&gt; (integer) Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB. Constraints: o min: 1024 o max: 10240 Shorthand Syntax: TimeoutInSeconds=integer,MemoryInMB=integer,ActiveTracing=boolean,EnvironmentVariables={KeyName1=string,KeyName2=string},EphemeralStorage=integer JSON Syntax: { "TimeoutInSeconds": integer, "MemoryInMB": integer, "ActiveTracing": true|false, "EnvironmentVariables": {"string": "string" ...}, "EphemeralStorage": integer }
@@ -55,9 +130,6 @@ public record AwsSyntheticsCreateCanaryOptions : AwsOptions
     /// </summary>
     [CliOption("--failure-retention-period-in-days")]
     public int? FailureRetentionPeriodInDays { get; set; }
-
-    [CliOption("--runtime-version")]
-    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// If this canary is to test an endpoint in a VPC, this structure con- tains information about the subnet and security groups of the VPC endpoint. For more information, see Running a Canary in a VPC . SubnetIds -&gt; (list) The IDs of the subnets where this canary is to run. Constraints: o min: 0 o max: 16 (string) SecurityGroupIds -&gt; (list) The IDs of the security groups for this canary. Constraints: o min: 0 o max: 5 (string) Ipv6AllowedForDualStack -&gt; (boolean) Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string,Ipv6AllowedForDualStack=boolean JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "Ipv6AllowedForDualStack": true|false }
@@ -112,5 +184,21 @@ public record AwsSyntheticsCreateCanaryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

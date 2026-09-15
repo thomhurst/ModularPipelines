@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "put-table-maintenance-configuration")]
-public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions
+public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="Type">The type of the maintenance configuration. Possible values: o icebergCompaction o icebergSnapshotManagement</param>
+    /// <param name="Value">Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnap- shotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: o min: 1 o max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This deter- mines how files are selected and combined during com- paction operations. Possible values: o auto o binpack o sort o z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management set- tings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: o min: 1 o max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }</param>
+    public AwsS3tablesPutTableMaintenanceConfigurationOptions(
+        string TableBucketArn,
+        string Namespace,
+        string Name,
+        AwsS3tablesPutTableMaintenanceConfigurationType Type,
+        string Value
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableBucketArn);
+        this.TableBucketArn = TableBucketArn;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Value);
+        this.Value = Value;
+    }
+
+    private AwsS3tablesPutTableMaintenanceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesPutTableMaintenanceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesPutTableMaintenanceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// </summary>
     [CliOption("--table-bucket-arn")]
-    public string? TableBucketArn { get; set; }
+    public string? TableBucketArn { get; private init; }
 
+    /// <summary>
+    /// The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of the maintenance configuration. Possible values: o icebergCompaction o icebergSnapshotManagement
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsS3tablesPutTableMaintenanceConfigurationType? Type { get; private init; }
 
+    /// <summary>
+    /// Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnap- shotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: o min: 1 o max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This deter- mines how files are selected and combined during com- paction operations. Possible values: o auto o binpack o sort o z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management set- tings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: o min: 1 o max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }
+    /// </summary>
     [CliOption("--value")]
-    public string? Value { get; set; }
+    public string? Value { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

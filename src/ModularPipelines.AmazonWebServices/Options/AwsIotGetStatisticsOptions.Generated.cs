@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "get-statistics")]
-public record AwsIotGetStatisticsOptions : AwsOptions
+public record AwsIotGetStatisticsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String , only the count statistic is returned. Requires permission to access the GetStatistics action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryString">The query used to search. You can specify "*" for the query string to get the count of all indexed things in your Amazon Web Services account. Constraints: o min: 1</param>
+    public AwsIotGetStatisticsOptions(
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsIotGetStatisticsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotGetStatisticsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotGetStatisticsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The query used to search. You can specify "*" for the query string to get the count of all indexed things in your Amazon Web Services account. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--query-string")]
+    public string? QueryString { get; private init; }
+
     /// <summary>
     /// The name of the index to search. The default value is AWS_Things . Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
-
-    [CliOption("--query-string")]
-    public string? QueryString { get; set; }
 
     /// <summary>
     /// The aggregation field name. Constraints: o min: 1
@@ -47,5 +84,21 @@ public record AwsIotGetStatisticsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

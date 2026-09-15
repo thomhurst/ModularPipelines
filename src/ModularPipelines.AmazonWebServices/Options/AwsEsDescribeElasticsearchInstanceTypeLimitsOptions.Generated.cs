@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "describe-elasticsearch-instance-type-limits")]
-public record AwsEsDescribeElasticsearchInstanceTypeLimitsOptions : AwsOptions
+public record AwsEsDescribeElasticsearchInstanceTypeLimitsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describe Elasticsearch Limits for a given InstanceType and Elastic- searchVersion. When modifying existing Domain, specify the `` Domain- Name `` to know what Limits are supported for modifying. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceType">The instance type for an Elasticsearch cluster for which Elastic- search `` Limits `` are needed. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch</param>
+    /// <param name="ElasticsearchVersion">Version of Elasticsearch for which `` Limits `` are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    public AwsEsDescribeElasticsearchInstanceTypeLimitsOptions(
+        string InstanceType,
+        string ElasticsearchVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(ElasticsearchVersion);
+        this.ElasticsearchVersion = ElasticsearchVersion;
+    }
+
+    private AwsEsDescribeElasticsearchInstanceTypeLimitsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsDescribeElasticsearchInstanceTypeLimitsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsDescribeElasticsearchInstanceTypeLimitsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The instance type for an Elasticsearch cluster for which Elastic- search `` Limits `` are needed. Possible values: o m3.medium.elasticsearch o m3.large.elasticsearch o m3.xlarge.elasticsearch o m3.2xlarge.elasticsearch o m4.large.elasticsearch o m4.xlarge.elasticsearch o m4.2xlarge.elasticsearch o m4.4xlarge.elasticsearch o m4.10xlarge.elasticsearch o m5.large.elasticsearch o m5.xlarge.elasticsearch o m5.2xlarge.elasticsearch o m5.4xlarge.elasticsearch o m5.12xlarge.elasticsearch o r5.large.elasticsearch o r5.xlarge.elasticsearch o r5.2xlarge.elasticsearch o r5.4xlarge.elasticsearch o r5.12xlarge.elasticsearch o c5.large.elasticsearch o c5.xlarge.elasticsearch o c5.2xlarge.elasticsearch o c5.4xlarge.elasticsearch o c5.9xlarge.elasticsearch o c5.18xlarge.elasticsearch o ultrawarm1.medium.elasticsearch o ultrawarm1.large.elasticsearch o t2.micro.elasticsearch o t2.small.elasticsearch o t2.medium.elasticsearch o r3.large.elasticsearch o r3.xlarge.elasticsearch o r3.2xlarge.elasticsearch o r3.4xlarge.elasticsearch o r3.8xlarge.elasticsearch o i2.xlarge.elasticsearch o i2.2xlarge.elasticsearch o d2.xlarge.elasticsearch o d2.2xlarge.elasticsearch o d2.4xlarge.elasticsearch o d2.8xlarge.elasticsearch o c4.large.elasticsearch o c4.xlarge.elasticsearch o c4.2xlarge.elasticsearch o c4.4xlarge.elasticsearch o c4.8xlarge.elasticsearch o r4.large.elasticsearch o r4.xlarge.elasticsearch o r4.2xlarge.elasticsearch o r4.4xlarge.elasticsearch o r4.8xlarge.elasticsearch o r4.16xlarge.elasticsearch o i3.large.elasticsearch o i3.xlarge.elasticsearch o i3.2xlarge.elasticsearch o i3.4xlarge.elasticsearch o i3.8xlarge.elasticsearch o i3.16xlarge.elasticsearch
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// Version of Elasticsearch for which `` Limits `` are needed. Constraints: o pattern: ^[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$|^OS_[0-9]{1,2}\.[0-9]{1,2}$
+    /// </summary>
+    [CliOption("--elasticsearch-version")]
+    public string? ElasticsearchVersion { get; private init; }
+
     /// <summary>
     /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elastic- search `` Limits `` for existing domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
-    [CliOption("--elasticsearch-version")]
-    public string? ElasticsearchVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

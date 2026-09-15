@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "delete-alarms")]
-public record AwsCloudwatchDeleteAlarmsOptions : AwsOptions
+public record AwsCloudwatchDeleteAlarmsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. ...
+    /// </summary>
+    /// <param name="AlarmNames">The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    public AwsCloudwatchDeleteAlarmsOptions(
+        IEnumerable<string> AlarmNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AlarmNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AlarmNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AlarmNames));
+            }
+
+            AlarmNames = materialized;
+        }
+        this.AlarmNames = AlarmNames;
+    }
+
+    private AwsCloudwatchDeleteAlarmsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchDeleteAlarmsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchDeleteAlarmsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alarms to be deleted. Do not enclose the alarm names in quote marks. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--alarm-names", GroupValues = true)]
-    public IEnumerable<string>? AlarmNames { get; set; }
+    public IEnumerable<string>? AlarmNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

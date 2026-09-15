@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "copy-distribution")]
-public record AwsCloudfrontCopyDistributionOptions : AwsOptions
+public record AwsCloudfrontCopyDistributionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--primary-distribution-id")]
-    public string? PrimaryDistributionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--staging")]
+    /// <summary>
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requir...
+    /// </summary>
+    /// <param name="PrimaryDistributionId">The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions .</param>
+    /// <param name="CallerReference">A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.</param>
+    public AwsCloudfrontCopyDistributionOptions(
+        string PrimaryDistributionId,
+        string CallerReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryDistributionId);
+        this.PrimaryDistributionId = PrimaryDistributionId;
+        global::System.ArgumentNullException.ThrowIfNull(CallerReference);
+        this.CallerReference = CallerReference;
+    }
+
+    private AwsCloudfrontCopyDistributionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCopyDistributionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCopyDistributionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the primary distribution whose configuration you are copying. To get a distribution ID, use ListDistributions .
+    /// </summary>
+    [CliOption("--primary-distribution-id")]
+    public string? PrimaryDistributionId { get; private init; }
+
+    /// <summary>
+    /// A value that uniquely identifies a request to create a resource. This helps to prevent CloudFront from creating a duplicate resource if you accidentally resubmit an identical request.
+    /// </summary>
+    [CliOption("--caller-reference")]
+    public string? CallerReference { get; private init; }
+
+    /// <summary>
+    /// The type of distribution that your primary distribution will be copied to. The only valid value is True , indicating that you are copying to a staging distribution.
+    /// </summary>
+    [CliFlag("--staging", NegatedName = "--no-staging")]
     public bool? Staging { get; set; }
 
     /// <summary>
@@ -33,10 +83,10 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CliOption("--caller-reference")]
-    public string? CallerReference { get; set; }
-
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True , the staging distrib- ution is enabled. When you set this value to False , the staging distribution is disabled. If you omit this field, the default value is True .
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +94,21 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

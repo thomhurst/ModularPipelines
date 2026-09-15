@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-resource")]
-public record AwsWorkmailCreateResourceOptions : AwsOptions
+public record AwsWorkmailCreateResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new WorkMail resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier associated with the organization for which the re- source is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the new resource. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
+    /// <param name="Type">The type of the new resource. The available types are equipment and room . Possible values: o ROOM o EQUIPMENT</param>
+    public AwsWorkmailCreateResourceOptions(
+        string OrganizationId,
+        string Name,
+        AwsWorkmailCreateResourceType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsWorkmailCreateResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier associated with the organization for which the re- source is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The name of the new resource. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of the new resource. The available types are equipment and room . Possible values: o ROOM o EQUIPMENT
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsWorkmailCreateResourceType? Type { get; private init; }
 
     /// <summary>
     /// Resource description. Constraints: o min: 1 o max: 64
@@ -36,7 +88,10 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--hidden-from-global-address-list")]
+    /// <summary>
+    /// dress-list (boolean) If this parameter is enabled, the resource will be hidden from the address book.
+    /// </summary>
+    [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +99,21 @@ public record AwsWorkmailCreateResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-traffic-mirror-session")]
-public record AwsEc2CreateTrafficMirrorSessionOptions : AwsOptions
+public record AwsEc2CreateTrafficMirrorSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring ap- pliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use CreateTrafficMirror...
+    /// </summary>
+    /// <param name="NetworkInterfaceId">The ID of the source network interface.</param>
+    /// <param name="TrafficMirrorTargetId">The ID of the Traffic Mirror target.</param>
+    /// <param name="TrafficMirrorFilterId">The ID of the Traffic Mirror filter.</param>
+    /// <param name="SessionNumber">The session number determines the order in which sessions are evalu- ated when an interface is used by multiple sessions. The first ses- sion with a matching filter is the one that mirrors the packets. Valid values are 1-32766.</param>
+    public AwsEc2CreateTrafficMirrorSessionOptions(
+        string NetworkInterfaceId,
+        string TrafficMirrorTargetId,
+        string TrafficMirrorFilterId,
+        int SessionNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+        global::System.ArgumentNullException.ThrowIfNull(TrafficMirrorTargetId);
+        this.TrafficMirrorTargetId = TrafficMirrorTargetId;
+        global::System.ArgumentNullException.ThrowIfNull(TrafficMirrorFilterId);
+        this.TrafficMirrorFilterId = TrafficMirrorFilterId;
+        this.SessionNumber = SessionNumber;
+    }
+
+    private AwsEc2CreateTrafficMirrorSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateTrafficMirrorSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateTrafficMirrorSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source network interface.
+    /// </summary>
     [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
+    public string? NetworkInterfaceId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Traffic Mirror target.
+    /// </summary>
     [CliOption("--traffic-mirror-target-id")]
-    public string? TrafficMirrorTargetId { get; set; }
+    public string? TrafficMirrorTargetId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Traffic Mirror filter.
+    /// </summary>
     [CliOption("--traffic-mirror-filter-id")]
-    public string? TrafficMirrorFilterId { get; set; }
+    public string? TrafficMirrorFilterId { get; private init; }
+
+    /// <summary>
+    /// The session number determines the order in which sessions are evalu- ated when an interface is used by multiple sessions. The first ses- sion with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
+    /// </summary>
+    [CliOption("--session-number")]
+    public int? SessionNumber { get; private init; }
 
     /// <summary>
     /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. Do not specify this parameter when you want to mirror the entire packet. To mirror a subset of the packet, set this to the length (in bytes) that you want to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. If you do not want to mirror the entire packet, use the PacketLength parameter to specify the number of bytes in each packet to mirror. For sessions with Network Load Balancer (NLB) Traffic Mirror targets the default PacketLength will be set to 8500. Valid values are 1-8500. Setting a PacketLength greater than 8500 will result in an error response.
     /// </summary>
     [CliOption("--packet-length")]
     public int? PacketLength { get; set; }
-
-    [CliOption("--session-number")]
-    public int? SessionNumber { get; set; }
 
     /// <summary>
     /// The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348 . If you do not specify a VirtualNetworkId , an account-wide unique ID is chosen at random.
@@ -58,7 +115,10 @@ public record AwsEc2CreateTrafficMirrorSessionOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -73,5 +133,21 @@ public record AwsEc2CreateTrafficMirrorSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

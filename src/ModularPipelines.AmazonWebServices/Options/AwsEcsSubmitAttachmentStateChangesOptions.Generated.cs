@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "submit-attachment-state-changes")]
-public record AwsEcsSubmitAttachmentStateChangesOptions : AwsOptions
+public record AwsEcsSubmitAttachmentStateChangesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This action is only used by the Amazon ECS agent, and it is not in- tended for use outside of the agent. Sent to acknowledge that an attachment changed states. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Attachments">Any attachments associated with the state change request. (structure) An object representing a change in state for a task attachment. attachmentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the attachment. status -&gt; (string) [required] The status of the attachment. Shorthand Syntax: attachmentArn=string,status=string ... JSON Syntax: [ { "attachmentArn": "string", "status": "string" } ... ]</param>
+    public AwsEcsSubmitAttachmentStateChangesOptions(
+        IEnumerable<string> Attachments
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attachments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attachments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attachments));
+            }
+
+            Attachments = materialized;
+        }
+        this.Attachments = Attachments;
+    }
+
+    private AwsEcsSubmitAttachmentStateChangesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsSubmitAttachmentStateChangesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsSubmitAttachmentStateChangesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Any attachments associated with the state change request. (structure) An object representing a change in state for a task attachment. attachmentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the attachment. status -&gt; (string) [required] The status of the attachment. Shorthand Syntax: attachmentArn=string,status=string ... JSON Syntax: [ { "attachmentArn": "string", "status": "string" } ... ]
+    /// </summary>
+    [CliOption("--attachments", GroupValues = true)]
+    public IEnumerable<string>? Attachments { get; private init; }
+
     /// <summary>
     /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--attachments", GroupValues = true)]
-    public IEnumerable<string>? Attachments { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "update-phone-number")]
-public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--phone-number-id")]
-    public string? PhoneNumberId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--two-way-enabled")]
+    /// <summary>
+    /// Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection. If the origination phone number is associated with a pool, an error is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PhoneNumberId">The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    public AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions(
+        string PhoneNumberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberId);
+        this.PhoneNumberId = PhoneNumberId;
+    }
+
+    private AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--phone-number-id")]
+    public string? PhoneNumberId { get; private init; }
+
+    /// <summary>
+    /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    /// </summary>
+    [CliFlag("--two-way-enabled", NegatedName = "--no-two-way-enabled")]
     public bool? TwoWayEnabled { get; set; }
 
     /// <summary>
@@ -39,7 +79,10 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
     [CliOption("--two-way-channel-role")]
     public string? TwoWayChannelRole { get; set; }
 
-    [CliFlag("--self-managed-opt-outs-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to false and an end recip- ient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// </summary>
+    [CliFlag("--self-managed-opt-outs-enabled", NegatedName = "--no-self-managed-opt-outs-enabled")]
     public bool? SelfManagedOptOutsEnabled { get; set; }
 
     /// <summary>
@@ -48,10 +91,16 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
-    [CliFlag("--international-sending-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    /// </summary>
+    [CliFlag("--international-sending-enabled", NegatedName = "--no-international-sending-enabled")]
     public bool? InternationalSendingEnabled { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the phone number can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -59,5 +108,21 @@ public record AwsPinpointSmsVoiceV2UpdatePhoneNumberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "submit-feedback")]
-public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions
+public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnomalyInstanceId">The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group that is associated with the analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="Type">The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: o Positive o Negative</param>
+    public AwsCodeguruprofilerSubmitFeedbackOptions(
+        string AnomalyInstanceId,
+        string ProfilingGroupName,
+        AwsCodeguruprofilerSubmitFeedbackType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyInstanceId);
+        this.AnomalyInstanceId = AnomalyInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsCodeguruprofilerSubmitFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerSubmitFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerSubmitFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The universally unique identifier (UUID) of the ` AnomalyInstance https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html`__ object that is included in the analysis data. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--anomaly-instance-id")]
-    public string? AnomalyInstanceId { get; set; }
+    public string? AnomalyInstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group that is associated with the analysis data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
+    /// <summary>
+    /// The feedback tpye. Thee are two valid values, Positive and Negative . Possible values: o Positive o Negative
+    /// </summary>
+    [CliOption("--type")]
+    public AwsCodeguruprofilerSubmitFeedbackType? Type { get; private init; }
 
     /// <summary>
     /// Optional feedback about this anomaly.
@@ -30,16 +88,26 @@ public record AwsCodeguruprofilerSubmitFeedbackOptions : AwsOptions
     [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

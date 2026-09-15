@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "create-router-network-interface")]
-public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions
+public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the router network interface. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?</param>
+    /// <param name="Configuration">The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network inter- face, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: o min: 0 o max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: o min: 1 o max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }</param>
+    public AwsMediaconnectCreateRouterNetworkInterfaceOptions(
+        string Name,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsMediaconnectCreateRouterNetworkInterfaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectCreateRouterNetworkInterfaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectCreateRouterNetworkInterfaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the router network interface. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network inter- face, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: o min: 0 o max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: o min: 1 o max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }
+    /// </summary>
     [CliOption("--configuration")]
-    public string? Configuration { get; set; }
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services Region for the router network interface. De- faults to the current region if not specified.
@@ -53,5 +97,21 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

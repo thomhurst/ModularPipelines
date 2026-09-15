@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "batch-delete-phone-number")]
-public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions
+public record AwsChimeBatchDeletePhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Moves phone numbers into the Deletion queue . Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PhoneNumberIds">List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    public AwsChimeBatchDeletePhoneNumberOptions(
+        IEnumerable<string> PhoneNumberIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PhoneNumberIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PhoneNumberIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PhoneNumberIds));
+            }
+
+            PhoneNumberIds = materialized;
+        }
+        this.PhoneNumberIds = PhoneNumberIds;
+    }
+
+    private AwsChimeBatchDeletePhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeBatchDeletePhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeBatchDeletePhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// List of phone number IDs. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--phone-number-ids", GroupValues = true)]
-    public IEnumerable<string>? PhoneNumberIds { get; set; }
+    public IEnumerable<string>? PhoneNumberIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "create-product")]
-public record AwsServicecatalogCreateProductOptions : AwsOptions
+public record AwsServicecatalogCreateProductOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the product. Constraints: o max: 8191</param>
+    /// <param name="Owner">The owner of the product. Constraints: o max: 8191</param>
+    /// <param name="ProductType">The type of product. Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL Constraints: o max: 8191</param>
+    public AwsServicecatalogCreateProductOptions(
+        string Name,
+        string Owner,
+        AwsServicecatalogCreateProductProductType ProductType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Owner);
+        this.Owner = Owner;
+        global::System.ArgumentNullException.ThrowIfNull(ProductType);
+        this.ProductType = ProductType;
+    }
+
+    private AwsServicecatalogCreateProductOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogCreateProductOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogCreateProductOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the product. Constraints: o max: 8191
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The owner of the product. Constraints: o max: 8191
+    /// </summary>
+    [CliOption("--owner")]
+    public string? Owner { get; private init; }
+
+    /// <summary>
+    /// The type of product. Possible values: o CLOUD_FORMATION_TEMPLATE o MARKETPLACE o TERRAFORM_OPEN_SOURCE o TERRAFORM_CLOUD o EXTERNAL Constraints: o max: 8191
+    /// </summary>
+    [CliOption("--product-type")]
+    public AwsServicecatalogCreateProductProductType? ProductType { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--owner")]
-    public string? Owner { get; set; }
 
     /// <summary>
     /// The description of the product. Constraints: o max: 8191
@@ -64,9 +119,6 @@ public record AwsServicecatalogCreateProductOptions : AwsOptions
     [CliOption("--support-url")]
     public string? SupportUrl { get; set; }
 
-    [CliOption("--product-type")]
-    public string? ProductType { get; set; }
-
     /// <summary>
     /// One or more tags. Constraints: o max: 20 (structure) Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product. Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value for this key. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -97,5 +149,21 @@ public record AwsServicecatalogCreateProductOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-pricing-calculator", "batch-update-bill-scenario-commitment-modification")]
-public record AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions : AwsOptions
+public record AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bill-scenario-id")]
-    public string? BillScenarioId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update a newly added or existing commitment. You can update the commit- ment group based on a commitment ID and a Bill scenario ID. NOTE: The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calcula- tor:UpdateBillScenarioCommitmentModification in your policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to modify the commit- ment group of a modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="CommitmentModifications">List of commitments that you want to update in a Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]</param>
+    public AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions(
+        string BillScenarioId,
+        IEnumerable<string> CommitmentModifications
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillScenarioId);
+        this.BillScenarioId = BillScenarioId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CommitmentModifications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CommitmentModifications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CommitmentModifications));
+            }
+
+            CommitmentModifications = materialized;
+        }
+        this.CommitmentModifications = CommitmentModifications;
+    }
+
+    private AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmPricingCalculatorBatchUpdateBillScenarioCommitmentModificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Bill Scenario for which you want to modify the commit- ment group of a modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--bill-scenario-id")]
+    public string? BillScenarioId { get; private init; }
+
+    /// <summary>
+    /// List of commitments that you want to update in a Bill Scenario. Constraints: o min: 1 o max: 25 (structure) Represents an entry in a batch operation to update bill scenario commitment modifications. id -&gt; (string) [required] The unique identifier of the commitment modification to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} group -&gt; (string) The updated group identifier for the commitment modification. Constraints: o min: 0 o max: 30 o pattern: [a-zA-Z0-9-]* Shorthand Syntax: id=string,group=string ... JSON Syntax: [ { "id": "string", "group": "string" } ... ]
+    /// </summary>
     [CliOption("--commitment-modifications", GroupValues = true)]
-    public IEnumerable<string>? CommitmentModifications { get; set; }
+    public IEnumerable<string>? CommitmentModifications { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

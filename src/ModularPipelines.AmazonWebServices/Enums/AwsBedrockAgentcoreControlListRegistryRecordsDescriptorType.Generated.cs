@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --descriptortype.
+/// Allowed values for --descriptor-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlListRegistryRecordsDescriptorType
 {
-    [EnumValue("MCP")]
-    Mcp = 1,
-
     [EnumValue("A2A")]
-    A2A = 2,
-
-    [EnumValue("CUSTOM")]
-    Custom = 3,
+    A2A,
 
     [EnumValue("AGENT_SKILLS")]
-    AgentSkills = 4
+    AgentSkills,
+
+    [EnumValue("CUSTOM")]
+    Custom,
+
+    [EnumValue("MCP")]
+    Mcp
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("appsync", "get-introspection-schema")]
 public record AwsAppsyncGetIntrospectionSchemaOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves the introspection schema for a GraphQL API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API ID.</param>
+    /// <param name="Format">The schema format: SDL or JSON. Possible values: o SDL o JSON</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsAppsyncGetIntrospectionSchemaOptions(
+        string ApiId,
+        AwsAppsyncGetIntrospectionSchemaFormat Format,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string ApiId, out AwsAppsyncGetIntrospectionSchemaFormat Format, out string Outfile)
+    {
+        ApiId = this.ApiId;
+        Format = this.Format;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The API ID.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string ApiId { get; private init; }
 
+    /// <summary>
+    /// The schema format: SDL or JSON. Possible values: o SDL o JSON
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsAppsyncGetIntrospectionSchemaFormat Format { get; private init; }
 
-    [CliFlag("--include-directives")]
+    /// <summary>
+    /// A flag that specifies whether the schema introspection should con- tain directives. outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliFlag("--include-directives", NegatedName = "--no-include-directives")]
     public bool? IncludeDirectives { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

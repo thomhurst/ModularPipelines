@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "create-token")]
-public record AwsLicenseManagerCreateTokenOptions : AwsOptions
+public record AwsLicenseManagerCreateTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an ac- cess token, you can call AssumeRoleWithWebIdentity to get role creden- tials that you can use to call License Manager to manage the specified license. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="ClientToken">Idempotency token, valid for 10 minutes. Constraints: o max: 2048 o pattern: \S+</param>
+    public AwsLicenseManagerCreateTokenOptions(
+        string LicenseArn,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseArn);
+        this.LicenseArn = LicenseArn;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsLicenseManagerCreateTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCreateTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCreateTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// </summary>
     [CliOption("--license-arn")]
-    public string? LicenseArn { get; set; }
+    public string? LicenseArn { get; private init; }
+
+    /// <summary>
+    /// Idempotency token, valid for 10 minutes. Constraints: o max: 2048 o pattern: \S+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-token")]
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// Amazon Resource Name (ARN) of the IAM roles to embed in the token. License Manager does not check whether the roles are in use. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
@@ -44,14 +92,26 @@ public record AwsLicenseManagerCreateTokenOptions : AwsOptions
     [CliOption("--token-properties", GroupValues = true)]
     public IEnumerable<string>? TokenProperties { get; set; }
 
-    [SecretValue]
-    [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

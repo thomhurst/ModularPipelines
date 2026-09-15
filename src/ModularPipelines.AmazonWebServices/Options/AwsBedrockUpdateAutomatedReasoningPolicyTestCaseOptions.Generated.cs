@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +22,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "update-automated-reasoning-policy-test-case")]
-public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptions
+public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="TestCaseId">The unique identifier of the test to update. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}</param>
+    /// <param name="GuardContent">The updated content to be validated by the Automated Reasoning pol- icy. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="LastUpdatedAt">The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.</param>
+    /// <param name="ExpectedAggregatedFindingsResult">The updated expected result of the Automated Reasoning check. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION</param>
+    public AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions(
+        string PolicyArn,
+        string TestCaseId,
+        string GuardContent,
+        string LastUpdatedAt,
+        AwsBedrockUpdateAutomatedReasoningPolicyTestCaseExpectedAggregatedFindingsResult ExpectedAggregatedFindingsResult
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(TestCaseId);
+        this.TestCaseId = TestCaseId;
+        global::System.ArgumentNullException.ThrowIfNull(GuardContent);
+        this.GuardContent = GuardContent;
+        global::System.ArgumentNullException.ThrowIfNull(LastUpdatedAt);
+        this.LastUpdatedAt = LastUpdatedAt;
+        global::System.ArgumentNullException.ThrowIfNull(ExpectedAggregatedFindingsResult);
+        this.ExpectedAggregatedFindingsResult = ExpectedAggregatedFindingsResult;
+    }
+
+    private AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// </summary>
     [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    public string? PolicyArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the test to update. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}
+    /// </summary>
     [CliOption("--test-case-id")]
-    public string? TestCaseId { get; set; }
+    public string? TestCaseId { get; private init; }
 
+    /// <summary>
+    /// The updated content to be validated by the Automated Reasoning pol- icy. Constraints: o min: 0 o max: 2048
+    /// </summary>
     [CliOption("--guard-content")]
-    public string? GuardContent { get; set; }
+    public string? GuardContent { get; private init; }
+
+    /// <summary>
+    /// The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.
+    /// </summary>
+    [CliOption("--last-updated-at")]
+    public string? LastUpdatedAt { get; private init; }
+
+    /// <summary>
+    /// The updated expected result of the Automated Reasoning check. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION
+    /// </summary>
+    [CliOption("--expected-aggregated-findings-result")]
+    public AwsBedrockUpdateAutomatedReasoningPolicyTestCaseExpectedAggregatedFindingsResult? ExpectedAggregatedFindingsResult { get; private init; }
 
     /// <summary>
     /// The updated input query or prompt that generated the content. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--query-content")]
     public string? QueryContent { get; set; }
-
-    [CliOption("--last-updated-at")]
-    public string? LastUpdatedAt { get; set; }
-
-    [CliOption("--expected-aggregated-findings-result")]
-    public string? ExpectedAggregatedFindingsResult { get; set; }
 
     /// <summary>
     /// The updated minimum confidence level for logic validation. If null is provided, the threshold will be removed. Constraints: o min: 0 o max: 1
@@ -61,5 +127,21 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

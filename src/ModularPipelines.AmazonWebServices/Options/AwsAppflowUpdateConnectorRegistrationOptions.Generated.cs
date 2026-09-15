@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "update-connector-registration")]
-public record AwsAppflowUpdateConnectorRegistrationOptions : AwsOptions
+public record AwsAppflowUpdateConnectorRegistrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a custom connector that you've previously registered. This op- eration updates the connector with one of the following: o The latest version of the AWS Lambda function that's assigned to the connector o A new AWS Lambda function that you specify See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorLabel">The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    public AwsAppflowUpdateConnectorRegistrationOptions(
+        string ConnectorLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorLabel);
+        this.ConnectorLabel = ConnectorLabel;
+    }
+
+    private AwsAppflowUpdateConnectorRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowUpdateConnectorRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowUpdateConnectorRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the connector. The name is unique for each connector registration in your AWS account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// </summary>
     [CliOption("--connector-label")]
-    public string? ConnectorLabel { get; set; }
+    public string? ConnectorLabel { get; private init; }
 
     /// <summary>
     /// A description about the update that you're applying to the connec- tor. Constraints: o max: 1024 o pattern: [\s\w/!@#+=.-]*
@@ -49,5 +86,21 @@ public record AwsAppflowUpdateConnectorRegistrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "list-restore-jobs-by-protected-resource")]
-public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions
+public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This returns restore jobs that contain the specified protected re- source. You must include ResourceArn . You can optionally include NextToken , ByStatus , MaxResults , ByRecoveryPointCreationDateAfter , and ByRecov- eryPointCreationDateBefore . See also: AWS API Documentation list-restore-jobs-by-protected-resource is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. ...
+    /// </summary>
+    /// <param name="ResourceArn">Returns only restore jobs that match the specified resource Amazon Resource Name (ARN).</param>
+    public AwsBackupListRestoreJobsByProtectedResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsBackupListRestoreJobsByProtectedResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupListRestoreJobsByProtectedResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupListRestoreJobsByProtectedResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns only restore jobs that match the specified resource Amazon Resource Name (ARN).
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// Returns only restore jobs associated with the specified job status. Possible values: o PENDING o RUNNING o COMPLETED o ABORTED o FAILED
@@ -68,5 +105,21 @@ public record AwsBackupListRestoreJobsByProtectedResourceOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

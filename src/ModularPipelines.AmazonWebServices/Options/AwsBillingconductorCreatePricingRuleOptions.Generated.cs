@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "create-pricing-rule")]
-public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions
+public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The pricing rule name. The names must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="Scope">The scope of pricing rule that indicates if it's globally applica- ble, or it's service-specific. Possible values: o GLOBAL o SERVICE o BILLING_ENTITY o SKU</param>
+    /// <param name="Type">The type of pricing rule. Possible values: o MARKUP o DISCOUNT o TIERING</param>
+    public AwsBillingconductorCreatePricingRuleOptions(
+        string Name,
+        AwsBillingconductorCreatePricingRuleScope Scope,
+        AwsBillingconductorCreatePricingRuleType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsBillingconductorCreatePricingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorCreatePricingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorCreatePricingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pricing rule name. The names must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The scope of pricing rule that indicates if it's globally applica- ble, or it's service-specific. Possible values: o GLOBAL o SERVICE o BILLING_ENTITY o SKU
+    /// </summary>
+    [CliOption("--scope")]
+    public AwsBillingconductorCreatePricingRuleScope? Scope { get; private init; }
+
+    /// <summary>
+    /// The type of pricing rule. Possible values: o MARKUP o DISCOUNT o TIERING
+    /// </summary>
+    [CliOption("--type")]
+    public AwsBillingconductorCreatePricingRuleType? Type { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
     /// </summary>
@@ -30,20 +91,11 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The pricing rule description. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places. Constraints: o min: 0
@@ -70,7 +122,7 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions
     public string? BillingEntity { get; set; }
 
     /// <summary>
-    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) [required] The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate Amazon Web Services Free Tier. Shorthand Syntax: FreeTier={Activated=boolean} JSON Syntax: { "FreeTier": { "Activated": true|false } }
+    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: o min: 1 o max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier ap- plies to. Constraints: o min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier ap- plies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to Begin- RangeInclusive . Constraints: o min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: o min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
     /// </summary>
     [CliOption("--tiering")]
     public string? Tiering { get; set; }
@@ -92,5 +144,21 @@ public record AwsBillingconductorCreatePricingRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

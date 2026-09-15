@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +21,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-endpoint-payer-responsibility")]
-public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions
+public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the billing account for VPC endpoint usage/charges. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcEndpointId">The ID of the VPC endpoint.</param>
+    /// <param name="PayerResponsibility">The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o vpc-endpoint-service-account</param>
+    /// <param name="Scope">The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges</param>
+    public AwsEc2ModifyVpcEndpointPayerResponsibilityOptions(
+        string VpcEndpointId,
+        AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility PayerResponsibility,
+        AwsEc2ModifyVpcEndpointPayerResponsibilityScope Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcEndpointId);
+        this.VpcEndpointId = VpcEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(PayerResponsibility);
+        this.PayerResponsibility = PayerResponsibility;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsEc2ModifyVpcEndpointPayerResponsibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcEndpointPayerResponsibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcEndpointPayerResponsibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the VPC endpoint.
+    /// </summary>
+    [CliOption("--vpc-endpoint-id")]
+    public string? VpcEndpointId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account to which the usage of VPC endpoint is charged. Possible values: o vpc-endpoint-account o vpc-endpoint-service-account
+    /// </summary>
+    [CliOption("--payer-responsibility")]
+    public AwsEc2ModifyVpcEndpointPayerResponsibilityPayerResponsibility? PayerResponsibility { get; private init; }
+
+    /// <summary>
+    /// The scope of usage/charges for which the billing account is being modified. Possible values: o vpc-endpoint-charges
+    /// </summary>
+    [CliOption("--scope")]
+    public AwsEc2ModifyVpcEndpointPayerResponsibilityScope? Scope { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -30,19 +94,26 @@ public record AwsEc2ModifyVpcEndpointPayerResponsibilityOptions : AwsOptions
     [CliOption("--service-id")]
     public string? ServiceId { get; set; }
 
-    [CliOption("--vpc-endpoint-id")]
-    public string? VpcEndpointId { get; set; }
-
-    [CliOption("--payer-responsibility")]
-    public string? PayerResponsibility { get; set; }
-
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

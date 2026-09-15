@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "list-organization-portfolio-access")]
-public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptions
+public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the organization nodes that have access to the specified portfo- lio. This API can only be called by the management account in the orga- nization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate ar...
+    /// </summary>
+    /// <param name="PortfolioId">The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="OrganizationNodeType">The organization node type that will be returned in the output. o ORGANIZATION - Organization that has access to the portfolio. o ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. o ACCOUNT - Account that has access to the portfolio within your or- ganization. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT</param>
+    public AwsServicecatalogListOrganizationPortfolioAccessOptions(
+        string PortfolioId,
+        AwsServicecatalogListOrganizationPortfolioAccessOrganizationNodeType OrganizationNodeType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
+        this.PortfolioId = PortfolioId;
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationNodeType);
+        this.OrganizationNodeType = OrganizationNodeType;
+    }
+
+    private AwsServicecatalogListOrganizationPortfolioAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogListOrganizationPortfolioAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogListOrganizationPortfolioAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portfolio identifier. For example, port-2abcdext3y5fk . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--portfolio-id")]
+    public string? PortfolioId { get; private init; }
+
+    /// <summary>
+    /// The organization node type that will be returned in the output. o ORGANIZATION - Organization that has access to the portfolio. o ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization. o ACCOUNT - Account that has access to the portfolio within your or- ganization. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT
+    /// </summary>
+    [CliOption("--organization-node-type")]
+    public AwsServicecatalogListOrganizationPortfolioAccessOrganizationNodeType? OrganizationNodeType { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--portfolio-id")]
-    public string? PortfolioId { get; set; }
-
-    [CliOption("--organization-node-type")]
-    public string? OrganizationNodeType { get; set; }
 
     /// <summary>
     /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 20
@@ -58,5 +103,21 @@ public record AwsServicecatalogListOrganizationPortfolioAccessOptions : AwsOptio
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "update-custom-action")]
-public record AwsChatbotUpdateCustomActionOptions : AwsOptions
+public record AwsChatbotUpdateCustomActionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--custom-action-arn")]
-    public string? CustomActionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a custom action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CustomActionArn">The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Definition">The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefix- ing with a dollar sign ($). Constraints: o min: 1 o max: 100 o pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }</param>
+    public AwsChatbotUpdateCustomActionOptions(
+        string CustomActionArn,
+        string Definition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomActionArn);
+        this.CustomActionArn = CustomActionArn;
+        global::System.ArgumentNullException.ThrowIfNull(Definition);
+        this.Definition = Definition;
+    }
+
+    private AwsChatbotUpdateCustomActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotUpdateCustomActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotUpdateCustomActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully defined Amazon Resource Name (ARN) of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}
+    /// </summary>
+    [CliOption("--custom-action-arn")]
+    public string? CustomActionArn { get; private init; }
+
+    /// <summary>
+    /// The definition of the command to run when invoked as an alias or as an action button. CommandText -&gt; (string) [required] The command string to run which may include variables by prefix- ing with a dollar sign ($). Constraints: o min: 1 o max: 100 o pattern: [\S\s]+ Shorthand Syntax: CommandText=string JSON Syntax: { "CommandText": "string" }
+    /// </summary>
     [CliOption("--definition")]
-    public string? Definition { get; set; }
+    public string? Definition { get; private init; }
 
     /// <summary>
     /// The name used to invoke this action in the chat channel. For exam- ple, @aws run my-alias . Constraints: o min: 1 o max: 30 o pattern: [A-Za-z0-9-_]+
@@ -44,5 +88,21 @@ public record AwsChatbotUpdateCustomActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

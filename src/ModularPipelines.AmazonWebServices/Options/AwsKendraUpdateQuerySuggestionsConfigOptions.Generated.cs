@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "update-query-suggestions-config")]
-public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions
+public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the up- dates made and the number of search queries in your index. You can still enable/disable query ...
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index with query suggestions you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    public AwsKendraUpdateQuerySuggestionsConfigOptions(
+        string IndexId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+    }
+
+    private AwsKendraUpdateQuerySuggestionsConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraUpdateQuerySuggestionsConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraUpdateQuerySuggestionsConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index with query suggestions you want to up- date. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
     /// <summary>
     /// Set the mode to ENABLED or LEARN_ONLY . By default, Amazon Kendra enables query suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to keep suggestions up to date for when you are ready to switch to ENABLED mode again. Possible values: o ENABLED o LEARN_ONLY
@@ -37,7 +74,10 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions
     [CliOption("--query-log-look-back-window-in-days")]
     public int? QueryLogLookBackWindowInDays { get; set; }
 
-    [CliFlag("--include-queries-without-user-information")]
+    /// <summary>
+    /// out-user-information (boolean) TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only in- clude queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE , Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE , Amazon Kendra ignores all user information and learns from all queries.
+    /// </summary>
+    [CliFlag("--include-queries-without-user-information", NegatedName = "--no-include-queries-without-user-information")]
     public bool? IncludeQueriesWithoutUserInformation { get; set; }
 
     /// <summary>
@@ -63,5 +103,21 @@ public record AwsKendraUpdateQuerySuggestionsConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

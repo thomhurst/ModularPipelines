@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-option-group")]
-public record AwsRdsCreateOptionGroupOptions : AwsOptions
+public record AwsRdsCreateOptionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OptionGroupName">Specifies the name of the option group to be created. Constraints: o Must be 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup</param>
+    /// <param name="EngineName">The name of the engine to associate this option group with. Valid Values: o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web</param>
+    /// <param name="MajorEngineVersion">Specifies the major version of the engine that this option group should be associated with.</param>
+    /// <param name="OptionGroupDescription">The description of the option group.</param>
+    public AwsRdsCreateOptionGroupOptions(
+        string OptionGroupName,
+        AwsRdsCreateOptionGroupEngineName EngineName,
+        string MajorEngineVersion,
+        string OptionGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptionGroupName);
+        this.OptionGroupName = OptionGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(EngineName);
+        this.EngineName = EngineName;
+        global::System.ArgumentNullException.ThrowIfNull(MajorEngineVersion);
+        this.MajorEngineVersion = MajorEngineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(OptionGroupDescription);
+        this.OptionGroupDescription = OptionGroupDescription;
+    }
+
+    private AwsRdsCreateOptionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateOptionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateOptionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the option group to be created. Constraints: o Must be 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: myoptiongroup
+    /// </summary>
     [CliOption("--option-group-name")]
-    public string? OptionGroupName { get; set; }
+    public string? OptionGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the engine to associate this option group with. Valid Values: o db2-ae o db2-ce o db2-se o mariadb o mysql o oracle-ee o oracle-ee-cdb o oracle-se2 o oracle-se2-cdb o postgres o sqlserver-ee o sqlserver-se o sqlserver-ex o sqlserver-web
+    /// </summary>
     [CliOption("--engine-name")]
-    public string? EngineName { get; set; }
+    public AwsRdsCreateOptionGroupEngineName? EngineName { get; private init; }
 
+    /// <summary>
+    /// Specifies the major version of the engine that this option group should be associated with.
+    /// </summary>
     [CliOption("--major-engine-version")]
-    public string? MajorEngineVersion { get; set; }
+    public string? MajorEngineVersion { get; private init; }
 
+    /// <summary>
+    /// The description of the option group.
+    /// </summary>
     [CliOption("--option-group-description")]
-    public string? OptionGroupDescription { get; set; }
+    public string? OptionGroupDescription { get; private init; }
 
     /// <summary>
     /// Tags to assign to the option group. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +103,21 @@ public record AwsRdsCreateOptionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

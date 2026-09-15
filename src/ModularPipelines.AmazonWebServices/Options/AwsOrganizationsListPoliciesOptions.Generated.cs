@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "list-policies")]
-public record AwsOrganizationsListPoliciesOptions : AwsOptions
+public record AwsOrganizationsListPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the list of all policies in an organization of a specified type. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You can only call this operation from the management...
+    /// </summary>
+    /// <param name="Filter">Specifies the type of policy that you want to include in the re- sponse. You must specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY</param>
+    public AwsOrganizationsListPoliciesOptions(
+        AwsOrganizationsListPoliciesFilter Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsOrganizationsListPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsListPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsListPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the type of policy that you want to include in the re- sponse. You must specify one of the following values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY Possible values: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o TAG_POLICY o BACKUP_POLICY o AISERVICES_OPT_OUT_POLICY o CHATBOT_POLICY o DECLARATIVE_POLICY_EC2 o SECURITYHUB_POLICY o INSPECTOR_POLICY o UPGRADE_ROLLOUT_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_POLICY
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public AwsOrganizationsListPoliciesFilter? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +87,21 @@ public record AwsOrganizationsListPoliciesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

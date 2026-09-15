@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "create-vpc-association-authorization")]
-public record AwsRoute53CreateVpcAssociationAuthorizationOptions : AwsOptions
+public record AwsRoute53CreateVpcAssociationAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the associa- tion, use the account that created the VPC to submit an Associat- eVPCWithHostedZone request. NOTE: If you want to associate multiple VPCs that yo...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the private hosted zone that you want to authorize associ- ating a VPC with. Constraints: o max: 32</param>
+    /// <param name="Vpc">A complex type that contains the VPC ID and region for the VPC that you want to authorize associating with your hosted zone. VPCRegion -&gt; (string) (Private hosted zones only) The region that an Amazon VPC was created in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64 VPCId -&gt; (string) (Private hosted zones only) The ID of an Amazon VPC. Constraints: o max: 1024 Shorthand Syntax: VPCRegion=string,VPCId=string JSON Syntax: { "VPCRegion": "us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-central-1"|"eu-central-2"|"ap-east-1"|"me-south-1"|"us-gov-west-1"|"us-gov-east-1"|"us-iso-east-1"|"us-iso-west-1"|"us-isob-east-1"|"me-central-1"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-south-1"|"ap-south-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"eu-north-1"|"sa-east-1"|"ca-central-1"|"cn-north-1"|"cn-northwest-1"|"af-south-1"|"eu-south-1"|"eu-south-2"|"ap-southeast-4"|"il-central-1"|"ca-west-1"|"ap-southeast-5"|"mx-central-1"|"us-isof-south-1"|"us-isof-east-1"|"ap-southeast-7"|"ap-east-2"|"eu-isoe-west-1"|"ap-southeast-6"|"us-isob-west-1"|"eusc-de-east-1", "VPCId": "string" }</param>
+    public AwsRoute53CreateVpcAssociationAuthorizationOptions(
+        string HostedZoneId,
+        string Vpc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(Vpc);
+        this.Vpc = Vpc;
+    }
+
+    private AwsRoute53CreateVpcAssociationAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53CreateVpcAssociationAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53CreateVpcAssociationAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the private hosted zone that you want to authorize associ- ating a VPC with. Constraints: o max: 32
+    /// </summary>
+    [CliOption("--hosted-zone-id")]
+    public string? HostedZoneId { get; private init; }
+
+    /// <summary>
+    /// A complex type that contains the VPC ID and region for the VPC that you want to authorize associating with your hosted zone. VPCRegion -&gt; (string) (Private hosted zones only) The region that an Amazon VPC was created in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64 VPCId -&gt; (string) (Private hosted zones only) The ID of an Amazon VPC. Constraints: o max: 1024 Shorthand Syntax: VPCRegion=string,VPCId=string JSON Syntax: { "VPCRegion": "us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-central-1"|"eu-central-2"|"ap-east-1"|"me-south-1"|"us-gov-west-1"|"us-gov-east-1"|"us-iso-east-1"|"us-iso-west-1"|"us-isob-east-1"|"me-central-1"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-south-1"|"ap-south-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"eu-north-1"|"sa-east-1"|"ca-central-1"|"cn-north-1"|"cn-northwest-1"|"af-south-1"|"eu-south-1"|"eu-south-2"|"ap-southeast-4"|"il-central-1"|"ca-west-1"|"ap-southeast-5"|"mx-central-1"|"us-isof-south-1"|"us-isof-east-1"|"ap-southeast-7"|"ap-east-2"|"eu-isoe-west-1"|"ap-southeast-6"|"us-isob-west-1"|"eusc-de-east-1", "VPCId": "string" }
+    /// </summary>
     [CliOption("--vpc")]
-    public string? Vpc { get; set; }
+    public string? Vpc { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

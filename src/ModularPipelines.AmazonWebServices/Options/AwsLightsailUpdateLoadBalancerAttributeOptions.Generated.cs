@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "update-load-balancer-attribute")]
-public record AwsLightsailUpdateLoadBalancerAttributeOptions : AwsOptions
+public record AwsLightsailUpdateLoadBalancerAttributeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified attribute for a load balancer. You can only up- date one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name . For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer that you want to modify (my-load-bal- ancer . Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="AttributeName">The name of the attribute you want to update. Possible values: o HealthCheckPath o SessionStickinessEnabled o SessionStickiness_LB_CookieDurationSeconds o HttpsRedirectionEnabled o TlsPolicyName</param>
+    /// <param name="AttributeValue">The value that you want to specify for the attribute name. The following values are supported depending on what you specify for the attributeName request parameter: o If you specify HealthCheckPath for the attributeName request para- meter, then the attributeValue request parameter must be the path to ping on the target (for example, /weather/us/wa/seattle ). o If you specify SessionStickinessEnabled for the attributeName re- quest parameter, then the attributeValue request parameter must be true to activate session stickiness or false to deactivate session stickiness. o If you specify SessionStickiness_LB_CookieDurationSeconds for the attributeName request parameter, then the attributeValue request parameter must be an interger that represents the cookie duration in seconds. o If you specify HttpsRedirectionEnabled for the attributeName re- quest parameter, then the attributeValue request parameter must be true to activate HTTP to HTTPS redirection or false to deactivate HTTP to HTTPS redirection. o If you specify TlsPolicyName for the attributeName request parame- ter, then the attributeValue request parameter must be the name of the TLS policy. Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify. Constraints: o min: 1 o max: 256</param>
+    public AwsLightsailUpdateLoadBalancerAttributeOptions(
+        string LoadBalancerName,
+        AwsLightsailUpdateLoadBalancerAttributeAttributeName AttributeName,
+        string AttributeValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
+        this.AttributeName = AttributeName;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeValue);
+        this.AttributeValue = AttributeValue;
+    }
+
+    private AwsLightsailUpdateLoadBalancerAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailUpdateLoadBalancerAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailUpdateLoadBalancerAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer that you want to modify (my-load-bal- ancer . Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The name of the attribute you want to update. Possible values: o HealthCheckPath o SessionStickinessEnabled o SessionStickiness_LB_CookieDurationSeconds o HttpsRedirectionEnabled o TlsPolicyName
+    /// </summary>
     [CliOption("--attribute-name")]
-    public string? AttributeName { get; set; }
+    public AwsLightsailUpdateLoadBalancerAttributeAttributeName? AttributeName { get; private init; }
 
+    /// <summary>
+    /// The value that you want to specify for the attribute name. The following values are supported depending on what you specify for the attributeName request parameter: o If you specify HealthCheckPath for the attributeName request para- meter, then the attributeValue request parameter must be the path to ping on the target (for example, /weather/us/wa/seattle ). o If you specify SessionStickinessEnabled for the attributeName re- quest parameter, then the attributeValue request parameter must be true to activate session stickiness or false to deactivate session stickiness. o If you specify SessionStickiness_LB_CookieDurationSeconds for the attributeName request parameter, then the attributeValue request parameter must be an interger that represents the cookie duration in seconds. o If you specify HttpsRedirectionEnabled for the attributeName re- quest parameter, then the attributeValue request parameter must be true to activate HTTP to HTTPS redirection or false to deactivate HTTP to HTTPS redirection. o If you specify TlsPolicyName for the attributeName request parame- ter, then the attributeValue request parameter must be the name of the TLS policy. Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--attribute-value")]
-    public string? AttributeValue { get; set; }
+    public string? AttributeValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

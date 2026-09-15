@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "batch-get-prepared-statement")]
-public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions
+public record AwsAthenaBatchGetPreparedStatementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--prepared-statement-names", GroupValues = true)]
-    public IEnumerable<string>? PreparedStatementNames { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPrepared- StatementNames . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PreparedStatementNames">A list of prepared statement names to return. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...</param>
+    /// <param name="WorkGroup">The name of the workgroup to which the prepared statements belong. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    public AwsAthenaBatchGetPreparedStatementOptions(
+        IEnumerable<string> PreparedStatementNames,
+        string WorkGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PreparedStatementNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PreparedStatementNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PreparedStatementNames));
+            }
+
+            PreparedStatementNames = materialized;
+        }
+        this.PreparedStatementNames = PreparedStatementNames;
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+    }
+
+    private AwsAthenaBatchGetPreparedStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaBatchGetPreparedStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaBatchGetPreparedStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of prepared statement names to return. (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_][a-zA-Z0-9_@:]{1,256} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--prepared-statement-names", GroupValues = true)]
+    public IEnumerable<string>? PreparedStatementNames { get; private init; }
+
+    /// <summary>
+    /// The name of the workgroup to which the prepared statements belong. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
     [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
+    public string? WorkGroup { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

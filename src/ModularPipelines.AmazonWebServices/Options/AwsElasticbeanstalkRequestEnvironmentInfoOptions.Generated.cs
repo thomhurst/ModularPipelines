@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "request-environment-info")]
-public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions
+public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the applica- tion server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs fro...
+    /// </summary>
+    /// <param name="InfoType">The type of information to request. Possible values: o tail o bundle o analyze</param>
+    public AwsElasticbeanstalkRequestEnvironmentInfoOptions(
+        AwsElasticbeanstalkRequestEnvironmentInfoInfoType InfoType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InfoType);
+        this.InfoType = InfoType;
+    }
+
+    private AwsElasticbeanstalkRequestEnvironmentInfoOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkRequestEnvironmentInfoOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkRequestEnvironmentInfoOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of information to request. Possible values: o tail o bundle o analyze
+    /// </summary>
+    [CliOption("--info-type")]
+    public AwsElasticbeanstalkRequestEnvironmentInfoInfoType? InfoType { get; private init; }
+
     /// <summary>
     /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     /// </summary>
@@ -33,13 +74,26 @@ public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CliOption("--info-type")]
-    public string? InfoType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appmesh", "update-virtual-service")]
-public record AwsAppmeshUpdateVirtualServiceOptions : AwsOptions
+public record AwsAppmeshUpdateVirtualServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing virtual service in a specified service mesh. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MeshName">The name of the service mesh that the virtual service resides in. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Spec">The new virtual service specification to apply. This overwrites the existing data. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: o min: 1 o max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a ser- vice provider. Constraints: o min: 1 o max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }</param>
+    /// <param name="VirtualServiceName">The name of the virtual service to update.</param>
+    public AwsAppmeshUpdateVirtualServiceOptions(
+        string MeshName,
+        string Spec,
+        string VirtualServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeshName);
+        this.MeshName = MeshName;
+        global::System.ArgumentNullException.ThrowIfNull(Spec);
+        this.Spec = Spec;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualServiceName);
+        this.VirtualServiceName = VirtualServiceName;
+    }
+
+    private AwsAppmeshUpdateVirtualServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppmeshUpdateVirtualServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppmeshUpdateVirtualServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service mesh that the virtual service resides in. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--mesh-name")]
+    public string? MeshName { get; private init; }
+
+    /// <summary>
+    /// The new virtual service specification to apply. This overwrites the existing data. provider -&gt; (tagged union structure) The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: virtualNode, virtualRouter. virtualNode -&gt; (structure) The virtual node associated with a virtual service. virtualNodeName -&gt; (string) [required] The name of the virtual node that is acting as a service provider. Constraints: o min: 1 o max: 255 virtualRouter -&gt; (structure) The virtual router associated with a virtual service. virtualRouterName -&gt; (string) [required] The name of the virtual router that is acting as a ser- vice provider. Constraints: o min: 1 o max: 255 Shorthand Syntax: provider={virtualNode={virtualNodeName=string},virtualRouter={virtualRouterName=string}} JSON Syntax: { "provider": { "virtualNode": { "virtualNodeName": "string" }, "virtualRouter": { "virtualRouterName": "string" } } }
+    /// </summary>
+    [CliOption("--spec")]
+    public string? Spec { get; private init; }
+
+    /// <summary>
+    /// The name of the virtual service to update.
+    /// </summary>
+    [CliOption("--virtual-service-name")]
+    public string? VirtualServiceName { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     /// </summary>
@@ -29,25 +89,32 @@ public record AwsAppmeshUpdateVirtualServiceOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--mesh-name")]
-    public string? MeshName { get; set; }
-
     /// <summary>
     /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CliOption("--spec")]
-    public string? Spec { get; set; }
-
-    [CliOption("--virtual-service-name")]
-    public string? VirtualServiceName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

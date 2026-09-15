@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifybackend", "update-backend-config")]
-public record AwsAmplifybackendUpdateBackendConfigOptions : AwsOptions
+public record AwsAmplifybackendUpdateBackendConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the AWS resources required to access the Amplify Admin UI. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The app ID.</param>
+    public AwsAmplifybackendUpdateBackendConfigOptions(
+        string AppId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+    }
+
+    private AwsAmplifybackendUpdateBackendConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifybackendUpdateBackendConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifybackendUpdateBackendConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The app ID.
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
     /// <summary>
     /// Describes the Amazon Cognito configuration for Admin UI access. AwsCognitoIdentityPoolId -&gt; (string) The Amazon Cognito identity pool ID used for the Amplify Admin UI login authorization. AwsCognitoRegion -&gt; (string) The AWS Region for the Amplify Admin UI login. AwsUserPoolsId -&gt; (string) The Amazon Cognito user pool ID used for Amplify Admin UI login authentication. AwsUserPoolsWebClientId -&gt; (string) The web client ID for the Amazon Cognito user pools. Shorthand Syntax: AwsCognitoIdentityPoolId=string,AwsCognitoRegion=string,AwsUserPoolsId=string,AwsUserPoolsWebClientId=string JSON Syntax: { "AwsCognitoIdentityPoolId": "string", "AwsCognitoRegion": "string", "AwsUserPoolsId": "string", "AwsUserPoolsWebClientId": "string" }
@@ -35,5 +72,21 @@ public record AwsAmplifybackendUpdateBackendConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

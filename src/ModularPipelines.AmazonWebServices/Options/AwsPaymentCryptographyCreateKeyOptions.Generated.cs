@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "create-key")]
-public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
+public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services Payment Cryptography key, a logical rep- resentation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify...
+    /// </summary>
+    /// <param name="KeyAttributes">The role of the key, the algorithm it supports, and the crypto- graphic operations allowed with the key. This data is immutable af- ter the key is created. KeyUsage -&gt; (string) [required] The cryptographic usage of an Amazon Web Services Payment Cryp- tography key as dened in section A.5.2 of the TR-31 spec. Possible values: o TR31_B0_BASE_DERIVATION_KEY o TR31_C0_CARD_VERIFICATION_KEY o TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY o TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION o TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS o TR31_E1_EMV_MKEY_CONFIDENTIALITY o TR31_E2_EMV_MKEY_INTEGRITY o TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS o TR31_E5_EMV_MKEY_CARD_PERSONALIZATION o TR31_E6_EMV_MKEY_OTHER o TR31_K0_KEY_ENCRYPTION_KEY o TR31_K1_KEY_BLOCK_PROTECTION_KEY o TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT o TR31_M0_ISO_16609_MAC_KEY o TR31_M3_ISO_9797_3_MAC_KEY o TR31_M1_ISO_9797_1_MAC_KEY o TR31_M6_ISO_9797_5_CMAC_KEY o TR31_M7_HMAC_KEY o TR31_P0_PIN_ENCRYPTION_KEY o TR31_P1_PIN_GENERATION_KEY o TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE o TR31_V1_IBM3624_PIN_VERIFICATION_KEY o TR31_V2_VISA_PIN_VERIFICATION_KEY o TR31_K2_TR34_ASYMMETRIC_KEY KeyClass -&gt; (string) [required] The type of Amazon Web Services Payment Cryptography key to cre- ate, which determines the classication of the cryptographic method and whether Amazon Web Services Payment Cryptography key contains a symmetric key or an asymmetric key pair. Possible values: o SYMMETRIC_KEY o ASYMMETRIC_KEY_PAIR o PRIVATE_KEY o PUBLIC_KEY KeyAlgorithm -&gt; (string) [required] The key algorithm to be use during creation of an Amazon Web Services Payment Cryptography key. For symmetric keys, Amazon Web Services Payment Cryptography supports AES and TDES algorithms. For asymmetric keys, Amazon Web Services Payment Cryptography supports RSA and ECC_NIST al- gorithms. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521 KeyModesOfUse -&gt; (structure) [required] The list of cryptographic operations that you can perform using the key. Encrypt -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to encrypt data. Decrypt -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to decrypt data. Wrap -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to wrap other keys. Unwrap -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to unwrap other keys. Generate -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to generate and verify other card and PIN verification keys. Sign -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used for signing. Verify -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to verify signatures. DeriveKey -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to derive new keys. NoRestrictions -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key has no special restrictions other than the restrictions implied by KeyUsage . Shorthand Syntax: KeyUsage=string,KeyClass=string,KeyAlgorithm=string,KeyModesOfUse={Encrypt=boolean,Decrypt=boolean,Wrap=boolean,Unwrap=boolean,Generate=boolean,Sign=boolean,Verify=boolean,DeriveKey=boolean,NoRestrictions=boolean} JSON Syntax: { "KeyUsage": "TR31_B0_BASE_DERIVATION_KEY"|"TR31_C0_CARD_VERIFICATION_KEY"|"TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"|"TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION"|"TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"|"TR31_E1_EMV_MKEY_CONFIDENTIALITY"|"TR31_E2_EMV_MKEY_INTEGRITY"|"TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"|"TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"|"TR31_E6_EMV_MKEY_OTHER"|"TR31_K0_KEY_ENCRYPTION_KEY"|"TR31_K1_KEY_BLOCK_PROTECTION_KEY"|"TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"|"TR31_M0_ISO_16609_MAC_KEY"|"TR31_M3_ISO_9797_3_MAC_KEY"|"TR31_M1_ISO_9797_1_MAC_KEY"|"TR31_M6_ISO_9797_5_CMAC_KEY"|"TR31_M7_HMAC_KEY"|"TR31_P0_PIN_ENCRYPTION_KEY"|"TR31_P1_PIN_GENERATION_KEY"|"TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE"|"TR31_V1_IBM3624_PIN_VERIFICATION_KEY"|"TR31_V2_VISA_PIN_VERIFICATION_KEY"|"TR31_K2_TR34_ASYMMETRIC_KEY", "KeyClass": "SYMMETRIC_KEY"|"ASYMMETRIC_KEY_PAIR"|"PRIVATE_KEY"|"PUBLIC_KEY", "KeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224"|"RSA_2048"|"RSA_3072"|"RSA_4096"|"ECC_NIST_P256"|"ECC_NIST_P384"|"ECC_NIST_P521", "KeyModesOfUse": { "Encrypt": true|false, "Decrypt": true|false, "Wrap": true|false, "Unwrap": true|false, "Generate": true|false, "Sign": true|false, "Verify": true|false, "DeriveKey": true|false, "NoRestrictions": true|false } }</param>
+    /// <param name="Exportable">Specifies whether the key is exportable from the service.</param>
+    public AwsPaymentCryptographyCreateKeyOptions(
+        string KeyAttributes,
+        bool Exportable
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyAttributes);
+        this.KeyAttributes = KeyAttributes;
+        this.Exportable = Exportable;
+    }
+
+    private AwsPaymentCryptographyCreateKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyCreateKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyCreateKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The role of the key, the algorithm it supports, and the crypto- graphic operations allowed with the key. This data is immutable af- ter the key is created. KeyUsage -&gt; (string) [required] The cryptographic usage of an Amazon Web Services Payment Cryp- tography key as dened in section A.5.2 of the TR-31 spec. Possible values: o TR31_B0_BASE_DERIVATION_KEY o TR31_C0_CARD_VERIFICATION_KEY o TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY o TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION o TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS o TR31_E1_EMV_MKEY_CONFIDENTIALITY o TR31_E2_EMV_MKEY_INTEGRITY o TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS o TR31_E5_EMV_MKEY_CARD_PERSONALIZATION o TR31_E6_EMV_MKEY_OTHER o TR31_K0_KEY_ENCRYPTION_KEY o TR31_K1_KEY_BLOCK_PROTECTION_KEY o TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT o TR31_M0_ISO_16609_MAC_KEY o TR31_M3_ISO_9797_3_MAC_KEY o TR31_M1_ISO_9797_1_MAC_KEY o TR31_M6_ISO_9797_5_CMAC_KEY o TR31_M7_HMAC_KEY o TR31_P0_PIN_ENCRYPTION_KEY o TR31_P1_PIN_GENERATION_KEY o TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE o TR31_V1_IBM3624_PIN_VERIFICATION_KEY o TR31_V2_VISA_PIN_VERIFICATION_KEY o TR31_K2_TR34_ASYMMETRIC_KEY KeyClass -&gt; (string) [required] The type of Amazon Web Services Payment Cryptography key to cre- ate, which determines the classication of the cryptographic method and whether Amazon Web Services Payment Cryptography key contains a symmetric key or an asymmetric key pair. Possible values: o SYMMETRIC_KEY o ASYMMETRIC_KEY_PAIR o PRIVATE_KEY o PUBLIC_KEY KeyAlgorithm -&gt; (string) [required] The key algorithm to be use during creation of an Amazon Web Services Payment Cryptography key. For symmetric keys, Amazon Web Services Payment Cryptography supports AES and TDES algorithms. For asymmetric keys, Amazon Web Services Payment Cryptography supports RSA and ECC_NIST al- gorithms. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521 KeyModesOfUse -&gt; (structure) [required] The list of cryptographic operations that you can perform using the key. Encrypt -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to encrypt data. Decrypt -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to decrypt data. Wrap -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to wrap other keys. Unwrap -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to unwrap other keys. Generate -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to generate and verify other card and PIN verification keys. Sign -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used for signing. Verify -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to verify signatures. DeriveKey -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key can be used to derive new keys. NoRestrictions -&gt; (boolean) Species whether an Amazon Web Services Payment Cryptography key has no special restrictions other than the restrictions implied by KeyUsage . Shorthand Syntax: KeyUsage=string,KeyClass=string,KeyAlgorithm=string,KeyModesOfUse={Encrypt=boolean,Decrypt=boolean,Wrap=boolean,Unwrap=boolean,Generate=boolean,Sign=boolean,Verify=boolean,DeriveKey=boolean,NoRestrictions=boolean} JSON Syntax: { "KeyUsage": "TR31_B0_BASE_DERIVATION_KEY"|"TR31_C0_CARD_VERIFICATION_KEY"|"TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"|"TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION"|"TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"|"TR31_E1_EMV_MKEY_CONFIDENTIALITY"|"TR31_E2_EMV_MKEY_INTEGRITY"|"TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"|"TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"|"TR31_E6_EMV_MKEY_OTHER"|"TR31_K0_KEY_ENCRYPTION_KEY"|"TR31_K1_KEY_BLOCK_PROTECTION_KEY"|"TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"|"TR31_M0_ISO_16609_MAC_KEY"|"TR31_M3_ISO_9797_3_MAC_KEY"|"TR31_M1_ISO_9797_1_MAC_KEY"|"TR31_M6_ISO_9797_5_CMAC_KEY"|"TR31_M7_HMAC_KEY"|"TR31_P0_PIN_ENCRYPTION_KEY"|"TR31_P1_PIN_GENERATION_KEY"|"TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE"|"TR31_V1_IBM3624_PIN_VERIFICATION_KEY"|"TR31_V2_VISA_PIN_VERIFICATION_KEY"|"TR31_K2_TR34_ASYMMETRIC_KEY", "KeyClass": "SYMMETRIC_KEY"|"ASYMMETRIC_KEY_PAIR"|"PRIVATE_KEY"|"PUBLIC_KEY", "KeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224"|"RSA_2048"|"RSA_3072"|"RSA_4096"|"ECC_NIST_P256"|"ECC_NIST_P384"|"ECC_NIST_P521", "KeyModesOfUse": { "Encrypt": true|false, "Decrypt": true|false, "Wrap": true|false, "Unwrap": true|false, "Generate": true|false, "Sign": true|false, "Verify": true|false, "DeriveKey": true|false, "NoRestrictions": true|false } }
+    /// </summary>
     [CliOption("--key-attributes")]
-    public string? KeyAttributes { get; set; }
+    public string? KeyAttributes { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the key is exportable from the service.
+    /// </summary>
+    [CliFlag("--exportable", NegatedName = "--no-exportable")]
+    public bool? Exportable { get; private init; }
 
     /// <summary>
     /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 high- est order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted re- sult. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes. Possible values: o CMAC o ANSI_X9_24 o HMAC o SHA_1
@@ -31,10 +77,10 @@ public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
     [CliOption("--key-check-value-algorithm")]
     public AwsPaymentCryptographyCreateKeyKeyCheckValueAlgorithm? KeyCheckValueAlgorithm { get; set; }
 
-    [CliFlag("--exportable")]
-    public bool? Exportable { get; set; }
-
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -60,5 +106,21 @@ public record AwsPaymentCryptographyCreateKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

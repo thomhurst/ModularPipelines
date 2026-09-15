@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-vpc-connection")]
-public record AwsQuicksightUpdateVpcConnectionOptions : AwsOptions
+public record AwsQuicksightUpdateVpcConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a VPC connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="VpcConnectionId">The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Name">The display name for the VPC connection. Constraints: o min: 1 o max: 128</param>
+    /// <param name="SubnetIds">A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...</param>
+    /// <param name="RoleArn">An IAM role associated with the VPC connection. Constraints: o min: 20 o max: 2048</param>
+    public AwsQuicksightUpdateVpcConnectionOptions(
+        string AwsAccountId,
+        string VpcConnectionId,
+        string Name,
+        IEnumerable<string> SubnetIds,
+        IEnumerable<string> SecurityGroupIds,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcConnectionId);
+        this.VpcConnectionId = VpcConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsQuicksightUpdateVpcConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateVpcConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateVpcConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the VPC connection that you're updating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--vpc-connection-id")]
-    public string? VpcConnectionId { get; set; }
+    public string? VpcConnectionId { get; private init; }
 
+    /// <summary>
+    /// The display name for the VPC connection. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// A list of subnet IDs for the VPC connection. Constraints: o min: 2 o max: 15 (string) Constraints: o min: 1 o max: 255 o pattern: ^subnet-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
+    /// <summary>
+    /// A list of security group IDs for the VPC connection. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 255 o pattern: ^sg-[0-9a-z]*$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
+
+    /// <summary>
+    /// An IAM role associated with the VPC connection. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A list of IP addresses of DNS resolver endpoints for the VPC connec- tion. Constraints: o max: 15 (string) Constraints: o min: 7 o max: 15 Syntax: "string" "string" ...
@@ -42,13 +139,26 @@ public record AwsQuicksightUpdateVpcConnectionOptions : AwsOptions
     [CliOption("--dns-resolvers", GroupValues = true)]
     public IEnumerable<string>? DnsResolvers { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

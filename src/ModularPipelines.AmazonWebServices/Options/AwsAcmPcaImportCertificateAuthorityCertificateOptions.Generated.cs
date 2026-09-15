@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm-pca", "import-certificate-authority-certificate")]
-public record AwsAcmPcaImportCertificateAuthorityCertificateOptions : AwsOptions
+public record AwsAcmPcaImportCertificateAuthorityCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-authority-arn")]
-    public string? CertificateAuthorityArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports a signed private CA certificate into Amazon Web Services Pri- vate CA. This action is used when you are using a chain of trust whose root is located outside Amazon Web Services Private CA. Before you can call this action, the following preparations must in place: o In Amazon Web Services Private CA, call the CreateCertificateAuthority action to create the private CA that you plan to back with the imported certificate. o Call the GetCertificateAuthorityCsr action to generate a certificate...
+    /// </summary>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 180) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Certificate">The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control. Constraints: o min: 1 o max: 32768</param>
+    public AwsAcmPcaImportCertificateAuthorityCertificateOptions(
+        string CertificateAuthorityArn,
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthorityArn);
+        this.CertificateAuthorityArn = CertificateAuthorityArn;
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    private AwsAcmPcaImportCertificateAuthorityCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmPcaImportCertificateAuthorityCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmPcaImportCertificateAuthorityCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 180) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
+    [CliOption("--certificate-authority-arn")]
+    public string? CertificateAuthorityArn { get; private init; }
+
+    /// <summary>
+    /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control. Constraints: o min: 1 o max: 32768
+    /// </summary>
     [CliOption("--certificate")]
-    public string? Certificate { get; set; }
+    public string? Certificate { get; private init; }
 
     /// <summary>
     /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your Amazon Web Services Private CA-hosted or on-premises root cer- tificate is the last in the chain, and each certificate in the chain signs the one preceding. This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain. Constraints: o min: 0 o max: 2097152
@@ -38,5 +82,21 @@ public record AwsAcmPcaImportCertificateAuthorityCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

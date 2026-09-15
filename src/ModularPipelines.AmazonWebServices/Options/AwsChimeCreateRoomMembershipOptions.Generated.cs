@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "create-room-membership")]
-public record AwsChimeCreateRoomMembershipOptions : AwsOptions
+public record AwsChimeCreateRoomMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="RoomId">The room ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="MemberId">The Amazon Chime member ID (user ID or bot ID). Constraints: o pattern: .*\S.*</param>
+    public AwsChimeCreateRoomMembershipOptions(
+        string AccountId,
+        string RoomId,
+        string MemberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(RoomId);
+        this.RoomId = RoomId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+    }
+
+    private AwsChimeCreateRoomMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeCreateRoomMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeCreateRoomMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The room ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--room-id")]
-    public string? RoomId { get; set; }
+    public string? RoomId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Chime member ID (user ID or bot ID). Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
     /// <summary>
     /// The role of the member. Possible values: o Administrator o Member
@@ -42,5 +93,21 @@ public record AwsChimeCreateRoomMembershipOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

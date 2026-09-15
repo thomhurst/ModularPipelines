@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "update-cost-allocation-tags-status")]
-public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions
+public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the exist- ing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CostAllocationTagsStatus">The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: o min: 1 o max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: o Active o Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]</param>
+    public AwsCeUpdateCostAllocationTagsStatusOptions(
+        IEnumerable<string> CostAllocationTagsStatus
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CostAllocationTagsStatus);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CostAllocationTagsStatus));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CostAllocationTagsStatus));
+            }
+
+            CostAllocationTagsStatus = materialized;
+        }
+        this.CostAllocationTagsStatus = CostAllocationTagsStatus;
+    }
+
+    private AwsCeUpdateCostAllocationTagsStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeUpdateCostAllocationTagsStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeUpdateCostAllocationTagsStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: o min: 1 o max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: o Active o Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]
+    /// </summary>
     [CliOption("--cost-allocation-tags-status", GroupValues = true)]
-    public IEnumerable<string>? CostAllocationTagsStatus { get; set; }
+    public IEnumerable<string>? CostAllocationTagsStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

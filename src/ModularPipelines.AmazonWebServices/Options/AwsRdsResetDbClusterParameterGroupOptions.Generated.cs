@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "reset-db-cluster-parameter-group")]
-public record AwsRdsResetDbClusterParameterGroupOptions : AwsOptions
+public record AwsRdsResetDbClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-parameter-group-name")]
-    public string? DbClusterParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reset-all-parameters")]
+    /// <summary>
+    /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: Pa- rameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immedi- ately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. Yo...
+    /// </summary>
+    /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group to reset.</param>
+    public AwsRdsResetDbClusterParameterGroupOptions(
+        string DbClusterParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterParameterGroupName);
+        this.DbClusterParameterGroupName = DbClusterParameterGroupName;
+    }
+
+    private AwsRdsResetDbClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsResetDbClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsResetDbClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster parameter group to reset.
+    /// </summary>
+    [CliOption("--db-cluster-parameter-group-name")]
+    public string? DbClusterParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to reset all parameters in the DB cluster parame- ter group to their default values. You can't use this parameter if there is a list of parameter names specified for the Parameters pa- rameter.
+    /// </summary>
+    [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
@@ -38,5 +78,21 @@ public record AwsRdsResetDbClusterParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

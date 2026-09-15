@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "get-violation-details")]
-public record AwsFmsGetViolationDetailsOptions : AwsOptions
+public record AwsFmsGetViolationDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyId">The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: o WAF o DNS Firewall o Imported Network Firewall o Network Firewall o Security group content audit o Network ACL o Third-party firewall Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="MemberAccount">The Amazon Web Services account ID that you want the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    /// <param name="ResourceId">The ID of the resource that has violations. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="ResourceType">The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    public AwsFmsGetViolationDetailsOptions(
+        string PolicyId,
+        string MemberAccount,
+        string ResourceId,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberAccount);
+        this.MemberAccount = MemberAccount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsFmsGetViolationDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsGetViolationDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsGetViolationDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: o WAF o DNS Firewall o Imported Network Firewall o Network Firewall o Security group content audit o Network ACL o Third-party firewall Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    public string? PolicyId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID that you want the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--member-account")]
-    public string? MemberAccount { get; set; }
+    public string? MemberAccount { get; private init; }
 
+    /// <summary>
+    /// The ID of the resource that has violations. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

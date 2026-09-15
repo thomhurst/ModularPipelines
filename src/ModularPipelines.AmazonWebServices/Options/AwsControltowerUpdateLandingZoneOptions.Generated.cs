@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "update-landing-zone")]
-public record AwsControltowerUpdateLandingZoneOptions : AwsOptions
+public record AwsControltowerUpdateLandingZoneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API call updates the landing zone. It starts an asynchronous oper- ation that updates the landing zone based on the new landing zone ver- sion, or on the changed parameters specified in the updated manifest file. See also: AWS API Documentation update-landing-zone uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type ...
+    /// </summary>
+    /// <param name="LandingZoneIdentifier">The unique identifier of the landing zone.</param>
+    /// <param name="LandingZoneVersion">The landing zone version, for example, 3.2. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+</param>
+    public AwsControltowerUpdateLandingZoneOptions(
+        string LandingZoneIdentifier,
+        string LandingZoneVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LandingZoneIdentifier);
+        this.LandingZoneIdentifier = LandingZoneIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(LandingZoneVersion);
+        this.LandingZoneVersion = LandingZoneVersion;
+    }
+
+    private AwsControltowerUpdateLandingZoneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerUpdateLandingZoneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerUpdateLandingZoneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the landing zone.
+    /// </summary>
+    [CliOption("--landing-zone-identifier")]
+    public string? LandingZoneIdentifier { get; private init; }
+
+    /// <summary>
+    /// The landing zone version, for example, 3.2. Constraints: o min: 3 o max: 10 o pattern: \d+.\d+
+    /// </summary>
+    [CliOption("--landing-zone-version")]
+    public string? LandingZoneVersion { get; private init; }
+
     /// <summary>
     /// Specifies the types of remediation actions to apply when updating the landing zone configuration. Constraints: o min: 1 o max: 1 (string) Possible values: o INHERITANCE_DRIFT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remediation-types", GroupValues = true)]
     public IEnumerable<string>? RemediationTypes { get; set; }
-
-    [CliOption("--landing-zone-identifier")]
-    public string? LandingZoneIdentifier { get; set; }
 
     /// <summary>
     /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone . The example manifest file contains each of the available pa- rameters. The schema for the landing zone's JSON manifest file is not published, by design. JSON Syntax: {...}
@@ -36,13 +83,26 @@ public record AwsControltowerUpdateLandingZoneOptions : AwsOptions
     [CliOption("--manifest")]
     public string? Manifest { get; set; }
 
-    [CliOption("--landing-zone-version")]
-    public string? LandingZoneVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

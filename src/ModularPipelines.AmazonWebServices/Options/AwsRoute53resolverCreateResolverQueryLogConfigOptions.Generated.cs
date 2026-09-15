@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "create-resolver-query-log-config")]
-public record AwsRoute53resolverCreateResolverQueryLogConfigOptions : AwsOptions
+public record AwsRoute53resolverCreateResolverQueryLogConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Re- solver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateRe- solverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other...
+    /// </summary>
+    /// <param name="Name">The name that you want to give the query logging configuration. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    /// <param name="DestinationArn">The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: o S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can option- ally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ o CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-test- group-12ABC1AB12A1:* o Kinesis Data Firehose delivery stream : arn:aws:kine- sis:us-east-2:0123456789:stream/my_stream_name Constraints: o min: 1 o max: 600</param>
+    public AwsRoute53resolverCreateResolverQueryLogConfigOptions(
+        string Name,
+        string DestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationArn);
+        this.DestinationArn = DestinationArn;
+    }
+
+    private AwsRoute53resolverCreateResolverQueryLogConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverCreateResolverQueryLogConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverCreateResolverQueryLogConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that you want to give the query logging configuration. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following: o S3 bucket : arn:aws:s3:::amzn-s3-demo-bucket You can option- ally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/ o CloudWatch Logs log group : arn:aws:logs:us-west-1:123456789012:log-group:/mystack-test- group-12ABC1AB12A1:* o Kinesis Data Firehose delivery stream : arn:aws:kine- sis:us-east-2:0123456789:stream/my_stream_name Constraints: o min: 1 o max: 600
+    /// </summary>
     [CliOption("--destination-arn")]
-    public string? DestinationArn { get; set; }
+    public string? DestinationArn { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
@@ -44,5 +88,21 @@ public record AwsRoute53resolverCreateResolverQueryLogConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

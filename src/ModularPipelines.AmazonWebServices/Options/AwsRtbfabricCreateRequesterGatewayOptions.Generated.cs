@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,91 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "create-requester-gateway")]
-public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions
+public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
-
-    [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The unique client token.
+    /// Creates a requester gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcId">The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}</param>
+    /// <param name="SubnetIds">The unique identifiers of the subnets. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...</param>
+    public AwsRtbfabricCreateRequesterGatewayOptions(
+        string VpcId,
+        IEnumerable<string> SubnetIds,
+        IEnumerable<string> SecurityGroupIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+    }
+
+    private AwsRtbfabricCreateRequesterGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricCreateRequesterGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricCreateRequesterGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// The unique identifiers of the subnets. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
+    /// <summary>
+    /// The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--security-group-ids", GroupValues = true)]
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
+
+    /// <summary>
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -56,5 +129,21 @@ public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

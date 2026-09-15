@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "purchase-reserved-db-instances-offering")]
-public record AwsRdsPurchaseReservedDbInstancesOfferingOptions : AwsOptions
+public record AwsRdsPurchaseReservedDbInstancesOfferingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Purchases a reserved DB instance offering. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedDbInstancesOfferingId">The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706</param>
+    public AwsRdsPurchaseReservedDbInstancesOfferingOptions(
+        string ReservedDbInstancesOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedDbInstancesOfferingId);
+        this.ReservedDbInstancesOfferingId = ReservedDbInstancesOfferingId;
+    }
+
+    private AwsRdsPurchaseReservedDbInstancesOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsPurchaseReservedDbInstancesOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsPurchaseReservedDbInstancesOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
+    /// </summary>
     [CliOption("--reserved-db-instances-offering-id")]
-    public string? ReservedDbInstancesOfferingId { get; set; }
+    public string? ReservedDbInstancesOfferingId { get; private init; }
 
     /// <summary>
     /// Customer-specified identifier to track this reservation. Example: myreservationID
@@ -47,5 +84,21 @@ public record AwsRdsPurchaseReservedDbInstancesOfferingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "send-agreement-payment-request")]
-public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows sellers (proposers) to submit a payment request to buyers (ac- ceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_AP- PROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to sup- port payment requests. The chargeAmount must not exceed the remain- ing available balance under the VariablePaymentTerm maxTo- talChargeAmount . See als...
+    /// </summary>
+    /// <param name="AgreementId">The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="TermId">The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+</param>
+    /// <param name="Name">A descriptive name for the payment request (5-64 characters). Constraints: o min: 5 o max: 64 o pattern: .+</param>
+    /// <param name="ChargeAmount">The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})?</param>
+    public AwsMarketplaceAgreementSendAgreementPaymentRequestOptions(
+        string AgreementId,
+        string TermId,
+        string Name,
+        string ChargeAmount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+        global::System.ArgumentNullException.ThrowIfNull(TermId);
+        this.TermId = TermId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ChargeAmount);
+        this.ChargeAmount = ChargeAmount;
+    }
+
+    private AwsMarketplaceAgreementSendAgreementPaymentRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementSendAgreementPaymentRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementSendAgreementPaymentRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// </summary>
+    [CliOption("--agreement-id")]
+    public string? AgreementId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+
+    /// </summary>
+    [CliOption("--term-id")]
+    public string? TermId { get; private init; }
+
+    /// <summary>
+    /// A descriptive name for the payment request (5-64 characters). Constraints: o min: 5 o max: 64 o pattern: .+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})?
+    /// </summary>
+    [CliOption("--charge-amount")]
+    public string? ChargeAmount { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
-
-    [CliOption("--term-id")]
-    public string? TermId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--charge-amount")]
-    public string? ChargeAmount { get; set; }
 
     /// <summary>
     /// An optional detailed description of the payment request (1-2000 characters). Constraints: o min: 1 o max: 2000
@@ -52,5 +110,21 @@ public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

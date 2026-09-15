@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaCapturePipelineAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaCapturePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaConcatenationPipelineAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaConcatenationPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaInsightsPipelineConfigurationAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineConfigurationOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaInsightsPipelineAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaInsightsPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaLiveConnectorPipelineAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaPipelineKinesisVideoStreamPoolAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateMediaStreamPipelineAsync(
-        AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMediaCapturePipelineAsync(
-        AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesDeleteMediaCapturePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMediaInsightsPipelineConfigurationAsync(
-        AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions? options = null,
+        AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMediaPipelineKinesisVideoStreamPoolAsync(
-        AwsChimeSdkMediaPipelinesDeleteMediaPipelineKinesisVideoStreamPoolOptions? options = null,
+        AwsChimeSdkMediaPipelinesDeleteMediaPipelineKinesisVideoStreamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesDeleteMediaPipelineKinesisVideoStreamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMediaPipelineAsync(
-        AwsChimeSdkMediaPipelinesDeleteMediaPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesDeleteMediaPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesDeleteMediaPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +205,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMediaCapturePipelineAsync(
-        AwsChimeSdkMediaPipelinesGetMediaCapturePipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetMediaCapturePipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetMediaCapturePipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +220,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMediaInsightsPipelineConfigurationAsync(
-        AwsChimeSdkMediaPipelinesGetMediaInsightsPipelineConfigurationOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetMediaInsightsPipelineConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetMediaInsightsPipelineConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +235,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMediaPipelineKinesisVideoStreamPoolAsync(
-        AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetMediaPipelineKinesisVideoStreamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMediaPipelineAsync(
-        AwsChimeSdkMediaPipelinesGetMediaPipelineOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetMediaPipelineOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetMediaPipelineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +265,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSpeakerSearchTaskAsync(
-        AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -280,11 +280,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkMediaPipelinesGetVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesGetVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesGetVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaCapturePipelinesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaCapturePipelinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -314,7 +314,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaInsightsPipelineConfigurationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaInsightsPipelineConfigurationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -329,7 +329,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaPipelineKinesisVideoStreamPoolsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaPipelineKinesisVideoStreamPoolsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -344,7 +344,7 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaPipelinesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListMediaPipelinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +355,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsChimeSdkMediaPipelinesListTagsForResourceOptions? options = null,
+        AwsChimeSdkMediaPipelinesListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +370,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSpeakerSearchTaskAsync(
-        AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +385,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesStartVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +400,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopSpeakerSearchTaskAsync(
-        AwsChimeSdkMediaPipelinesStopSpeakerSearchTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesStopSpeakerSearchTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesStopSpeakerSearchTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +415,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopVoiceToneAnalysisTaskAsync(
-        AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions? options = null,
+        AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesStopVoiceToneAnalysisTaskOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +430,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsChimeSdkMediaPipelinesTagResourceOptions? options = null,
+        AwsChimeSdkMediaPipelinesTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +445,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsChimeSdkMediaPipelinesUntagResourceOptions? options = null,
+        AwsChimeSdkMediaPipelinesUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMediaInsightsPipelineConfigurationAsync(
-        AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationOptions? options = null,
+        AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineConfigurationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +475,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMediaInsightsPipelineStatusAsync(
-        AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions? options = null,
+        AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesUpdateMediaInsightsPipelineStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +490,11 @@ public class AwsChimeSdkMediaPipelines : IAwsChimeSdkMediaPipelines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMediaPipelineKinesisVideoStreamPoolAsync(
-        AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions? options = null,
+        AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

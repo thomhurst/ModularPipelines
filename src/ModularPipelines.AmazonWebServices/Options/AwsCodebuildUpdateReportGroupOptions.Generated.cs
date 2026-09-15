@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "update-report-group")]
-public record AwsCodebuildUpdateReportGroupOptions : AwsOptions
+public record AwsCodebuildUpdateReportGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a report group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The ARN of the report group to update. Constraints: o min: 1</param>
+    public AwsCodebuildUpdateReportGroupOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsCodebuildUpdateReportGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildUpdateReportGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildUpdateReportGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the report group to update. Constraints: o min: 1
+    /// </summary>
     [CliOption("--arn")]
-    public string? Arn { get; set; }
+    public string? Arn { get; private init; }
 
     /// <summary>
     /// Used to specify an updated export type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. exportConfigType -&gt; (string) The export configuration type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. Possible values: o S3 o NO_EXPORT s3Destination -&gt; (structure) A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. bucket -&gt; (string) The name of the S3 bucket where the raw data of a report are exported. Constraints: o min: 1 bucketOwner -&gt; (string) The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build. path -&gt; (string) The path to the exported report's raw data results. packaging -&gt; (string) The type of build output artifact to create. Valid values in- clude: o NONE : CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified. o ZIP : CodeBuild creates a ZIP file with the raw data in the output bucket. Possible values: o ZIP o NONE encryptionKey -&gt; (string) The encryption key for the report's encrypted raw data. Constraints: o min: 1 encryptionDisabled -&gt; (boolean) A boolean value that specifies if the results of a report are encrypted. Shorthand Syntax: exportConfigType=string,s3Destination={bucket=string,bucketOwner=string,path=string,packaging=string,encryptionKey=string,encryptionDisabled=boolean} JSON Syntax: { "exportConfigType": "S3"|"NO_EXPORT", "s3Destination": { "bucket": "string", "bucketOwner": "string", "path": "string", "packaging": "ZIP"|"NONE", "encryptionKey": "string", "encryptionDisabled": true|false } }
@@ -41,5 +78,21 @@ public record AwsCodebuildUpdateReportGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

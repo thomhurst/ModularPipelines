@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-theme-for-stack")]
-public record AwsAppstreamCreateThemeForStackOptions : AwsOptions
+public record AwsAppstreamCreateThemeForStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates custom branding that customizes the appearance of the streaming application catalog page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="TitleText">The title that is displayed at the top of the browser tab during users' application streaming sessions. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$</param>
+    /// <param name="ThemeStyling">The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page. Possible values: o LIGHT_BLUE o BLUE o PINK o RED</param>
+    /// <param name="OrganizationLogoS3Location">The organization logo that appears on the streaming application cat- alog page. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="FaviconS3Location">The S3 location of the favicon. The favicon enables users to recog- nize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the ap- plication streaming site during users' streaming sessions. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    public AwsAppstreamCreateThemeForStackOptions(
+        string StackName,
+        string TitleText,
+        AwsAppstreamCreateThemeForStackThemeStyling ThemeStyling,
+        string OrganizationLogoS3Location,
+        string FaviconS3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+        global::System.ArgumentNullException.ThrowIfNull(TitleText);
+        this.TitleText = TitleText;
+        global::System.ArgumentNullException.ThrowIfNull(ThemeStyling);
+        this.ThemeStyling = ThemeStyling;
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationLogoS3Location);
+        this.OrganizationLogoS3Location = OrganizationLogoS3Location;
+        global::System.ArgumentNullException.ThrowIfNull(FaviconS3Location);
+        this.FaviconS3Location = FaviconS3Location;
+    }
+
+    private AwsAppstreamCreateThemeForStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateThemeForStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateThemeForStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
+
+    /// <summary>
+    /// The title that is displayed at the top of the browser tab during users' application streaming sessions. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$
+    /// </summary>
+    [CliOption("--title-text")]
+    public string? TitleText { get; private init; }
+
+    /// <summary>
+    /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page. Possible values: o LIGHT_BLUE o BLUE o PINK o RED
+    /// </summary>
+    [CliOption("--theme-styling")]
+    public AwsAppstreamCreateThemeForStackThemeStyling? ThemeStyling { get; private init; }
+
+    /// <summary>
+    /// The organization logo that appears on the streaming application cat- alog page. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
+    [CliOption("--organization-logo-s3-location")]
+    public string? OrganizationLogoS3Location { get; private init; }
+
+    /// <summary>
+    /// The S3 location of the favicon. The favicon enables users to recog- nize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the ap- plication streaming site during users' streaming sessions. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// </summary>
+    [CliOption("--favicon-s3-location")]
+    public string? FaviconS3Location { get; private init; }
 
     /// <summary>
     /// The links that are displayed in the footer of the streaming applica- tion catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites. (structure) The website links that display in the catalog page footer. DisplayName -&gt; (string) The name of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$ FooterLinkURL -&gt; (string) The URL of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 1000 Shorthand Syntax: DisplayName=string,FooterLinkURL=string ... JSON Syntax: [ { "DisplayName": "string", "FooterLinkURL": "string" } ... ]
@@ -30,22 +108,26 @@ public record AwsAppstreamCreateThemeForStackOptions : AwsOptions
     [CliOption("--footer-links", GroupValues = true)]
     public IEnumerable<string>? FooterLinks { get; set; }
 
-    [CliOption("--title-text")]
-    public string? TitleText { get; set; }
-
-    [CliOption("--theme-styling")]
-    public string? ThemeStyling { get; set; }
-
-    [CliOption("--organization-logo-s3-location")]
-    public string? OrganizationLogoS3Location { get; set; }
-
-    [CliOption("--favicon-s3-location")]
-    public string? FaviconS3Location { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

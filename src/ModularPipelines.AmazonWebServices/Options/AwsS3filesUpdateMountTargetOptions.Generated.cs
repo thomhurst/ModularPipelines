@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3files", "update-mount-target")]
-public record AwsS3filesUpdateMountTargetOptions : AwsOptions
+public record AwsS3filesUpdateMountTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--mount-target-id")]
-    public string? MountTargetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the mount target resource, specifically security group configu- rations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MountTargetId">The ID of the mount target to update. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}</param>
+    /// <param name="SecurityGroups">An array of VPC security group IDs to associate with the mount tar- get's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount tar- get's subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...</param>
+    public AwsS3filesUpdateMountTargetOptions(
+        string MountTargetId,
+        IEnumerable<string> SecurityGroups
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MountTargetId);
+        this.MountTargetId = MountTargetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroups);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroups));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroups));
+            }
+
+            SecurityGroups = materialized;
+        }
+        this.SecurityGroups = SecurityGroups;
+    }
+
+    private AwsS3filesUpdateMountTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3filesUpdateMountTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3filesUpdateMountTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the mount target to update. Constraints: o min: 22 o max: 45 o pattern: fsmt-[0-9a-f]{17,40}
+    /// </summary>
+    [CliOption("--mount-target-id")]
+    public string? MountTargetId { get; private init; }
+
+    /// <summary>
+    /// An array of VPC security group IDs to associate with the mount tar- get's network interface. This replaces the existing security groups. All security groups must belong to the same VPC as the mount tar- get's subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroups { get; set; }
+    public IEnumerable<string>? SecurityGroups { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

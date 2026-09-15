@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "wait", "workflow-version-active")]
-public record AwsOmicsWaitWorkflowVersionActiveOptions : AwsOptions
+public record AwsOmicsWaitWorkflowVersionActiveOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Wait until a workflow version is active. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 10 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowId">The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="VersionName">The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    public AwsOmicsWaitWorkflowVersionActiveOptions(
+        string WorkflowId,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    private AwsOmicsWaitWorkflowVersionActiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsWaitWorkflowVersionActiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsWaitWorkflowVersionActiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--workflow-id")]
+    public string? WorkflowId { get; private init; }
+
+    /// <summary>
+    /// The workflow version name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
     /// <summary>
     /// The workflow's type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
@@ -51,5 +95,21 @@ public record AwsOmicsWaitWorkflowVersionActiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

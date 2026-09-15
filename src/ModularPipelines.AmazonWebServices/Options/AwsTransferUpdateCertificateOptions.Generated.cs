@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "update-certificate")]
-public record AwsTransferUpdateCertificateOptions : AwsOptions
+public record AwsTransferUpdateCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the active and inactive dates for a certificate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateId">The identifier of the certificate object that you are updating. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})</param>
+    public AwsTransferUpdateCertificateOptions(
+        string CertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+    }
+
+    private AwsTransferUpdateCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferUpdateCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferUpdateCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the certificate object that you are updating. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    public string? CertificateId { get; private init; }
 
     /// <summary>
     /// An optional date that specifies when the certificate becomes active. If you do not specify a value, ActiveDate takes the same value as NotBeforeDate , which is specified by the CA.
@@ -47,5 +84,21 @@ public record AwsTransferUpdateCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

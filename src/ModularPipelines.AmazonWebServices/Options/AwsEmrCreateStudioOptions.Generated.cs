@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,127 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "create-studio")]
-public record AwsEmrCreateStudioOptions : AwsOptions
+public record AwsEmrCreateStudioOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon EMR Studio. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A descriptive name for the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="AuthMode">Specifies whether the Studio authenticates users using IAM or IAM Identity Center. Possible values: o SSO o IAM</param>
+    /// <param name="VpcId">The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="SubnetIds">A list of subnet IDs to associate with the Amazon EMR Studio. A Stu- dio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId . Studio users can create a Workspace in any of the specified subnets. (string) Syntax: "string" "string" ...</param>
+    /// <param name="ServiceRole">The IAM role that the Amazon EMR Studio assumes. The service role provides a way for Amazon EMR Studio to interoperate with other Ama- zon Web Services services. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="WorkspaceSecurityGroupId">The ID of the Amazon EMR Studio Workspace security group. The Work- space security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by VpcId . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="EngineSecurityGroupId">The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace se- curity group, and it must be in the same VPC specified by VpcId . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="DefaultS3Location">The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsEmrCreateStudioOptions(
+        string Name,
+        AwsEmrCreateStudioAuthMode AuthMode,
+        string VpcId,
+        IEnumerable<string> SubnetIds,
+        string ServiceRole,
+        string WorkspaceSecurityGroupId,
+        string EngineSecurityGroupId,
+        string DefaultS3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AuthMode);
+        this.AuthMode = AuthMode;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceRole);
+        this.ServiceRole = ServiceRole;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceSecurityGroupId);
+        this.WorkspaceSecurityGroupId = WorkspaceSecurityGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(EngineSecurityGroupId);
+        this.EngineSecurityGroupId = EngineSecurityGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultS3Location);
+        this.DefaultS3Location = DefaultS3Location;
+    }
+
+    private AwsEmrCreateStudioOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrCreateStudioOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrCreateStudioOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive name for the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center. Possible values: o SSO o IAM
+    /// </summary>
+    [CliOption("--auth-mode")]
+    public AwsEmrCreateStudioAuthMode? AuthMode { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// A list of subnet IDs to associate with the Amazon EMR Studio. A Stu- dio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId . Studio users can create a Workspace in any of the specified subnets. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
+    /// <summary>
+    /// The IAM role that the Amazon EMR Studio assumes. The service role provides a way for Amazon EMR Studio to interoperate with other Ama- zon Web Services services. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--service-role")]
+    public string? ServiceRole { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon EMR Studio Workspace security group. The Work- space security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by VpcId . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--workspace-security-group-id")]
+    public string? WorkspaceSecurityGroupId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace se- curity group, and it must be in the same VPC specified by VpcId . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--engine-security-group-id")]
+    public string? EngineSecurityGroupId { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--default-s3-location")]
+    public string? DefaultS3Location { get; private init; }
 
     /// <summary>
     /// A detailed description of the Amazon EMR Studio. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -31,32 +149,11 @@ public record AwsEmrCreateStudioOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--auth-mode")]
-    public string? AuthMode { get; set; }
-
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
-
-    [CliOption("--service-role")]
-    public string? ServiceRole { get; set; }
-
     /// <summary>
     /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--user-role")]
     public string? UserRole { get; set; }
-
-    [CliOption("--workspace-security-group-id")]
-    public string? WorkspaceSecurityGroupId { get; set; }
-
-    [CliOption("--engine-security-group-id")]
-    public string? EngineSecurityGroupId { get; set; }
-
-    [CliOption("--default-s3-location")]
-    public string? DefaultS3Location { get; set; }
 
     /// <summary>
     /// The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to en- ter credentials. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -76,7 +173,10 @@ public record AwsEmrCreateStudioOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--trusted-identity-propagation-enabled")]
+    /// <summary>
+    /// tion-enabled (boolean) A Boolean indicating whether to enable Trusted identity propagation for the Studio. The default value is false .
+    /// </summary>
+    [CliFlag("--trusted-identity-propagation-enabled", NegatedName = "--no-trusted-identity-propagation-enabled")]
     public bool? TrustedIdentityPropagationEnabled { get; set; }
 
     /// <summary>
@@ -102,5 +202,21 @@ public record AwsEmrCreateStudioOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

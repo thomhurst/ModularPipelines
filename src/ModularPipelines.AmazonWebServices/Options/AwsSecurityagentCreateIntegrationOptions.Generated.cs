@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "create-integration")]
-public record AwsSecurityagentCreateIntegrationOptions : AwsOptions
+public record AwsSecurityagentCreateIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new integration with a third-party provider, such as GitHub, for code review and remediation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Provider">The integration provider. Currently, only GITHUB is supported. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE</param>
+    /// <param name="Input">The provider-specific input required to create the integration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: github, gitlab, bitbucket, confluence. github -&gt; (structure) The GitHub-specific input for creating an integration. code -&gt; (string) [required] The OAuth authorization code received from GitHub. state -&gt; (string) [required] The CSRF state token for validating the OAuth flow. organizationName -&gt; (string) The name of the GitHub organization to integrate with. targetUrl -&gt; (string) The HTTPS URL of a self-hosted GitHub Enterprise Server in- stance. Omit this value for GitHub.com. installationId -&gt; (string) The installation identifier provided by GitHub Enterprise Server on the install callback. Required for GitHub Enter- prise Server integrations and ignored for GitHub.com. gitlab -&gt; (structure) The configuration for a GitLab integration. accessToken -&gt; (string) [required] The GitLab access token used to authenticate. This can be a personal access token or a group access token. targetUrl -&gt; (string) The HTTPS URL of a self-managed GitLab instance. Omit this value for GitLab SaaS (gitlab.com). tokenType -&gt; (string) [required] The type of GitLab access token provided in accessToken. Possible values: o PERSONAL o GROUP groupId -&gt; (string) The identifier of the GitLab group. Required when tokenType is group and ignored for personal tokens. bitbucket -&gt; (structure) The configuration for a Bitbucket integration. installationId -&gt; (string) [required] The Atlassian installation identifier, available from the At- lassian administration console. workspace -&gt; (string) [required] The Bitbucket workspace slug that identifies the workspace to integrate, for example acme-corp. code -&gt; (string) [required] The OAuth 2.0 authorization code returned from the consent redirect. state -&gt; (string) [required] The CSRF state token echoed back from the OAuth redirect. confluence -&gt; (structure) The configuration for a Confluence integration. installationId -&gt; (string) [required] The Atlassian installation identifier, available from the At- lassian administration console. code -&gt; (string) [required] The OAuth 2.0 authorization code returned from the consent redirect. state -&gt; (string) [required] The CSRF state token echoed back from the OAuth redirect. siteUrl -&gt; (string) [required] The Confluence Cloud site URL, for example https://mysite.atlassian.net. Shorthand Syntax: github={code=string,state=string,organizationName=string,targetUrl=string,installationId=string},gitlab={accessToken=string,targetUrl=string,tokenType=string,groupId=string},bitbucket={installationId=string,workspace=string,code=string,state=string},confluence={installationId=string,code=string,state=string,siteUrl=string} JSON Syntax: { "github": { "code": "string", "state": "string", "organizationName": "string", "targetUrl": "string", "installationId": "string" }, "gitlab": { "accessToken": "string", "targetUrl": "string", "tokenType": "PERSONAL"|"GROUP", "groupId": "string" }, "bitbucket": { "installationId": "string", "workspace": "string", "code": "string", "state": "string" }, "confluence": { "installationId": "string", "code": "string", "state": "string", "siteUrl": "string" } }</param>
+    /// <param name="IntegrationDisplayName">The display name for the integration.</param>
+    public AwsSecurityagentCreateIntegrationOptions(
+        AwsSecurityagentCreateIntegrationProvider Provider,
+        string Input,
+        string IntegrationDisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationDisplayName);
+        this.IntegrationDisplayName = IntegrationDisplayName;
+    }
+
+    private AwsSecurityagentCreateIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentCreateIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentCreateIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The integration provider. Currently, only GITHUB is supported. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE
+    /// </summary>
     [CliOption("--provider")]
-    public string? Provider { get; set; }
+    public AwsSecurityagentCreateIntegrationProvider? Provider { get; private init; }
 
+    /// <summary>
+    /// The provider-specific input required to create the integration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: github, gitlab, bitbucket, confluence. github -&gt; (structure) The GitHub-specific input for creating an integration. code -&gt; (string) [required] The OAuth authorization code received from GitHub. state -&gt; (string) [required] The CSRF state token for validating the OAuth flow. organizationName -&gt; (string) The name of the GitHub organization to integrate with. targetUrl -&gt; (string) The HTTPS URL of a self-hosted GitHub Enterprise Server in- stance. Omit this value for GitHub.com. installationId -&gt; (string) The installation identifier provided by GitHub Enterprise Server on the install callback. Required for GitHub Enter- prise Server integrations and ignored for GitHub.com. gitlab -&gt; (structure) The configuration for a GitLab integration. accessToken -&gt; (string) [required] The GitLab access token used to authenticate. This can be a personal access token or a group access token. targetUrl -&gt; (string) The HTTPS URL of a self-managed GitLab instance. Omit this value for GitLab SaaS (gitlab.com). tokenType -&gt; (string) [required] The type of GitLab access token provided in accessToken. Possible values: o PERSONAL o GROUP groupId -&gt; (string) The identifier of the GitLab group. Required when tokenType is group and ignored for personal tokens. bitbucket -&gt; (structure) The configuration for a Bitbucket integration. installationId -&gt; (string) [required] The Atlassian installation identifier, available from the At- lassian administration console. workspace -&gt; (string) [required] The Bitbucket workspace slug that identifies the workspace to integrate, for example acme-corp. code -&gt; (string) [required] The OAuth 2.0 authorization code returned from the consent redirect. state -&gt; (string) [required] The CSRF state token echoed back from the OAuth redirect. confluence -&gt; (structure) The configuration for a Confluence integration. installationId -&gt; (string) [required] The Atlassian installation identifier, available from the At- lassian administration console. code -&gt; (string) [required] The OAuth 2.0 authorization code returned from the consent redirect. state -&gt; (string) [required] The CSRF state token echoed back from the OAuth redirect. siteUrl -&gt; (string) [required] The Confluence Cloud site URL, for example https://mysite.atlassian.net. Shorthand Syntax: github={code=string,state=string,organizationName=string,targetUrl=string,installationId=string},gitlab={accessToken=string,targetUrl=string,tokenType=string,groupId=string},bitbucket={installationId=string,workspace=string,code=string,state=string},confluence={installationId=string,code=string,state=string,siteUrl=string} JSON Syntax: { "github": { "code": "string", "state": "string", "organizationName": "string", "targetUrl": "string", "installationId": "string" }, "gitlab": { "accessToken": "string", "targetUrl": "string", "tokenType": "PERSONAL"|"GROUP", "groupId": "string" }, "bitbucket": { "installationId": "string", "workspace": "string", "code": "string", "state": "string" }, "confluence": { "installationId": "string", "code": "string", "state": "string", "siteUrl": "string" } }
+    /// </summary>
     [CliOption("--input")]
-    public string? Input { get; set; }
+    public string? Input { get; private init; }
 
+    /// <summary>
+    /// The display name for the integration.
+    /// </summary>
     [CliOption("--integration-display-name")]
-    public string? IntegrationDisplayName { get; set; }
+    public string? IntegrationDisplayName { get; private init; }
 
     /// <summary>
     /// The identifier of the AWS KMS key to use for encrypting data associ- ated with the integration.
@@ -54,5 +106,21 @@ public record AwsSecurityagentCreateIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

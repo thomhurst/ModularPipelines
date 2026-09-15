@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "update-firewall-delete-protection")]
-public record AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions : AwsOptions
+public record AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the flag, DeleteProtection , which indicates whether it is possible to delete the firewall. If the flag is set to TRUE , the fire- wall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeleteProtection">A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE .</param>
+    public AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions(
+        bool DeleteProtection
+    )
+    {
+        this.DeleteProtection = DeleteProtection;
+    }
+
+    private AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE .
+    /// </summary>
+    [CliFlag("--delete-protection", NegatedName = "--no-delete-protection")]
+    public bool? DeleteProtection { get; private init; }
+
     /// <summary>
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
@@ -41,13 +80,26 @@ public record AwsNetworkFirewallUpdateFirewallDeleteProtectionOptions : AwsOptio
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliFlag("--delete-protection")]
-    public bool? DeleteProtection { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

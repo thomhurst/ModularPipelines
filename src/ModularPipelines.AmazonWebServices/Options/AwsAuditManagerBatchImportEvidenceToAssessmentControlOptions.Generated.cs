@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "batch-import-evidence-to-assessment-control")]
-public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : AwsOptions
+public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or en- ter plain text in response to a risk assessment question. The following restrictions apply to this action: o manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse o Maximum size of an individual evidence file: 100 MB o Number of ...
+    /// </summary>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="ControlId">The identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ManualEvidence">The list of manual evidence objects. Constraints: o min: 1 o max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: o min: 1 o max: 300 o pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]</param>
+    public AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions(
+        string AssessmentId,
+        string ControlSetId,
+        string ControlId,
+        IEnumerable<string> ManualEvidence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentId);
+        this.AssessmentId = AssessmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ControlSetId);
+        this.ControlSetId = ControlSetId;
+        global::System.ArgumentNullException.ThrowIfNull(ControlId);
+        this.ControlId = ControlId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ManualEvidence);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ManualEvidence));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ManualEvidence));
+            }
+
+            ManualEvidence = materialized;
+        }
+        this.ManualEvidence = ManualEvidence;
+    }
+
+    private AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--assessment-id")]
-    public string? AssessmentId { get; set; }
+    public string? AssessmentId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$
+    /// </summary>
     [CliOption("--control-set-id")]
-    public string? ControlSetId { get; set; }
+    public string? ControlSetId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--control-id")]
-    public string? ControlId { get; set; }
+    public string? ControlId { get; private init; }
 
+    /// <summary>
+    /// The list of manual evidence objects. Constraints: o min: 1 o max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: o min: 1 o max: 300 o pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]
+    /// </summary>
     [CliOption("--manual-evidence", GroupValues = true)]
-    public IEnumerable<string>? ManualEvidence { get; set; }
+    public IEnumerable<string>? ManualEvidence { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

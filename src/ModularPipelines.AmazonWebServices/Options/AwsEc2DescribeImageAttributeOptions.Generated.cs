@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-image-attribute")]
-public record AwsEc2DescribeImageAttributeOptions : AwsOptions
+public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Attribute">The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get in- formation about the block device mappings for an AMI, describe the image instead. Possible values: o description o kernel o ramdisk o launchPermission o productCodes o blockDeviceMapping o sriovNetSupport o bootMode o tpmSupport o uefiData o lastLaunchedTime o imdsSupport o deregistrationProtection</param>
+    /// <param name="ImageId">The ID of the AMI.</param>
+    public AwsEc2DescribeImageAttributeOptions(
+        AwsEc2DescribeImageAttributeAttribute Attribute,
+        string ImageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attribute);
+        this.Attribute = Attribute;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+    }
+
+    private AwsEc2DescribeImageAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeImageAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeImageAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get in- formation about the block device mappings for an AMI, describe the image instead. Possible values: o description o kernel o ramdisk o launchPermission o productCodes o blockDeviceMapping o sriovNetSupport o bootMode o tpmSupport o uefiData o lastLaunchedTime o imdsSupport o deregistrationProtection
+    /// </summary>
     [CliOption("--attribute")]
-    public string? Attribute { get; set; }
+    public AwsEc2DescribeImageAttributeAttribute? Attribute { get; private init; }
 
+    /// <summary>
+    /// The ID of the AMI.
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,21 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

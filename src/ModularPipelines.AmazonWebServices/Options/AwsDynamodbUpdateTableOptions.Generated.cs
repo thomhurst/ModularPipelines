@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-table")]
-public record AwsDynamodbUpdateTableOptions : AwsOptions
+public record AwsDynamodbUpdateTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once: o Modify the provisioned throughput settings of the table. o Remove a global secondary index from the table. o Create a new global secondary index on the table. After the index be- gins backfilling, you can use UpdateTable to perform other opera- tions. UpdateTable is an asynchronous operation; while it's executing, ...
+    /// </summary>
+    /// <param name="TableName">The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    public AwsDynamodbUpdateTableOptions(
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsDynamodbUpdateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
     /// <summary>
     /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index. (structure) Represents an attribute for describing the schema for the table and indexes. AttributeName -&gt; (string) [required] A name for the attribute. Constraints: o min: 1 o max: 255 AttributeType -&gt; (string) [required] The data type for the attribute, where: o S - the attribute is of type String o N - the attribute is of type Number o B - the attribute is of type Binary Possible values: o S o N o B Shorthand Syntax: AttributeName=string,AttributeType=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeType": "S"|"N"|"B" } ... ]
     /// </summary>
     [CliOption("--attribute-definitions", GroupValues = true)]
     public IEnumerable<string>? AttributeDefinitions { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
 
     /// <summary>
     /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provi- sioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes. o PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most Dy- namoDB workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode . o PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reli- ably forecasted. PROVISIONED sets the billing mode to Provisioned capacity mode . Possible values: o PROVISIONED o PAY_PER_REQUEST
@@ -73,7 +110,10 @@ public record AwsDynamodbUpdateTableOptions : AwsOptions
     [CliOption("--table-class")]
     public AwsDynamodbUpdateTableTableClass? TableClass { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -117,5 +157,21 @@ public record AwsDynamodbUpdateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

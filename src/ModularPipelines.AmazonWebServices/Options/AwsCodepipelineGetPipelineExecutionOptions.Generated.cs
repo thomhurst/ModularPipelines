@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "get-pipeline-execution")]
-public record AwsCodepipelineGetPipelineExecutionOptions : AwsOptions
+public record AwsCodepipelineGetPipelineExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineName">The name of the pipeline about which you want to get execution de- tails. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution about which you want to get execu- tion details. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCodepipelineGetPipelineExecutionOptions(
+        string PipelineName,
+        string PipelineExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
+        this.PipelineExecutionId = PipelineExecutionId;
+    }
+
+    private AwsCodepipelineGetPipelineExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineGetPipelineExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineGetPipelineExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pipeline about which you want to get execution de- tails. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
+    [CliOption("--pipeline-name")]
+    public string? PipelineName { get; private init; }
+
+    /// <summary>
+    /// The ID of the pipeline execution about which you want to get execu- tion details. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--pipeline-execution-id")]
-    public string? PipelineExecutionId { get; set; }
+    public string? PipelineExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

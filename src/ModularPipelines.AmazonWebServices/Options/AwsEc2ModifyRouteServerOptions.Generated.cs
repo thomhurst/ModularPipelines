@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-route-server")]
-public record AwsEc2ModifyRouteServerOptions : AwsOptions
+public record AwsEc2ModifyRouteServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and ...
+    /// </summary>
+    /// <param name="RouteServerId">The ID of the route server to modify.</param>
+    public AwsEc2ModifyRouteServerOptions(
+        string RouteServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerId);
+        this.RouteServerId = RouteServerId;
+    }
+
+    private AwsEc2ModifyRouteServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyRouteServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyRouteServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server to modify.
+    /// </summary>
     [CliOption("--route-server-id")]
-    public string? RouteServerId { get; set; }
+    public string? RouteServerId { get; private init; }
 
     /// <summary>
     /// Specifies whether to persist routes after all BGP sessions are ter- minated. o enable: Routes will be persisted in FIB and RIB after all BGP ses- sions are terminated. o disable: Routes will not be persisted in FIB and RIB after all BGP sessions are terminated. o reset: If a route server has persisted routes due to all BGP ses- sions having ended, reset will withdraw all routes and reset route server to an empty FIB and RIB. Possible values: o enable o disable o reset
@@ -37,10 +74,16 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions
     [CliOption("--persist-routes-duration")]
     public int? PersistRoutesDuration { get; set; }
 
-    [CliFlag("--sns-notifications-enabled")]
+    /// <summary>
+    /// Specifies whether to enable SNS notifications for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+    /// </summary>
+    [CliFlag("--sns-notifications-enabled", NegatedName = "--no-sns-notifications-enabled")]
     public bool? SnsNotificationsEnabled { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -48,5 +91,21 @@ public record AwsEc2ModifyRouteServerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

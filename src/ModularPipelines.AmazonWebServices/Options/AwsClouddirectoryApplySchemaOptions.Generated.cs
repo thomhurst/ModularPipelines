@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "apply-schema")]
-public record AwsClouddirectoryApplySchemaOptions : AwsOptions
+public record AwsClouddirectoryApplySchemaOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--published-schema-arn")]
-    public string? PublishedSchemaArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PublishedSchemaArn">Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns .</param>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory into which the schema is copied. For more information, see arns .</param>
+    public AwsClouddirectoryApplySchemaOptions(
+        string PublishedSchemaArn,
+        string DirectoryArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublishedSchemaArn);
+        this.PublishedSchemaArn = PublishedSchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+    }
+
+    private AwsClouddirectoryApplySchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryApplySchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryApplySchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns .
+    /// </summary>
+    [CliOption("--published-schema-arn")]
+    public string? PublishedSchemaArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory into which the schema is copied. For more information, see arns .
+    /// </summary>
     [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    public string? DirectoryArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

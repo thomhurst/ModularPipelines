@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-approval-rule-template-description")]
-public record AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions : AwsOptions
+public record AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--approval-rule-template-name")]
-    public string? ApprovalRuleTemplateName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the description for a specified approval rule template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApprovalRuleTemplateName">The name of the template for which you want to update the descrip- tion. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApprovalRuleTemplateDescription">The updated description of the approval rule template. Constraints: o min: 0 o max: 1000</param>
+    public AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions(
+        string ApprovalRuleTemplateName,
+        string ApprovalRuleTemplateDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateName);
+        this.ApprovalRuleTemplateName = ApprovalRuleTemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalRuleTemplateDescription);
+        this.ApprovalRuleTemplateDescription = ApprovalRuleTemplateDescription;
+    }
+
+    private AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the template for which you want to update the descrip- tion. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--approval-rule-template-name")]
+    public string? ApprovalRuleTemplateName { get; private init; }
+
+    /// <summary>
+    /// The updated description of the approval rule template. Constraints: o min: 0 o max: 1000
+    /// </summary>
     [CliOption("--approval-rule-template-description")]
-    public string? ApprovalRuleTemplateDescription { get; set; }
+    public string? ApprovalRuleTemplateDescription { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

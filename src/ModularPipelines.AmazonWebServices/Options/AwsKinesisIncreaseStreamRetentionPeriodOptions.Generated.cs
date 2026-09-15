@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "increase-stream-retention-period")]
-public record AwsKinesisIncreaseStreamRetentionPeriodOptions : AwsOptions
+public record AwsKinesisIncreaseStreamRetentionPeriodOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Increases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The maximum value of a stream's retention period is 8760 hours (365 days). NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you choose a longer stream retention period, this operation in- creases the time period...
+    /// </summary>
+    /// <param name="RetentionPeriodHours">The new retention period of the stream, in hours. Must be more than the current retention period.</param>
+    public AwsKinesisIncreaseStreamRetentionPeriodOptions(
+        int RetentionPeriodHours
+    )
+    {
+        this.RetentionPeriodHours = RetentionPeriodHours;
+    }
+
+    private AwsKinesisIncreaseStreamRetentionPeriodOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisIncreaseStreamRetentionPeriodOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisIncreaseStreamRetentionPeriodOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new retention period of the stream, in hours. Must be more than the current retention period.
+    /// </summary>
+    [CliOption("--retention-period-hours")]
+    public int? RetentionPeriodHours { get; private init; }
+
     /// <summary>
     /// The name of the stream to modify. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
-
-    [CliOption("--retention-period-hours")]
-    public int? RetentionPeriodHours { get; set; }
 
     /// <summary>
     /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
@@ -47,5 +83,21 @@ public record AwsKinesisIncreaseStreamRetentionPeriodOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

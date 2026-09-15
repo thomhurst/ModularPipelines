@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-built-in-slot-types")]
-public record AwsLexv2ModelsListBuiltInSlotTypesOptions : AwsOptions
+public record AwsLexv2ModelsListBuiltInSlotTypesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of built-in slot types that meet the specified criteria. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocaleId">The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .</param>
+    public AwsLexv2ModelsListBuiltInSlotTypesOptions(
+        string LocaleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+    }
+
+    private AwsLexv2ModelsListBuiltInSlotTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListBuiltInSlotTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListBuiltInSlotTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
     /// <summary>
     /// Determines the sort order for the response from the ListBuiltInSlot- Types operation. You can choose to sort by the slot type signature in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of built-in intents. Possible values: o SlotTypeSignature order -&gt; (string) [required] The order to sort the list. You can choose ascending or descend- ing. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotTypeSignature", "order": "Ascending"|"Descending" }
@@ -49,5 +86,21 @@ public record AwsLexv2ModelsListBuiltInSlotTypesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

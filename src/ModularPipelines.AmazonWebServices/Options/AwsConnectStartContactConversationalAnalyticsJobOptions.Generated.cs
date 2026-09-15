@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-contact-conversational-analytics-job")]
-public record AwsConnectStartContactConversationalAnalyticsJobOptions : AwsOptions
+public record AwsConnectStartContactConversationalAnalyticsJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a Contact Lens post-call analytics job for the specified con- tact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration. WARNING: A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI. NOTE: For example, you...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
+    /// <param name="AnalyticsModes">The analytics modes to run for the contact. Valid values: PostCon- tact . (string) Possible values: o PostContact o RealTime o ContactLens o AutomatedInteraction Syntax: "string" "string" ...</param>
+    /// <param name="AnalyticsConfiguration">The configuration for the conversational analytics job. LanguageConfiguration -&gt; (structure) [required] The language configuration for conversational analytics. LanguageLocale -&gt; (string) The language locale setting for conversational analytics. RedactionConfiguration -&gt; (structure) [required] The redaction configuration for conversational analytics. Behavior -&gt; (string) [required] Controls whether redaction is applied to the analytics out- put. Valid values: Enable | Disable . Possible values: o Enable o Disable Policy -&gt; (string) [required] The redaction output policy that determines which versions of the transcript are stored. Valid values: None | RedactedOnly | RedactedAndOriginal . Possible values: o None o RedactedOnly o RedactedAndOriginal Entities -&gt; (list) The list of PII entity types to redact from the transcript (for example, NAME , ADDRESS , CREDIT_DEBIT_NUMBER ). (string) Constraints: o min: 1 MaskMode -&gt; (string) The masking mode that determines how redacted content is re- placed in the output. Valid values: PII (replaces with the literal string [PII]) | EntityType (replaces with the entity type name, for example [NAME]). Possible values: o PII o EntityType SentimentConfiguration -&gt; (structure) [required] The sentiment configuration for conversational analytics. Behavior -&gt; (string) [required] Controls whether sentiment analysis is applied to the analyt- ics output. Valid values: Enable | Disable . Possible values: o Enable o Disable SummaryConfiguration -&gt; (structure) [required] The summary configuration for conversational analytics. SummaryModes -&gt; (list) [required] The summary modes that determine what type of summarization is generated. Valid values: PostContact | AutomatedInterac- tion | ContactChain . Constraints: o min: 0 o max: 2 (string) Possible values: o PostContact o AutomatedInteraction o ContactChain RulesConfiguration -&gt; (structure) [required] The rules configuration for conversational analytics. Behavior -&gt; (string) Controls whether Contact Lens rules are evaluated for the contact. Valid values: Enable | Disable . Possible values: o Enable o Disable Shorthand Syntax: LanguageConfiguration={LanguageLocale=string},RedactionConfiguration={Behavior=string,Policy=string,Entities=[string,string],MaskMode=string},SentimentConfiguration={Behavior=string},SummaryConfiguration={SummaryModes=[string,string]},RulesConfiguration={Behavior=string} JSON Syntax: { "LanguageConfiguration": { "LanguageLocale": "string" }, "RedactionConfiguration": { "Behavior": "Enable"|"Disable", "Policy": "None"|"RedactedOnly"|"RedactedAndOriginal", "Entities": ["string", ...], "MaskMode": "PII"|"EntityType" }, "SentimentConfiguration": { "Behavior": "Enable"|"Disable" }, "SummaryConfiguration": { "SummaryModes": ["PostContact"|"AutomatedInteraction"|"ContactChain", ...] }, "RulesConfiguration": { "Behavior": "Enable"|"Disable" } }</param>
+    public AwsConnectStartContactConversationalAnalyticsJobOptions(
+        string InstanceId,
+        string ContactId,
+        IEnumerable<string> AnalyticsModes,
+        string AnalyticsConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AnalyticsModes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AnalyticsModes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AnalyticsModes));
+            }
+
+            AnalyticsModes = materialized;
+        }
+        this.AnalyticsModes = AnalyticsModes;
+        global::System.ArgumentNullException.ThrowIfNull(AnalyticsConfiguration);
+        this.AnalyticsConfiguration = AnalyticsConfiguration;
+    }
+
+    private AwsConnectStartContactConversationalAnalyticsJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartContactConversationalAnalyticsJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartContactConversationalAnalyticsJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The analytics modes to run for the contact. Valid values: PostCon- tact . (string) Possible values: o PostContact o RealTime o ContactLens o AutomatedInteraction Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--analytics-modes", GroupValues = true)]
-    public IEnumerable<string>? AnalyticsModes { get; set; }
+    public IEnumerable<string>? AnalyticsModes { get; private init; }
 
+    /// <summary>
+    /// The configuration for the conversational analytics job. LanguageConfiguration -&gt; (structure) [required] The language configuration for conversational analytics. LanguageLocale -&gt; (string) The language locale setting for conversational analytics. RedactionConfiguration -&gt; (structure) [required] The redaction configuration for conversational analytics. Behavior -&gt; (string) [required] Controls whether redaction is applied to the analytics out- put. Valid values: Enable | Disable . Possible values: o Enable o Disable Policy -&gt; (string) [required] The redaction output policy that determines which versions of the transcript are stored. Valid values: None | RedactedOnly | RedactedAndOriginal . Possible values: o None o RedactedOnly o RedactedAndOriginal Entities -&gt; (list) The list of PII entity types to redact from the transcript (for example, NAME , ADDRESS , CREDIT_DEBIT_NUMBER ). (string) Constraints: o min: 1 MaskMode -&gt; (string) The masking mode that determines how redacted content is re- placed in the output. Valid values: PII (replaces with the literal string [PII]) | EntityType (replaces with the entity type name, for example [NAME]). Possible values: o PII o EntityType SentimentConfiguration -&gt; (structure) [required] The sentiment configuration for conversational analytics. Behavior -&gt; (string) [required] Controls whether sentiment analysis is applied to the analyt- ics output. Valid values: Enable | Disable . Possible values: o Enable o Disable SummaryConfiguration -&gt; (structure) [required] The summary configuration for conversational analytics. SummaryModes -&gt; (list) [required] The summary modes that determine what type of summarization is generated. Valid values: PostContact | AutomatedInterac- tion | ContactChain . Constraints: o min: 0 o max: 2 (string) Possible values: o PostContact o AutomatedInteraction o ContactChain RulesConfiguration -&gt; (structure) [required] The rules configuration for conversational analytics. Behavior -&gt; (string) Controls whether Contact Lens rules are evaluated for the contact. Valid values: Enable | Disable . Possible values: o Enable o Disable Shorthand Syntax: LanguageConfiguration={LanguageLocale=string},RedactionConfiguration={Behavior=string,Policy=string,Entities=[string,string],MaskMode=string},SentimentConfiguration={Behavior=string},SummaryConfiguration={SummaryModes=[string,string]},RulesConfiguration={Behavior=string} JSON Syntax: { "LanguageConfiguration": { "LanguageLocale": "string" }, "RedactionConfiguration": { "Behavior": "Enable"|"Disable", "Policy": "None"|"RedactedOnly"|"RedactedAndOriginal", "Entities": ["string", ...], "MaskMode": "PII"|"EntityType" }, "SentimentConfiguration": { "Behavior": "Enable"|"Disable" }, "SummaryConfiguration": { "SummaryModes": ["PostContact"|"AutomatedInteraction"|"ContactChain", ...] }, "RulesConfiguration": { "Behavior": "Enable"|"Disable" } }
+    /// </summary>
     [CliOption("--analytics-configuration")]
-    public string? AnalyticsConfiguration { get; set; }
+    public string? AnalyticsConfiguration { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -46,5 +115,21 @@ public record AwsConnectStartContactConversationalAnalyticsJobOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "wait", "command-executed")]
-public record AwsSsmWaitCommandExecutedOptions : AwsOptions
+public record AwsSsmWaitCommandExecutedOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--command-id")]
-    public string? CommandId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Wait until JMESPath query Status returns Success when polling with get-command-invocation. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommandId">(Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36</param>
+    /// <param name="InstanceId">(Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    public AwsSsmWaitCommandExecutedOptions(
+        string CommandId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandId);
+        this.CommandId = CommandId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsSsmWaitCommandExecutedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmWaitCommandExecutedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmWaitCommandExecutedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// (Required) The parent command ID of the invocation plugin. Constraints: o min: 36 o max: 36
+    /// </summary>
+    [CliOption("--command-id")]
+    public string? CommandId { get; private init; }
+
+    /// <summary>
+    /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) in- stance, edge device, and on-premises server or VM in your hybrid en- vironment that is configured for Amazon Web Services Systems Man- ager. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript . To find the PluginName , check the document content and find the name of the step you want details for. Alternatively, use ListCom- mandInvocations with the CommandId and Details parameters. The Plug- inName is the Name attribute of the CommandPlugin object in the Com- mandPlugins list. Constraints: o min: 4
@@ -38,5 +82,21 @@ public record AwsSsmWaitCommandExecutedOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

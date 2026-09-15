@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "delete-connector-profile")]
-public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions
+public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connector-profile-name")]
-    public string? ConnectorProfileName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Enables you to delete an existing connector profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorProfileName">The name of the connector profile. The name is unique for each Con- nectorProfile in your account. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+</param>
+    public AwsAppflowDeleteConnectorProfileOptions(
+        string ConnectorProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorProfileName);
+        this.ConnectorProfileName = ConnectorProfileName;
+    }
+
+    private AwsAppflowDeleteConnectorProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowDeleteConnectorProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowDeleteConnectorProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the connector profile. The name is unique for each Con- nectorProfile in your account. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+
+    /// </summary>
+    [CliOption("--connector-profile-name")]
+    public string? ConnectorProfileName { get; private init; }
+
+    /// <summary>
+    /// Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsAppflowDeleteConnectorProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

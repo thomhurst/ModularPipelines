@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "batch-delete-cluster-snapshots")]
-public record AwsRedshiftBatchDeleteClusterSnapshotsOptions : AwsOptions
+public record AwsRedshiftBatchDeleteClusterSnapshotsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a set of cluster snapshots. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifiers">A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a pol- icy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: o max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]</param>
+    public AwsRedshiftBatchDeleteClusterSnapshotsOptions(
+        IEnumerable<string> Identifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identifiers));
+            }
+
+            Identifiers = materialized;
+        }
+        this.Identifiers = Identifiers;
+    }
+
+    private AwsRedshiftBatchDeleteClusterSnapshotsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftBatchDeleteClusterSnapshotsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftBatchDeleteClusterSnapshotsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of identifiers for the snapshots that you want to delete. (structure) SnapshotIdentifier -&gt; (string) [required] The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available , failed , or cancelled state. Constraints: o max: 2147483647 SnapshotClusterIdentifier -&gt; (string) The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a pol- icy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster. Constraints: o max: 2147483647 Shorthand Syntax: SnapshotIdentifier=string,SnapshotClusterIdentifier=string ... JSON Syntax: [ { "SnapshotIdentifier": "string", "SnapshotClusterIdentifier": "string" } ... ]
+    /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
-    public IEnumerable<string>? Identifiers { get; set; }
+    public IEnumerable<string>? Identifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

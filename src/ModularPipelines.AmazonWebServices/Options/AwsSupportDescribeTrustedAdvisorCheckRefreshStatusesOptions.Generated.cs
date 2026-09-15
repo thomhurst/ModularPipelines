@@ -10,24 +10,88 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port pl...
+/// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "describe-trusted-advisor-check-refresh-statuses")]
-public record AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions : AwsOptions
+public record AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the Descri- beTrustedAdvisorChecks operation. Some checks are refreshed automatically, and you can't return their re- fresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Servi...
+    /// </summary>
+    /// <param name="CheckIds">The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically re- freshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...</param>
+    public AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions(
+        IEnumerable<string> CheckIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CheckIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CheckIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CheckIds));
+            }
+
+            CheckIds = materialized;
+        }
+        this.CheckIds = CheckIds;
+    }
+
+    private AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the Trusted Advisor checks to get the status. NOTE: If you specify the check ID of a check that is automatically re- freshed, you might see an InvalidParameterValue error. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--check-ids", GroupValues = true)]
-    public IEnumerable<string>? CheckIds { get; set; }
+    public IEnumerable<string>? CheckIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

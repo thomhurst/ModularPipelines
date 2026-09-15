@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keystoragesecuritystandard.
+/// Allowed values for --key-storage-security-standard.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAcmPcaCreateCertificateAuthorityKeyStorageSecurityStandard
 {
+    [EnumValue("CCPC_LEVEL_1_OR_HIGHER")]
+    CcpcLevel1OrHigher,
+
     [EnumValue("FIPS_140_2_LEVEL_2_OR_HIGHER")]
-    Fips_140_2Level_2OrHigher = 1,
+    Fips1402Level2OrHigher,
 
     [EnumValue("FIPS_140_2_LEVEL_3_OR_HIGHER")]
-    Fips_140_2Level_3OrHigher = 2,
-
-    [EnumValue("CCPC_LEVEL_1_OR_HIGHER")]
-    CcpcLevel_1OrHigher = 3
+    Fips1402Level3OrHigher
 }

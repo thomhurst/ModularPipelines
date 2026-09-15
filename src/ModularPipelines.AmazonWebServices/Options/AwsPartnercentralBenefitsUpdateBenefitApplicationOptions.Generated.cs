@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-benefits", "update-benefit-application")]
-public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOptions
+public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing benefit application with new information while maintaining revision control. See also: AWS API Documentation update-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to update. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="Revision">The current revision number of the benefit application to ensure op- timistic concurrency control.</param>
+    public AwsPartnercentralBenefitsUpdateBenefitApplicationOptions(
+        string Catalog,
+        string ClientToken,
+        string Identifier,
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    private AwsPartnercentralBenefitsUpdateBenefitApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralBenefitsUpdateBenefitApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralBenefitsUpdateBenefitApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the benefit application to update. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The current revision number of the benefit application to ensure op- timistic concurrency control.
+    /// </summary>
+    [CliOption("--revision")]
+    public string? Revision { get; private init; }
 
     /// <summary>
     /// The updated human-readable name for the benefit application. Constraints: o min: 1 o max: 255
@@ -40,12 +104,6 @@ public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOpti
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
-    [CliOption("--revision")]
-    public string? Revision { get; set; }
 
     /// <summary>
     /// Updated detailed information and requirements specific to the bene- fit being requested. JSON Syntax: {...}
@@ -70,5 +128,21 @@ public record AwsPartnercentralBenefitsUpdateBenefitApplicationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

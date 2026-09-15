@@ -10,27 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PEND- ING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed. Jobs that progressed to the...
+/// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed. Jobs that progressed to t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "cancel-job")]
-public record AwsBatchCancelJobOptions : AwsOptions
+public record AwsBatchCancelJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed. Jobs that progressed to t...
+    /// </summary>
+    /// <param name="JobId">The Batch job ID of the job to cancel.</param>
+    /// <param name="Reason">A message to attach to the job that explains the reason for can- celling it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
+    public AwsBatchCancelJobOptions(
+        string JobId,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsBatchCancelJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchCancelJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchCancelJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Batch job ID of the job to cancel.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// A message to attach to the job that explains the reason for can- celling it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

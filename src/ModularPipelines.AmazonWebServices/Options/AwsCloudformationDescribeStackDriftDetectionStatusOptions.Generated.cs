@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "describe-stack-drift-detection-status")]
-public record AwsCloudformationDescribeStackDriftDetectionStatusOptions : AwsOptions
+public record AwsCloudformationDescribeStackDriftDetectionStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configura- tion differs, or has drifted , from its expected configuration, as de- fined in the stack template and any values specified as template para- meters. A stack is considered to have drifted if one or more of its re- sources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and re- sources wit...
+    /// </summary>
+    /// <param name="StackDriftDetectionId">The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift re- sults CloudFormation retains for any given stack, and for how long, may vary. Constraints: o min: 1 o max: 36</param>
+    public AwsCloudformationDescribeStackDriftDetectionStatusOptions(
+        string StackDriftDetectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackDriftDetectionId);
+        this.StackDriftDetectionId = StackDriftDetectionId;
+    }
+
+    private AwsCloudformationDescribeStackDriftDetectionStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDescribeStackDriftDetectionStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDescribeStackDriftDetectionStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift re- sults CloudFormation retains for any given stack, and for how long, may vary. Constraints: o min: 1 o max: 36
+    /// </summary>
     [CliOption("--stack-drift-detection-id")]
-    public string? StackDriftDetectionId { get; set; }
+    public string? StackDriftDetectionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

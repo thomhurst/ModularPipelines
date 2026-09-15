@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "terminate-job")]
-public record AwsBatchTerminateJobOptions : AwsOptions
+public record AwsBatchTerminateJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Terminates a job in a job queue. Jobs that are in the STARTING or RUN- NING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The Batch job ID of the job to terminate.</param>
+    /// <param name="Reason">A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
+    public AwsBatchTerminateJobOptions(
+        string JobId,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsBatchTerminateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchTerminateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchTerminateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Batch job ID of the job to terminate.
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

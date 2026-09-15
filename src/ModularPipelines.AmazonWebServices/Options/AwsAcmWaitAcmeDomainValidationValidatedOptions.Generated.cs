@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "wait", "acme-domain-validation-validated")]
-public record AwsAcmWaitAcmeDomainValidationValidatedOptions : AwsOptions
+public record AwsAcmWaitAcmeDomainValidationValidatedOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until an ACME domain validation reaches a terminal validation state. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcmeDomainValidationArn">The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+</param>
+    public AwsAcmWaitAcmeDomainValidationValidatedOptions(
+        string AcmeDomainValidationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcmeDomainValidationArn);
+        this.AcmeDomainValidationArn = AcmeDomainValidationArn;
+    }
+
+    private AwsAcmWaitAcmeDomainValidationValidatedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmWaitAcmeDomainValidationValidatedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmWaitAcmeDomainValidationValidatedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACME domain validation. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--acme-domain-validation-arn")]
-    public string? AcmeDomainValidationArn { get; set; }
+    public string? AcmeDomainValidationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --onfailure.
+/// Allowed values for --on-failure.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationCreateStackOnFailure
 {
+    [EnumValue("DELETE")]
+    Delete,
+
     [EnumValue("DO_NOTHING")]
-    DoNothing = 1,
+    DoNothing,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 2,
-
-    [EnumValue("DELETE")]
-    Delete = 3
+    Rollback
 }

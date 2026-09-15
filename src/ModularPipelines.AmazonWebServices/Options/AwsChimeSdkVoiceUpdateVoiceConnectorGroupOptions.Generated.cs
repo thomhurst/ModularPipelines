@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "update-voice-connector-group")]
-public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions
+public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the settings for the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorGroupId">The Voice Connector ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Name">The name of the Voice Connector group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="VoiceConnectorItems">The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest pri- ority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: o min: 1 o max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]</param>
+    public AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions(
+        string VoiceConnectorGroupId,
+        string Name,
+        IEnumerable<string> VoiceConnectorItems
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorGroupId);
+        this.VoiceConnectorGroupId = VoiceConnectorGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorItems);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VoiceConnectorItems));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VoiceConnectorItems));
+            }
+
+            VoiceConnectorItems = materialized;
+        }
+        this.VoiceConnectorItems = VoiceConnectorItems;
+    }
+
+    private AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--voice-connector-group-id")]
-    public string? VoiceConnectorGroupId { get; set; }
+    public string? VoiceConnectorGroupId { get; private init; }
 
+    /// <summary>
+    /// The name of the Voice Connector group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest pri- ority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: o min: 1 o max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]
+    /// </summary>
     [CliOption("--voice-connector-items", GroupValues = true)]
-    public IEnumerable<string>? VoiceConnectorItems { get; set; }
+    public IEnumerable<string>? VoiceConnectorItems { get; private init; }
 
     /// <summary>
     /// Possible values: o PriorityWeightedDistribution o LoadBalancedDistribution
@@ -42,5 +104,21 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

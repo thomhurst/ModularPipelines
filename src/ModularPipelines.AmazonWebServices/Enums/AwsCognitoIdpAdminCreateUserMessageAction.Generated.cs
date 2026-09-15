@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --messageaction.
+/// Allowed values for --message-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCognitoIdpAdminCreateUserMessageAction
 {
     [EnumValue("RESEND")]
-    Resend = 1,
+    Resend,
 
     [EnumValue("SUPPRESS")]
-    Suppress = 2
+    Suppress
 }

@@ -28,7 +28,10 @@ public record AwsApprunnerListObservabilityConfigurationsOptions : AwsOptions
     [CliOption("--observability-configuration-name")]
     public string? ObservabilityConfigurationName { get; set; }
 
-    [CliFlag("--latest-only")]
+    /// <summary>
+    /// Set to true to list only the latest revision for each requested con- figuration name. Set to false to list all revisions for each requested configuration name. Default: true
+    /// </summary>
+    [CliFlag("--latest-only", NegatedName = "--no-latest-only")]
     public bool? LatestOnly { get; set; }
 
     /// <summary>

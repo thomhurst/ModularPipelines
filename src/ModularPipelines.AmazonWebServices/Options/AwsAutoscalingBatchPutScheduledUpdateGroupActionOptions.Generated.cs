@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling", "batch-put-scheduled-update-group-action")]
-public record AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions : AwsOptions
+public record AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--auto-scaling-group-name")]
-    public string? AutoScalingGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates one or more scheduled scaling actions for an Auto Scaling group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ScheduledUpdateGroupActions">One or more scheduled actions. The maximum number allowed is 50. (structure) Describes information used for one or more scheduled scaling ac- tion updates in a BatchPutScheduledUpdateGroupAction operation. ScheduledActionName -&gt; (string) [required] The name of the scaling action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* StartTime -&gt; (timestamp) The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z" ). If you specify Recurrence and StartTime , Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message. EndTime -&gt; (timestamp) The date and time for the recurring schedule to end, in UTC. Recurrence -&gt; (string) The recurring schedule for the action, in Unix cron syntax format. This format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, "30 0 1 1,6,12 *" ). For more information about this format, see Crontab . When StartTime and EndTime are specified with Recurrence , they form the boundaries of when the recurring action starts and stops. Cron expressions use Universal Coordinated Time (UTC) by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* MinSize -&gt; (integer) The minimum size of the Auto Scaling group. MaxSize -&gt; (integer) The maximum size of the Auto Scaling group. DesiredCapacity -&gt; (integer) The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capac- ity it attempts to maintain. TimeZone -&gt; (string) Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti ). For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: ScheduledActionName=string,StartTime=timestamp,EndTime=timestamp,Recurrence=string,MinSize=integer,MaxSize=integer,DesiredCapacity=integer,TimeZone=string ... JSON Syntax: [ { "ScheduledActionName": "string", "StartTime": timestamp, "EndTime": timestamp, "Recurrence": "string", "MinSize": integer, "MaxSize": integer, "DesiredCapacity": integer, "TimeZone": "string" } ... ]</param>
+    public AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions(
+        string AutoScalingGroupName,
+        IEnumerable<string> ScheduledUpdateGroupActions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoScalingGroupName);
+        this.AutoScalingGroupName = AutoScalingGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ScheduledUpdateGroupActions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ScheduledUpdateGroupActions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ScheduledUpdateGroupActions));
+            }
+
+            ScheduledUpdateGroupActions = materialized;
+        }
+        this.ScheduledUpdateGroupActions = ScheduledUpdateGroupActions;
+    }
+
+    private AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingBatchPutScheduledUpdateGroupActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--auto-scaling-group-name")]
+    public string? AutoScalingGroupName { get; private init; }
+
+    /// <summary>
+    /// One or more scheduled actions. The maximum number allowed is 50. (structure) Describes information used for one or more scheduled scaling ac- tion updates in a BatchPutScheduledUpdateGroupAction operation. ScheduledActionName -&gt; (string) [required] The name of the scaling action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* StartTime -&gt; (timestamp) The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z" ). If you specify Recurrence and StartTime , Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message. EndTime -&gt; (timestamp) The date and time for the recurring schedule to end, in UTC. Recurrence -&gt; (string) The recurring schedule for the action, in Unix cron syntax format. This format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, "30 0 1 1,6,12 *" ). For more information about this format, see Crontab . When StartTime and EndTime are specified with Recurrence , they form the boundaries of when the recurring action starts and stops. Cron expressions use Universal Coordinated Time (UTC) by de- fault. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* MinSize -&gt; (integer) The minimum size of the Auto Scaling group. MaxSize -&gt; (integer) The maximum size of the Auto Scaling group. DesiredCapacity -&gt; (integer) The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capac- ity it attempts to maintain. TimeZone -&gt; (string) Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti ). For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: ScheduledActionName=string,StartTime=timestamp,EndTime=timestamp,Recurrence=string,MinSize=integer,MaxSize=integer,DesiredCapacity=integer,TimeZone=string ... JSON Syntax: [ { "ScheduledActionName": "string", "StartTime": timestamp, "EndTime": timestamp, "Recurrence": "string", "MinSize": integer, "MaxSize": integer, "DesiredCapacity": integer, "TimeZone": "string" } ... ]
+    /// </summary>
     [CliOption("--scheduled-update-group-actions", GroupValues = true)]
-    public IEnumerable<string>? ScheduledUpdateGroupActions { get; set; }
+    public IEnumerable<string>? ScheduledUpdateGroupActions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

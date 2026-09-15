@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "create-express-gateway-service")]
-public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions
+public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Express service that simplifies deploying containerized web applications on Amazon ECS with managed Amazon Web Services infrastruc- ture. This operation provisions and configures Application Load Bal- ancers, target groups, security groups, and auto-scaling policies auto- matically. Specify a primary container configuration with your application image and basic settings. Amazon ECS creates the necessary Amazon Web Ser- vices resources for traffic distribution, health monitoring, netwo...
+    /// </summary>
+    /// <param name="InfrastructureRoleArn">The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Ser- vices resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.</param>
+    public AwsEcsCreateExpressGatewayServiceOptions(
+        string InfrastructureRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InfrastructureRoleArn);
+        this.InfrastructureRoleArn = InfrastructureRoleArn;
+    }
+
+    private AwsEcsCreateExpressGatewayServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsCreateExpressGatewayServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsCreateExpressGatewayServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Ser- vices resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
+    /// </summary>
+    [CliOption("--infrastructure-role-arn")]
+    public string? InfrastructureRoleArn { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Se- crets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container manage- ment operations.
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--infrastructure-role-arn")]
-    public string? InfrastructureRoleArn { get; set; }
 
     /// <summary>
     /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
@@ -79,6 +116,12 @@ public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions
     public string? Memory { get; set; }
 
     /// <summary>
+    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the de- fault is X86_64 . Valid values: o X86_64 - The x86 64-bit architecture. o ARM64 - The 64-bit ARM architecture. Make sure that the container image that you specify supports the ar- chitecture that you choose. The operating system family for an Ex- press service is always LINUX . You can't specify cpuArchitecture when you also specify taskDefini- tionArn , because this value applies only to a task definition that Amazon ECS registers on your behalf. Possible values: o X86_64 o ARM64
+    /// </summary>
+    [CliOption("--cpu-architecture")]
+    public string? CpuArchitecture { get; set; }
+
+    /// <summary>
     /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60. minTaskCount -&gt; (integer) The minimum number of tasks to run in the Express service. maxTaskCount -&gt; (integer) The maximum number of tasks to run in the Express service. autoScalingMetric -&gt; (string) The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization . Possible values: o AVERAGE_CPU o AVERAGE_MEMORY o REQUEST_COUNT_PER_TARGET autoScalingTargetValue -&gt; (integer) The target value for the auto-scaling metric. The default value for an Express service is 60. Shorthand Syntax: minTaskCount=integer,maxTaskCount=integer,autoScalingMetric=string,autoScalingTargetValue=integer JSON Syntax: { "minTaskCount": integer, "maxTaskCount": integer, "autoScalingMetric": "AVERAGE_CPU"|"AVERAGE_MEMORY"|"REQUEST_COUNT_PER_TARGET", "autoScalingTargetValue": integer }
     /// </summary>
     [CliOption("--scaling-target")]
@@ -91,7 +134,7 @@ public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify prima- ryContainer , executionRoleArn , taskRoleArn , cpu , or memory .
+    /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify prima- ryContainer , executionRoleArn , taskRoleArn , cpu , memory , or cpuArchitecture .
     /// </summary>
     [CliOption("--task-definition-arn")]
     public string? TaskDefinitionArn { get; set; }
@@ -107,5 +150,21 @@ public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

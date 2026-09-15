@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "list-reports-for-report-group")]
-public record AwsCodebuildListReportsForReportGroupOptions : AwsOptions
+public record AwsCodebuildListReportsForReportGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of ARNs for the reports that belong to a ReportGroup . See also: AWS API Documentation list-reports-for-report-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reports
+    /// </summary>
+    /// <param name="ReportGroupArn">The ARN of the report group for which you want to return report ARNs.</param>
+    public AwsCodebuildListReportsForReportGroupOptions(
+        string ReportGroupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportGroupArn);
+        this.ReportGroupArn = ReportGroupArn;
+    }
+
+    private AwsCodebuildListReportsForReportGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildListReportsForReportGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildListReportsForReportGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the report group for which you want to return report ARNs.
+    /// </summary>
     [CliOption("--report-group-arn")]
-    public string? ReportGroupArn { get; set; }
+    public string? ReportGroupArn { get; private init; }
 
     /// <summary>
     /// Use to specify whether the results are returned in ascending or de- scending order. Possible values: o ASCENDING o DESCENDING
@@ -62,5 +99,21 @@ public record AwsCodebuildListReportsForReportGroupOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

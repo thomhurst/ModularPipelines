@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-integration-table-properties")]
-public record AwsGlueGetIntegrationTablePropertiesOptions : AwsOptions
+public record AwsGlueGetIntegrationTablePropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is used to retrieve optional override properties for the ta- bles that need to be replicated. These properties can include proper- ties for filtering and partition for source and target tables. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target table for which to re- trieve integration table properties. Currently, this API only sup- ports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Sup- port for retrieving integration table properties for source connec- tions (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512</param>
+    /// <param name="TableName">The name of the table to be replicated. Constraints: o min: 1 o max: 128</param>
+    public AwsGlueGetIntegrationTablePropertiesOptions(
+        string ResourceArn,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsGlueGetIntegrationTablePropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetIntegrationTablePropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetIntegrationTablePropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target table for which to re- trieve integration table properties. Currently, this API only sup- ports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Sup- port for retrieving integration table properties for source connec- tions (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The name of the table to be replicated. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

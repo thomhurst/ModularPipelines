@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "remove-stream-group-locations")]
-public record AwsGameliftstreamsRemoveStreamGroupLocationsOptions : AwsOptions
+public record AwsGameliftstreamsRemoveStreamGroupLocationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a set of remote locations from this stream group. To remove a location, the stream group must be in ACTIVE status. When you remove a location, Amazon GameLift Streams releases allocated compute resources in that location. Stream sessions can no longer start from removed lo- cations in a stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal Amazon S3 bucket at this location. You cannot remove the...
+    /// </summary>
+    /// <param name="Identifier">A stream group to remove the specified locations from. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Locations">A set of locations to remove this stream group. For example, us-east-1 . For a complete list of locations that Amazon GameLift Streams sup- ports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...</param>
+    public AwsGameliftstreamsRemoveStreamGroupLocationsOptions(
+        string Identifier,
+        IEnumerable<string> Locations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Locations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Locations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Locations));
+            }
+
+            Locations = materialized;
+        }
+        this.Locations = Locations;
+    }
+
+    private AwsGameliftstreamsRemoveStreamGroupLocationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsRemoveStreamGroupLocationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsRemoveStreamGroupLocationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A stream group to remove the specified locations from. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// A set of locations to remove this stream group. For example, us-east-1 . For a complete list of locations that Amazon GameLift Streams sup- ports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--locations", GroupValues = true)]
-    public IEnumerable<string>? Locations { get; set; }
+    public IEnumerable<string>? Locations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

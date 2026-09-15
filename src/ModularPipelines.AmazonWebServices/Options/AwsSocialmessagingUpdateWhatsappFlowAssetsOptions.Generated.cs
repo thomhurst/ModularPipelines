@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "update-whatsapp-flow-assets")]
-public record AwsSocialmessagingUpdateWhatsappFlowAssetsOptions : AwsOptions
+public record AwsSocialmessagingUpdateWhatsappFlowAssetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-pub- lishing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowId">The unique identifier of the Flow whose assets to update. Constraints: o min: 1 o max: 100 o pattern: [0-9]+</param>
+    /// <param name="FlowJson">The updated Flow JSON definition. Maximum size is 10 MB. Constraints: o min: 1 o max: 10485760</param>
+    public AwsSocialmessagingUpdateWhatsappFlowAssetsOptions(
+        string Id,
+        string FlowId,
+        string FlowJson
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(FlowId);
+        this.FlowId = FlowId;
+        global::System.ArgumentNullException.ThrowIfNull(FlowJson);
+        this.FlowJson = FlowJson;
+    }
+
+    private AwsSocialmessagingUpdateWhatsappFlowAssetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingUpdateWhatsappFlowAssetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingUpdateWhatsappFlowAssetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the WhatsApp Business Account associated with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Flow whose assets to update. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--flow-id")]
-    public string? FlowId { get; set; }
+    public string? FlowId { get; private init; }
 
+    /// <summary>
+    /// The updated Flow JSON definition. Maximum size is 10 MB. Constraints: o min: 1 o max: 10485760
+    /// </summary>
     [CliOption("--flow-json")]
-    public string? FlowJson { get; set; }
+    public string? FlowJson { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

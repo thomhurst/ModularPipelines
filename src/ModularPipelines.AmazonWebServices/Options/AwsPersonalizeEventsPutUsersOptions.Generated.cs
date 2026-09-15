@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize-events", "put-users")]
-public record AwsPersonalizeEventsPutUsersOptions : AwsOptions
+public record AwsPersonalizeEventsPutUsersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more users to a Users dataset. For more information see Importing users individually . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Users">A list of user data. Constraints: o min: 1 o max: 10 (structure) Represents user metadata added to a Users dataset using the Pu- tUsers API. For more information see Importing users individu- ally . userId -&gt; (string) [required] The ID associated with the user. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"num- berOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, sepa- rate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: o min: 1 o max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]</param>
+    public AwsPersonalizeEventsPutUsersOptions(
+        string DataSetArn,
+        IEnumerable<string> Users
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Users);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Users));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Users));
+            }
+
+            Users = materialized;
+        }
+        this.Users = Users;
+    }
+
+    private AwsPersonalizeEventsPutUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeEventsPutUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeEventsPutUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
+    [CliOption("--dataset-arn")]
+    public string? DataSetArn { get; private init; }
+
+    /// <summary>
+    /// A list of user data. Constraints: o min: 1 o max: 10 (structure) Represents user metadata added to a Users dataset using the Pu- tUsers API. For more information see Importing users individu- ally . userId -&gt; (string) [required] The ID associated with the user. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"num- berOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, sepa- rate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: o min: 1 o max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]
+    /// </summary>
     [CliOption("--users", GroupValues = true)]
-    public IEnumerable<string>? Users { get; set; }
+    public IEnumerable<string>? Users { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

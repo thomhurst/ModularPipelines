@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "delete-alarm-mute-rule")]
-public record AwsCloudwatchDeleteAlarmMuteRuleOptions : AwsOptions
+public record AwsCloudwatchDeleteAlarmMuteRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule per- mission on the alarm mute rule resource. See also: AWS API Docume...
+    /// </summary>
+    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to delete. Constraints: o min: 1 o max: 255</param>
+    public AwsCloudwatchDeleteAlarmMuteRuleOptions(
+        string AlarmMuteRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmMuteRuleName);
+        this.AlarmMuteRuleName = AlarmMuteRuleName;
+    }
+
+    private AwsCloudwatchDeleteAlarmMuteRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchDeleteAlarmMuteRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchDeleteAlarmMuteRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alarm mute rule to delete. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--alarm-mute-rule-name")]
-    public string? AlarmMuteRuleName { get; set; }
+    public string? AlarmMuteRuleName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

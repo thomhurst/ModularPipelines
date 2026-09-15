@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snowball", "create-address")]
-public record AwsSnowballCreateAddressOptions : AwsOptions
+public record AwsSnowballCreateAddressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an address for a Snow device to be shipped to. In most regions, addresses are validated at the time of creation. The address you pro- vide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown. If pro- viding an address as a JSON file through the cli-input-json option, in- clude the full file path. For example, --cli-input-json file://cre- ate-address.json . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Address">The address that you want the Snow device shipped to. AddressId -&gt; (string) The unique ID for an address. Constraints: o min: 40 o max: 40 o pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Name -&gt; (string) The name of a person to receive a Snow device at an address. Constraints: o min: 1 o max: 1024 o pattern: .* Company -&gt; (string) The name of the company to receive a Snow device at an address. Constraints: o min: 1 o max: 1024 o pattern: .* Street1 -&gt; (string) The first line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* Street2 -&gt; (string) The second line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* Street3 -&gt; (string) The third line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* City -&gt; (string) The city in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* StateOrProvince -&gt; (string) The state or province in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* PrefectureOrDistrict -&gt; (string) This field is no longer used and the value is ignored. Constraints: o min: 1 o max: 1024 o pattern: .* Landmark -&gt; (string) This field is no longer used and the value is ignored. Constraints: o min: 1 o max: 1024 o pattern: .* Country -&gt; (string) The country in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* PostalCode -&gt; (string) The postal code in an address that a Snow device is to be deliv- ered to. Constraints: o min: 1 o max: 1024 o pattern: .* PhoneNumber -&gt; (string) The phone number associated with an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* IsRestricted -&gt; (boolean) If the address you are creating is a primary address, then set this option to true. This field is not supported in most re- gions. Type -&gt; (string) Differentiates between delivery address and pickup address in the customer account. Provided at job creation. Possible values: o CUST_PICKUP o AWS_SHIP Shorthand Syntax: AddressId=string,Name=string,Company=string,Street1=string,Street2=string,Street3=string,City=string,StateOrProvince=string,PrefectureOrDistrict=string,Landmark=string,Country=string,PostalCode=string,PhoneNumber=string,IsRestricted=boolean,Type=string JSON Syntax: { "AddressId": "string", "Name": "string", "Company": "string", "Street1": "string", "Street2": "string", "Street3": "string", "City": "string", "StateOrProvince": "string", "PrefectureOrDistrict": "string", "Landmark": "string", "Country": "string", "PostalCode": "string", "PhoneNumber": "string", "IsRestricted": true|false, "Type": "CUST_PICKUP"|"AWS_SHIP" }</param>
+    public AwsSnowballCreateAddressOptions(
+        string Address
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Address);
+        this.Address = Address;
+    }
+
+    private AwsSnowballCreateAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowballCreateAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowballCreateAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The address that you want the Snow device shipped to. AddressId -&gt; (string) The unique ID for an address. Constraints: o min: 40 o max: 40 o pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Name -&gt; (string) The name of a person to receive a Snow device at an address. Constraints: o min: 1 o max: 1024 o pattern: .* Company -&gt; (string) The name of the company to receive a Snow device at an address. Constraints: o min: 1 o max: 1024 o pattern: .* Street1 -&gt; (string) The first line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* Street2 -&gt; (string) The second line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* Street3 -&gt; (string) The third line in a street address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* City -&gt; (string) The city in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* StateOrProvince -&gt; (string) The state or province in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* PrefectureOrDistrict -&gt; (string) This field is no longer used and the value is ignored. Constraints: o min: 1 o max: 1024 o pattern: .* Landmark -&gt; (string) This field is no longer used and the value is ignored. Constraints: o min: 1 o max: 1024 o pattern: .* Country -&gt; (string) The country in an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* PostalCode -&gt; (string) The postal code in an address that a Snow device is to be deliv- ered to. Constraints: o min: 1 o max: 1024 o pattern: .* PhoneNumber -&gt; (string) The phone number associated with an address that a Snow device is to be delivered to. Constraints: o min: 1 o max: 1024 o pattern: .* IsRestricted -&gt; (boolean) If the address you are creating is a primary address, then set this option to true. This field is not supported in most re- gions. Type -&gt; (string) Differentiates between delivery address and pickup address in the customer account. Provided at job creation. Possible values: o CUST_PICKUP o AWS_SHIP Shorthand Syntax: AddressId=string,Name=string,Company=string,Street1=string,Street2=string,Street3=string,City=string,StateOrProvince=string,PrefectureOrDistrict=string,Landmark=string,Country=string,PostalCode=string,PhoneNumber=string,IsRestricted=boolean,Type=string JSON Syntax: { "AddressId": "string", "Name": "string", "Company": "string", "Street1": "string", "Street2": "string", "Street3": "string", "City": "string", "StateOrProvince": "string", "PrefectureOrDistrict": "string", "Landmark": "string", "Country": "string", "PostalCode": "string", "PhoneNumber": "string", "IsRestricted": true|false, "Type": "CUST_PICKUP"|"AWS_SHIP" }
+    /// </summary>
     [CliOption("--address")]
-    public string? Address { get; set; }
+    public string? Address { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

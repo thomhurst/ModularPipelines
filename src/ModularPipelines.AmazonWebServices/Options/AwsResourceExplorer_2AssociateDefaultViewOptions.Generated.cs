@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-explorer-2", "associate-default-view")]
-public record AwsResourceExplorer_2AssociateDefaultViewOptions : AwsOptions
+public record AwsResourceExplorer_2AssociateDefaultViewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the specified view as the default for the Amazon Web Services Re- gion in which you call this operation. When a user performs a Search that doesn't explicitly specify which view to use, then Amazon Web Ser- vices Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view config- ured, then users must explicitly specify a view with every Search oper- ation performed in that ...
+    /// </summary>
+    /// <param name="ViewArn">The Amazon resource name (ARN) of the view to set as the default for the Amazon Web Services Region and Amazon Web Services account in which you call this operation. The specified view must already exist in the called Region. Constraints: o min: 1 o max: 1011</param>
+    public AwsResourceExplorer_2AssociateDefaultViewOptions(
+        string ViewArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ViewArn);
+        this.ViewArn = ViewArn;
+    }
+
+    private AwsResourceExplorer_2AssociateDefaultViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceExplorer_2AssociateDefaultViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceExplorer_2AssociateDefaultViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the view to set as the default for the Amazon Web Services Region and Amazon Web Services account in which you call this operation. The specified view must already exist in the called Region. Constraints: o min: 1 o max: 1011
+    /// </summary>
     [CliOption("--view-arn")]
-    public string? ViewArn { get; set; }
+    public string? ViewArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

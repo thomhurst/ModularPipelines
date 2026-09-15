@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-hours-of-operation")]
-public record AwsConnectCreateHoursOfOperationOptions : AwsOptions
+public record AwsConnectCreateHoursOfOperationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates hours of operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the hours of operation. Constraints: o min: 1 o max: 127</param>
+    /// <param name="TimeZone">The time zone of the hours of operation.</param>
+    /// <param name="Config">Configuration information for the hours of operation: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]</param>
+    public AwsConnectCreateHoursOfOperationOptions(
+        string InstanceId,
+        string Name,
+        string TimeZone,
+        IEnumerable<string> Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TimeZone);
+        this.TimeZone = TimeZone;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Config);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Config));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Config));
+            }
+
+            Config = materialized;
+        }
+        this.Config = Config;
+    }
+
+    private AwsConnectCreateHoursOfOperationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateHoursOfOperationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateHoursOfOperationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the hours of operation. Constraints: o min: 1 o max: 127
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The time zone of the hours of operation.
+    /// </summary>
+    [CliOption("--time-zone")]
+    public string? TimeZone { get; private init; }
+
+    /// <summary>
+    /// Configuration information for the hours of operation: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
+    /// </summary>
+    [CliOption("--config", GroupValues = true)]
+    public IEnumerable<string>? Config { get; private init; }
 
     /// <summary>
     /// The description of the hours of operation. Constraints: o min: 1 o max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--time-zone")]
-    public string? TimeZone { get; set; }
-
-    [CliOption("--config", GroupValues = true)]
-    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// Configuration for parent hours of operations. Eg: ResourceArn. For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide . Constraints: o min: 0 o max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
@@ -57,5 +126,21 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

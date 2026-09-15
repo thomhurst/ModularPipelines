@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "execute-action")]
-public record AwsIotsitewiseExecuteActionOptions : AwsOptions
+public record AwsIotsitewiseExecuteActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Executes an action on a target resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetResource">The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }</param>
+    /// <param name="ActionDefinitionId">The ID of the action definition. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="ActionPayload">The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }</param>
+    public AwsIotsitewiseExecuteActionOptions(
+        string TargetResource,
+        string ActionDefinitionId,
+        string ActionPayload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetResource);
+        this.TargetResource = TargetResource;
+        global::System.ArgumentNullException.ThrowIfNull(ActionDefinitionId);
+        this.ActionDefinitionId = ActionDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionPayload);
+        this.ActionPayload = ActionPayload;
+    }
+
+    private AwsIotsitewiseExecuteActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseExecuteActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseExecuteActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource the action will be taken on. assetId -&gt; (string) The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ computationModelId -&gt; (string) The ID of the computation model. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ Shorthand Syntax: assetId=string,computationModelId=string JSON Syntax: { "assetId": "string", "computationModelId": "string" }
+    /// </summary>
     [CliOption("--target-resource")]
-    public string? TargetResource { get; set; }
+    public string? TargetResource { get; private init; }
 
+    /// <summary>
+    /// The ID of the action definition. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--action-definition-id")]
-    public string? ActionDefinitionId { get; set; }
+    public string? ActionDefinitionId { get; private init; }
 
+    /// <summary>
+    /// The JSON payload of the action. stringValue -&gt; (string) [required] The payload of the action in a JSON string. Constraints: o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: stringValue=string JSON Syntax: { "stringValue": "string" }
+    /// </summary>
     [CliOption("--action-payload")]
-    public string? ActionPayload { get; set; }
+    public string? ActionPayload { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -49,5 +100,21 @@ public record AwsIotsitewiseExecuteActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

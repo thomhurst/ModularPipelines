@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,34 +21,110 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "create-software-update-job")]
-public record AwsGreengrassCreateSoftwareUpdateJobOptions : AwsOptions
+public record AwsGreengrassCreateSoftwareUpdateJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software up- date job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3UrlSignerRole"></param>
+    /// <param name="SoftwareToUpdate"></param>
+    /// <param name="UpdateTargets"></param>
+    /// <param name="UpdateTargetsArchitecture"></param>
+    /// <param name="UpdateTargetsOperatingSystem"></param>
+    public AwsGreengrassCreateSoftwareUpdateJobOptions(
+        string S3UrlSignerRole,
+        string SoftwareToUpdate,
+        IEnumerable<string> UpdateTargets,
+        string UpdateTargetsArchitecture,
+        string UpdateTargetsOperatingSystem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3UrlSignerRole);
+        this.S3UrlSignerRole = S3UrlSignerRole;
+        global::System.ArgumentNullException.ThrowIfNull(SoftwareToUpdate);
+        this.SoftwareToUpdate = SoftwareToUpdate;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UpdateTargets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UpdateTargets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UpdateTargets));
+            }
+
+            UpdateTargets = materialized;
+        }
+        this.UpdateTargets = UpdateTargets;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateTargetsArchitecture);
+        this.UpdateTargetsArchitecture = UpdateTargetsArchitecture;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateTargetsOperatingSystem);
+        this.UpdateTargetsOperatingSystem = UpdateTargetsOperatingSystem;
+    }
+
+    private AwsGreengrassCreateSoftwareUpdateJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassCreateSoftwareUpdateJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassCreateSoftwareUpdateJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--s3-url-signer-role")]
+    public string? S3UrlSignerRole { get; private init; }
+
+    [CliOption("--software-to-update")]
+    public string? SoftwareToUpdate { get; private init; }
+
+    [CliOption("--update-targets", GroupValues = true)]
+    public IEnumerable<string>? UpdateTargets { get; private init; }
+
+    [CliOption("--update-targets-architecture")]
+    public string? UpdateTargetsArchitecture { get; private init; }
+
+    [CliOption("--update-targets-operating-system")]
+    public string? UpdateTargetsOperatingSystem { get; private init; }
+
     [SecretValue]
     [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CliOption("--s3-url-signer-role")]
-    public string? S3UrlSignerRole { get; set; }
-
-    [CliOption("--software-to-update")]
-    public string? SoftwareToUpdate { get; set; }
-
     [CliOption("--update-agent-log-level")]
     public string? UpdateAgentLogLevel { get; set; }
-
-    [CliOption("--update-targets", GroupValues = true)]
-    public IEnumerable<string>? UpdateTargets { get; set; }
-
-    [CliOption("--update-targets-architecture")]
-    public string? UpdateTargetsArchitecture { get; set; }
-
-    [CliOption("--update-targets-operating-system")]
-    public string? UpdateTargetsOperatingSystem { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

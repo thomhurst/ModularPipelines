@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-updated-image")]
-public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions
+public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--existing-image-name")]
-    public string? ExistingImageName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed Work- Spaces Applications Image Updates" section in Administer Your Work- Spaces Applications Images , in the Amazon WorkSpaces Applications Ad- ministration Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExistingImageName">The name of the image to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="NewImageName">The name of the new image. The name must be unique within the AWS account and Region. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    public AwsAppstreamCreateUpdatedImageOptions(
+        string ExistingImageName,
+        string NewImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExistingImageName);
+        this.ExistingImageName = ExistingImageName;
+        global::System.ArgumentNullException.ThrowIfNull(NewImageName);
+        this.NewImageName = NewImageName;
+    }
+
+    private AwsAppstreamCreateUpdatedImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateUpdatedImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateUpdatedImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
+    [CliOption("--existing-image-name")]
+    public string? ExistingImageName { get; private init; }
+
+    /// <summary>
+    /// The name of the new image. The name must be unique within the AWS account and Region. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--new-image-name")]
-    public string? NewImageName { get; set; }
+    public string? NewImageName { get; private init; }
 
     /// <summary>
     /// The description to display for the new image. Constraints: o max: 256
@@ -46,7 +90,10 @@ public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions
     [CliOption("--new-image-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NewImageTags { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true , WorkSpaces Appli- cations displays whether image updates are available. If this value is set to false , WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image up- dates are available.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -54,5 +101,21 @@ public record AwsAppstreamCreateUpdatedImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

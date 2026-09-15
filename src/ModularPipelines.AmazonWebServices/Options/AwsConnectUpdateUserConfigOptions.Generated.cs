@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-user-config")]
-public record AwsConnectUpdateUserConfigOptions : AwsOptions
+public record AwsConnectUpdateUserConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings. NOTE: This operation replaces the UpdateUserPhoneConfig API. While Upda- teUserPhoneConfig applies the same ACW timeout to all channels, Up- dateUserConfig allows you to set different auto-accept and ACW time- out values for each channel type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserId">The identifier of the user account.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateUserConfigOptions(
+        string UserId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateUserConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateUserConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateUserConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the user account.
+    /// </summary>
+    [CliOption("--user-id")]
+    public string? UserId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
     /// <summary>
     /// The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are au- tomatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second. (structure) Configuration settings for auto-accept for a specific channel. Channel -&gt; (string) [required] The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL. Possible values: o VOICE o CHAT o TASK o EMAIL AutoAccept -&gt; (boolean) [required] Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel. AgentFirstCallbackAutoAccept -&gt; (boolean) Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel. Shorthand Syntax: Channel=string,AutoAccept=boolean,AgentFirstCallbackAutoAccept=boolean ... JSON Syntax: [ { "Channel": "VOICE"|"CHAT"|"TASK"|"EMAIL", "AutoAccept": true|false, "AgentFirstCallbackAutoAccept": true|false } ... ]
     /// </summary>
@@ -51,16 +101,26 @@ public record AwsConnectUpdateUserConfigOptions : AwsOptions
     [CliOption("--voice-enhancement-configs", GroupValues = true)]
     public IEnumerable<string>? VoiceEnhancementConfigs { get; set; }
 
-    [CliOption("--user-id")]
-    public string? UserId { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "remove-tags-from-resource")]
-public record AwsElasticacheRemoveTagsFromResourceOptions : AwsOptions
+public record AwsElasticacheRemoveTagsFromResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .</param>
+    /// <param name="TagKeys">A list of TagKeys identifying the tags you want removed from the named resource. (string) Syntax: "string" "string" ...</param>
+    public AwsElasticacheRemoveTagsFromResourceOptions(
+        string ResourceName,
+        IEnumerable<string> TagKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeys));
+            }
+
+            TagKeys = materialized;
+        }
+        this.TagKeys = TagKeys;
+    }
+
+    private AwsElasticacheRemoveTagsFromResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheRemoveTagsFromResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheRemoveTagsFromResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .
+    /// </summary>
+    [CliOption("--resource-name")]
+    public string? ResourceName { get; private init; }
+
+    /// <summary>
+    /// A list of TagKeys identifying the tags you want removed from the named resource. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
-    public IEnumerable<string>? TagKeys { get; set; }
+    public IEnumerable<string>? TagKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

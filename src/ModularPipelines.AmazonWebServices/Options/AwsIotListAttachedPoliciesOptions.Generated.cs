@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-attached-policies")]
-public record AwsIotListAttachedPoliciesOptions : AwsOptions
+public record AwsIotListAttachedPoliciesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target")]
-    public string? Target { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// Lists the policies attached to the specified thing group. Requires permission to access the ListAttachedPolicies action. See also: AWS API Documentation list-attached-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// </summary>
+    /// <param name="Target">The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region :accountId :cert/certificateId ), thingGroupArn (arn:aws:iot:region :accountId :thinggroup/groupName ) and CognitoId (region :id ).</param>
+    public AwsIotListAttachedPoliciesOptions(
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsIotListAttachedPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListAttachedPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListAttachedPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region :accountId :cert/certificateId ), thingGroupArn (arn:aws:iot:region :accountId :thinggroup/groupName ) and CognitoId (region :id ).
+    /// </summary>
+    [CliOption("--target")]
+    public string? Target { get; private init; }
+
+    /// <summary>
+    /// When true, recursively list attached policies.
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -52,5 +92,21 @@ public record AwsIotListAttachedPoliciesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

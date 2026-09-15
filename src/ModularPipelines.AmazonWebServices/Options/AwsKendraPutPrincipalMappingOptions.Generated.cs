@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "put-principal-mapping")]
-public record AwsKendraPutPrincipalMappingOptions : AwsOptions
+public record AwsKendraPutPrincipalMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engi- neering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineer- ing, and therefore belong in the intellectual property group, can see top-secret company documents in their search resul...
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index you want to map users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="GroupId">The identifier of the group you want to map its users to. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$</param>
+    /// <param name="GroupMembers">The list that contains your users that belong the same group. This can include sub groups that belong to a group. For example, the group "Company A" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000. MemberGroups -&gt; (list) A list of users that belong to a group. This can also include sub groups. For example, the sub groups "Research", "Engineer- ing", and "Sales and Marketing" all belong to the group "Company A". Constraints: o min: 1 o max: 1000 (structure) The sub groups that belong to a group. GroupId -&gt; (string) [required] The identifier of the sub group you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$ DataSourceId -&gt; (string) The identifier of the data source for the sub group you want to map to a group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* MemberUsers -&gt; (list) A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group. Constraints: o min: 1 o max: 1000 (structure) The users that belong to a group. UserId -&gt; (string) [required] The identifier of the user you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$ S3PathforGroupMembers -&gt; (structure) If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can con- tain more than 1000 users, but the list of sub groups that be- long to a group (and/or users) must be no more than 1000. You can download this example S3 file that uses the correct for- mat for listing group members. Note, dataSourceId is optional. The value of type for a group is always GROUP and for a user it is always USER . Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: MemberGroups=[{GroupId=string,DataSourceId=string},{GroupId=string,DataSourceId=string}],MemberUsers=[{UserId=string},{UserId=string}],S3PathforGroupMembers={Bucket=string,Key=string} JSON Syntax: { "MemberGroups": [ { "GroupId": "string", "DataSourceId": "string" } ... ], "MemberUsers": [ { "UserId": "string" } ... ], "S3PathforGroupMembers": { "Bucket": "string", "Key": "string" } }</param>
+    public AwsKendraPutPrincipalMappingOptions(
+        string IndexId,
+        string GroupId,
+        string GroupMembers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupMembers);
+        this.GroupMembers = GroupMembers;
+    }
+
+    private AwsKendraPutPrincipalMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraPutPrincipalMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraPutPrincipalMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index you want to map users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the group you want to map its users to. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$
+    /// </summary>
+    [CliOption("--group-id")]
+    public string? GroupId { get; private init; }
+
+    /// <summary>
+    /// The list that contains your users that belong the same group. This can include sub groups that belong to a group. For example, the group "Company A" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000. MemberGroups -&gt; (list) A list of users that belong to a group. This can also include sub groups. For example, the sub groups "Research", "Engineer- ing", and "Sales and Marketing" all belong to the group "Company A". Constraints: o min: 1 o max: 1000 (structure) The sub groups that belong to a group. GroupId -&gt; (string) [required] The identifier of the sub group you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$ DataSourceId -&gt; (string) The identifier of the data source for the sub group you want to map to a group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* MemberUsers -&gt; (list) A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group. Constraints: o min: 1 o max: 1000 (structure) The users that belong to a group. UserId -&gt; (string) [required] The identifier of the user you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: ^\P{C}*$ S3PathforGroupMembers -&gt; (structure) If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can con- tain more than 1000 users, but the list of sub groups that be- long to a group (and/or users) must be no more than 1000. You can download this example S3 file that uses the correct for- mat for listing group members. Note, dataSourceId is optional. The value of type for a group is always GROUP and for a user it is always USER . Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: MemberGroups=[{GroupId=string,DataSourceId=string},{GroupId=string,DataSourceId=string}],MemberUsers=[{UserId=string},{UserId=string}],S3PathforGroupMembers={Bucket=string,Key=string} JSON Syntax: { "MemberGroups": [ { "GroupId": "string", "DataSourceId": "string" } ... ], "MemberUsers": [ { "UserId": "string" } ... ], "S3PathforGroupMembers": { "Bucket": "string", "Key": "string" } }
+    /// </summary>
+    [CliOption("--group-members")]
+    public string? GroupMembers { get; private init; }
 
     /// <summary>
     /// The identifier of the data source you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Market- ing" team only needs access to customer-related documents stored in Salesforce. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
-
-    [CliOption("--group-id")]
-    public string? GroupId { get; set; }
-
-    [CliOption("--group-members")]
-    public string? GroupMembers { get; set; }
 
     /// <summary>
     /// The timestamp identifier you specify to ensure Amazon Kendra doesn't override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping . This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by ear- lier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra. Constraints: o min: 0 o max: 32535158400000
@@ -53,5 +104,21 @@ public record AwsKendraPutPrincipalMappingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

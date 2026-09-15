@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "create-labels")]
-public record AwsWorkdocsCreateLabelsOptions : AwsOptions
+public record AwsWorkdocsCreateLabelsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds the specified list of labels to the given resource (a document or folder) See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="Labels">List of labels to add to the resource. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...</param>
+    public AwsWorkdocsCreateLabelsOptions(
+        string ResourceId,
+        IEnumerable<string> Labels
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+    }
+
+    private AwsWorkdocsCreateLabelsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsCreateLabelsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsCreateLabelsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// List of labels to add to the resource. Constraints: o max: 20 (string) Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--labels", GroupValues = true)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels { get; private init; }
 
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
@@ -40,5 +95,21 @@ public record AwsWorkdocsCreateLabelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

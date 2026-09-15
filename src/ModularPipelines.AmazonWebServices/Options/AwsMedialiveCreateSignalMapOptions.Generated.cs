@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "create-signal-map")]
-public record AwsMedialiveCreateSignalMapOptions : AwsOptions
+public record AwsMedialiveCreateSignalMapOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates the creation of a new signal map. Will discover a new medi- aResourceMap based on the provided discoveryEntryPointArn. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DiscoveryEntryPointArn"></param>
+    /// <param name="Name"></param>
+    public AwsMedialiveCreateSignalMapOptions(
+        string DiscoveryEntryPointArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveryEntryPointArn);
+        this.DiscoveryEntryPointArn = DiscoveryEntryPointArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMedialiveCreateSignalMapOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveCreateSignalMapOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveCreateSignalMapOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--discovery-entry-point-arn")]
+    public string? DiscoveryEntryPointArn { get; private init; }
+
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     [CliOption("--cloud-watch-alarm-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? CloudWatchAlarmTemplateGroupIdentifiers { get; set; }
 
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--discovery-entry-point-arn")]
-    public string? DiscoveryEntryPointArn { get; set; }
-
     [CliOption("--event-bridge-rule-template-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? EventBridgeRuleTemplateGroupIdentifiers { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -48,5 +86,21 @@ public record AwsMedialiveCreateSignalMapOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

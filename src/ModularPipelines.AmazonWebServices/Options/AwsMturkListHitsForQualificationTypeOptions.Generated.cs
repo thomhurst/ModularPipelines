@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "list-hits-for-qualification-type")]
-public record AwsMturkListHitsForQualificationTypeOptions : AwsOptions
+public record AwsMturkListHitsForQualificationTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The ListHITsForQualificationType operation returns the HITs that use the given Qualification type for a Qualification requirement. The oper- ation returns HITs of any status, except for HITs that have been deleted with the DeleteHIT operation or that have been auto-deleted. See also: AWS API Documentation list-hits-for-qualification-type is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --...
+    /// </summary>
+    /// <param name="QualificationTypeId">The ID of the Qualification type to use when querying HITs. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkListHitsForQualificationTypeOptions(
+        string QualificationTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeId);
+        this.QualificationTypeId = QualificationTypeId;
+    }
+
+    private AwsMturkListHitsForQualificationTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkListHitsForQualificationTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkListHitsForQualificationTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification type to use when querying HITs. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--qualification-type-id")]
-    public string? QualificationTypeId { get; set; }
+    public string? QualificationTypeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsMturkListHitsForQualificationTypeOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

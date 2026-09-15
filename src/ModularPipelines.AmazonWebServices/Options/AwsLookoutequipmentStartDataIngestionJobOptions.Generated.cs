@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "start-data-ingestion-job")]
-public record AwsLookoutequipmentStartDataIngestionJobOptions : AwsOptions
+public record AwsLookoutequipmentStartDataIngestionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetName">The name of the dataset being used by the data ingestion job. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="IngestionInputConfiguration">Specifies information for the input data for the data ingestion job, including dataset S3 location. S3InputConfiguration -&gt; (structure) [required] The location information for the S3 bucket used for input data for the data ingestion. Bucket -&gt; (string) [required] The name of the S3 bucket used for the input data for the data ingestion. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 location being used for the input data for the data ingestion. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KeyPattern -&gt; (string) The pattern for matching the Amazon S3 files that will be used for ingestion. If the schema was created previously without any KeyPattern, then the default KeyPattern {pre- fix}/{component_name}/* is used to download files from Amazon S3 according to the schema. This field is required when in- gestion is being done for the first time. Valid Values: {prefix}/{component_name}_* | {prefix}/{compo- nent_name}/* | {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot, underscore, hyphen) Constraints: o min: 1 o max: 2048 Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string,KeyPattern=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string", "KeyPattern": "string" } }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of a role with permission to access the data source for the data ingestion job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    public AwsLookoutequipmentStartDataIngestionJobOptions(
+        string DataSetName,
+        string IngestionInputConfiguration,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionInputConfiguration);
+        this.IngestionInputConfiguration = IngestionInputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsLookoutequipmentStartDataIngestionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentStartDataIngestionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentStartDataIngestionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dataset being used by the data ingestion job. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
 
+    /// <summary>
+    /// Specifies information for the input data for the data ingestion job, including dataset S3 location. S3InputConfiguration -&gt; (structure) [required] The location information for the S3 bucket used for input data for the data ingestion. Bucket -&gt; (string) [required] The name of the S3 bucket used for the input data for the data ingestion. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 location being used for the input data for the data ingestion. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) KeyPattern -&gt; (string) The pattern for matching the Amazon S3 files that will be used for ingestion. If the schema was created previously without any KeyPattern, then the default KeyPattern {pre- fix}/{component_name}/* is used to download files from Amazon S3 according to the schema. This field is required when in- gestion is being done for the first time. Valid Values: {prefix}/{component_name}_* | {prefix}/{compo- nent_name}/* | {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot, underscore, hyphen) Constraints: o min: 1 o max: 2048 Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string,KeyPattern=string} JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string", "KeyPattern": "string" } }
+    /// </summary>
     [CliOption("--ingestion-input-configuration")]
-    public string? IngestionInputConfiguration { get; set; }
+    public string? IngestionInputConfiguration { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source for the data ingestion job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
@@ -43,5 +94,21 @@ public record AwsLookoutequipmentStartDataIngestionJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

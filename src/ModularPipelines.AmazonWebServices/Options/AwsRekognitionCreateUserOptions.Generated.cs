@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "create-user")]
-public record AwsRekognitionCreateUserOptions : AwsOptions
+public record AwsRekognitionCreateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to Crea- teUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error ...
+    /// </summary>
+    /// <param name="CollectionId">The ID of an existing collection to which the new UserID needs to be created. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
+    public AwsRekognitionCreateUserOptions(
+        string CollectionId,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsRekognitionCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an existing collection to which the new UserID needs to be created. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
+    [CliOption("--collection-id")]
+    public string? CollectionId { get; private init; }
+
+    /// <summary>
+    /// ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     /// <summary>
     /// Idempotent token used to identify the request to CreateUser . If you use the same token with multiple CreateUser requests, the same re- sponse is returned. Use ClientRequestToken to prevent the same re- quest from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -40,5 +84,21 @@ public record AwsRekognitionCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

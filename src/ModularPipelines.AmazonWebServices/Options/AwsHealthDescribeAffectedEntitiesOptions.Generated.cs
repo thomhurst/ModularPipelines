@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("health", "describe-affected-entities")]
-public record AwsHealthDescribeAffectedEntitiesOptions : AwsOptions
+public record AwsHealthDescribeAffectedEntitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the ex- tent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. NOTE: o This API operation uses pagination. ...
+    /// </summary>
+    /// <param name="Filter">Values to narrow the results returned. At least one event ARN is re- quired. eventArns -&gt; (list) [required] A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} entityArns -&gt; (list) A list of entity ARNs (unique identifiers). Constraints: o min: 1 o max: 99 (string) Constraints: o max: 1600 o pattern: .{0,1600} entityValues -&gt; (list) A list of IDs for affected entities. Constraints: o min: 1 o max: 99 (string) Constraints: o max: 1224 o pattern: .{0,1224} lastUpdatedTimes -&gt; (list) A list of the most recent dates and times that the entity was updated. Constraints: o min: 1 o max: 10 (structure) A range of dates and times that is used by the EventFilter and EntityFilter objects. If from is set and to is set: match items where the timestamp (startTime , endTime , or lastUp- datedTime ) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from . If from is not set and to is set: match items where the timestamp value is equal to or before to . from -&gt; (timestamp) The starting date and time of a time range. to -&gt; (timestamp) The ending date and time of a time range. tags -&gt; (list) A map of entity tags attached to the affected entity. NOTE: Currently, the tags property isn't supported. Constraints: o max: 50 (map) Constraints: o max: 50 key -&gt; (string) Constraints: o max: 127 o pattern: .{0,127} value -&gt; (string) Constraints: o max: 255 o pattern: .{0,255} statusCodes -&gt; (list) A list of entity status codes (IMPAIRED , UNIMPAIRED , or UN- KNOWN ). Constraints: o min: 1 o max: 5 (string) Possible values: o IMPAIRED o UNIMPAIRED o UNKNOWN o PENDING o RESOLVED Shorthand Syntax: eventArns=string,string,entityArns=string,string,entityValues=string,string,lastUpdatedTimes=[{from=timestamp,to=timestamp},{from=timestamp,to=timestamp}],tags=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}],statusCodes=string,string JSON Syntax: { "eventArns": ["string", ...], "entityArns": ["string", ...], "entityValues": ["string", ...], "lastUpdatedTimes": [ { "from": timestamp, "to": timestamp } ... ], "tags": [ {"string": "string" ...} ... ], "statusCodes": ["IMPAIRED"|"UNIMPAIRED"|"UNKNOWN"|"PENDING"|"RESOLVED", ...] }</param>
+    public AwsHealthDescribeAffectedEntitiesOptions(
+        string Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsHealthDescribeAffectedEntitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthDescribeAffectedEntitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthDescribeAffectedEntitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Values to narrow the results returned. At least one event ARN is re- quired. eventArns -&gt; (list) [required] A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} entityArns -&gt; (list) A list of entity ARNs (unique identifiers). Constraints: o min: 1 o max: 99 (string) Constraints: o max: 1600 o pattern: .{0,1600} entityValues -&gt; (list) A list of IDs for affected entities. Constraints: o min: 1 o max: 99 (string) Constraints: o max: 1224 o pattern: .{0,1224} lastUpdatedTimes -&gt; (list) A list of the most recent dates and times that the entity was updated. Constraints: o min: 1 o max: 10 (structure) A range of dates and times that is used by the EventFilter and EntityFilter objects. If from is set and to is set: match items where the timestamp (startTime , endTime , or lastUp- datedTime ) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from . If from is not set and to is set: match items where the timestamp value is equal to or before to . from -&gt; (timestamp) The starting date and time of a time range. to -&gt; (timestamp) The ending date and time of a time range. tags -&gt; (list) A map of entity tags attached to the affected entity. NOTE: Currently, the tags property isn't supported. Constraints: o max: 50 (map) Constraints: o max: 50 key -&gt; (string) Constraints: o max: 127 o pattern: .{0,127} value -&gt; (string) Constraints: o max: 255 o pattern: .{0,255} statusCodes -&gt; (list) A list of entity status codes (IMPAIRED , UNIMPAIRED , or UN- KNOWN ). Constraints: o min: 1 o max: 5 (string) Possible values: o IMPAIRED o UNIMPAIRED o UNKNOWN o PENDING o RESOLVED Shorthand Syntax: eventArns=string,string,entityArns=string,string,entityValues=string,string,lastUpdatedTimes=[{from=timestamp,to=timestamp},{from=timestamp,to=timestamp}],tags=[{KeyName1=string,KeyName2=string},{KeyName1=string,KeyName2=string}],statusCodes=string,string JSON Syntax: { "eventArns": ["string", ...], "entityArns": ["string", ...], "entityValues": ["string", ...], "lastUpdatedTimes": [ { "from": timestamp, "to": timestamp } ... ], "tags": [ {"string": "string" ...} ... ], "statusCodes": ["IMPAIRED"|"UNIMPAIRED"|"UNKNOWN"|"PENDING"|"RESOLVED", ...] }
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public string? Filter { get; private init; }
 
     /// <summary>
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
@@ -55,5 +92,21 @@ public record AwsHealthDescribeAffectedEntitiesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

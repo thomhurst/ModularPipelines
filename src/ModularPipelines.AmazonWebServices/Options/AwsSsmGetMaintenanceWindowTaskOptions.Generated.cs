@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-maintenance-window-task")]
-public record AwsSsmGetMaintenanceWindowTaskOptions : AwsOptions
+public record AwsSsmGetMaintenanceWindowTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--window-id")]
-    public string? WindowId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the details of a maintenance window task. NOTE: For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency . Instead, the system inserts a placeholder value of 1 , which may be reported in the response to this command. These values don't affect the running of your task and can be ignored. To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command. See also: AWS API Documentatio...
+    /// </summary>
+    /// <param name="WindowId">The maintenance window ID that includes the task to retrieve. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTaskId">The maintenance window task ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    public AwsSsmGetMaintenanceWindowTaskOptions(
+        string WindowId,
+        string WindowTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowId);
+        this.WindowId = WindowId;
+        global::System.ArgumentNullException.ThrowIfNull(WindowTaskId);
+        this.WindowTaskId = WindowTaskId;
+    }
+
+    private AwsSsmGetMaintenanceWindowTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetMaintenanceWindowTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetMaintenanceWindowTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The maintenance window ID that includes the task to retrieve. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// </summary>
+    [CliOption("--window-id")]
+    public string? WindowId { get; private init; }
+
+    /// <summary>
+    /// The maintenance window task ID to retrieve. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--window-task-id")]
-    public string? WindowTaskId { get; set; }
+    public string? WindowTaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

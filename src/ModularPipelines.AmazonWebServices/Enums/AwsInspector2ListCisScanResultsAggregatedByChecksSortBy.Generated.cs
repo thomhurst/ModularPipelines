@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortby.
+/// Allowed values for --sort-by.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScanResultsAggregatedByChecksSortBy
 {
     [EnumValue("CHECK_ID")]
-    CheckId = 1,
-
-    [EnumValue("TITLE")]
-    Title = 2,
-
-    [EnumValue("PLATFORM")]
-    Platform = 3,
+    CheckId,
 
     [EnumValue("FAILED_COUNTS")]
-    FailedCounts = 4,
+    FailedCounts,
+
+    [EnumValue("PLATFORM")]
+    Platform,
 
     [EnumValue("SECURITY_LEVEL")]
-    SecurityLevel = 5
+    SecurityLevel,
+
+    [EnumValue("TITLE")]
+    Title
 }

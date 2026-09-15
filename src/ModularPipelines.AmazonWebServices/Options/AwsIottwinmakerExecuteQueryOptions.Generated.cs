@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iottwinmaker", "execute-query")]
-public record AwsIottwinmakerExecuteQueryOptions : AwsOptions
+public record AwsIottwinmakerExecuteQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces. NOTE: The ExecuteQuery action only works with Amazon Web Services Java SDK2 . ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x. See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested paramete...
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="QueryStatement">The query statement. Constraints: o min: 1 o max: 1000 o pattern: [\s\S]+</param>
+    public AwsIottwinmakerExecuteQueryOptions(
+        string WorkspaceId,
+        string QueryStatement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        global::System.ArgumentNullException.ThrowIfNull(QueryStatement);
+        this.QueryStatement = QueryStatement;
+    }
+
+    private AwsIottwinmakerExecuteQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIottwinmakerExecuteQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIottwinmakerExecuteQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The query statement. Constraints: o min: 1 o max: 1000 o pattern: [\s\S]+
+    /// </summary>
     [CliOption("--query-statement")]
-    public string? QueryStatement { get; set; }
+    public string? QueryStatement { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return at one time. The default is 50. Constraints: o min: 1 o max: 100
@@ -46,5 +90,21 @@ public record AwsIottwinmakerExecuteQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

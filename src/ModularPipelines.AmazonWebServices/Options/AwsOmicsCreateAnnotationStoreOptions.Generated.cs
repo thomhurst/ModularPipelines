@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "create-annotation-store")]
-public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions
+public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Creates an annotation store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StoreFormat">The annotation file format of the store. Possible values: o GFF o TSV o VCF</param>
+    public AwsOmicsCreateAnnotationStoreOptions(
+        AwsOmicsCreateAnnotationStoreStoreFormat StoreFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StoreFormat);
+        this.StoreFormat = StoreFormat;
+    }
+
+    private AwsOmicsCreateAnnotationStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsCreateAnnotationStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsCreateAnnotationStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The annotation file format of the store. Possible values: o GFF o TSV o VCF
+    /// </summary>
+    [CliOption("--store-format")]
+    public AwsOmicsCreateAnnotationStoreStoreFormat? StoreFormat { get; private init; }
+
     /// <summary>
     /// The genome reference for the store's annotations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: referenceArn. referenceArn -&gt; (string) The reference's ARN. Constraints: o min: 1 o max: 127 o pattern: arn:.+ Shorthand Syntax: referenceArn=string JSON Syntax: { "referenceArn": "string" }
     /// </summary>
@@ -58,9 +99,6 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions
     [CliOption("--sse-config")]
     public string? SseConfig { get; set; }
 
-    [CliOption("--store-format")]
-    public string? StoreFormat { get; set; }
-
     /// <summary>
     /// File parsing options for the annotation store. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvStoreOptions. tsvStoreOptions -&gt; (structure) File settings for a TSV store. annotationType -&gt; (string) The store's annotation type. Possible values: o GENERIC o CHR_POS o CHR_POS_REF_ALT o CHR_START_END_ONE_BASE o CHR_START_END_REF_ALT_ONE_BASE o CHR_START_END_ZERO_BASE o CHR_START_END_REF_ALT_ZERO_BASE formatToHeader -&gt; (map) The store's header key to column name mapping. key -&gt; (string) Possible values: o CHR o START o END o REF o ALT o POS value -&gt; (string) Constraints: o min: 0 o max: 1000 schema -&gt; (list) The store's schema. Constraints: o min: 1 o max: 5000 (map) Constraints: o min: 1 o max: 1 key -&gt; (string) Constraints: o pattern: [a-z0-9_]{1,255} value -&gt; (string) Possible values: o LONG o INT o STRING o FLOAT o DOUBLE o BOOLEAN JSON Syntax: { "tsvStoreOptions": { "annotationType": "GENERIC"|"CHR_POS"|"CHR_POS_REF_ALT"|"CHR_START_END_ONE_BASE"|"CHR_START_END_REF_ALT_ONE_BASE"|"CHR_START_END_ZERO_BASE"|"CHR_START_END_REF_ALT_ZERO_BASE", "formatToHeader": {"CHR"|"START"|"END"|"REF"|"ALT"|"POS": "string" ...}, "schema": [ {"string": "LONG"|"INT"|"STRING"|"FLOAT"|"DOUBLE"|"BOOLEAN" ...} ... ] } }
     /// </summary>
@@ -72,5 +110,21 @@ public record AwsOmicsCreateAnnotationStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

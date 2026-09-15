@@ -22,7 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("ec2", "describe-launch-template-versions")]
 public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
 {
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -61,10 +64,16 @@ public record AwsEc2DescribeLaunchTemplateVersionsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--resolve-alias")]
+    /// <summary>
+    /// If true , and if a Systems Manager parameter is specified for Im- ageId , the AMI ID is displayed in the response for imageId . If false , and if a Systems Manager parameter is specified for Im- ageId , the parameter is displayed in the response for imageId . For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide . Default: false
+    /// </summary>
+    [CliFlag("--resolve-alias", NegatedName = "--no-resolve-alias")]
     public bool? ResolveAlias { get; set; }
 
-    [CliFlag("--include-managed-resources")]
+    /// <summary>
+    /// Indicates whether to include managed resources in the output. If this parameter is set to true , the output includes resources that are managed by Amazon Web Services services, even if managed re- source visibility is set to hidden.
+    /// </summary>
+    [CliFlag("--include-managed-resources", NegatedName = "--no-include-managed-resources")]
     public bool? IncludeManagedResources { get; set; }
 
     [CliOption("--cli-input-json")]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-runtime", "apply-guardrail")]
-public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions
+public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The action to apply a guardrail. For troubleshooting some of the common errors you might encounter when using the ApplyGuardrail API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GuardrailIdentifier">The guardrail identifier used in the request to apply the guardrail. Constraints: o min: 0 o max: 2048 o pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))</param>
+    /// <param name="GuardrailVersion">The guardrail version used in the request to apply the guardrail. Constraints: o pattern: (|([1-9][0-9]{0,7})|(DRAFT))</param>
+    /// <param name="Source">The source of data used in the request to apply the guardrail. Possible values: o INPUT o OUTPUT</param>
+    /// <param name="Content">The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: o grounding_source o query o guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: o png o jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Ob- ject used in independent api. Constraints: o min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]</param>
+    public AwsBedrockRuntimeApplyGuardrailOptions(
+        string GuardrailIdentifier,
+        string GuardrailVersion,
+        AwsBedrockRuntimeApplyGuardrailSource Source,
+        IEnumerable<string> Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GuardrailIdentifier);
+        this.GuardrailIdentifier = GuardrailIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(GuardrailVersion);
+        this.GuardrailVersion = GuardrailVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Content);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Content));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Content));
+            }
+
+            Content = materialized;
+        }
+        this.Content = Content;
+    }
+
+    private AwsBedrockRuntimeApplyGuardrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockRuntimeApplyGuardrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockRuntimeApplyGuardrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The guardrail identifier used in the request to apply the guardrail. Constraints: o min: 0 o max: 2048 o pattern: (|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))
+    /// </summary>
     [CliOption("--guardrail-identifier")]
-    public string? GuardrailIdentifier { get; set; }
+    public string? GuardrailIdentifier { get; private init; }
 
+    /// <summary>
+    /// The guardrail version used in the request to apply the guardrail. Constraints: o pattern: (|([1-9][0-9]{0,7})|(DRAFT))
+    /// </summary>
     [CliOption("--guardrail-version")]
-    public string? GuardrailVersion { get; set; }
+    public string? GuardrailVersion { get; private init; }
 
+    /// <summary>
+    /// The source of data used in the request to apply the guardrail. Possible values: o INPUT o OUTPUT
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public AwsBedrockRuntimeApplyGuardrailSource? Source { get; private init; }
 
+    /// <summary>
+    /// The content details used in the request to apply the guardrail. (tagged union structure) The content block to be evaluated by the guardrail. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, image. text -&gt; (structure) Text within content block to be evaluated by the guardrail. text -&gt; (string) [required] The input text details to be evaluated by the guardrail. qualifiers -&gt; (list) The qualifiers describing the text block. (string) Possible values: o grounding_source o query o guard_content image -&gt; (structure) Image within guardrail content block to be evaluated by the guardrail. format -&gt; (string) [required] The format details for the file type of the image blocked by the guardrail. Possible values: o png o jpeg source -&gt; (tagged union structure) [required] The image source (image bytes) details of the image blocked by the guardrail. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: bytes. bytes -&gt; (blob) The bytes details of the guardrail image source. Ob- ject used in independent api. Constraints: o min: 1 Shorthand Syntax: text={text=string,qualifiers=[string,string]},image={format=string,source={bytes=blob}} ... JSON Syntax: [ { "text": { "text": "string", "qualifiers": ["grounding_source"|"query"|"guard_content", ...] }, "image": { "format": "png"|"jpeg", "source": { "bytes": blob } } } ... ]
+    /// </summary>
     [CliOption("--content", GroupValues = true)]
-    public IEnumerable<string>? Content { get; set; }
+    public IEnumerable<string>? Content { get; private init; }
 
     /// <summary>
     /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII). Possible values: o INTERVENTIONS o FULL
@@ -45,5 +114,21 @@ public record AwsBedrockRuntimeApplyGuardrailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-authorizer")]
-public record AwsApigatewayCreateAuthorizerOptions : AwsOptions
+public record AwsApigatewayCreateAuthorizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a new Authorizer resource to an existing RestApi resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="Name">The name of the authorizer.</param>
+    /// <param name="Type">The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, RE- QUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: o TOKEN o REQUEST o COGNITO_USER_POOLS</param>
+    public AwsApigatewayCreateAuthorizerOptions(
+        string RestApiId,
+        string Name,
+        AwsApigatewayCreateAuthorizerType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsApigatewayCreateAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// The name of the authorizer.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, RE- QUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool. Possible values: o TOKEN o REQUEST o COGNITO_USER_POOLS
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsApigatewayCreateAuthorizerType? Type { get; private init; }
 
     /// <summary>
     /// A list of the Amazon Cognito user pool ARNs for the COG- NITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id} . For a TOKEN or REQUEST authorizer, this is not defined. (string) Syntax: "string" "string" ...
@@ -79,5 +131,21 @@ public record AwsApigatewayCreateAuthorizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

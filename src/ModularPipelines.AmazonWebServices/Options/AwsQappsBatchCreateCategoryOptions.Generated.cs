@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "batch-create-category")]
-public record AwsQappsBatchCreateCategoryOptions : AwsOptions
+public record AwsQappsBatchCreateCategoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="Categories">The list of category objects to be created Constraints: o min: 0 o max: 10 (structure) The category object to be created. id -&gt; (string) The unique identifier to be associated with a category. If you don't include a value, the category is automatically as- signed a unique identifier. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color to be associated with a category. The color must be a hexadecimal value of either 3 or 6 digits. Constraints: o min: 4 o max: 7 o pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]</param>
+    public AwsQappsBatchCreateCategoryOptions(
+        string InstanceId,
+        IEnumerable<string> Categories
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Categories);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Categories));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Categories));
+            }
+
+            Categories = materialized;
+        }
+        this.Categories = Categories;
+    }
+
+    private AwsQappsBatchCreateCategoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsBatchCreateCategoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsBatchCreateCategoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The list of category objects to be created Constraints: o min: 0 o max: 10 (structure) The category object to be created. id -&gt; (string) The unique identifier to be associated with a category. If you don't include a value, the category is automatically as- signed a unique identifier. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12} title -&gt; (string) [required] The name of the category. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9_]+( [a-zA-Z0-9_]+)* color -&gt; (string) The color to be associated with a category. The color must be a hexadecimal value of either 3 or 6 digits. Constraints: o min: 4 o max: 7 o pattern: #([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}) Shorthand Syntax: id=string,title=string,color=string ... JSON Syntax: [ { "id": "string", "title": "string", "color": "string" } ... ]
+    /// </summary>
     [CliOption("--categories", GroupValues = true)]
-    public IEnumerable<string>? Categories { get; set; }
+    public IEnumerable<string>? Categories { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

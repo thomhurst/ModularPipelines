@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "get-recommendations")]
-public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions
+public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of ` Recommendation https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Recommendation.html`__ objects that contain recommendations for a profiling group for a given time period. A list of ` Anomaly https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Anomaly.html`__ objects that contains details about anomalies detected in the profiling group for the same time period is also returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndTime">The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to get analysis data about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="StartTime">The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.</param>
+    public AwsCodeguruprofilerGetRecommendationsOptions(
+        string EndTime,
+        string ProfilingGroupName,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    private AwsCodeguruprofilerGetRecommendationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerGetRecommendationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerGetRecommendationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group to get analysis data about. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
+    /// <summary>
+    /// The end time of the profile to get analysis data about. You must specify startTime and endTime . This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
 
     /// <summary>
     /// The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes. o de-DE - German, Germany o en-GB - English, United Kingdom o en-US - English, United States o es-ES - Spanish, Spain o fr-FR - French, France o it-IT - Italian, Italy o ja-JP - Japanese, Japan o ko-KR - Korean, Republic of Korea o pt-BR - Portugese, Brazil o zh-CN - Chinese, China o zh-TW - Chinese, Taiwan
@@ -30,16 +87,26 @@ public record AwsCodeguruprofilerGetRecommendationsOptions : AwsOptions
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

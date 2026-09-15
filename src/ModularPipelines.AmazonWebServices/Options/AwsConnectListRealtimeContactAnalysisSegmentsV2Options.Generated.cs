@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "list-realtime-contact-analysis-segments-v2")]
-public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOptions
+public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides a list of analysis segments for a real-time chat analysis ses- sion. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
+    /// <param name="OutputType">The Contact Lens output type to be returned. Possible values: o Raw o Redacted</param>
+    /// <param name="SegmentTypes">Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of sup- ported segment types. Constraints: o max: 7 (string) Possible values: o Transcript o Categories o Issues o Event o Attachments o PostContactSummary o ExtractedInformation Syntax: "string" "string" ...</param>
+    public AwsConnectListRealtimeContactAnalysisSegmentsV2Options(
+        string InstanceId,
+        string ContactId,
+        AwsConnectListRealtimeContactAnalysisSegmentsV2OutputType OutputType,
+        IEnumerable<string> SegmentTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(OutputType);
+        this.OutputType = OutputType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SegmentTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SegmentTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SegmentTypes));
+            }
+
+            SegmentTypes = materialized;
+        }
+        this.SegmentTypes = SegmentTypes;
+    }
+
+    private AwsConnectListRealtimeContactAnalysisSegmentsV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectListRealtimeContactAnalysisSegmentsV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectListRealtimeContactAnalysisSegmentsV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
+
+    /// <summary>
+    /// The Contact Lens output type to be returned. Possible values: o Raw o Redacted
+    /// </summary>
+    [CliOption("--output-type")]
+    public AwsConnectListRealtimeContactAnalysisSegmentsV2OutputType? OutputType { get; private init; }
+
+    /// <summary>
+    /// Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of sup- ported segment types. Constraints: o max: 7 (string) Possible values: o Transcript o Categories o Issues o Event o Attachments o PostContactSummary o ExtractedInformation Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--segment-types", GroupValues = true)]
+    public IEnumerable<string>? SegmentTypes { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
@@ -41,16 +117,26 @@ public record AwsConnectListRealtimeContactAnalysisSegmentsV2Options : AwsOption
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--output-type")]
-    public string? OutputType { get; set; }
-
-    [CliOption("--segment-types", GroupValues = true)]
-    public IEnumerable<string>? SegmentTypes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

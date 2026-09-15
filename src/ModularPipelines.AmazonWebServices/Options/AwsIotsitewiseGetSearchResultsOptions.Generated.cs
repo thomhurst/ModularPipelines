@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "get-search-results")]
-public record AwsIotsitewiseGetSearchResultsOptions : AwsOptions
+public record AwsIotsitewiseGetSearchResultsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--search-id")]
-    public string? SearchId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the ranked results of a search, ordered by descending rele- vance score. Results are available only after the search has reached the SUCCEEDED status. Calling this on a search that exists but has not yet completed returns InvalidRequestException , while calling it on a search that does not exist returns ResourceNotFoundException . The re- sponse is paginated: when nextToken is present, pass it on a subsequent call to retrieve the next page. See also: AWS API Documentation get-search-re...
+    /// </summary>
+    /// <param name="SearchId">The identifier of the search whose results are retrieved. Constraints: o min: 23 o max: 36 o pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*</param>
+    /// <param name="WorkspaceName">The name of the workspace the search belongs to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    public AwsIotsitewiseGetSearchResultsOptions(
+        string SearchId,
+        string WorkspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SearchId);
+        this.SearchId = SearchId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+    }
+
+    private AwsIotsitewiseGetSearchResultsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseGetSearchResultsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseGetSearchResultsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the search whose results are retrieved. Constraints: o min: 23 o max: 36 o pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--search-id")]
+    public string? SearchId { get; private init; }
+
+    /// <summary>
+    /// The name of the workspace the search belongs to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsIotsitewiseGetSearchResultsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

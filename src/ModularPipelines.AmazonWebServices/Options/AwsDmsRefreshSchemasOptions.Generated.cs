@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "refresh-schemas")]
-public record AwsDmsRefreshSchemasOptions : AwsOptions
+public record AwsDmsRefreshSchemasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-arn")]
-    public string? EndpointArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Populates the schema for the specified endpoint. This is an asynchro- nous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus opera- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointArn">The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.</param>
+    /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
+    public AwsDmsRefreshSchemasOptions(
+        string EndpointArn,
+        string ReplicationInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointArn);
+        this.EndpointArn = EndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
+        this.ReplicationInstanceArn = ReplicationInstanceArn;
+    }
+
+    private AwsDmsRefreshSchemasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsRefreshSchemasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsRefreshSchemasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+    /// </summary>
+    [CliOption("--endpoint-arn")]
+    public string? EndpointArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication instance.
+    /// </summary>
     [CliOption("--replication-instance-arn")]
-    public string? ReplicationInstanceArn { get; set; }
+    public string? ReplicationInstanceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

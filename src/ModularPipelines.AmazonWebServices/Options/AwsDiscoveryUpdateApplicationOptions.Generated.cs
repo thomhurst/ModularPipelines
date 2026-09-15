@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "update-application")]
-public record AwsDiscoveryUpdateApplicationOptions : AwsOptions
+public record AwsDiscoveryUpdateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates metadata about an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationId">Configuration ID of the application to be updated. Constraints: o max: 200 o pattern: \S+</param>
+    public AwsDiscoveryUpdateApplicationOptions(
+        string ConfigurationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationId);
+        this.ConfigurationId = ConfigurationId;
+    }
+
+    private AwsDiscoveryUpdateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryUpdateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryUpdateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Configuration ID of the application to be updated. Constraints: o max: 200 o pattern: \S+
+    /// </summary>
     [CliOption("--configuration-id")]
-    public string? ConfigurationId { get; set; }
+    public string? ConfigurationId { get; private init; }
 
     /// <summary>
     /// New name of the application to be updated. Constraints: o max: 127 o pattern: [\s\S]*\S[\s\S]*
@@ -47,5 +84,21 @@ public record AwsDiscoveryUpdateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

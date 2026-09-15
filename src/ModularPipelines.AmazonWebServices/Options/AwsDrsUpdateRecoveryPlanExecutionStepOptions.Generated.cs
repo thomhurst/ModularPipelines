@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-recovery-plan-execution-step")]
-public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions
+public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPlanExecutionStepArn">The ARN of the execution step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    public AwsDrsUpdateRecoveryPlanExecutionStepOptions(
+        string RecoveryPlanExecutionStepArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanExecutionStepArn);
+        this.RecoveryPlanExecutionStepArn = RecoveryPlanExecutionStepArn;
+    }
+
+    private AwsDrsUpdateRecoveryPlanExecutionStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateRecoveryPlanExecutionStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateRecoveryPlanExecutionStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the execution step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// </summary>
     [CliOption("--recovery-plan-execution-step-arn")]
-    public string? RecoveryPlanExecutionStepArn { get; set; }
+    public string? RecoveryPlanExecutionStepArn { get; private init; }
 
     /// <summary>
     /// Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED sta- tus. Possible values: o NOT_STARTED o EXECUTING o WAITING o COMPLETED o FAILED o TIMED_OUT o SKIPPED
@@ -48,5 +85,21 @@ public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

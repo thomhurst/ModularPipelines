@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "create-event-bridge-rule-template")]
-public record AwsMedialiveCreateEventBridgeRuleTemplateOptions : AwsOptions
+public record AwsMedialiveCreateEventBridgeRuleTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an eventbridge rule template to monitor events and send notifi- cations to your targeted resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventType"></param>
+    /// <param name="GroupIdentifier"></param>
+    /// <param name="Name"></param>
+    public AwsMedialiveCreateEventBridgeRuleTemplateOptions(
+        string EventType,
+        string GroupIdentifier,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+        global::System.ArgumentNullException.ThrowIfNull(GroupIdentifier);
+        this.GroupIdentifier = GroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsMedialiveCreateEventBridgeRuleTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveCreateEventBridgeRuleTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveCreateEventBridgeRuleTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--event-type")]
+    public string? EventType { get; private init; }
+
+    [CliOption("--group-identifier")]
+    public string? GroupIdentifier { get; private init; }
+
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     [CliOption("--description")]
     public string? Description { get; set; }
 
     [CliOption("--event-targets", GroupValues = true)]
     public IEnumerable<string>? EventTargets { get; set; }
-
-    [CliOption("--event-type")]
-    public string? EventType { get; set; }
-
-    [CliOption("--group-identifier")]
-    public string? GroupIdentifier { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -48,5 +90,21 @@ public record AwsMedialiveCreateEventBridgeRuleTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

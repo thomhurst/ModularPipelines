@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "delete-recommendation-preferences")]
-public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOptions
+public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle</param>
+    /// <param name="RecommendationPreferenceNames">The name of the recommendation preference to delete. (string) Possible values: o EnhancedInfrastructureMetrics o InferredWorkloadTypes o ExternalMetricsPreference o LookBackPeriodPreference o PreferredResources o UtilizationPreferences Syntax: "string" "string" ...</param>
+    public AwsComputeOptimizerDeleteRecommendationPreferencesOptions(
+        AwsComputeOptimizerDeleteRecommendationPreferencesResourceType ResourceType,
+        IEnumerable<string> RecommendationPreferenceNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RecommendationPreferenceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RecommendationPreferenceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RecommendationPreferenceNames));
+            }
+
+            RecommendationPreferenceNames = materialized;
+        }
+        this.RecommendationPreferenceNames = RecommendationPreferenceNames;
+    }
+
+    private AwsComputeOptimizerDeleteRecommendationPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerDeleteRecommendationPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerDeleteRecommendationPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and in- stances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. Possible values: o Ec2Instance o AutoScalingGroup o EbsVolume o LambdaFunction o NotApplicable o EcsService o License o RdsDBInstance o AuroraDBClusterStorage o Idle
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsComputeOptimizerDeleteRecommendationPreferencesResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// The name of the recommendation preference to delete. (string) Possible values: o EnhancedInfrastructureMetrics o InferredWorkloadTypes o ExternalMetricsPreference o LookBackPeriodPreference o PreferredResources o UtilizationPreferences Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--recommendation-preference-names", GroupValues = true)]
+    public IEnumerable<string>? RecommendationPreferenceNames { get; private init; }
 
     /// <summary>
     /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide . name -&gt; (string) The name of the scope. The following scopes are possible: o Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization. o AccountId - Specifies that the recommendation preference ap- plies at the account level, for all resources of a given re- source type in an account. o ResourceArn - Specifies that the recommendation preference ap- plies at the individual resource level. Possible values: o Organization o AccountId o ResourceArn value -&gt; (string) The value of the scope. If you specified the name of the scope as: o Organization - The value must be ALL_ACCOUNTS . o AccountId - The value must be a 12-digit Amazon Web Services account ID. o ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group. Only EC2 instance and Auto Scaling group ARNs are currently sup- ported. Shorthand Syntax: name=string,value=string JSON Syntax: { "name": "Organization"|"AccountId"|"ResourceArn", "value": "string" }
@@ -30,13 +89,26 @@ public record AwsComputeOptimizerDeleteRecommendationPreferencesOptions : AwsOpt
     [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CliOption("--recommendation-preference-names", GroupValues = true)]
-    public IEnumerable<string>? RecommendationPreferenceNames { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

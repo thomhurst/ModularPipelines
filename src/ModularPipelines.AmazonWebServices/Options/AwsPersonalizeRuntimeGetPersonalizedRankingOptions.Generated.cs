@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize-runtime", "get-personalized-ranking")]
-public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions
+public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. NOTE: The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="InputList">A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: o max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="UserId">The user for which you want the campaign to provide a personalized ranking. Constraints: o max: 256</param>
+    public AwsPersonalizeRuntimeGetPersonalizedRankingOptions(
+        string CampaignArn,
+        IEnumerable<string> InputList,
+        string UserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CampaignArn);
+        this.CampaignArn = CampaignArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputList));
+            }
+
+            InputList = materialized;
+        }
+        this.InputList = InputList;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+    }
+
+    private AwsPersonalizeRuntimeGetPersonalizedRankingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeRuntimeGetPersonalizedRankingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeRuntimeGetPersonalizedRankingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--campaign-arn")]
-    public string? CampaignArn { get; set; }
+    public string? CampaignArn { get; private init; }
 
+    /// <summary>
+    /// A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: o max: 256 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--input-list", GroupValues = true)]
-    public IEnumerable<string>? InputList { get; set; }
+    public IEnumerable<string>? InputList { get; private init; }
 
+    /// <summary>
+    /// The user for which you want the campaign to provide a personalized ranking. Constraints: o max: 256
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
     /// <summary>
     /// The contextual metadata to use when getting recommendations. Contex- tual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: o max: 150 key -&gt; (string) Constraints: o max: 150 o pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -60,5 +122,21 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "list-flow-executions")]
-public record AwsBedrockAgentRuntimeListFlowExecutionsOptions : AwsOptions
+public record AwsBedrockAgentRuntimeListFlowExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN). NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Documentation list-flow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
+    /// </summary>
+    /// <param name="FlowIdentifier">The unique identifier of the flow to list executions for. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    public AwsBedrockAgentRuntimeListFlowExecutionsOptions(
+        string FlowIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowIdentifier);
+        this.FlowIdentifier = FlowIdentifier;
+    }
+
+    private AwsBedrockAgentRuntimeListFlowExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeListFlowExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeListFlowExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the flow to list executions for. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// </summary>
+    [CliOption("--flow-identifier")]
+    public string? FlowIdentifier { get; private init; }
+
     /// <summary>
     /// The unique identifier of the flow alias to list executions for. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--flow-alias-identifier")]
     public string? FlowAliasIdentifier { get; set; }
-
-    [CliOption("--flow-identifier")]
-    public string? FlowIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +92,21 @@ public record AwsBedrockAgentRuntimeListFlowExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

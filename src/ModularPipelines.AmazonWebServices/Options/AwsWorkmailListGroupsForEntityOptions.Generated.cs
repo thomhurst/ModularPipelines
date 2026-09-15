@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "list-groups-for-entity")]
-public record AwsWorkmailListGroupsForEntityOptions : AwsOptions
+public record AwsWorkmailListGroupsForEntityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns all the groups to which an entity belongs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier for the organization under which the entity exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    public AwsWorkmailListGroupsForEntityOptions(
+        string OrganizationId,
+        string EntityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(EntityId);
+        this.EntityId = EntityId;
+    }
+
+    private AwsWorkmailListGroupsForEntityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailListGroupsForEntityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailListGroupsForEntityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the organization under which the entity exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the entity. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--entity-id")]
-    public string? EntityId { get; set; }
+    public string? EntityId { get; private init; }
 
     /// <summary>
     /// Limit the search results based on the filter criteria. GroupNamePrefix -&gt; (string) Filters only group names that start with the provided name pre- fix. Constraints: o max: 256 Shorthand Syntax: GroupNamePrefix=string JSON Syntax: { "GroupNamePrefix": "string" }
@@ -52,5 +96,21 @@ public record AwsWorkmailListGroupsForEntityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

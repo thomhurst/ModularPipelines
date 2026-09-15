@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "create-key")]
-public record AwsLocationCreateKeyOptions : AwsOptions
+public record AwsLocationCreateKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-name")]
-    public string? KeyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyName">A custom name for the API key resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique API key name. o No spaces allowed. For example, ExampleAPIKey . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Restrictions">The API key restrictions for the API key resource. AllowActions -&gt; (list) [required] A list of allowed actions that an API key resource grants per- missions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions. o Map actions o geo:GetMap* - Allows all actions needed for map rendering. o geo-maps:GetTile - Allows retrieving map tiles. o geo-maps:GetStaticMap - Allows retrieving static map images. o geo-maps:* - Allows all actions related to map functionali- ties. o Place actions o geo:SearchPlaceIndexForText - Allows geocoding. o geo:SearchPlaceIndexForPosition - Allows reverse geocoding. o geo:SearchPlaceIndexForSuggestions - Allows generating sug- gestions from text. o GetPlace - Allows finding a place by place ID. o geo-places:Geocode - Allows geocoding using place informa- tion. o geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates. o geo-places:SearchNearby - Allows searching for places near a location. o geo-places:SearchText - Allows searching for places based on text input. o geo-places:Autocomplete - Allows auto-completion of place names based on text input. o geo-places:Suggest - Allows generating suggestions for places based on partial input. o geo-places:GetPlace - Allows finding a place by its ID. o geo-places:* - Allows all actions related to place services. o Route actions o geo:CalculateRoute - Allows point to point routing. o geo:CalculateRouteMatrix - Allows calculating a matrix of routes. o geo-routes:CalculateRoutes - Allows calculating multiple routes between points. o geo-routes:CalculateRouteMatrix - Allows calculating a ma- trix of routes between points. o geo-routes:CalculateIsolines - Allows calculating isolines for a given area. o geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route. o geo-routes:SnapToRoads - Allows snapping a route to the nearest roads. o geo-routes:* - Allows all actions related to routing func- tionalities. NOTE: You must use these strings exactly. For example, to provide access to map rendering, the only valid action is geo:GetMap* as an input to the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately. Constraints: o min: 1 o max: 24 (string) Constraints: o min: 5 o max: 200 o pattern: (geo|geo-routes|geo-places|geo-maps):\w*\*? AllowResources -&gt; (list) [required] A list of allowed resource ARNs that a API key bearer can per- form actions on. o The ARN must be the correct ARN for a map, place, or route ARN. You may include wildcards in the resource-id to match multiple resources of the same type. o The resources must be in the same partition , region , and ac- count-id as the key that is being created. o Other than wildcards, you must include the full ARN, including the arn , partition , service , region , account-id and re- source-id delimited by colons (:). o No spaces allowed, even with wildcards. For example, arn:aws:geo:region:*account-id* :map/ExampleMap* . For more information about ARN format, see Amazon Resource Names (ARNs) . Constraints: o min: 1 o max: 8 (string) Constraints: o min: 0 o max: 1600 o pattern: .*(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):geo(:([a-z0-9]+([.-][a-z0-9]+)*))(:[0-9]+):((\*)|([-a-z]+[/][*-._\w]+))$)|(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):(geo-routes|geo-places|geo-maps)(:((\*)|([a-z0-9]+([.-][a-z0-9]+)*)))::((provider[\/][*-._\w]+))$).* AllowReferers -&gt; (list) An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other do- mains will not be allowed. Requirements: o Contain only alphanumeric characters (AZ, az, 09) or any sym- bols in this list $\-._+!*`(),;/?:@=&amp; o May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes. o May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (in- cluding hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits). o No spaces allowed. For example, https://example.com . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 253 o pattern: ([\w!$&amp;()*+,./:;=?@\x{60}-]|%([\dA-Fa-f]{2}|[\dA-Fa-f]?\*))+ AllowAndroidApps -&gt; (list) An optional list of allowed Android applications for which re- quests must originate from. Requests using this API key from other sources will not be allowed. Constraints: o min: 0 o max: 5 (structure) Unique identifying information for an Android app. Consists of a package name and a 20 byte SHA-1 certificate finger- print. Package -&gt; (string) [required] Unique package name identifier for an Android app. Example: com.mydomain.appname Constraints: o min: 1 o max: 255 o pattern: ([A-Za-z][A-Za-z\d_]*\.)+[A-Za-z][A-Za-z\d_]* CertificateFingerprint -&gt; (string) [required] 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate. Example: BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75 Constraints: o min: 59 o max: 59 o pattern: ([A-Fa-f0-9]{2}:){19}[A-Fa-f0-9]{2} AllowAppleApps -&gt; (list) An optional list of allowed Apple applications for which re- quests must originate from. Requests using this API key from other sources will not be allowed. Constraints: o min: 0 o max: 5 (structure) Unique identifying information for an Apple app (iOS, macOS, tvOS and watchOS). Consists of an Apple Bundle ID. BundleId -&gt; (string) [required] The unique identifier of the app across all Apple plat- forms (iOS, macOS, tvOS and watchOS). Example: com.mydomain.appname Constraints: o min: 1 o max: 155 o pattern: [A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+ Shorthand Syntax: AllowActions=string,string,AllowResources=string,string,AllowReferers=string,string,AllowAndroidApps=[{Package=string,CertificateFingerprint=string},{Package=string,CertificateFingerprint=string}],AllowAppleApps=[{BundleId=string},{BundleId=string}] JSON Syntax: { "AllowActions": ["string", ...], "AllowResources": ["string", ...], "AllowReferers": ["string", ...], "AllowAndroidApps": [ { "Package": "string", "CertificateFingerprint": "string" } ... ], "AllowAppleApps": [ { "BundleId": "string" } ... ] }</param>
+    public AwsLocationCreateKeyOptions(
+        string KeyName,
+        string Restrictions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(Restrictions);
+        this.Restrictions = Restrictions;
+    }
+
+    private AwsLocationCreateKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCreateKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCreateKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A custom name for the API key resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique API key name. o No spaces allowed. For example, ExampleAPIKey . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; private init; }
+
+    /// <summary>
+    /// The API key restrictions for the API key resource. AllowActions -&gt; (list) [required] A list of allowed actions that an API key resource grants per- missions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions. o Map actions o geo:GetMap* - Allows all actions needed for map rendering. o geo-maps:GetTile - Allows retrieving map tiles. o geo-maps:GetStaticMap - Allows retrieving static map images. o geo-maps:* - Allows all actions related to map functionali- ties. o Place actions o geo:SearchPlaceIndexForText - Allows geocoding. o geo:SearchPlaceIndexForPosition - Allows reverse geocoding. o geo:SearchPlaceIndexForSuggestions - Allows generating sug- gestions from text. o GetPlace - Allows finding a place by place ID. o geo-places:Geocode - Allows geocoding using place informa- tion. o geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates. o geo-places:SearchNearby - Allows searching for places near a location. o geo-places:SearchText - Allows searching for places based on text input. o geo-places:Autocomplete - Allows auto-completion of place names based on text input. o geo-places:Suggest - Allows generating suggestions for places based on partial input. o geo-places:GetPlace - Allows finding a place by its ID. o geo-places:* - Allows all actions related to place services. o Route actions o geo:CalculateRoute - Allows point to point routing. o geo:CalculateRouteMatrix - Allows calculating a matrix of routes. o geo-routes:CalculateRoutes - Allows calculating multiple routes between points. o geo-routes:CalculateRouteMatrix - Allows calculating a ma- trix of routes between points. o geo-routes:CalculateIsolines - Allows calculating isolines for a given area. o geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route. o geo-routes:SnapToRoads - Allows snapping a route to the nearest roads. o geo-routes:* - Allows all actions related to routing func- tionalities. NOTE: You must use these strings exactly. For example, to provide access to map rendering, the only valid action is geo:GetMap* as an input to the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately. Constraints: o min: 1 o max: 24 (string) Constraints: o min: 5 o max: 200 o pattern: (geo|geo-routes|geo-places|geo-maps):\w*\*? AllowResources -&gt; (list) [required] A list of allowed resource ARNs that a API key bearer can per- form actions on. o The ARN must be the correct ARN for a map, place, or route ARN. You may include wildcards in the resource-id to match multiple resources of the same type. o The resources must be in the same partition , region , and ac- count-id as the key that is being created. o Other than wildcards, you must include the full ARN, including the arn , partition , service , region , account-id and re- source-id delimited by colons (:). o No spaces allowed, even with wildcards. For example, arn:aws:geo:region:*account-id* :map/ExampleMap* . For more information about ARN format, see Amazon Resource Names (ARNs) . Constraints: o min: 1 o max: 8 (string) Constraints: o min: 0 o max: 1600 o pattern: .*(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):geo(:([a-z0-9]+([.-][a-z0-9]+)*))(:[0-9]+):((\*)|([-a-z]+[/][*-._\w]+))$)|(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):(geo-routes|geo-places|geo-maps)(:((\*)|([a-z0-9]+([.-][a-z0-9]+)*)))::((provider[\/][*-._\w]+))$).* AllowReferers -&gt; (list) An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other do- mains will not be allowed. Requirements: o Contain only alphanumeric characters (AZ, az, 09) or any sym- bols in this list $\-._+!*`(),;/?:@=&amp; o May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes. o May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (in- cluding hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits). o No spaces allowed. For example, https://example.com . Constraints: o min: 0 o max: 5 (string) Constraints: o min: 0 o max: 253 o pattern: ([\w!$&amp;()*+,./:;=?@\x{60}-]|%([\dA-Fa-f]{2}|[\dA-Fa-f]?\*))+ AllowAndroidApps -&gt; (list) An optional list of allowed Android applications for which re- quests must originate from. Requests using this API key from other sources will not be allowed. Constraints: o min: 0 o max: 5 (structure) Unique identifying information for an Android app. Consists of a package name and a 20 byte SHA-1 certificate finger- print. Package -&gt; (string) [required] Unique package name identifier for an Android app. Example: com.mydomain.appname Constraints: o min: 1 o max: 255 o pattern: ([A-Za-z][A-Za-z\d_]*\.)+[A-Za-z][A-Za-z\d_]* CertificateFingerprint -&gt; (string) [required] 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate. Example: BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75 Constraints: o min: 59 o max: 59 o pattern: ([A-Fa-f0-9]{2}:){19}[A-Fa-f0-9]{2} AllowAppleApps -&gt; (list) An optional list of allowed Apple applications for which re- quests must originate from. Requests using this API key from other sources will not be allowed. Constraints: o min: 0 o max: 5 (structure) Unique identifying information for an Apple app (iOS, macOS, tvOS and watchOS). Consists of an Apple Bundle ID. BundleId -&gt; (string) [required] The unique identifier of the app across all Apple plat- forms (iOS, macOS, tvOS and watchOS). Example: com.mydomain.appname Constraints: o min: 1 o max: 155 o pattern: [A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+ Shorthand Syntax: AllowActions=string,string,AllowResources=string,string,AllowReferers=string,string,AllowAndroidApps=[{Package=string,CertificateFingerprint=string},{Package=string,CertificateFingerprint=string}],AllowAppleApps=[{BundleId=string},{BundleId=string}] JSON Syntax: { "AllowActions": ["string", ...], "AllowResources": ["string", ...], "AllowReferers": ["string", ...], "AllowAndroidApps": [ { "Package": "string", "CertificateFingerprint": "string" } ... ], "AllowAppleApps": [ { "BundleId": "string" } ... ] }
+    /// </summary>
     [CliOption("--restrictions")]
-    public string? Restrictions { get; set; }
+    public string? Restrictions { get; private init; }
 
     /// <summary>
     /// An optional description for the API key resource. Constraints: o min: 0 o max: 1000
@@ -40,7 +84,10 @@ public record AwsLocationCreateKeyOptions : AwsOptions
     [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CliFlag("--no-expiry")]
+    /// <summary>
+    /// Optionally set to true to set no expiration time for the API key. One of NoExpiry or ExpireTime must be set.
+    /// </summary>
+    [CliFlag("--no-expiry", NegatedName = "--no-no-expiry")]
     public bool? NoExpiry { get; set; }
 
     /// <summary>
@@ -54,5 +101,21 @@ public record AwsLocationCreateKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

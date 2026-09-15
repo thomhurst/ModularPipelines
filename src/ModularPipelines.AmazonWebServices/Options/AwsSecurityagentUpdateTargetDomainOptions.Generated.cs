@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "update-target-domain")]
-public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions
+public record AwsSecurityagentUpdateTargetDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-domain-id")]
-    public string? TargetDomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the verification method for a target domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetDomainId">The unique identifier of the target domain to update.</param>
+    /// <param name="VerificationMethod">The updated verification method for the target domain. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC</param>
+    public AwsSecurityagentUpdateTargetDomainOptions(
+        string TargetDomainId,
+        AwsSecurityagentUpdateTargetDomainVerificationMethod VerificationMethod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetDomainId);
+        this.TargetDomainId = TargetDomainId;
+        global::System.ArgumentNullException.ThrowIfNull(VerificationMethod);
+        this.VerificationMethod = VerificationMethod;
+    }
+
+    private AwsSecurityagentUpdateTargetDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentUpdateTargetDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentUpdateTargetDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the target domain to update.
+    /// </summary>
+    [CliOption("--target-domain-id")]
+    public string? TargetDomainId { get; private init; }
+
+    /// <summary>
+    /// The updated verification method for the target domain. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC
+    /// </summary>
     [CliOption("--verification-method")]
-    public string? VerificationMethod { get; set; }
+    public AwsSecurityagentUpdateTargetDomainVerificationMethod? VerificationMethod { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

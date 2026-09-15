@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "update-bucket-metadata-annotation-table-configuration")]
-public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : AwsOptions
+public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the an- notation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this oper- ation, the bucket must have an existing Amazon S3 Metadata configura- tion. To use this operation, you must have the s3:UpdateBucketMetadataAnnota- tionTableConfi...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket whose annotation table configuration to up- date.</param>
+    /// <param name="AnnotationTableConfiguration">The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or in- ventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }</param>
+    public AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions(
+        string Bucket,
+        string AnnotationTableConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(AnnotationTableConfiguration);
+        this.AnnotationTableConfiguration = AnnotationTableConfiguration;
+    }
+
+    private AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket whose annotation table configuration to up- date.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The annotation table configuration updates to apply. ConfigurationState -&gt; (string) [required] The new configuration state to apply. Possible values: o ENABLED o DISABLED EncryptionConfiguration -&gt; (structure) The encryption settings for an S3 Metadata journal table or in- ventory table configuration. SseAlgorithm -&gt; (string) [required] The encryption type specified for a metadata table. To spec- ify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a cus- tomer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration. Role -&gt; (string) The new IAM role ARN to apply. Shorthand Syntax: ConfigurationState=string,EncryptionConfiguration={SseAlgorithm=string,KmsKeyArn=string},Role=string JSON Syntax: { "ConfigurationState": "ENABLED"|"DISABLED", "EncryptionConfiguration": { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }, "Role": "string" }
+    /// </summary>
+    [CliOption("--annotation-table-configuration")]
+    public string? AnnotationTableConfiguration { get; private init; }
 
     /// <summary>
     /// Base64-encoded MD5 digest of the message body.
@@ -37,9 +84,6 @@ public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : 
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--annotation-table-configuration")]
-    public string? AnnotationTableConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner.
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

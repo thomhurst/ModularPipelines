@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "get-aws-opportunity-summary")]
-public record AwsPartnercentralSellingGetAwsOpportunitySummaryOptions : AwsOptions
+public record AwsPartnercentralSellingGetAwsOpportunitySummaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog in which the AWS Opportunity is located. Ac- cepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="RelatedOpportunityIdentifier">The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: o pattern: O[0-9]{1,19}</param>
+    public AwsPartnercentralSellingGetAwsOpportunitySummaryOptions(
+        string Catalog,
+        string RelatedOpportunityIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedOpportunityIdentifier);
+        this.RelatedOpportunityIdentifier = RelatedOpportunityIdentifier;
+    }
+
+    private AwsPartnercentralSellingGetAwsOpportunitySummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingGetAwsOpportunitySummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingGetAwsOpportunitySummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog in which the AWS Opportunity is located. Ac- cepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
     [CliOption("--related-opportunity-identifier")]
-    public string? RelatedOpportunityIdentifier { get; set; }
+    public string? RelatedOpportunityIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

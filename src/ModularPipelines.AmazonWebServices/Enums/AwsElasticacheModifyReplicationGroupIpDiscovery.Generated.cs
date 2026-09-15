@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --ipdiscovery.
+/// Allowed values for --ip-discovery.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsElasticacheModifyReplicationGroupIpDiscovery
 {
     [EnumValue("ipv4")]
-    Ipv4 = 1,
+    Ipv4,
 
     [EnumValue("ipv6")]
-    Ipv6 = 2
+    Ipv6
 }

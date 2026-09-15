@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "create-tags")]
-public record AwsDiscoveryCreateTagsOptions : AwsOptions
+public record AwsDiscoveryCreateTagsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-ids", GroupValues = true)]
-    public IEnumerable<string>? ConfigurationIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. WARNING: Do not store sensitive information (like personal data) in tags. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationIds">A list of configuration items that you want to tag. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="Tags">Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value for- mat. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsDiscoveryCreateTagsOptions(
+        IEnumerable<string> ConfigurationIds,
+        IEnumerable<string> Tags
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConfigurationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConfigurationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConfigurationIds));
+            }
+
+            ConfigurationIds = materialized;
+        }
+        this.ConfigurationIds = ConfigurationIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsDiscoveryCreateTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryCreateTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryCreateTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of configuration items that you want to tag. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--configuration-ids", GroupValues = true)]
+    public IEnumerable<string>? ConfigurationIds { get; private init; }
+
+    /// <summary>
+    /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value for- mat. For example: {"key": "serverType", "value": "webServer"} (structure) Metadata that help you categorize IT assets. WARNING: Do not store sensitive information (like personal data) in tags. key -&gt; (string) [required] The type of tag on which to filter. value -&gt; (string) [required] A value for a tag key on which to filter. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

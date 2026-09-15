@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "update-revenue-attribution")]
-public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing revenue attribution record. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox</param>
+    /// <param name="Identifier">The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="Revision">The current revision of the revenue attribution. Must match the server's current value. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
+    public AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions(
+        AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionCatalog Catalog,
+        string Identifier,
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    private AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog that the revenue attribution belongs to. Possible values: o AWS o Sandbox
+    /// </summary>
+    [CliOption("--catalog")]
+    public AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The current revision of the revenue attribution. Must match the server's current value. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// </summary>
+    [CliOption("--revision")]
+    public string? Revision { get; private init; }
 
     /// <summary>
     /// A unique token to ensure idempotency of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -41,13 +96,26 @@ public record AwsPartnercentralRevenueMeasurementUpdateRevenueAttributionOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--revision")]
-    public string? Revision { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

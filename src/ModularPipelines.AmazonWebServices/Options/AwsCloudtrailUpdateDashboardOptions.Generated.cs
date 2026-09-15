@@ -10,19 +10,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy opera- tion to attach a resource-based policy to the dashboard. For more in- formation, see Resource-based policy example for a dashboard in the CloudTrail User Guide . CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. ...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the P...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "update-dashboard")]
-public record AwsCloudtrailUpdateDashboardOptions : AwsOptions
+public record AwsCloudtrailUpdateDashboardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the P...
+    /// </summary>
+    /// <param name="DashboardId">The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailUpdateDashboardOptions(
+        string DashboardId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+    }
+
+    private AwsCloudtrailUpdateDashboardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailUpdateDashboardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailUpdateDashboardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
     /// <summary>
     /// An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets. To add new widgets, pass in an array that includes the existing wid- gets along with any new widgets. Run the GetDashboard operation to get the list of widgets for the dashboard. To remove widgets, pass in an array that includes the existing wid- gets minus the widgets you want removed. (structure) Contains information about a widget on a CloudTrail Lake dash- board. QueryStatement -&gt; (string) [required] The query statement for the widget. For custom dashboard wid- gets, you can query across multiple event data stores as long as all event data stores exist in your account. NOTE: When a query uses ? with eventTime , ? must be surrounded by single quotes as follows: '?' . Constraints: o min: 1 o max: 10000 o pattern: (?s).* QueryParameters -&gt; (list) The optional query parameters. The following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: .* ViewProperties -&gt; (map) [required] The view properties for the widget. For more information about view properties, see View properties for widgets in the CloudTrail User Guide . key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._\- ]+$ Shorthand Syntax: QueryStatement=string,QueryParameters=string,string,ViewProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "QueryStatement": "string", "QueryParameters": ["string", ...], "ViewProperties": {"string": "string" ...} } ... ]
@@ -36,7 +73,10 @@ public record AwsCloudtrailUpdateDashboardOptions : AwsOptions
     [CliOption("--refresh-schedule")]
     public string? RefreshSchedule { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Specifies whether termination protection is enabled for the dash- board. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +84,21 @@ public record AwsCloudtrailUpdateDashboardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

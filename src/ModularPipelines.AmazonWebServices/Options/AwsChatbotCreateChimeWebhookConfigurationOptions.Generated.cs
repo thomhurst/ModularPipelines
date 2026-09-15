@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "create-chime-webhook-configuration")]
-public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions
+public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS Chatbot configuration for Amazon Chime. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WebhookDescription">A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255</param>
+    /// <param name="WebhookUrl">The URL for the Amazon Chime webhook. Constraints: o min: 1 o max: 255 o pattern: https://hooks\.chime\.aws/incomingweb- hooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+</param>
+    /// <param name="SnsTopicArns">The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...</param>
+    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ConfigurationName">The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsChatbotCreateChimeWebhookConfigurationOptions(
+        string WebhookDescription,
+        string WebhookUrl,
+        IEnumerable<string> SnsTopicArns,
+        string IamRoleArn,
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebhookDescription);
+        this.WebhookDescription = WebhookDescription;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookUrl);
+        this.WebhookUrl = WebhookUrl;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SnsTopicArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SnsTopicArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SnsTopicArns));
+            }
+
+            SnsTopicArns = materialized;
+        }
+        this.SnsTopicArns = SnsTopicArns;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    private AwsChatbotCreateChimeWebhookConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotCreateChimeWebhookConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotCreateChimeWebhookConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--webhook-description")]
-    public string? WebhookDescription { get; set; }
+    public string? WebhookDescription { get; private init; }
 
+    /// <summary>
+    /// The URL for the Amazon Chime webhook. Constraints: o min: 1 o max: 255 o pattern: https://hooks\.chime\.aws/incomingweb- hooks/[A-Za-z0-9\-]+?\?token=[A-Za-z0-9\-]+
+    /// </summary>
     [CliOption("--webhook-url")]
-    public string? WebhookUrl { get; set; }
+    public string? WebhookUrl { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the SNS topics that deliver no- tifications to AWS Chatbot. (string) Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--sns-topic-arns", GroupValues = true)]
-    public IEnumerable<string>? SnsTopicArns { get; set; }
+    public IEnumerable<string>? SnsTopicArns { get; private init; }
 
+    /// <summary>
+    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
+    /// <summary>
+    /// The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
     [CliOption("--configuration-name")]
-    public string? ConfigurationName { get; set; }
+    public string? ConfigurationName { get; private init; }
 
     /// <summary>
     /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
@@ -53,5 +129,21 @@ public record AwsChatbotCreateChimeWebhookConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

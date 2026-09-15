@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "update-instance")]
-public record AwsSsoAdminUpdateInstanceOptions : AwsOptions
+public record AwsSsoAdminUpdateInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations: o Update the encryption configuration of the instance by specifying En- cryptionConfiguration . o Enable permission sets for the instance by specifying PermissionSet- sEnabled . A request that specifies both EncryptionConfiguration and Permission- SetsEnabled returns a ValidationException . To perfor...
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    public AwsSsoAdminUpdateInstanceOptions(
+        string InstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+    }
+
+    private AwsSsoAdminUpdateInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminUpdateInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminUpdateInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
+    [CliOption("--instance-arn")]
+    public string? InstanceArn { get; private init; }
+
     /// <summary>
     /// Updates the instance name. Constraints: o min: 0 o max: 255 o pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
 
     /// <summary>
     /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data. KeyType -&gt; (string) [required] The type of KMS key used for encryption. Possible values: o AWS_OWNED_KMS_KEY o CUSTOMER_MANAGED_KEY KmsKeyArn -&gt; (string) The ARN of the KMS key used to encrypt data. Required when Key- Type is CUSTOMER_MANAGED_KEY. Cannot be specified when KeyType is AWS_OWNED_KMS_KEY. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:kms:([a-z]{2,}(-[a-z0-9]+)+){1}:[0-9]{12}:key/(mrk-[a-f0-9]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Shorthand Syntax: KeyType=string,KmsKeyArn=string JSON Syntax: { "KeyType": "AWS_OWNED_KMS_KEY"|"CUSTOMER_MANAGED_KEY", "KmsKeyArn": "string" }
@@ -36,7 +73,10 @@ public record AwsSsoAdminUpdateInstanceOptions : AwsOptions
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CliFlag("--permission-sets-enabled")]
+    /// <summary>
+    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. NOTE: You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate Up- dateInstance calls. These calls can be made in parallel.
+    /// </summary>
+    [CliFlag("--permission-sets-enabled", NegatedName = "--no-permission-sets-enabled")]
     public bool? PermissionSetsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +84,21 @@ public record AwsSsoAdminUpdateInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

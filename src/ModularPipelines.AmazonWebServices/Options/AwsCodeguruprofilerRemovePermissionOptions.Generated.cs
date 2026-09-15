@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "remove-permission")]
-public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions
+public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based poli- cies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon...
+    /// </summary>
+    /// <param name="ActionGroup">Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostA- gentProfile permissions. Possible values: o agentPermissions</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="RevisionId">A universally unique identifier (UUID) for the revision of the re- source-based policy from which you want to remove permissions. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsCodeguruprofilerRemovePermissionOptions(
+        AwsCodeguruprofilerRemovePermissionActionGroup ActionGroup,
+        string ProfilingGroupName,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroup);
+        this.ActionGroup = ActionGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsCodeguruprofilerRemovePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerRemovePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerRemovePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostA- gentProfile permissions. Possible values: o agentPermissions
+    /// </summary>
     [CliOption("--action-group")]
-    public string? ActionGroup { get; set; }
+    public AwsCodeguruprofilerRemovePermissionActionGroup? ActionGroup { get; private init; }
 
+    /// <summary>
+    /// The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
     [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
+    public string? ProfilingGroupName { get; private init; }
 
+    /// <summary>
+    /// A universally unique identifier (UUID) for the revision of the re- source-based policy from which you want to remove permissions. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "stop-runtime-session")]
-public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--runtime-session-id")]
-    public string? RuntimeSessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Stops a session that is running in an running AgentCore Runtime agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuntimeSessionId">The ID of the session that you want to stop. Constraints: o min: 33 o max: 256</param>
+    /// <param name="AgentRuntimeArn">The ARN of the agent that contains the session that you want to stop.</param>
+    public AwsBedrockAgentcoreStopRuntimeSessionOptions(
+        string RuntimeSessionId,
+        string AgentRuntimeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeSessionId);
+        this.RuntimeSessionId = RuntimeSessionId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentRuntimeArn);
+        this.AgentRuntimeArn = AgentRuntimeArn;
+    }
+
+    private AwsBedrockAgentcoreStopRuntimeSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreStopRuntimeSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreStopRuntimeSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the session that you want to stop. Constraints: o min: 33 o max: 256
+    /// </summary>
+    [CliOption("--runtime-session-id")]
+    public string? RuntimeSessionId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the agent that contains the session that you want to stop.
+    /// </summary>
     [CliOption("--agent-runtime-arn")]
-    public string? AgentRuntimeArn { get; set; }
+    public string? AgentRuntimeArn { get; private init; }
 
     /// <summary>
     /// Optional qualifier to specify an agent alias, such as prod code&gt; or dev . If you don't provide a value, the DEFAULT alias is used.
@@ -46,5 +90,21 @@ public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

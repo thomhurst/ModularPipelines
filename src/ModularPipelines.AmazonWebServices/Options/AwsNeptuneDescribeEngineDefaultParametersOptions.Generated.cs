@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "describe-engine-default-parameters")]
-public record AwsNeptuneDescribeEngineDefaultParametersOptions : AwsOptions
+public record AwsNeptuneDescribeEngineDefaultParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the default engine and system parameter information for the specified database engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// </summary>
+    /// <param name="DbParameterGroupFamily">The name of the DB parameter group family.</param>
+    public AwsNeptuneDescribeEngineDefaultParametersOptions(
+        string DbParameterGroupFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupFamily);
+        this.DbParameterGroupFamily = DbParameterGroupFamily;
+    }
+
+    private AwsNeptuneDescribeEngineDefaultParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneDescribeEngineDefaultParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneDescribeEngineDefaultParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group family.
+    /// </summary>
     [CliOption("--db-parameter-group-family")]
-    public string? DbParameterGroupFamily { get; set; }
+    public string? DbParameterGroupFamily { get; private init; }
 
     /// <summary>
     /// Not currently supported. (structure) This type is not currently supported. Name -&gt; (string) [required] This parameter is not currently supported. Values -&gt; (list) [required] This parameter is not currently supported. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -55,5 +92,21 @@ public record AwsNeptuneDescribeEngineDefaultParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

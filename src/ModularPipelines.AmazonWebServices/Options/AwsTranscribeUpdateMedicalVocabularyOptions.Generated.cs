@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "update-medical-vocabulary")]
-public record AwsTranscribeUpdateMedicalVocabularyOptions : AwsOptions
+public record AwsTranscribeUpdateMedicalVocabularyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing custom medical vocabulary with new values. This op- eration overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VocabularyName">The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="LanguageCode">The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA</param>
+    /// <param name="VocabularyFileUri">The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vo- cab-file.txt Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+</param>
+    public AwsTranscribeUpdateMedicalVocabularyOptions(
+        string VocabularyName,
+        string LanguageCode,
+        string VocabularyFileUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VocabularyName);
+        this.VocabularyName = VocabularyName;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+        global::System.ArgumentNullException.ThrowIfNull(VocabularyFileUri);
+        this.VocabularyFileUri = VocabularyFileUri;
+    }
+
+    private AwsTranscribeUpdateMedicalVocabularyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeUpdateMedicalVocabularyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeUpdateMedicalVocabularyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
     [CliOption("--vocabulary-name")]
-    public string? VocabularyName { get; set; }
+    public string? VocabularyName { get; private init; }
 
+    /// <summary>
+    /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public string? LanguageCode { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vo- cab-file.txt Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+
+    /// </summary>
     [CliOption("--vocabulary-file-uri")]
-    public string? VocabularyFileUri { get; set; }
+    public string? VocabularyFileUri { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

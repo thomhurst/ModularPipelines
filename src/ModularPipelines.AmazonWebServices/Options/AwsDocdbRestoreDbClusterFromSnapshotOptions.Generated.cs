@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "restore-db-cluster-from-snapshot")]
-public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
+public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the cluster to create from the snapshot or cluster snap- shot. This parameter isn't case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id</param>
+    /// <param name="SnapshotIdentifier">The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: o Must match the identifier of an existing snapshot.</param>
+    /// <param name="Engine">The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.</param>
+    public AwsDocdbRestoreDbClusterFromSnapshotOptions(
+        string DbClusterIdentifier,
+        string SnapshotIdentifier,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotIdentifier);
+        this.SnapshotIdentifier = SnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsDocdbRestoreDbClusterFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbRestoreDbClusterFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbRestoreDbClusterFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster to create from the snapshot or cluster snap- shot. This parameter isn't case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: o Must match the identifier of an existing snapshot.
+    /// </summary>
+    [CliOption("--snapshot-identifier")]
+    public string? SnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
     /// <summary>
     /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
-
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
-
-    [CliOption("--snapshot-identifier")]
-    public string? SnapshotIdentifier { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The version of the database engine to use for the new cluster.
@@ -78,7 +129,10 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -110,5 +164,21 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

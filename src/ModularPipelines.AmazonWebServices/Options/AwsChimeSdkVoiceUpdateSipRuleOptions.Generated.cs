@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "update-sip-rule")]
-public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions
+public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the details of the specified SIP rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SipRuleId">The SIP rule ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Name">The new name for the specified SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    public AwsChimeSdkVoiceUpdateSipRuleOptions(
+        string SipRuleId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SipRuleId);
+        this.SipRuleId = SipRuleId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsChimeSdkVoiceUpdateSipRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceUpdateSipRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceUpdateSipRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The SIP rule ID. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--sip-rule-id")]
-    public string? SipRuleId { get; set; }
+    public string? SipRuleId { get; private init; }
 
+    /// <summary>
+    /// The new name for the specified SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// The new value that indicates whether the rule is disabled.
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
@@ -41,5 +88,21 @@ public record AwsChimeSdkVoiceUpdateSipRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

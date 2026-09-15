@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-oidc", "create-token")]
-public record AwsSsoOidcCreateTokenOptions : AwsOptions
+public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and returns access and refresh tokens for clients that are au- thenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access ap- plication APIs using bearer authentication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientId">The unique identifier string for the client or application. This value comes from the result of the RegisterClient API.</param>
+    /// <param name="ClientSecret">A secret string generated for the client. This value should come from the persisted result of the RegisterClient API.</param>
+    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, de- pending on the grant type that you want: o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token</param>
+    public AwsSsoOidcCreateTokenOptions(
+        string ClientId,
+        string ClientSecret,
+        string GrantType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientSecret);
+        this.ClientSecret = ClientSecret;
+        global::System.ArgumentNullException.ThrowIfNull(GrantType);
+        this.GrantType = GrantType;
+    }
+
+    private AwsSsoOidcCreateTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoOidcCreateTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoOidcCreateTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier string for the client or application. This value comes from the result of the RegisterClient API.
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// A secret string generated for the client. This value should come from the persisted result of the RegisterClient API.
+    /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
-    public string? ClientSecret { get; set; }
+    public string? ClientSecret { get; private init; }
 
+    /// <summary>
+    /// Supports the following OAuth grant types: Authorization Code, Device Code, and Refresh Token. Specify one of the following values, de- pending on the grant type that you want: o Authorization Code - authorization_code o Device Code - urn:ietf:params:oauth:grant-type:device_code o Refresh Token - refresh_token
+    /// </summary>
     [CliOption("--grant-type")]
-    public string? GrantType { get; set; }
+    public string? GrantType { get; private init; }
 
     /// <summary>
     /// Used only when calling this API for the Device Code grant type. This short-lived code is used to identify this authorization request. This comes from the result of the StartDeviceAuthorization API.
@@ -74,5 +125,21 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

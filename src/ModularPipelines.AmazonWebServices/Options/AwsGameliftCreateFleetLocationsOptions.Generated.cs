@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-fleet-locations")]
-public record AwsGameliftCreateFleetLocationsOptions : AwsOptions
+public record AwsGameliftCreateFleetLocationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="Locations">A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]</param>
+    public AwsGameliftCreateFleetLocationsOptions(
+        string FleetId,
+        IEnumerable<string> Locations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Locations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Locations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Locations));
+            }
+
+            Locations = materialized;
+        }
+        this.Locations = Locations;
+    }
+
+    private AwsGameliftCreateFleetLocationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateFleetLocationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateFleetLocationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]
+    /// </summary>
     [CliOption("--locations", GroupValues = true)]
-    public IEnumerable<string>? Locations { get; set; }
+    public IEnumerable<string>? Locations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

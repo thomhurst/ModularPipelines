@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-disk-snapshot")]
-public record AwsLightsailCreateDiskSnapshotOptions : AwsOptions
+public record AwsLightsailCreateDiskSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a ...
+    /// </summary>
+    /// <param name="DiskSnapshotName">The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailCreateDiskSnapshotOptions(
+        string DiskSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskSnapshotName);
+        this.DiskSnapshotName = DiskSnapshotName;
+    }
+
+    private AwsLightsailCreateDiskSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateDiskSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateDiskSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the destination disk snapshot (my-disk-snapshot ) based on the source disk. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--disk-snapshot-name")]
+    public string? DiskSnapshotName { get; private init; }
+
     /// <summary>
     /// The unique name of the source disk (Disk-Virginia-1 ). NOTE: This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutu- ally exclusive. Constraints: o pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-name")]
     public string? DiskName { get; set; }
-
-    [CliOption("--disk-snapshot-name")]
-    public string? DiskSnapshotName { get; set; }
 
     /// <summary>
     /// The unique name of the source instance (Amazon_Linux-512MB-Vir- ginia-1 ). When this is defined, a snapshot of the instance's system volume is created. NOTE: This parameter cannot be defined together with the disk name pa- rameter. The instance name and disk name parameters are mutually exclusive. Constraints: o pattern: \w[\w\-]*\w
@@ -47,5 +84,21 @@ public record AwsLightsailCreateDiskSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

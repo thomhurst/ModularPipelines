@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "create-variable")]
-public record AwsFrauddetectorCreateVariableOptions : AwsOptions
+public record AwsFrauddetectorCreateVariableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a variable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the variable.</param>
+    /// <param name="DataType">The data type of the variable. Possible values: o STRING o INTEGER o FLOAT o BOOLEAN o DATETIME</param>
+    /// <param name="DataSource">The source of the data. Possible values: o EVENT o MODEL_SCORE o EXTERNAL_MODEL_SCORE</param>
+    /// <param name="DefaultValue">The default value for the variable when no value is received.</param>
+    public AwsFrauddetectorCreateVariableOptions(
+        string Name,
+        AwsFrauddetectorCreateVariableDataType DataType,
+        AwsFrauddetectorCreateVariableDataSource DataSource,
+        string DefaultValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DataType);
+        this.DataType = DataType;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultValue);
+        this.DefaultValue = DefaultValue;
+    }
+
+    private AwsFrauddetectorCreateVariableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorCreateVariableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorCreateVariableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the variable.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The data type of the variable. Possible values: o STRING o INTEGER o FLOAT o BOOLEAN o DATETIME
+    /// </summary>
     [CliOption("--data-type")]
-    public string? DataType { get; set; }
+    public AwsFrauddetectorCreateVariableDataType? DataType { get; private init; }
 
+    /// <summary>
+    /// The source of the data. Possible values: o EVENT o MODEL_SCORE o EXTERNAL_MODEL_SCORE
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public AwsFrauddetectorCreateVariableDataSource? DataSource { get; private init; }
 
+    /// <summary>
+    /// The default value for the variable when no value is received.
+    /// </summary>
     [CliOption("--default-value")]
-    public string? DefaultValue { get; set; }
+    public string? DefaultValue { get; private init; }
 
     /// <summary>
     /// The description.
@@ -56,5 +115,21 @@ public record AwsFrauddetectorCreateVariableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

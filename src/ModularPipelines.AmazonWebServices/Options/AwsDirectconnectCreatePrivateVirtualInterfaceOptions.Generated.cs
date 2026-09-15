@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "create-private-virtual-interface")]
-public record AwsDirectconnectCreatePrivateVirtualInterfaceOptions : AwsOptions
+public record AwsDirectconnectCreatePrivateVirtualInterfaceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connection-id")]
-    public string? ConnectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different Amazon Web Services Regions. Connect- ing the private virtual interface to a VGW only provides access to a single VPC wit...
+    /// </summary>
+    /// <param name="ConnectionId">The ID of the connection.</param>
+    /// <param name="NewPrivateVirtualInterface">Information about the private virtual interface. virtualInterfaceName -&gt; (string) [required] The name of the virtual interface assigned by the customer net- work. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-). vlan -&gt; (integer) [required] The ID of the VLAN. asn -&gt; (integer) The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is re- turned. Use asnLong instead. o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . o If you enter a 4-byte ASN for the asn parameter, the API re- turns an error. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. The valid values are 1-2147483646. asnLong -&gt; (long) The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. o When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . mtu -&gt; (integer) The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. authKey -&gt; (string) The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters. amazonAddress -&gt; (string) The IP address assigned to the Amazon interface. customerAddress -&gt; (string) The IP address assigned to the customer interface. addressFamily -&gt; (string) The address family for the BGP peer. Possible values: o ipv4 o ipv6 virtualGatewayId -&gt; (string) The ID of the virtual private gateway. directConnectGatewayId -&gt; (string) The ID of the Direct Connect gateway. tags -&gt; (list) The tags associated with the private virtual interface. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ enableSiteLink -&gt; (boolean) Indicates whether to enable or disable SiteLink. prefixPoolAllocatedCountIpv4 -&gt; (integer) The number of inbound IPv4 route prefixes to allocate to the virtual interface. Constraints: o min: 0 prefixPoolAllocatedCountIpv6 -&gt; (integer) The number of inbound IPv6 route prefixes to allocate to the virtual interface. Constraints: o min: 0 rateLimit -&gt; (string) The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection. Shorthand Syntax: virtualInterfaceName=string,vlan=integer,asn=integer,asnLong=long,mtu=integer,authKey=string,amazonAddress=string,customerAddress=string,addressFamily=string,virtualGatewayId=string,directConnectGatewayId=string,tags=[{key=string,value=string},{key=string,value=string}],enableSiteLink=boolean,prefixPoolAllocatedCountIpv4=integer,prefixPoolAllocatedCountIpv6=integer,rateLimit=string JSON Syntax: { "virtualInterfaceName": "string", "vlan": integer, "asn": integer, "asnLong": long, "mtu": integer, "authKey": "string", "amazonAddress": "string", "customerAddress": "string", "addressFamily": "ipv4"|"ipv6", "virtualGatewayId": "string", "directConnectGatewayId": "string", "tags": [ { "key": "string", "value": "string" } ... ], "enableSiteLink": true|false, "prefixPoolAllocatedCountIpv4": integer, "prefixPoolAllocatedCountIpv6": integer, "rateLimit": "string" }</param>
+    public AwsDirectconnectCreatePrivateVirtualInterfaceOptions(
+        string ConnectionId,
+        string NewPrivateVirtualInterface
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionId);
+        this.ConnectionId = ConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(NewPrivateVirtualInterface);
+        this.NewPrivateVirtualInterface = NewPrivateVirtualInterface;
+    }
+
+    private AwsDirectconnectCreatePrivateVirtualInterfaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectCreatePrivateVirtualInterfaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectCreatePrivateVirtualInterfaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the connection.
+    /// </summary>
+    [CliOption("--connection-id")]
+    public string? ConnectionId { get; private init; }
+
+    /// <summary>
+    /// Information about the private virtual interface. virtualInterfaceName -&gt; (string) [required] The name of the virtual interface assigned by the customer net- work. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-). vlan -&gt; (integer) [required] The ID of the VLAN. asn -&gt; (integer) The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is re- turned. Use asnLong instead. o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . o If you enter a 4-byte ASN for the asn parameter, the API re- turns an error. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. The valid values are 1-2147483646. asnLong -&gt; (long) The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : o You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. o asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. o When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. o If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . mtu -&gt; (integer) The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. authKey -&gt; (string) The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters. amazonAddress -&gt; (string) The IP address assigned to the Amazon interface. customerAddress -&gt; (string) The IP address assigned to the customer interface. addressFamily -&gt; (string) The address family for the BGP peer. Possible values: o ipv4 o ipv6 virtualGatewayId -&gt; (string) The ID of the virtual private gateway. directConnectGatewayId -&gt; (string) The ID of the Direct Connect gateway. tags -&gt; (list) The tags associated with the private virtual interface. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ enableSiteLink -&gt; (boolean) Indicates whether to enable or disable SiteLink. prefixPoolAllocatedCountIpv4 -&gt; (integer) The number of inbound IPv4 route prefixes to allocate to the virtual interface. Constraints: o min: 0 prefixPoolAllocatedCountIpv6 -&gt; (integer) The number of inbound IPv6 route prefixes to allocate to the virtual interface. Constraints: o min: 0 rateLimit -&gt; (string) The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection. Shorthand Syntax: virtualInterfaceName=string,vlan=integer,asn=integer,asnLong=long,mtu=integer,authKey=string,amazonAddress=string,customerAddress=string,addressFamily=string,virtualGatewayId=string,directConnectGatewayId=string,tags=[{key=string,value=string},{key=string,value=string}],enableSiteLink=boolean,prefixPoolAllocatedCountIpv4=integer,prefixPoolAllocatedCountIpv6=integer,rateLimit=string JSON Syntax: { "virtualInterfaceName": "string", "vlan": integer, "asn": integer, "asnLong": long, "mtu": integer, "authKey": "string", "amazonAddress": "string", "customerAddress": "string", "addressFamily": "ipv4"|"ipv6", "virtualGatewayId": "string", "directConnectGatewayId": "string", "tags": [ { "key": "string", "value": "string" } ... ], "enableSiteLink": true|false, "prefixPoolAllocatedCountIpv4": integer, "prefixPoolAllocatedCountIpv6": integer, "rateLimit": "string" }
+    /// </summary>
     [CliOption("--new-private-virtual-interface")]
-    public string? NewPrivateVirtualInterface { get; set; }
+    public string? NewPrivateVirtualInterface { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOpensearchListDomainMaintenancesStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 2,
-
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("FAILED")]
-    Failed = 4,
+    Failed,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
+
+    [EnumValue("PENDING")]
+    Pending,
 
     [EnumValue("TIMED_OUT")]
-    TimedOut = 5
+    TimedOut
 }

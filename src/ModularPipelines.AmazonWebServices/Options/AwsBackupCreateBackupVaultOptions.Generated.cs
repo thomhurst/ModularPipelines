@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-backup-vault")]
-public record AwsBackupCreateBackupVaultOptions : AwsOptions
+public record AwsBackupCreateBackupVaultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a logical container where backups are stored. A CreateBackup- Vault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    public AwsBackupCreateBackupVaultOptions(
+        string BackupVaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+    }
+
+    private AwsBackupCreateBackupVaultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateBackupVaultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateBackupVaultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
 
     /// <summary>
     /// The tags to assign to the backup vault. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +85,21 @@ public record AwsBackupCreateBackupVaultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

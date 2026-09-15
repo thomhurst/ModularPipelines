@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-ops-metadata")]
-public record AwsSsmUpdateOpsMetadataOptions : AwsOptions
+public record AwsSsmUpdateOpsMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OpsMetadataArn">The Amazon Resource Name (ARN) of the OpsMetadata Object to update. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)</param>
+    public AwsSsmUpdateOpsMetadataOptions(
+        string OpsMetadataArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpsMetadataArn);
+        this.OpsMetadataArn = OpsMetadataArn;
+    }
+
+    private AwsSsmUpdateOpsMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateOpsMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateOpsMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the OpsMetadata Object to update. Constraints: o min: 1 o max: 1011 o pattern: arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmeta- data\/([a-zA-Z0-9-_\.\/]*)
+    /// </summary>
     [CliOption("--ops-metadata-arn")]
-    public string? OpsMetadataArn { get; set; }
+    public string? OpsMetadataArn { get; private init; }
 
     /// <summary>
     /// Metadata to add to an OpsMetadata object. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ^(?!\s*$).+ value -&gt; (structure) Metadata to assign to an Application Manager application. Value -&gt; (string) Metadata value to assign to an Application Manager applica- tion. Constraints: o min: 1 o max: 4096 Shorthand Syntax: KeyName1={Value=string},KeyName2={Value=string} JSON Syntax: {"string": { "Value": "string" } ...}
@@ -42,5 +79,21 @@ public record AwsSsmUpdateOpsMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

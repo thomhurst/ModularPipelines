@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "delete-flow")]
-public record AwsBedrockAgentDeleteFlowOptions : AwsOptions
+public record AwsBedrockAgentDeleteFlowOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flow-identifier")]
-    public string? FlowIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-resource-in-use-check")]
+    /// <summary>
+    /// Deletes a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})</param>
+    public AwsBedrockAgentDeleteFlowOptions(
+        string FlowIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowIdentifier);
+        this.FlowIdentifier = FlowIdentifier;
+    }
+
+    private AwsBedrockAgentDeleteFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentDeleteFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentDeleteFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the flow. Constraints: o pattern: (arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})
+    /// </summary>
+    [CliOption("--flow-identifier")]
+    public string? FlowIdentifier { get; private init; }
+
+    /// <summary>
+    /// By default, this value is false and deletion is stopped if the re- source is in use. If you set it to true , the resource will be deleted even if the resource is in use.
+    /// </summary>
+    [CliFlag("--skip-resource-in-use-check", NegatedName = "--no-skip-resource-in-use-check")]
     public bool? SkipResourceInUseCheck { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsBedrockAgentDeleteFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

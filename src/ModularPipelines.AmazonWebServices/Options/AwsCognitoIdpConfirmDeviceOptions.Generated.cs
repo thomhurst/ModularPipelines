@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "confirm-device")]
-public record AwsCognitoIdpConfirmDeviceOptions : AwsOptions
+public record AwsCognitoIdpConfirmDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Confirms a device that a user wants to remember. A remembered device is a "Remember me on this device" option for user pools that perform au- thentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see Working with user devices in your user pool . Authorize this action with a signed-in user's access token. It must in- clude the scope aws.cognito.signin.user.admin . NOTE: Amazon Cognito doesn't ev...
+    /// </summary>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="DeviceKey">The unique identifier, or device key, of the device that you want to update the status for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+</param>
+    public AwsCognitoIdpConfirmDeviceOptions(
+        string AccessToken,
+        string DeviceKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessToken);
+        this.AccessToken = AccessToken;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceKey);
+        this.DeviceKey = DeviceKey;
+    }
+
+    private AwsCognitoIdpConfirmDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpConfirmDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpConfirmDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
-    public string? AccessToken { get; set; }
+    public string? AccessToken { get; private init; }
 
+    /// <summary>
+    /// The unique identifier, or device key, of the device that you want to update the status for. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+
+    /// </summary>
     [CliOption("--device-key")]
-    public string? DeviceKey { get; set; }
+    public string? DeviceKey { get; private init; }
 
     /// <summary>
     /// The configuration of the device secret verifier. PasswordVerifier -&gt; (string) A password verifier for a user's device. Used in SRP authentica- tion. Constraints: o min: 0 o max: 131072 Salt -&gt; (string) The salt that you want to use in SRP authentication with the user's device. Constraints: o min: 0 o max: 131072 Shorthand Syntax: PasswordVerifier=string,Salt=string JSON Syntax: { "PasswordVerifier": "string", "Salt": "string" }
@@ -47,5 +91,21 @@ public record AwsCognitoIdpConfirmDeviceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

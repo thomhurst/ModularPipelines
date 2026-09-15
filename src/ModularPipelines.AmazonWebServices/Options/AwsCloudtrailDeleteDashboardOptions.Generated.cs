@@ -10,24 +10,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "delete-dashboard")]
-public record AwsCloudtrailDeleteDashboardOptions : AwsOptions
+public record AwsCloudtrailDeleteDashboardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DashboardId">The name or ARN for the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailDeleteDashboardOptions(
+        string DashboardId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DashboardId);
+        this.DashboardId = DashboardId;
+    }
+
+    private AwsCloudtrailDeleteDashboardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailDeleteDashboardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailDeleteDashboardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN for the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--dashboard-id")]
-    public string? DashboardId { get; set; }
+    public string? DashboardId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "notify-terminate-provisioned-product-engine-workflow-result")]
-public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions : AwsOptions
+public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Notifies the result of the terminate engine execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowToken">The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+</param>
+    /// <param name="RecordId">The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Status">The status of the terminate engine execution. Possible values: o SUCCEEDED o FAILED</param>
+    public AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions(
+        string WorkflowToken,
+        string RecordId,
+        AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowToken);
+        this.WorkflowToken = WorkflowToken;
+        global::System.ArgumentNullException.ThrowIfNull(RecordId);
+        this.RecordId = RecordId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+
+    /// </summary>
     [SecretValue]
     [CliOption("--workflow-token")]
-    public string? WorkflowToken { get; set; }
+    public string? WorkflowToken { get; private init; }
 
+    /// <summary>
+    /// The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
     [CliOption("--record-id")]
-    public string? RecordId { get; set; }
+    public string? RecordId { get; private init; }
 
+    /// <summary>
+    /// The status of the terminate engine execution. Possible values: o SUCCEEDED o FAILED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultStatus? Status { get; private init; }
 
     /// <summary>
     /// The reason why the terminate engine execution failed. Constraints: o min: 1 o max: 2048 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
@@ -50,5 +102,21 @@ public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowRe
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

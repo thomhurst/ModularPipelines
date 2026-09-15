@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "invite-users")]
-public record AwsChimeInviteUsersOptions : AwsOptions
+public record AwsChimeInviteUsersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently sup- ported for this action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="UserEmailList">The user email addresses to which to send the email invitation. Constraints: o max: 50 (string) Constraints: o pattern: .+@.+\..+ Syntax: "string" "string" ...</param>
+    public AwsChimeInviteUsersOptions(
+        string AccountId,
+        IEnumerable<string> UserEmailList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserEmailList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserEmailList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserEmailList));
+            }
+
+            UserEmailList = materialized;
+        }
+        this.UserEmailList = UserEmailList;
+    }
+
+    private AwsChimeInviteUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeInviteUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeInviteUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The user email addresses to which to send the email invitation. Constraints: o max: 50 (string) Constraints: o pattern: .+@.+\..+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--user-email-list", GroupValues = true)]
-    public IEnumerable<string>? UserEmailList { get; set; }
+    public IEnumerable<string>? UserEmailList { get; private init; }
 
     /// <summary>
     /// The user type. Possible values: o PrivateUser o SharedDevice
@@ -39,5 +94,21 @@ public record AwsChimeInviteUsersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

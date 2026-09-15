@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-image-references")]
-public record AwsEc2DescribeImageReferencesOptions : AwsOptions
+public record AwsEc2DescribeImageReferencesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-ids", GroupValues = true)]
-    public IEnumerable<string>? ImageIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-all-resource-types")]
+    /// <summary>
+    /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see Identify your resources referencing specified AMIs in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
+    /// </summary>
+    /// <param name="ImageIds">The IDs of the images to check for resource references. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    public AwsEc2DescribeImageReferencesOptions(
+        IEnumerable<string> ImageIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImageIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageIds));
+            }
+
+            ImageIds = materialized;
+        }
+        this.ImageIds = ImageIds;
+    }
+
+    private AwsEc2DescribeImageReferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeImageReferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeImageReferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the images to check for resource references. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--image-ids", GroupValues = true)]
+    public IEnumerable<string>? ImageIds { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to check all supported Amazon Web Services re- source types for image references. When specified, default values are applied for ResourceTypeOptions . For the default values, see How AMI reference checks work in the Amazon EC2 User Guide . If you also specify ResourceTypes with ResourceTypeOptions , your specified values override the default values. Supported resource types: ec2:Instance | ec2:LaunchTemplate | ssm:Parameter | imagebuilder:ImageRecipe | imagebuilder:Contain- erRecipe Either IncludeAllResourceTypes or ResourceTypes must be specified.
+    /// </summary>
+    [CliFlag("--include-all-resource-types", NegatedName = "--no-include-all-resource-types")]
     public bool? IncludeAllResourceTypes { get; set; }
 
     /// <summary>
@@ -34,7 +85,10 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -61,5 +115,21 @@ public record AwsEc2DescribeImageReferencesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

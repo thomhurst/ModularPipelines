@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "create-vpc-connector")]
-public record AwsApprunnerCreateVpcConnectorOptions : AwsOptions
+public record AwsApprunnerCreateVpcConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vpc-connector-name")]
-    public string? VpcConnectorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcConnectorName">A name for the VPC connector. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}</param>
+    /// <param name="Subnets">A list of IDs of subnets that App Runner should use when it asso- ciates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify. NOTE: App Runner only supports subnets of IP address type IPv4 and dual stack (IPv4 and IPv6). (string) Constraints: o min: 0 o max: 51200 o pattern: .* Syntax: "string" "string" ...</param>
+    public AwsApprunnerCreateVpcConnectorOptions(
+        string VpcConnectorName,
+        IEnumerable<string> Subnets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcConnectorName);
+        this.VpcConnectorName = VpcConnectorName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subnets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subnets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subnets));
+            }
+
+            Subnets = materialized;
+        }
+        this.Subnets = Subnets;
+    }
+
+    private AwsApprunnerCreateVpcConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerCreateVpcConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerCreateVpcConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the VPC connector. Constraints: o min: 4 o max: 40 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,39}
+    /// </summary>
+    [CliOption("--vpc-connector-name")]
+    public string? VpcConnectorName { get; private init; }
+
+    /// <summary>
+    /// A list of IDs of subnets that App Runner should use when it asso- ciates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify. NOTE: App Runner only supports subnets of IP address type IPv4 and dual stack (IPv4 and IPv6). (string) Constraints: o min: 0 o max: 51200 o pattern: .* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnets", GroupValues = true)]
-    public IEnumerable<string>? Subnets { get; set; }
+    public IEnumerable<string>? Subnets { get; private init; }
 
     /// <summary>
     /// A list of IDs of security groups that App Runner should use for ac- cess to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic. (string) Constraints: o min: 0 o max: 51200 o pattern: .* Syntax: "string" "string" ...
@@ -44,5 +99,21 @@ public record AwsApprunnerCreateVpcConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

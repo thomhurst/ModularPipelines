@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "delete-attribute-mapping")]
-public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions
+public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Delete an entry from the attribute mapping rules enforced by a given profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN</param>
+    public AwsRolesanywhereDeleteAttributeMappingOptions(
+        string ProfileId,
+        AwsRolesanywhereDeleteAttributeMappingCertificateField CertificateField
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateField);
+        this.CertificateField = CertificateField;
+    }
+
+    private AwsRolesanywhereDeleteAttributeMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywhereDeleteAttributeMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywhereDeleteAttributeMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
+
+    /// <summary>
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN
+    /// </summary>
     [CliOption("--certificate-field")]
-    public string? CertificateField { get; set; }
+    public AwsRolesanywhereDeleteAttributeMappingCertificateField? CertificateField { get; private init; }
 
     /// <summary>
     /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject. (string) Syntax: "string" "string" ...
@@ -38,5 +83,21 @@ public record AwsRolesanywhereDeleteAttributeMappingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

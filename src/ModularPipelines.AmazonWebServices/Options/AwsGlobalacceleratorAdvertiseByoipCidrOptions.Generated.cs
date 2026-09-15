@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "advertise-byoip-cidr")]
-public record AwsGlobalacceleratorAdvertiseByoipCidrOptions : AwsOptions
+public record AwsGlobalacceleratorAdvertiseByoipCidrOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BY- OIP). It can take a few minutes before traffic to the specified ad- dresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use WithdrawByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cidr">The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the pro- visioned range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorAdvertiseByoipCidrOptions(
+        string Cidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+    }
+
+    private AwsGlobalacceleratorAdvertiseByoipCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorAdvertiseByoipCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorAdvertiseByoipCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the pro- visioned range. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

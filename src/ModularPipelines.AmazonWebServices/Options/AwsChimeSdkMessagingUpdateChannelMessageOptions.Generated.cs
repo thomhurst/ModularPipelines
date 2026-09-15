@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "update-channel-message")]
-public record AwsChimeSdkMessagingUpdateChannelMessageOptions : AwsOptions
+public record AwsChimeSdkMessagingUpdateChannelMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the content of a message. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="MessageId">The ID string of the message being updated. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*</param>
+    /// <param name="Content">The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    public AwsChimeSdkMessagingUpdateChannelMessageOptions(
+        string ChannelArn,
+        string MessageId,
+        string Content,
+        string ChimeBearer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(MessageId);
+        this.MessageId = MessageId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(ChimeBearer);
+        this.ChimeBearer = ChimeBearer;
+    }
+
+    private AwsChimeSdkMessagingUpdateChannelMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingUpdateChannelMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingUpdateChannelMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
 
+    /// <summary>
+    /// The ID string of the message being updated. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--message-id")]
-    public string? MessageId { get; set; }
+    public string? MessageId { get; private init; }
 
+    /// <summary>
+    /// The content of the channel message. Constraints: o min: 1 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--chime-bearer")]
+    public string? ChimeBearer { get; private init; }
 
     /// <summary>
     /// The metadata of the message being updated. Constraints: o min: 0 o max: 1024 o pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
-
-    [CliOption("--chime-bearer")]
-    public string? ChimeBearer { get; set; }
 
     /// <summary>
     /// The ID of the SubChannel in the request. NOTE: Only required when updating messages in a SubChannel that the user belongs to. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
@@ -56,5 +114,21 @@ public record AwsChimeSdkMessagingUpdateChannelMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

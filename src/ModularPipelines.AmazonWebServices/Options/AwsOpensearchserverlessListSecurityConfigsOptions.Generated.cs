@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "list-security-configs")]
-public record AwsOpensearchserverlessListSecurityConfigsOptions : AwsOptions
+public record AwsOpensearchserverlessListSecurityConfigsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Ama- zon OpenSearch Serverless . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of security configuration. Possible values: o saml o iamidentitycenter o iamfederation</param>
+    public AwsOpensearchserverlessListSecurityConfigsOptions(
+        AwsOpensearchserverlessListSecurityConfigsType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsOpensearchserverlessListSecurityConfigsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessListSecurityConfigsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessListSecurityConfigsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of security configuration. Possible values: o saml o iamidentitycenter o iamfederation
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsOpensearchserverlessListSecurityConfigsType? Type { get; private init; }
 
     /// <summary>
     /// If your initial ListSecurityConfigs operation returns a nextToken , you can include the returned nextToken in subsequent ListSecurity- Configs operations, which returns results in the next page.
@@ -43,5 +81,21 @@ public record AwsOpensearchserverlessListSecurityConfigsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "list-recovery-points-by-legal-hold")]
-public record AwsBackupListRecoveryPointsByLegalHoldOptions : AwsOptions
+public record AwsBackupListRecoveryPointsByLegalHoldOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold. See also: AWS API Documentation list-recovery-points-by-legal-hold is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// </summary>
+    /// <param name="LegalHoldId">The ID of the legal hold.</param>
+    public AwsBackupListRecoveryPointsByLegalHoldOptions(
+        string LegalHoldId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LegalHoldId);
+        this.LegalHoldId = LegalHoldId;
+    }
+
+    private AwsBackupListRecoveryPointsByLegalHoldOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupListRecoveryPointsByLegalHoldOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupListRecoveryPointsByLegalHoldOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the legal hold.
+    /// </summary>
     [CliOption("--legal-hold-id")]
-    public string? LegalHoldId { get; set; }
+    public string? LegalHoldId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsBackupListRecoveryPointsByLegalHoldOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

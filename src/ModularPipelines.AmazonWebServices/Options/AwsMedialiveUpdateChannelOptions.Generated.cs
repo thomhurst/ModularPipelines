@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medialive", "update-channel")]
-public record AwsMedialiveUpdateChannelOptions : AwsOptions
+public record AwsMedialiveUpdateChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cdi-input-specification")]
-    public string? CdiInputSpecification { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelId"></param>
+    public AwsMedialiveUpdateChannelOptions(
+        string ChannelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelId);
+        this.ChannelId = ChannelId;
+    }
+
+    private AwsMedialiveUpdateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedialiveUpdateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedialiveUpdateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     [CliOption("--channel-id")]
-    public string? ChannelId { get; set; }
+    public string? ChannelId { get; private init; }
+
+    [CliOption("--cdi-input-specification")]
+    public string? CdiInputSpecification { get; set; }
 
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
@@ -54,7 +88,7 @@ public record AwsMedialiveUpdateChannelOptions : AwsOptions
     [CliOption("--channel-engine-version")]
     public string? ChannelEngineVersion { get; set; }
 
-    [CliFlag("--dry-run")]
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--anywhere-settings")]
@@ -77,5 +111,21 @@ public record AwsMedialiveUpdateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

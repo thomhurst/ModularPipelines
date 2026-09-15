@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "create-sip-media-application")]
-public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions
+public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications and rules in the Ama- zon Chime SDK Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsRegion">The AWS Region assigned to the SIP media application.</param>
+    /// <param name="Name">The SIP media application's name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="Endpoints">List of endpoints (Lambda ARNs) specified for the SIP media applica- tion. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]</param>
+    public AwsChimeSdkVoiceCreateSipMediaApplicationOptions(
+        string AwsRegion,
+        string Name,
+        IEnumerable<string> Endpoints
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsRegion);
+        this.AwsRegion = AwsRegion;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+    }
+
+    private AwsChimeSdkVoiceCreateSipMediaApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceCreateSipMediaApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceCreateSipMediaApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AWS Region assigned to the SIP media application.
+    /// </summary>
     [CliOption("--aws-region")]
-    public string? AwsRegion { get; set; }
+    public string? AwsRegion { get; private init; }
 
+    /// <summary>
+    /// The SIP media application's name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// List of endpoints (Lambda ARNs) specified for the SIP media applica- tion. Constraints: o min: 1 o max: 1 (structure) The endpoint assigned to a SIP media application. LambdaArn -&gt; (string) Valid Amazon Resource Name (ARN) of the Lambda function, ver- sion, or alias. The function must be created in the same AWS Region as the SIP media application. Constraints: o max: 10000 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))? Shorthand Syntax: LambdaArn=string ... JSON Syntax: [ { "LambdaArn": "string" } ... ]
+    /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
-    public IEnumerable<string>? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints { get; private init; }
 
     /// <summary>
     /// The tags assigned to the SIP media application. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +103,21 @@ public record AwsChimeSdkVoiceCreateSipMediaApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

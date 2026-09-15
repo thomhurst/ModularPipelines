@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "get-form-type")]
-public record AwsDatazoneGetFormTypeOptions : AwsOptions
+public record AwsDatazoneGetFormTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a metadata form type in Amazon DataZone. Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependen- cies, helping maintain high-quality metadata that makes data assets more discoverable and usable. o The fo...
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this metadata form type exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="FormTypeIdentifier">The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w</param>
+    public AwsDatazoneGetFormTypeOptions(
+        string DomainIdentifier,
+        string FormTypeIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FormTypeIdentifier);
+        this.FormTypeIdentifier = FormTypeIdentifier;
+    }
+
+    private AwsDatazoneGetFormTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneGetFormTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneGetFormTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which this metadata form type exists. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w
+    /// </summary>
     [CliOption("--form-type-identifier")]
-    public string? FormTypeIdentifier { get; set; }
+    public string? FormTypeIdentifier { get; private init; }
 
     /// <summary>
     /// The revision of this metadata form type. Constraints: o min: 1 o max: 64
@@ -38,5 +82,21 @@ public record AwsDatazoneGetFormTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

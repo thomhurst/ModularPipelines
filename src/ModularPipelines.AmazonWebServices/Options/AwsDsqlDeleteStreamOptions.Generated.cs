@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dsql", "delete-stream")]
-public record AwsDsqlDeleteStreamOptions : AwsOptions
+public record AwsDsqlDeleteStreamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a stream from a cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to delete. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="StreamIdentifier">The ID of the stream to delete. Constraints: o pattern: [a-z0-9]{26}</param>
+    public AwsDsqlDeleteStreamOptions(
+        string ClusterIdentifier,
+        string StreamIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(StreamIdentifier);
+        this.StreamIdentifier = StreamIdentifier;
+    }
+
+    private AwsDsqlDeleteStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsqlDeleteStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsqlDeleteStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the cluster containing the stream to delete. Constraints: o pattern: [a-z0-9]{26}
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the stream to delete. Constraints: o pattern: [a-z0-9]{26}
+    /// </summary>
     [CliOption("--stream-identifier")]
-    public string? StreamIdentifier { get; set; }
+    public string? StreamIdentifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK au- tomatically generates one. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
@@ -40,5 +84,21 @@ public record AwsDsqlDeleteStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

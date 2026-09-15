@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "describe-registration-field-definitions")]
-public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-field-definitions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// </summary>
+    /// <param name="RegistrationType">The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+</param>
+    public AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions(
+        string RegistrationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationType);
+        this.RegistrationType = RegistrationType;
+    }
+
+    private AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+
+    /// </summary>
     [CliOption("--registration-type")]
-    public string? RegistrationType { get; set; }
+    public string? RegistrationType { get; private init; }
 
     /// <summary>
     /// The path to the section of the registration. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9_]+
@@ -61,5 +98,21 @@ public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldDefinitionsOptions :
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

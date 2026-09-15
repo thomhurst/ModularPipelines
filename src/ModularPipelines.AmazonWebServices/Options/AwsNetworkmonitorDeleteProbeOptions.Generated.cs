@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmonitor", "delete-probe")]
-public record AwsNetworkmonitorDeleteProbeOptions : AwsOptions
+public record AwsNetworkmonitorDeleteProbeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees for that probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can only delete a single probe at a time using this action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProbeId">The ID of the probe to delete. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}</param>
+    public AwsNetworkmonitorDeleteProbeOptions(
+        string MonitorName,
+        string ProbeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(ProbeId);
+        this.ProbeId = ProbeId;
+    }
+
+    private AwsNetworkmonitorDeleteProbeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmonitorDeleteProbeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmonitorDeleteProbeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor to delete. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--monitor-name")]
+    public string? MonitorName { get; private init; }
+
+    /// <summary>
+    /// The ID of the probe to delete. Constraints: o pattern: probe-[a-z0-9A-Z-]{21,64}
+    /// </summary>
     [CliOption("--probe-id")]
-    public string? ProbeId { get; set; }
+    public string? ProbeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

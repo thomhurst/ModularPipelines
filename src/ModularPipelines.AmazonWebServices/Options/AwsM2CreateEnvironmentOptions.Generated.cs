@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "create-environment")]
-public record AwsM2CreateEnvironmentOptions : AwsOptions
+public record AwsM2CreateEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a runtime environment for a given runtime engine. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EngineType">The engine type for the runtime environment. Possible values: o microfocus o bluage</param>
+    /// <param name="InstanceType">The type of instance for the runtime environment. Constraints: o pattern: ^\S{1,20}$</param>
+    /// <param name="Name">The name of the runtime environment. Must be unique within the ac- count. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    public AwsM2CreateEnvironmentOptions(
+        AwsM2CreateEnvironmentEngineType EngineType,
+        string InstanceType,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EngineType);
+        this.EngineType = EngineType;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsM2CreateEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2CreateEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2CreateEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The engine type for the runtime environment. Possible values: o microfocus o bluage
+    /// </summary>
+    [CliOption("--engine-type")]
+    public AwsM2CreateEnvironmentEngineType? EngineType { get; private init; }
+
+    /// <summary>
+    /// The type of instance for the runtime environment. Constraints: o pattern: ^\S{1,20}$
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// The name of the runtime environment. Must be unique within the ac- count. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
     /// </summary>
@@ -37,9 +97,6 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--engine-type")]
-    public string? EngineType { get; set; }
-
     /// <summary>
     /// The version of the engine type for the runtime environment. Constraints: o pattern: ^\S{1,10}$
     /// </summary>
@@ -52,17 +109,11 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions
     [CliOption("--high-availability-config")]
     public string? HighAvailabilityConfig { get; set; }
 
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
     /// <summary>
     /// The identifier of a customer managed key.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The network type required for the runtime environment. Possible values: o ipv4 o dual
@@ -76,7 +127,10 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the runtime environment is publicly accessible.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -108,5 +162,21 @@ public record AwsM2CreateEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "add-region")]
-public record AwsDsAddRegionOptions : AwsOptions
+public record AwsDsAddRegionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds two domain controllers in the specified Region for the specified directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory to which you want to add Region replication. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RegionName">The name of the Region where you want to add domain controllers for replication. For example, us-east-1 . Constraints: o min: 8 o max: 32</param>
+    /// <param name="VpcSettings">Contains VPC information for the CreateDirectory , CreateMicrosof- tAD , or CreateHybridAD operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }</param>
+    public AwsDsAddRegionOptions(
+        string DirectoryId,
+        string RegionName,
+        string VpcSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(RegionName);
+        this.RegionName = RegionName;
+        global::System.ArgumentNullException.ThrowIfNull(VpcSettings);
+        this.VpcSettings = VpcSettings;
+    }
+
+    private AwsDsAddRegionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsAddRegionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsAddRegionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory to which you want to add Region replication. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// The name of the Region where you want to add domain controllers for replication. For example, us-east-1 . Constraints: o min: 8 o max: 32
+    /// </summary>
     [CliOption("--region-name")]
-    public string? RegionName { get; set; }
+    public string? RegionName { get; private init; }
 
+    /// <summary>
+    /// Contains VPC information for the CreateDirectory , CreateMicrosof- tAD , or CreateHybridAD operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }
+    /// </summary>
     [CliOption("--vpc-settings")]
-    public string? VpcSettings { get; set; }
+    public string? VpcSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

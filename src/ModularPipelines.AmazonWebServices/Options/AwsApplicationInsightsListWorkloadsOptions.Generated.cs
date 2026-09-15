@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "list-workloads")]
-public record AwsApplicationInsightsListWorkloadsOptions : AwsOptions
+public record AwsApplicationInsightsListWorkloadsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the workloads that are configured on a given component. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    public AwsApplicationInsightsListWorkloadsOptions(
+        string ResourceGroupName,
+        string ComponentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ComponentName);
+        this.ComponentName = ComponentName;
+    }
+
+    private AwsApplicationInsightsListWorkloadsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsListWorkloadsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsListWorkloadsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
+    [CliOption("--resource-group-name")]
+    public string? ResourceGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// </summary>
     [CliOption("--component-name")]
-    public string? ComponentName { get; set; }
+    public string? ComponentName { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned NextToken value. Constraints: o min: 1 o max: 40
@@ -52,5 +96,21 @@ public record AwsApplicationInsightsListWorkloadsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

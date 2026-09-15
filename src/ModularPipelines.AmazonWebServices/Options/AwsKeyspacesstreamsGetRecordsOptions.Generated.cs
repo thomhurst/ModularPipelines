@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspacesstreams", "get-records")]
-public record AwsKeyspacesstreamsGetRecordsOptions : AwsOptions
+public record AwsKeyspacesstreamsGetRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about mod- ifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ShardIterator">The unique identifier of the shard iterator. A shard iterator speci- fies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the Get- ShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: o min: 1 o max: 4096</param>
+    public AwsKeyspacesstreamsGetRecordsOptions(
+        string ShardIterator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShardIterator);
+        this.ShardIterator = ShardIterator;
+    }
+
+    private AwsKeyspacesstreamsGetRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesstreamsGetRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesstreamsGetRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the shard iterator. A shard iterator speci- fies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the Get- ShardIterator operation. Each shard iterator is valid for 15 minutes after creation. Constraints: o min: 1 o max: 4096
+    /// </summary>
     [CliOption("--shard-iterator")]
-    public string? ShardIterator { get; set; }
+    public string? ShardIterator { get; private init; }
 
     /// <summary>
     /// The maximum number of records to return in a single GetRecords re- quest. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit. Constraints: o min: 1 o max: 1000
@@ -35,5 +72,21 @@ public record AwsKeyspacesstreamsGetRecordsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

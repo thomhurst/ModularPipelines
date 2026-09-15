@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "notify-application-state")]
-public record AwsMghNotifyApplicationStateOptions : AwsOptions
+public record AwsMghNotifyApplicationStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId , its status is set or updated by passing one of three values to Status : NOT_STARTED | IN_PROGRESS | COMPLETED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$</param>
+    /// <param name="Status">Status of the application - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETED</param>
+    public AwsMghNotifyApplicationStateOptions(
+        string ApplicationId,
+        AwsMghNotifyApplicationStateStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsMghNotifyApplicationStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghNotifyApplicationStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghNotifyApplicationStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configurationId in Application Discovery Service that uniquely identifies the grouped application. Constraints: o min: 1 o max: 1600 o pattern: ^.{1,1600}$
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Status of the application - Not Started, In-Progress, Complete. Possible values: o NOT_STARTED o IN_PROGRESS o COMPLETED
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsMghNotifyApplicationStateStatus? Status { get; private init; }
 
     /// <summary>
     /// The timestamp when the application state changed.
@@ -33,7 +78,10 @@ public record AwsMghNotifyApplicationStateOptions : AwsOptions
     [CliOption("--update-date-time")]
     public string? UpdateDateTime { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +89,21 @@ public record AwsMghNotifyApplicationStateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

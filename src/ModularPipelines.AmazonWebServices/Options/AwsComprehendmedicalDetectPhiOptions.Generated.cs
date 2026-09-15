@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehendmedical", "detect-phi")]
-public record AwsComprehendmedicalDetectPhiOptions : AwsOptions
+public record AwsComprehendmedicalDetectPhiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Inspects the clinical text for protected health information (PHI) enti- ties and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Text">A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: o min: 1 o max: 20000</param>
+    public AwsComprehendmedicalDetectPhiOptions(
+        string Text
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+    }
+
+    private AwsComprehendmedicalDetectPhiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendmedicalDetectPhiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendmedicalDetectPhiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A UTF-8 text string containing the clinical content being examined for PHI entities. Constraints: o min: 1 o max: 20000
+    /// </summary>
     [CliOption("--text")]
-    public string? Text { get; set; }
+    public string? Text { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-put-data-quality-statistic-annotation")]
-public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions
+public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the Inclu- sionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InclusionAnnotations">A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple In- clusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: o INCLUDE o EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]</param>
+    public AwsGlueBatchPutDataQualityStatisticAnnotationOptions(
+        IEnumerable<string> InclusionAnnotations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InclusionAnnotations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InclusionAnnotations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InclusionAnnotations));
+            }
+
+            InclusionAnnotations = materialized;
+        }
+        this.InclusionAnnotations = InclusionAnnotations;
+    }
+
+    private AwsGlueBatchPutDataQualityStatisticAnnotationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchPutDataQualityStatisticAnnotationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchPutDataQualityStatisticAnnotationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple In- clusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: o INCLUDE o EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]
+    /// </summary>
     [CliOption("--inclusion-annotations", GroupValues = true)]
-    public IEnumerable<string>? InclusionAnnotations { get; set; }
+    public IEnumerable<string>? InclusionAnnotations { get; private init; }
 
     /// <summary>
     /// Client Token. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
@@ -37,5 +85,21 @@ public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

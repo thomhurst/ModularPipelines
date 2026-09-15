@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "put-voice-connector-origination")]
-public record AwsChimeSdkVoicePutVoiceConnectorOriginationOptions : AwsOptions
+public record AwsChimeSdkVoicePutVoiceConnectorOriginationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--voice-connector-id")]
-    public string? VoiceConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Voice Connector's origination settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="Origination">The origination settings being updated. Routes -&gt; (list) The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20. This para- meter is not required, but you must specify this parameter or Disabled . (structure) Origination routes define call distribution properties for your SIP hosts to receive inbound calls using an Amazon Chime SDK Voice Connector. Limit: Ten origination routes for each Voice Connector. NOTE: The parameters listed below are not required, but you must use at least one. Host -&gt; (string) The FQDN or IP address to contact for origination traf- fic. Port -&gt; (integer) The designated origination route port. Defaults to 5060. Constraints: o min: 0 o max: 65535 Protocol -&gt; (string) The protocol to use for the origination route. Encryp- tion-enabled Amazon Chime SDK Voice Connectors use TCP protocol by default. Possible values: o TCP o UDP Priority -&gt; (integer) The priority associated with the host, with 1 being the highest priority. Higher priority hosts are attempted first. Constraints: o min: 1 o max: 100 Weight -&gt; (integer) The weight assigned to an origination route. When hosts have equal priority, calls are distributed between them based on their relative weights. Constraints: o min: 1 o max: 100 Disabled -&gt; (boolean) When origination settings are disabled, inbound calls are not enabled for your Amazon Chime SDK Voice Connector. This parame- ter is not required, but you must specify this parameter or Routes . Shorthand Syntax: Routes=[{Host=string,Port=integer,Protocol=string,Priority=integer,Weight=integer},{Host=string,Port=integer,Protocol=string,Priority=integer,Weight=integer}],Disabled=boolean JSON Syntax: { "Routes": [ { "Host": "string", "Port": integer, "Protocol": "TCP"|"UDP", "Priority": integer, "Weight": integer } ... ], "Disabled": true|false }</param>
+    public AwsChimeSdkVoicePutVoiceConnectorOriginationOptions(
+        string VoiceConnectorId,
+        string Origination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
+        this.VoiceConnectorId = VoiceConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(Origination);
+        this.Origination = Origination;
+    }
+
+    private AwsChimeSdkVoicePutVoiceConnectorOriginationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorOriginationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorOriginationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// </summary>
+    [CliOption("--voice-connector-id")]
+    public string? VoiceConnectorId { get; private init; }
+
+    /// <summary>
+    /// The origination settings being updated. Routes -&gt; (list) The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20. This para- meter is not required, but you must specify this parameter or Disabled . (structure) Origination routes define call distribution properties for your SIP hosts to receive inbound calls using an Amazon Chime SDK Voice Connector. Limit: Ten origination routes for each Voice Connector. NOTE: The parameters listed below are not required, but you must use at least one. Host -&gt; (string) The FQDN or IP address to contact for origination traf- fic. Port -&gt; (integer) The designated origination route port. Defaults to 5060. Constraints: o min: 0 o max: 65535 Protocol -&gt; (string) The protocol to use for the origination route. Encryp- tion-enabled Amazon Chime SDK Voice Connectors use TCP protocol by default. Possible values: o TCP o UDP Priority -&gt; (integer) The priority associated with the host, with 1 being the highest priority. Higher priority hosts are attempted first. Constraints: o min: 1 o max: 100 Weight -&gt; (integer) The weight assigned to an origination route. When hosts have equal priority, calls are distributed between them based on their relative weights. Constraints: o min: 1 o max: 100 Disabled -&gt; (boolean) When origination settings are disabled, inbound calls are not enabled for your Amazon Chime SDK Voice Connector. This parame- ter is not required, but you must specify this parameter or Routes . Shorthand Syntax: Routes=[{Host=string,Port=integer,Protocol=string,Priority=integer,Weight=integer},{Host=string,Port=integer,Protocol=string,Priority=integer,Weight=integer}],Disabled=boolean JSON Syntax: { "Routes": [ { "Host": "string", "Port": integer, "Protocol": "TCP"|"UDP", "Priority": integer, "Weight": integer } ... ], "Disabled": true|false }
+    /// </summary>
     [CliOption("--origination")]
-    public string? Origination { get; set; }
+    public string? Origination { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

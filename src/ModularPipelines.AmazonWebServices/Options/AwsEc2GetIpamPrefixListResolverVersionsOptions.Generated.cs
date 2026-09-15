@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-ipam-prefix-list-resolver-versions")]
-public record AwsEc2GetIpamPrefixListResolverVersionsOptions : AwsOptions
+public record AwsEc2GetIpamPrefixListResolverVersionsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves version information for an IPAM prefix list resolver. Each version is a snapshot of what CIDRs matched your rules at that mo- ment in time. The version number increments every time the CIDR list changes due to infrastructure changes. Version example: Initial State (Version 1) Production environment: o vpc-prod-web (10.1.0.0/16) - tagged env=prod o vpc-prod-db (10.2.0.0/16) - tagged env=prod Resolver rule: Include all VPCs tagged env=prod Version 1 CIDRs: 10.1.0.0/16, 10.2.0.0/16 Infras...
+    /// </summary>
+    /// <param name="IpamPrefixListResolverId">The ID of the IPAM prefix list resolver whose versions you want to retrieve.</param>
+    public AwsEc2GetIpamPrefixListResolverVersionsOptions(
+        string IpamPrefixListResolverId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPrefixListResolverId);
+        this.IpamPrefixListResolverId = IpamPrefixListResolverId;
+    }
+
+    private AwsEc2GetIpamPrefixListResolverVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetIpamPrefixListResolverVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetIpamPrefixListResolverVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM prefix list resolver whose versions you want to retrieve.
+    /// </summary>
     [CliOption("--ipam-prefix-list-resolver-id")]
-    public string? IpamPrefixListResolverId { get; set; }
+    public string? IpamPrefixListResolverId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// Specific version numbers to retrieve. If not specified, all versions are returned. (long) Syntax: long long ...
@@ -64,5 +104,21 @@ public record AwsEc2GetIpamPrefixListResolverVersionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

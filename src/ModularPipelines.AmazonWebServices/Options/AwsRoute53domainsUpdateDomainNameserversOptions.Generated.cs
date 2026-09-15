@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "update-domain-nameservers")]
-public record AwsRoute53domainsUpdateDomainNameserversOptions : AwsOptions
+public record AwsRoute53domainsUpdateDomainNameserversOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the domain that you want to change name servers for. Constraints: o max: 255</param>
+    /// <param name="Nameservers">A list of new name servers for the domain. (structure) Name server includes the following elements. Name -&gt; (string) [required] The fully qualified host name of the name server. Constraint: Maximum 255 characters Constraints: o max: 255 o pattern: [a-zA-Z0-9_\-.]* GlueIps -&gt; (list) Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address. (string) Constraints: o max: 45 Shorthand Syntax: Name=string,GlueIps=string,string ... JSON Syntax: [ { "Name": "string", "GlueIps": ["string", ...] } ... ]</param>
+    public AwsRoute53domainsUpdateDomainNameserversOptions(
+        string DomainName,
+        IEnumerable<string> Nameservers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Nameservers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Nameservers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Nameservers));
+            }
+
+            Nameservers = materialized;
+        }
+        this.Nameservers = Nameservers;
+    }
+
+    private AwsRoute53domainsUpdateDomainNameserversOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsUpdateDomainNameserversOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsUpdateDomainNameserversOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that you want to change name servers for. Constraints: o max: 255
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// A list of new name servers for the domain. (structure) Name server includes the following elements. Name -&gt; (string) [required] The fully qualified host name of the name server. Constraint: Maximum 255 characters Constraints: o max: 255 o pattern: [a-zA-Z0-9_\-.]* GlueIps -&gt; (list) Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address. (string) Constraints: o max: 45 Shorthand Syntax: Name=string,GlueIps=string,string ... JSON Syntax: [ { "Name": "string", "GlueIps": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--nameservers", GroupValues = true)]
+    public IEnumerable<string>? Nameservers { get; private init; }
 
     /// <summary>
     /// The authorization key for .fi domains Constraints: o min: 0 o max: 255
@@ -30,13 +88,26 @@ public record AwsRoute53domainsUpdateDomainNameserversOptions : AwsOptions
     [CliOption("--fi-auth-key")]
     public string? FiAuthKey { get; set; }
 
-    [CliOption("--nameservers", GroupValues = true)]
-    public IEnumerable<string>? Nameservers { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,20 +23,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-access-log-subscription")]
-public record AwsVpcLatticeCreateAccessLogSubscriptionOptions : AwsOptions
+public record AwsVpcLatticeCreateAccessLogSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the ac- cess logs to audit the services in the network. The service network owner can only see access logs from clients and services that are asso- ciated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more informa- tion, see Access logs in the Amazon VPC Lattice User Guide . See also: AWS API ...
+    /// </summary>
+    /// <param name="ResourceIdentifier">The ID or ARN of the service network or service. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. The supported destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and Amazon S3 buckets. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?</param>
+    public AwsVpcLatticeCreateAccessLogSubscriptionOptions(
+        string ResourceIdentifier,
+        string DestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationArn);
+        this.DestinationArn = DestinationArn;
+    }
+
+    private AwsVpcLatticeCreateAccessLogSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateAccessLogSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateAccessLogSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service network or service. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string? ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the destination. The supported destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and Amazon S3 buckets. Constraints: o min: 20 o max: 2048 o pattern: arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?
+    /// </summary>
+    [CliOption("--destination-arn")]
+    public string? DestinationArn { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
-
-    [CliOption("--destination-arn")]
-    public string? DestinationArn { get; set; }
 
     /// <summary>
     /// The type of log that monitors your Amazon VPC Lattice service net- works. Possible values: o SERVICE o RESOURCE
@@ -54,5 +98,21 @@ public record AwsVpcLatticeCreateAccessLogSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

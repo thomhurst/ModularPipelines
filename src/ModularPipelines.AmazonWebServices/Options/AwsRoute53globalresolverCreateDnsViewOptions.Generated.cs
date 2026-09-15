@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "create-dns-view")]
-public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions
+public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. Tha...
+    /// </summary>
+    /// <param name="GlobalResolverId">The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Name">A descriptive name for the DNS view. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    public AwsRoute53globalresolverCreateDnsViewOptions(
+        string GlobalResolverId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalResolverId);
+        this.GlobalResolverId = GlobalResolverId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRoute53globalresolverCreateDnsViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverCreateDnsViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverCreateDnsViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--global-resolver-id")]
-    public string? GlobalResolverId { get; set; }
+    public string? GlobalResolverId { get; private init; }
+
+    /// <summary>
+    /// A descriptive name for the DNS view. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and ensures idempotency. Constraints: o min: 1 o max: 256
@@ -33,9 +80,6 @@ public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Whether to enable DNSSEC validation for DNS queries in this DNS view. When enabled, the resolver verifies the authenticity and in- tegrity of DNS responses from public name servers for DNSSEC-signed domains. Possible values: o ENABLED o DISABLED
@@ -72,5 +116,21 @@ public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

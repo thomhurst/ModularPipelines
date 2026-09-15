@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "get-service-network-service-association")]
-public record AwsVpcLatticeGetServiceNetworkServiceAssociationOptions : AwsOptions
+public record AwsVpcLatticeGetServiceNetworkServiceAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about the specified association between a service network and a service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceNetworkServiceAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassocia- tion/snsa-[0-9a-z]{17}))</param>
+    public AwsVpcLatticeGetServiceNetworkServiceAssociationOptions(
+        string ServiceNetworkServiceAssociationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNetworkServiceAssociationIdentifier);
+        this.ServiceNetworkServiceAssociationIdentifier = ServiceNetworkServiceAssociationIdentifier;
+    }
+
+    private AwsVpcLatticeGetServiceNetworkServiceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeGetServiceNetworkServiceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeGetServiceNetworkServiceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snsa-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkserviceassocia- tion/snsa-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--service-network-service-association-identifier")]
-    public string? ServiceNetworkServiceAssociationIdentifier { get; set; }
+    public string? ServiceNetworkServiceAssociationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

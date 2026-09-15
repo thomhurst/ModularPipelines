@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-cluster-software")]
-public record AwsSagemakerUpdateClusterSoftwareOptions : AwsOptions
+public record AwsSagemakerUpdateClusterSoftwareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the platform software of a SageMaker HyperPod cluster for secu- rity patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster . WARNING: The UpgradeClusterSoftware API call may impact your SageMaker Hyper- Pod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    public AwsSagemakerUpdateClusterSoftwareOptions(
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsSagemakerUpdateClusterSoftwareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateClusterSoftwareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateClusterSoftwareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     /// <summary>
     /// The array of instance groups for which to update AMI versions. Constraints: o min: 1 o max: 100 (structure) The configuration that describes specifications of the instance groups to update. InstanceGroupName -&gt; (string) [required] The name of the instance group to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* ImageReleaseVersion -&gt; (string) The version of the HyperPod-managed AMI to update to for the instance group. Uses semantic versioning in the format MA- JOR.MINOR.PATCH . Constraints: o min: 0 o max: 64 o pattern: [0-9]+\.[0-9]+\.[0-9]+ Shorthand Syntax: InstanceGroupName=string,ImageReleaseVersion=string ... JSON Syntax: [ { "InstanceGroupName": "string", "ImageReleaseVersion": "string" } ... ]
@@ -47,5 +84,21 @@ public record AwsSagemakerUpdateClusterSoftwareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

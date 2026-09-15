@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "create-dataset-import-job")]
-public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions
+public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a job that imports training data from your data source (an Ama- zon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Per- sonalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Per- sonalize makes a copy of your data and processes it internally. For in- formation on granting access to your Amazon S3 bucket, see Giving Ama- zon Personalize Access to Amazon S3 Resources . If you already created a re...
+    /// </summary>
+    /// <param name="JobName">The name for the dataset import job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetArn">The ARN of the dataset that receives the imported data. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSource">The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }</param>
+    public AwsPersonalizeCreateDataSetImportJobOptions(
+        string JobName,
+        string DataSetArn,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsPersonalizeCreateDataSetImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeCreateDataSetImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeCreateDataSetImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the dataset import job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// </summary>
     [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    public string? JobName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the dataset that receives the imported data. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    public string? DataSetArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 bucket that contains the training data to import. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public string? DataSource { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
@@ -49,7 +100,10 @@ public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions
     [CliOption("--import-mode")]
     public AwsPersonalizeCreateDataSetImportJobImportMode? ImportMode { get; set; }
 
-    [CliFlag("--publish-attribution-metrics-to-s3")]
+    /// <summary>
+    /// rics-to-s3 (boolean) If you created a metric attribution, specify whether to publish met- rics for this import job to Amazon S3
+    /// </summary>
+    [CliFlag("--publish-attribution-metrics-to-s3", NegatedName = "--no-publish-attribution-metrics-to-s3")]
     public bool? PublishAttributionMetricsToS3 { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -57,5 +111,21 @@ public record AwsPersonalizeCreateDataSetImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

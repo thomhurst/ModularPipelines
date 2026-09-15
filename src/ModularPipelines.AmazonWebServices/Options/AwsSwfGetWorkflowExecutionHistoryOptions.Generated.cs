@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "get-workflow-execution-history")]
-public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions
+public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the history of the specified workflow execution. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Execution">Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }</param>
+    public AwsSwfGetWorkflowExecutionHistoryOptions(
+        string Domain,
+        string Execution
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Execution);
+        this.Execution = Execution;
+    }
+
+    private AwsSwfGetWorkflowExecutionHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfGetWorkflowExecutionHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfGetWorkflowExecutionHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
+    /// <summary>
+    /// Specifies the workflow execution for which to return the history. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }
+    /// </summary>
     [CliOption("--execution")]
-    public string? Execution { get; set; }
+    public string? Execution { get; private init; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -55,5 +102,21 @@ public record AwsSwfGetWorkflowExecutionHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

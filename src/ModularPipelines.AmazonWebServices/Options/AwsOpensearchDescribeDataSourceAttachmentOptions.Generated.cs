@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "describe-data-source-attachment")]
-public record AwsOpensearchDescribeDataSourceAttachmentOptions : AwsOptions
+public record AwsOpensearchDescribeDataSourceAttachmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the current status and details of a specific data source at- tachment for an OpenSearch application. Throws a ResourceNotFoundExcep- tion if no attachment record exists for the specified application and data source combination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="DataSourceArn">The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    public AwsOpensearchDescribeDataSourceAttachmentOptions(
+        string Id,
+        string DataSourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceArn);
+        this.DataSourceArn = DataSourceArn;
+    }
+
+    private AwsOpensearchDescribeDataSourceAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchDescribeDataSourceAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchDescribeDataSourceAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier or name of the OpenSearch application. Constraints: o pattern: [a-z0-9]{3,30}
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Man- agement for more information. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// </summary>
     [CliOption("--data-source-arn")]
-    public string? DataSourceArn { get; set; }
+    public string? DataSourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

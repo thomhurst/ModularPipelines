@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "create-trigger")]
-public record AwsDevopsAgentCreateTriggerOptions : AwsOptions
+public record AwsDevopsAgentCreateTriggerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Trigger in the specified agent space See also: AWS API Documentation create-trigger uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space where the Trigger will be created Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Type">How the new Trigger fires Constraints: o min: 1 o max: 64</param>
+    /// <param name="Condition">The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Time-based firing condition expression -&gt; (string) [required] The schedule expression Constraints: o min: 1 o max: 256 Shorthand Syntax: schedule={expression=string} JSON Syntax: { "schedule": { "expression": "string" } }</param>
+    /// <param name="Action">The action the new Trigger performs when it fires JSON Syntax: {...}</param>
+    public AwsDevopsAgentCreateTriggerOptions(
+        string AgentSpaceId,
+        string Type,
+        string Condition,
+        string Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        this.Condition = Condition;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsDevopsAgentCreateTriggerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentCreateTriggerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentCreateTriggerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space where the Trigger will be created Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
+    /// <summary>
+    /// How the new Trigger fires Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
+    /// <summary>
+    /// The condition that fires the new Trigger NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: schedule. schedule -&gt; (structure) Time-based firing condition expression -&gt; (string) [required] The schedule expression Constraints: o min: 1 o max: 256 Shorthand Syntax: schedule={expression=string} JSON Syntax: { "schedule": { "expression": "string" } }
+    /// </summary>
     [CliOption("--condition")]
-    public string? Condition { get; set; }
+    public string? Condition { get; private init; }
 
+    /// <summary>
+    /// The action the new Trigger performs when it fires JSON Syntax: {...}
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
     /// <summary>
     /// The initial status of the Trigger Constraints: o min: 1 o max: 64
@@ -52,5 +110,21 @@ public record AwsDevopsAgentCreateTriggerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

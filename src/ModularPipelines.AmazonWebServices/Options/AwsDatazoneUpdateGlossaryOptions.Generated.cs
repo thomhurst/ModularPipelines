@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "update-glossary")]
-public record AwsDatazoneUpdateGlossaryOptions : AwsOptions
+public record AwsDatazoneUpdateGlossaryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the business glossary in Amazon DataZone. Prerequisites: o The glossary must exist in the given domain. o The caller must have the datazone:UpdateGlossary permission to update it. o When updating the name, the new name must be unique within the do- main. o The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the business glossary to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneUpdateGlossaryOptions(
+        string DomainIdentifier,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsDatazoneUpdateGlossaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneUpdateGlossaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneUpdateGlossaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain in which a business glossary is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the business glossary to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// The name to be updated as part of the UpdateGlossary action. Constraints: o min: 1 o max: 256
@@ -59,5 +103,21 @@ public record AwsDatazoneUpdateGlossaryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

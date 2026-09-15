@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "describe-multi-region-access-point-operation")]
-public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOptions
+public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Re- gion Access Point. For more information about managing Multi-Region Ac- cess Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : o CreateMultiRegionAccessPoint o DeleteMultiRegionAccessPoint o GetMultiRegionAccessPoint o ListMultiRegionAccessPoint...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="RequestTokenArn">The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: o min: 1 o max: 1024 o pattern: arn:.+</param>
+    public AwsS3controlDescribeMultiRegionAccessPointOperationOptions(
+        string AccountId,
+        string RequestTokenArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(RequestTokenArn);
+        this.RequestTokenArn = RequestTokenArn;
+    }
+
+    private AwsS3controlDescribeMultiRegionAccessPointOperationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlDescribeMultiRegionAccessPointOperationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlDescribeMultiRegionAccessPointOperationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: o min: 1 o max: 1024 o pattern: arn:.+
+    /// </summary>
     [SecretValue]
     [CliOption("--request-token-arn")]
-    public string? RequestTokenArn { get; set; }
+    public string? RequestTokenArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

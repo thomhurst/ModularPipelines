@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --buildtype.
+/// Allowed values for --build-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodebuildUpdateWebhookBuildType
 {
     [EnumValue("BUILD")]
-    Build = 1,
+    Build,
 
     [EnumValue("BUILD_BATCH")]
-    BuildBatch = 2,
+    BuildBatch,
 
     [EnumValue("RUNNER_BUILDKITE_BUILD")]
-    RunnerBuildkiteBuild = 3
+    RunnerBuildkiteBuild
 }

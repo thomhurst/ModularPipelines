@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-serverless", "get-dashboard-for-job-run")]
-public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions
+public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user inter- face such as the Spark or Tez web UI. For completed jobs, the applica- tion UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. NOTE: The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL....
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="JobRunId">The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    public AwsEmrServerlessGetDashboardForJobRunOptions(
+        string ApplicationId,
+        string JobRunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(JobRunId);
+        this.JobRunId = JobRunId;
+    }
+
+    private AwsEmrServerlessGetDashboardForJobRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrServerlessGetDashboardForJobRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrServerlessGetDashboardForJobRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--job-run-id")]
-    public string? JobRunId { get; set; }
+    public string? JobRunId { get; private init; }
 
     /// <summary>
     /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job. Constraints: o min: 1
@@ -33,7 +77,10 @@ public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions
     [CliOption("--attempt")]
     public int? Attempt { get; set; }
 
-    [CliFlag("--access-system-profile-logs")]
+    /// <summary>
+    /// Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
+    /// </summary>
+    [CliFlag("--access-system-profile-logs", NegatedName = "--no-access-system-profile-logs")]
     public bool? AccessSystemProfileLogs { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsEmrServerlessGetDashboardForJobRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "create-connection")]
-public record AwsEventsCreateConnectionOptions : AwsOptions
+public record AwsEventsCreateConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP end- point. For more information, see Connections for endpoint targets in the Ama- zon EventBridge User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the connection to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="AuthorizationType">The type of authorization to use for the connection. NOTE: OAUTH tokens are refreshed when a 401 or 407 response is re- turned. Possible values: o BASIC o OAUTH_CLIENT_CREDENTIALS o API_KEY</param>
+    /// <param name="AuthParameters">The authorization parameters to use to authorize with the endpoint. You must include only authorization parameters for the Authoriza- tionType you specify. BasicAuthParameters -&gt; (structure) The Basic authorization parameters to use for the connection. Username -&gt; (string) [required] The user name to use for Basic authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ Password -&gt; (string) [required] The password associated with the user name to use for Basic authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ OAuthParameters -&gt; (structure) The OAuth authorization parameters to use for the connection. ClientParameters -&gt; (structure) [required] The client parameters for OAuth authorization. ClientID -&gt; (string) [required] The client ID to use for OAuth authorization for the con- nection. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ ClientSecret -&gt; (string) [required] The client secret associated with the client ID to use for OAuth authorization for the connection. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ AuthorizationEndpoint -&gt; (string) [required] The URL to the authorization endpoint when OAuth is specified as the authorization type. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$ HttpMethod -&gt; (string) [required] The method to use for the authorization request. Possible values: o GET o POST o PUT OAuthHttpParameters -&gt; (structure) Details about the additional parameters to use for the con- nection. HeaderParameters -&gt; (list) Any additional header parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the header. You can include up to 100 additional header parameters per re- quest. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Constraints: o max: 512 o pattern: ^[!#$%&amp;'*+-.^_`|~0-9a-zA-Z]+$ Value -&gt; (string) The value associated with the key. Constraints: o max: 512 o pattern: ^[ \t]*[\x20-\x7E]+([ \t]+[\x20-\x7E]+)*[ \t]*$ IsValueSecret -&gt; (boolean) Specifies whether the value is a secret. QueryStringParameters -&gt; (list) Any additional query string parameters for the connec- tion. Constraints: o min: 0 o max: 100 (structure) Any additional query string parameter for the connec- tion. You can include up to 100 additional query string parameters per request. Each additional parame- ter counts towards the event payload size, which can- not exceed 64 KB. Key -&gt; (string) The key for a query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) The value associated with the key for the query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+ IsValueSecret -&gt; (boolean) Specifies whether the value is secret. BodyParameters -&gt; (list) Any additional body string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the body. You can in- clude up to 100 additional body parameters per re- quest. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Value -&gt; (string) The value associated with the key. IsValueSecret -&gt; (boolean) Specifies whether the value is secret. ApiKeyAuthParameters -&gt; (structure) The API key authorization parameters to use for the connection. ApiKeyName -&gt; (string) [required] The name of the API key to use for authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ ApiKeyValue -&gt; (string) [required] The value for the API key to use for authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ InvocationHttpParameters -&gt; (structure) The API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters , including query strings, the parame- ters added for the connection take precedence. HeaderParameters -&gt; (list) Any additional header parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the header. You can in- clude up to 100 additional header parameters per request. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Constraints: o max: 512 o pattern: ^[!#$%&amp;'*+-.^_`|~0-9a-zA-Z]+$ Value -&gt; (string) The value associated with the key. Constraints: o max: 512 o pattern: ^[ \t]*[\x20-\x7E]+([ \t]+[\x20-\x7E]+)*[ \t]*$ IsValueSecret -&gt; (boolean) Specifies whether the value is a secret. QueryStringParameters -&gt; (list) Any additional query string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Any additional query string parameter for the connection. You can include up to 100 additional query string parame- ters per request. Each additional parameter counts to- wards the event payload size, which cannot exceed 64 KB. Key -&gt; (string) The key for a query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) The value associated with the key for the query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+ IsValueSecret -&gt; (boolean) Specifies whether the value is secret. BodyParameters -&gt; (list) Any additional body string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the body. You can in- clude up to 100 additional body parameters per request. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Value -&gt; (string) The value associated with the key. IsValueSecret -&gt; (boolean) Specifies whether the value is secret. ConnectivityParameters -&gt; (structure) If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see Authorization methods for connections in the * Amazon EventBridge User Guide * . ResourceParameters -&gt; (structure) [required] The parameters for EventBridge to use when invoking the re- source endpoint. ResourceConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource configuration for the resource endpoint. Constraints: o min: 0 o max: 2048 o pattern: ^(?:^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}$|^$) JSON Syntax: { "BasicAuthParameters": { "Username": "string", "Password": "string" }, "OAuthParameters": { "ClientParameters": { "ClientID": "string", "ClientSecret": "string" }, "AuthorizationEndpoint": "string", "HttpMethod": "GET"|"POST"|"PUT", "OAuthHttpParameters": { "HeaderParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "QueryStringParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "BodyParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ] } }, "ApiKeyAuthParameters": { "ApiKeyName": "string", "ApiKeyValue": "string" }, "InvocationHttpParameters": { "HeaderParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "QueryStringParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "BodyParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ] }, "ConnectivityParameters": { "ResourceParameters": { "ResourceConfigurationArn": "string" } } }</param>
+    public AwsEventsCreateConnectionOptions(
+        string Name,
+        AwsEventsCreateConnectionAuthorizationType AuthorizationType,
+        string AuthParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationType);
+        this.AuthorizationType = AuthorizationType;
+        global::System.ArgumentNullException.ThrowIfNull(AuthParameters);
+        this.AuthParameters = AuthParameters;
+    }
+
+    private AwsEventsCreateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsCreateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsCreateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the connection to create. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of authorization to use for the connection. NOTE: OAUTH tokens are refreshed when a 401 or 407 response is re- turned. Possible values: o BASIC o OAUTH_CLIENT_CREDENTIALS o API_KEY
+    /// </summary>
+    [CliOption("--authorization-type")]
+    public AwsEventsCreateConnectionAuthorizationType? AuthorizationType { get; private init; }
+
+    /// <summary>
+    /// The authorization parameters to use to authorize with the endpoint. You must include only authorization parameters for the Authoriza- tionType you specify. BasicAuthParameters -&gt; (structure) The Basic authorization parameters to use for the connection. Username -&gt; (string) [required] The user name to use for Basic authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ Password -&gt; (string) [required] The password associated with the user name to use for Basic authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ OAuthParameters -&gt; (structure) The OAuth authorization parameters to use for the connection. ClientParameters -&gt; (structure) [required] The client parameters for OAuth authorization. ClientID -&gt; (string) [required] The client ID to use for OAuth authorization for the con- nection. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ ClientSecret -&gt; (string) [required] The client secret associated with the client ID to use for OAuth authorization for the connection. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ AuthorizationEndpoint -&gt; (string) [required] The URL to the authorization endpoint when OAuth is specified as the authorization type. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$ HttpMethod -&gt; (string) [required] The method to use for the authorization request. Possible values: o GET o POST o PUT OAuthHttpParameters -&gt; (structure) Details about the additional parameters to use for the con- nection. HeaderParameters -&gt; (list) Any additional header parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the header. You can include up to 100 additional header parameters per re- quest. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Constraints: o max: 512 o pattern: ^[!#$%&amp;'*+-.^_`|~0-9a-zA-Z]+$ Value -&gt; (string) The value associated with the key. Constraints: o max: 512 o pattern: ^[ \t]*[\x20-\x7E]+([ \t]+[\x20-\x7E]+)*[ \t]*$ IsValueSecret -&gt; (boolean) Specifies whether the value is a secret. QueryStringParameters -&gt; (list) Any additional query string parameters for the connec- tion. Constraints: o min: 0 o max: 100 (structure) Any additional query string parameter for the connec- tion. You can include up to 100 additional query string parameters per request. Each additional parame- ter counts towards the event payload size, which can- not exceed 64 KB. Key -&gt; (string) The key for a query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) The value associated with the key for the query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+ IsValueSecret -&gt; (boolean) Specifies whether the value is secret. BodyParameters -&gt; (list) Any additional body string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the body. You can in- clude up to 100 additional body parameters per re- quest. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Value -&gt; (string) The value associated with the key. IsValueSecret -&gt; (boolean) Specifies whether the value is secret. ApiKeyAuthParameters -&gt; (structure) The API key authorization parameters to use for the connection. ApiKeyName -&gt; (string) [required] The name of the API key to use for authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ ApiKeyValue -&gt; (string) [required] The value for the API key to use for authorization. Constraints: o min: 1 o max: 512 o pattern: ^[ \t]*[^\x00-\x1F:\x7F]+([ \t]+[^\x00-\x1F:\x7F]+)*[ \t]*$ InvocationHttpParameters -&gt; (structure) The API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters , including query strings, the parame- ters added for the connection take precedence. HeaderParameters -&gt; (list) Any additional header parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the header. You can in- clude up to 100 additional header parameters per request. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Constraints: o max: 512 o pattern: ^[!#$%&amp;'*+-.^_`|~0-9a-zA-Z]+$ Value -&gt; (string) The value associated with the key. Constraints: o max: 512 o pattern: ^[ \t]*[\x20-\x7E]+([ \t]+[\x20-\x7E]+)*[ \t]*$ IsValueSecret -&gt; (boolean) Specifies whether the value is a secret. QueryStringParameters -&gt; (list) Any additional query string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Any additional query string parameter for the connection. You can include up to 100 additional query string parame- ters per request. Each additional parameter counts to- wards the event payload size, which cannot exceed 64 KB. Key -&gt; (string) The key for a query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) The value associated with the key for the query string parameter. Constraints: o max: 512 o pattern: [^\x00-\x09\x0B\x0C\x0E-\x1F\x7F]+ IsValueSecret -&gt; (boolean) Specifies whether the value is secret. BodyParameters -&gt; (list) Any additional body string parameters for the connection. Constraints: o min: 0 o max: 100 (structure) Additional parameter included in the body. You can in- clude up to 100 additional body parameters per request. An event payload cannot exceed 64 KB. Key -&gt; (string) The key for the parameter. Value -&gt; (string) The value associated with the key. IsValueSecret -&gt; (boolean) Specifies whether the value is secret. ConnectivityParameters -&gt; (structure) If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see Authorization methods for connections in the * Amazon EventBridge User Guide * . ResourceParameters -&gt; (structure) [required] The parameters for EventBridge to use when invoking the re- source endpoint. ResourceConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource configuration for the resource endpoint. Constraints: o min: 0 o max: 2048 o pattern: ^(?:^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}$|^$) JSON Syntax: { "BasicAuthParameters": { "Username": "string", "Password": "string" }, "OAuthParameters": { "ClientParameters": { "ClientID": "string", "ClientSecret": "string" }, "AuthorizationEndpoint": "string", "HttpMethod": "GET"|"POST"|"PUT", "OAuthHttpParameters": { "HeaderParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "QueryStringParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "BodyParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ] } }, "ApiKeyAuthParameters": { "ApiKeyName": "string", "ApiKeyValue": "string" }, "InvocationHttpParameters": { "HeaderParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "QueryStringParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ], "BodyParameters": [ { "Key": "string", "Value": "string", "IsValueSecret": true|false } ... ] }, "ConnectivityParameters": { "ResourceParameters": { "ResourceConfigurationArn": "string" } } }
+    /// </summary>
+    [SecretValue]
+    [CliOption("--auth-parameters")]
+    public string? AuthParameters { get; private init; }
 
     /// <summary>
     /// A description for the connection to create. Constraints: o max: 512 o pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--authorization-type")]
-    public string? AuthorizationType { get; set; }
-
-    [CliOption("--auth-parameters")]
-    public string? AuthParameters { get; set; }
 
     /// <summary>
     /// For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the * Amazon EventBridge User Guide * . ResourceParameters -&gt; (structure) [required] The parameters for EventBridge to use when invoking the resource endpoint. ResourceConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon VPC Lattice re- source configuration for the resource endpoint. Constraints: o min: 0 o max: 2048 o pattern: ^(?:^arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}$|^$) Shorthand Syntax: ResourceParameters={ResourceConfigurationArn=string} JSON Syntax: { "ResourceParameters": { "ResourceConfigurationArn": "string" } }
@@ -53,5 +107,21 @@ public record AwsEventsCreateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

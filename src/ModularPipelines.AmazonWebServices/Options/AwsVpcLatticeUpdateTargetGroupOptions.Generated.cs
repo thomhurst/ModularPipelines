@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-target-group")]
-public record AwsVpcLatticeUpdateTargetGroupOptions : AwsOptions
+public record AwsVpcLatticeUpdateTargetGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-group-identifier")]
-    public string? TargetGroupIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified target group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="HealthCheck">The health check configuration. enabled -&gt; (boolean) Indicates whether health checking is enabled. protocol -&gt; (string) The protocol used when performing health checks on targets. The possible protocols are HTTP and HTTPS . The default is HTTP . Possible values: o HTTP o HTTPS o TCP protocolVersion -&gt; (string) The protocol version used when performing health checks on tar- gets. The possible protocol versions are HTTP1 and HTTP2 . Possible values: o HTTP1 o HTTP2 port -&gt; (integer) The port used when performing health checks on targets. The de- fault setting is the port that a target receives traffic on. Constraints: o min: 0 o max: 65535 path -&gt; (string) The destination for health checks on the targets. If the proto- col version is HTTP/1.1 or HTTP/2 , specify a valid URI (for ex- ample, /path?query ). The default path is / . Health checks are not supported if the protocol version is gRPC , however, you can choose HTTP/1.1 or HTTP/2 and specify a valid URI. Constraints: o min: 0 o max: 2048 o pattern: .*(^/[a-zA-Z0-9@:%_+.~#?&amp;/=-]*$|(^$)).* healthCheckIntervalSeconds -&gt; (integer) The approximate amount of time, in seconds, between health checks of an individual target. The range is 5300 seconds. The default is 30 seconds. Constraints: o min: 0 o max: 300 healthCheckTimeoutSeconds -&gt; (integer) The amount of time, in seconds, to wait before reporting a tar- get as unhealthy. The range is 1120 seconds. The default is 5 seconds. Constraints: o min: 0 o max: 120 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks required be- fore considering an unhealthy target healthy. The range is 210. The default is 5. Constraints: o min: 0 o max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before considering a target unhealthy. The range is 210. The default is 2. Constraints: o min: 0 o max: 10 matcher -&gt; (tagged union structure) The codes to use when checking for a successful response from a target. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpCode. httpCode -&gt; (string) The HTTP code to use when checking for a successful response from a target. Constraints: o min: 0 o max: 2000 o pattern: .*(^[0-9-,]+$|(^$)).* Shorthand Syntax: enabled=boolean,protocol=string,protocolVersion=string,port=integer,path=string,healthCheckIntervalSeconds=integer,healthCheckTimeoutSeconds=integer,healthyThresholdCount=integer,unhealthyThresholdCount=integer,matcher={httpCode=string} JSON Syntax: { "enabled": true|false, "protocol": "HTTP"|"HTTPS"|"TCP", "protocolVersion": "HTTP1"|"HTTP2", "port": integer, "path": "string", "healthCheckIntervalSeconds": integer, "healthCheckTimeoutSeconds": integer, "healthyThresholdCount": integer, "unhealthyThresholdCount": integer, "matcher": { "httpCode": "string" } }</param>
+    public AwsVpcLatticeUpdateTargetGroupOptions(
+        string TargetGroupIdentifier,
+        string HealthCheck
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetGroupIdentifier);
+        this.TargetGroupIdentifier = TargetGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(HealthCheck);
+        this.HealthCheck = HealthCheck;
+    }
+
+    private AwsVpcLatticeUpdateTargetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateTargetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateTargetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--target-group-identifier")]
+    public string? TargetGroupIdentifier { get; private init; }
+
+    /// <summary>
+    /// The health check configuration. enabled -&gt; (boolean) Indicates whether health checking is enabled. protocol -&gt; (string) The protocol used when performing health checks on targets. The possible protocols are HTTP and HTTPS . The default is HTTP . Possible values: o HTTP o HTTPS o TCP protocolVersion -&gt; (string) The protocol version used when performing health checks on tar- gets. The possible protocol versions are HTTP1 and HTTP2 . Possible values: o HTTP1 o HTTP2 port -&gt; (integer) The port used when performing health checks on targets. The de- fault setting is the port that a target receives traffic on. Constraints: o min: 0 o max: 65535 path -&gt; (string) The destination for health checks on the targets. If the proto- col version is HTTP/1.1 or HTTP/2 , specify a valid URI (for ex- ample, /path?query ). The default path is / . Health checks are not supported if the protocol version is gRPC , however, you can choose HTTP/1.1 or HTTP/2 and specify a valid URI. Constraints: o min: 0 o max: 2048 o pattern: .*(^/[a-zA-Z0-9@:%_+.~#?&amp;/=-]*$|(^$)).* healthCheckIntervalSeconds -&gt; (integer) The approximate amount of time, in seconds, between health checks of an individual target. The range is 5300 seconds. The default is 30 seconds. Constraints: o min: 0 o max: 300 healthCheckTimeoutSeconds -&gt; (integer) The amount of time, in seconds, to wait before reporting a tar- get as unhealthy. The range is 1120 seconds. The default is 5 seconds. Constraints: o min: 0 o max: 120 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks required be- fore considering an unhealthy target healthy. The range is 210. The default is 5. Constraints: o min: 0 o max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required before considering a target unhealthy. The range is 210. The default is 2. Constraints: o min: 0 o max: 10 matcher -&gt; (tagged union structure) The codes to use when checking for a successful response from a target. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: httpCode. httpCode -&gt; (string) The HTTP code to use when checking for a successful response from a target. Constraints: o min: 0 o max: 2000 o pattern: .*(^[0-9-,]+$|(^$)).* Shorthand Syntax: enabled=boolean,protocol=string,protocolVersion=string,port=integer,path=string,healthCheckIntervalSeconds=integer,healthCheckTimeoutSeconds=integer,healthyThresholdCount=integer,unhealthyThresholdCount=integer,matcher={httpCode=string} JSON Syntax: { "enabled": true|false, "protocol": "HTTP"|"HTTPS"|"TCP", "protocolVersion": "HTTP1"|"HTTP2", "port": integer, "path": "string", "healthCheckIntervalSeconds": integer, "healthCheckTimeoutSeconds": integer, "healthyThresholdCount": integer, "unhealthyThresholdCount": integer, "matcher": { "httpCode": "string" } }
+    /// </summary>
     [CliOption("--health-check")]
-    public string? HealthCheck { get; set; }
+    public string? HealthCheck { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

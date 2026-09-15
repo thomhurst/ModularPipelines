@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-browser-session")]
-public record AwsBedrockAgentcoreGetBrowserSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreGetBrowserSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--browser-identifier")]
-    public string? BrowserIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves detailed information about a specific browser session in Ama- zon Bedrock AgentCore. This operation returns the session's configura- tion, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the ses- sion's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : o StartBrowserSession o ListBr...
+    /// </summary>
+    /// <param name="BrowserIdentifier">The unique identifier of the browser associated with the session.</param>
+    /// <param name="SessionId">The unique identifier of the browser session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    public AwsBedrockAgentcoreGetBrowserSessionOptions(
+        string BrowserIdentifier,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrowserIdentifier);
+        this.BrowserIdentifier = BrowserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsBedrockAgentcoreGetBrowserSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetBrowserSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetBrowserSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the browser associated with the session.
+    /// </summary>
+    [CliOption("--browser-identifier")]
+    public string? BrowserIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the browser session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling-plans", "update-scaling-plan")]
-public record AwsAutoscalingPlansUpdateScalingPlanOptions : AwsOptions
+public record AwsAutoscalingPlansUpdateScalingPlanOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scaling-plan-name")]
-    public string? ScalingPlanName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being cre- ated, updated, or deleted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScalingPlanName">The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+</param>
+    /// <param name="ScalingPlanVersion">The version number of the scaling plan. The only valid value is 1 . Currently, you cannot have multiple scaling plan versions.</param>
+    public AwsAutoscalingPlansUpdateScalingPlanOptions(
+        string ScalingPlanName,
+        int ScalingPlanVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScalingPlanName);
+        this.ScalingPlanName = ScalingPlanName;
+        this.ScalingPlanVersion = ScalingPlanVersion;
+    }
+
+    private AwsAutoscalingPlansUpdateScalingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingPlansUpdateScalingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingPlansUpdateScalingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+
+    /// </summary>
+    [CliOption("--scaling-plan-name")]
+    public string? ScalingPlanName { get; private init; }
+
+    /// <summary>
+    /// The version number of the scaling plan. The only valid value is 1 . Currently, you cannot have multiple scaling plan versions.
+    /// </summary>
     [CliOption("--scaling-plan-version")]
-    public int? ScalingPlanVersion { get; set; }
+    public int? ScalingPlanVersion { get; private init; }
 
     /// <summary>
     /// A CloudFormation stack or set of tags. For more information, see ApplicationSource in the AWS Auto Scaling API Reference . CloudFormationStackARN -&gt; (string) The Amazon Resource Name (ARN) of a AWS CloudFormation stack. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* TagFilters -&gt; (list) A set of tags (up to 50). (structure) Represents a tag. Key -&gt; (string) The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Values -&gt; (list) The tag values (0 to 20). (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: { "CloudFormationStackARN": "string", "TagFilters": [ { "Key": "string", "Values": ["string", ...] } ... ] }
@@ -44,5 +87,21 @@ public record AwsAutoscalingPlansUpdateScalingPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

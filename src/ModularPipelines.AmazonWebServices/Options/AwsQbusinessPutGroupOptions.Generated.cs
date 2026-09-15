@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +21,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qbusiness", "put-group")]
-public record AwsQbusinessPutGroupOptions : AwsOptions
+public record AwsQbusinessPutGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create, or updates, a mapping of userswho have access to a documentto groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engi- neering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineer- ing, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. ...
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the application in which the user and group map- ping belongs. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the index in which you want to map users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="GroupName">The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". Constraints: o min: 1 o max: 1024 o pattern: \P{C}*</param>
+    /// <param name="Type">The type of the group. Possible values: o INDEX o DATASOURCE</param>
+    /// <param name="GroupMembers">A list of users or sub groups that belong to a group. This is for generating Amazon Q Business chat results only from document a user has access to. memberGroups -&gt; (list) A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company". (structure) The sub groups that belong to a group. groupName -&gt; (string) [required] The name of the sub group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}* type -&gt; (string) The type of the sub group. Possible values: o INDEX o DATASOURCE memberUsers -&gt; (list) A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group. (structure) The users that belong to a group. userId -&gt; (string) [required] The identifier of the user you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}* type -&gt; (string) The type of the user. Possible values: o INDEX o DATASOURCE s3PathForGroupMembers -&gt; (structure) Information required for Amazon Q Business to find a specific file in an Amazon S3 bucket. bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: memberGroups=[{groupName=string,type=string},{groupName=string,type=string}],memberUsers=[{userId=string,type=string},{userId=string,type=string}],s3PathForGroupMembers={bucket=string,key=string} JSON Syntax: { "memberGroups": [ { "groupName": "string", "type": "INDEX"|"DATASOURCE" } ... ], "memberUsers": [ { "userId": "string", "type": "INDEX"|"DATASOURCE" } ... ], "s3PathForGroupMembers": { "bucket": "string", "key": "string" } }</param>
+    public AwsQbusinessPutGroupOptions(
+        string ApplicationId,
+        string IndexId,
+        string GroupName,
+        AwsQbusinessPutGroupType Type,
+        string GroupMembers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(GroupMembers);
+        this.GroupMembers = GroupMembers;
+    }
+
+    private AwsQbusinessPutGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQbusinessPutGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQbusinessPutGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the application in which the user and group map- ping belongs. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the index in which you want to map users to their groups. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
 
+    /// <summary>
+    /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". Constraints: o min: 1 o max: 1024 o pattern: \P{C}*
+    /// </summary>
     [CliOption("--group-name")]
-    public string? GroupName { get; set; }
+    public string? GroupName { get; private init; }
+
+    /// <summary>
+    /// The type of the group. Possible values: o INDEX o DATASOURCE
+    /// </summary>
+    [CliOption("--type")]
+    public AwsQbusinessPutGroupType? Type { get; private init; }
+
+    /// <summary>
+    /// A list of users or sub groups that belong to a group. This is for generating Amazon Q Business chat results only from document a user has access to. memberGroups -&gt; (list) A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company". (structure) The sub groups that belong to a group. groupName -&gt; (string) [required] The name of the sub group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}* type -&gt; (string) The type of the sub group. Possible values: o INDEX o DATASOURCE memberUsers -&gt; (list) A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group. (structure) The users that belong to a group. userId -&gt; (string) [required] The identifier of the user you want to map to a group. Constraints: o min: 1 o max: 1024 o pattern: \P{C}* type -&gt; (string) The type of the user. Possible values: o INDEX o DATASOURCE s3PathForGroupMembers -&gt; (structure) Information required for Amazon Q Business to find a specific file in an Amazon S3 bucket. bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: memberGroups=[{groupName=string,type=string},{groupName=string,type=string}],memberUsers=[{userId=string,type=string},{userId=string,type=string}],s3PathForGroupMembers={bucket=string,key=string} JSON Syntax: { "memberGroups": [ { "groupName": "string", "type": "INDEX"|"DATASOURCE" } ... ], "memberUsers": [ { "userId": "string", "type": "INDEX"|"DATASOURCE" } ... ], "s3PathForGroupMembers": { "bucket": "string", "key": "string" } }
+    /// </summary>
+    [CliOption("--group-members")]
+    public string? GroupMembers { get; private init; }
 
     /// <summary>
     /// The identifier of the data source for which you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a cer- tain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [CliOption("--group-members")]
-    public string? GroupMembers { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains your list of users that belong to a group. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
@@ -53,5 +119,21 @@ public record AwsQbusinessPutGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-artifact")]
-public record AwsSagemakerCreateArtifactOptions : AwsOptions
+public record AwsSagemakerCreateArtifactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an artifact . An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more infor- mation, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Source">The ID, ID type, and URI of the source. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceTypes -&gt; (list) A list of source types. (structure) The ID and ID type of an artifact source. SourceIdType -&gt; (string) [required] The type of ID. Possible values: o MD5Hash o S3ETag o S3Version o Custom Value -&gt; (string) [required] The ID. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceTypes=[{SourceIdType=string,Value=string},{SourceIdType=string,Value=string}] JSON Syntax: { "SourceUri": "string", "SourceTypes": [ { "SourceIdType": "MD5Hash"|"S3ETag"|"S3Version"|"Custom", "Value": "string" } ... ] }</param>
+    /// <param name="ArtifactType">The artifact type. Constraints: o min: 0 o max: 256</param>
+    public AwsSagemakerCreateArtifactOptions(
+        string Source,
+        string ArtifactType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactType);
+        this.ArtifactType = ArtifactType;
+    }
+
+    private AwsSagemakerCreateArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID, ID type, and URI of the source. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceTypes -&gt; (list) A list of source types. (structure) The ID and ID type of an artifact source. SourceIdType -&gt; (string) [required] The type of ID. Possible values: o MD5Hash o S3ETag o S3Version o Custom Value -&gt; (string) [required] The ID. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceTypes=[{SourceIdType=string,Value=string},{SourceIdType=string,Value=string}] JSON Syntax: { "SourceUri": "string", "SourceTypes": [ { "SourceIdType": "MD5Hash"|"S3ETag"|"S3Version"|"Custom", "Value": "string" } ... ] }
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The artifact type. Constraints: o min: 0 o max: 256
+    /// </summary>
+    [CliOption("--artifact-type")]
+    public string? ArtifactType { get; private init; }
+
     /// <summary>
     /// The name of the artifact. Must be unique to your account in an Ama- zon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--artifact-name")]
     public string? ArtifactName { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
-    [CliOption("--artifact-type")]
-    public string? ArtifactType { get; set; }
 
     /// <summary>
     /// A list of properties to add to the artifact. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 4096 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -57,5 +101,21 @@ public record AwsSagemakerCreateArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

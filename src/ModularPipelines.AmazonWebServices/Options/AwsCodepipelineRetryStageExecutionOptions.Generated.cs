@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "retry-stage-execution")]
-public record AwsCodepipelineRetryStageExecutionOptions : AwsOptions
+public record AwsCodepipelineRetryStageExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed ac- tions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress....
+    /// </summary>
+    /// <param name="PipelineName">The name of the pipeline that contains the failed stage. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the failed stage to be retried. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineEx- ecutionId of the failed stage Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="RetryMode">The scope of the retry attempt. Possible values: o FAILED_ACTIONS o ALL_ACTIONS</param>
+    public AwsCodepipelineRetryStageExecutionOptions(
+        string PipelineName,
+        string StageName,
+        string PipelineExecutionId,
+        AwsCodepipelineRetryStageExecutionRetryMode RetryMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+        global::System.ArgumentNullException.ThrowIfNull(PipelineExecutionId);
+        this.PipelineExecutionId = PipelineExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(RetryMode);
+        this.RetryMode = RetryMode;
+    }
+
+    private AwsCodepipelineRetryStageExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineRetryStageExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineRetryStageExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pipeline that contains the failed stage. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
+    /// <summary>
+    /// The name of the failed stage to be retried. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string? StageName { get; private init; }
 
+    /// <summary>
+    /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineEx- ecutionId of the failed stage Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--pipeline-execution-id")]
-    public string? PipelineExecutionId { get; set; }
+    public string? PipelineExecutionId { get; private init; }
 
+    /// <summary>
+    /// The scope of the retry attempt. Possible values: o FAILED_ACTIONS o ALL_ACTIONS
+    /// </summary>
     [CliOption("--retry-mode")]
-    public string? RetryMode { get; set; }
+    public AwsCodepipelineRetryStageExecutionRetryMode? RetryMode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

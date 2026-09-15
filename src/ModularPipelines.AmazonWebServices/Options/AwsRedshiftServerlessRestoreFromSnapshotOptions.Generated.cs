@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "restore-from-snapshot")]
-public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions
+public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores a namespace from a snapshot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceName">The name of the namespace to restore the snapshot to. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup used to restore the snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessRestoreFromSnapshotOptions(
+        string NamespaceName,
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessRestoreFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessRestoreFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessRestoreFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the namespace to restore the snapshot to. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the workgroup used to restore the snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--workgroup-name")]
+    public string? WorkgroupName { get; private init; }
+
     /// <summary>
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
     /// </summary>
-    [SecretValue]
     [CliOption("--admin-password-secret-kms-key-id")]
     public string? AdminPasswordSecretKmsKeyId { get; set; }
 
-    [CliFlag("--maintain-integration")]
+    /// <summary>
+    /// If true , maintain existing data sharing, zero-ETL and S3 event in- tegrations when restoring. Otherwise, integrations will not be main- tained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+    /// </summary>
+    [CliFlag("--maintain-integration", NegatedName = "--no-maintain-integration")]
     public bool? MaintainIntegration { get; set; }
 
-    [CliFlag("--manage-admin-password")]
+    /// <summary>
+    /// If true , Amazon Redshift uses Secrets Manager to manage the re- stored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
+    /// </summary>
+    [CliFlag("--manage-admin-password", NegatedName = "--no-manage-admin-password")]
     public bool? ManageAdminPassword { get; set; }
-
-    [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account that owns the snapshot.
@@ -56,13 +107,26 @@ public record AwsRedshiftServerlessRestoreFromSnapshotOptions : AwsOptions
     [CliOption("--snapshot-name")]
     public string? SnapshotName { get; set; }
 
-    [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

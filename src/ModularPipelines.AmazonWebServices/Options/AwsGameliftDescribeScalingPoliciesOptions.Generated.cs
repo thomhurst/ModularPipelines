@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "describe-scaling-policies")]
-public record AwsGameliftDescribeScalingPoliciesOptions : AwsOptions
+public record AwsGameliftDescribeScalingPoliciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Container Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is re- turned for the fleet. A fleet may have all of its scaling policies suspended. This operation does not a...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet for which to retrieve scaling policies. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    public AwsGameliftDescribeScalingPoliciesOptions(
+        string FleetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+    }
+
+    private AwsGameliftDescribeScalingPoliciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDescribeScalingPoliciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDescribeScalingPoliciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet for which to retrieve scaling policies. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
     /// <summary>
     /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status. o ACTIVE -- The scaling policy is currently in force. o UPDATEREQUESTED -- A request to update the scaling policy has been received. o UPDATING -- A change is being made to the scaling policy. o DELETEREQUESTED -- A request to delete the scaling policy has been received. o DELETING -- The scaling policy is being deleted. o DELETED -- The scaling policy has been deleted. o ERROR -- An error occurred in creating the policy. It should be removed and recreated. Possible values: o ACTIVE o UPDATE_REQUESTED o UPDATING o DELETE_REQUESTED o DELETING o DELETED o ERROR
@@ -62,5 +99,21 @@ public record AwsGameliftDescribeScalingPoliciesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "create-private-connection")]
-public record AwsSecurityagentCreatePrivateConnectionOptions : AwsOptions
+public record AwsSecurityagentCreatePrivateConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--private-connection-name")]
-    public string? PrivateConnectionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a private connection for reaching a self-hosted provider in- stance over private networking using Amazon VPC Lattice. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PrivateConnectionName">A unique name for the private connection within your account.</param>
+    /// <param name="Mode">The configuration for the private connection. Specify either a ser- vice-managed or a self-managed mode. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serviceManaged, selfManaged. serviceManaged -&gt; (structure) The configuration for a service-managed private connection, where the service manages the resource gateway lifecycle. hostAddress -&gt; (string) [required] The IP address or DNS name of the target resource. vpcId -&gt; (string) [required] The VPC to create the service-managed resource gateway in. subnetIds -&gt; (list) [required] The subnets that the service-managed resource gateway spans. (string) The identifier of a subnet. securityGroupIds -&gt; (list) The security groups to attach to the service-managed resource gateway. (string) The identifier of a security group. ipAddressType -&gt; (string) The IP address type of the service-managed resource gateway. Possible values: o IPV4 o IPV6 o DUAL_STACK ipv4AddressesPerEni -&gt; (integer) The number of IPv4 addresses in each elastic network inter- face for the service-managed resource gateway. portRanges -&gt; (list) The TCP port ranges that a consumer can use to access the re- source. (string) A single TCP port or an inclusive range of TCP ports, for example 443 or 8000-8100. certificate -&gt; (string) The certificate for the private connection. dnsResolution -&gt; (string) The DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set. Possible values: o PUBLIC o IN_VPC selfManaged -&gt; (structure) The configuration for a self-managed private connection, where you manage your own resource configuration. resourceConfigurationId -&gt; (string) [required] The identifier or ARN of the resource configuration. certificate -&gt; (string) The certificate for the private connection. Shorthand Syntax: serviceManaged={hostAddress=string,vpcId=string,subnetIds=[string,string],securityGroupIds=[string,string],ipAddressType=string,ipv4AddressesPerEni=integer,portRanges=[string,string],certificate=string,dnsResolution=string},selfManaged={resourceConfigurationId=string,certificate=string} JSON Syntax: { "serviceManaged": { "hostAddress": "string", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "ipAddressType": "IPV4"|"IPV6"|"DUAL_STACK", "ipv4AddressesPerEni": integer, "portRanges": ["string", ...], "certificate": "string", "dnsResolution": "PUBLIC"|"IN_VPC" }, "selfManaged": { "resourceConfigurationId": "string", "certificate": "string" } }</param>
+    public AwsSecurityagentCreatePrivateConnectionOptions(
+        string PrivateConnectionName,
+        string Mode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrivateConnectionName);
+        this.PrivateConnectionName = PrivateConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(Mode);
+        this.Mode = Mode;
+    }
+
+    private AwsSecurityagentCreatePrivateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentCreatePrivateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentCreatePrivateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the private connection within your account.
+    /// </summary>
+    [CliOption("--private-connection-name")]
+    public string? PrivateConnectionName { get; private init; }
+
+    /// <summary>
+    /// The configuration for the private connection. Specify either a ser- vice-managed or a self-managed mode. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serviceManaged, selfManaged. serviceManaged -&gt; (structure) The configuration for a service-managed private connection, where the service manages the resource gateway lifecycle. hostAddress -&gt; (string) [required] The IP address or DNS name of the target resource. vpcId -&gt; (string) [required] The VPC to create the service-managed resource gateway in. subnetIds -&gt; (list) [required] The subnets that the service-managed resource gateway spans. (string) The identifier of a subnet. securityGroupIds -&gt; (list) The security groups to attach to the service-managed resource gateway. (string) The identifier of a security group. ipAddressType -&gt; (string) The IP address type of the service-managed resource gateway. Possible values: o IPV4 o IPV6 o DUAL_STACK ipv4AddressesPerEni -&gt; (integer) The number of IPv4 addresses in each elastic network inter- face for the service-managed resource gateway. portRanges -&gt; (list) The TCP port ranges that a consumer can use to access the re- source. (string) A single TCP port or an inclusive range of TCP ports, for example 443 or 8000-8100. certificate -&gt; (string) The certificate for the private connection. dnsResolution -&gt; (string) The DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set. Possible values: o PUBLIC o IN_VPC selfManaged -&gt; (structure) The configuration for a self-managed private connection, where you manage your own resource configuration. resourceConfigurationId -&gt; (string) [required] The identifier or ARN of the resource configuration. certificate -&gt; (string) The certificate for the private connection. Shorthand Syntax: serviceManaged={hostAddress=string,vpcId=string,subnetIds=[string,string],securityGroupIds=[string,string],ipAddressType=string,ipv4AddressesPerEni=integer,portRanges=[string,string],certificate=string,dnsResolution=string},selfManaged={resourceConfigurationId=string,certificate=string} JSON Syntax: { "serviceManaged": { "hostAddress": "string", "vpcId": "string", "subnetIds": ["string", ...], "securityGroupIds": ["string", ...], "ipAddressType": "IPV4"|"IPV6"|"DUAL_STACK", "ipv4AddressesPerEni": integer, "portRanges": ["string", ...], "certificate": "string", "dnsResolution": "PUBLIC"|"IN_VPC" }, "selfManaged": { "resourceConfigurationId": "string", "certificate": "string" } }
+    /// </summary>
     [CliOption("--mode")]
-    public string? Mode { get; set; }
+    public string? Mode { get; private init; }
 
     /// <summary>
     /// The tags to attach to the private connection. key -&gt; (string) Key for a resource tag. value -&gt; (string) Value for a resource tag. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,21 @@ public record AwsSecurityagentCreatePrivateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

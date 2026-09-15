@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "update-network")]
-public record AwsWickrUpdateNetworkOptions : AwsOptions
+public record AwsWickrUpdateNetworkOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of an existing Wickr network, such as its name or encryption key configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkName">The new name for the network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*</param>
+    public AwsWickrUpdateNetworkOptions(
+        string NetworkId,
+        string NetworkName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkName);
+        this.NetworkName = NetworkName;
+    }
+
+    private AwsWickrUpdateNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrUpdateNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrUpdateNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The new name for the network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--network-name")]
-    public string? NetworkName { get; set; }
+    public string? NetworkName { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
@@ -46,5 +90,21 @@ public record AwsWickrUpdateNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

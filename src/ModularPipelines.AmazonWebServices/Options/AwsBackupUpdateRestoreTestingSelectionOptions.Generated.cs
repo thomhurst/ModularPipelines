@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "update-restore-testing-selection")]
-public record AwsBackupUpdateRestoreTestingSelectionOptions : AwsOptions
+public record AwsBackupUpdateRestoreTestingSelectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified restore testing selection. Most elements except the RestoreTestingSelectionName can be updated with this request. You can use either protected resource ARNs or conditions, but not both. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestoreTestingPlanName">The restore testing plan name is required to update the indicated testing plan.</param>
+    /// <param name="RestoreTestingSelection">To update your restore testing selection, you can use either pro- tected resource ARNs or conditions, but not both. That is, if your selection has ProtectedResourceArns , requesting an update with the parameter ProtectedResourceConditions will be unsuccessful. IamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access . ProtectedResourceArns -&gt; (list) You can include a list of specific ARNs, such as Protecte- dResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"] , but not both. (string) ProtectedResourceConditions -&gt; (structure) The conditions that you define for resources in your restore testing plan using tags. StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ RestoreMetadataOverrides -&gt; (map) You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTest- ingSelection . Key values are not case sensitive. See the complete list of restore testing inferred metadata . key -&gt; (string) value -&gt; (string) ValidationWindowHours -&gt; (integer) This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days). JSON Syntax: { "IamRoleArn": "string", "ProtectedResourceArns": ["string", ...], "ProtectedResourceConditions": { "StringEquals": [ { "Key": "string", "Value": "string" } ... ], "StringNotEquals": [ { "Key": "string", "Value": "string" } ... ] }, "RestoreMetadataOverrides": {"string": "string" ...}, "ValidationWindowHours": integer }</param>
+    /// <param name="RestoreTestingSelectionName">The required restore testing selection name of the restore testing selection you wish to update.</param>
+    public AwsBackupUpdateRestoreTestingSelectionOptions(
+        string RestoreTestingPlanName,
+        string RestoreTestingSelection,
+        string RestoreTestingSelectionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingPlanName);
+        this.RestoreTestingPlanName = RestoreTestingPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingSelection);
+        this.RestoreTestingSelection = RestoreTestingSelection;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingSelectionName);
+        this.RestoreTestingSelectionName = RestoreTestingSelectionName;
+    }
+
+    private AwsBackupUpdateRestoreTestingSelectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupUpdateRestoreTestingSelectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupUpdateRestoreTestingSelectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The restore testing plan name is required to update the indicated testing plan.
+    /// </summary>
     [CliOption("--restore-testing-plan-name")]
-    public string? RestoreTestingPlanName { get; set; }
+    public string? RestoreTestingPlanName { get; private init; }
 
+    /// <summary>
+    /// To update your restore testing selection, you can use either pro- tected resource ARNs or conditions, but not both. That is, if your selection has ProtectedResourceArns , requesting an update with the parameter ProtectedResourceConditions will be unsuccessful. IamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access . ProtectedResourceArns -&gt; (list) You can include a list of specific ARNs, such as Protecte- dResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"] , but not both. (string) ProtectedResourceConditions -&gt; (structure) The conditions that you define for resources in your restore testing plan using tags. StringEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ StringNotEquals -&gt; (list) Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching." (structure) Pair of two related strings. Allowed characters are let- ters, white space, and numbers that can be represented in UTF-8 and the following characters: + - = . _ : / Key -&gt; (string) [required] The tag key (String). The key can't start with aws: . Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ Value -&gt; (string) [required] The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ RestoreMetadataOverrides -&gt; (map) You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTest- ingSelection . Key values are not case sensitive. See the complete list of restore testing inferred metadata . key -&gt; (string) value -&gt; (string) ValidationWindowHours -&gt; (integer) This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days). JSON Syntax: { "IamRoleArn": "string", "ProtectedResourceArns": ["string", ...], "ProtectedResourceConditions": { "StringEquals": [ { "Key": "string", "Value": "string" } ... ], "StringNotEquals": [ { "Key": "string", "Value": "string" } ... ] }, "RestoreMetadataOverrides": {"string": "string" ...}, "ValidationWindowHours": integer }
+    /// </summary>
     [CliOption("--restore-testing-selection")]
-    public string? RestoreTestingSelection { get; set; }
+    public string? RestoreTestingSelection { get; private init; }
 
+    /// <summary>
+    /// The required restore testing selection name of the restore testing selection you wish to update.
+    /// </summary>
     [CliOption("--restore-testing-selection-name")]
-    public string? RestoreTestingSelectionName { get; set; }
+    public string? RestoreTestingSelectionName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

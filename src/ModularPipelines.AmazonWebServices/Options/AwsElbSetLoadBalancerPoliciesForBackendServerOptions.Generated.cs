@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "set-load-balancer-policies-for-backend-server")]
-public record AwsElbSetLoadBalancerPoliciesForBackendServerOptions : AwsOptions
+public record AwsElbSetLoadBalancerPoliciesForBackendServerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies. At this time, only the back-end server authentication policy type can be ap- plied to the instance ports; this policy type is composed of multiple public key policies. Each time you use SetLoadBalancerPoliciesForBackendServer to enable the policies, use the PolicyNames parameter to list the policies that you want to enable. You can use DescribeLoadBalancers or Descri...
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="InstancePort">The port number associated with the EC2 instance.</param>
+    /// <param name="PolicyNames">The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance. (string) Syntax: "string" "string" ...</param>
+    public AwsElbSetLoadBalancerPoliciesForBackendServerOptions(
+        string LoadBalancerName,
+        int InstancePort,
+        IEnumerable<string> PolicyNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        this.InstancePort = InstancePort;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyNames));
+            }
+
+            PolicyNames = materialized;
+        }
+        this.PolicyNames = PolicyNames;
+    }
+
+    private AwsElbSetLoadBalancerPoliciesForBackendServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbSetLoadBalancerPoliciesForBackendServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbSetLoadBalancerPoliciesForBackendServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The port number associated with the EC2 instance.
+    /// </summary>
     [CliOption("--instance-port")]
-    public int? InstancePort { get; set; }
+    public int? InstancePort { get; private init; }
 
+    /// <summary>
+    /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--policy-names", GroupValues = true)]
-    public IEnumerable<string>? PolicyNames { get; set; }
+    public IEnumerable<string>? PolicyNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

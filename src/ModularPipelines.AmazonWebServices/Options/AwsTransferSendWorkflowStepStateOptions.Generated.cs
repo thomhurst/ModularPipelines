@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "send-workflow-step-state")]
-public record AwsTransferSendWorkflowStepStateOptions : AwsOptions
+public record AwsTransferSendWorkflowStepStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target re- source during execution of a custom step of a workflow. You must in- clude those with their callback as well as providing a status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})</param>
+    /// <param name="ExecutionId">A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="Token">Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: o min: 1 o max: 64 o pattern: \w+</param>
+    /// <param name="Status">Indicates whether the specified step succeeded or failed. Possible values: o SUCCESS o FAILURE</param>
+    public AwsTransferSendWorkflowStepStateOptions(
+        string WorkflowId,
+        string ExecutionId,
+        string Token,
+        AwsTransferSendWorkflowStepStateStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsTransferSendWorkflowStepStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferSendWorkflowStepStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferSendWorkflowStepStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})
+    /// </summary>
     [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    public string? WorkflowId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
+    public string? ExecutionId { get; private init; }
 
+    /// <summary>
+    /// Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: o min: 1 o max: 64 o pattern: \w+
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
+    /// <summary>
+    /// Indicates whether the specified step succeeded or failed. Possible values: o SUCCESS o FAILURE
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsTransferSendWorkflowStepStateStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mpa", "update-approval-team")]
-public record AwsMpaUpdateApprovalTeamOptions : AwsOptions
+public record AwsMpaUpdateApprovalTeamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an approval team. You can request to update the team descrip- tion, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    public AwsMpaUpdateApprovalTeamOptions(
+        string Arn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+    }
+
+    private AwsMpaUpdateApprovalTeamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMpaUpdateApprovalTeamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMpaUpdateApprovalTeamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
     /// <summary>
     /// An ApprovalStrategy object. Contains details for how the team grants approval. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MofN. MofN -&gt; (structure) Minimum number of approvals (M) required for a total number of approvers (N). MinApprovalsRequired -&gt; (integer) [required] Minimum number of approvals (M) required for a total number of approvers (N). Constraints: o min: 1 Shorthand Syntax: MofN={MinApprovalsRequired=integer} JSON Syntax: { "MofN": { "MinApprovalsRequired": integer } }
     /// </summary>
@@ -39,9 +79,6 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
-
     /// <summary>
     /// A list of UpdateAction to perform when updating the team. Constraints: o min: 0 o max: 100 (string) Actions that can be taken when updating an approval team o SYNCHRONIZE_MFA_DEVICES : Synchronize MFA devices for all ap- provers on the team Possible values: o SYNCHRONIZE_MFA_DEVICES Syntax: "string" "string" ...
     /// </summary>
@@ -53,5 +90,21 @@ public record AwsMpaUpdateApprovalTeamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

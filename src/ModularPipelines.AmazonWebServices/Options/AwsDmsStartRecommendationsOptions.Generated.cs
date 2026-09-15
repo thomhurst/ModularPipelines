@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-recommendations")]
-public record AwsDmsStartRecommendationsOptions : AwsOptions
+public record AwsDmsStartRecommendationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--database-id")]
-    public string? DatabaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for mul...
+    /// </summary>
+    /// <param name="DatabaseId">The identifier of the source database to analyze and provide recom- mendations for.</param>
+    /// <param name="Settings">The settings in JSON format that Fleet Advisor uses to determine target engine recommendations. These parameters include target in- stance sizing and availability and durability settings. For target instance sizing, Fleet Advisor supports the following two options: total capacity and resource utilization. For availability and dura- bility, Fleet Advisor supports the following two options: production (Multi-AZ deployments) and Dev/Test (Single-AZ deployments). InstanceSizingType -&gt; (string) [required] The size of your target instance. Fleet Advisor calculates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization" . WorkloadType -&gt; (string) [required] The deployment option for your target engine. For production databases, Fleet Advisor chooses Multi-AZ deployment. For devel- opment or test databases, Fleet Advisor chooses Single-AZ de- ployment. Valid values include "development" and "production" . Shorthand Syntax: InstanceSizingType=string,WorkloadType=string JSON Syntax: { "InstanceSizingType": "string", "WorkloadType": "string" }</param>
+    public AwsDmsStartRecommendationsOptions(
+        string DatabaseId,
+        string Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseId);
+        this.DatabaseId = DatabaseId;
+        global::System.ArgumentNullException.ThrowIfNull(Settings);
+        this.Settings = Settings;
+    }
+
+    private AwsDmsStartRecommendationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartRecommendationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartRecommendationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the source database to analyze and provide recom- mendations for.
+    /// </summary>
+    [CliOption("--database-id")]
+    public string? DatabaseId { get; private init; }
+
+    /// <summary>
+    /// The settings in JSON format that Fleet Advisor uses to determine target engine recommendations. These parameters include target in- stance sizing and availability and durability settings. For target instance sizing, Fleet Advisor supports the following two options: total capacity and resource utilization. For availability and dura- bility, Fleet Advisor supports the following two options: production (Multi-AZ deployments) and Dev/Test (Single-AZ deployments). InstanceSizingType -&gt; (string) [required] The size of your target instance. Fleet Advisor calculates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization" . WorkloadType -&gt; (string) [required] The deployment option for your target engine. For production databases, Fleet Advisor chooses Multi-AZ deployment. For devel- opment or test databases, Fleet Advisor chooses Single-AZ de- ployment. Valid values include "development" and "production" . Shorthand Syntax: InstanceSizingType=string,WorkloadType=string JSON Syntax: { "InstanceSizingType": "string", "WorkloadType": "string" }
+    /// </summary>
     [CliOption("--settings")]
-    public string? Settings { get; set; }
+    public string? Settings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

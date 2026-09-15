@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "create-accelerator")]
-public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions
+public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more end- point groups, each of which includes endpoints, such as Network Load Balancers. WARNING: Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with ac- celerators. That is, for example, specify --region us-west-2 on Ama- zon...
+    /// </summary>
+    /// <param name="Name">The name of the accelerator. The name can have a maximum of 64 char- acters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorCreateAcceleratorOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGlobalacceleratorCreateAcceleratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorCreateAcceleratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorCreateAcceleratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the accelerator. The name can have a maximum of 64 char- acters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period. Constraints: o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The IP address type that an accelerator supports. For a standard ac- celerator, the value can be IPV4 or DUAL_STACK. Possible values: o IPV4 o DUAL_STACK
@@ -38,7 +75,10 @@ public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions
     [CliOption("--ip-addresses", GroupValues = true)]
     public IEnumerable<string>? IpAddresses { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true. If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -59,5 +99,21 @@ public record AwsGlobalacceleratorCreateAcceleratorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

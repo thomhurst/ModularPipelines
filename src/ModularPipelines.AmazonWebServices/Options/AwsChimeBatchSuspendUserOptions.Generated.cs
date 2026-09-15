@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "batch-suspend-user")]
-public record AwsChimeBatchSuspendUserOptions : AwsOptions
+public record AwsChimeBatchSuspendUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime ac- count. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide . Users suspended from a Team account are disassociated from the ac- count,but they can continue to use Amazon Chime as free users. To re- move the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspen...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="UserIdList">The request containing the user IDs to suspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    public AwsChimeBatchSuspendUserOptions(
+        string AccountId,
+        IEnumerable<string> UserIdList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserIdList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserIdList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserIdList));
+            }
+
+            UserIdList = materialized;
+        }
+        this.UserIdList = UserIdList;
+    }
+
+    private AwsChimeBatchSuspendUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeBatchSuspendUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeBatchSuspendUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The request containing the user IDs to suspend. Constraints: o max: 50 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--user-id-list", GroupValues = true)]
-    public IEnumerable<string>? UserIdList { get; set; }
+    public IEnumerable<string>? UserIdList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

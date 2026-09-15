@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "list-workflow-runs")]
-public record AwsMwaaServerlessListWorkflowRunsOptions : AwsOptions
+public record AwsMwaaServerlessListWorkflowRunsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all runs for a specified workflow, with optional pagination and filtering support. See also: AWS API Documentation list-workflow-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkflowRuns
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow for which you want a list of runs. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    public AwsMwaaServerlessListWorkflowRunsOptions(
+        string WorkflowArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+    }
+
+    private AwsMwaaServerlessListWorkflowRunsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessListWorkflowRunsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessListWorkflowRunsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow for which you want a list of runs. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    public string? WorkflowArn { get; private init; }
 
     /// <summary>
     /// Optional. The specific version of the workflow for which you want a list of runs. If not specified, runs for all versions are returned. Constraints: o min: 1 o max: 2048 o pattern: .+
@@ -55,5 +92,21 @@ public record AwsMwaaServerlessListWorkflowRunsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

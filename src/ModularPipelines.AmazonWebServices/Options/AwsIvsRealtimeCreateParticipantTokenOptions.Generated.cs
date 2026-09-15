@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs-realtime", "create-participant-token")]
-public record AwsIvsRealtimeCreateParticipantTokenOptions : AwsOptions
+public record AwsIvsRealtimeCreateParticipantTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an additional token for a specified stage. This can be done af- ter stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StageArn">ARN of the stage to which this token is scoped. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    public AwsIvsRealtimeCreateParticipantTokenOptions(
+        string StageArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StageArn);
+        this.StageArn = StageArn;
+    }
+
+    private AwsIvsRealtimeCreateParticipantTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsRealtimeCreateParticipantTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsRealtimeCreateParticipantTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the stage to which this token is scoped. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--stage-arn")]
-    public string? StageArn { get; set; }
+    public string? StageArn { get; private init; }
 
     /// <summary>
     /// Duration (in minutes), after which the token expires. Default: 720 (12 hours). Constraints: o min: 1 o max: 20160
@@ -54,5 +91,21 @@ public record AwsIvsRealtimeCreateParticipantTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

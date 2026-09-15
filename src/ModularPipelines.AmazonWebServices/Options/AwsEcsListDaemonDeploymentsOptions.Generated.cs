@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "list-daemon-deployments")]
-public record AwsEcsListDaemonDeploymentsOptions : AwsOptions
+public record AwsEcsListDaemonDeploymentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of daemon deployments for a specified daemon. You can filter the results by status or creation time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DaemonArn">The Amazon Resource Name (ARN) of the daemon to list deployments for.</param>
+    public AwsEcsListDaemonDeploymentsOptions(
+        string DaemonArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DaemonArn);
+        this.DaemonArn = DaemonArn;
+    }
+
+    private AwsEcsListDaemonDeploymentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsListDaemonDeploymentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsListDaemonDeploymentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the daemon to list deployments for.
+    /// </summary>
     [CliOption("--daemon-arn")]
-    public string? DaemonArn { get; set; }
+    public string? DaemonArn { get; private init; }
 
     /// <summary>
     /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned. (string) Possible values: o PENDING o SUCCESSFUL o STOPPED o STOP_REQUESTED o IN_PROGRESS o ROLLBACK_IN_PROGRESS o ROLLBACK_SUCCESSFUL o ROLLBACK_FAILED Syntax: "string" "string" ...
@@ -55,5 +92,21 @@ public record AwsEcsListDaemonDeploymentsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "verify-otp-message")]
-public record AwsPinpointVerifyOtpMessageOptions : AwsOptions
+public record AwsPinpointVerifyOtpMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Verify an OTP See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique ID of your Amazon Pinpoint application.</param>
+    /// <param name="VerifyOtpMessageRequestParameters">Verify OTP message request. DestinationIdentity -&gt; (string) [required] The destination identity to send OTP to. Otp -&gt; (string) [required] The OTP the end user provided for verification. ReferenceId -&gt; (string) [required] The reference identifier provided when the OTP was previously sent. Shorthand Syntax: DestinationIdentity=string,Otp=string,ReferenceId=string JSON Syntax: { "DestinationIdentity": "string", "Otp": "string", "ReferenceId": "string" }</param>
+    public AwsPinpointVerifyOtpMessageOptions(
+        string ApplicationId,
+        string VerifyOtpMessageRequestParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(VerifyOtpMessageRequestParameters);
+        this.VerifyOtpMessageRequestParameters = VerifyOtpMessageRequestParameters;
+    }
+
+    private AwsPinpointVerifyOtpMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointVerifyOtpMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointVerifyOtpMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of your Amazon Pinpoint application.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Verify OTP message request. DestinationIdentity -&gt; (string) [required] The destination identity to send OTP to. Otp -&gt; (string) [required] The OTP the end user provided for verification. ReferenceId -&gt; (string) [required] The reference identifier provided when the OTP was previously sent. Shorthand Syntax: DestinationIdentity=string,Otp=string,ReferenceId=string JSON Syntax: { "DestinationIdentity": "string", "Otp": "string", "ReferenceId": "string" }
+    /// </summary>
     [SecretValue]
     [CliOption("--verify-otp-message-request-parameters")]
-    public string? VerifyOtpMessageRequestParameters { get; set; }
+    public string? VerifyOtpMessageRequestParameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

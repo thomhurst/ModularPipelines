@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "start-configuration-policy-association")]
-public record AwsSecurityhubStartConfigurationPolicyAssociationOptions : AwsOptions
+public record AwsSecurityhubStartConfigurationPolicyAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configuration-policy-identifier")]
-    public string? ConfigurationPolicyIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configura- tion policy or self-managed behavior. Only the Security Hub CSPM dele- gated administrator can invoke this operation from the home Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationPolicyIdentifier">The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Target">The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }</param>
+    public AwsSecurityhubStartConfigurationPolicyAssociationOptions(
+        string ConfigurationPolicyIdentifier,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationPolicyIdentifier);
+        this.ConfigurationPolicyIdentifier = ConfigurationPolicyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsSecurityhubStartConfigurationPolicyAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubStartConfigurationPolicyAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubStartConfigurationPolicyAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--configuration-policy-identifier")]
+    public string? ConfigurationPolicyIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the target account, organizational unit, or the root to associate with the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

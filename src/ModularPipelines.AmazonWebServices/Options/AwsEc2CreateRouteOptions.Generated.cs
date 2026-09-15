@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-route")]
-public record AwsEc2CreateRouteOptions : AwsOptions
+public record AwsEc2CreateRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: o 192.0.2.0/24 (goes to some target A) o 192.0.2.0/28 (goes to some target B) Both routes apply...
+    /// </summary>
+    /// <param name="RouteTableId">The ID of the route table for the route.</param>
+    public AwsEc2CreateRouteOptions(
+        string RouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableId);
+        this.RouteTableId = RouteTableId;
+    }
+
+    private AwsEc2CreateRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route table for the route.
+    /// </summary>
+    [CliOption("--route-table-id")]
+    public string? RouteTableId { get; private init; }
+
     /// <summary>
     /// The ID of a prefix list used for the destination match.
     /// </summary>
@@ -63,11 +103,11 @@ public record AwsEc2CreateRouteOptions : AwsOptions
     [CliOption("--odb-network-arn")]
     public string? OdbNetworkArn { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--route-table-id")]
-    public string? RouteTableId { get; set; }
 
     /// <summary>
     /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match. We modify the speci- fied CIDR block to its canonical form; for example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 .
@@ -122,5 +162,21 @@ public record AwsEc2CreateRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

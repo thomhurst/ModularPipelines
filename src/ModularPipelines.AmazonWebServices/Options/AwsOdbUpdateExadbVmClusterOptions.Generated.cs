@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "update-exadb-vm-cluster")]
-public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions
+public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified Exascale VM cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExadbVmClusterId">The unique identifier of the Exascale VM cluster to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbUpdateExadbVmClusterOptions(
+        string ExadbVmClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExadbVmClusterId);
+        this.ExadbVmClusterId = ExadbVmClusterId;
+    }
+
+    private AwsOdbUpdateExadbVmClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbUpdateExadbVmClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbUpdateExadbVmClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Exascale VM cluster to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--exadb-vm-cluster-id")]
-    public string? ExadbVmClusterId { get; set; }
+    public string? ExadbVmClusterId { get; private init; }
 
     /// <summary>
     /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM clus- ter. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
@@ -90,5 +127,21 @@ public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

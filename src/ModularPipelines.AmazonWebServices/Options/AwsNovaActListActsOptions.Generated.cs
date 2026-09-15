@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nova-act", "list-acts")]
-public record AwsNovaActListActsOptions : AwsOptions
+public record AwsNovaActListActsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all acts within a specific session with their current status and execution details. See also: AWS API Documentation list-acts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: actSummaries
+    /// </summary>
+    /// <param name="WorkflowDefinitionName">The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    public AwsNovaActListActsOptions(
+        string WorkflowDefinitionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowDefinitionName);
+        this.WorkflowDefinitionName = WorkflowDefinitionName;
+    }
+
+    private AwsNovaActListActsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNovaActListActsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNovaActListActsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow definition containing the session. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// </summary>
     [CliOption("--workflow-definition-name")]
-    public string? WorkflowDefinitionName { get; set; }
+    public string? WorkflowDefinitionName { get; private init; }
 
     /// <summary>
     /// The unique identifier of the workflow run containing the session. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
@@ -68,5 +105,21 @@ public record AwsNovaActListActsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

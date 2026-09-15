@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --serverprotocol.
+/// Allowed values for --server-protocol.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTransferTestIdentityProviderServerProtocol
 {
-    [EnumValue("SFTP")]
-    Sftp = 1,
+    [EnumValue("AS2")]
+    As2,
 
     [EnumValue("FTP")]
-    Ftp = 2,
+    Ftp,
 
     [EnumValue("FTPS")]
-    Ftps = 3,
+    Ftps,
 
-    [EnumValue("AS2")]
-    As2 = 4
+    [EnumValue("SFTP")]
+    Sftp
 }

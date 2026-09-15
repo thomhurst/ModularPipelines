@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "create-acme-domain-validation")]
-public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions
+public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
+    /// <param name="DomainName">The domain name to validate. Constraints: o min: 1 o max: 253 o pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
+    /// <param name="PrevalidationOptions">The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: o ENABLED o DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: o ENABLED o DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: o ENABLED o DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: o min: 1 o max: 32 o pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }</param>
+    public AwsAcmCreateAcmeDomainValidationOptions(
+        string AcmeEndpointArn,
+        string DomainName,
+        string PrevalidationOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcmeEndpointArn);
+        this.AcmeEndpointArn = AcmeEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(PrevalidationOptions);
+        this.PrevalidationOptions = PrevalidationOptions;
+    }
+
+    private AwsAcmCreateAcmeDomainValidationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmCreateAcmeDomainValidationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmCreateAcmeDomainValidationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--acme-endpoint-arn")]
+    public string? AcmeEndpointArn { get; private init; }
+
+    /// <summary>
+    /// The domain name to validate. Constraints: o min: 1 o max: 253 o pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: o ENABLED o DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: o ENABLED o DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: o ENABLED o DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: o min: 1 o max: 32 o pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }
+    /// </summary>
+    [CliOption("--prevalidation-options")]
+    public string? PrevalidationOptions { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
-
-    [CliOption("--acme-endpoint-arn")]
-    public string? AcmeEndpointArn { get; set; }
-
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
-
-    [CliOption("--prevalidation-options")]
-    public string? PrevalidationOptions { get; set; }
 
     /// <summary>
     /// One or more tags to associate with the domain validation. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -49,5 +100,21 @@ public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

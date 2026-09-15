@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,9 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-fleet")]
-public record AwsEc2ModifyFleetOptions : AwsOptions
+public record AwsEc2ModifyFleetOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain . While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is low- est-price , the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is ...
+    /// </summary>
+    /// <param name="FleetId">The ID of the EC2 Fleet.</param>
+    public AwsEc2ModifyFleetOptions(
+        string FleetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+    }
+
+    private AwsEc2ModifyFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the EC2 Fleet.
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -36,9 +79,6 @@ public record AwsEc2ModifyFleetOptions : AwsOptions
     /// </summary>
     [CliOption("--launch-template-configs", GroupValues = true)]
     public IEnumerable<string>? LaunchTemplateConfigs { get; set; }
-
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
 
     /// <summary>
     /// The size of the EC2 Fleet. TotalTargetCapacity -&gt; (integer) [required] The number of units to request, filled using the default target capacity type. OnDemandTargetCapacity -&gt; (integer) The number of On-Demand units to request. SpotTargetCapacity -&gt; (integer) The number of Spot units to request. DefaultTargetCapacityType -&gt; (string) The default target capacity type. Possible values: o spot o on-demand o capacity-block o reserved-capacity TargetCapacityUnitType -&gt; (string) The unit for the target capacity. You can specify this parameter only when using attributed-based instance type selection. Default: units (the number of instances) Possible values: o vcpu o memory-mib o units Shorthand Syntax: TotalTargetCapacity=integer,OnDemandTargetCapacity=integer,SpotTargetCapacity=integer,DefaultTargetCapacityType=string,TargetCapacityUnitType=string JSON Syntax: { "TotalTargetCapacity": integer, "OnDemandTargetCapacity": integer, "SpotTargetCapacity": integer, "DefaultTargetCapacityType": "spot"|"on-demand"|"capacity-block"|"reserved-capacity", "TargetCapacityUnitType": "vcpu"|"memory-mib"|"units" }
@@ -57,5 +97,21 @@ public record AwsEc2ModifyFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

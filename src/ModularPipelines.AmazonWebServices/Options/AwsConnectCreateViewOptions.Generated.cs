@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-view")]
-public record AwsConnectCreateViewOptions : AwsOptions
+public record AwsConnectCreateViewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is re- turned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="Status">Indicates the view status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. Possible values: o PUBLISHED o SAVED</param>
+    /// <param name="Content">View content containing all content necessary to render a view ex- cept for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }</param>
+    /// <param name="Name">The name of the view. Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$</param>
+    public AwsConnectCreateViewOptions(
+        string InstanceId,
+        AwsConnectCreateViewStatus Status,
+        string Content,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsConnectCreateViewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateViewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateViewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// Indicates the view status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. Possible values: o PUBLISHED o SAVED
+    /// </summary>
+    [CliOption("--status")]
+    public AwsConnectCreateViewStatus? Status { get; private init; }
+
+    /// <summary>
+    /// View content containing all content necessary to render a view ex- cept for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The name of the view. Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is pro- vided. Constraints: o max: 500 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$
@@ -33,20 +101,11 @@ public record AwsConnectCreateViewOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--status")]
-    public string? Status { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
     /// <summary>
     /// The description of the view. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control ac- cess for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -59,5 +118,21 @@ public record AwsConnectCreateViewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

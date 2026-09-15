@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "delete-faces")]
-public record AwsRekognitionDeleteFacesOptions : AwsOptions
+public record AwsRekognitionDeleteFacesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes faces from a collection. You specify a collection ID and an ar- ray of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:Delete- Faces action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollectionId">Collection from which to remove the specific faces. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="FaceIds">An array of face IDs to delete. Constraints: o min: 1 o max: 4096 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
+    public AwsRekognitionDeleteFacesOptions(
+        string CollectionId,
+        IEnumerable<string> FaceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FaceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FaceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FaceIds));
+            }
+
+            FaceIds = materialized;
+        }
+        this.FaceIds = FaceIds;
+    }
+
+    private AwsRekognitionDeleteFacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionDeleteFacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionDeleteFacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Collection from which to remove the specific faces. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
+    [CliOption("--collection-id")]
+    public string? CollectionId { get; private init; }
+
+    /// <summary>
+    /// An array of face IDs to delete. Constraints: o min: 1 o max: 4096 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--face-ids", GroupValues = true)]
-    public IEnumerable<string>? FaceIds { get; set; }
+    public IEnumerable<string>? FaceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

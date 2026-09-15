@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudhsmv2", "create-hsm")]
-public record AwsCloudhsmv2CreateHsmOptions : AwsOptions
+public record AwsCloudhsmv2CreateHsmOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterId">The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="AvailabilityZone">The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|cen- tral){1,2}-\d[a-z]</param>
+    public AwsCloudhsmv2CreateHsmOptions(
+        string ClusterId,
+        string AvailabilityZone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(AvailabilityZone);
+        this.AvailabilityZone = AvailabilityZone;
+    }
+
+    private AwsCloudhsmv2CreateHsmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudhsmv2CreateHsmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudhsmv2CreateHsmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// </summary>
+    [CliOption("--cluster-id")]
+    public string? ClusterId { get; private init; }
+
+    /// <summary>
+    /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|cen- tral){1,2}-\d[a-z]
+    /// </summary>
     [CliOption("--availability-zone")]
-    public string? AvailabilityZone { get; set; }
+    public string? AvailabilityZone { get; private init; }
 
     /// <summary>
     /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet. Constraints: o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
@@ -38,5 +82,21 @@ public record AwsCloudhsmv2CreateHsmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

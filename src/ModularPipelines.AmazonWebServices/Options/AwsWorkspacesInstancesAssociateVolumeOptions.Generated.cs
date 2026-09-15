@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-instances", "associate-volume")]
-public record AwsWorkspacesInstancesAssociateVolumeOptions : AwsOptions
+public record AwsWorkspacesInstancesAssociateVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches a volume to a WorkSpace Instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceInstanceId">WorkSpace Instance to attach volume to. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="VolumeId">Volume to be attached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}</param>
+    /// <param name="Device">Device path for volume attachment. Constraints: o min: 0 o max: 32</param>
+    public AwsWorkspacesInstancesAssociateVolumeOptions(
+        string WorkspaceInstanceId,
+        string VolumeId,
+        string Device
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceInstanceId);
+        this.WorkspaceInstanceId = WorkspaceInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+        global::System.ArgumentNullException.ThrowIfNull(Device);
+        this.Device = Device;
+    }
+
+    private AwsWorkspacesInstancesAssociateVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesInstancesAssociateVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesInstancesAssociateVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// WorkSpace Instance to attach volume to. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// </summary>
     [CliOption("--workspace-instance-id")]
-    public string? WorkspaceInstanceId { get; set; }
+    public string? WorkspaceInstanceId { get; private init; }
 
+    /// <summary>
+    /// Volume to be attached. Constraints: o pattern: vol-[0-9a-zA-Z]{1,63}
+    /// </summary>
     [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
+    public string? VolumeId { get; private init; }
 
+    /// <summary>
+    /// Device path for volume attachment. Constraints: o min: 0 o max: 32
+    /// </summary>
     [CliOption("--device")]
-    public string? Device { get; set; }
+    public string? Device { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

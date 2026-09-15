@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "create-global-resolver")]
-public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions
+public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Re- solver is a global, internet-accessible DNS resolver that provides se- cure DNS resolution for both public and private domains through global anycast IP addresses. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, ...
+    /// </summary>
+    /// <param name="Name">A descriptive name for the Route 53 Global Resolver instance. Maxi- mum length of 64 characters. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="Regions">List of Amazon Web Services Regions where the Route 53 Global Re- solver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolu- tion. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...</param>
+    public AwsRoute53globalresolverCreateGlobalResolverOptions(
+        string Name,
+        IEnumerable<string> Regions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Regions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Regions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Regions));
+            }
+
+            Regions = materialized;
+        }
+        this.Regions = Regions;
+    }
+
+    private AwsRoute53globalresolverCreateGlobalResolverOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverCreateGlobalResolverOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverCreateGlobalResolverOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive name for the Route 53 Global Resolver instance. Maxi- mum length of 64 characters. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// List of Amazon Web Services Regions where the Route 53 Global Re- solver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolu- tion. (string) Constraints: o min: 0 o max: 32 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--regions", GroupValues = true)]
+    public IEnumerable<string>? Regions { get; private init; }
+
     /// <summary>
     /// A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created. Constraints: o min: 1 o max: 256
     /// </summary>
@@ -43,17 +104,11 @@ public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions
     [CliOption("--ip-address-type")]
     public AwsRoute53globalresolverCreateGlobalResolverIpAddressType? IpAddressType { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The Amazon Web Services Region where query resolution logs and met- rics will be aggregated and delivered. If not specified, logging is not enabled. Constraints: o min: 0 o max: 32
     /// </summary>
     [CliOption("--observability-region")]
     public string? ObservabilityRegion { get; set; }
-
-    [CliOption("--regions", GroupValues = true)]
-    public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
     /// Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -66,5 +121,21 @@ public record AwsRoute53globalresolverCreateGlobalResolverOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

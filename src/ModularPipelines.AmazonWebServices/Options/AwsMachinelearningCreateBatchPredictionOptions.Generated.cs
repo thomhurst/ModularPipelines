@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "create-batch-prediction")]
-public record AwsMachinelearningCreateBatchPredictionOptions : AwsOptions
+public record AwsMachinelearningCreateBatchPredictionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the BatchPrediction status to PENDING . After the BatchPredicti...
+    /// </summary>
+    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MlModelId">The ID of the MLModel that will generate predictions for the group of observations. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BatchPredictionDataSourceId">The ID of the DataSource that points to the group of observations to predict. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="OutputUri">The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)?</param>
+    public AwsMachinelearningCreateBatchPredictionOptions(
+        string BatchPredictionId,
+        string MlModelId,
+        string BatchPredictionDataSourceId,
+        string OutputUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BatchPredictionId);
+        this.BatchPredictionId = BatchPredictionId;
+        global::System.ArgumentNullException.ThrowIfNull(MlModelId);
+        this.MlModelId = MlModelId;
+        global::System.ArgumentNullException.ThrowIfNull(BatchPredictionDataSourceId);
+        this.BatchPredictionDataSourceId = BatchPredictionDataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(OutputUri);
+        this.OutputUri = OutputUri;
+    }
+
+    private AwsMachinelearningCreateBatchPredictionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningCreateBatchPredictionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningCreateBatchPredictionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--batch-prediction-id")]
-    public string? BatchPredictionId { get; set; }
+    public string? BatchPredictionId { get; private init; }
+
+    /// <summary>
+    /// The ID of the MLModel that will generate predictions for the group of observations. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--ml-model-id")]
+    public string? MlModelId { get; private init; }
+
+    /// <summary>
+    /// The ID of the DataSource that points to the group of observations to predict. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--batch-prediction-data-source-id")]
+    public string? BatchPredictionDataSourceId { get; private init; }
+
+    /// <summary>
+    /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'. Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)?
+    /// </summary>
+    [CliOption("--output-uri")]
+    public string? OutputUri { get; private init; }
 
     /// <summary>
     /// A user-supplied name or description of the BatchPrediction . Batch- PredictionName can only use the UTF-8 character set. Constraints: o max: 1024 o pattern: .*\S.*|^$
@@ -30,19 +97,26 @@ public record AwsMachinelearningCreateBatchPredictionOptions : AwsOptions
     [CliOption("--batch-prediction-name")]
     public string? BatchPredictionName { get; set; }
 
-    [CliOption("--ml-model-id")]
-    public string? MlModelId { get; set; }
-
-    [CliOption("--batch-prediction-data-source-id")]
-    public string? BatchPredictionDataSourceId { get; set; }
-
-    [CliOption("--output-uri")]
-    public string? OutputUri { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

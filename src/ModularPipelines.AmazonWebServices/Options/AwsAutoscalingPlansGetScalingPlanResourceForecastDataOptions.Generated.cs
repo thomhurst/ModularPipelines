@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,36 +21,136 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("autoscaling-plans", "get-scaling-plan-resource-forecast-data")]
-public record AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions : AwsOptions
+public record AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScalingPlanName">The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+</param>
+    /// <param name="ScalingPlanVersion">The version number of the scaling plan. Currently, the only valid value is 1 .</param>
+    /// <param name="ServiceNamespace">The namespace of the AWS service. The only valid value is autoscal- ing . Possible values: o autoscaling o ecs o ec2 o rds o dynamodb</param>
+    /// <param name="ResourceId">The ID of the resource. This string consists of a prefix (autoScal- ingGroup ) followed by the name of a specified Auto Scaling group (my-asg ). Example: autoScalingGroup/my-asg . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ScalableDimension">The scalable dimension for the resource. The only valid value is au- toscaling:autoScalingGroup:DesiredCapacity . Possible values: o autoscaling:autoScalingGroup:DesiredCapacity o ecs:service:DesiredCount o ec2:spot-fleet-request:TargetCapacity o rds:cluster:ReadReplicaCount o dynamodb:table:ReadCapacityUnits o dynamodb:table:WriteCapacityUnits o dynamodb:index:ReadCapacityUnits o dynamodb:index:WriteCapacityUnits</param>
+    /// <param name="ForecastDataType">The type of forecast data to get. o LoadForecast : The load metric forecast. o CapacityForecast : The capacity forecast. o ScheduledActionMinCapacity : The minimum capacity for each sched- uled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scal- ing instruction. o ScheduledActionMaxCapacity : The maximum capacity for each sched- uled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scal- ing instruction. Possible values: o CapacityForecast o LoadForecast o ScheduledActionMinCapacity o ScheduledActionMaxCapacity</param>
+    /// <param name="StartTime">The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time.</param>
+    /// <param name="EndTime">The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days. Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has lim- its. AWS Auto Scaling only issues forecasts for periods of two days in advance.</param>
+    public AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions(
+        string ScalingPlanName,
+        int ScalingPlanVersion,
+        AwsAutoscalingPlansGetScalingPlanResourceForecastDataServiceNamespace ServiceNamespace,
+        string ResourceId,
+        string ScalableDimension,
+        AwsAutoscalingPlansGetScalingPlanResourceForecastDataForecastDataType ForecastDataType,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScalingPlanName);
+        this.ScalingPlanName = ScalingPlanName;
+        this.ScalingPlanVersion = ScalingPlanVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
+        this.ServiceNamespace = ServiceNamespace;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ScalableDimension);
+        this.ScalableDimension = ScalableDimension;
+        global::System.ArgumentNullException.ThrowIfNull(ForecastDataType);
+        this.ForecastDataType = ForecastDataType;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+
+    /// </summary>
     [CliOption("--scaling-plan-name")]
-    public string? ScalingPlanName { get; set; }
+    public string? ScalingPlanName { get; private init; }
 
+    /// <summary>
+    /// The version number of the scaling plan. Currently, the only valid value is 1 .
+    /// </summary>
     [CliOption("--scaling-plan-version")]
-    public int? ScalingPlanVersion { get; set; }
+    public int? ScalingPlanVersion { get; private init; }
 
+    /// <summary>
+    /// The namespace of the AWS service. The only valid value is autoscal- ing . Possible values: o autoscaling o ecs o ec2 o rds o dynamodb
+    /// </summary>
     [CliOption("--service-namespace")]
-    public string? ServiceNamespace { get; set; }
+    public AwsAutoscalingPlansGetScalingPlanResourceForecastDataServiceNamespace? ServiceNamespace { get; private init; }
 
+    /// <summary>
+    /// The ID of the resource. This string consists of a prefix (autoScal- ingGroup ) followed by the name of a specified Auto Scaling group (my-asg ). Example: autoScalingGroup/my-asg . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The scalable dimension for the resource. The only valid value is au- toscaling:autoScalingGroup:DesiredCapacity . Possible values: o autoscaling:autoScalingGroup:DesiredCapacity o ecs:service:DesiredCount o ec2:spot-fleet-request:TargetCapacity o rds:cluster:ReadReplicaCount o dynamodb:table:ReadCapacityUnits o dynamodb:table:WriteCapacityUnits o dynamodb:index:ReadCapacityUnits o dynamodb:index:WriteCapacityUnits
+    /// </summary>
     [CliOption("--scalable-dimension")]
-    public string? ScalableDimension { get; set; }
+    public string? ScalableDimension { get; private init; }
 
+    /// <summary>
+    /// The type of forecast data to get. o LoadForecast : The load metric forecast. o CapacityForecast : The capacity forecast. o ScheduledActionMinCapacity : The minimum capacity for each sched- uled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scal- ing instruction. o ScheduledActionMaxCapacity : The maximum capacity for each sched- uled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scal- ing instruction. Possible values: o CapacityForecast o LoadForecast o ScheduledActionMinCapacity o ScheduledActionMaxCapacity
+    /// </summary>
     [CliOption("--forecast-data-type")]
-    public string? ForecastDataType { get; set; }
+    public AwsAutoscalingPlansGetScalingPlanResourceForecastDataForecastDataType? ForecastDataType { get; private init; }
 
+    /// <summary>
+    /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days. Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has lim- its. AWS Auto Scaling only issues forecasts for periods of two days in advance.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

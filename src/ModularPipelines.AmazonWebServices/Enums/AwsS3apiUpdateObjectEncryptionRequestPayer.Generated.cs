@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --requestpayer.
+/// Allowed values for --request-payer.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsS3apiUpdateObjectEncryptionRequestPayer
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("requester")]
-    Requester = 1
+    Requester
 }

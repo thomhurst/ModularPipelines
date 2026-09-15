@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-security", "list-findings-metrics")]
-public record AwsCodeguruSecurityListFindingsMetricsOptions : AwsOptions
+public record AwsCodeguruSecurityListFindingsMetricsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--start-date")]
-    public string? StartDate { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns metrics about all findings in an account within a specified time range. See also: AWS API Documentation list-findings-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingsMetrics
+    /// </summary>
+    /// <param name="StartDate">The start date of the interval which you want to retrieve metrics from. Rounds to the nearest day.</param>
+    /// <param name="EndDate">The end date of the interval which you want to retrieve metrics from. Round to the nearest day.</param>
+    public AwsCodeguruSecurityListFindingsMetricsOptions(
+        string StartDate,
+        string EndDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+    }
+
+    private AwsCodeguruSecurityListFindingsMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruSecurityListFindingsMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruSecurityListFindingsMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start date of the interval which you want to retrieve metrics from. Rounds to the nearest day.
+    /// </summary>
+    [CliOption("--start-date")]
+    public string? StartDate { get; private init; }
+
+    /// <summary>
+    /// The end date of the interval which you want to retrieve metrics from. Round to the nearest day.
+    /// </summary>
     [CliOption("--end-date")]
-    public string? EndDate { get; set; }
+    public string? EndDate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsCodeguruSecurityListFindingsMetricsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

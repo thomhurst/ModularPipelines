@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,16 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "create-agent-action-group")]
-public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions
+public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentAction- GroupSignature field set to AMAZON.UserInput . To allow your agent to generate, run, and troubleshoot code when trying to complete a task, add an action group w...
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent for which to create the action group. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent for which to create the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
+    /// <param name="ActionGroupName">The name to give the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    public AwsBedrockAgentCreateAgentActionGroupOptions(
+        string AgentId,
+        string AgentVersion,
+        string ActionGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ActionGroupName);
+        this.ActionGroupName = ActionGroupName;
+    }
+
+    private AwsBedrockAgentCreateAgentActionGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentCreateAgentActionGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentCreateAgentActionGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent for which to create the action group. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// The version of the agent for which to create the action group. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
+    /// <summary>
+    /// The name to give the action group. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--action-group-name")]
-    public string? ActionGroupName { get; set; }
+    public string? ActionGroupName { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -87,5 +138,21 @@ public record AwsBedrockAgentCreateAgentActionGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

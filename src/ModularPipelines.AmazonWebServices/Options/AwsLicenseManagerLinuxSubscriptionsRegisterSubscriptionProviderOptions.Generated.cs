@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,14 +23,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager-linux-subscriptions", "register-subscription-provider")]
-public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions : AwsOptions
+public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SecretArn">The Amazon Resource Name (ARN) of the secret where you've stored your subscription provider's access token. For RHEL subscriptions managed through the Red Hat Subscription Manager (RHSM), the secret contains your Red Hat Offline token. Constraints: o pattern: ^arn:[a-z0-9-\.]{1,63}:secretsman- ager:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:secret:[^/]{1,1023}$</param>
+    /// <param name="SubscriptionProviderSource">The supported Linux subscription provider to register. Possible values: o RedHat</param>
+    public AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions(
+        string SecretArn,
+        AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderSubscriptionProviderSource SubscriptionProviderSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecretArn);
+        this.SecretArn = SecretArn;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionProviderSource);
+        this.SubscriptionProviderSource = SubscriptionProviderSource;
+    }
+
+    private AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the secret where you've stored your subscription provider's access token. For RHEL subscriptions managed through the Red Hat Subscription Manager (RHSM), the secret contains your Red Hat Offline token. Constraints: o pattern: ^arn:[a-z0-9-\.]{1,63}:secretsman- ager:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:secret:[^/]{1,1023}$
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-arn")]
-    public string? SecretArn { get; set; }
+    public string? SecretArn { get; private init; }
 
+    /// <summary>
+    /// The supported Linux subscription provider to register. Possible values: o RedHat
+    /// </summary>
     [CliOption("--subscription-provider-source")]
-    public string? SubscriptionProviderSource { get; set; }
+    public AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderSubscriptionProviderSource? SubscriptionProviderSource { get; private init; }
 
     /// <summary>
     /// The metadata tags to assign to your registered Linux subscription provider resource. Constraints: o min: 0 o max: 50 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -41,5 +86,21 @@ public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

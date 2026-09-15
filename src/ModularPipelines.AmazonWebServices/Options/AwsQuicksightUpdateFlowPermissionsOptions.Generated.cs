@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-flow-permissions")]
-public record AwsQuicksightUpdateFlowPermissionsOptions : AwsOptions
+public record AwsQuicksightUpdateFlowPermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates permissions against principals on a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow to update permissions for. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsQuicksightUpdateFlowPermissionsOptions(
+        string AwsAccountId,
+        string FlowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(FlowId);
+        this.FlowId = FlowId;
+    }
+
+    private AwsQuicksightUpdateFlowPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateFlowPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateFlowPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the flow to update permissions for. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--flow-id")]
-    public string? FlowId { get; set; }
+    public string? FlowId { get; private init; }
 
     /// <summary>
     /// The permissions that you want to grant on this flow. Constraints: o min: 0 o max: 100 (structure) A structure that contains the permission information for one principal against one flow. Actions -&gt; (list) [required] A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner: o quicksight:PublishFlow o quicksight:GetFlow o quicksight:UpdateFlowPermissions o quicksight:GetFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:UpdateFlowSession o quicksight:UnpublishFlow o quicksight:GetFlowStages o quicksight:DeleteFlow o quicksight:DescribeFlowPermissions o quicksight:UpdateFlow o quicksight:CreatePresignedUrl The following are the list of values to set a principal as a flow viewer: o quicksight:GetFlow o quicksight:UpdateFlowSession o quicksight:StartFlowSession o quicksight:StopFlowSession o quicksight:GetFlowSession o quicksight:CreatePresignedUrl o quicksight:GetFlowStages (string) Constraints: o min: 1 o max: 64 Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions. Constraints: o min: 1 o max: 256 Shorthand Syntax: Actions=string,string,Principal=string ... JSON Syntax: [ { "Actions": ["string", ...], "Principal": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsQuicksightUpdateFlowPermissionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

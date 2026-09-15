@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "batch-delete-instrumentation-configurations")]
-public record AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions : AwsOptions
+public record AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes multiple instrumentation configurations in a single request. Supports two mutually exclusive selection methods: o By scope: Delete all configurations matching a Service + Environment + InstrumentationType o By ARN list: Delete specific configurations by providing a list of resource ARNs See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeletionTarget">The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configura- tions. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 20 o max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }</param>
+    public AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions(
+        string DeletionTarget
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeletionTarget);
+        this.DeletionTarget = DeletionTarget;
+    }
+
+    private AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsBatchDeleteInstrumentationConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The deletion target - either bulk by scope or targeted by ARN list. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Scope, ResourceArns. Scope -&gt; (structure) Delete all configurations matching the specified scope. Service -&gt; (string) [required] Service name for the instrumentation configurations. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ Environment -&gt; (string) [required] Environment identifier for the instrumentation configura- tions. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9:/+=,.@_-]+ InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE ResourceArns -&gt; (structure) Delete specific configurations by ARN list. ResourceArns -&gt; (list) [required] List of resource ARNs to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 20 o max: 2048 InstrumentationType -&gt; (string) [required] Instrumentation type: BREAKPOINT or PROBE. Possible values: o BREAKPOINT o PROBE Shorthand Syntax: Scope={Service=string,Environment=string,InstrumentationType=string},ResourceArns={ResourceArns=[string,string],InstrumentationType=string} JSON Syntax: { "Scope": { "Service": "string", "Environment": "string", "InstrumentationType": "BREAKPOINT"|"PROBE" }, "ResourceArns": { "ResourceArns": ["string", ...], "InstrumentationType": "BREAKPOINT"|"PROBE" } }
+    /// </summary>
     [CliOption("--deletion-target")]
-    public string? DeletionTarget { get; set; }
+    public string? DeletionTarget { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

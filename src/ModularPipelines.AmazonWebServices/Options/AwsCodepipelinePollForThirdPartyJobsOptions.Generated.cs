@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "poll-for-third-party-jobs")]
-public record AwsCodepipelinePollForThirdPartyJobsOptions : AwsOptions
+public record AwsCodepipelinePollForThirdPartyJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActionTypeId">Represents information about an action type. category -&gt; (string) [required] A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values. o Source o Build o Test o Deploy o Invoke o Approval o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute owner -&gt; (string) [required] The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS , ThirdParty , and Custom . For more information, see Valid Action Types and Providers in Code- Pipeline . Possible values: o AWS o ThirdParty o Custom provider -&gt; (string) [required] The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of Cod- eDeploy, which would be specified as CodeDeploy . For more in- formation, see Valid Action Types and Providers in CodePipeline . Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+ version -&gt; (string) [required] A string that describes the action version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+ Shorthand Syntax: category=string,owner=string,provider=string,version=string JSON Syntax: { "category": "Source"|"Build"|"Deploy"|"Test"|"Invoke"|"Approval"|"Compute", "owner": "AWS"|"ThirdParty"|"Custom", "provider": "string", "version": "string" }</param>
+    public AwsCodepipelinePollForThirdPartyJobsOptions(
+        string ActionTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionTypeId);
+        this.ActionTypeId = ActionTypeId;
+    }
+
+    private AwsCodepipelinePollForThirdPartyJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelinePollForThirdPartyJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelinePollForThirdPartyJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Represents information about an action type. category -&gt; (string) [required] A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values. o Source o Build o Test o Deploy o Invoke o Approval o Compute Possible values: o Source o Build o Deploy o Test o Invoke o Approval o Compute owner -&gt; (string) [required] The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS , ThirdParty , and Custom . For more information, see Valid Action Types and Providers in Code- Pipeline . Possible values: o AWS o ThirdParty o Custom provider -&gt; (string) [required] The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of Cod- eDeploy, which would be specified as CodeDeploy . For more in- formation, see Valid Action Types and Providers in CodePipeline . Constraints: o min: 1 o max: 35 o pattern: [0-9A-Za-z_-]+ version -&gt; (string) [required] A string that describes the action version. Constraints: o min: 1 o max: 9 o pattern: [0-9A-Za-z_-]+ Shorthand Syntax: category=string,owner=string,provider=string,version=string JSON Syntax: { "category": "Source"|"Build"|"Deploy"|"Test"|"Invoke"|"Approval"|"Compute", "owner": "AWS"|"ThirdParty"|"Custom", "provider": "string", "version": "string" }
+    /// </summary>
     [CliOption("--action-type-id")]
-    public string? ActionTypeId { get; set; }
+    public string? ActionTypeId { get; private init; }
 
     /// <summary>
     /// The maximum number of jobs to return in a poll for jobs call. Constraints: o min: 1
@@ -35,5 +72,21 @@ public record AwsCodepipelinePollForThirdPartyJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

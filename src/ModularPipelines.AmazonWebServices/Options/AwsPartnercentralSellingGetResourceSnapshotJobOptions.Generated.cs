@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "get-resource-snapshot-job")]
-public record AwsPartnercentralSellingGetResourceSnapshotJobOptions : AwsOptions
+public record AwsPartnercentralSellingGetResourceSnapshotJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use this action to retrieves information about a specific resource snapshot job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot job from the production AWS environ- ment. o Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="ResourceSnapshotJobIdentifier">The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query. Constraints: o pattern: job-[0-9a-z]{13}</param>
+    public AwsPartnercentralSellingGetResourceSnapshotJobOptions(
+        string Catalog,
+        string ResourceSnapshotJobIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSnapshotJobIdentifier);
+        this.ResourceSnapshotJobIdentifier = ResourceSnapshotJobIdentifier;
+    }
+
+    private AwsPartnercentralSellingGetResourceSnapshotJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingGetResourceSnapshotJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingGetResourceSnapshotJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the snapshot job from the production AWS environ- ment. o Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query. Constraints: o pattern: job-[0-9a-z]{13}
+    /// </summary>
     [CliOption("--resource-snapshot-job-identifier")]
-    public string? ResourceSnapshotJobIdentifier { get; set; }
+    public string? ResourceSnapshotJobIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

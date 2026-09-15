@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "deregister-game-server")]
-public record AwsGameliftDeregisterGameServerOptions : AwsOptions
+public record AwsGameliftDeregisterGameServerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Removes the game server from a game server group. As a result of this operation, the deregistered game server can no longer be claimed and will not be returned in a list of active game servers. To deregister a game server, specify the game server group and game server ID. If successful, this operation emits a CloudWatch event with termination timestamp and reason. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Docum...
+    /// </summary>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="GameServerId">A custom string that uniquely identifies the game server to deregis- ter. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    public AwsGameliftDeregisterGameServerOptions(
+        string GameServerGroupName,
+        string GameServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(GameServerId);
+        this.GameServerId = GameServerId;
+    }
+
+    private AwsGameliftDeregisterGameServerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeregisterGameServerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeregisterGameServerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the game server group where the game server is running. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// </summary>
+    [CliOption("--game-server-group-name")]
+    public string? GameServerGroupName { get; private init; }
+
+    /// <summary>
+    /// A custom string that uniquely identifies the game server to deregis- ter. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// </summary>
     [CliOption("--game-server-id")]
-    public string? GameServerId { get; set; }
+    public string? GameServerId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

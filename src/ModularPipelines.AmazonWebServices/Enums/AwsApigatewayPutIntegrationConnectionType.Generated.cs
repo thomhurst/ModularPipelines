@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectiontype.
+/// Allowed values for --connection-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApigatewayPutIntegrationConnectionType
 {
     [EnumValue("INTERNET")]
-    Internet = 1,
+    Internet,
 
     [EnumValue("VPC_LINK")]
-    VpcLink = 2
+    VpcLink
 }

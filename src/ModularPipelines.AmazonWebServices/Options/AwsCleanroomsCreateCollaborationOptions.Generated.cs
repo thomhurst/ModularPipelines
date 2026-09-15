@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-collaboration")]
-public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
+public record AwsCleanroomsCreateCollaborationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--members", GroupValues = true)]
-    public IEnumerable<string>? Members { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new collaboration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Members">A list of initial members, not including the creator. This list is immutable. Constraints: o min: 0 (structure) Basic metadata used to construct a new member. accountId -&gt; (string) [required] The identifier used to reference members of the collabora- tion. Currently only supports Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: \d+ memberAbilities -&gt; (list) [required] The abilities granted to the collaboration member. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG mlMemberAbilities -&gt; (structure) The ML abilities granted to the collaboration member. customMLMemberAbilities -&gt; (list) [required] The custom ML member abilities for a collaboration mem- ber. (string) Possible values: o CAN_RECEIVE_MODEL_OUTPUT o CAN_RECEIVE_INFERENCE_OUTPUT displayName -&gt; (string) [required] The member's display name. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* paymentConfiguration -&gt; (structure) The collaboration member's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't specied anyone as the member paying for query compute costs, then the member who can query is the default payer. queryCompute -&gt; (structure) [required] The collaboration member's payment responsibilities set by the collaboration creator for query compute costs. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has con- figured the collaboration member to pay for query com- pute costs (TRUE ) or has not configured the collabo- ration member to pay for query compute costs (FALSE ). One or more members can be configured as payer candi- dates for query compute costs. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. machineLearning -&gt; (structure) An object representing the collaboration member's machine learning payment responsibilities set by the collabora- tion creator. modelTraining -&gt; (structure) The payment responsibilities accepted by the member for model training. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE ) or has not configured the collaboration member to pay for model training costs (FALSE ). One or more members can be configured as payer candidates for model training costs. If the collaboration creator hasn't specified any- one as the member paying for model training costs, then the member who can query is the default payer. modelInference -&gt; (structure) The payment responsibilities accepted by the member for model inference. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE ) or has not config- ured the collaboration member to pay for model in- ference costs (FALSE ). One or more members can be configured as payer candidates for model inference costs. If the collaboration creator hasn't specified any- one as the member paying for model inference costs, then the member who can query is the de- fault payer. syntheticDataGeneration -&gt; (structure) The payment configuration for machine learning syn- thetic data generation. isResponsible -&gt; (boolean) [required] Indicates who is responsible for paying for syn- thetic data generation. jobCompute -&gt; (structure) The compute configuration for the job. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has con- figured the collaboration member to pay for query and job compute costs (TRUE ) or has not configured the collaboration member to pay for query and job compute costs (FALSE ). One or more members can be configured as payer candi- dates for query and job compute costs. An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs. JSON Syntax: [ { "accountId": "string", "memberAbilities": ["CAN_QUERY"|"CAN_RECEIVE_RESULTS"|"CAN_RUN_JOB"|"CAN_EXPORT_QUERY_ANALYSIS_LOG", ...], "mlMemberAbilities": { "customMLMemberAbilities": ["CAN_RECEIVE_MODEL_OUTPUT"|"CAN_RECEIVE_INFERENCE_OUTPUT", ...] }, "displayName": "string", "paymentConfiguration": { "queryCompute": { "isResponsible": true|false }, "machineLearning": { "modelTraining": { "isResponsible": true|false }, "modelInference": { "isResponsible": true|false }, "syntheticDataGeneration": { "isResponsible": true|false } }, "jobCompute": { "isResponsible": true|false } } } ... ]</param>
+    /// <param name="Name">The display name for a collaboration. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="CreatorMemberAbilities">The abilities granted to the collaboration creator. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG Syntax: "string" "string" ...</param>
+    /// <param name="CreatorDisplayName">The display name of the collaboration creator. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="QueryLogStatus">An indicator as to whether query logging has been enabled or dis- abled for the collaboration. When ENABLED , Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED</param>
+    public AwsCleanroomsCreateCollaborationOptions(
+        IEnumerable<string> Members,
+        string Name,
+        IEnumerable<string> CreatorMemberAbilities,
+        string CreatorDisplayName,
+        AwsCleanroomsCreateCollaborationQueryLogStatus QueryLogStatus
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Members);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Members));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Members));
+            }
+
+            Members = materialized;
+        }
+        this.Members = Members;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CreatorMemberAbilities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CreatorMemberAbilities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CreatorMemberAbilities));
+            }
+
+            CreatorMemberAbilities = materialized;
+        }
+        this.CreatorMemberAbilities = CreatorMemberAbilities;
+        global::System.ArgumentNullException.ThrowIfNull(CreatorDisplayName);
+        this.CreatorDisplayName = CreatorDisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(QueryLogStatus);
+        this.QueryLogStatus = QueryLogStatus;
+    }
+
+    private AwsCleanroomsCreateCollaborationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateCollaborationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateCollaborationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of initial members, not including the creator. This list is immutable. Constraints: o min: 0 (structure) Basic metadata used to construct a new member. accountId -&gt; (string) [required] The identifier used to reference members of the collabora- tion. Currently only supports Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: \d+ memberAbilities -&gt; (list) [required] The abilities granted to the collaboration member. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG mlMemberAbilities -&gt; (structure) The ML abilities granted to the collaboration member. customMLMemberAbilities -&gt; (list) [required] The custom ML member abilities for a collaboration mem- ber. (string) Possible values: o CAN_RECEIVE_MODEL_OUTPUT o CAN_RECEIVE_INFERENCE_OUTPUT displayName -&gt; (string) [required] The member's display name. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* paymentConfiguration -&gt; (structure) The collaboration member's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't specied anyone as the member paying for query compute costs, then the member who can query is the default payer. queryCompute -&gt; (structure) [required] The collaboration member's payment responsibilities set by the collaboration creator for query compute costs. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has con- figured the collaboration member to pay for query com- pute costs (TRUE ) or has not configured the collabo- ration member to pay for query compute costs (FALSE ). One or more members can be configured as payer candi- dates for query compute costs. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. machineLearning -&gt; (structure) An object representing the collaboration member's machine learning payment responsibilities set by the collabora- tion creator. modelTraining -&gt; (structure) The payment responsibilities accepted by the member for model training. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE ) or has not configured the collaboration member to pay for model training costs (FALSE ). One or more members can be configured as payer candidates for model training costs. If the collaboration creator hasn't specified any- one as the member paying for model training costs, then the member who can query is the default payer. modelInference -&gt; (structure) The payment responsibilities accepted by the member for model inference. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE ) or has not config- ured the collaboration member to pay for model in- ference costs (FALSE ). One or more members can be configured as payer candidates for model inference costs. If the collaboration creator hasn't specified any- one as the member paying for model inference costs, then the member who can query is the de- fault payer. syntheticDataGeneration -&gt; (structure) The payment configuration for machine learning syn- thetic data generation. isResponsible -&gt; (boolean) [required] Indicates who is responsible for paying for syn- thetic data generation. jobCompute -&gt; (structure) The compute configuration for the job. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has con- figured the collaboration member to pay for query and job compute costs (TRUE ) or has not configured the collaboration member to pay for query and job compute costs (FALSE ). One or more members can be configured as payer candi- dates for query and job compute costs. An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs. JSON Syntax: [ { "accountId": "string", "memberAbilities": ["CAN_QUERY"|"CAN_RECEIVE_RESULTS"|"CAN_RUN_JOB"|"CAN_EXPORT_QUERY_ANALYSIS_LOG", ...], "mlMemberAbilities": { "customMLMemberAbilities": ["CAN_RECEIVE_MODEL_OUTPUT"|"CAN_RECEIVE_INFERENCE_OUTPUT", ...] }, "displayName": "string", "paymentConfiguration": { "queryCompute": { "isResponsible": true|false }, "machineLearning": { "modelTraining": { "isResponsible": true|false }, "modelInference": { "isResponsible": true|false }, "syntheticDataGeneration": { "isResponsible": true|false } }, "jobCompute": { "isResponsible": true|false } } } ... ]
+    /// </summary>
+    [CliOption("--members", GroupValues = true)]
+    public IEnumerable<string>? Members { get; private init; }
+
+    /// <summary>
+    /// The display name for a collaboration. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The abilities granted to the collaboration creator. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--creator-member-abilities", GroupValues = true)]
+    public IEnumerable<string>? CreatorMemberAbilities { get; private init; }
+
+    /// <summary>
+    /// The display name of the collaboration creator. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
+    [CliOption("--creator-display-name")]
+    public string? CreatorDisplayName { get; private init; }
+
+    /// <summary>
+    /// An indicator as to whether query logging has been enabled or dis- abled for the collaboration. When ENABLED , Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED
+    /// </summary>
+    [CliOption("--query-log-status")]
+    public AwsCleanroomsCreateCollaborationQueryLogStatus? QueryLogStatus { get; private init; }
 
     /// <summary>
     /// A description of the collaboration provided by the collaboration owner. Constraints: o min: 0 o max: 255 o pattern: (?!\s+$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -35,26 +131,17 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--creator-member-abilities", GroupValues = true)]
-    public IEnumerable<string>? CreatorMemberAbilities { get; set; }
-
     /// <summary>
     /// The ML abilities granted to the collaboration creator. customMLMemberAbilities -&gt; (list) [required] The custom ML member abilities for a collaboration member. (string) Possible values: o CAN_RECEIVE_MODEL_OUTPUT o CAN_RECEIVE_INFERENCE_OUTPUT Shorthand Syntax: customMLMemberAbilities=string,string JSON Syntax: { "customMLMemberAbilities": ["CAN_RECEIVE_MODEL_OUTPUT"|"CAN_RECEIVE_INFERENCE_OUTPUT", ...] }
     /// </summary>
     [CliOption("--creator-ml-member-abilities")]
     public string? CreatorMlMemberAbilities { get; set; }
 
-    [CliOption("--creator-display-name")]
-    public string? CreatorDisplayName { get; set; }
-
     /// <summary>
     /// The settings for client-side encryption with Cryptographic Computing for Clean Rooms. allowCleartext -&gt; (boolean) [required] Indicates whether encrypted tables can contain cleartext data (TRUE ) or are to cryptographically process every column (FALSE ). allowDuplicates -&gt; (boolean) [required] Indicates whether Fingerprint columns can contain duplicate en- tries (TRUE ) or are to contain only non-repeated values (FALSE ). allowJoinsOnColumnsWithDifferentNames -&gt; (boolean) [required] Indicates whether Fingerprint columns can be joined on any other Fingerprint column with a different name (TRUE ) or can only be joined on Fingerprint columns of the same name (FALSE ). preserveNulls -&gt; (boolean) [required] Indicates whether NULL values are to be copied as NULL to en- crypted tables (TRUE ) or cryptographically processed (FALSE ). Shorthand Syntax: allowCleartext=boolean,allowDuplicates=boolean,allowJoinsOnColumnsWithDifferentNames=boolean,preserveNulls=boolean JSON Syntax: { "allowCleartext": true|false, "allowDuplicates": true|false, "allowJoinsOnColumnsWithDifferentNames": true|false, "preserveNulls": true|false }
     /// </summary>
     [CliOption("--data-encryption-metadata")]
     public string? DataEncryptionMetadata { get; set; }
-
-    [CliOption("--query-log-status")]
-    public string? QueryLogStatus { get; set; }
 
     /// <summary>
     /// Specifies whether job logs are enabled for this collaboration. When ENABLED , Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED . Possible values: o ENABLED o DISABLED
@@ -92,7 +179,10 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
     [CliOption("--allowed-result-regions", GroupValues = true)]
     public IEnumerable<string>? AllowedResultRegions { get; set; }
 
-    [CliFlag("--is-metrics-enabled")]
+    /// <summary>
+    /// An indicator as to whether metrics have been enabled or disabled for the collaboration. When true , collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false .
+    /// </summary>
+    [CliFlag("--is-metrics-enabled", NegatedName = "--no-is-metrics-enabled")]
     public bool? IsMetricsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -100,5 +190,21 @@ public record AwsCleanroomsCreateCollaborationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "describe-fleet-location-attributes")]
-public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions
+public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on a fleet's remote locations, including life-cy- cle status and any suspended fleet activity. This operation can be used in the following ways: o To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. o To get data for all locations, provide a fleet identifier only. Loca- tion data is returned in no particul...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    public AwsGameliftDescribeFleetLocationAttributesOptions(
+        string FleetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+    }
+
+    private AwsGameliftDescribeFleetLocationAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDescribeFleetLocationAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDescribeFleetLocationAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
     /// <summary>
     /// A list of fleet locations to retrieve information for. Specify loca- tions in the form of an Amazon Web Services Region code, such as us-west-2 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Syntax: "string" "string" ...
@@ -49,5 +86,21 @@ public record AwsGameliftDescribeFleetLocationAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

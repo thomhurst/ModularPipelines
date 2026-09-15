@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "delete-volume")]
-public record AwsDeadlineDeleteVolumeOptions : AwsOptions
+public record AwsDeadlineDeleteVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a persistent volume. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the farm that contains the fleet. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the fleet that contains the volume. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="VolumeId">The volume ID of the volume to delete. Constraints: o pattern: volume-[0-9a-f]{32}</param>
+    public AwsDeadlineDeleteVolumeOptions(
+        string FarmId,
+        string FleetId,
+        string VolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+    }
+
+    private AwsDeadlineDeleteVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineDeleteVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineDeleteVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the farm that contains the fleet. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
+    /// <summary>
+    /// The fleet ID of the fleet that contains the volume. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
+    /// <summary>
+    /// The volume ID of the volume to delete. Constraints: o pattern: volume-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
+    public string? VolumeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "delete-blue-green-deployment")]
-public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions
+public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--blue-green-deployment-identifier")]
-    public string? BlueGreenDeploymentIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-target")]
+    /// <summary>
+    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlueGreenDeploymentIdentifier">The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: o Must match an existing blue/green deployment identifier. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsRdsDeleteBlueGreenDeploymentOptions(
+        string BlueGreenDeploymentIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueGreenDeploymentIdentifier);
+        this.BlueGreenDeploymentIdentifier = BlueGreenDeploymentIdentifier;
+    }
+
+    private AwsRdsDeleteBlueGreenDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDeleteBlueGreenDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDeleteBlueGreenDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the blue/green deployment to delete. This parameter isn't case-sensitive. Constraints: o Must match an existing blue/green deployment identifier. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
+    [CliOption("--blue-green-deployment-identifier")]
+    public string? BlueGreenDeploymentIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to delete the resources in the green environment. You can't specify this option if the blue/green deployment status is SWITCHOVER_COMPLETED .
+    /// </summary>
+    [CliFlag("--delete-target", NegatedName = "--no-delete-target")]
     public bool? DeleteTarget { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsRdsDeleteBlueGreenDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

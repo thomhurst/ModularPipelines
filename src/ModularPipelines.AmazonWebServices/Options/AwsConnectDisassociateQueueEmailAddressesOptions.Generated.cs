@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "disassociate-queue-email-addresses")]
-public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions
+public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email con- tacts or initiating outbound email contacts in this queue. Important things to know o Agents will no longer see these email addresses in their "From" ad- dress selection options for this queue. o The email addresses themselves are not deleted from the instance, only their availability for ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="QueueId">The identifier for the queue.</param>
+    /// <param name="EmailAddressesId">List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 500 Syntax: "string" "string" ...</param>
+    public AwsConnectDisassociateQueueEmailAddressesOptions(
+        string InstanceId,
+        string QueueId,
+        IEnumerable<string> EmailAddressesId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EmailAddressesId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EmailAddressesId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EmailAddressesId));
+            }
+
+            EmailAddressesId = materialized;
+        }
+        this.EmailAddressesId = EmailAddressesId;
+    }
+
+    private AwsConnectDisassociateQueueEmailAddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDisassociateQueueEmailAddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDisassociateQueueEmailAddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the queue.
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
 
+    /// <summary>
+    /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 500 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--email-addresses-id", GroupValues = true)]
-    public IEnumerable<string>? EmailAddressesId { get; set; }
+    public IEnumerable<string>? EmailAddressesId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -43,5 +105,21 @@ public record AwsConnectDisassociateQueueEmailAddressesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

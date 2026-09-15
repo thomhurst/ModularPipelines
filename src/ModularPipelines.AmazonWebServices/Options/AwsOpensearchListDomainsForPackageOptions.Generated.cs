@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "list-domains-for-package")]
-public record AwsOpensearchListDomainsForPackageOptions : AwsOptions
+public record AwsOpensearchListDomainsForPackageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageId">The unique identifier of the package for which to list associated domains. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    public AwsOpensearchListDomainsForPackageOptions(
+        string PackageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageId);
+        this.PackageId = PackageId;
+    }
+
+    private AwsOpensearchListDomainsForPackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchListDomainsForPackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchListDomainsForPackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the package for which to list associated domains. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// </summary>
     [CliOption("--package-id")]
-    public string? PackageId { get; set; }
+    public string? PackageId { get; private init; }
 
     /// <summary>
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
@@ -43,5 +80,21 @@ public record AwsOpensearchListDomainsForPackageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

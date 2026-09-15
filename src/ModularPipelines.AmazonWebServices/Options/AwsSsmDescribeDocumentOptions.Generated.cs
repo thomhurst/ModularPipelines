@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-document")]
-public record AwsSsmDescribeDocumentOptions : AwsOptions
+public record AwsSsmDescribeDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the specified Amazon Web Services Systems Manager document (SSM document). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    public AwsSsmDescribeDocumentOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmDescribeDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The document version for which you want information. Can be a spe- cific version or the default version. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
@@ -41,5 +78,21 @@ public record AwsSsmDescribeDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

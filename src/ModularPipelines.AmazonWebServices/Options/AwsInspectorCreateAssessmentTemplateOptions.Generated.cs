@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "create-assessment-template")]
-public record AwsInspectorCreateAssessmentTemplateOptions : AwsOptions
+public record AwsInspectorCreateAssessmentTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an assessment template for the assessment target that is speci- fied by the ARN of the assessment target. If the service-linked role isnt already registered, this action also creates and registers a ser- vice-linked role to grant Amazon Inspector access to AWS Services needed to perform security assessments. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentTargetArn">The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentTemplateName">The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: o min: 1 o max: 140</param>
+    /// <param name="DurationInSeconds">The duration of the assessment run in seconds. Constraints: o min: 180 o max: 86400</param>
+    /// <param name="RulesPackageArns">The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    public AwsInspectorCreateAssessmentTemplateOptions(
+        string AssessmentTargetArn,
+        string AssessmentTemplateName,
+        int DurationInSeconds,
+        IEnumerable<string> RulesPackageArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentTargetArn);
+        this.AssessmentTargetArn = AssessmentTargetArn;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentTemplateName);
+        this.AssessmentTemplateName = AssessmentTemplateName;
+        this.DurationInSeconds = DurationInSeconds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RulesPackageArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RulesPackageArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RulesPackageArns));
+            }
+
+            RulesPackageArns = materialized;
+        }
+        this.RulesPackageArns = RulesPackageArns;
+    }
+
+    private AwsInspectorCreateAssessmentTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorCreateAssessmentTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorCreateAssessmentTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that specifies the assessment target for which you want to create the assessment template. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--assessment-target-arn")]
-    public string? AssessmentTargetArn { get; set; }
+    public string? AssessmentTargetArn { get; private init; }
 
+    /// <summary>
+    /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique. Constraints: o min: 1 o max: 140
+    /// </summary>
     [CliOption("--assessment-template-name")]
-    public string? AssessmentTemplateName { get; set; }
+    public string? AssessmentTemplateName { get; private init; }
 
+    /// <summary>
+    /// The duration of the assessment run in seconds. Constraints: o min: 180 o max: 86400
+    /// </summary>
     [CliOption("--duration-in-seconds")]
-    public int? DurationInSeconds { get; set; }
+    public int? DurationInSeconds { get; private init; }
 
+    /// <summary>
+    /// The ARNs that specify the rules packages that you want to attach to the assessment template. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--rules-package-arns", GroupValues = true)]
-    public IEnumerable<string>? RulesPackageArns { get; set; }
+    public IEnumerable<string>? RulesPackageArns { get; private init; }
 
     /// <summary>
     /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment tem- plate. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -44,5 +112,21 @@ public record AwsInspectorCreateAssessmentTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

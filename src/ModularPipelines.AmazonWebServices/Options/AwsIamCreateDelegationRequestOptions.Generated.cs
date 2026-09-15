@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,91 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "create-delegation-request")]
-public record AwsIamCreateDelegationRequestOptions : AwsOptions
+public record AwsIamCreateDelegationRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IAM delegation request for temporary access delegation. This API is not available for general use. In order to use this API, a caller first need to go through an onboarding process described in the partner onboarding documentation . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Description">A description of the delegation request. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*</param>
+    /// <param name="Permissions">The permissions to be delegated in this delegation request. PolicyTemplateArn -&gt; (string) This ARN maps to a pre-registered policy content for this part- ner. See the ` partner onboarding documentation to understand how to create a delegation template. System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline interpreted text or phrase reference start-string without end-string. Constraints: o min: 20 o max: 2048 Parameters -&gt; (list) A list of policy parameters that define the scope and con- straints of the delegated permissions. Constraints: o max: 50 (structure) Contains information about a policy parameter used to cus- tomize delegated permissions. Name -&gt; (string) The name of the policy parameter. Constraints: o min: 5 o max: 256 o pattern: [ -~]+ Values -&gt; (list) The allowed values for the policy parameter. (string) Constraints: o pattern: [ -~]+ Type -&gt; (string) The data type of the policy parameter value. Possible values: o string o stringList JSON Syntax: { "PolicyTemplateArn": "string", "Parameters": [ { "Name": "string", "Values": ["string", ...], "Type": "string"|"stringList" } ... ] }</param>
+    /// <param name="RequestorWorkflowId">The workflow ID associated with the requestor. This is the unique identifier on the partner side that can be used to track the progress of the request. IAM maintains a uniqueness check on this workflow id for each re- quest - if a workflow id for an existing request is passed, this API call will fail. Constraints: o min: 5 o max: 400 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+</param>
+    /// <param name="NotificationChannel">The notification channel for updates about the delegation request. At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a resource policy granting SNS:Publish permis- sion to the IAM service principal (iam.amazonaws.com ). See partner onboarding documentation for more details. Constraints: o min: 2 o max: 400 o pattern: ^[a-zA-Z0-9:_.-]+$</param>
+    /// <param name="SessionDuration">The duration for which the delegated session should remain active, in seconds. The active time window for the session starts when the customer calls the SendDelegationToken API. Constraints: o min: 300 o max: 43200</param>
+    public AwsIamCreateDelegationRequestOptions(
+        string Description,
+        string Permissions,
+        string RequestorWorkflowId,
+        string NotificationChannel,
+        int SessionDuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Permissions);
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(RequestorWorkflowId);
+        this.RequestorWorkflowId = RequestorWorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationChannel);
+        this.NotificationChannel = NotificationChannel;
+        this.SessionDuration = SessionDuration;
+    }
+
+    private AwsIamCreateDelegationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamCreateDelegationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamCreateDelegationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A description of the delegation request. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The permissions to be delegated in this delegation request. PolicyTemplateArn -&gt; (string) This ARN maps to a pre-registered policy content for this part- ner. See the ` partner onboarding documentation to understand how to create a delegation template. System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline interpreted text or phrase reference start-string without end-string. Constraints: o min: 20 o max: 2048 Parameters -&gt; (list) A list of policy parameters that define the scope and con- straints of the delegated permissions. Constraints: o max: 50 (structure) Contains information about a policy parameter used to cus- tomize delegated permissions. Name -&gt; (string) The name of the policy parameter. Constraints: o min: 5 o max: 256 o pattern: [ -~]+ Values -&gt; (list) The allowed values for the policy parameter. (string) Constraints: o pattern: [ -~]+ Type -&gt; (string) The data type of the policy parameter value. Possible values: o string o stringList JSON Syntax: { "PolicyTemplateArn": "string", "Parameters": [ { "Name": "string", "Values": ["string", ...], "Type": "string"|"stringList" } ... ] }
+    /// </summary>
+    [CliOption("--permissions")]
+    public string? Permissions { get; private init; }
+
+    /// <summary>
+    /// The workflow ID associated with the requestor. This is the unique identifier on the partner side that can be used to track the progress of the request. IAM maintains a uniqueness check on this workflow id for each re- quest - if a workflow id for an existing request is passed, this API call will fail. Constraints: o min: 5 o max: 400 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+
+    /// </summary>
+    [CliOption("--requestor-workflow-id")]
+    public string? RequestorWorkflowId { get; private init; }
+
+    /// <summary>
+    /// The notification channel for updates about the delegation request. At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a resource policy granting SNS:Publish permis- sion to the IAM service principal (iam.amazonaws.com ). See partner onboarding documentation for more details. Constraints: o min: 2 o max: 400 o pattern: ^[a-zA-Z0-9:_.-]+$
+    /// </summary>
+    [CliOption("--notification-channel")]
+    public string? NotificationChannel { get; private init; }
+
+    /// <summary>
+    /// The duration for which the delegated session should remain active, in seconds. The active time window for the session starts when the customer calls the SendDelegationToken API. Constraints: o min: 300 o max: 43200
+    /// </summary>
+    [CliOption("--session-duration")]
+    public int? SessionDuration { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID this delegation request is tar- geted to. If the account ID is not known, this parameter can be omitted, re- sulting in a request that can be associated by any account. If the account ID passed, then the created delegation request can only be associated with an identity of that target account. Constraints: o pattern: \d{12}
     /// </summary>
     [CliOption("--owner-account-id")]
     public string? OwnerAccountId { get; set; }
-
-    [CliOption("--description")]
-    public string? Description { get; set; }
-
-    [CliOption("--permissions")]
-    public string? Permissions { get; set; }
 
     /// <summary>
     /// A message explaining the reason for the delegation request. Requesters can utilize this field to add a custom note to the dele- gation request. This field is different from the description such that this is to be utilized for a custom messaging on a case-by-case basis. For example, if the current delegation request is in response to a previous request being rejected, this explanation can be added to the request via this field. Constraints: o max: 200 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
@@ -39,22 +112,16 @@ public record AwsIamCreateDelegationRequestOptions : AwsOptions
     [CliOption("--request-message")]
     public string? RequestMessage { get; set; }
 
-    [CliOption("--requestor-workflow-id")]
-    public string? RequestorWorkflowId { get; set; }
-
     /// <summary>
     /// The URL to redirect to after the delegation request is processed. This URL is used by the IAM console to show a link to the customer to re-load the partner workflow. Constraints: o min: 1 o max: 255 o pattern: ^http(s?)://[a-zA-Z0-9._/-]*(\?[a-zA-Z0-9._=&amp;-]*)?(#[a-zA-Z0-9._/-]*)?$
     /// </summary>
     [CliOption("--redirect-url")]
     public string? RedirectUrl { get; set; }
 
-    [CliOption("--notification-channel")]
-    public string? NotificationChannel { get; set; }
-
-    [CliOption("--session-duration")]
-    public int? SessionDuration { get; set; }
-
-    [CliFlag("--only-send-by-owner")]
+    /// <summary>
+    /// Specifies whether the delegation token should only be sent by the owner. This flag prevents any party other than the owner from calling Send- DelegationToken API for this delegation request. This behavior be- comes useful when the delegation request owner needs to be present for subsequent partner interactions, but the delegation request was sent to a more privileged user for approval due to the owner lacking sufficient delegation permissions.
+    /// </summary>
+    [CliFlag("--only-send-by-owner", NegatedName = "--no-only-send-by-owner")]
     public bool? OnlySendByOwner { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -62,5 +129,21 @@ public record AwsIamCreateDelegationRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

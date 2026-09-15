@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehendmedical", "detect-entities-v2")]
-public record AwsComprehendmedicalDetectEntitiesV2Options : AwsOptions
+public record AwsComprehendmedicalDetectEntitiesV2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Inspects the clinical text for a variety of medical entities and re- turns specific information about them such as entity category, loca- tion, and confidence score on that information. Amazon Comprehend Med- ical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You...
+    /// </summary>
+    /// <param name="Text">A UTF-8 string containing the clinical content being examined for entities. Constraints: o min: 1 o max: 20000</param>
+    public AwsComprehendmedicalDetectEntitiesV2Options(
+        string Text
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+    }
+
+    private AwsComprehendmedicalDetectEntitiesV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendmedicalDetectEntitiesV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendmedicalDetectEntitiesV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A UTF-8 string containing the clinical content being examined for entities. Constraints: o min: 1 o max: 20000
+    /// </summary>
     [CliOption("--text")]
-    public string? Text { get; set; }
+    public string? Text { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

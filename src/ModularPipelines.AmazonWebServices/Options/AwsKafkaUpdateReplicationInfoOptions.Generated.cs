@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-replication-info")]
-public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions
+public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates replication info of a replicator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CurrentVersion">Current replicator version.</param>
+    /// <param name="ReplicatorArn">The Amazon Resource Name (ARN) of the replicator to be updated.</param>
+    public AwsKafkaUpdateReplicationInfoOptions(
+        string CurrentVersion,
+        string ReplicatorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicatorArn);
+        this.ReplicatorArn = ReplicatorArn;
+    }
+
+    private AwsKafkaUpdateReplicationInfoOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateReplicationInfoOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateReplicationInfoOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Current replicator version.
+    /// </summary>
+    [CliOption("--current-version")]
+    public string? CurrentVersion { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replicator to be updated.
+    /// </summary>
+    [CliOption("--replicator-arn")]
+    public string? ReplicatorArn { get; private init; }
+
     /// <summary>
     /// Updated consumer group replication information. ConsumerGroupsToExclude -&gt; (list) [required] List of regular expression patterns indicating the consumer groups that should not be replicated. (string) Constraints: o max: 256 ConsumerGroupsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the consumer groups to copy. (string) Constraints: o max: 256 DetectAndCopyNewConsumerGroups -&gt; (boolean) [required] Enables synchronization of consumer groups to target cluster. SynchroniseConsumerGroupOffsets -&gt; (boolean) [required] Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __con- sumer_offsets. Shorthand Syntax: ConsumerGroupsToExclude=string,string,ConsumerGroupsToReplicate=string,string,DetectAndCopyNewConsumerGroups=boolean,SynchroniseConsumerGroupOffsets=boolean JSON Syntax: { "ConsumerGroupsToExclude": ["string", ...], "ConsumerGroupsToReplicate": ["string", ...], "DetectAndCopyNewConsumerGroups": true|false, "SynchroniseConsumerGroupOffsets": true|false }
     /// </summary>
     [CliOption("--consumer-group-replication")]
     public string? ConsumerGroupReplication { get; set; }
-
-    [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
-
-    [CliOption("--replicator-arn")]
-    public string? ReplicatorArn { get; set; }
 
     /// <summary>
     /// The ARN of the source Kafka cluster.
@@ -74,5 +118,21 @@ public record AwsKafkaUpdateReplicationInfoOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

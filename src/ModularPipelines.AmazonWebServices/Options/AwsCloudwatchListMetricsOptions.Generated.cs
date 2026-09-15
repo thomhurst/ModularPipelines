@@ -47,7 +47,10 @@ public record AwsCloudwatchListMetricsOptions : AwsOptions
     [CliOption("--recently-active")]
     public AwsCloudwatchListMetricsRecentlyActive? RecentlyActive { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false .
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>

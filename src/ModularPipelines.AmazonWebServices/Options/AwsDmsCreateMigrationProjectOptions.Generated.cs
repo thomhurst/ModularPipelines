@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-migration-project")]
-public record AwsDmsCreateMigrationProjectOptions : AwsOptions
+public record AwsDmsCreateMigrationProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider . Required permissions: dms:CreateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDataProviderDescriptors">Information about the source data provider, including the name, ARN, and Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]</param>
+    /// <param name="TargetDataProviderDescriptors">Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]</param>
+    /// <param name="InstanceProfileIdentifier">The identifier of the associated instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.</param>
+    public AwsDmsCreateMigrationProjectOptions(
+        IEnumerable<string> SourceDataProviderDescriptors,
+        IEnumerable<string> TargetDataProviderDescriptors,
+        string InstanceProfileIdentifier
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceDataProviderDescriptors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceDataProviderDescriptors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceDataProviderDescriptors));
+            }
+
+            SourceDataProviderDescriptors = materialized;
+        }
+        this.SourceDataProviderDescriptors = SourceDataProviderDescriptors;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetDataProviderDescriptors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetDataProviderDescriptors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetDataProviderDescriptors));
+            }
+
+            TargetDataProviderDescriptors = materialized;
+        }
+        this.TargetDataProviderDescriptors = TargetDataProviderDescriptors;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceProfileIdentifier);
+        this.InstanceProfileIdentifier = InstanceProfileIdentifier;
+    }
+
+    private AwsDmsCreateMigrationProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateMigrationProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateMigrationProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the source data provider, including the name, ARN, and Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--source-data-provider-descriptors", GroupValues = true)]
+    public IEnumerable<string>? SourceDataProviderDescriptors { get; private init; }
+
+    /// <summary>
+    /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters. (structure) Information about a data provider. DataProviderIdentifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the data provider. SecretsManagerSecretId -&gt; (string) The identifier of the Amazon Web Services Secrets Manager Se- cret used to store access credentials for the data provider. SecretsManagerAccessRoleArn -&gt; (string) The ARN of the role used to access Amazon Web Services Se- crets Manager. Shorthand Syntax: DataProviderIdentifier=string,SecretsManagerSecretId=string,SecretsManagerAccessRoleArn=string ... JSON Syntax: [ { "DataProviderIdentifier": "string", "SecretsManagerSecretId": "string", "SecretsManagerAccessRoleArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--target-data-provider-descriptors", GroupValues = true)]
+    public IEnumerable<string>? TargetDataProviderDescriptors { get; private init; }
+
+    /// <summary>
+    /// The identifier of the associated instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// </summary>
+    [CliOption("--instance-profile-identifier")]
+    public string? InstanceProfileIdentifier { get; private init; }
+
     /// <summary>
     /// A user-friendly name for the migration project.
     /// </summary>
     [CliOption("--migration-project-name")]
     public string? MigrationProjectName { get; set; }
-
-    [CliOption("--source-data-provider-descriptors", GroupValues = true)]
-    public IEnumerable<string>? SourceDataProviderDescriptors { get; set; }
-
-    [CliOption("--target-data-provider-descriptors", GroupValues = true)]
-    public IEnumerable<string>? TargetDataProviderDescriptors { get; set; }
-
-    [CliOption("--instance-profile-identifier")]
-    public string? InstanceProfileIdentifier { get; set; }
 
     /// <summary>
     /// A JSON string that specifies the transformation rules for the migra- tion project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renam- ing, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion . NOTE: Homogeneous data migrations do not support transformation rules.
@@ -65,5 +138,21 @@ public record AwsDmsCreateMigrationProjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

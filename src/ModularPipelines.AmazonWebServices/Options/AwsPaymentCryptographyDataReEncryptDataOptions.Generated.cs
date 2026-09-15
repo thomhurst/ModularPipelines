@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "re-encrypt-data")]
-public record AwsPaymentCryptographyDataReEncryptDataOptions : AwsOptions
+public record AwsPaymentCryptographyDataReEncryptDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Re-encrypt ciphertext using DUKPT or Symmetric data encryption keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling CreateKey or import your own encryption key by calling ImportKey . The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt . This operation also supports dynamic keys, allowing you to pass a dy- namic encryption key as a TR-31 WrappedKeyBlock. This can be used when key material ...
+    /// </summary>
+    /// <param name="IncomingKeyIdentifier">The keyARN of the encryption key of incoming ciphertext data. When a WrappedKeyBlock is provided, this value will be the identi- fier to the key wrapping key. Otherwise, it is the key identifier used to perform the operation. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="OutgoingKeyIdentifier">The keyARN of the encryption key of outgoing ciphertext data after encryption by Amazon Web Services Payment Cryptography. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="CipherText">Ciphertext to be encrypted. The minimum allowed length is 16 bytes and maximum allowed length is 4096 bytes. Constraints: o min: 2 o max: 4224 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+</param>
+    /// <param name="IncomingEncryptionAttributes">The attributes and values for incoming ciphertext. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Symmetric, Dukpt. Symmetric -&gt; (structure) Parameters that are required to encrypt data using symmetric keys. Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC o CFB o CFB1 o CFB8 o CFB64 o CFB128 o OFB InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) PaddingType -&gt; (string) The padding to be included with the data. Possible values: o PKCS1 o OAEP_SHA1 o OAEP_SHA256 o OAEP_SHA512 Dukpt -&gt; (structure) Parameters that are required to encrypt plaintext data using DUKPT. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) Mode -&gt; (string) The block cipher method to use for encryption. The default is CBC. Possible values: o ECB o CBC DukptKeyDerivationType -&gt; (string) The key type encrypted using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptKeyVariant -&gt; (string) The type of use of DUKPT, which can be incoming data decryp- tion, outgoing data encryption, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) Shorthand Syntax: Symmetric={Mode=string,InitializationVector=string,PaddingType=string},Dukpt={KeySerialNumber=string,Mode=string,DukptKeyDerivationType=string,DukptKeyVariant=string,InitializationVector=string} JSON Syntax: { "Symmetric": { "Mode": "ECB"|"CBC"|"CFB"|"CFB1"|"CFB8"|"CFB64"|"CFB128"|"OFB", "InitializationVector": "string", "PaddingType": "PKCS1"|"OAEP_SHA1"|"OAEP_SHA256"|"OAEP_SHA512" }, "Dukpt": { "KeySerialNumber": "string", "Mode": "ECB"|"CBC", "DukptKeyDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "InitializationVector": "string" } }</param>
+    /// <param name="OutgoingEncryptionAttributes">The attributes and values for outgoing ciphertext data after encryp- tion by Amazon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Symmetric, Dukpt. Symmetric -&gt; (structure) Parameters that are required to encrypt data using symmetric keys. Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC o CFB o CFB1 o CFB8 o CFB64 o CFB128 o OFB InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) PaddingType -&gt; (string) The padding to be included with the data. Possible values: o PKCS1 o OAEP_SHA1 o OAEP_SHA256 o OAEP_SHA512 Dukpt -&gt; (structure) Parameters that are required to encrypt plaintext data using DUKPT. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) Mode -&gt; (string) The block cipher method to use for encryption. The default is CBC. Possible values: o ECB o CBC DukptKeyDerivationType -&gt; (string) The key type encrypted using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptKeyVariant -&gt; (string) The type of use of DUKPT, which can be incoming data decryp- tion, outgoing data encryption, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) Shorthand Syntax: Symmetric={Mode=string,InitializationVector=string,PaddingType=string},Dukpt={KeySerialNumber=string,Mode=string,DukptKeyDerivationType=string,DukptKeyVariant=string,InitializationVector=string} JSON Syntax: { "Symmetric": { "Mode": "ECB"|"CBC"|"CFB"|"CFB1"|"CFB8"|"CFB64"|"CFB128"|"OFB", "InitializationVector": "string", "PaddingType": "PKCS1"|"OAEP_SHA1"|"OAEP_SHA256"|"OAEP_SHA512" }, "Dukpt": { "KeySerialNumber": "string", "Mode": "ECB"|"CBC", "DukptKeyDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "InitializationVector": "string" } }</param>
+    public AwsPaymentCryptographyDataReEncryptDataOptions(
+        string IncomingKeyIdentifier,
+        string OutgoingKeyIdentifier,
+        string CipherText,
+        string IncomingEncryptionAttributes,
+        string OutgoingEncryptionAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncomingKeyIdentifier);
+        this.IncomingKeyIdentifier = IncomingKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OutgoingKeyIdentifier);
+        this.OutgoingKeyIdentifier = OutgoingKeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(CipherText);
+        this.CipherText = CipherText;
+        global::System.ArgumentNullException.ThrowIfNull(IncomingEncryptionAttributes);
+        this.IncomingEncryptionAttributes = IncomingEncryptionAttributes;
+        global::System.ArgumentNullException.ThrowIfNull(OutgoingEncryptionAttributes);
+        this.OutgoingEncryptionAttributes = OutgoingEncryptionAttributes;
+    }
+
+    private AwsPaymentCryptographyDataReEncryptDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataReEncryptDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataReEncryptDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of the encryption key of incoming ciphertext data. When a WrappedKeyBlock is provided, this value will be the identi- fier to the key wrapping key. Otherwise, it is the key identifier used to perform the operation. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--incoming-key-identifier")]
-    public string? IncomingKeyIdentifier { get; set; }
+    public string? IncomingKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The keyARN of the encryption key of outgoing ciphertext data after encryption by Amazon Web Services Payment Cryptography. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--outgoing-key-identifier")]
-    public string? OutgoingKeyIdentifier { get; set; }
+    public string? OutgoingKeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// Ciphertext to be encrypted. The minimum allowed length is 16 bytes and maximum allowed length is 4096 bytes. Constraints: o min: 2 o max: 4224 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+
+    /// </summary>
     [CliOption("--cipher-text")]
-    public string? CipherText { get; set; }
+    public string? CipherText { get; private init; }
 
+    /// <summary>
+    /// The attributes and values for incoming ciphertext. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Symmetric, Dukpt. Symmetric -&gt; (structure) Parameters that are required to encrypt data using symmetric keys. Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC o CFB o CFB1 o CFB8 o CFB64 o CFB128 o OFB InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) PaddingType -&gt; (string) The padding to be included with the data. Possible values: o PKCS1 o OAEP_SHA1 o OAEP_SHA256 o OAEP_SHA512 Dukpt -&gt; (structure) Parameters that are required to encrypt plaintext data using DUKPT. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) Mode -&gt; (string) The block cipher method to use for encryption. The default is CBC. Possible values: o ECB o CBC DukptKeyDerivationType -&gt; (string) The key type encrypted using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptKeyVariant -&gt; (string) The type of use of DUKPT, which can be incoming data decryp- tion, outgoing data encryption, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) Shorthand Syntax: Symmetric={Mode=string,InitializationVector=string,PaddingType=string},Dukpt={KeySerialNumber=string,Mode=string,DukptKeyDerivationType=string,DukptKeyVariant=string,InitializationVector=string} JSON Syntax: { "Symmetric": { "Mode": "ECB"|"CBC"|"CFB"|"CFB1"|"CFB8"|"CFB64"|"CFB128"|"OFB", "InitializationVector": "string", "PaddingType": "PKCS1"|"OAEP_SHA1"|"OAEP_SHA256"|"OAEP_SHA512" }, "Dukpt": { "KeySerialNumber": "string", "Mode": "ECB"|"CBC", "DukptKeyDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "InitializationVector": "string" } }
+    /// </summary>
     [CliOption("--incoming-encryption-attributes")]
-    public string? IncomingEncryptionAttributes { get; set; }
+    public string? IncomingEncryptionAttributes { get; private init; }
 
+    /// <summary>
+    /// The attributes and values for outgoing ciphertext data after encryp- tion by Amazon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Symmetric, Dukpt. Symmetric -&gt; (structure) Parameters that are required to encrypt data using symmetric keys. Mode -&gt; (string) [required] The block cipher method to use for encryption. Possible values: o ECB o CBC o CFB o CFB1 o CFB8 o CFB64 o CFB128 o OFB InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) PaddingType -&gt; (string) The padding to be included with the data. Possible values: o PKCS1 o OAEP_SHA1 o OAEP_SHA256 o OAEP_SHA512 Dukpt -&gt; (structure) Parameters that are required to encrypt plaintext data using DUKPT. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) Mode -&gt; (string) The block cipher method to use for encryption. The default is CBC. Possible values: o ECB o CBC DukptKeyDerivationType -&gt; (string) The key type encrypted using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptKeyVariant -&gt; (string) The type of use of DUKPT, which can be incoming data decryp- tion, outgoing data encryption, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE InitializationVector -&gt; (string) An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero. Constraints: o min: 16 o max: 32 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}) Shorthand Syntax: Symmetric={Mode=string,InitializationVector=string,PaddingType=string},Dukpt={KeySerialNumber=string,Mode=string,DukptKeyDerivationType=string,DukptKeyVariant=string,InitializationVector=string} JSON Syntax: { "Symmetric": { "Mode": "ECB"|"CBC"|"CFB"|"CFB1"|"CFB8"|"CFB64"|"CFB128"|"OFB", "InitializationVector": "string", "PaddingType": "PKCS1"|"OAEP_SHA1"|"OAEP_SHA256"|"OAEP_SHA512" }, "Dukpt": { "KeySerialNumber": "string", "Mode": "ECB"|"CBC", "DukptKeyDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "InitializationVector": "string" } }
+    /// </summary>
     [CliOption("--outgoing-encryption-attributes")]
-    public string? OutgoingEncryptionAttributes { get; set; }
+    public string? OutgoingEncryptionAttributes { get; private init; }
 
     /// <summary>
     /// The WrappedKeyBlock containing the encryption key of incoming ci- phertext data. WrappedKeyMaterial -&gt; (tagged union structure) [required] Parameter information of a WrappedKeyBlock for encryption key exchange. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Tr31KeyBlock, DiffieHellmanSymmet- ricKey. Tr31KeyBlock -&gt; (string) The TR-31 wrapped key block. Constraints: o min: 56 o max: 9984 o pattern: [0-9a-zA-Z]+ DiffieHellmanSymmetricKey -&gt; (structure) The parameter information for deriving a ECDH shared key. CertificateAuthorityPublicKeyIdentifier -&gt; (string) [re- quired] The keyArn of the certificate that signed the client's PublicKeyCertificate . Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+ PublicKeyCertificate -&gt; (string) [required] The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation. Constraints: o min: 1 o max: 32768 o pattern: [^\[;\]&lt;&gt;]+ KeyAlgorithm -&gt; (string) [required] The key algorithm of the derived ECDH key. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 KeyDerivationFunction -&gt; (string) [required] The key derivation function to use for deriving a key us- ing ECDH. Possible values: o NIST_SP800 o ANSI_X963 KeyDerivationHashAlgorithm -&gt; (string) [required] The hash type to use for deriving a key using ECDH. Possible values: o SHA_256 o SHA_384 o SHA_512 SharedInformation -&gt; (string) [required] A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key de- rivations is not recommended. Constraints: o min: 2 o max: 2048 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+ KeyCheckValueAlgorithm -&gt; (string) The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. Possible values: o CMAC o ANSI_X9_24 o HMAC o SHA_1 Shorthand Syntax: WrappedKeyMaterial={Tr31KeyBlock=string,DiffieHellmanSymmetricKey={CertificateAuthorityPublicKeyIdentifier=string,PublicKeyCertificate=string,KeyAlgorithm=string,KeyDerivationFunction=string,KeyDerivationHashAlgorithm=string,SharedInformation=string}},KeyCheckValueAlgorithm=string JSON Syntax: { "WrappedKeyMaterial": { "Tr31KeyBlock": "string", "DiffieHellmanSymmetricKey": { "CertificateAuthorityPublicKeyIdentifier": "string", "PublicKeyCertificate": "string", "KeyAlgorithm": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"HMAC_SHA224", "KeyDerivationFunction": "NIST_SP800"|"ANSI_X963", "KeyDerivationHashAlgorithm": "SHA_256"|"SHA_384"|"SHA_512", "SharedInformation": "string" } }, "KeyCheckValueAlgorithm": "CMAC"|"ANSI_X9_24"|"HMAC"|"SHA_1" }
@@ -53,5 +118,21 @@ public record AwsPaymentCryptographyDataReEncryptDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

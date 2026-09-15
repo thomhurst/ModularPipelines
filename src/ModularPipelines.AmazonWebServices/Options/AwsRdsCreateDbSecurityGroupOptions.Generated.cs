@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-security-group")]
-public record AwsRdsCreateDbSecurityGroupOptions : AwsOptions
+public record AwsRdsCreateDbSecurityGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-security-group-name")]
-    public string? DbSecurityGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new DB security group. DB security groups control access to a DB instance. A DB security group controls access to EC2-Classic DB instances that are not in a VPC. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB in...
+    /// </summary>
+    /// <param name="DbSecurityGroupName">The name for the DB security group. This value is stored as a lower- case string. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default" Example: mysecuritygroup</param>
+    /// <param name="DbSecurityGroupDescription">The description for the DB security group.</param>
+    public AwsRdsCreateDbSecurityGroupOptions(
+        string DbSecurityGroupName,
+        string DbSecurityGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSecurityGroupName);
+        this.DbSecurityGroupName = DbSecurityGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(DbSecurityGroupDescription);
+        this.DbSecurityGroupDescription = DbSecurityGroupDescription;
+    }
+
+    private AwsRdsCreateDbSecurityGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbSecurityGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbSecurityGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the DB security group. This value is stored as a lower- case string. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default" Example: mysecuritygroup
+    /// </summary>
+    [CliOption("--db-security-group-name")]
+    public string? DbSecurityGroupName { get; private init; }
+
+    /// <summary>
+    /// The description for the DB security group.
+    /// </summary>
     [CliOption("--db-security-group-description")]
-    public string? DbSecurityGroupDescription { get; set; }
+    public string? DbSecurityGroupDescription { get; private init; }
 
     /// <summary>
     /// Tags to assign to the DB security group. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,21 @@ public record AwsRdsCreateDbSecurityGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

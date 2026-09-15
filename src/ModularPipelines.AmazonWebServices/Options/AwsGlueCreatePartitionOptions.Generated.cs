@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-partition")]
-public record AwsGlueCreatePartitionOptions : AwsOptions
+public record AwsGlueCreatePartitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new partition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the metadata database in which the partition is to be created. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the metadata table in which the partition is to be cre- ated. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="PartitionInput">A PartitionInput structure defining the partition to be created. Values -&gt; (list) The values of the partition. Although this parameter is not re- quired by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same or- der as the partition keys appearing in the Amazon S3 prefix. Otherwise Glue will add the values to the wrong keys. (string) Constraints: o min: 1 o max: 1024 LastAccessTime -&gt; (timestamp) The last time at which the partition was accessed. StorageDescriptor -&gt; (structure) Provides information about the physical location where the par- tition is stored. Columns -&gt; (list) A list of the Columns in the table. (structure) A column in a Table . Name -&gt; (string) [required] The name of the Column . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Type -&gt; (string) The data type of the Column . Constraints: o min: 0 o max: 131072 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Comment -&gt; (string) A free-form text comment. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Parameters -&gt; (map) These key-value pairs define properties associated with the column. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 Location -&gt; (string) The physical location of the table. By default, this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name. Constraints: o max: 2056 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* AdditionalLocations -&gt; (list) A list of locations that point to the path where a Delta ta- ble is located. (string) Constraints: o max: 2056 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* InputFormat -&gt; (string) The input format: SequenceFileInputFormat (binary), or Tex- tInputFormat , or a custom format. Constraints: o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OutputFormat -&gt; (string) The output format: SequenceFileOutputFormat (binary), or Ig- noreKeyTextOutputFormat , or a custom format. Constraints: o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Compressed -&gt; (boolean) True if the data in the table is compressed, or False if not. NumberOfBuckets -&gt; (integer) Must be specified if the table contains any dimension columns. SerdeInfo -&gt; (structure) The serialization/deserialization (SerDe) information. Name -&gt; (string) Name of the SerDe. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SerializationLibrary -&gt; (string) Usually the class that implements the SerDe. An example is org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Parameters -&gt; (map) These key-value pairs define initialization parameters for the SerDe. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 BucketColumns -&gt; (list) A list of reducer grouping columns, clustering columns, and bucketing columns in the table. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SortColumns -&gt; (list) A list specifying the sort order of each bucket in the table. (structure) Specifies the sort order of a sorted column. Column -&gt; (string) [required] The name of the column. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SortOrder -&gt; (integer) [required] Indicates that the column is sorted in ascending order (== 1 ), or in descending order (==0 ). Constraints: o min: 0 o max: 1 Parameters -&gt; (map) The user-supplied properties in key-value form. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 SkewedInfo -&gt; (structure) The information about values that appear frequently in a col- umn (skewed values). SkewedColumnNames -&gt; (list) A list of names of columns that contain skewed values. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SkewedColumnValues -&gt; (list) A list of values that appear so frequently as to be con- sidered skewed. (string) SkewedColumnValueLocationMaps -&gt; (map) A mapping of skewed values to the columns that contain them. key -&gt; (string) value -&gt; (string) StoredAsSubDirectories -&gt; (boolean) True if the table data is stored in subdirectories, or False if not. SchemaReference -&gt; (structure) An object that references a schema stored in the Glue Schema Registry. When creating a table, you can pass an empty list of columns for the schema, and instead use a schema reference. SchemaId -&gt; (structure) A structure that contains schema identity fields. Either this or the SchemaVersionId has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ SchemaVersionId -&gt; (string) The unique ID assigned to a version of the schema. Either this or the SchemaId has to be provided. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} SchemaVersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Parameters -&gt; (map) These key-value pairs define partition parameters. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 LastAnalyzedTime -&gt; (timestamp) The last time at which column statistics were computed for this partition. JSON Syntax: { "Values": ["string", ...], "LastAccessTime": timestamp, "StorageDescriptor": { "Columns": [ { "Name": "string", "Type": "string", "Comment": "string", "Parameters": {"string": "string" ...} } ... ], "Location": "string", "AdditionalLocations": ["string", ...], "InputFormat": "string", "OutputFormat": "string", "Compressed": true|false, "NumberOfBuckets": integer, "SerdeInfo": { "Name": "string", "SerializationLibrary": "string", "Parameters": {"string": "string" ...} }, "BucketColumns": ["string", ...], "SortColumns": [ { "Column": "string", "SortOrder": integer } ... ], "Parameters": {"string": "string" ...}, "SkewedInfo": { "SkewedColumnNames": ["string", ...], "SkewedColumnValues": ["string", ...], "SkewedColumnValueLocationMaps": {"string": "string" ...} }, "StoredAsSubDirectories": true|false, "SchemaReference": { "SchemaId": { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }, "SchemaVersionId": "string", "SchemaVersionNumber": long } }, "Parameters": {"string": "string" ...}, "LastAnalyzedTime": timestamp }</param>
+    public AwsGlueCreatePartitionOptions(
+        string DatabaseName,
+        string TableName,
+        string PartitionInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(PartitionInput);
+        this.PartitionInput = PartitionInput;
+    }
+
+    private AwsGlueCreatePartitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreatePartitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreatePartitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the metadata database in which the partition is to be created. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the metadata table in which the partition is to be cre- ated. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A PartitionInput structure defining the partition to be created. Values -&gt; (list) The values of the partition. Although this parameter is not re- quired by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same or- der as the partition keys appearing in the Amazon S3 prefix. Otherwise Glue will add the values to the wrong keys. (string) Constraints: o min: 1 o max: 1024 LastAccessTime -&gt; (timestamp) The last time at which the partition was accessed. StorageDescriptor -&gt; (structure) Provides information about the physical location where the par- tition is stored. Columns -&gt; (list) A list of the Columns in the table. (structure) A column in a Table . Name -&gt; (string) [required] The name of the Column . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Type -&gt; (string) The data type of the Column . Constraints: o min: 0 o max: 131072 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Comment -&gt; (string) A free-form text comment. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Parameters -&gt; (map) These key-value pairs define properties associated with the column. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 Location -&gt; (string) The physical location of the table. By default, this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name. Constraints: o max: 2056 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* AdditionalLocations -&gt; (list) A list of locations that point to the path where a Delta ta- ble is located. (string) Constraints: o max: 2056 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* InputFormat -&gt; (string) The input format: SequenceFileInputFormat (binary), or Tex- tInputFormat , or a custom format. Constraints: o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OutputFormat -&gt; (string) The output format: SequenceFileOutputFormat (binary), or Ig- noreKeyTextOutputFormat , or a custom format. Constraints: o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Compressed -&gt; (boolean) True if the data in the table is compressed, or False if not. NumberOfBuckets -&gt; (integer) Must be specified if the table contains any dimension columns. SerdeInfo -&gt; (structure) The serialization/deserialization (SerDe) information. Name -&gt; (string) Name of the SerDe. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SerializationLibrary -&gt; (string) Usually the class that implements the SerDe. An example is org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe . Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Parameters -&gt; (map) These key-value pairs define initialization parameters for the SerDe. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 BucketColumns -&gt; (list) A list of reducer grouping columns, clustering columns, and bucketing columns in the table. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SortColumns -&gt; (list) A list specifying the sort order of each bucket in the table. (structure) Specifies the sort order of a sorted column. Column -&gt; (string) [required] The name of the column. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SortOrder -&gt; (integer) [required] Indicates that the column is sorted in ascending order (== 1 ), or in descending order (==0 ). Constraints: o min: 0 o max: 1 Parameters -&gt; (map) The user-supplied properties in key-value form. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 SkewedInfo -&gt; (structure) The information about values that appear frequently in a col- umn (skewed values). SkewedColumnNames -&gt; (list) A list of names of columns that contain skewed values. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* SkewedColumnValues -&gt; (list) A list of values that appear so frequently as to be con- sidered skewed. (string) SkewedColumnValueLocationMaps -&gt; (map) A mapping of skewed values to the columns that contain them. key -&gt; (string) value -&gt; (string) StoredAsSubDirectories -&gt; (boolean) True if the table data is stored in subdirectories, or False if not. SchemaReference -&gt; (structure) An object that references a schema stored in the Glue Schema Registry. When creating a table, you can pass an empty list of columns for the schema, and instead use a schema reference. SchemaId -&gt; (structure) A structure that contains schema identity fields. Either this or the SchemaVersionId has to be provided. SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ SchemaVersionId -&gt; (string) The unique ID assigned to a version of the schema. Either this or the SchemaId has to be provided. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} SchemaVersionNumber -&gt; (long) The version number of the schema. Constraints: o min: 1 o max: 100000 Parameters -&gt; (map) These key-value pairs define partition parameters. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 512000 LastAnalyzedTime -&gt; (timestamp) The last time at which column statistics were computed for this partition. JSON Syntax: { "Values": ["string", ...], "LastAccessTime": timestamp, "StorageDescriptor": { "Columns": [ { "Name": "string", "Type": "string", "Comment": "string", "Parameters": {"string": "string" ...} } ... ], "Location": "string", "AdditionalLocations": ["string", ...], "InputFormat": "string", "OutputFormat": "string", "Compressed": true|false, "NumberOfBuckets": integer, "SerdeInfo": { "Name": "string", "SerializationLibrary": "string", "Parameters": {"string": "string" ...} }, "BucketColumns": ["string", ...], "SortColumns": [ { "Column": "string", "SortOrder": integer } ... ], "Parameters": {"string": "string" ...}, "SkewedInfo": { "SkewedColumnNames": ["string", ...], "SkewedColumnValues": ["string", ...], "SkewedColumnValueLocationMaps": {"string": "string" ...} }, "StoredAsSubDirectories": true|false, "SchemaReference": { "SchemaId": { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }, "SchemaVersionId": "string", "SchemaVersionNumber": long } }, "Parameters": {"string": "string" ...}, "LastAnalyzedTime": timestamp }
+    /// </summary>
+    [CliOption("--partition-input")]
+    public string? PartitionInput { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID of the catalog in which the par- tition is to be created. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--partition-input")]
-    public string? PartitionInput { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

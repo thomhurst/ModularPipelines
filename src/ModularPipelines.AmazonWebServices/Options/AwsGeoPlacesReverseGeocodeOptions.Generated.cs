@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-places", "reverse-geocode")]
-public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions
+public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other re- lated information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone informa- tion and the inclusion of political views. For more information, see Reverse Geocode in the A...
+    /// </summary>
+    /// <param name="QueryPosition">The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: o min: 2 o max: 2 (double) Syntax: double double ...</param>
+    public AwsGeoPlacesReverseGeocodeOptions(
+        IEnumerable<string> QueryPosition
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(QueryPosition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(QueryPosition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(QueryPosition));
+            }
+
+            QueryPosition = materialized;
+        }
+        this.QueryPosition = QueryPosition;
+    }
+
+    private AwsGeoPlacesReverseGeocodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoPlacesReverseGeocodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoPlacesReverseGeocodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
+    /// </summary>
     [CliOption("--query-position", GroupValues = true)]
-    public IEnumerable<string>? QueryPosition { get; set; }
+    public IEnumerable<string>? QueryPosition { get; private init; }
 
     /// <summary>
     /// The maximum distance in meters from the QueryPosition from which a result will be returned. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000. Constraints: o min: 1 o max: 21000000
@@ -90,5 +138,21 @@ public record AwsGeoPlacesReverseGeocodeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

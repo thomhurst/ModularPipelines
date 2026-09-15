@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-bot-locale")]
-public record AwsLexv2ModelsCreateBotLocaleOptions : AwsOptions
+public record AwsLexv2ModelsCreateBotLocaleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot to create the locale for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot to create the locale for. This can only be the draft version of the bot. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages .</param>
+    /// <param name="NluIntentConfidenceThreshold">Determines the threshold where Amazon Lex will insert the AMA- ZON.FallbackIntent , AMAZON.KendraSearchIntent , or both when re- turning alternative intents. AMAZON.FallbackIntent and AMA- ZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence thresh- old of 0.80 and the AMAZON.FallbackIntent . Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the Recog- nizeText operation would be: o AMAZON.FallbackIntent o IntentA o IntentB o IntentC Constraints: o min: 0 o max: 1</param>
+    public AwsLexv2ModelsCreateBotLocaleOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        int NluIntentConfidenceThreshold
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        this.NluIntentConfidenceThreshold = NluIntentConfidenceThreshold;
+    }
+
+    private AwsLexv2ModelsCreateBotLocaleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateBotLocaleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateBotLocaleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot to create the locale for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot to create the locale for. This can only be the draft version of the bot. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages .
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
+
+    /// <summary>
+    /// Determines the threshold where Amazon Lex will insert the AMA- ZON.FallbackIntent , AMAZON.KendraSearchIntent , or both when re- turning alternative intents. AMAZON.FallbackIntent and AMA- ZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence thresh- old of 0.80 and the AMAZON.FallbackIntent . Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the Recog- nizeText operation would be: o AMAZON.FallbackIntent o IntentA o IntentB o IntentC Constraints: o min: 0 o max: 1
+    /// </summary>
+    [CliOption("--nlu-intent-confidence-threshold")]
+    public int? NluIntentConfidenceThreshold { get; private init; }
 
     /// <summary>
     /// A description of the bot locale. Use this to help identify the bot locale in lists. Constraints: o min: 0 o max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--nlu-intent-confidence-threshold")]
-    public int? NluIntentConfidenceThreshold { get; set; }
 
     /// <summary>
     /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. engine -&gt; (string) Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see the ` engine parameter of the SynthesizeSpeech operation &lt;- https://docs.aws.amazon.com/polly/latest/dg/API_Synthesize- Speech.html#polly-SynthesizeSpeech-request-Engine&gt;`__ in the Amazon Polly developer guide . If you do not specify a value, the default is standard . Possible values: o standard o neural o long-form o generative voiceId -&gt; (string) [required] The identifier of the Amazon Polly voice to use. Shorthand Syntax: engine=string,voiceId=string JSON Syntax: { "engine": "standard"|"neural"|"long-form"|"generative", "voiceId": "string" }
@@ -81,5 +138,21 @@ public record AwsLexv2ModelsCreateBotLocaleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

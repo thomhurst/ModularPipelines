@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-auto-ml-job")]
-public record AwsSagemakerCreateAutoMlJobOptions : AwsOptions
+public record AwsSagemakerCreateAutoMlJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. Sage- Maker AI then automates the entire model development lifecycle, includ- ing data preprocessing, model training, tuning, and evaluation. Aut...
+    /// </summary>
+    /// <param name="AutoMlJobName">Identifies an Autopilot job. The name must be unique to your account and is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    /// <param name="InputDataConfig">An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDat- aConfig supported by HyperParameterTrainingJobDefinition . Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset. Constraints: o min: 1 o max: 2 (structure) A channel is a named input source that training algorithms can consume. The validation dataset size is limited to less than 2 GB. The training dataset size must be less than 100 GB. For more information, see Channel . NOTE: A validation dataset must contain the same headers as the training dataset. DataSource -&gt; (structure) The data source for an AutoML channel. S3DataSource -&gt; (structure) [required] The Amazon S3 location of the input data. S3DataType -&gt; (string) [required] The data type. o If you choose S3Prefix , S3Uri identifies a key name prefix. SageMaker AI uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE o If you choose ManifestFile , S3Uri identifies an ob- ject that is a manifest file containing a list of object keys that you want SageMaker AI to use for model training. A ManifestFile should have the for- mat shown below: [ {"prefix": "s3://DOC-EXAM- PLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAM- PLE-FOLDER/DATA-1", "DOC-EXAMPLE-RELA- TIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2", ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAM- PLE-FOLDER/DATA-N" ] o If you choose AugmentedManifestFile , S3Uri identi- fies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifest- File is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2 ). Here is a minimal, single-record example of an Aug- mentedManifestFile : {"source-ref": "s3://DOC-EXAM- PLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg", "la- bel-metadata": {"class-name": "cat" } For more in- formation on AugmentedManifestFile , see Provide Dataset Metadata to Training Jobs with an Augmented Manifest File . Possible values: o ManifestFile o S3Prefix o AugmentedManifestFile S3Uri -&gt; (string) [required] The URL to the Amazon S3 data source. The Uri refers to the Amazon S3 prefix or ManifestFile depending on the data type. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) CompressionType -&gt; (string) You can use Gzip or None . The default value is None . Possible values: o None o Gzip TargetAttributeName -&gt; (string) [required] The name of the target variable in supervised learning, usu- ally represented by 'y'. Constraints: o min: 1 ContentType -&gt; (string) The content type of the data from the input source. You can use text/csv;header=present or x-application/vnd.amazon+par- quet . The default value is text/csv;header=present . Constraints: o min: 0 o max: 256 o pattern: .* ChannelType -&gt; (string) The channel type (optional) is an enum string. The default value is training . Channels for training and validation must share the same ContentType and TargetAttributeName . For in- formation on specifying training and validation channel types, see How to specify training and validation datasets . Possible values: o training o validation SampleWeightAttributeName -&gt; (string) If specified, this column name indicates which column of the dataset should be treated as sample weights for use by the objective metric during the training, evaluation, and the se- lection of the best model. This column is not considered as a predictive feature. For more information on Autopilot met- rics, see Metrics and validation . Sample weights should be numeric, non-negative, with larger values indicating which rows are more important than others. Data points that have invalid or no weight value are ex- cluded. Support for sample weights is available in Ensembling mode only. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: DataSource={S3DataSource={S3DataType=string,S3Uri=string}},CompressionType=string,TargetAttributeName=string,ContentType=string,ChannelType=string,SampleWeightAttributeName=string ... JSON Syntax: [ { "DataSource": { "S3DataSource": { "S3DataType": "ManifestFile"|"S3Prefix"|"AugmentedManifestFile", "S3Uri": "string" } }, "CompressionType": "None"|"Gzip", "TargetAttributeName": "string", "ContentType": "string", "ChannelType": "training"|"validation", "SampleWeightAttributeName": "string" } ... ]</param>
+    /// <param name="OutputDataConfig">Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV. KmsKeyId -&gt; (string) The Key Management Service encryption key ID. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* S3OutputPath -&gt; (string) [required] The Amazon S3 output path. Must be 512 characters or less. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: KmsKeyId=string,S3OutputPath=string JSON Syntax: { "KmsKeyId": "string", "S3OutputPath": "string" }</param>
+    /// <param name="RoleArn">The ARN of the role that is used to access the data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateAutoMlJobOptions(
+        string AutoMlJobName,
+        IEnumerable<string> InputDataConfig,
+        string OutputDataConfig,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutoMlJobName);
+        this.AutoMlJobName = AutoMlJobName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputDataConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputDataConfig));
+            }
+
+            InputDataConfig = materialized;
+        }
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateAutoMlJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateAutoMlJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateAutoMlJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// </summary>
     [CliOption("--auto-ml-job-name")]
-    public string? AutoMlJobName { get; set; }
+    public string? AutoMlJobName { get; private init; }
 
+    /// <summary>
+    /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDat- aConfig supported by HyperParameterTrainingJobDefinition . Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset. Constraints: o min: 1 o max: 2 (structure) A channel is a named input source that training algorithms can consume. The validation dataset size is limited to less than 2 GB. The training dataset size must be less than 100 GB. For more information, see Channel . NOTE: A validation dataset must contain the same headers as the training dataset. DataSource -&gt; (structure) The data source for an AutoML channel. S3DataSource -&gt; (structure) [required] The Amazon S3 location of the input data. S3DataType -&gt; (string) [required] The data type. o If you choose S3Prefix , S3Uri identifies a key name prefix. SageMaker AI uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE o If you choose ManifestFile , S3Uri identifies an ob- ject that is a manifest file containing a list of object keys that you want SageMaker AI to use for model training. A ManifestFile should have the for- mat shown below: [ {"prefix": "s3://DOC-EXAM- PLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAM- PLE-FOLDER/DATA-1", "DOC-EXAMPLE-RELA- TIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2", ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAM- PLE-FOLDER/DATA-N" ] o If you choose AugmentedManifestFile , S3Uri identi- fies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifest- File is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2 ). Here is a minimal, single-record example of an Aug- mentedManifestFile : {"source-ref": "s3://DOC-EXAM- PLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg", "la- bel-metadata": {"class-name": "cat" } For more in- formation on AugmentedManifestFile , see Provide Dataset Metadata to Training Jobs with an Augmented Manifest File . Possible values: o ManifestFile o S3Prefix o AugmentedManifestFile S3Uri -&gt; (string) [required] The URL to the Amazon S3 data source. The Uri refers to the Amazon S3 prefix or ManifestFile depending on the data type. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) CompressionType -&gt; (string) You can use Gzip or None . The default value is None . Possible values: o None o Gzip TargetAttributeName -&gt; (string) [required] The name of the target variable in supervised learning, usu- ally represented by 'y'. Constraints: o min: 1 ContentType -&gt; (string) The content type of the data from the input source. You can use text/csv;header=present or x-application/vnd.amazon+par- quet . The default value is text/csv;header=present . Constraints: o min: 0 o max: 256 o pattern: .* ChannelType -&gt; (string) The channel type (optional) is an enum string. The default value is training . Channels for training and validation must share the same ContentType and TargetAttributeName . For in- formation on specifying training and validation channel types, see How to specify training and validation datasets . Possible values: o training o validation SampleWeightAttributeName -&gt; (string) If specified, this column name indicates which column of the dataset should be treated as sample weights for use by the objective metric during the training, evaluation, and the se- lection of the best model. This column is not considered as a predictive feature. For more information on Autopilot met- rics, see Metrics and validation . Sample weights should be numeric, non-negative, with larger values indicating which rows are more important than others. Data points that have invalid or no weight value are ex- cluded. Support for sample weights is available in Ensembling mode only. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: DataSource={S3DataSource={S3DataType=string,S3Uri=string}},CompressionType=string,TargetAttributeName=string,ContentType=string,ChannelType=string,SampleWeightAttributeName=string ... JSON Syntax: [ { "DataSource": { "S3DataSource": { "S3DataType": "ManifestFile"|"S3Prefix"|"AugmentedManifestFile", "S3Uri": "string" } }, "CompressionType": "None"|"Gzip", "TargetAttributeName": "string", "ContentType": "string", "ChannelType": "training"|"validation", "SampleWeightAttributeName": "string" } ... ]
+    /// </summary>
     [CliOption("--input-data-config", GroupValues = true)]
-    public IEnumerable<string>? InputDataConfig { get; set; }
+    public IEnumerable<string>? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV. KmsKeyId -&gt; (string) The Key Management Service encryption key ID. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* S3OutputPath -&gt; (string) [required] The Amazon S3 output path. Must be 512 characters or less. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: KmsKeyId=string,S3OutputPath=string JSON Syntax: { "KmsKeyId": "string", "S3OutputPath": "string" }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The ARN of the role that is used to access the data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// Defines the type of supervised learning problem available for the candidates. For more information, see SageMaker Autopilot problem types . Possible values: o BinaryClassification o MulticlassClassification o Regression
@@ -49,10 +121,10 @@ public record AwsSagemakerCreateAutoMlJobOptions : AwsOptions
     [CliOption("--auto-ml-job-config")]
     public string? AutoMlJobConfig { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliFlag("--generate-candidate-definitions-only")]
+    /// <summary>
+    /// tions-only (boolean) Generates possible candidates without training the models. A candi- date is a combination of data preprocessors, algorithms, and algo- rithm parameter settings.
+    /// </summary>
+    [CliFlag("--generate-candidate-definitions-only", NegatedName = "--no-generate-candidate-definitions-only")]
     public bool? GenerateCandidateDefinitionsOnly { get; set; }
 
     /// <summary>
@@ -72,5 +144,21 @@ public record AwsSagemakerCreateAutoMlJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

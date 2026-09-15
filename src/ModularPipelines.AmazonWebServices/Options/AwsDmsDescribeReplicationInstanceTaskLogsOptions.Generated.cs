@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "describe-replication-instance-task-logs")]
-public record AwsDmsDescribeReplicationInstanceTaskLogsOptions : AwsOptions
+public record AwsDmsDescribeReplicationInstanceTaskLogsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the task logs for the specified task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
+    public AwsDmsDescribeReplicationInstanceTaskLogsOptions(
+        string ReplicationInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
+        this.ReplicationInstanceArn = ReplicationInstanceArn;
+    }
+
+    private AwsDmsDescribeReplicationInstanceTaskLogsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDescribeReplicationInstanceTaskLogsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDescribeReplicationInstanceTaskLogsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the replication instance.
+    /// </summary>
     [CliOption("--replication-instance-arn")]
-    public string? ReplicationInstanceArn { get; set; }
+    public string? ReplicationInstanceArn { get; private init; }
 
     /// <summary>
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -41,5 +78,21 @@ public record AwsDmsDescribeReplicationInstanceTaskLogsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

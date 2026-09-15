@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediatailor", "configure-logs-for-playback-configuration")]
-public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions : AwsOptions
+public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--percent-enabled")]
-    public int? PercentEnabled { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PercentEnabled">The percentage of session logs that MediaTailor sends to your Cloud- Watch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60 , MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode . Valid values: 0 - 100</param>
+    /// <param name="PlaybackConfigurationName">The name of the playback configuration.</param>
+    public AwsMediatailorConfigureLogsForPlaybackConfigurationOptions(
+        int PercentEnabled,
+        string PlaybackConfigurationName
+    )
+    {
+        this.PercentEnabled = PercentEnabled;
+        global::System.ArgumentNullException.ThrowIfNull(PlaybackConfigurationName);
+        this.PlaybackConfigurationName = PlaybackConfigurationName;
+    }
+
+    private AwsMediatailorConfigureLogsForPlaybackConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediatailorConfigureLogsForPlaybackConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediatailorConfigureLogsForPlaybackConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The percentage of session logs that MediaTailor sends to your Cloud- Watch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60 , MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode . Valid values: 0 - 100
+    /// </summary>
+    [CliOption("--percent-enabled")]
+    public int? PercentEnabled { get; private init; }
+
+    /// <summary>
+    /// The name of the playback configuration.
+    /// </summary>
     [CliOption("--playback-configuration-name")]
-    public string? PlaybackConfigurationName { get; set; }
+    public string? PlaybackConfigurationName { get; private init; }
 
     /// <summary>
     /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH . To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS . Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2] . (string) Possible values: o VENDED_LOGS o LEGACY_CLOUDWATCH Syntax: "string" "string" ...
@@ -34,7 +77,7 @@ public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions : AwsOp
     public IEnumerable<string>? EnabledLoggingStrategies { get; set; }
 
     /// <summary>
-    /// The event types that MediaTailor emits in logs for interactions with the ADS. PublishOptInEventTypes -&gt; (list) Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for play- back sessions that are initialized with this configuration. (string) Possible values: o RAW_ADS_RESPONSE o RAW_ADS_REQUEST o PRE_ADS_REQUEST_HOOK_SUMMARY o PRE_ADS_REQUEST_FUNCTION_COMPLETED ExcludeEventTypes -&gt; (list) Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this con- figuration. (string) Possible values: o AD_MARKER_FOUND o NON_AD_MARKER_FOUND o MAKING_ADS_REQUEST o MODIFIED_TARGET_URL o VAST_REDIRECT o EMPTY_VAST_RESPONSE o EMPTY_VMAP_RESPONSE o VAST_RESPONSE o REDIRECTED_VAST_RESPONSE o FILLED_AVAIL o FILLED_OVERLAY_AVAIL o BEACON_FIRED o WARNING_NO_ADVERTISEMENTS o WARNING_VPAID_AD_DROPPED o WARNING_URL_VARIABLE_SUBSTITUTION_FAILED o ERROR_UNKNOWN o ERROR_UNKNOWN_HOST o ERROR_DISALLOWED_HOST o ERROR_ADS_IO o ERROR_ADS_TIMEOUT o ERROR_ADS_RESPONSE_PARSE o ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT o ERROR_ADS_INVALID_RESPONSE o ERROR_VAST_REDIRECT_EMPTY_RESPONSE o ERROR_VAST_REDIRECT_MULTIPLE_VAST o ERROR_VAST_REDIRECT_FAILED o ERROR_VAST_MISSING_MEDIAFILES o ERROR_VAST_MISSING_CREATIVES o ERROR_VAST_MISSING_OVERLAYS o ERROR_VAST_MISSING_IMPRESSION o ERROR_VAST_INVALID_VAST_AD_TAG_URI o ERROR_VAST_MULTIPLE_TRACKING_EVENTS o ERROR_VAST_MULTIPLE_LINEAR o ERROR_VAST_INVALID_MEDIA_FILE o ERROR_FIRING_BEACON_FAILED o ERROR_PERSONALIZATION_DISABLED o VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET o VOD_TIME_BASED_AVAIL_PLAN_SUCCESS o VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS o INTERSTITIAL_VOD_SUCCESS o INTERSTITIAL_VOD_FAILURE o PRE_ADS_REQUEST_HOOK_ERROR o PRE_ADS_REQUEST_FUNCTION_ERROR Shorthand Syntax: PublishOptInEventTypes=string,string,ExcludeEventTypes=string,string JSON Syntax: { "PublishOptInEventTypes": ["RAW_ADS_RESPONSE"|"RAW_ADS_REQUEST"|"PRE_ADS_REQUEST_HOOK_SUMMARY"|"PRE_ADS_REQUEST_FUNCTION_COMPLETED", ...], "ExcludeEventTypes": ["AD_MARKER_FOUND"|"NON_AD_MARKER_FOUND"|"MAKING_ADS_REQUEST"|"MODIFIED_TARGET_URL"|"VAST_REDIRECT"|"EMPTY_VAST_RESPONSE"|"EMPTY_VMAP_RESPONSE"|"VAST_RESPONSE"|"REDIRECTED_VAST_RESPONSE"|"FILLED_AVAIL"|"FILLED_OVERLAY_AVAIL"|"BEACON_FIRED"|"WARNING_NO_ADVERTISEMENTS"|"WARNING_VPAID_AD_DROPPED"|"WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"|"ERROR_UNKNOWN"|"ERROR_UNKNOWN_HOST"|"ERROR_DISALLOWED_HOST"|"ERROR_ADS_IO"|"ERROR_ADS_TIMEOUT"|"ERROR_ADS_RESPONSE_PARSE"|"ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"|"ERROR_ADS_INVALID_RESPONSE"|"ERROR_VAST_REDIRECT_EMPTY_RESPONSE"|"ERROR_VAST_REDIRECT_MULTIPLE_VAST"|"ERROR_VAST_REDIRECT_FAILED"|"ERROR_VAST_MISSING_MEDIAFILES"|"ERROR_VAST_MISSING_CREATIVES"|"ERROR_VAST_MISSING_OVERLAYS"|"ERROR_VAST_MISSING_IMPRESSION"|"ERROR_VAST_INVALID_VAST_AD_TAG_URI"|"ERROR_VAST_MULTIPLE_TRACKING_EVENTS"|"ERROR_VAST_MULTIPLE_LINEAR"|"ERROR_VAST_INVALID_MEDIA_FILE"|"ERROR_FIRING_BEACON_FAILED"|"ERROR_PERSONALIZATION_DISABLED"|"VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"|"VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"|"VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"|"INTERSTITIAL_VOD_SUCCESS"|"INTERSTITIAL_VOD_FAILURE"|"PRE_ADS_REQUEST_HOOK_ERROR"|"PRE_ADS_REQUEST_FUNCTION_ERROR", ...] }
+    /// The event types that MediaTailor emits in logs for interactions with the ADS. PublishOptInEventTypes -&gt; (list) Indicates that MediaTailor will emit the selected events in the logs for playback sessions that are initialized with this con- figuration. These events are not emitted by default and must be explicitly opted in. For descriptions of each event type, see MediaTailor ADS logs description and event types in Elemental MediaTailor User Guide. (string) An ADS interaction log event type that MediaTailor emits only when you opt in to it. For descriptions of each event type, see MediaTailor ADS logs description and event types in Ele- mental MediaTailor User Guide. Possible values: o RAW_ADS_RESPONSE o RAW_ADS_REQUEST o RAW_BID_REQUEST o RAW_BID_RESPONSE o PRE_ADS_REQUEST_HOOK_SUMMARY o PRE_ADS_REQUEST_FUNCTION_COMPLETED o POST_ADS_RESPONSE_HOOK_SUMMARY o POST_ADS_RESPONSE_FUNCTION_COMPLETED o PRE_MANIFEST_INSERTION_HOOK_SUMMARY o PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED ExcludeEventTypes -&gt; (list) Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this con- figuration. (string) An ADS interaction log event type that MediaTailor emits by default and that you can suppress. For descriptions of each event type, see MediaTailor ADS logs description and event types in Elemental MediaTailor User Guide. Possible values: o AD_MARKER_FOUND o NON_AD_MARKER_FOUND o MAKING_ADS_REQUEST o MODIFIED_TARGET_URL o VAST_REDIRECT o EMPTY_VAST_RESPONSE o EMPTY_VMAP_RESPONSE o VAST_RESPONSE o REDIRECTED_VAST_RESPONSE o FILLED_AVAIL o FILLED_OVERLAY_AVAIL o BEACON_FIRED o WARNING_NO_ADVERTISEMENTS o WARNING_VPAID_AD_DROPPED o WARNING_URL_VARIABLE_SUBSTITUTION_FAILED o ERROR_UNKNOWN o ERROR_UNKNOWN_HOST o ERROR_DISALLOWED_HOST o ERROR_ADS_IO o ERROR_ADS_TIMEOUT o ERROR_ADS_RESPONSE_PARSE o ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT o ERROR_ADS_INVALID_RESPONSE o ERROR_VAST_REDIRECT_EMPTY_RESPONSE o ERROR_VAST_REDIRECT_MULTIPLE_VAST o ERROR_VAST_REDIRECT_FAILED o ERROR_VAST_MISSING_MEDIAFILES o ERROR_VAST_MISSING_CREATIVES o ERROR_VAST_MISSING_OVERLAYS o ERROR_VAST_MISSING_IMPRESSION o ERROR_VAST_INVALID_VAST_AD_TAG_URI o ERROR_VAST_MULTIPLE_TRACKING_EVENTS o ERROR_VAST_MULTIPLE_LINEAR o ERROR_VAST_INVALID_MEDIA_FILE o ERROR_FIRING_BEACON_FAILED o ERROR_PERSONALIZATION_DISABLED o VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET o VOD_TIME_BASED_AVAIL_PLAN_SUCCESS o VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS o INTERSTITIAL_VOD_SUCCESS o INTERSTITIAL_VOD_FAILURE o PRE_ADS_REQUEST_HOOK_ERROR o PRE_ADS_REQUEST_FUNCTION_ERROR o POST_ADS_RESPONSE_HOOK_ERROR o POST_ADS_RESPONSE_FUNCTION_ERROR o PRE_MANIFEST_INSERTION_HOOK_ERROR o PRE_MANIFEST_INSERTION_FUNCTION_ERROR Shorthand Syntax: PublishOptInEventTypes=string,string,ExcludeEventTypes=string,string JSON Syntax: { "PublishOptInEventTypes": ["RAW_ADS_RESPONSE"|"RAW_ADS_REQUEST"|"RAW_BID_REQUEST"|"RAW_BID_RESPONSE"|"PRE_ADS_REQUEST_HOOK_SUMMARY"|"PRE_ADS_REQUEST_FUNCTION_COMPLETED"|"POST_ADS_RESPONSE_HOOK_SUMMARY"|"POST_ADS_RESPONSE_FUNCTION_COMPLETED"|"PRE_MANIFEST_INSERTION_HOOK_SUMMARY"|"PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED", ...], "ExcludeEventTypes": ["AD_MARKER_FOUND"|"NON_AD_MARKER_FOUND"|"MAKING_ADS_REQUEST"|"MODIFIED_TARGET_URL"|"VAST_REDIRECT"|"EMPTY_VAST_RESPONSE"|"EMPTY_VMAP_RESPONSE"|"VAST_RESPONSE"|"REDIRECTED_VAST_RESPONSE"|"FILLED_AVAIL"|"FILLED_OVERLAY_AVAIL"|"BEACON_FIRED"|"WARNING_NO_ADVERTISEMENTS"|"WARNING_VPAID_AD_DROPPED"|"WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"|"ERROR_UNKNOWN"|"ERROR_UNKNOWN_HOST"|"ERROR_DISALLOWED_HOST"|"ERROR_ADS_IO"|"ERROR_ADS_TIMEOUT"|"ERROR_ADS_RESPONSE_PARSE"|"ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"|"ERROR_ADS_INVALID_RESPONSE"|"ERROR_VAST_REDIRECT_EMPTY_RESPONSE"|"ERROR_VAST_REDIRECT_MULTIPLE_VAST"|"ERROR_VAST_REDIRECT_FAILED"|"ERROR_VAST_MISSING_MEDIAFILES"|"ERROR_VAST_MISSING_CREATIVES"|"ERROR_VAST_MISSING_OVERLAYS"|"ERROR_VAST_MISSING_IMPRESSION"|"ERROR_VAST_INVALID_VAST_AD_TAG_URI"|"ERROR_VAST_MULTIPLE_TRACKING_EVENTS"|"ERROR_VAST_MULTIPLE_LINEAR"|"ERROR_VAST_INVALID_MEDIA_FILE"|"ERROR_FIRING_BEACON_FAILED"|"ERROR_PERSONALIZATION_DISABLED"|"VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"|"VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"|"VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"|"INTERSTITIAL_VOD_SUCCESS"|"INTERSTITIAL_VOD_FAILURE"|"PRE_ADS_REQUEST_HOOK_ERROR"|"PRE_ADS_REQUEST_FUNCTION_ERROR"|"POST_ADS_RESPONSE_HOOK_ERROR"|"POST_ADS_RESPONSE_FUNCTION_ERROR"|"PRE_MANIFEST_INSERTION_HOOK_ERROR"|"PRE_MANIFEST_INSERTION_FUNCTION_ERROR", ...] }
     /// </summary>
     [CliOption("--ads-interaction-log")]
     public string? AdsInteractionLog { get; set; }
@@ -50,5 +93,21 @@ public record AwsMediatailorConfigureLogsForPlaybackConfigurationOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

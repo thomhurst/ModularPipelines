@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "start-code-interpreter-session")]
-public record AwsBedrockAgentcoreStartCodeInterpreterSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreStartCodeInterpreterSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are relat...
+    /// </summary>
+    /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter to use for this ses- sion. This identifier specifies which code interpreter environment to initialize for the session.</param>
+    public AwsBedrockAgentcoreStartCodeInterpreterSessionOptions(
+        string CodeInterpreterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeInterpreterIdentifier);
+        this.CodeInterpreterIdentifier = CodeInterpreterIdentifier;
+    }
+
+    private AwsBedrockAgentcoreStartCodeInterpreterSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreStartCodeInterpreterSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreStartCodeInterpreterSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the code interpreter to use for this ses- sion. This identifier specifies which code interpreter environment to initialize for the session.
+    /// </summary>
+    [CliOption("--code-interpreter-identifier")]
+    public string? CodeInterpreterIdentifier { get; private init; }
+
     /// <summary>
     /// The trace identifier for request tracking. Constraints: o min: 0 o max: 1024
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsBedrockAgentcoreStartCodeInterpreterSessionOptions : AwsOptions
     /// </summary>
     [CliOption("--trace-parent")]
     public string? TraceParent { get; set; }
-
-    [CliOption("--code-interpreter-identifier")]
-    public string? CodeInterpreterIdentifier { get; set; }
 
     /// <summary>
     /// The name of the code interpreter session. This name helps you iden- tify and manage the session. The name does not need to be unique. Constraints: o min: 1 o max: 100
@@ -73,5 +110,21 @@ public record AwsBedrockAgentcoreStartCodeInterpreterSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

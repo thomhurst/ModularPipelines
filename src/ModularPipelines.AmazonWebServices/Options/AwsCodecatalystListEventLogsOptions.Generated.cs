@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecatalyst", "list-event-logs")]
-public record AwsCodecatalystListEventLogsOptions : AwsOptions
+public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail con- sole by viewing Event history, or by creating a trail to create and mai...
+    /// </summary>
+    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="StartTime">The date and time when you want to start retrieving events, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
+    /// <param name="EndTime">The time after which you do not want any events retrieved, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
+    public AwsCodecatalystListEventLogsOptions(
+        string SpaceName,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceName);
+        this.SpaceName = SpaceName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsCodecatalystListEventLogsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecatalystListEventLogsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecatalystListEventLogsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--space-name")]
-    public string? SpaceName { get; set; }
+    public string? SpaceName { get; private init; }
 
+    /// <summary>
+    /// The date and time when you want to start retrieving events, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The time after which you do not want any events retrieved, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// The name of the event.
@@ -61,5 +112,21 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

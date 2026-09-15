@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --vendorguidance.
+/// Allowed values for --vendor-guidance.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateImageVersionVendorGuidance
 {
+    [EnumValue("ARCHIVED")]
+    Archived,
+
     [EnumValue("NOT_PROVIDED")]
-    NotProvided = 1,
+    NotProvided,
 
     [EnumValue("STABLE")]
-    Stable = 2,
+    Stable,
 
     [EnumValue("TO_BE_ARCHIVED")]
-    ToBeArchived = 3,
-
-    [EnumValue("ARCHIVED")]
-    Archived = 4
+    ToBeArchived
 }

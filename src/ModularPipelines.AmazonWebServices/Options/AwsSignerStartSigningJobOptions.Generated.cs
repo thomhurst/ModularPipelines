@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "start-signing-job")]
-public record AwsSignerStartSigningJobOptions : AwsOptions
+public record AwsSignerStartSigningJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation. Note the following requirements: o You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the Amazon S3 Getting Started Guide . o Your S3 source bucket must be version enabled. o You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code. o You specify the name of the source and destinatio...
+    /// </summary>
+    /// <param name="Source">The S3 bucket that contains the object to sign or a BLOB that con- tains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }</param>
+    /// <param name="Destination">The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix. s3 -&gt; (structure) The S3Destination object. bucketName -&gt; (string) Name of the S3 bucket. prefix -&gt; (string) An S3 prefix that you can use to limit responses to those that begin with the specified prefix. Shorthand Syntax: s3={bucketName=string,prefix=string} JSON Syntax: { "s3": { "bucketName": "string", "prefix": "string" } }</param>
+    /// <param name="ProfileName">The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    public AwsSignerStartSigningJobOptions(
+        string Source,
+        string Destination,
+        string ProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+    }
+
+    private AwsSignerStartSigningJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerStartSigningJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerStartSigningJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The S3 bucket that contains the object to sign or a BLOB that con- tains your raw code. s3 -&gt; (structure) The S3Source object. bucketName -&gt; (string) [required] Name of the S3 bucket. key -&gt; (string) [required] Key name of the bucket object that contains your unsigned code. version -&gt; (string) [required] Version of your source image in your version enabled S3 bucket. Shorthand Syntax: s3={bucketName=string,key=string,version=string} JSON Syntax: { "s3": { "bucketName": "string", "key": "string", "version": "string" } }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix. s3 -&gt; (structure) The S3Destination object. bucketName -&gt; (string) Name of the S3 bucket. prefix -&gt; (string) An S3 prefix that you can use to limit responses to those that begin with the specified prefix. Shorthand Syntax: s3={bucketName=string,prefix=string} JSON Syntax: { "s3": { "bucketName": "string", "prefix": "string" } }
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public string? Destination { get; private init; }
 
+    /// <summary>
+    /// The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
 
     /// <summary>
     /// String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
@@ -49,5 +100,21 @@ public record AwsSignerStartSigningJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

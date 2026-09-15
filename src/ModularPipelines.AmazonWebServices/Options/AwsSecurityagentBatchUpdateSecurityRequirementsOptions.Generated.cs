@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "batch-update-security-requirements")]
-public record AwsSecurityagentBatchUpdateSecurityRequirementsOptions : AwsOptions
+public record AwsSecurityagentBatchUpdateSecurityRequirementsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pack-id")]
-    public string? PackId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Batch updates security requirements within a customer managed pack. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackId">The unique identifier of the security requirement pack containing the requirements to update.</param>
+    /// <param name="SecurityRequirements">The list of security requirement updates to apply. (structure) Contains the details for updating an existing security require- ment within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the require- ment is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]</param>
+    public AwsSecurityagentBatchUpdateSecurityRequirementsOptions(
+        string PackId,
+        IEnumerable<string> SecurityRequirements
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackId);
+        this.PackId = PackId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityRequirements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityRequirements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityRequirements));
+            }
+
+            SecurityRequirements = materialized;
+        }
+        this.SecurityRequirements = SecurityRequirements;
+    }
+
+    private AwsSecurityagentBatchUpdateSecurityRequirementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentBatchUpdateSecurityRequirementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentBatchUpdateSecurityRequirementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the security requirement pack containing the requirements to update.
+    /// </summary>
+    [CliOption("--pack-id")]
+    public string? PackId { get; private init; }
+
+    /// <summary>
+    /// The list of security requirement updates to apply. (structure) Contains the details for updating an existing security require- ment within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the require- ment is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]
+    /// </summary>
     [CliOption("--security-requirements", GroupValues = true)]
-    public IEnumerable<string>? SecurityRequirements { get; set; }
+    public IEnumerable<string>? SecurityRequirements { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

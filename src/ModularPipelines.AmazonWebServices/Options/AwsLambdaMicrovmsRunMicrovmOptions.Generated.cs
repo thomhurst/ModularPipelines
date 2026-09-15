@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-microvms", "run-microvm")]
-public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions
+public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthTo- ken. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageIdentifier">The identifier (ARN or ID) of the MicroVM image to run. Constraints: o min: 1 o max: 256</param>
+    public AwsLambdaMicrovmsRunMicrovmOptions(
+        string ImageIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageIdentifier);
+        this.ImageIdentifier = ImageIdentifier;
+    }
+
+    private AwsLambdaMicrovmsRunMicrovmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaMicrovmsRunMicrovmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaMicrovmsRunMicrovmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (ARN or ID) of the MicroVM image to run. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--image-identifier")]
+    public string? ImageIdentifier { get; private init; }
+
     /// <summary>
     /// The list of ingress network connectors to configure for the MicroVM. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions
     /// </summary>
     [CliOption("--egress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? EgressNetworkConnectors { get; set; }
-
-    [CliOption("--image-identifier")]
-    public string? ImageIdentifier { get; set; }
 
     /// <summary>
     /// The version of the MicroVM image to run. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
@@ -85,5 +122,21 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

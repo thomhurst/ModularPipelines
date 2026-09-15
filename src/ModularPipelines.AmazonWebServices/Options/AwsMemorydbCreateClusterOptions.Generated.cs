@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "create-cluster")]
-public record AwsMemorydbCreateClusterOptions : AwsOptions
+public record AwsMemorydbCreateClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant engine software. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The name of the cluster. This value must be unique as it also serves as the cluster identifier.</param>
+    /// <param name="NodeType">The compute and memory capacity of the nodes in the cluster.</param>
+    /// <param name="AclName">The name of the Access Control List to associate with the cluster. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    public AwsMemorydbCreateClusterOptions(
+        string ClusterName,
+        string NodeType,
+        string AclName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(AclName);
+        this.AclName = AclName;
+    }
+
+    private AwsMemorydbCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster. This value must be unique as it also serves as the cluster identifier.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the nodes in the cluster.
+    /// </summary>
     [CliOption("--node-type")]
-    public string? NodeType { get; set; }
+    public string? NodeType { get; private init; }
+
+    /// <summary>
+    /// The name of the Access Control List to associate with the cluster. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// </summary>
+    [CliOption("--acl-name")]
+    public string? AclName { get; private init; }
 
     /// <summary>
     /// The name of the multi-Region cluster to be created.
@@ -88,7 +142,10 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
-    [CliFlag("--tls-enabled")]
+    /// <summary>
+    /// A flag to enable in-transit encryption on the cluster.
+    /// </summary>
+    [CliFlag("--tls-enabled", NegatedName = "--no-tls-enabled")]
     public bool? TlsEnabled { get; set; }
 
     /// <summary>
@@ -127,9 +184,6 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     [CliOption("--snapshot-window")]
     public string? SnapshotWindow { get; set; }
 
-    [CliOption("--acl-name")]
-    public string? AclName { get; set; }
-
     /// <summary>
     /// The name of the engine to be used for the cluster.
     /// </summary>
@@ -142,10 +196,16 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// When set to true, the cluster will automatically receive minor en- gine version upgrades after launch.
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
-    [CliFlag("--data-tiering")]
+    /// <summary>
+    /// Enables data tiering. Data tiering is only supported for clusters using the r6gd node type. This parameter must be set when using r6gd nodes. For more information, see Data tiering .
+    /// </summary>
+    [CliFlag("--data-tiering", NegatedName = "--no-data-tiering")]
     public bool? DataTiering { get; set; }
 
     /// <summary>
@@ -165,5 +225,21 @@ public record AwsMemorydbCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

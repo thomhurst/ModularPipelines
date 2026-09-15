@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "create-quota-share")]
-public record AwsBatchCreateQuotaShareOptions : AwsOptions
+public record AwsBatchCreateQuotaShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QuotaShareName">The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).</param>
+    /// <param name="JobQueue">The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.</param>
+    /// <param name="CapacityLimits">A list that specifies the quantity and type of compute capacity al- located to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For exam- ple, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]</param>
+    /// <param name="ResourceSharingConfiguration">Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity. strategy -&gt; (string) [required] The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for it- self. LEND configures the share to lend its idle capacity to an- other share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underuti- lized share, as well as lend to another share. Possible values: o RESERVE o LEND o LEND_AND_BORROW borrowLimit -&gt; (integer) The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be ap- plied to quota shares with a strategy of LEND_AND_BORROW . This value is expressed as a percentage of the quota share's config- ured CapacityLimits . The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can bor- row up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing. Shorthand Syntax: strategy=string,borrowLimit=integer JSON Syntax: { "strategy": "RESERVE"|"LEND"|"LEND_AND_BORROW", "borrowLimit": integer }</param>
+    /// <param name="PreemptionConfiguration">Specifies the preemption behavior for jobs in a quota share. inSharePreemption -&gt; (string) [required] Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share. Possible values: o ENABLED o DISABLED Shorthand Syntax: inSharePreemption=string JSON Syntax: { "inSharePreemption": "ENABLED"|"DISABLED" }</param>
+    public AwsBatchCreateQuotaShareOptions(
+        string QuotaShareName,
+        string JobQueue,
+        IEnumerable<string> CapacityLimits,
+        string ResourceSharingConfiguration,
+        string PreemptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuotaShareName);
+        this.QuotaShareName = QuotaShareName;
+        global::System.ArgumentNullException.ThrowIfNull(JobQueue);
+        this.JobQueue = JobQueue;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CapacityLimits);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CapacityLimits));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CapacityLimits));
+            }
+
+            CapacityLimits = materialized;
+        }
+        this.CapacityLimits = CapacityLimits;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSharingConfiguration);
+        this.ResourceSharingConfiguration = ResourceSharingConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(PreemptionConfiguration);
+        this.PreemptionConfiguration = PreemptionConfiguration;
+    }
+
+    private AwsBatchCreateQuotaShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchCreateQuotaShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchCreateQuotaShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// </summary>
     [CliOption("--quota-share-name")]
-    public string? QuotaShareName { get; set; }
+    public string? QuotaShareName { get; private init; }
 
+    /// <summary>
+    /// The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.
+    /// </summary>
     [CliOption("--job-queue")]
-    public string? JobQueue { get; set; }
+    public string? JobQueue { get; private init; }
 
+    /// <summary>
+    /// A list that specifies the quantity and type of compute capacity al- located to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For exam- ple, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
+    /// </summary>
     [CliOption("--capacity-limits", GroupValues = true)]
-    public IEnumerable<string>? CapacityLimits { get; set; }
+    public IEnumerable<string>? CapacityLimits { get; private init; }
 
+    /// <summary>
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity. strategy -&gt; (string) [required] The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for it- self. LEND configures the share to lend its idle capacity to an- other share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underuti- lized share, as well as lend to another share. Possible values: o RESERVE o LEND o LEND_AND_BORROW borrowLimit -&gt; (integer) The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be ap- plied to quota shares with a strategy of LEND_AND_BORROW . This value is expressed as a percentage of the quota share's config- ured CapacityLimits . The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can bor- row up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing. Shorthand Syntax: strategy=string,borrowLimit=integer JSON Syntax: { "strategy": "RESERVE"|"LEND"|"LEND_AND_BORROW", "borrowLimit": integer }
+    /// </summary>
     [CliOption("--resource-sharing-configuration")]
-    public string? ResourceSharingConfiguration { get; set; }
+    public string? ResourceSharingConfiguration { get; private init; }
 
+    /// <summary>
+    /// Specifies the preemption behavior for jobs in a quota share. inSharePreemption -&gt; (string) [required] Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share. Possible values: o ENABLED o DISABLED Shorthand Syntax: inSharePreemption=string JSON Syntax: { "inSharePreemption": "ENABLED"|"DISABLED" }
+    /// </summary>
     [CliOption("--preemption-configuration")]
-    public string? PreemptionConfiguration { get; set; }
+    public string? PreemptionConfiguration { get; private init; }
 
     /// <summary>
     /// The state of the quota share. If the quota share is ENABLED , it is able to accept jobs. If the quota share is DISABLED , new jobs won't be accepted but jobs already submitted can finish. The default state is ENABLED . Possible values: o ENABLED o DISABLED
@@ -55,5 +131,21 @@ public record AwsBatchCreateQuotaShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

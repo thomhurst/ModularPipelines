@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-maintenance-window-execution-tasks")]
-public record AwsSsmDescribeMaintenanceWindowExecutionTasksOptions : AwsOptions
+public record AwsSsmDescribeMaintenanceWindowExecutionTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For a given maintenance window execution, lists the tasks that were run. See also: AWS API Documentation describe-maintenance-window-execution-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ...
+    /// </summary>
+    /// <param name="WindowExecutionId">The ID of the maintenance window execution whose task executions should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    public AwsSsmDescribeMaintenanceWindowExecutionTasksOptions(
+        string WindowExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WindowExecutionId);
+        this.WindowExecutionId = WindowExecutionId;
+    }
+
+    private AwsSsmDescribeMaintenanceWindowExecutionTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeMaintenanceWindowExecutionTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeMaintenanceWindowExecutionTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the maintenance window execution whose task executions should be retrieved. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// </summary>
     [CliOption("--window-execution-id")]
-    public string? WindowExecutionId { get; set; }
+    public string? WindowExecutionId { get; private init; }
 
     /// <summary>
     /// Optional filters used to scope down the returned tasks. The sup- ported filter key is STATUS with the corresponding values PENDING , IN_PROGRESS , SUCCESS , FAILED , TIMED_OUT , CANCELLING , and CAN- CELLED . Constraints: o min: 0 o max: 5 (structure) Filter used in the request. Supported filter keys depend on the API operation that includes the filter. API operations that use MaintenanceWindowFilter&gt; include the following: o DescribeMaintenanceWindowExecutions o DescribeMaintenanceWindowExecutionTaskInvocations o DescribeMaintenanceWindowExecutionTasks o DescribeMaintenanceWindows o DescribeMaintenanceWindowTargets o DescribeMaintenanceWindowTasks Key -&gt; (string) The name of the filter. Constraints: o min: 1 o max: 128 Values -&gt; (list) The filter values. (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
@@ -55,5 +92,21 @@ public record AwsSsmDescribeMaintenanceWindowExecutionTasksOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

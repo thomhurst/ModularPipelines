@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "start-assessment-framework-share")]
-public record AwsAuditManagerStartAssessmentFrameworkShareOptions : AwsOptions
+public record AwsAuditManagerStartAssessmentFrameworkShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a share request for a custom framework in Audit Manager. The share request specifies a recipient and notifies them that a custom framework is available. Recipients have 120 days to accept or decline the request. If no action is taken, the share request expires. When you create a share request, Audit Manager stores a snapshot of your custom framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup of the same snapshot in the US West (Oregon) Ama...
+    /// </summary>
+    /// <param name="FrameworkId">The unique identifier for the custom framework to be shared. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="DestinationAccount">The Amazon Web Services account of the recipient. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DestinationRegion">The Amazon Web Services Region of the recipient. Constraints: o pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$</param>
+    public AwsAuditManagerStartAssessmentFrameworkShareOptions(
+        string FrameworkId,
+        string DestinationAccount,
+        string DestinationRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FrameworkId);
+        this.FrameworkId = FrameworkId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationAccount);
+        this.DestinationAccount = DestinationAccount;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationRegion);
+        this.DestinationRegion = DestinationRegion;
+    }
+
+    private AwsAuditManagerStartAssessmentFrameworkShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerStartAssessmentFrameworkShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerStartAssessmentFrameworkShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the custom framework to be shared. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--framework-id")]
-    public string? FrameworkId { get; set; }
+    public string? FrameworkId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account of the recipient. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--destination-account")]
-    public string? DestinationAccount { get; set; }
+    public string? DestinationAccount { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region of the recipient. Constraints: o pattern: ^[a-z]{2}-[a-z]+-[0-9]{1}$
+    /// </summary>
     [CliOption("--destination-region")]
-    public string? DestinationRegion { get; set; }
+    public string? DestinationRegion { get; private init; }
 
     /// <summary>
     /// An optional comment from the sender about the share request. Constraints: o max: 500 o pattern: ^[\w\W\s\S]*$
@@ -41,5 +92,21 @@ public record AwsAuditManagerStartAssessmentFrameworkShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

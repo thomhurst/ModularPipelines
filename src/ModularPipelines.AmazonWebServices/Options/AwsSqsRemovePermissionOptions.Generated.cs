@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "remove-permission")]
-public record AwsSqsRemovePermissionOptions : AwsOptions
+public record AwsSqsRemovePermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Revokes any permissions in the queue policy that matches the specified Label parameter. NOTE: o Only the owner of a queue can remove permissions from it. o Cross-account permissions don't apply to this action. For more in- formation, see Grant cross-account permissions to a role and a username in the Amazon SQS Developer Guide . o To remove the ability to change queue permissions, you must deny permission to the AddPermission , RemovePermission , and SetQueueAttributes actions in your IAM policy...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue from which permissions are removed. Queue URLs and names are case-sensitive.</param>
+    /// <param name="Label">The identification of the permission to remove. This is the label added using the `` AddPermission `` action.</param>
+    public AwsSqsRemovePermissionOptions(
+        string QueueUrl,
+        string Label
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+    }
+
+    private AwsSqsRemovePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsRemovePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsRemovePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue from which permissions are removed. Queue URLs and names are case-sensitive.
+    /// </summary>
+    [CliOption("--queue-url")]
+    public string? QueueUrl { get; private init; }
+
+    /// <summary>
+    /// The identification of the permission to remove. This is the label added using the `` AddPermission `` action.
+    /// </summary>
     [CliOption("--label")]
-    public string? Label { get; set; }
+    public string? Label { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

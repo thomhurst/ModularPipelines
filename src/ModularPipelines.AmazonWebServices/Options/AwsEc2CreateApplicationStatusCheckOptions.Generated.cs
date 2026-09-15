@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-application-status-check")]
-public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions
+public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an application status check for monitoring the health of appli- cations running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply: o You can create a maximum of 50 application status checks for each ac- count. o You must associate the check with instances or tags using Associ- ateApplicationStatusCheck before health checks start. o You must set the Timeout value to less than the Interval value. o You must start t...
+    /// </summary>
+    /// <param name="Protocol">The protocol to use for the health check. Valid values: http | https . Possible values: o http o https</param>
+    /// <param name="Port">The port to use for the health check. Valid values: 1 to 65535. Constraints: o min: 1 o max: 65535</param>
+    public AwsEc2CreateApplicationStatusCheckOptions(
+        string Protocol,
+        int Port
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        this.Port = Port;
+    }
+
+    private AwsEc2CreateApplicationStatusCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateApplicationStatusCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateApplicationStatusCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The protocol to use for the health check. Valid values: http | https . Possible values: o http o https
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; private init; }
+
+    /// <summary>
+    /// The port to use for the health check. Valid values: 1 to 65535. Constraints: o min: 1 o max: 65535
+    /// </summary>
+    [CliOption("--port")]
+    public int? Port { get; private init; }
+
     /// <summary>
     /// The health check paths to use for the application status check. Health check paths define the network path from a source subnet to one or more destination subnets for cross-Availability Zone or Availability Zone to Local Zone health checking. If omitted, health checks are performed in the same subnet as the instance. (structure) Describes a health check path for an application status check request. Source -&gt; (structure) The source for the health check path. SubnetId -&gt; (string) The ID of the subnet for the source. SecurityGroupId -&gt; (string) The ID of the security group for the source. Destinations -&gt; (list) The destinations for the health check path. (structure) Describes a destination for a health check path in a re- quest. Destinations can be in a different Availability Zone than the source (cross-AZ) or in a Local Zone (AZ to Local Zone), enabling remote health validation of your application. SubnetId -&gt; (string) The ID of the subnet for the destination. SecurityGroupId -&gt; (string) The ID of the security group for the destination. Shorthand Syntax: Source={SubnetId=string,SecurityGroupId=string},Destinations=[{SubnetId=string,SecurityGroupId=string},{SubnetId=string,SecurityGroupId=string}] ... JSON Syntax: [ { "Source": { "SubnetId": "string", "SecurityGroupId": "string" }, "Destinations": [ { "SubnetId": "string", "SecurityGroupId": "string" } ... ] } ... ]
     /// </summary>
@@ -34,12 +82,6 @@ public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions
     /// </summary>
     [CliOption("--aggregation")]
     public string? Aggregation { get; set; }
-
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
-
-    [CliOption("--port")]
-    public int? Port { get; set; }
 
     /// <summary>
     /// The URL path to use for the health check HTTP request (for example, /health or /status ).
@@ -57,7 +99,7 @@ public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions
     /// The IP version to use for the health check. Valid values: ipv4 and ipv6 . Possible values: o ipv4 o ipv6
     /// </summary>
     [CliOption("--ip-version")]
-    public AwsEc2CreateApplicationStatusCheckIpVersion? IpVersion { get; set; }
+    public string? IpVersion { get; set; }
 
     /// <summary>
     /// The IP scope to use for the health check. Valid value: private . Possible values: o private
@@ -114,7 +156,10 @@ public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -122,5 +167,21 @@ public record AwsEc2CreateApplicationStatusCheckOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-document-permission")]
-public record AwsSsmDescribeDocumentPermissionOptions : AwsOptions
+public record AwsSsmDescribeDocumentPermissionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's Amazon Web Services account ID) or publicly (All ). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the document for which you are the owner. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: o Share</param>
+    public AwsSsmDescribeDocumentPermissionOptions(
+        string Name,
+        AwsSsmDescribeDocumentPermissionPermissionType PermissionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
+        this.PermissionType = PermissionType;
+    }
+
+    private AwsSsmDescribeDocumentPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeDocumentPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeDocumentPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the document for which you are the owner. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The permission type for the document. The permission type can be Share . Possible values: o Share
+    /// </summary>
     [CliOption("--permission-type")]
-    public string? PermissionType { get; set; }
+    public AwsSsmDescribeDocumentPermissionPermissionType? PermissionType { get; private init; }
 
     /// <summary>
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. Constraints: o min: 1 o max: 200
@@ -46,5 +91,21 @@ public record AwsSsmDescribeDocumentPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

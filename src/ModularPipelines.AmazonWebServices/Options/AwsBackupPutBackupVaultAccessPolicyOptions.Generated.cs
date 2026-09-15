@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "put-backup-vault-access-policy")]
-public record AwsBackupPutBackupVaultAccessPolicyOptions : AwsOptions
+public record AwsBackupPutBackupVaultAccessPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    public AwsBackupPutBackupVaultAccessPolicyOptions(
+        string BackupVaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+    }
+
+    private AwsBackupPutBackupVaultAccessPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupPutBackupVaultAccessPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupPutBackupVaultAccessPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
 
     /// <summary>
     /// The backup vault access policy document in JSON format.
@@ -35,5 +72,21 @@ public record AwsBackupPutBackupVaultAccessPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

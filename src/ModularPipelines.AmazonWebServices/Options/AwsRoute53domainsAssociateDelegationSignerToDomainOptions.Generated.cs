@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53domains", "associate-delegation-signer-to-domain")]
-public record AwsRoute53domainsAssociateDelegationSignerToDomainOptions : AwsOptions
+public record AwsRoute53domainsAssociateDelegationSignerToDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavail- able on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the domain. Constraints: o max: 255</param>
+    /// <param name="SigningAttributes">The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-sign- ing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delega- tions signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: o max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }</param>
+    public AwsRoute53domainsAssociateDelegationSignerToDomainOptions(
+        string DomainName,
+        string SigningAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(SigningAttributes);
+        this.SigningAttributes = SigningAttributes;
+    }
+
+    private AwsRoute53domainsAssociateDelegationSignerToDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53domainsAssociateDelegationSignerToDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53domainsAssociateDelegationSignerToDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-sign- ing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delega- tions signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: o max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }
+    /// </summary>
     [CliOption("--signing-attributes")]
-    public string? SigningAttributes { get; set; }
+    public string? SigningAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

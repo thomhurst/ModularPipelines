@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs-realtime", "disconnect-participant")]
-public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions
+public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--stage-arn")]
-    public string? StageArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disconnects a specified participant from a specified stage. If the par- ticipant is publishing using an IngestConfiguration , DisconnectPar- ticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StageArn">ARN of the stage to which the participant is attached. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="ParticipantId">Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP in- gest). Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
+    public AwsIvsRealtimeDisconnectParticipantOptions(
+        string StageArn,
+        string ParticipantId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StageArn);
+        this.StageArn = StageArn;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantId);
+        this.ParticipantId = ParticipantId;
+    }
+
+    private AwsIvsRealtimeDisconnectParticipantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsRealtimeDisconnectParticipantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsRealtimeDisconnectParticipantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the stage to which the participant is attached. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--stage-arn")]
+    public string? StageArn { get; private init; }
+
+    /// <summary>
+    /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP in- gest). Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--participant-id")]
-    public string? ParticipantId { get; set; }
+    public string? ParticipantId { get; private init; }
 
     /// <summary>
     /// Description of why this participant is being disconnected. Constraints: o min: 0 o max: 128
@@ -38,5 +82,21 @@ public record AwsIvsRealtimeDisconnectParticipantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

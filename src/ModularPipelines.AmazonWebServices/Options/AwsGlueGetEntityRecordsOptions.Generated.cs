@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-entity-records")]
-public record AwsGlueGetEntityRecordsOptions : AwsOptions
+public record AwsGlueGetEntityRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted us- ing Jackson JsonNode based on the field type defined by the DescribeEn- tity API. Spark connectors generate schemas according to the same data type map- ping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API D...
+    /// </summary>
+    /// <param name="EntityName">Name of the entity that we want to query the preview data from the given connection type.</param>
+    /// <param name="Limit">Limits the number of records fetched with the request. Constraints: o min: 1 o max: 1000</param>
+    public AwsGlueGetEntityRecordsOptions(
+        string EntityName,
+        int Limit
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntityName);
+        this.EntityName = EntityName;
+        this.Limit = Limit;
+    }
+
+    private AwsGlueGetEntityRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetEntityRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetEntityRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the entity that we want to query the preview data from the given connection type.
+    /// </summary>
+    [CliOption("--entity-name")]
+    public string? EntityName { get; private init; }
+
+    /// <summary>
+    /// Limits the number of records fetched with the request. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--limit")]
+    public int? Limit { get; private init; }
+
     /// <summary>
     /// The name of the connection that contains the connection type creden- tials. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
@@ -34,9 +83,6 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--entity-name")]
-    public string? EntityName { get; set; }
 
     /// <summary>
     /// A continuation token, included if this is a continuation call. Constraints: o min: 1 o max: 2048 o pattern: [-a-zA-Z0-9+=/:_]*
@@ -63,9 +109,6 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
     [CliOption("--filter-predicate")]
     public string? FilterPredicate { get; set; }
 
-    [CliOption("--limit")]
-    public int? Limit { get; set; }
-
     /// <summary>
     /// A parameter that orders the response preview data.
     /// </summary>
@@ -83,5 +126,21 @@ public record AwsGlueGetEntityRecordsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

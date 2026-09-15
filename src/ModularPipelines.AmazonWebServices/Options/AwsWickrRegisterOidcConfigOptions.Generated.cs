@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "register-oidc-config")]
-public record AwsWickrRegisterOidcConfigOptions : AwsOptions
+public record AwsWickrRegisterOidcConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an iden- tity provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network for which OIDC will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="CompanyId">Custom identifier your end users will use to sign in with SSO. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Issuer">The issuer URL of the OIDC provider (e.g., '- https://login.example.com'). Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Scopes">The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: o pattern: [\S\s]*</param>
+    public AwsWickrRegisterOidcConfigOptions(
+        string NetworkId,
+        string CompanyId,
+        string Issuer,
+        string Scopes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(CompanyId);
+        this.CompanyId = CompanyId;
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+        global::System.ArgumentNullException.ThrowIfNull(Scopes);
+        this.Scopes = Scopes;
+    }
+
+    private AwsWickrRegisterOidcConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrRegisterOidcConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrRegisterOidcConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network for which OIDC will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// Custom identifier your end users will use to sign in with SSO. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--company-id")]
-    public string? CompanyId { get; set; }
+    public string? CompanyId { get; private init; }
+
+    /// <summary>
+    /// The issuer URL of the OIDC provider (e.g., '- https://login.example.com'). Constraints: o pattern: [\S\s]*
+    /// </summary>
+    [CliOption("--issuer")]
+    public string? Issuer { get; private init; }
+
+    /// <summary>
+    /// The OAuth scopes to request from the OIDC provider (e.g., 'openid profile email'). Constraints: o pattern: [\S\s]*
+    /// </summary>
+    [CliOption("--scopes")]
+    public string? Scopes { get; private init; }
 
     /// <summary>
     /// A custom field mapping to extract the username from the OIDC token (optional). NOTE: The customUsername is only required if you use something other than email as the username field. Constraints: o pattern: [\S\s]*
@@ -39,12 +103,6 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions
     /// </summary>
     [CliOption("--extra-auth-params")]
     public string? ExtraAuthParams { get; set; }
-
-    [CliOption("--issuer")]
-    public string? Issuer { get; set; }
-
-    [CliOption("--scopes")]
-    public string? Scopes { get; set; }
 
     /// <summary>
     /// The client secret for authenticating with the OIDC provider (op- tional). Constraints: o pattern: [\S\s]*
@@ -71,5 +129,21 @@ public record AwsWickrRegisterOidcConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

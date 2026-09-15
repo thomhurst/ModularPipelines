@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "update-sol-network-instance")]
-public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions
+public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance. See also: AWS API Documentation update-sol-network-instance uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and...
+    /// </summary>
+    /// <param name="NsInstanceId">ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$</param>
+    /// <param name="UpdateType">The type of update. o Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. o Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: o MODIFY_VNF_INFORMATION o UPDATE_NS</param>
+    public AwsTnbUpdateSolNetworkInstanceOptions(
+        string NsInstanceId,
+        AwsTnbUpdateSolNetworkInstanceUpdateType UpdateType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsInstanceId);
+        this.NsInstanceId = NsInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateType);
+        this.UpdateType = UpdateType;
+    }
+
+    private AwsTnbUpdateSolNetworkInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbUpdateSolNetworkInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbUpdateSolNetworkInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the network instance. Constraints: o pattern: ^ni-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--ns-instance-id")]
+    public string? NsInstanceId { get; private init; }
+
+    /// <summary>
+    /// The type of update. o Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance. o Use the UPDATE_NS update type, to update the network instance to a new network service descriptor. Possible values: o MODIFY_VNF_INFORMATION o UPDATE_NS
+    /// </summary>
+    [CliOption("--update-type")]
+    public AwsTnbUpdateSolNetworkInstanceUpdateType? UpdateType { get; private init; }
+
     /// <summary>
     /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified. Include this property only if the update type is MODIFY_VNF_INFORMA- TION . vnfConfigurableProperties -&gt; (document) [required] Provides values for the configurable properties declared in the function package descriptor. vnfInstanceId -&gt; (string) [required] ID of the network function instance. A network function instance is a function in a function package . Constraints: o pattern: ^fi-[a-f0-9]{17}$ Shorthand Syntax: vnfInstanceId=string JSON Syntax: { "vnfConfigurableProperties": {...}, "vnfInstanceId": "string" }
     /// </summary>
     [CliOption("--modify-vnf-info-data")]
     public string? ModifyVnfInfoData { get; set; }
-
-    [CliOption("--ns-instance-id")]
-    public string? NsInstanceId { get; set; }
 
     /// <summary>
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is cre- ated. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -43,13 +91,26 @@ public record AwsTnbUpdateSolNetworkInstanceOptions : AwsOptions
     [CliOption("--update-ns")]
     public string? UpdateNs { get; set; }
 
-    [CliOption("--update-type")]
-    public string? UpdateType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

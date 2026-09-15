@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "get-hosted-zone-limit")]
-public record AwsRoute53GetHostedZoneLimitOptions : AwsOptions
+public record AwsRoute53GetHostedZoneLimitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The limit that you want to get. Valid values include the following: o MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. o MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: o MAX_RRSETS_BY_ZONE o MAX_VPCS_ASSOCIATED_BY_ZONE</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want to get a limit for. Constraints: o max: 32</param>
+    public AwsRoute53GetHostedZoneLimitOptions(
+        AwsRoute53GetHostedZoneLimitType Type,
+        string HostedZoneId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+    }
+
+    private AwsRoute53GetHostedZoneLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53GetHostedZoneLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53GetHostedZoneLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The limit that you want to get. Valid values include the following: o MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone. o MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone. Possible values: o MAX_RRSETS_BY_ZONE o MAX_VPCS_ASSOCIATED_BY_ZONE
+    /// </summary>
+    [CliOption("--type")]
+    public AwsRoute53GetHostedZoneLimitType? Type { get; private init; }
+
+    /// <summary>
+    /// The ID of the hosted zone that you want to get a limit for. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

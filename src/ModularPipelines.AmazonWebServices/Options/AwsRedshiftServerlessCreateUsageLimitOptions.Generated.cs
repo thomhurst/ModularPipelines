@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "create-usage-limit")]
-public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions
+public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identi- fier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Amount">The limit amount. If time-based, this amount is in Redshift Process- ing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Redshift Serverless re- source to create the usage limit for.</param>
+    /// <param name="UsageType">The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: o serverless-compute o cross-region-datasharing</param>
+    public AwsRedshiftServerlessCreateUsageLimitOptions(
+        int Amount,
+        string ResourceArn,
+        AwsRedshiftServerlessCreateUsageLimitUsageType UsageType
+    )
+    {
+        this.Amount = Amount;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(UsageType);
+        this.UsageType = UsageType;
+    }
+
+    private AwsRedshiftServerlessCreateUsageLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessCreateUsageLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessCreateUsageLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The limit amount. If time-based, this amount is in Redshift Process- ing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
+    /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; set; }
+    public int? Amount { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift Serverless re- source to create the usage limit for.
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The type of Amazon Redshift Serverless usage to create a usage limit for. Possible values: o serverless-compute o cross-region-datasharing
+    /// </summary>
+    [CliOption("--usage-type")]
+    public AwsRedshiftServerlessCreateUsageLimitUsageType? UsageType { get; private init; }
 
     /// <summary>
     /// The action that Amazon Redshift Serverless takes when the limit is reached. The default is log. Possible values: o log o emit-metric o deactivate
@@ -37,16 +93,26 @@ public record AwsRedshiftServerlessCreateUsageLimitOptions : AwsOptions
     [CliOption("--period")]
     public AwsRedshiftServerlessCreateUsageLimitPeriod? Period { get; set; }
 
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
-
-    [CliOption("--usage-type")]
-    public string? UsageType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

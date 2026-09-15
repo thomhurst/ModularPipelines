@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-target-group")]
-public record AwsElbv2ModifyTargetGroupOptions : AwsOptions
+public record AwsElbv2ModifyTargetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the health checks used when evaluating the health state of the targets in the specified target group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetGroupArn">The Amazon Resource Name (ARN) of the target group.</param>
+    public AwsElbv2ModifyTargetGroupOptions(
+        string TargetGroupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetGroupArn);
+        this.TargetGroupArn = TargetGroupArn;
+    }
+
+    private AwsElbv2ModifyTargetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyTargetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyTargetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target group.
+    /// </summary>
     [CliOption("--target-group-arn")]
-    public string? TargetGroupArn { get; set; }
+    public string? TargetGroupArn { get; private init; }
 
     /// <summary>
     /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the pro- tocol of the target group is HTTP or HTTPS. It is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks. Possible values: o HTTP o HTTPS o TCP o TLS o UDP o TCP_UDP o GENEVE o QUIC o TCP_QUIC
@@ -43,7 +80,10 @@ public record AwsElbv2ModifyTargetGroupOptions : AwsOptions
     [CliOption("--health-check-path")]
     public string? HealthCheckPath { get; set; }
 
-    [CliFlag("--health-check-enabled")]
+    /// <summary>
+    /// Indicates whether health checks are enabled. If the target type is lambda , health checks are disabled by default but can be enabled. If the target type is instance , ip , or alb , health checks are al- ways enabled and can't be disabled.
+    /// </summary>
+    [CliFlag("--health-check-enabled", NegatedName = "--no-health-check-enabled")]
     public bool? HealthCheckEnabled { get; set; }
 
     /// <summary>
@@ -73,13 +113,29 @@ public record AwsElbv2ModifyTargetGroupOptions : AwsOptions
     /// <summary>
     /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when check- ing for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as com- mas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multi- ple values (for example, "0,1") or a range of values (for exam- ple, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
     /// </summary>
-    [CliOption("--matcher", GroupValues = true)]
-    public IEnumerable<string>? Matcher { get; set; }
+    [CliOption("--matcher")]
+    public string? Matcher { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

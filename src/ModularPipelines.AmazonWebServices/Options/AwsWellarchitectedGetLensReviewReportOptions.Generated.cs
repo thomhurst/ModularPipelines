@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "get-lens-review-report")]
-public record AwsWellarchitectedGetLensReviewReportOptions : AwsOptions
+public record AwsWellarchitectedGetLensReviewReportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workload-id")]
-    public string? WorkloadId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Get lens review report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128</param>
+    public AwsWellarchitectedGetLensReviewReportOptions(
+        string WorkloadId,
+        string LensAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+        global::System.ArgumentNullException.ThrowIfNull(LensAlias);
+        this.LensAlias = LensAlias;
+    }
+
+    private AwsWellarchitectedGetLensReviewReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedGetLensReviewReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedGetLensReviewReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// </summary>
+    [CliOption("--workload-id")]
+    public string? WorkloadId { get; private init; }
+
+    /// <summary>
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--lens-alias")]
-    public string? LensAlias { get; set; }
+    public string? LensAlias { get; private init; }
 
     /// <summary>
     /// The milestone number. A workload can have a maximum of 100 milestones. Constraints: o min: 1 o max: 100
@@ -38,5 +82,21 @@ public record AwsWellarchitectedGetLensReviewReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

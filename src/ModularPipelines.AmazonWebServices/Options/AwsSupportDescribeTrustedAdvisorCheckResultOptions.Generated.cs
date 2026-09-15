@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "describe-trusted-advisor-check-result")]
-public record AwsSupportDescribeTrustedAdvisorCheckResultOptions : AwsOptions
+public record AwsSupportDescribeTrustedAdvisorCheckResultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the results of the Trusted Advisor check that has the specified check ID. You can get the check IDs by calling the DescribeTrustedAd- visorChecks operation. The response contains a TrustedAdvisorCheckResult object, which con- tains these three objects: o TrustedAdvisorCategorySpecificSummary o TrustedAdvisorResourceDetail o TrustedAdvisorResourcesSummary In addition, the response contains these fields: o status - The alert status of the check can be ok (green), warning (yellow), error (r...
+    /// </summary>
+    /// <param name="CheckId">The unique identifier for the Trusted Advisor check.</param>
+    public AwsSupportDescribeTrustedAdvisorCheckResultOptions(
+        string CheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CheckId);
+        this.CheckId = CheckId;
+    }
+
+    private AwsSupportDescribeTrustedAdvisorCheckResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorCheckResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorCheckResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Trusted Advisor check.
+    /// </summary>
     [CliOption("--check-id")]
-    public string? CheckId { get; set; }
+    public string? CheckId { get; private init; }
 
     /// <summary>
     /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es
@@ -35,5 +72,21 @@ public record AwsSupportDescribeTrustedAdvisorCheckResultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

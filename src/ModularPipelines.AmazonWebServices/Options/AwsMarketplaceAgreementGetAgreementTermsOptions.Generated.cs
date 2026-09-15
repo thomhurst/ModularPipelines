@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "get-agreement-terms")]
-public record AwsMarketplaceAgreementGetAgreementTermsOptions : AwsOptions
+public record AwsMarketplaceAgreementGetAgreementTermsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include: o TermType The type of term, such as LegalTerm , RenewalTerm , or Con- figurableUpfrontPricingTerm . o TermID The ID of the particular term, which is common between offer and agreement. o TermPayload The key information contained in the term, such as the EULA for LegalTerm or pricing and dimensions for various pricing terms, such as ConfigurableUpfrontPricingTerm or UsageBasedPr...
+    /// </summary>
+    /// <param name="AgreementId">The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    public AwsMarketplaceAgreementGetAgreementTermsOptions(
+        string AgreementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+    }
+
+    private AwsMarketplaceAgreementGetAgreementTermsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementGetAgreementTermsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementGetAgreementTermsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// </summary>
     [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    public string? AgreementId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsMarketplaceAgreementGetAgreementTermsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

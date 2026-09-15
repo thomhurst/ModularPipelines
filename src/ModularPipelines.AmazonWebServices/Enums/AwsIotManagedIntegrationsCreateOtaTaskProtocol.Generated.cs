@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsIotManagedIntegrationsCreateOtaTaskProtocol
 {
     [EnumValue("HTTP")]
-    Http = 1
+    Http,
+
+    [EnumValue("o")]
+    O
 }

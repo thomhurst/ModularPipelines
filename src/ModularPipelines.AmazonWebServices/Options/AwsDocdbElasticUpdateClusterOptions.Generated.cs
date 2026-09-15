@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb-elastic", "update-cluster")]
-public record AwsDocdbElasticUpdateClusterOptions : AwsOptions
+public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an elastic cluster. This includes updating admin-user- name/password, upgrading the API version, and setting up a backup win- dow and maintenance window See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The ARN identifier of the elastic cluster.</param>
+    public AwsDocdbElasticUpdateClusterOptions(
+        string ClusterArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+    }
+
+    private AwsDocdbElasticUpdateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbElasticUpdateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbElasticUpdateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN identifier of the elastic cluster.
+    /// </summary>
+    [CliOption("--cluster-arn")]
+    public string? ClusterArn { get; private init; }
+
     /// <summary>
     /// The password associated with the elastic cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints : Must contain from 8 to 100 characters.
     /// </summary>
@@ -48,9 +88,6 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
 
     /// <summary>
     /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetention- Period .
@@ -99,5 +136,21 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

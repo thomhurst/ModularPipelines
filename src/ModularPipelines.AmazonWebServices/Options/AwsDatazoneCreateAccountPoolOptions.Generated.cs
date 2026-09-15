@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-account-pool")]
-public record AwsDatazoneCreateAccountPoolOptions : AwsOptions
+public record AwsDatazoneCreateAccountPoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an account pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the domain where the account pool is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the account pool. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
+    /// <param name="ResolutionStrategy">The mechanism used to resolve the account selection from the account pool. Possible values: o MANUAL</param>
+    /// <param name="AccountSource">The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: o min: 1 o max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: o pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: o min: 1 o max: 3 (string) Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: o min: 1 o max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: o pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):func- tion:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }</param>
+    public AwsDatazoneCreateAccountPoolOptions(
+        string DomainIdentifier,
+        string Name,
+        AwsDatazoneCreateAccountPoolResolutionStrategy ResolutionStrategy,
+        string AccountSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResolutionStrategy);
+        this.ResolutionStrategy = ResolutionStrategy;
+        global::System.ArgumentNullException.ThrowIfNull(AccountSource);
+        this.AccountSource = AccountSource;
+    }
+
+    private AwsDatazoneCreateAccountPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateAccountPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateAccountPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the domain where the account pool is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the account pool. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The mechanism used to resolve the account selection from the account pool. Possible values: o MANUAL
+    /// </summary>
+    [CliOption("--resolution-strategy")]
+    public AwsDatazoneCreateAccountPoolResolutionStrategy? ResolutionStrategy { get; private init; }
+
+    /// <summary>
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: accounts, customAccountPoolHandler. accounts -&gt; (list) The static list of accounts within an account pool. Constraints: o min: 1 o max: 25 (structure) The account information within an account pool. awsAccountId -&gt; (string) [required] The account ID. Constraints: o pattern: \d{12} supportedRegions -&gt; (list) [required] The regions supported for an account within an account pool. Constraints: o min: 1 o max: 3 (string) Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d awsAccountName -&gt; (string) The account name. Constraints: o min: 1 o max: 256 customAccountPoolHandler -&gt; (structure) The custom Amazon Web Services Lambda handler within an account pool. lambdaFunctionArn -&gt; (string) [required] The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler. Constraints: o pattern: arn:(?:aws|aws-cn|aws-us-gov):lambda:(?:[a-z]{2}(?:-gov)?-[a-z]+-\d{1,}):(\d{12}):func- tion:[a-zA-Z0-9-_]+(?::[a-zA-Z0-9-_]+)?(?:\$[\w-]+)? lambdaExecutionRoleArn -&gt; (string) The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]* JSON Syntax: { "accounts": [ { "awsAccountId": "string", "supportedRegions": ["string", ...], "awsAccountName": "string" } ... ], "customAccountPoolHandler": { "lambdaFunctionArn": "string", "lambdaExecutionRoleArn": "string" } }
+    /// </summary>
+    [CliOption("--account-source")]
+    public string? AccountSource { get; private init; }
 
     /// <summary>
     /// The description of the account pool. Constraints: o min: 0 o max: 2048
@@ -33,16 +98,26 @@ public record AwsDatazoneCreateAccountPoolOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--resolution-strategy")]
-    public string? ResolutionStrategy { get; set; }
-
-    [CliOption("--account-source")]
-    public string? AccountSource { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

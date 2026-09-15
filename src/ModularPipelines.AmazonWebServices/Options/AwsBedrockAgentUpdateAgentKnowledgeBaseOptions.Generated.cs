@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "update-agent-knowledge-base")]
-public record AwsBedrockAgentUpdateAgentKnowledgeBaseOptions : AwsOptions
+public record AwsBedrockAgentUpdateAgentKnowledgeBaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration for a knowledge base that has been associated with an agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent associated with the knowledge base that you want to update. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that has been associated with an agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    public AwsBedrockAgentUpdateAgentKnowledgeBaseOptions(
+        string AgentId,
+        string AgentVersion,
+        string KnowledgeBaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentVersion);
+        this.AgentVersion = AgentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+    }
+
+    private AwsBedrockAgentUpdateAgentKnowledgeBaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentUpdateAgentKnowledgeBaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentUpdateAgentKnowledgeBaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent associated with the knowledge base that you want to update. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    public string? AgentId { get; private init; }
 
+    /// <summary>
+    /// The version of the agent associated with the knowledge base that you want to update. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// </summary>
     [CliOption("--agent-version")]
-    public string? AgentVersion { get; set; }
+    public string? AgentVersion { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the knowledge base that has been associated with an agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
     /// Specifies a new description for the knowledge base associated with an agent. Constraints: o min: 1 o max: 200
@@ -48,5 +99,21 @@ public record AwsBedrockAgentUpdateAgentKnowledgeBaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

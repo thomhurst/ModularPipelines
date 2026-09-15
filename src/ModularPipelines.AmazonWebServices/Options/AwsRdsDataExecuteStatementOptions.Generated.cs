@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,17 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds-data", "execute-statement")]
-public record AwsRdsDataExecuteStatementOptions : AwsOptions
+public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
+    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclama- tion mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: o min: 11 o max: 570</param>
+    /// <param name="Sql">The SQL statement to run. Constraints: o min: 0 o max: 65536</param>
+    public AwsRdsDataExecuteStatementOptions(
+        string ResourceArn,
+        string SecretArn,
+        string Sql
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SecretArn);
+        this.SecretArn = SecretArn;
+        global::System.ArgumentNullException.ThrowIfNull(Sql);
+        this.Sql = Sql;
+    }
+
+    private AwsRdsDataExecuteStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDataExecuteStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDataExecuteStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclama- tion mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: o min: 11 o max: 570
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-arn")]
-    public string? SecretArn { get; set; }
+    public string? SecretArn { get; private init; }
 
+    /// <summary>
+    /// The SQL statement to run. Constraints: o min: 0 o max: 65536
+    /// </summary>
     [CliOption("--sql")]
-    public string? Sql { get; set; }
+    public string? Sql { get; private init; }
 
     /// <summary>
     /// The name of the database. Constraints: o min: 0 o max: 64
@@ -57,10 +108,16 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliFlag("--include-result-metadata")]
+    /// <summary>
+    /// A value that indicates whether to include metadata in the results.
+    /// </summary>
+    [CliFlag("--include-result-metadata", NegatedName = "--no-include-result-metadata")]
     public bool? IncludeResultMetadata { get; set; }
 
-    [CliFlag("--continue-after-timeout")]
+    /// <summary>
+    /// A value that indicates whether to continue running the statement af- ter the call times out. By default, the statement stops running when the call times out. NOTE: For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
+    /// </summary>
+    [CliFlag("--continue-after-timeout", NegatedName = "--no-continue-after-timeout")]
     public bool? ContinueAfterTimeout { get; set; }
 
     /// <summary>
@@ -80,5 +137,21 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

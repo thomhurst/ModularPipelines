@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGeoMapsGetStaticMapStyle
 {
     [EnumValue("Satellite")]
-    Satellite = 1,
+    Satellite,
 
     [EnumValue("Standard")]
-    Standard = 2
+    Standard
 }

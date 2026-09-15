@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-model-card-export-job")]
-public record AwsSagemakerCreateModelCardExportJobOptions : AwsOptions
+public record AwsSagemakerCreateModelCardExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon SageMaker Model Card export job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelCardName">The name or Amazon Resource Name (ARN) of the model card to export. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ModelCardExportJobName">The name of the model card export job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="OutputConfig">The model card output configuration that specifies the Amazon S3 path for exporting. S3OutputPath -&gt; (string) [required] The Amazon S3 output path to export your model card PDF. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: S3OutputPath=string JSON Syntax: { "S3OutputPath": "string" }</param>
+    public AwsSagemakerCreateModelCardExportJobOptions(
+        string ModelCardName,
+        string ModelCardExportJobName,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelCardName);
+        this.ModelCardName = ModelCardName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelCardExportJobName);
+        this.ModelCardExportJobName = ModelCardExportJobName;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsSagemakerCreateModelCardExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateModelCardExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateModelCardExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the model card to export. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:model-card/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
     [CliOption("--model-card-name")]
-    public string? ModelCardName { get; set; }
+    public string? ModelCardName { get; private init; }
+
+    /// <summary>
+    /// The name of the model card export job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--model-card-export-job-name")]
+    public string? ModelCardExportJobName { get; private init; }
+
+    /// <summary>
+    /// The model card output configuration that specifies the Amazon S3 path for exporting. S3OutputPath -&gt; (string) [required] The Amazon S3 output path to export your model card PDF. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: S3OutputPath=string JSON Syntax: { "S3OutputPath": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// The version of the model card to export. If a version is not pro- vided, then the latest version of the model card is exported.
@@ -30,16 +87,26 @@ public record AwsSagemakerCreateModelCardExportJobOptions : AwsOptions
     [CliOption("--model-card-version")]
     public int? ModelCardVersion { get; set; }
 
-    [CliOption("--model-card-export-job-name")]
-    public string? ModelCardExportJobName { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

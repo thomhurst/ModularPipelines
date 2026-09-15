@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-sms-channel")]
-public record AwsPinpointUpdateSmsChannelOptions : AwsOptions
+public record AwsPinpointUpdateSmsChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="SmsChannelRequest">Specifies the status and settings of the SMS channel for an applica- tion. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }</param>
+    public AwsPinpointUpdateSmsChannelOptions(
+        string ApplicationId,
+        string SmsChannelRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(SmsChannelRequest);
+        this.SmsChannelRequest = SmsChannelRequest;
+    }
+
+    private AwsPinpointUpdateSmsChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateSmsChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateSmsChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Specifies the status and settings of the SMS channel for an applica- tion. Enabled -&gt; (boolean) Specifies whether to enable the SMS channel for the application. SenderId -&gt; (string) The identity that you want to display on recipients' devices when they receive messages from the SMS channel. ShortCode -&gt; (string) The registered short code that you want to use when you send messages through the SMS channel. Shorthand Syntax: Enabled=boolean,SenderId=string,ShortCode=string JSON Syntax: { "Enabled": true|false, "SenderId": "string", "ShortCode": "string" }
+    /// </summary>
     [CliOption("--sms-channel-request")]
-    public string? SmsChannelRequest { get; set; }
+    public string? SmsChannelRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

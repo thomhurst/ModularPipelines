@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datareplication.
+/// Allowed values for --data-replication.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesModifyWorkspacePropertiesDataReplication
 {
     [EnumValue("NO_REPLICATION")]
-    NoReplication = 1,
+    NoReplication,
 
     [EnumValue("PRIMARY_AS_SOURCE")]
-    PrimaryAsSource = 2
+    PrimaryAsSource
 }

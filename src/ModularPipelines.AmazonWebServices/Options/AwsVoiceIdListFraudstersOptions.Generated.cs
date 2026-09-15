@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("voice-id", "list-fraudsters")]
-public record AwsVoiceIdListFraudstersOptions : AwsOptions
+public record AwsVoiceIdListFraudstersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all fraudsters in a specified watchlist or domain. See also: AWS API Documentation list-fraudsters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FraudsterSummaries
+    /// </summary>
+    /// <param name="DomainId">The identifier of the domain. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
+    public AwsVoiceIdListFraudstersOptions(
+        string DomainId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+    }
+
+    private AwsVoiceIdListFraudstersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVoiceIdListFraudstersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVoiceIdListFraudstersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the domain. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
     /// <summary>
     /// The identifier of the watchlist. If provided, all fraudsters in the watchlist are listed. If not provided, all fraudsters in the domain are listed. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
@@ -55,5 +92,21 @@ public record AwsVoiceIdListFraudstersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

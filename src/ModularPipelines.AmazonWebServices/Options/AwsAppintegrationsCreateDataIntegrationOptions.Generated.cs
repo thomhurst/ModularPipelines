@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "create-data-integration")]
-public record AwsAppintegrationsCreateDataIntegrationOptions : AwsOptions
+public record AwsAppintegrationsCreateDataIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and persists a DataIntegration resource. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataInte- gration API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="KmsKey">The KMS key ARN for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    public AwsAppintegrationsCreateDataIntegrationOptions(
+        string Name,
+        string KmsKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKey);
+        this.KmsKey = KmsKey;
+    }
+
+    private AwsAppintegrationsCreateDataIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsCreateDataIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsCreateDataIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The KMS key ARN for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--kms-key")]
+    public string? KmsKey { get; private init; }
 
     /// <summary>
     /// A description of the DataIntegration. Constraints: o min: 0 o max: 1000 o pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--kms-key")]
-    public string? KmsKey { get; set; }
 
     /// <summary>
     /// The URI of the data source. Constraints: o min: 1 o max: 1000 o pattern: ^(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+$)|(\w+\:\/\/[\w.-]+[\w/!@#+=.-]+[\w/!@#+=.-]+[\w/!@#+=.,-]+$)
@@ -77,5 +121,21 @@ public record AwsAppintegrationsCreateDataIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

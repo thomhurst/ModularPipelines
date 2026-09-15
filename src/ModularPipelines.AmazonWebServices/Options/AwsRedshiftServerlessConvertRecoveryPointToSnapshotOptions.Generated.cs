@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "convert-recovery-point-to-snapshot")]
-public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOptions
+public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Converts a recovery point to a snapshot. For more information about re- covery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPointId">The unique identifier of the recovery point.</param>
+    /// <param name="SnapshotName">The name of the snapshot.</param>
+    public AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions(
+        string RecoveryPointId,
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointId);
+        this.RecoveryPointId = RecoveryPointId;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    private AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the recovery point.
+    /// </summary>
     [CliOption("--recovery-point-id")]
-    public string? RecoveryPointId { get; set; }
+    public string? RecoveryPointId { get; private init; }
+
+    /// <summary>
+    /// The name of the snapshot.
+    /// </summary>
+    [CliOption("--snapshot-name")]
+    public string? SnapshotName { get; private init; }
 
     /// <summary>
     /// How long to retain the snapshot.
     /// </summary>
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
-
-    [CliOption("--snapshot-name")]
-    public string? SnapshotName { get; set; }
 
     /// <summary>
     /// An array of Tag objects to associate with the created snapshot. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

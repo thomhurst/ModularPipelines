@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-efs")]
-public record AwsDatasyncCreateLocationEfsOptions : AwsOptions
+public record AwsDatasyncCreateLocationEfsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses Amazon EFS file systems . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EfsFilesystemArn">Specifies the ARN for your Amazon EFS file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$</param>
+    /// <param name="Ec2Config">Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: o In the same virtual private cloud (VPC) as the Amazon EFS file system. o In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file sys- tem mount target. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }</param>
+    public AwsDatasyncCreateLocationEfsOptions(
+        string EfsFilesystemArn,
+        string Ec2Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EfsFilesystemArn);
+        this.EfsFilesystemArn = EfsFilesystemArn;
+        global::System.ArgumentNullException.ThrowIfNull(Ec2Config);
+        this.Ec2Config = Ec2Config;
+    }
+
+    private AwsDatasyncCreateLocationEfsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationEfsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationEfsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN for your Amazon EFS file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$
+    /// </summary>
+    [CliOption("--efs-filesystem-arn")]
+    public string? EfsFilesystemArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets . SubnetArn -&gt; (string) [required] Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located: o In the same virtual private cloud (VPC) as the Amazon EFS file system. o In the same Availability Zone as at least one mount target for the Amazon EFS file system. NOTE: You don't need to specify a subnet that includes a file sys- tem mount target. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ SecurityGroupArns -&gt; (list) [required] Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Shorthand Syntax: SubnetArn=string,SecurityGroupArns=string,string JSON Syntax: { "SubnetArn": "string", "SecurityGroupArns": ["string", ...] }
+    /// </summary>
+    [CliOption("--ec2-config")]
+    public string? Ec2Config { get; private init; }
+
     /// <summary>
     /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn ). You can also include subdi- rectories using forward slashes (for example, /path/to/folder ). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
-
-    [CliOption("--efs-filesystem-arn")]
-    public string? EfsFilesystemArn { get; set; }
-
-    [CliOption("--ec2-config")]
-    public string? Ec2Config { get; set; }
 
     /// <summary>
     /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recom- mend that you create a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -63,5 +107,21 @@ public record AwsDatasyncCreateLocationEfsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

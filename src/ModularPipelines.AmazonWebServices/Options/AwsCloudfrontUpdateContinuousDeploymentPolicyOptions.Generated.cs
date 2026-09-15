@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-continuous-deployment-policy")]
-public record AwsCloudfrontUpdateContinuousDeploymentPolicyOptions : AwsOptions
+public record AwsCloudfrontUpdateContinuousDeploymentPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--continuous-deployment-policy-config")]
-    public string? ContinuousDeploymentPolicyConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a continuous deployment policy. You can update a continuous de- ployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a con- tinuous deployment policy configura...
+    /// </summary>
+    /// <param name="ContinuousDeploymentPolicyConfig">The continuous deployment policy configuration. StagingDistributionDnsNames -&gt; (structure) [required] The CloudFront domain name of the staging distribution. For ex- ample: d111111abcdef8.cloudfront.net . Quantity -&gt; (integer) [required] The number of CloudFront domain names in your staging distri- bution. Items -&gt; (list) The CloudFront domain name of the staging distribution. (string) Enabled -&gt; (boolean) [required] A Boolean that indicates whether this continuous deployment pol- icy is enabled (in effect). When this value is true , this pol- icy is enabled and in effect. When this value is false , this policy is not enabled and has no effect. TrafficConfig -&gt; (structure) Contains the parameters for routing production traffic from your primary to staging distributions. SingleWeightConfig -&gt; (structure) Contains the percentage of traffic to send to the staging distribution. Weight -&gt; (float) [required] The percentage of traffic to send to a staging distribu- tion, expressed as a decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution. SessionStickinessConfig -&gt; (structure) Session stickiness provides the ability to define multi- ple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary dis- tribution. Define the session duration using TTL values. IdleTTL -&gt; (integer) [required] The amount of time after which you want sessions to cease if no requests are received. Allowed values are 3003600 seconds (560 minutes). The value must be less than or equal to MaximumTTL . MaximumTTL -&gt; (integer) [required] The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 3003600 seconds (560 minutes). The value must be greater than or equal to IdleTTL . SingleHeaderConfig -&gt; (structure) Determines which HTTP requests are sent to the staging dis- tribution. Header -&gt; (string) [required] The request header name that you want CloudFront to send to your staging distribution. The header must contain the prefix aws-cf-cd- . Value -&gt; (string) [required] The request header value. Type -&gt; (string) [required] The type of traffic configuration. Possible values: o SingleWeight o SingleHeader JSON Syntax: { "StagingDistributionDnsNames": { "Quantity": integer, "Items": ["string", ...] }, "Enabled": true|false, "TrafficConfig": { "SingleWeightConfig": { "Weight": float, "SessionStickinessConfig": { "IdleTTL": integer, "MaximumTTL": integer } }, "SingleHeaderConfig": { "Header": "string", "Value": "string" }, "Type": "SingleWeight"|"SingleHeader" } }</param>
+    /// <param name="Id">The identifier of the continuous deployment policy that you are up- dating.</param>
+    public AwsCloudfrontUpdateContinuousDeploymentPolicyOptions(
+        string ContinuousDeploymentPolicyConfig,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContinuousDeploymentPolicyConfig);
+        this.ContinuousDeploymentPolicyConfig = ContinuousDeploymentPolicyConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontUpdateContinuousDeploymentPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateContinuousDeploymentPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateContinuousDeploymentPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The continuous deployment policy configuration. StagingDistributionDnsNames -&gt; (structure) [required] The CloudFront domain name of the staging distribution. For ex- ample: d111111abcdef8.cloudfront.net . Quantity -&gt; (integer) [required] The number of CloudFront domain names in your staging distri- bution. Items -&gt; (list) The CloudFront domain name of the staging distribution. (string) Enabled -&gt; (boolean) [required] A Boolean that indicates whether this continuous deployment pol- icy is enabled (in effect). When this value is true , this pol- icy is enabled and in effect. When this value is false , this policy is not enabled and has no effect. TrafficConfig -&gt; (structure) Contains the parameters for routing production traffic from your primary to staging distributions. SingleWeightConfig -&gt; (structure) Contains the percentage of traffic to send to the staging distribution. Weight -&gt; (float) [required] The percentage of traffic to send to a staging distribu- tion, expressed as a decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution. SessionStickinessConfig -&gt; (structure) Session stickiness provides the ability to define multi- ple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary dis- tribution. Define the session duration using TTL values. IdleTTL -&gt; (integer) [required] The amount of time after which you want sessions to cease if no requests are received. Allowed values are 3003600 seconds (560 minutes). The value must be less than or equal to MaximumTTL . MaximumTTL -&gt; (integer) [required] The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 3003600 seconds (560 minutes). The value must be greater than or equal to IdleTTL . SingleHeaderConfig -&gt; (structure) Determines which HTTP requests are sent to the staging dis- tribution. Header -&gt; (string) [required] The request header name that you want CloudFront to send to your staging distribution. The header must contain the prefix aws-cf-cd- . Value -&gt; (string) [required] The request header value. Type -&gt; (string) [required] The type of traffic configuration. Possible values: o SingleWeight o SingleHeader JSON Syntax: { "StagingDistributionDnsNames": { "Quantity": integer, "Items": ["string", ...] }, "Enabled": true|false, "TrafficConfig": { "SingleWeightConfig": { "Weight": float, "SessionStickinessConfig": { "IdleTTL": integer, "MaximumTTL": integer } }, "SingleHeaderConfig": { "Header": "string", "Value": "string" }, "Type": "SingleWeight"|"SingleHeader" } }
+    /// </summary>
+    [CliOption("--continuous-deployment-policy-config")]
+    public string? ContinuousDeploymentPolicyConfig { get; private init; }
+
+    /// <summary>
+    /// The identifier of the continuous deployment policy that you are up- dating.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The current version (ETag value) of the continuous deployment policy that you are updating.
@@ -38,5 +82,21 @@ public record AwsCloudfrontUpdateContinuousDeploymentPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

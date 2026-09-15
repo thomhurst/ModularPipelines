@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "update-lag")]
-public record AwsDirectconnectUpdateLagOptions : AwsOptions
+public record AwsDirectconnectUpdateLagOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes: o The name of the LAG. o The value for the minimum number of connections that must be opera- tional for the LAG itself to be operational. o The LAG's MACsec encryption mode. Amazon Web Services assigns this value to each connection which is part of the LAG. o The tags NOTE: If you adjust the threshold value for the minimum number of opera- tional connections, ensure that the new val...
+    /// </summary>
+    /// <param name="LagId">The ID of the LAG.</param>
+    public AwsDirectconnectUpdateLagOptions(
+        string LagId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LagId);
+        this.LagId = LagId;
+    }
+
+    private AwsDirectconnectUpdateLagOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectUpdateLagOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectUpdateLagOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the LAG.
+    /// </summary>
     [CliOption("--lag-id")]
-    public string? LagId { get; set; }
+    public string? LagId { get; private init; }
 
     /// <summary>
     /// The name of the LAG.
@@ -47,5 +84,21 @@ public record AwsDirectconnectUpdateLagOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

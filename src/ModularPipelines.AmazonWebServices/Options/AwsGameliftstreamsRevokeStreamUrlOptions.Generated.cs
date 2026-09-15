@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "revoke-stream-url")]
-public record AwsGameliftstreamsRevokeStreamUrlOptions : AwsOptions
+public record AwsGameliftstreamsRevokeStreamUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Revokes a stream URL so that it can no longer start new stream ses- sions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set Revoca- tionMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="StreamUrlIdentifier">The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsRevokeStreamUrlOptions(
+        string Identifier,
+        string StreamUrlIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(StreamUrlIdentifier);
+        this.StreamUrlIdentifier = StreamUrlIdentifier;
+    }
+
+    private AwsGameliftstreamsRevokeStreamUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsRevokeStreamUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsRevokeStreamUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . This is the stream group that owns the stream URL. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4 . Example ID: su-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--stream-url-identifier")]
-    public string? StreamUrlIdentifier { get; set; }
+    public string? StreamUrlIdentifier { get; private init; }
 
     /// <summary>
     /// Controls what happens to running stream sessions when you revoke the stream URL. If you do not specify a value, the default is REVOKE_URL . Possible values include the following: o REVOKE_URL : Stops the stream URL from starting new stream ses- sions. Running sessions continue until they end. o REVOKE_AND_TERMINATE_SESSIONS : Stops new stream sessions and ends any running stream sessions. Possible values: o REVOKE_URL o REVOKE_AND_TERMINATE_SESSIONS
@@ -39,5 +83,21 @@ public record AwsGameliftstreamsRevokeStreamUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

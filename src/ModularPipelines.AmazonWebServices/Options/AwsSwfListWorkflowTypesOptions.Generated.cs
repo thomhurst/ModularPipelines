@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "list-workflow-types")]
-public record AwsSwfListWorkflowTypesOptions : AwsOptions
+public record AwsSwfListWorkflowTypesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about workflow types in the specified domain. The results may be split into multiple pages that can be retrieved by mak- ing the call repeatedly. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission to call this ac- tion. o You cannot use an IAM policy to constrain this action's ...
+    /// </summary>
+    /// <param name="Domain">The name of the domain in which the workflow types have been regis- tered. Constraints: o min: 1 o max: 256</param>
+    /// <param name="RegistrationStatus">Specifies the registration status of the workflow types to list. Possible values: o REGISTERED o DEPRECATED</param>
+    public AwsSwfListWorkflowTypesOptions(
+        string Domain,
+        AwsSwfListWorkflowTypesRegistrationStatus RegistrationStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationStatus);
+        this.RegistrationStatus = RegistrationStatus;
+    }
+
+    private AwsSwfListWorkflowTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfListWorkflowTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfListWorkflowTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain in which the workflow types have been regis- tered. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// Specifies the registration status of the workflow types to list. Possible values: o REGISTERED o DEPRECATED
+    /// </summary>
+    [CliOption("--registration-status")]
+    public AwsSwfListWorkflowTypesRegistrationStatus? RegistrationStatus { get; private init; }
 
     /// <summary>
     /// If specified, lists the workflow type with this name. Constraints: o min: 1 o max: 256
@@ -31,10 +79,10 @@ public record AwsSwfListWorkflowTypesOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--registration-status")]
-    public string? RegistrationStatus { get; set; }
-
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -61,5 +109,21 @@ public record AwsSwfListWorkflowTypesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "disassociate-custom-domain")]
-public record AwsApprunnerDisassociateCustomDomainOptions : AwsOptions
+public record AwsApprunnerDisassociateCustomDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom do- main and are stored in AWS Certificate Manager (ACM) . These certifi- cates aren't deleted as part of this action. App Runner delays certifi- cate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="DomainName">The domain name that you want to disassociate from the App Runner service. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}</param>
+    public AwsApprunnerDisassociateCustomDomainOptions(
+        string ServiceArn,
+        string DomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsApprunnerDisassociateCustomDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerDisassociateCustomDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerDisassociateCustomDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// </summary>
+    [CliOption("--service-arn")]
+    public string? ServiceArn { get; private init; }
+
+    /// <summary>
+    /// The domain name that you want to disassociate from the App Runner service. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

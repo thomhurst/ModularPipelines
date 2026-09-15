@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "ingest-data")]
-public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions
+public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits content directly for ingestion to generate long-term memory records in a AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:IngestData permission. See also: AWS API Documentation ingest-data uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Sho...
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource to ingest content into. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="Source">The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: o min: 1 o max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, num- bers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }</param>
+    /// <param name="ContentTimestamp">The timestamp of when the content occurred.</param>
+    /// <param name="ActorId">The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    public AwsBedrockAgentcoreIngestDataOptions(
+        string MemoryId,
+        string Source,
+        string ContentTimestamp,
+        string ActorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(ContentTimestamp);
+        this.ContentTimestamp = ContentTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(ActorId);
+        this.ActorId = ActorId;
+    }
+
+    private AwsBedrockAgentcoreIngestDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreIngestDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreIngestDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource to ingest content into. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    public string? MemoryId { get; private init; }
 
+    /// <summary>
+    /// The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: o min: 1 o max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, num- bers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The timestamp of when the content occurred.
+    /// </summary>
     [CliOption("--content-timestamp")]
-    public string? ContentTimestamp { get; set; }
+    public string? ContentTimestamp { get; private init; }
 
+    /// <summary>
+    /// The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// </summary>
     [CliOption("--actor-id")]
-    public string? ActorId { get; set; }
+    public string? ActorId { get; private init; }
 
     /// <summary>
     /// The identifier of the session that the content belongs to. If not provided, a session identifier is generated and returned in the re- sponse. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
@@ -65,5 +123,21 @@ public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

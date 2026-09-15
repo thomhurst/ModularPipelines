@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-fast-snapshot-restores")]
-public record AwsEc2EnableFastSnapshotRestoresOptions : AwsOptions
+public record AwsEc2EnableFastSnapshotRestoresOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables fast snapshot restores for the specified snapshots in the spec- ified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see Amazon EBS fast snapshot restore in the Ama- zon EBS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceSnapshotIds">The IDs of one or more snapshots. For example, snap-1234567890abcdef0 . You can specify a snapshot that was shared with you from another Amazon Web Services account. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2EnableFastSnapshotRestoresOptions(
+        IEnumerable<string> SourceSnapshotIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceSnapshotIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceSnapshotIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceSnapshotIds));
+            }
+
+            SourceSnapshotIds = materialized;
+        }
+        this.SourceSnapshotIds = SourceSnapshotIds;
+    }
+
+    private AwsEc2EnableFastSnapshotRestoresOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableFastSnapshotRestoresOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableFastSnapshotRestoresOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of one or more snapshots. For example, snap-1234567890abcdef0 . You can specify a snapshot that was shared with you from another Amazon Web Services account. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--source-snapshot-ids", GroupValues = true)]
+    public IEnumerable<string>? SourceSnapshotIds { get; private init; }
+
     /// <summary>
     /// One or more Availability Zones. For example, us-east-2a . Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -33,10 +84,10 @@ public record AwsEc2EnableFastSnapshotRestoresOptions : AwsOptions
     [CliOption("--availability-zone-ids", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIds { get; set; }
 
-    [CliOption("--source-snapshot-ids", GroupValues = true)]
-    public IEnumerable<string>? SourceSnapshotIds { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +95,21 @@ public record AwsEc2EnableFastSnapshotRestoresOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "create-application")]
-public record AwsSsoAdminCreateApplicationOptions : AwsOptions
+public record AwsSsoAdminCreateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Cen- ter for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed appli- cations or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the applica- tion user guide. You can create a SAML 2.0 customer managed applica- tion in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 application...
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="ApplicationProviderArn">The ARN of the application provider under which the operation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+</param>
+    /// <param name="Name">The name of the . Constraints: o min: 1 o max: 100 o pattern: [\S\s]*</param>
+    public AwsSsoAdminCreateApplicationOptions(
+        string InstanceArn,
+        string ApplicationProviderArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationProviderArn);
+        this.ApplicationProviderArn = ApplicationProviderArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsoAdminCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the instance of IAM Identity Center under which the oper- ation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Ama- zon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the application provider under which the operation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+
+    /// </summary>
     [CliOption("--application-provider-arn")]
-    public string? ApplicationProviderArn { get; set; }
+    public string? ApplicationProviderArn { get; private init; }
 
+    /// <summary>
+    /// The name of the . Constraints: o min: 1 o max: 100 o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The description of the . Constraints: o min: 1 o max: 128
@@ -68,5 +119,21 @@ public record AwsSsoAdminCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

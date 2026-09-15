@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "update-webhook")]
-public record AwsCodebuildUpdateWebhookOptions : AwsOptions
+public record AwsCodebuildUpdateWebhookOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the webhook associated with an CodeBuild build project. NOTE: If you use Bitbucket for your repository, rotateSecret is ignored. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectName">The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}</param>
+    public AwsCodebuildUpdateWebhookOptions(
+        string ProjectName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+    }
+
+    private AwsCodebuildUpdateWebhookOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildUpdateWebhookOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildUpdateWebhookOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
 
     /// <summary>
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. NOTE: It is recommended that you use filterGroups instead of branch- Filter .
@@ -31,7 +68,10 @@ public record AwsCodebuildUpdateWebhookOptions : AwsOptions
     [CliOption("--branch-filter")]
     public string? BranchFilter { get; set; }
 
-    [CliFlag("--rotate-secret")]
+    /// <summary>
+    /// A boolean value that specifies whether the associated GitHub reposi- tory's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
+    /// </summary>
+    [CliFlag("--rotate-secret", NegatedName = "--no-rotate-secret")]
     public bool? RotateSecret { get; set; }
 
     /// <summary>
@@ -57,5 +97,21 @@ public record AwsCodebuildUpdateWebhookOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

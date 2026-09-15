@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "list-device-positions")]
-public record AwsLocationListDevicePositionsOptions : AwsOptions
+public record AwsLocationListDevicePositionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A batch request to retrieve all device positions. See also: AWS API Documentation list-device-positions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
+    /// </summary>
+    /// <param name="TrackerName">The tracker resource containing the requested devices. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    public AwsLocationListDevicePositionsOptions(
+        string TrackerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+    }
+
+    private AwsLocationListDevicePositionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationListDevicePositionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationListDevicePositionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The tracker resource containing the requested devices. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    public string? TrackerName { get; private init; }
 
     /// <summary>
     /// The geometry used to filter device positions. Polygon -&gt; (list) The set of arrays which define the polygon. A polygon can have between 4 and 1000 vertices. Constraints: o min: 1 (list) Constraints: o min: 4 (list) Constraints: o min: 2 o max: 2 (double) JSON Syntax: { "Polygon": [ [ [double, ...] ... ] ... ] }
@@ -55,5 +92,21 @@ public record AwsLocationListDevicePositionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "get-access-grants-instance-for-prefix")]
-public record AwsS3controlGetAccessGrantsInstanceForPrefixOptions : AwsOptions
+public record AwsS3controlGetAccessGrantsInstanceForPrefixOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve the S3 Access Grants instance that contains a particular pre- fix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The ID of the Amazon Web Services account that is making this re- quest. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="S3Prefix">The S3 prefix of the access grants that you would like to retrieve. Constraints: o min: 1 o max: 2000 o pattern: ^.+$</param>
+    public AwsS3controlGetAccessGrantsInstanceForPrefixOptions(
+        string AccountId,
+        string S3Prefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(S3Prefix);
+        this.S3Prefix = S3Prefix;
+    }
+
+    private AwsS3controlGetAccessGrantsInstanceForPrefixOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlGetAccessGrantsInstanceForPrefixOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlGetAccessGrantsInstanceForPrefixOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that is making this re- quest. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The S3 prefix of the access grants that you would like to retrieve. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// </summary>
     [CliOption("--s3-prefix")]
-    public string? S3Prefix { get; set; }
+    public string? S3Prefix { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

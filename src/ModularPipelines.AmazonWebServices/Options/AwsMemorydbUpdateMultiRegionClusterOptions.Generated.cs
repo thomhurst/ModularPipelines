@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "update-multi-region-cluster")]
-public record AwsMemorydbUpdateMultiRegionClusterOptions : AwsOptions
+public record AwsMemorydbUpdateMultiRegionClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an existing multi-Region cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MultiRegionClusterName">The name of the multi-Region cluster to be updated.</param>
+    public AwsMemorydbUpdateMultiRegionClusterOptions(
+        string MultiRegionClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MultiRegionClusterName);
+        this.MultiRegionClusterName = MultiRegionClusterName;
+    }
+
+    private AwsMemorydbUpdateMultiRegionClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbUpdateMultiRegionClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbUpdateMultiRegionClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the multi-Region cluster to be updated.
+    /// </summary>
     [CliOption("--multi-region-cluster-name")]
-    public string? MultiRegionClusterName { get; set; }
+    public string? MultiRegionClusterName { get; private init; }
 
     /// <summary>
     /// The new node type to be used for the multi-Region cluster.
@@ -66,5 +103,21 @@ public record AwsMemorydbUpdateMultiRegionClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "delete-memory-record")]
-public record AwsBedrockAgentcoreDeleteMemoryRecordOptions : AwsOptions
+public record AwsBedrockAgentcoreDeleteMemoryRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemo- ryRecord permission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to delete the memory record. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="MemoryRecordId">The identifier of the memory record to delete. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]*</param>
+    public AwsBedrockAgentcoreDeleteMemoryRecordOptions(
+        string MemoryId,
+        string MemoryRecordId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(MemoryRecordId);
+        this.MemoryRecordId = MemoryRecordId;
+    }
+
+    private AwsBedrockAgentcoreDeleteMemoryRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreDeleteMemoryRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreDeleteMemoryRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource from which to delete the memory record. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the memory record to delete. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]*
+    /// </summary>
     [CliOption("--memory-record-id")]
-    public string? MemoryRecordId { get; set; }
+    public string? MemoryRecordId { get; private init; }
 
     /// <summary>
     /// The namespace of the memory record to delete. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
@@ -38,5 +82,21 @@ public record AwsBedrockAgentcoreDeleteMemoryRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

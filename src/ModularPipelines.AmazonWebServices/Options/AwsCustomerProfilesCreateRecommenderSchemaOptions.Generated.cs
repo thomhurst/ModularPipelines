@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "create-recommender-schema")]
-public record AwsCustomerProfilesCreateRecommenderSchemaOptions : AwsOptions
+public record AwsCustomerProfilesCreateRecommenderSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderSchemaName">The name of the recommender schema. The name must be unique within the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Fields">A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _cata- logItem keys are supported. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 9 (structure) Defines a column in a recommender schema, including the tar- get field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Lo- cation.City or Attributes.MealTime . Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: o STRING o NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid val- ues are CATEGORICAL and TEXTUAL . Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}</param>
+    public AwsCustomerProfilesCreateRecommenderSchemaOptions(
+        string DomainName,
+        string RecommenderSchemaName,
+        IReadOnlyList<KeyValue> Fields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(RecommenderSchemaName);
+        this.RecommenderSchemaName = RecommenderSchemaName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsCustomerProfilesCreateRecommenderSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesCreateRecommenderSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesCreateRecommenderSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The name of the recommender schema. The name must be unique within the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--recommender-schema-name")]
-    public string? RecommenderSchemaName { get; set; }
+    public string? RecommenderSchemaName { get; private init; }
 
+    /// <summary>
+    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _cata- logItem keys are supported. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 9 (structure) Defines a column in a recommender schema, including the tar- get field name and optional feature and content type settings for training. TargetFieldName -&gt; (string) [required] The name of the target field in the dataset, such as Lo- cation.City or Attributes.MealTime . Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The data type of the column value. Valid values are String and Number . The default value is String . Possible values: o STRING o NUMBER FeatureType -&gt; (string) How the column is treated for model training. Valid val- ues are CATEGORICAL and TEXTUAL . Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}],KeyName2=[{TargetFieldName=string,ContentType=string,FeatureType=string},{TargetFieldName=string,ContentType=string,FeatureType=string}] JSON Syntax: {"string": [ { "TargetFieldName": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ... ] ...}
+    /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Fields { get; set; }
+    public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +104,21 @@ public record AwsCustomerProfilesCreateRecommenderSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

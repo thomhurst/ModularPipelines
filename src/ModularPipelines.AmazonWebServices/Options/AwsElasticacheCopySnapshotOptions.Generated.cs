@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "copy-snapshot")]
-public record AwsElasticacheCopySnapshotOptions : AwsOptions
+public record AwsElasticacheCopySnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-snapshot-name")]
-    public string? SourceSnapshotName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot opera- tion can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to con- trol who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache opera- tions, see Exporting Snapshots and Authentication &amp; A...
+    /// </summary>
+    /// <param name="SourceSnapshotName">The name of an existing snapshot from which to make a copy.</param>
+    /// <param name="TargetSnapshotName">A name for the snapshot copy. ElastiCache does not permit overwrit- ing a snapshot, therefore this name must be unique within its con- text - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.</param>
+    public AwsElasticacheCopySnapshotOptions(
+        string SourceSnapshotName,
+        string TargetSnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceSnapshotName);
+        this.SourceSnapshotName = SourceSnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshotName);
+        this.TargetSnapshotName = TargetSnapshotName;
+    }
+
+    private AwsElasticacheCopySnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCopySnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCopySnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an existing snapshot from which to make a copy.
+    /// </summary>
+    [CliOption("--source-snapshot-name")]
+    public string? SourceSnapshotName { get; private init; }
+
+    /// <summary>
+    /// A name for the snapshot copy. ElastiCache does not permit overwrit- ing a snapshot, therefore this name must be unique within its con- text - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
+    /// </summary>
     [CliOption("--target-snapshot-name")]
-    public string? TargetSnapshotName { get; set; }
+    public string? TargetSnapshotName { get; private init; }
 
     /// <summary>
     /// The Amazon S3 bucket to which the snapshot is exported. This parame- ter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon Elas- tiCache has the needed permissions to this S3 bucket. For more in- formation, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide . For more information, see Exporting a Snapshot in the Amazon Elasti- Cache User Guide .
@@ -50,5 +94,21 @@ public record AwsElasticacheCopySnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

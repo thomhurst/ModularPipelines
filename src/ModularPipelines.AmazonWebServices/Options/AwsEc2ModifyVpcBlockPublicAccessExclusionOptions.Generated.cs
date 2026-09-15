@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-vpc-block-public-access-exclusion")]
-public record AwsEc2ModifyVpcBlockPublicAccessExclusionOptions : AwsOptions
+public record AwsEc2ModifyVpcBlockPublicAccessExclusionOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExclusionId">The ID of an exclusion.</param>
+    /// <param name="InternetGatewayExclusionMode">The exclusion mode for internet gateway traffic. o allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. o allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: o allow-bidirectional o allow-egress</param>
+    public AwsEc2ModifyVpcBlockPublicAccessExclusionOptions(
+        string ExclusionId,
+        AwsEc2ModifyVpcBlockPublicAccessExclusionInternetGatewayExclusionMode InternetGatewayExclusionMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExclusionId);
+        this.ExclusionId = ExclusionId;
+        global::System.ArgumentNullException.ThrowIfNull(InternetGatewayExclusionMode);
+        this.InternetGatewayExclusionMode = InternetGatewayExclusionMode;
+    }
+
+    private AwsEc2ModifyVpcBlockPublicAccessExclusionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyVpcBlockPublicAccessExclusionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyVpcBlockPublicAccessExclusionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an exclusion.
+    /// </summary>
     [CliOption("--exclusion-id")]
-    public string? ExclusionId { get; set; }
+    public string? ExclusionId { get; private init; }
 
+    /// <summary>
+    /// The exclusion mode for internet gateway traffic. o allow-bidirectional : Allow all internet traffic to and from the excluded VPCs and subnets. o allow-egress : Allow outbound internet traffic from the excluded VPCs and subnets. Block inbound internet traffic to the excluded VPCs and subnets. Only applies when VPC Block Public Access is set to Bidirectional. Possible values: o allow-bidirectional o allow-egress
+    /// </summary>
     [CliOption("--internet-gateway-exclusion-mode")]
-    public string? InternetGatewayExclusionMode { get; set; }
+    public AwsEc2ModifyVpcBlockPublicAccessExclusionInternetGatewayExclusionMode? InternetGatewayExclusionMode { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

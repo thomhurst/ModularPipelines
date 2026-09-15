@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-db-snapshot")]
-public record AwsRdsModifyDbSnapshotOptions : AwsOptions
+public record AwsRdsModifyDbSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MariaDB, MySQL, Post- greSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbSnapshotIdentifier">The identifier of the DB snapshot to modify.</param>
+    public AwsRdsModifyDbSnapshotOptions(
+        string DbSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSnapshotIdentifier);
+        this.DbSnapshotIdentifier = DbSnapshotIdentifier;
+    }
+
+    private AwsRdsModifyDbSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyDbSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyDbSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the DB snapshot to modify.
+    /// </summary>
     [CliOption("--db-snapshot-identifier")]
-    public string? DbSnapshotIdentifier { get; set; }
+    public string? DbSnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MariaDB For the list of engine versions that are available for upgrading a DB snapshot, see Upgrading a MariaDB DB snapshot engine version in the Amazon RDS User Guide. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see Upgrading a MySQL DB snapshot engine version in the Amazon RDS User Guide. Oracle o 21.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 21.0.0.0.ru-2022-01.rur-2022-01.r1, 21.0.0.0.ru-2022-04.rur-2022-04.r1, 21.0.0.0.ru-2022-07.rur-2022-07.r1, 21.0.0.0.ru-2022-10.rur-2022-10.r1, 21.0.0.0.ru-2023-01.rur-2023-01.r1 and 21.0.0.0.ru-2023-01.rur-2023-01.r2 DB snapshots) o 19.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 19.0.0.0.ru-2019-07.rur-2019-07.r1, 19.0.0.0.ru-2019-10.rur-2019-10.r1 and 0.0.0.ru-2020-01.rur-2020-01.r1 DB snapshots) o 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots) o 19.0.0.0.ru-2022-07.rur-2022-07.r1 (supported for 12.1.0.2 DB snapshots) o 12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots) o 11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots) o 11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots) PostgreSQL For the list of engine versions that are available for upgrading a DB snapshot, see Upgrading a PostgreSQL DB snapshot engine version in the Amazon RDS User Guide.
@@ -41,5 +78,21 @@ public record AwsRdsModifyDbSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

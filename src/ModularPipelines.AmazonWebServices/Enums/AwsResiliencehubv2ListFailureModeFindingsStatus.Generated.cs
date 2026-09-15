@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubv2ListFailureModeFindingsStatus
 {
+    [EnumValue("IRRELEVANT")]
+    Irrelevant,
+
     [EnumValue("OPEN")]
-    Open = 1,
+    Open,
 
     [EnumValue("RESOLVED")]
-    Resolved = 2,
-
-    [EnumValue("IRRELEVANT")]
-    Irrelevant = 3
+    Resolved
 }

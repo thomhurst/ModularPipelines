@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcegroupstaggingapi", "get-tag-values")]
-public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions
+public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns all tag values for the specified key that are used in the spec- ified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Re- peat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for Paginati...
+    /// </summary>
+    /// <param name="Key">Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*</param>
+    public AwsResourcegroupstaggingapiGetTagValuesOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsResourcegroupstaggingapiGetTagValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourcegroupstaggingapiGetTagValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourcegroupstaggingapiGetTagValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,21 @@ public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

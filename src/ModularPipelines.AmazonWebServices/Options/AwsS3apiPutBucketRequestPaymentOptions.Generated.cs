@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-request-payment")]
-public record AwsS3apiPutBucketRequestPaymentOptions : AwsOptions
+public record AwsS3apiPutBucketRequestPaymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration pa- rameter enables the bucket owner (only) to specify that the person re- questing the download will be charged for the download. For more infor- mation, see Requester Pays Buckets . The following operations are related to PutBucketRequestPayment : o CreateBucket o GetBucketRequestPayment WARNING: Yo...
+    /// </summary>
+    /// <param name="Bucket">The bucket name.</param>
+    /// <param name="RequestPaymentConfiguration">Container for Payer. Payer -&gt; (string) [required] Specifies who pays for the download and request fees. Possible values: o Requester o BucketOwner Shorthand Syntax: Payer=string JSON Syntax: { "Payer": "Requester"|"BucketOwner" }</param>
+    public AwsS3apiPutBucketRequestPaymentOptions(
+        string Bucket,
+        string RequestPaymentConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(RequestPaymentConfiguration);
+        this.RequestPaymentConfiguration = RequestPaymentConfiguration;
+    }
+
+    private AwsS3apiPutBucketRequestPaymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketRequestPaymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketRequestPaymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for Payer. Payer -&gt; (string) [required] Specifies who pays for the download and request fees. Possible values: o Requester o BucketOwner Shorthand Syntax: Payer=string JSON Syntax: { "Payer": "Requester"|"BucketOwner" }
+    /// </summary>
+    [CliOption("--request-payment-configuration")]
+    public string? RequestPaymentConfiguration { get; private init; }
 
     /// <summary>
     /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -37,9 +84,6 @@ public record AwsS3apiPutBucketRequestPaymentOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketRequestPaymentChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--request-payment-configuration")]
-    public string? RequestPaymentConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiPutBucketRequestPaymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

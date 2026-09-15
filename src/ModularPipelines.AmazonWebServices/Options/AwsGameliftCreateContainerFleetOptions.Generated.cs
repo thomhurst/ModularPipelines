@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-container-fleet")]
-public record AwsGameliftCreateContainerFleetOptions : AwsOptions
+public record AwsGameliftCreateContainerFleetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: Container Creates a managed fleet of Amazon Elastic Compute Cloud (Amazon EC2) instances to host your containerized game servers. Use this operation to define how to deploy a container architecture onto each fleet in- stance and configure fleet settings. You can create a container fleet in any Amazon Web Services Regions that Amazon GameLift Servers sup- ports for multi-location fleets. A container fleet can be deployed to a single location or multi...
+    /// </summary>
+    /// <param name="FleetRoleArn">The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift Servers. Use an IAM service role with the GameLiftContainerFleetPolicy managed policy attached. For more in- formation, see Set up an IAM service role . You can't change this fleet property after the fleet is created. IAM role ARN values use the following pattern: arn:aws:iam::[Amazon Web Services account]:role/[role name] . Constraints: o min: 1 o max: 256 o pattern: ^arn:.*:role\/[\w+=,.@-]+</param>
+    public AwsGameliftCreateContainerFleetOptions(
+        string FleetRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetRoleArn);
+        this.FleetRoleArn = FleetRoleArn;
+    }
+
+    private AwsGameliftCreateContainerFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateContainerFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateContainerFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift Servers. Use an IAM service role with the GameLiftContainerFleetPolicy managed policy attached. For more in- formation, see Set up an IAM service role . You can't change this fleet property after the fleet is created. IAM role ARN values use the following pattern: arn:aws:iam::[Amazon Web Services account]:role/[role name] . Constraints: o min: 1 o max: 256 o pattern: ^arn:.*:role\/[\w+=,.@-]+
+    /// </summary>
     [CliOption("--fleet-role-arn")]
-    public string? FleetRoleArn { get; set; }
+    public string? FleetRoleArn { get; private init; }
 
     /// <summary>
     /// A meaningful description of the container fleet. Constraints: o min: 1 o max: 1024
@@ -120,5 +157,21 @@ public record AwsGameliftCreateContainerFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "list-insights-data")]
-public record AwsCloudtrailListInsightsDataOptions : AwsOptions
+public record AwsCloudtrailListInsightsDataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--insight-source")]
-    public string? InsightSource { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events: o Event ID o Event name o Event source All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two...
+    /// </summary>
+    /// <param name="InsightSource">The Amazon Resource Name(ARN) of the trail for which you want to re- trieve Insights events. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="DataType">Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents</param>
+    public AwsCloudtrailListInsightsDataOptions(
+        string InsightSource,
+        AwsCloudtrailListInsightsDataDataType DataType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InsightSource);
+        this.InsightSource = InsightSource;
+        global::System.ArgumentNullException.ThrowIfNull(DataType);
+        this.DataType = DataType;
+    }
+
+    private AwsCloudtrailListInsightsDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailListInsightsDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailListInsightsDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name(ARN) of the trail for which you want to re- trieve Insights events. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
+    [CliOption("--insight-source")]
+    public string? InsightSource { get; private init; }
+
+    /// <summary>
+    /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType Possible values: o InsightsEvents
+    /// </summary>
     [CliOption("--data-type")]
-    public string? DataType { get; set; }
+    public AwsCloudtrailListInsightsDataDataType? DataType { get; private init; }
 
     /// <summary>
     /// Contains a map of dimensions. Currently the map can contain only one item. Constraints: o min: 1 o max: 1 key -&gt; (string) Possible values: o EventId o EventName o EventSource value -&gt; (string) Constraints: o min: 1 o max: 2000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: EventId EventName EventSource JSON Syntax: {"EventId"|"EventName"|"EventSource": "string" ...}
@@ -71,5 +116,21 @@ public record AwsCloudtrailListInsightsDataOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

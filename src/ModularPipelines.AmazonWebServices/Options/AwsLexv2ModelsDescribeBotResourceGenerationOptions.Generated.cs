@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "describe-bot-resource-generation")]
-public record AwsLexv2ModelsDescribeBotResourceGenerationOptions : AwsOptions
+public record AwsLexv2ModelsDescribeBotResourceGenerationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configu- ration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot for which to return the generation details. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot for which to return the generation details. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The locale of the bot for which to return the generation details.</param>
+    /// <param name="GenerationId">The unique identifier of the generation request for which to return the generation details. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    public AwsLexv2ModelsDescribeBotResourceGenerationOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        string GenerationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        global::System.ArgumentNullException.ThrowIfNull(GenerationId);
+        this.GenerationId = GenerationId;
+    }
+
+    private AwsLexv2ModelsDescribeBotResourceGenerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsDescribeBotResourceGenerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsDescribeBotResourceGenerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot for which to return the generation details. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot for which to return the generation details. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The locale of the bot for which to return the generation details.
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the generation request for which to return the generation details. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--generation-id")]
-    public string? GenerationId { get; set; }
+    public string? GenerationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

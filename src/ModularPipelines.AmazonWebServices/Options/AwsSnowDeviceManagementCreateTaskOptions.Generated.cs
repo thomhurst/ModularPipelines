@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snow-device-management", "create-task")]
-public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions
+public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Instructs one or more devices to start a task, such as unlocking or re- booting. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Command">The task to be performed. Only one task is executed on a device at a time. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: reboot, unlock. reboot -&gt; (structure) Reboots the device. unlock -&gt; (structure) Unlocks the device. Shorthand Syntax: reboot={},unlock={} JSON Syntax: { "reboot": { }, "unlock": { } }</param>
+    /// <param name="Targets">A list of managed device IDs. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...</param>
+    public AwsSnowDeviceManagementCreateTaskOptions(
+        string Command,
+        IEnumerable<string> Targets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+    }
+
+    private AwsSnowDeviceManagementCreateTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowDeviceManagementCreateTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowDeviceManagementCreateTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The task to be performed. Only one task is executed on a device at a time. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: reboot, unlock. reboot -&gt; (structure) Reboots the device. unlock -&gt; (structure) Unlocks the device. Shorthand Syntax: reboot={},unlock={} JSON Syntax: { "reboot": { }, "unlock": { } }
+    /// </summary>
+    [CliOption("--command")]
+    public string? Command { get; private init; }
+
+    /// <summary>
+    /// A list of managed device IDs. Constraints: o min: 1 o max: 10 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; private init; }
+
     /// <summary>
     /// A token ensuring that the action is called only once with the speci- fied details. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--command")]
-    public string? Command { get; set; }
 
     /// <summary>
     /// A description of the task and its targets. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9 _.,!#]*
@@ -45,13 +103,26 @@ public record AwsSnowDeviceManagementCreateTaskOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

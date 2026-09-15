@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --jobtype.
+/// Allowed values for --job-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerCreateImageVersionJobType
 {
-    [EnumValue("TRAINING")]
-    Training = 1,
-
     [EnumValue("INFERENCE")]
-    Inference = 2,
+    Inference,
 
     [EnumValue("NOTEBOOK_KERNEL")]
-    NotebookKernel = 3
+    NotebookKernel,
+
+    [EnumValue("TRAINING")]
+    Training
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "update-workload")]
-public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions
+public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update an existing workload. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    public AwsWellarchitectedUpdateWorkloadOptions(
+        string WorkloadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+    }
+
+    private AwsWellarchitectedUpdateWorkloadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedUpdateWorkloadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedUpdateWorkloadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--workload-id")]
-    public string? WorkloadId { get; set; }
+    public string? WorkloadId { get; private init; }
 
     /// <summary>
     /// The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100
@@ -79,7 +116,10 @@ public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions
     [CliOption("--review-owner")]
     public string? ReviewOwner { get; set; }
 
-    [CliFlag("--is-review-owner-update-acknowledged")]
+    /// <summary>
+    /// knowledged (boolean) Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of ac- knowledgement, access to the workload is restricted until an owner is added.
+    /// </summary>
+    [CliFlag("--is-review-owner-update-acknowledged", NegatedName = "--no-is-review-owner-update-acknowledged")]
     public bool? IsReviewOwnerUpdateAcknowledged { get; set; }
 
     /// <summary>
@@ -129,5 +169,21 @@ public record AwsWellarchitectedUpdateWorkloadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

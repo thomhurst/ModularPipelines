@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "create-whatsapp-flow")]
-public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions
+public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leav- ing WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immedi- ately. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the WhatsApp Business Account to associate with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="FlowName">The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: o min: 1 o max: 200</param>
+    /// <param name="Categories">The categories that classify the business purpose of the Flow. At least one category is required. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...</param>
+    public AwsSocialmessagingCreateWhatsappFlowOptions(
+        string Id,
+        string FlowName,
+        IEnumerable<string> Categories
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(FlowName);
+        this.FlowName = FlowName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Categories);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Categories));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Categories));
+            }
+
+            Categories = materialized;
+        }
+        this.Categories = Categories;
+    }
+
+    private AwsSocialmessagingCreateWhatsappFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingCreateWhatsappFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingCreateWhatsappFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the WhatsApp Business Account to associate with this Flow. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The name of the Flow. Must be unique within the WhatsApp Business Account. Constraints: o min: 1 o max: 200
+    /// </summary>
     [CliOption("--flow-name")]
-    public string? FlowName { get; set; }
+    public string? FlowName { get; private init; }
 
+    /// <summary>
+    /// The categories that classify the business purpose of the Flow. At least one category is required. Constraints: o min: 1 o max: 9 (string) The category that classifies the business purpose of a WhatsApp Flow. Possible values: o SIGN_UP o SIGN_IN o APPOINTMENT_BOOKING o LEAD_GENERATION o SHOPPING o CONTACT_US o CUSTOMER_SUPPORT o SURVEY o OTHER Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--categories", GroupValues = true)]
-    public IEnumerable<string>? Categories { get; set; }
+    public IEnumerable<string>? Categories { get; private init; }
 
     /// <summary>
     /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB. Constraints: o min: 1 o max: 10485760
@@ -36,7 +98,10 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions
     [CliOption("--flow-json")]
     public string? FlowJson { get; set; }
 
-    [CliFlag("--publish")]
+    /// <summary>
+    /// Set to true to publish the Flow immediately after creation. Requires a valid flowJson that passes Meta's validation.
+    /// </summary>
+    [CliFlag("--publish", NegatedName = "--no-publish")]
     public bool? Publish { get; set; }
 
     /// <summary>
@@ -45,10 +110,32 @@ public record AwsSocialmessagingCreateWhatsappFlowOptions : AwsOptions
     [CliOption("--clone-flow-id")]
     public string? CloneFlowId { get; set; }
 
+    /// <summary>
+    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow has no endpoint (static Flow). Meta only calls the endpoint when the Flow JSON also declares data_api_version. To verify that requests originate from Meta, attach your own Meta app via Update- WhatsAppFlow. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--endpoint-uri")]
+    public string? EndpointUri { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

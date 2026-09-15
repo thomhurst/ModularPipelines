@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supplychain", "create-data-lake-dataset")]
-public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions
+public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Namespace">The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
+    /// <param name="Name">The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+</param>
+    public AwsSupplychainCreateDataLakeDataSetOptions(
+        string InstanceId,
+        string Namespace,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSupplychainCreateDataLakeDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupplychainCreateDataLakeDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupplychainCreateDataLakeDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The custom schema of the data lake dataset and required for dataset in default and custom namespaces. name -&gt; (string) [required] The name of the dataset schema. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+ fields -&gt; (list) [required] The list of field details of the dataset schema. Constraints: o min: 1 o max: 500 (structure) The dataset field details. name -&gt; (string) [required] The dataset field name. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ type -&gt; (string) [required] The dataset field type. Possible values: o INT o DOUBLE o STRING o TIMESTAMP o LONG isRequired -&gt; (boolean) [required] Indicate if the field is required or not. primaryKeys -&gt; (list) The list of primary key fields for the dataset. Primary keys de- fined can help data ingestion methods to ensure data uniqueness: CreateDataIntegrationFlow's dedupe strategy will leverage pri- mary keys to perform records deduplication before write to dataset; SendDataIntegrationEvent's UPSERT and DELETE can only work with dataset with primary keys. For more details, refer to those data ingestion documentations. Note that defining primary keys does not necessarily mean the dataset cannot have duplicate records, duplicate records can still be ingested if CreateDataIntegrationFlow's dedupe disabled or through SendDataIntegrationEvent's APPEND operation. Constraints: o min: 1 o max: 20 (structure) The detail of the primary key field. name -&gt; (string) [required] The name of the primary key field. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ Shorthand Syntax: name=string,fields=[{name=string,type=string,isRequired=boolean},{name=string,type=string,isRequired=boolean}],primaryKeys=[{name=string},{name=string}] JSON Syntax: { "name": "string", "fields": [ { "name": "string", "type": "INT"|"DOUBLE"|"STRING"|"TIMESTAMP"|"LONG", "isRequired": true|false } ... ], "primaryKeys": [ { "name": "string" } ... ] }
@@ -60,5 +111,21 @@ public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

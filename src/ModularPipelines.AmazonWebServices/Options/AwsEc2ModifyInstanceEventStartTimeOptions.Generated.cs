@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-event-start-time")]
-public record AwsEc2ModifyInstanceEventStartTimeOptions : AwsOptions
+public record AwsEc2ModifyInstanceEventStartTimeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the start time for a scheduled Amazon EC2 instance event. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance with the scheduled event.</param>
+    /// <param name="InstanceEventId">The ID of the event whose date and time you are modifying.</param>
+    /// <param name="NotBefore">The new date and time when the event will take place.</param>
+    public AwsEc2ModifyInstanceEventStartTimeOptions(
+        string InstanceId,
+        string InstanceEventId,
+        string NotBefore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceEventId);
+        this.InstanceEventId = InstanceEventId;
+        global::System.ArgumentNullException.ThrowIfNull(NotBefore);
+        this.NotBefore = NotBefore;
+    }
+
+    private AwsEc2ModifyInstanceEventStartTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceEventStartTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceEventStartTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance with the scheduled event.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The ID of the event whose date and time you are modifying.
+    /// </summary>
     [CliOption("--instance-event-id")]
-    public string? InstanceEventId { get; set; }
+    public string? InstanceEventId { get; private init; }
 
+    /// <summary>
+    /// The new date and time when the event will take place.
+    /// </summary>
     [CliOption("--not-before")]
-    public string? NotBefore { get; set; }
+    public string? NotBefore { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

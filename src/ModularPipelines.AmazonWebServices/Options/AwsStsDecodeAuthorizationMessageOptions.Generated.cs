@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "decode-authorization-message")]
-public record AwsStsDecodeAuthorizationMessageOptions : AwsOptions
+public record AwsStsDecodeAuthorizationMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Decodes additional information about the authorization status of a re- quest from an encoded message returned in response to an Amazon Web Services request. For example, if a user is not authorized to perform an operation that he or she has requested, the request returns a Client.UnauthorizedOper- ation response (an HTTP 403 response). Some Amazon Web Services opera- tions additionally return an encoded message that can provide details about this authorization failure. NOTE: Only certain Amazon ...
+    /// </summary>
+    /// <param name="EncodedMessage">The encoded message that was returned with the response. Constraints: o min: 1 o max: 10240</param>
+    public AwsStsDecodeAuthorizationMessageOptions(
+        string EncodedMessage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EncodedMessage);
+        this.EncodedMessage = EncodedMessage;
+    }
+
+    private AwsStsDecodeAuthorizationMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsDecodeAuthorizationMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsDecodeAuthorizationMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The encoded message that was returned with the response. Constraints: o min: 1 o max: 10240
+    /// </summary>
     [CliOption("--encoded-message")]
-    public string? EncodedMessage { get; set; }
+    public string? EncodedMessage { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

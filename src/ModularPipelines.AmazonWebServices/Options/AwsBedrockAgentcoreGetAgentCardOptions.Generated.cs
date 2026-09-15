@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-agent-card")]
-public record AwsBedrockAgentcoreGetAgentCardOptions : AwsOptions
+public record AwsBedrockAgentcoreGetAgentCardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentRuntimeArn">The ARN of the AgentCore Runtime agent for which you want to get the A2A agent card.</param>
+    public AwsBedrockAgentcoreGetAgentCardOptions(
+        string AgentRuntimeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentRuntimeArn);
+        this.AgentRuntimeArn = AgentRuntimeArn;
+    }
+
+    private AwsBedrockAgentcoreGetAgentCardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetAgentCardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetAgentCardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AgentCore Runtime agent for which you want to get the A2A agent card.
+    /// </summary>
+    [CliOption("--agent-runtime-arn")]
+    public string? AgentRuntimeArn { get; private init; }
+
     /// <summary>
     /// The session ID that the AgentCore Runtime agent is using. Constraints: o min: 33 o max: 256
     /// </summary>
     [CliOption("--runtime-session-id")]
     public string? RuntimeSessionId { get; set; }
-
-    [CliOption("--agent-runtime-arn")]
-    public string? AgentRuntimeArn { get; set; }
 
     /// <summary>
     /// Optional qualifier to specify an agent alias, such as prod code&gt; or dev . If you don't provide a value, the DEFAULT alias is used.
@@ -41,5 +78,21 @@ public record AwsBedrockAgentcoreGetAgentCardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

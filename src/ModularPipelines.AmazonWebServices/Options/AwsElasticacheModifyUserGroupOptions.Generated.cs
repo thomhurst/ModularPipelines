@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-user-group")]
-public record AwsElasticacheModifyUserGroupOptions : AwsOptions
+public record AwsElasticacheModifyUserGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the list of users that belong to the user group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserGroupId">The ID of the user group.</param>
+    public AwsElasticacheModifyUserGroupOptions(
+        string UserGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserGroupId);
+        this.UserGroupId = UserGroupId;
+    }
+
+    private AwsElasticacheModifyUserGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyUserGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyUserGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user group.
+    /// </summary>
     [CliOption("--user-group-id")]
-    public string? UserGroupId { get; set; }
+    public string? UserGroupId { get; private init; }
 
     /// <summary>
     /// The list of user IDs to add to the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
@@ -47,5 +84,21 @@ public record AwsElasticacheModifyUserGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

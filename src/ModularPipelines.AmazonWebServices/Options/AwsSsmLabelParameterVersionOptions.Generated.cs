@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "label-parameter-version")]
-public record AwsSsmLabelParameterVersionOptions : AwsOptions
+public record AwsSsmLabelParameterVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Ser- vices Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions. o A version of a parameter can have a maximum of 10 labels. o You can't attach the same label to differ...
+    /// </summary>
+    /// <param name="Name">The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Labels">One or more labels to attach to the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...</param>
+    public AwsSsmLabelParameterVersionOptions(
+        string Name,
+        IEnumerable<string> Labels
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+    }
+
+    private AwsSsmLabelParameterVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmLabelParameterVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmLabelParameterVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The parameter name on which you want to attach one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// One or more labels to attach to the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; private init; }
 
     /// <summary>
     /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.
@@ -30,13 +88,26 @@ public record AwsSsmLabelParameterVersionOptions : AwsOptions
     [CliOption("--parameter-version")]
     public int? ParameterVersion { get; set; }
 
-    [CliOption("--labels", GroupValues = true)]
-    public IEnumerable<string>? Labels { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

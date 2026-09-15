@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-tags-for-resources")]
-public record AwsRoute53ListTagsForResourcesOptions : AwsOptions
+public record AwsRoute53ListTagsForResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">The type of the resources. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone</param>
+    /// <param name="ResourceIds">A complex type that contains the ResourceId element for each re- source for which you want to get a list of tags. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 64 Syntax: "string" "string" ...</param>
+    public AwsRoute53ListTagsForResourcesOptions(
+        AwsRoute53ListTagsForResourcesResourceType ResourceType,
+        IEnumerable<string> ResourceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceIds));
+            }
+
+            ResourceIds = materialized;
+        }
+        this.ResourceIds = ResourceIds;
+    }
+
+    private AwsRoute53ListTagsForResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListTagsForResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListTagsForResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the resources. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsRoute53ListTagsForResourcesResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// A complex type that contains the ResourceId element for each re- source for which you want to get a list of tags. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 64 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-ids", GroupValues = true)]
-    public IEnumerable<string>? ResourceIds { get; set; }
+    public IEnumerable<string>? ResourceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

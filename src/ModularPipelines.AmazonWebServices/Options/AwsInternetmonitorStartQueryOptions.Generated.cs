@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("internetmonitor", "start-query")]
-public record AwsInternetmonitorStartQueryOptions : AwsOptions
+public record AwsInternetmonitorStartQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period for the data that you want returned by using StartTime and EndTime . You filter the query results to return by providing parameters that you specify with FilterParameters . For more information about using the query interface, including exam- ples, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Gu...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor to query. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="StartTime">The timestamp that is the beginning of the period that you want to retrieve data for with your query.</param>
+    /// <param name="EndTime">The timestamp that is the end of the period that you want to re- trieve data for with your query.</param>
+    /// <param name="QueryType">The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface: o MEASUREMENTS : Provides availability score, performance score, to- tal traffic, and round-trip times, at 5 minute intervals. o TOP_LOCATIONS : Provides availability score, performance score, total traffic, and time to first byte (TTFB) information, for the top location and ASN combinations that you're monitoring, by traf- fic volume. o TOP_LOCATION_DETAILS : Provides TTFB for Amazon CloudFront, your current configuration, and the best performing EC2 configuration, at 1 hour intervals. o OVERALL_TRAFFIC_SUGGESTIONS : Provides TTFB, using a 30-day weighted average, for all traffic in each Amazon Web Services lo- cation that is monitored. o OVERALL_TRAFFIC_SUGGESTIONS_DETAILS : Provides TTFB, using a 30-day weighted average, for each top location, for a proposed Amazon Web Services location. Must provide an Amazon Web Services location to search. o ROUTING_SUGGESTIONS : Provides the predicted average round-trip time (RTT) from an IP prefix toward an Amazon Web Services loca- tion for a DNS resolver. The RTT is calculated at one hour inter- vals, over a one hour period. For lists of the fields returned with each query type and more in- formation about how each type of query is performed, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. Possible values: o MEASUREMENTS o TOP_LOCATIONS o TOP_LOCATION_DETAILS o OVERALL_TRAFFIC_SUGGESTIONS o OVERALL_TRAFFIC_SUGGESTIONS_DETAILS o ROUTING_SUGGESTIONS</param>
+    public AwsInternetmonitorStartQueryOptions(
+        string MonitorName,
+        string StartTime,
+        string EndTime,
+        AwsInternetmonitorStartQueryQueryType QueryType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(QueryType);
+        this.QueryType = QueryType;
+    }
+
+    private AwsInternetmonitorStartQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInternetmonitorStartQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInternetmonitorStartQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor to query. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    public string? MonitorName { get; private init; }
 
+    /// <summary>
+    /// The timestamp that is the beginning of the period that you want to retrieve data for with your query.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The timestamp that is the end of the period that you want to re- trieve data for with your query.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface: o MEASUREMENTS : Provides availability score, performance score, to- tal traffic, and round-trip times, at 5 minute intervals. o TOP_LOCATIONS : Provides availability score, performance score, total traffic, and time to first byte (TTFB) information, for the top location and ASN combinations that you're monitoring, by traf- fic volume. o TOP_LOCATION_DETAILS : Provides TTFB for Amazon CloudFront, your current configuration, and the best performing EC2 configuration, at 1 hour intervals. o OVERALL_TRAFFIC_SUGGESTIONS : Provides TTFB, using a 30-day weighted average, for all traffic in each Amazon Web Services lo- cation that is monitored. o OVERALL_TRAFFIC_SUGGESTIONS_DETAILS : Provides TTFB, using a 30-day weighted average, for each top location, for a proposed Amazon Web Services location. Must provide an Amazon Web Services location to search. o ROUTING_SUGGESTIONS : Provides the predicted average round-trip time (RTT) from an IP prefix toward an Amazon Web Services loca- tion for a DNS resolver. The RTT is calculated at one hour inter- vals, over a one hour period. For lists of the fields returned with each query type and more in- formation about how each type of query is performed, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. Possible values: o MEASUREMENTS o TOP_LOCATIONS o TOP_LOCATION_DETAILS o OVERALL_TRAFFIC_SUGGESTIONS o OVERALL_TRAFFIC_SUGGESTIONS_DETAILS o ROUTING_SUGGESTIONS
+    /// </summary>
     [CliOption("--query-type")]
-    public string? QueryType { get; set; }
+    public AwsInternetmonitorStartQueryQueryType? QueryType { get; private init; }
 
     /// <summary>
     /// The FilterParameters field that you use with Amazon CloudWatch In- ternet Monitor queries is a string the defines how you want a query to be filtered. The filter parameters that you can specify depend on the query type, since each query type returns a different set of In- ternet Monitor data. For more information about specifying filter parameters, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. (structure) A filter that you use with the results of a Amazon CloudWatch Internet Monitor query that you created and ran. The query sets up a repository of data that is a subset of your application's Internet Monitor data. FilterParameter is a string that defines how you want to filter the repository of data to return a set of results, based on your criteria. The filter parameters that you can specify depend on the query type that you used to create the repository, since each query type returns a different set of Internet Monitor data. For each filter, you specify a field (such as city ), an opera- tor (such as not_equals , and a value or array of values (such as ["Seattle", "Redmond"] ). Separate values in the array with commas. For more information about specifying filter parameters, see Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide. Field -&gt; (string) A data field that you want to filter, to further scope your application's Internet Monitor data in a repository that you created by running a query. A field might be city , for exam- ple. The field must be one of the fields that was returned by the specific query that you used to create the repository. Operator -&gt; (string) The operator to use with the filter field and a value, such as not_equals . Possible values: o EQUALS o NOT_EQUALS Values -&gt; (list) One or more values to be used, together with the specified operator, to filter data for a query. For example, you could specify an array of values such as ["Seattle", "Redmond"] . Values in the array are separated by commas. (string) Shorthand Syntax: Field=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Field": "string", "Operator": "EQUALS"|"NOT_EQUALS", "Values": ["string", ...] } ... ]
@@ -50,5 +109,21 @@ public record AwsInternetmonitorStartQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

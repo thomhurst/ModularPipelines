@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-connect-attachment")]
-public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions
+public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an ap- pliance. A core network Connect attachment uses an existing VPC attach- ment as the underlying transport mechanism. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of a core network where you want to create the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="EdgeLocation">The Region where the edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*</param>
+    /// <param name="TransportAttachmentId">The ID of the attachment between the two connections. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="Options">Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: o GRE o NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }</param>
+    public AwsNetworkmanagerCreateConnectAttachmentOptions(
+        string CoreNetworkId,
+        string EdgeLocation,
+        string TransportAttachmentId,
+        string Options
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(EdgeLocation);
+        this.EdgeLocation = EdgeLocation;
+        global::System.ArgumentNullException.ThrowIfNull(TransportAttachmentId);
+        this.TransportAttachmentId = TransportAttachmentId;
+        global::System.ArgumentNullException.ThrowIfNull(Options);
+        this.Options = Options;
+    }
+
+    private AwsNetworkmanagerCreateConnectAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateConnectAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateConnectAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a core network where you want to create the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    public string? CoreNetworkId { get; private init; }
 
+    /// <summary>
+    /// The Region where the edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--edge-location")]
-    public string? EdgeLocation { get; set; }
+    public string? EdgeLocation { get; private init; }
 
+    /// <summary>
+    /// The ID of the attachment between the two connections. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--transport-attachment-id")]
-    public string? TransportAttachmentId { get; set; }
+    public string? TransportAttachmentId { get; private init; }
+
+    /// <summary>
+    /// Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: o GRE o NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }
+    /// </summary>
+    [CliOption("--options")]
+    public string? Options { get; private init; }
 
     /// <summary>
     /// The routing policy label to apply to the Connect attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
-
-    [CliOption("--options")]
-    public string? Options { get; set; }
 
     /// <summary>
     /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -58,5 +116,21 @@ public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

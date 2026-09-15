@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-documentation-version")]
-public record AwsApigatewayCreateDocumentationVersionOptions : AwsOptions
+public record AwsApigatewayCreateDocumentationVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a documentation version See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="DocumentationVersion">The version identifier of the new snapshot.</param>
+    public AwsApigatewayCreateDocumentationVersionOptions(
+        string RestApiId,
+        string DocumentationVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentationVersion);
+        this.DocumentationVersion = DocumentationVersion;
+    }
+
+    private AwsApigatewayCreateDocumentationVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateDocumentationVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateDocumentationVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
+    [CliOption("--rest-api-id")]
+    public string? RestApiId { get; private init; }
+
+    /// <summary>
+    /// The version identifier of the new snapshot.
+    /// </summary>
     [CliOption("--documentation-version")]
-    public string? DocumentationVersion { get; set; }
+    public string? DocumentationVersion { get; private init; }
 
     /// <summary>
     /// The stage name to be associated with the new documentation snapshot.
@@ -44,5 +88,21 @@ public record AwsApigatewayCreateDocumentationVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "list-data-integration-associations")]
-public record AwsAppintegrationsListDataIntegrationAssociationsOptions : AwsOptions
+public record AwsAppintegrationsListDataIntegrationAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of DataIntegration associations in the ac- count. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation list-data-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginatio...
+    /// </summary>
+    /// <param name="DataIntegrationIdentifier">A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    public AwsAppintegrationsListDataIntegrationAssociationsOptions(
+        string DataIntegrationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataIntegrationIdentifier);
+        this.DataIntegrationIdentifier = DataIntegrationIdentifier;
+    }
+
+    private AwsAppintegrationsListDataIntegrationAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsListDataIntegrationAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsListDataIntegrationAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--data-integration-identifier")]
-    public string? DataIntegrationIdentifier { get; set; }
+    public string? DataIntegrationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsAppintegrationsListDataIntegrationAssociationsOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

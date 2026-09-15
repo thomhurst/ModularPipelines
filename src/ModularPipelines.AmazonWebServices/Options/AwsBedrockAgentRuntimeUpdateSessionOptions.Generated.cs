@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "update-session")]
-public record AwsBedrockAgentRuntimeUpdateSessionOptions : AwsOptions
+public record AwsBedrockAgentRuntimeUpdateSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the metadata or encryption settings of a session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionIdentifier">The unique identifier of the session to modify. You can specify ei- ther the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    public AwsBedrockAgentRuntimeUpdateSessionOptions(
+        string SessionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionIdentifier);
+        this.SessionIdentifier = SessionIdentifier;
+    }
+
+    private AwsBedrockAgentRuntimeUpdateSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeUpdateSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeUpdateSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the session to modify. You can specify ei- ther the session's sessionId or its Amazon Resource Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// </summary>
     [CliOption("--session-identifier")]
-    public string? SessionIdentifier { get; set; }
+    public string? SessionIdentifier { get; private init; }
 
     /// <summary>
     /// A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language pref- erence, and the type of device they are using. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 0 o max: 5000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -36,5 +73,21 @@ public record AwsBedrockAgentRuntimeUpdateSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

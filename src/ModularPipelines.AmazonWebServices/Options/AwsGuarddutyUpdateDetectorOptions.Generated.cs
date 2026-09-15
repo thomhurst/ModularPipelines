@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "update-detector")]
-public record AwsGuarddutyUpdateDetectorOptions : AwsOptions
+public record AwsGuarddutyUpdateDetectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--enable")]
+    /// <summary>
+    /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING ) and Runtime Monitoring (RUNTIME_MONITORING ) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more infor- mation, see Runtime Monitoring . There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions w...
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    public AwsGuarddutyUpdateDetectorOptions(
+        string DetectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+    }
+
+    private AwsGuarddutyUpdateDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyUpdateDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyUpdateDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the detector is enabled or not enabled.
+    /// </summary>
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
 
     /// <summary>
@@ -51,5 +91,21 @@ public record AwsGuarddutyUpdateDetectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "create-resource-share")]
-public record AwsRamCreateResourceShareOptions : AwsOptions
+public record AwsRamCreateResourceShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of prin- cipals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. NOTE: Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Shar- ing doesn't change any permissions or quot...
+    /// </summary>
+    /// <param name="Name">Specifies the name of the resource share.</param>
+    public AwsRamCreateResourceShareOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRamCreateResourceShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamCreateResourceShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamCreateResourceShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the resource share.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// Specifies a list of one or more ARNs of the resources to associate with the resource share. (string) Syntax: "string" "string" ...
@@ -43,7 +80,10 @@ public record AwsRamCreateResourceShareOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--allow-external-principals")]
+    /// <summary>
+    /// Specifies whether principals outside your organization in Organiza- tions can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your ac- count is a member of an Amazon Web Services Organization. The de- fault value is true .
+    /// </summary>
+    [CliFlag("--allow-external-principals", NegatedName = "--no-allow-external-principals")]
     public bool? AllowExternalPrincipals { get; set; }
 
     /// <summary>
@@ -76,5 +116,21 @@ public record AwsRamCreateResourceShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

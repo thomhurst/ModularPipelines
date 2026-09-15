@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "create-export-image-task")]
-public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions
+public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageName">The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="AmiName">The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: o pattern: ^[a-zA-Z0-9().\-/_]{3,128}$</param>
+    /// <param name="IamRoleArn">The ARN of the IAM role that allows WorkSpaces Applications to cre- ate the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing app- stream.amazonaws.com to assume the role. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
+    public AwsAppstreamCreateExportImageTaskOptions(
+        string ImageName,
+        string AmiName,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+        global::System.ArgumentNullException.ThrowIfNull(AmiName);
+        this.AmiName = AmiName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsAppstreamCreateExportImageTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamCreateExportImageTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamCreateExportImageTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--image-name")]
-    public string? ImageName { get; set; }
+    public string? ImageName { get; private init; }
 
+    /// <summary>
+    /// The name for the exported EC2 AMI. This is a required field that must be unique within your account and region. Constraints: o pattern: ^[a-zA-Z0-9().\-/_]{3,128}$
+    /// </summary>
     [CliOption("--ami-name")]
-    public string? AmiName { get; set; }
+    public string? AmiName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role that allows WorkSpaces Applications to cre- ate the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing app- stream.amazonaws.com to assume the role. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +99,21 @@ public record AwsAppstreamCreateExportImageTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

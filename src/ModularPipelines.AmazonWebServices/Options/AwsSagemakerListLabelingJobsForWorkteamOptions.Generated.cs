@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-labeling-jobs-for-workteam")]
-public record AwsSagemakerListLabelingJobsForWorkteamOptions : AwsOptions
+public record AwsSagemakerListLabelingJobsForWorkteamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of labeling jobs assigned to a specified work team. See also: AWS API Documentation list-labeling-jobs-for-workteam is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LabelingJobSummaryLis...
+    /// </summary>
+    /// <param name="WorkteamArn">The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:work- team/.*</param>
+    public AwsSagemakerListLabelingJobsForWorkteamOptions(
+        string WorkteamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkteamArn);
+        this.WorkteamArn = WorkteamArn;
+    }
+
+    private AwsSagemakerListLabelingJobsForWorkteamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListLabelingJobsForWorkteamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListLabelingJobsForWorkteamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:work- team/.*
+    /// </summary>
     [CliOption("--workteam-arn")]
-    public string? WorkteamArn { get; set; }
+    public string? WorkteamArn { get; private init; }
 
     /// <summary>
     /// A filter that returns only labeling jobs created after the specified time (timestamp).
@@ -80,5 +117,21 @@ public record AwsSagemakerListLabelingJobsForWorkteamOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

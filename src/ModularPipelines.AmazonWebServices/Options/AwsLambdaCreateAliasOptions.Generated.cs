@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "create-alias")]
-public record AwsLambdaCreateAliasOptions : AwsOptions
+public record AwsLambdaCreateAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a dif- ferent version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="Name">The name of the alias. Constraints: o min: 1 o max: 128 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)</param>
+    /// <param name="FunctionVersion">The function version that the alias invokes. Constraints: o min: 1 o max: 1024 o pattern: (\$LATEST(\.PUBLISHED)?|[0-9]+)</param>
+    public AwsLambdaCreateAliasOptions(
+        string FunctionName,
+        string Name,
+        string FunctionVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(FunctionVersion);
+        this.FunctionVersion = FunctionVersion;
+    }
+
+    private AwsLambdaCreateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCreateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCreateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionName { get; set; }
+    public string? FunctionName { get; private init; }
 
+    /// <summary>
+    /// The name of the alias. Constraints: o min: 1 o max: 128 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The function version that the alias invokes. Constraints: o min: 1 o max: 1024 o pattern: (\$LATEST(\.PUBLISHED)?|[0-9]+)
+    /// </summary>
     [CliOption("--function-version")]
-    public string? FunctionVersion { get; set; }
+    public string? FunctionVersion { get; private init; }
 
     /// <summary>
     /// A description of the alias. Constraints: o min: 0 o max: 256
@@ -47,5 +98,21 @@ public record AwsLambdaCreateAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

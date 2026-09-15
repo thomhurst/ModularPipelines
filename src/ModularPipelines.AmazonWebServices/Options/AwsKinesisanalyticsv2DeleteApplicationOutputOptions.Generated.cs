@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "delete-application-output")]
-public record AwsKinesisanalyticsv2DeleteApplicationOutputOptions : AwsOptions
+public record AwsKinesisanalyticsv2DeleteApplicationOutputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the output destination configuration from your SQL-based Kine- sis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The application version. You can use the DescribeApplication opera- tion to get the current application version. If the version speci- fied is not the current version, the ConcurrentModificationException is returned. Constraints: o min: 1 o max: 999999999</param>
+    /// <param name="OutputId">The ID of the configuration to delete. Each output configuration that is added to the application (either when the application is created or later) using the AddApplicationOutput operation has a unique ID. You need to provide the ID to uniquely identify the out- put configuration that you want to delete from the application con- figuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisanalyticsv2DeleteApplicationOutputOptions(
+        string ApplicationName,
+        int CurrentApplicationVersionId,
+        string OutputId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        this.CurrentApplicationVersionId = CurrentApplicationVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(OutputId);
+        this.OutputId = OutputId;
+    }
+
+    private AwsKinesisanalyticsv2DeleteApplicationOutputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2DeleteApplicationOutputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2DeleteApplicationOutputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
+    /// <summary>
+    /// The application version. You can use the DescribeApplication opera- tion to get the current application version. If the version speci- fied is not the current version, the ConcurrentModificationException is returned. Constraints: o min: 1 o max: 999999999
+    /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; set; }
+    public int? CurrentApplicationVersionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the configuration to delete. Each output configuration that is added to the application (either when the application is created or later) using the AddApplicationOutput operation has a unique ID. You need to provide the ID to uniquely identify the out- put configuration that you want to delete from the application con- figuration. You can use the DescribeApplication operation to get the specific OutputId . Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--output-id")]
-    public string? OutputId { get; set; }
+    public string? OutputId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "create-assessment-framework")]
-public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions
+public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom framework in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the new custom framework. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$</param>
+    /// <param name="ControlSets">The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use Get- Control . Constraints: o min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: o min: 1 o max: 300 o pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: o min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Man- ager. id -&gt; (string) [required] The unique identifier of the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]</param>
+    public AwsAuditManagerCreateAssessmentFrameworkOptions(
+        string Name,
+        IEnumerable<string> ControlSets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ControlSets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ControlSets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ControlSets));
+            }
+
+            ControlSets = materialized;
+        }
+        this.ControlSets = ControlSets;
+    }
+
+    private AwsAuditManagerCreateAssessmentFrameworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerCreateAssessmentFrameworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerCreateAssessmentFrameworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new custom framework. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The control sets that are associated with the framework. NOTE: The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use Get- Control . Constraints: o min: 1 (structure) A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID. name -&gt; (string) [required] The name of the control set. Constraints: o min: 1 o max: 300 o pattern: ^[^\\\_]*$ controls -&gt; (list) The list of controls within the control set. This doesn't contain the control set ID. Constraints: o min: 1 (structure) The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Man- ager. id -&gt; (string) [required] The unique identifier of the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Shorthand Syntax: name=string,controls=[{id=string},{id=string}] ... JSON Syntax: [ { "name": "string", "controls": [ { "id": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--control-sets", GroupValues = true)]
+    public IEnumerable<string>? ControlSets { get; private init; }
 
     /// <summary>
     /// An optional description for the new custom framework. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$
@@ -37,9 +95,6 @@ public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions
     [CliOption("--compliance-type")]
     public string? ComplianceType { get; set; }
 
-    [CliOption("--control-sets", GroupValues = true)]
-    public IEnumerable<string>? ControlSets { get; set; }
-
     /// <summary>
     /// The tags that are associated with the framework. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -51,5 +106,21 @@ public record AwsAuditManagerCreateAssessmentFrameworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

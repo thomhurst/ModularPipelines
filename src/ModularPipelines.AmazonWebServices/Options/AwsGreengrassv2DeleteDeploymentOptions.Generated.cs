@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "delete-deployment")]
-public record AwsGreengrassv2DeleteDeploymentOptions : AwsOptions
+public record AwsGreengrassv2DeleteDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see CancelDeployment . Deleting a deployment doesn't affect core devices that run that deploy- ment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deploy- ment that has been deleted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 1</param>
+    public AwsGreengrassv2DeleteDeploymentOptions(
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    private AwsGreengrassv2DeleteDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2DeleteDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2DeleteDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the deployment. Constraints: o min: 1
+    /// </summary>
     [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    public string? DeploymentId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

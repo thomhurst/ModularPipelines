@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "get-settings")]
-public record AwsAuditManagerGetSettingsOptions : AwsOptions
+public record AwsAuditManagerGetSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the settings for a specified Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Attribute">The list of setting attribute enum values. Possible values: o ALL o IS_AWS_ORG_ENABLED o SNS_TOPIC o DEFAULT_ASSESSMENT_REPORTS_DESTINATION o DEFAULT_PROCESS_OWNERS o EVIDENCE_FINDER_ENABLEMENT o DEREGISTRATION_POLICY o DEFAULT_EXPORT_DESTINATION</param>
+    public AwsAuditManagerGetSettingsOptions(
+        AwsAuditManagerGetSettingsAttribute Attribute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attribute);
+        this.Attribute = Attribute;
+    }
+
+    private AwsAuditManagerGetSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerGetSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerGetSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of setting attribute enum values. Possible values: o ALL o IS_AWS_ORG_ENABLED o SNS_TOPIC o DEFAULT_ASSESSMENT_REPORTS_DESTINATION o DEFAULT_PROCESS_OWNERS o EVIDENCE_FINDER_ENABLEMENT o DEREGISTRATION_POLICY o DEFAULT_EXPORT_DESTINATION
+    /// </summary>
     [CliOption("--attribute")]
-    public string? Attribute { get; set; }
+    public AwsAuditManagerGetSettingsAttribute? Attribute { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

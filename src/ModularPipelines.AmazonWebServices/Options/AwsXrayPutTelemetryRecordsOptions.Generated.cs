@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "put-telemetry-records")]
-public record AwsXrayPutTelemetryRecordsOptions : AwsOptions
+public record AwsXrayPutTelemetryRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used by the Amazon Web Services X-Ray daemon to upload telemetry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TelemetryRecords">(structure) Timestamp -&gt; (timestamp) [required] SegmentsReceivedCount -&gt; (integer) SegmentsSentCount -&gt; (integer) SegmentsSpilloverCount -&gt; (integer) SegmentsRejectedCount -&gt; (integer) BackendConnectionErrors -&gt; (structure) TimeoutCount -&gt; (integer) ConnectionRefusedCount -&gt; (integer) HTTPCode4XXCount -&gt; (integer) HTTPCode5XXCount -&gt; (integer) UnknownHostCount -&gt; (integer) OtherCount -&gt; (integer) Shorthand Syntax: Timestamp=timestamp,SegmentsReceivedCount=integer,SegmentsSentCount=integer,SegmentsSpilloverCount=integer,SegmentsRejectedCount=integer,BackendConnectionErrors={TimeoutCount=integer,ConnectionRefusedCount=integer,HTTPCode4XXCount=integer,HTTPCode5XXCount=integer,UnknownHostCount=integer,OtherCount=integer} ... JSON Syntax: [ { "Timestamp": timestamp, "SegmentsReceivedCount": integer, "SegmentsSentCount": integer, "SegmentsSpilloverCount": integer, "SegmentsRejectedCount": integer, "BackendConnectionErrors": { "TimeoutCount": integer, "ConnectionRefusedCount": integer, "HTTPCode4XXCount": integer, "HTTPCode5XXCount": integer, "UnknownHostCount": integer, "OtherCount": integer } } ... ]</param>
+    public AwsXrayPutTelemetryRecordsOptions(
+        IEnumerable<string> TelemetryRecords
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TelemetryRecords);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TelemetryRecords));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TelemetryRecords));
+            }
+
+            TelemetryRecords = materialized;
+        }
+        this.TelemetryRecords = TelemetryRecords;
+    }
+
+    private AwsXrayPutTelemetryRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayPutTelemetryRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayPutTelemetryRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// (structure) Timestamp -&gt; (timestamp) [required] SegmentsReceivedCount -&gt; (integer) SegmentsSentCount -&gt; (integer) SegmentsSpilloverCount -&gt; (integer) SegmentsRejectedCount -&gt; (integer) BackendConnectionErrors -&gt; (structure) TimeoutCount -&gt; (integer) ConnectionRefusedCount -&gt; (integer) HTTPCode4XXCount -&gt; (integer) HTTPCode5XXCount -&gt; (integer) UnknownHostCount -&gt; (integer) OtherCount -&gt; (integer) Shorthand Syntax: Timestamp=timestamp,SegmentsReceivedCount=integer,SegmentsSentCount=integer,SegmentsSpilloverCount=integer,SegmentsRejectedCount=integer,BackendConnectionErrors={TimeoutCount=integer,ConnectionRefusedCount=integer,HTTPCode4XXCount=integer,HTTPCode5XXCount=integer,UnknownHostCount=integer,OtherCount=integer} ... JSON Syntax: [ { "Timestamp": timestamp, "SegmentsReceivedCount": integer, "SegmentsSentCount": integer, "SegmentsSpilloverCount": integer, "SegmentsRejectedCount": integer, "BackendConnectionErrors": { "TimeoutCount": integer, "ConnectionRefusedCount": integer, "HTTPCode4XXCount": integer, "HTTPCode5XXCount": integer, "UnknownHostCount": integer, "OtherCount": integer } } ... ]
+    /// </summary>
     [CliOption("--telemetry-records", GroupValues = true)]
-    public IEnumerable<string>? TelemetryRecords { get; set; }
+    public IEnumerable<string>? TelemetryRecords { get; private init; }
 
     /// <summary>
     /// Constraints: o max: 20
@@ -47,5 +95,21 @@ public record AwsXrayPutTelemetryRecordsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

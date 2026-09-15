@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "update-stream-group")]
-public record AwsGameliftstreamsUpdateStreamGroupOptions : AwsOptions
+public record AwsGameliftstreamsUpdateStreamGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration settings for an Amazon GameLift Streams stream group resource. To update a stream group, it must be in ACTIVE status. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group. Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. The following capacity setting...
+    /// </summary>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    public AwsGameliftstreamsUpdateStreamGroupOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsGameliftstreamsUpdateStreamGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsUpdateStreamGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsUpdateStreamGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// A set of one or more locations and the streaming capacity for each location. Constraints: o min: 1 o max: 100 (structure) Configuration settings that define a stream group's stream ca- pacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call UpdateStreamGroup . To add a new location and specify its capacity, call AddStreamGroupLocations . LocationName -&gt; (string) [required] A location's name. For example, us-east-1 . For a complete list of locations that Amazon GameLift Streams supports, re- fer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 o max: 20 o pattern: [a-zA-Z0-9-]+ AlwaysOnCapacity -&gt; (integer) This setting, if non-zero, indicates minimum streaming capac- ity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle. Constraints: o min: 0 OnDemandCapacity -&gt; (integer) This field is deprecated. Use MaximumCapacity instead. This parameter cannot be used with MaximumCapacity or TargetIdle- Capacity in the same location configuration. The streaming capacity that Amazon GameLift Streams can allo- cate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location. Constraints: o min: 0 TargetIdleCapacity -&gt; (integer) This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state. Constraints: o min: 0 MaximumCapacity -&gt; (integer) This indicates the maximum capacity that the service can al- locate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is re- leased. Constraints: o min: 0 VpcTransitConfiguration -&gt; (structure) Configuration for connecting the stream group to resources in your Amazon VPC using AWS Transit Gateway. This setting is optional. If specified, Amazon GameLift Streams creates a Transit Gateway to enable private network connectivity be- tween the service VPC and your VPC. The VPC ID cannot be changed after the stream group is created, but you can update the CIDR blocks by calling UpdateStreamGroup . VpcId -&gt; (string) [required] The ID of the Amazon VPC that you want to connect to the stream group. The VPC must be in the same Amazon Web Ser- vices account as the stream group. This value cannot be changed after the stream group is created. Constraints: o min: 1 o max: 32 Ipv4CidrBlocks -&gt; (list) [required] A list of IPv4 CIDR blocks in your VPC that you want the stream group to be able to access. You can specify up to 5 CIDR blocks. The CIDR blocks must be valid subsets of the VPC's CIDR blocks and cannot overlap with the service VPC CIDR block. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: (([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[1-2][0-9]|3[0-2]) Shorthand Syntax: LocationName=string,AlwaysOnCapacity=integer,OnDemandCapacity=integer,TargetIdleCapacity=integer,MaximumCapacity=integer,VpcTransitConfiguration={VpcId=string,Ipv4CidrBlocks=[string,string]} ... JSON Syntax: [ { "LocationName": "string", "AlwaysOnCapacity": integer, "OnDemandCapacity": integer, "TargetIdleCapacity": integer, "MaximumCapacity": integer, "VpcTransitConfiguration": { "VpcId": "string", "Ipv4CidrBlocks": ["string", ...] } } ... ]
@@ -47,5 +84,21 @@ public record AwsGameliftstreamsUpdateStreamGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

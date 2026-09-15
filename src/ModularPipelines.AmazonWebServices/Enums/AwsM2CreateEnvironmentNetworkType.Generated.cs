@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --networktype.
+/// Allowed values for --network-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsM2CreateEnvironmentNetworkType
 {
-    [EnumValue("ipv4")]
-    Ipv4 = 1,
-
     [EnumValue("dual")]
-    Dual = 2
+    Dual,
+
+    [EnumValue("ipv4")]
+    Ipv4
 }

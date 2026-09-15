@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "update-compute-environment")]
-public record AwsBatchUpdateComputeEnvironmentOptions : AwsOptions
+public record AwsBatchUpdateComputeEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Batch compute environment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComputeEnvironment">The name or full Amazon Resource Name (ARN) of the compute environ- ment to update.</param>
+    public AwsBatchUpdateComputeEnvironmentOptions(
+        string ComputeEnvironment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComputeEnvironment);
+        this.ComputeEnvironment = ComputeEnvironment;
+    }
+
+    private AwsBatchUpdateComputeEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchUpdateComputeEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchUpdateComputeEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or full Amazon Resource Name (ARN) of the compute environ- ment to update.
+    /// </summary>
     [CliOption("--compute-environment")]
-    public string? ComputeEnvironment { get; set; }
+    public string? ComputeEnvironment { get; private init; }
 
     /// <summary>
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out auto- matically based on the workload demand of its associated queues. If the state is ENABLED , then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED , then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. NOTE: Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, con- sider a c5.8xlarge instance with a minvCpus value of 4 and a de- siredvCpus value of 36 . This instance doesn't scale down to a c5.large instance. Possible values: o ENABLED o DISABLED
@@ -72,5 +109,21 @@ public record AwsBatchUpdateComputeEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

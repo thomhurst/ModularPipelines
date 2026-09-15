@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --detaillevel.
+/// Allowed values for --detail-level.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsInspector2ListCisScansDetailLevel
 {
-    [EnumValue("ORGANIZATION")]
-    Organization = 1,
-
     [EnumValue("MEMBER")]
-    Member = 2
+    Member,
+
+    [EnumValue("ORGANIZATION")]
+    Organization
 }

@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsKinesisVideoWebrtcStorage : IAwsKinesisVideoWebrtcStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> JoinStorageSessionAsViewerAsync(
-        AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions? options = null,
+        AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsKinesisVideoWebrtcStorage : IAwsKinesisVideoWebrtcStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> JoinStorageSessionAsync(
-        AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions? options = null,
+        AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisVideoWebrtcStorageJoinStorageSessionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

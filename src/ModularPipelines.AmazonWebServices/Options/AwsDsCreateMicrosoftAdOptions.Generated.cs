@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "create-microsoft-ad")]
-public record AwsDsCreateMicrosoftAdOptions : AwsOptions
+public record AwsDsCreateMicrosoftAdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see Managed Microsoft AD in the Directory Service Ad- min Guide . Before you call CreateMicrosoftAD , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The fully qualified domain name for the Managed Microsoft AD direc- tory, such as corp.example.com . This name will resolve inside your VPC only. It does not need to be publicly resolvable. Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="Password">The password for the default administrative user named Admin . If you need to change the password for the administrator account, you can use the ResetUserPassword API call. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*</param>
+    /// <param name="VpcSettings">Contains VPC information for the CreateDirectory or CreateMi- crosoftAD operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }</param>
+    public AwsDsCreateMicrosoftAdOptions(
+        string Name,
+        string Password,
+        string VpcSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(VpcSettings);
+        this.VpcSettings = VpcSettings;
+    }
+
+    private AwsDsCreateMicrosoftAdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCreateMicrosoftAdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCreateMicrosoftAdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully qualified domain name for the Managed Microsoft AD direc- tory, such as corp.example.com . This name will resolve inside your VPC only. It does not need to be publicly resolvable. Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The password for the default administrative user named Admin . If you need to change the password for the administrator account, you can use the ResetUserPassword API call. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
+    /// <summary>
+    /// Contains VPC information for the CreateDirectory or CreateMi- crosoftAD operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }
+    /// </summary>
+    [CliOption("--vpc-settings")]
+    public string? VpcSettings { get; private init; }
 
     /// <summary>
     /// The NetBIOS name for your domain, such as CORP . If you don't spec- ify a NetBIOS name, it will default to the first part of your direc- tory DNS. For example, CORP for the directory DNS corp.example.com . Constraints: o pattern: ^[^\\/:*?"&lt;&gt;|.]+[^\\/:*?"&lt;&gt;|]*$
@@ -32,18 +90,11 @@ public record AwsDsCreateMicrosoftAdOptions : AwsOptions
     [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
-
     /// <summary>
     /// A description for the directory. This label will appear on the Ama- zon Web Services console Directory Details page after the directory is created. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--vpc-settings")]
-    public string? VpcSettings { get; set; }
 
     /// <summary>
     /// Managed Microsoft AD is available in two editions: Standard and En- terprise . Enterprise is the default. Possible values: o Enterprise o Standard o Hybrid
@@ -68,5 +119,21 @@ public record AwsDsCreateMicrosoftAdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

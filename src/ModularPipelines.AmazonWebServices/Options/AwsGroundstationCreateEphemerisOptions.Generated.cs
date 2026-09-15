@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "create-ephemeris")]
-public record AwsGroundstationCreateEphemerisOptions : AwsOptions
+public record AwsGroundstationCreateEphemerisOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an ephemeris with your specified EphemerisData . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A name that you can use to identify the ephemeris. Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256}</param>
+    public AwsGroundstationCreateEphemerisOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGroundstationCreateEphemerisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationCreateEphemerisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationCreateEphemerisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name that you can use to identify the ephemeris. Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256}
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The satellite ID that associates this ephemeris with a satellite in AWS Ground Station. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--satellite-id")]
     public string? SatelliteId { get; set; }
 
-    [CliFlag("--enabled")]
+    /// <summary>
+    /// Set to true to enable the ephemeris after validation. Set to false to keep it disabled.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -42,9 +85,6 @@ public record AwsGroundstationCreateEphemerisOptions : AwsOptions
     /// </summary>
     [CliOption("--expiration-time")]
     public string? ExpirationTime { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The ARN of the KMS key to use for encrypting the ephemeris.
@@ -69,5 +109,21 @@ public record AwsGroundstationCreateEphemerisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

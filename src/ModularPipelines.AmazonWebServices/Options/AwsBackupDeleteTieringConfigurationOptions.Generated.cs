@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "delete-tiering-configuration")]
-public record AwsBackupDeleteTieringConfigurationOptions : AwsOptions
+public record AwsBackupDeleteTieringConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the tiering configuration specified by a tiering configuration name. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TieringConfigurationName">The unique name of a tiering configuration. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$</param>
+    public AwsBackupDeleteTieringConfigurationOptions(
+        string TieringConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TieringConfigurationName);
+        this.TieringConfigurationName = TieringConfigurationName;
+    }
+
+    private AwsBackupDeleteTieringConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupDeleteTieringConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupDeleteTieringConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of a tiering configuration. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$
+    /// </summary>
     [CliOption("--tiering-configuration-name")]
-    public string? TieringConfigurationName { get; set; }
+    public string? TieringConfigurationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

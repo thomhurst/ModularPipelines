@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "disassociate-connection-alias")]
-public record AwsWorkspacesDisassociateConnectionAliasOptions : AwsOptions
+public record AwsWorkspacesDisassociateConnectionAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directo- ries in different Regions. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AliasId">The identifier of the connection alias to disassociate. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    public AwsWorkspacesDisassociateConnectionAliasOptions(
+        string AliasId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasId);
+        this.AliasId = AliasId;
+    }
+
+    private AwsWorkspacesDisassociateConnectionAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesDisassociateConnectionAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesDisassociateConnectionAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the connection alias to disassociate. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// </summary>
     [CliOption("--alias-id")]
-    public string? AliasId { get; set; }
+    public string? AliasId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

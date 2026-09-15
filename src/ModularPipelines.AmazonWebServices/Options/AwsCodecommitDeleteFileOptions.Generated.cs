@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "delete-file")]
-public record AwsCodecommitDeleteFileOptions : AwsOptions
+public record AwsCodecommitDeleteFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that contains the file to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="BranchName">The name of the branch where the commit that deletes the file is made. Constraints: o min: 1 o max: 256</param>
+    /// <param name="FilePath">The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /exam- ples/file.md is a fully qualified path to a file named file.md in a folder named examples.</param>
+    /// <param name="ParentCommitId">The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD com- mit for the branch. The commit that deletes the file is created from this commit ID.</param>
+    public AwsCodecommitDeleteFileOptions(
+        string RepositoryName,
+        string BranchName,
+        string FilePath,
+        string ParentCommitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+        global::System.ArgumentNullException.ThrowIfNull(FilePath);
+        this.FilePath = FilePath;
+        global::System.ArgumentNullException.ThrowIfNull(ParentCommitId);
+        this.ParentCommitId = ParentCommitId;
+    }
+
+    private AwsCodecommitDeleteFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitDeleteFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitDeleteFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that contains the file to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
+    /// <summary>
+    /// The name of the branch where the commit that deletes the file is made. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
 
+    /// <summary>
+    /// The fully qualified path to the file that to be deleted, including the full name and extension of that file. For example, /exam- ples/file.md is a fully qualified path to a file named file.md in a folder named examples.
+    /// </summary>
     [CliOption("--file-path")]
-    public string? FilePath { get; set; }
+    public string? FilePath { get; private init; }
 
+    /// <summary>
+    /// The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD com- mit for the branch. The commit that deletes the file is created from this commit ID.
+    /// </summary>
     [CliOption("--parent-commit-id")]
-    public string? ParentCommitId { get; set; }
+    public string? ParentCommitId { get; private init; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If a file is the only object in the folder or directory, specifies whether to delete the folder or directory that contains the file. By default, empty folders are deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
@@ -59,5 +120,21 @@ public record AwsCodecommitDeleteFileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "start-annotation-import-job")]
-public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions
+public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Starts an annotation import job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationName">A destination annotation store for the job. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
+    /// <param name="RoleArn">A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)</param>
+    /// <param name="Items">Items to import. Constraints: o min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]</param>
+    public AwsOmicsStartAnnotationImportJobOptions(
+        string DestinationName,
+        string RoleArn,
+        IEnumerable<string> Items
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationName);
+        this.DestinationName = DestinationName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Items);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Items));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Items));
+            }
+
+            Items = materialized;
+        }
+        this.Items = Items;
+    }
+
+    private AwsOmicsStartAnnotationImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsStartAnnotationImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsStartAnnotationImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A destination annotation store for the job. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// </summary>
     [CliOption("--destination-name")]
-    public string? DestinationName { get; set; }
+    public string? DestinationName { get; private init; }
 
+    /// <summary>
+    /// A service role for the job. Constraints: o min: 20 o max: 2048 o pattern: arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*)
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// Items to import. Constraints: o min: 1 (structure) A source for an annotation import job. source -&gt; (string) [required] The source file's location in Amazon S3. Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/(.{1,1024}) Shorthand Syntax: source=string ... JSON Syntax: [ { "source": "string" } ... ]
+    /// </summary>
     [CliOption("--items", GroupValues = true)]
-    public IEnumerable<string>? Items { get; set; }
+    public IEnumerable<string>? Items { get; private init; }
 
     /// <summary>
     /// The name of the annotation store version. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
@@ -43,7 +105,10 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions
     [CliOption("--format-options")]
     public string? FormatOptions { get; set; }
 
-    [CliFlag("--run-left-normalization")]
+    /// <summary>
+    /// The job's left normalization setting.
+    /// </summary>
+    [CliFlag("--run-left-normalization", NegatedName = "--no-run-left-normalization")]
     public bool? RunLeftNormalization { get; set; }
 
     /// <summary>
@@ -57,5 +122,21 @@ public record AwsOmicsStartAnnotationImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-cluster-iam-roles")]
-public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions
+public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services ser- vices. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyClusterIamRolesOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftModifyClusterIamRolesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyClusterIamRolesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyClusterIamRolesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
@@ -47,5 +84,21 @@ public record AwsRedshiftModifyClusterIamRolesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

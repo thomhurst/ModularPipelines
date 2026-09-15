@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-account-customization")]
-public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions
+public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountCustomization">The Quick Sight customizations you're updating. DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }</param>
+    public AwsQuicksightUpdateAccountCustomizationOptions(
+        string AwsAccountId,
+        string AccountCustomization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountCustomization);
+        this.AccountCustomization = AccountCustomization;
+    }
+
+    private AwsQuicksightUpdateAccountCustomizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateAccountCustomizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateAccountCustomizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The Quick Sight customizations you're updating. DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }
+    /// </summary>
+    [CliOption("--account-customization")]
+    public string? AccountCustomization { get; private init; }
 
     /// <summary>
     /// The namespace that you want to update Quick Sight customizations for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
@@ -30,13 +77,26 @@ public record AwsQuicksightUpdateAccountCustomizationOptions : AwsOptions
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CliOption("--account-customization")]
-    public string? AccountCustomization { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

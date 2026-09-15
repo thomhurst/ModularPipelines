@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-transit-gateway-vpc-attachment")]
-public record AwsEc2CreateTransitGatewayVpcAttachmentOptions : AwsOptions
+public record AwsEc2CreateTransitGatewayVpcAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches the specified VPC to the specified transit gateway. If you attach a VPC with a CIDR range that overlaps the CIDR range of a VPC that is already attached, the new VPC CIDR range is not propagated to the default propagation route table. To send VPC traffic to an attached transit gateway, add a route to the VPC route table using CreateRoute . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayId">The ID of the transit gateway.</param>
+    /// <param name="VpcId">The ID of the VPC.</param>
+    /// <param name="SubnetIds">The IDs of one or more subnets. You can specify only one subnet per Availability Zone. You must specify at least one subnet, but we rec- ommend that you specify two subnets for better availability. The transit gateway uses one IP address from each specified subnet. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2CreateTransitGatewayVpcAttachmentOptions(
+        string TransitGatewayId,
+        string VpcId,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayId);
+        this.TransitGatewayId = TransitGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsEc2CreateTransitGatewayVpcAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateTransitGatewayVpcAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateTransitGatewayVpcAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway.
+    /// </summary>
     [CliOption("--transit-gateway-id")]
-    public string? TransitGatewayId { get; set; }
+    public string? TransitGatewayId { get; private init; }
 
+    /// <summary>
+    /// The ID of the VPC.
+    /// </summary>
     [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    public string? VpcId { get; private init; }
 
+    /// <summary>
+    /// The IDs of one or more subnets. You can specify only one subnet per Availability Zone. You must specify at least one subnet, but we rec- ommend that you specify two subnets for better availability. The transit gateway uses one IP address from each specified subnet. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// The VPC attachment options. DnsSupport -&gt; (string) Enable or disable DNS support. The default is enable . Possible values: o enable o disable SecurityGroupReferencingSupport -&gt; (string) Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is set to enable by default. However, at the transit gateway level the default is set to disable . For more information about security group referencing, see Security group referencing in the Amazon Web Services Transit Gateways Guide . Possible values: o enable o disable Ipv6Support -&gt; (string) Specifies whether IPv6 support is enabled for the attachment. When enabled, the transit gateway network interface receives an IPv6 address. When you enable route propagation, IPv6 VPC CIDRs propagate to the transit gateway route tables. When disabled, the network interface does not receive an IPv6 address, and IPv6 routes do not propagate. The setting does not filter IPv6 traf- fic. The default is disable . Possible values: o enable o disable ApplianceModeSupport -&gt; (string) Enable or disable support for appliance mode. If enabled, a traffic flow between a source and destination uses the same Availability Zone for the VPC attachment for the lifetime of that flow. The default is disable . Possible values: o enable o disable Shorthand Syntax: DnsSupport=string,SecurityGroupReferencingSupport=string,Ipv6Support=string,ApplianceModeSupport=string JSON Syntax: { "DnsSupport": "enable"|"disable", "SecurityGroupReferencingSupport": "enable"|"disable", "Ipv6Support": "enable"|"disable", "ApplianceModeSupport": "enable"|"disable" }
@@ -42,7 +104,10 @@ public record AwsEc2CreateTransitGatewayVpcAttachmentOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -50,5 +115,21 @@ public record AwsEc2CreateTransitGatewayVpcAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

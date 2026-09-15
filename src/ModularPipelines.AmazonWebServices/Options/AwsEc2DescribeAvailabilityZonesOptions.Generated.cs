@@ -33,10 +33,16 @@ public record AwsEc2DescribeAvailabilityZonesOptions : AwsOptions
     [CliOption("--zone-ids", GroupValues = true)]
     public IEnumerable<string>? ZoneIds { get; set; }
 
-    [CliFlag("--all-availability-zones")]
+    /// <summary>
+    /// Include all Availability Zones, Local Zones, and Wavelength Zones regardless of your opt-in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
+    /// </summary>
+    [CliFlag("--all-availability-zones", NegatedName = "--no-all-availability-zones")]
     public bool? AllAvailabilityZones { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>

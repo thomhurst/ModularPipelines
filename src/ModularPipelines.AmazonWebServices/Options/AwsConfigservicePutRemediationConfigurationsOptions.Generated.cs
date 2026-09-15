@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-remediation-configurations")]
-public record AwsConfigservicePutRemediationConfigurationsOptions : AwsOptions
+public record AwsConfigservicePutRemediationConfigurationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or updates the remediation configuration with a specific Config rule with the selected target or action. The API creates the Remedia- tionConfiguration object for the Config rule. The Config rule must al- ready exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. NOTE: Be aware of backward incompatible changes If you make backward incompatible changes to the SSM document, you must call this again to ensure the remedia...
+    /// </summary>
+    /// <param name="RemediationConfigurations">A list of remediation configuration objects. Constraints: o min: 0 o max: 25 (structure) An object that represents the details about the remediation con- figuration that includes the remediation action, parameters, and data to execute the action. ConfigRuleName -&gt; (string) [required] The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.* TargetType -&gt; (string) [required] The type of the target. Target executes remediation. For ex- ample, SSM document. Possible values: o SSM_DOCUMENT TargetId -&gt; (string) [required] Target ID is the name of the SSM document. Constraints: o min: 1 o max: 256 TargetVersion -&gt; (string) Version of the target. For example, version of the SSM docu- ment. NOTE: If you make backward incompatible changes to the SSM doc- ument, you must call PutRemediationConfiguration API again to ensure the remediations can run. Parameters -&gt; (map) An object of the RemediationParameterValue. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (structure) The value is either a dynamic (resource) value or a sta- tic value. You must select either a dynamic value or a static value. ResourceValue -&gt; (structure) The value is dynamic and changes at run-time. Value -&gt; (string) [required] The value is a resource ID. Possible values: o RESOURCE_ID StaticValue -&gt; (structure) The value is static and does not change at run-time. Values -&gt; (list) [required] A list of values. For example, the ARN of the as- sumed role. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 256 ResourceType -&gt; (string) The type of a resource. Automatic -&gt; (boolean) The remediation is triggered automatically. ExecutionControls -&gt; (structure) An ExecutionControls object. SsmControls -&gt; (structure) A SsmControls object. ConcurrentExecutionRatePercentage -&gt; (integer) The maximum percentage of remediation actions allowed to run in parallel on the non-compliant resources for that specific rule. You can specify a percentage, such as 10%. The default value is 10. Constraints: o min: 1 o max: 100 ErrorPercentage -&gt; (integer) The percentage of errors that are allowed before SSM stops running automations on non-compliant resources for that specific rule. You can specify a percentage of errors, for example 10%. If you do not specifiy a percentage, the default is 50%. For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received. Constraints: o min: 1 o max: 100 MaximumAutomaticAttempts -&gt; (integer) The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptSeconds as 50 seconds, Config will put a Re- mediationException on your behalf for the failing resource after the 5th failed attempt within 50 seconds. Constraints: o min: 1 o max: 25 RetryAttemptSeconds -&gt; (long) Time window to determine whether or not to add a remediation exception to prevent infinite remediation attempts. If Maxi- mumAutomaticAttempts remediation attempts have been made un- der RetryAttemptSeconds , a remediation exception will be added to the resource. If you do not select a number, the de- fault is 60 seconds. For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, Config will run auto-reme- diations 5 times within 50 seconds before adding a remedia- tion exception to the resource. Constraints: o min: 1 o max: 2678000 Arn -&gt; (string) Amazon Resource Name (ARN) of remediation configuration. Constraints: o min: 1 o max: 1024 CreatedByService -&gt; (string) Name of the service that owns the service-linked rule, if ap- plicable. Constraints: o min: 1 o max: 1024 JSON Syntax: [ { "ConfigRuleName": "string", "TargetType": "SSM_DOCUMENT", "TargetId": "string", "TargetVersion": "string", "Parameters": {"string": { "ResourceValue": { "Value": "RESOURCE_ID" }, "StaticValue": { "Values": ["string", ...] } } ...}, "ResourceType": "string", "Automatic": true|false, "ExecutionControls": { "SsmControls": { "ConcurrentExecutionRatePercentage": integer, "ErrorPercentage": integer } }, "MaximumAutomaticAttempts": integer, "RetryAttemptSeconds": long, "Arn": "string", "CreatedByService": "string" } ... ]</param>
+    public AwsConfigservicePutRemediationConfigurationsOptions(
+        IEnumerable<string> RemediationConfigurations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RemediationConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RemediationConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RemediationConfigurations));
+            }
+
+            RemediationConfigurations = materialized;
+        }
+        this.RemediationConfigurations = RemediationConfigurations;
+    }
+
+    private AwsConfigservicePutRemediationConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutRemediationConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutRemediationConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of remediation configuration objects. Constraints: o min: 0 o max: 25 (structure) An object that represents the details about the remediation con- figuration that includes the remediation action, parameters, and data to execute the action. ConfigRuleName -&gt; (string) [required] The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.* TargetType -&gt; (string) [required] The type of the target. Target executes remediation. For ex- ample, SSM document. Possible values: o SSM_DOCUMENT TargetId -&gt; (string) [required] Target ID is the name of the SSM document. Constraints: o min: 1 o max: 256 TargetVersion -&gt; (string) Version of the target. For example, version of the SSM docu- ment. NOTE: If you make backward incompatible changes to the SSM doc- ument, you must call PutRemediationConfiguration API again to ensure the remediations can run. Parameters -&gt; (map) An object of the RemediationParameterValue. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 256 value -&gt; (structure) The value is either a dynamic (resource) value or a sta- tic value. You must select either a dynamic value or a static value. ResourceValue -&gt; (structure) The value is dynamic and changes at run-time. Value -&gt; (string) [required] The value is a resource ID. Possible values: o RESOURCE_ID StaticValue -&gt; (structure) The value is static and does not change at run-time. Values -&gt; (list) [required] A list of values. For example, the ARN of the as- sumed role. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 256 ResourceType -&gt; (string) The type of a resource. Automatic -&gt; (boolean) The remediation is triggered automatically. ExecutionControls -&gt; (structure) An ExecutionControls object. SsmControls -&gt; (structure) A SsmControls object. ConcurrentExecutionRatePercentage -&gt; (integer) The maximum percentage of remediation actions allowed to run in parallel on the non-compliant resources for that specific rule. You can specify a percentage, such as 10%. The default value is 10. Constraints: o min: 1 o max: 100 ErrorPercentage -&gt; (integer) The percentage of errors that are allowed before SSM stops running automations on non-compliant resources for that specific rule. You can specify a percentage of errors, for example 10%. If you do not specifiy a percentage, the default is 50%. For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received. Constraints: o min: 1 o max: 100 MaximumAutomaticAttempts -&gt; (integer) The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptSeconds as 50 seconds, Config will put a Re- mediationException on your behalf for the failing resource after the 5th failed attempt within 50 seconds. Constraints: o min: 1 o max: 25 RetryAttemptSeconds -&gt; (long) Time window to determine whether or not to add a remediation exception to prevent infinite remediation attempts. If Maxi- mumAutomaticAttempts remediation attempts have been made un- der RetryAttemptSeconds , a remediation exception will be added to the resource. If you do not select a number, the de- fault is 60 seconds. For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, Config will run auto-reme- diations 5 times within 50 seconds before adding a remedia- tion exception to the resource. Constraints: o min: 1 o max: 2678000 Arn -&gt; (string) Amazon Resource Name (ARN) of remediation configuration. Constraints: o min: 1 o max: 1024 CreatedByService -&gt; (string) Name of the service that owns the service-linked rule, if ap- plicable. Constraints: o min: 1 o max: 1024 JSON Syntax: [ { "ConfigRuleName": "string", "TargetType": "SSM_DOCUMENT", "TargetId": "string", "TargetVersion": "string", "Parameters": {"string": { "ResourceValue": { "Value": "RESOURCE_ID" }, "StaticValue": { "Values": ["string", ...] } } ...}, "ResourceType": "string", "Automatic": true|false, "ExecutionControls": { "SsmControls": { "ConcurrentExecutionRatePercentage": integer, "ErrorPercentage": integer } }, "MaximumAutomaticAttempts": integer, "RetryAttemptSeconds": long, "Arn": "string", "CreatedByService": "string" } ... ]
+    /// </summary>
     [CliOption("--remediation-configurations", GroupValues = true)]
-    public IEnumerable<string>? RemediationConfigurations { get; set; }
+    public IEnumerable<string>? RemediationConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

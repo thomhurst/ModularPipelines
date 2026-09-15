@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "start-notebook-sync")]
-public record AwsDatazoneStartNotebookSyncOptions : AwsOptions
+public record AwsDatazoneStartNotebookSyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a notebook sync in Amazon SageMaker Unified Studio. This opera- tion syncs a notebook from a Git repository into a project. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to sync the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that will own the synced notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SourceLocation">The source location of the notebook to sync. This specifies the Ama- zon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }</param>
+    public AwsDatazoneStartNotebookSyncOptions(
+        string DomainIdentifier,
+        string OwningProjectIdentifier,
+        string SourceLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
+        this.OwningProjectIdentifier = OwningProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocation);
+        this.SourceLocation = SourceLocation;
+    }
+
+    private AwsDatazoneStartNotebookSyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneStartNotebookSyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneStartNotebookSyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to sync the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the project that will own the synced notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--owning-project-identifier")]
-    public string? OwningProjectIdentifier { get; set; }
+    public string? OwningProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// The source location of the notebook to sync. This specifies the Ama- zon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }
+    /// </summary>
     [CliOption("--source-location")]
-    public string? SourceLocation { get; set; }
+    public string? SourceLocation { get; private init; }
 
     /// <summary>
     /// The Git metadata for the notebook sync, including repository, branch, and commit information. connectionId -&gt; (string) [required] The identifier of the Git connection. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]+ repository -&gt; (string) [required] The name of the Git repository. Constraints: o min: 1 o max: 512 branch -&gt; (string) [required] The name of the Git branch. Constraints: o min: 1 o max: 256 commitHash -&gt; (string) [required] The commit hash in the Git repository. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+ fileName -&gt; (string) The name of the file in the Git repository. Constraints: o min: 1 o max: 255 committedAt -&gt; (timestamp) The timestamp of when the commit was made. commitMessage -&gt; (string) The commit message associated with the Git commit. Constraints: o min: 0 o max: 2048 Shorthand Syntax: connectionId=string,repository=string,branch=string,commitHash=string,fileName=string,committedAt=timestamp,commitMessage=string JSON Syntax: { "connectionId": "string", "repository": "string", "branch": "string", "commitHash": "string", "fileName": "string", "committedAt": timestamp, "commitMessage": "string" }
@@ -67,5 +118,21 @@ public record AwsDatazoneStartNotebookSyncOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

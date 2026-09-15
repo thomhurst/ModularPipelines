@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dax", "create-parameter-group")]
-public record AwsDaxCreateParameterGroupOptions : AwsOptions
+public record AwsDaxCreateParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new parameter group. A parameter group is a collection of pa- rameters that you apply to all of the nodes in a DAX cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ParameterGroupName">The name of the parameter group to apply to all of the clusters in this replication group.</param>
+    public AwsDaxCreateParameterGroupOptions(
+        string ParameterGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterGroupName);
+        this.ParameterGroupName = ParameterGroupName;
+    }
+
+    private AwsDaxCreateParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDaxCreateParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDaxCreateParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the parameter group to apply to all of the clusters in this replication group.
+    /// </summary>
     [CliOption("--parameter-group-name")]
-    public string? ParameterGroupName { get; set; }
+    public string? ParameterGroupName { get; private init; }
 
     /// <summary>
     /// A description of the parameter group.
@@ -35,5 +72,21 @@ public record AwsDaxCreateParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

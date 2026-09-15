@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("polly", "start-speech-synthesis-task")]
-public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions
+public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask . This operation requires all the standard in- formation needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn ). Once the synthesis task is created, this operation will return a SpeechSynthe- sisTask object, which will include an identifier of this task as well as the curr...
+    /// </summary>
+    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw</param>
+    /// <param name="OutputS3BucketName">Amazon S3 bucket name to which the output file will be saved. Constraints: o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$</param>
+    /// <param name="Text">The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.</param>
+    /// <param name="VoiceId">Voice ID to use for the synthesis. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany</param>
+    public AwsPollyStartSpeechSynthesisTaskOptions(
+        AwsPollyStartSpeechSynthesisTaskOutputFormat OutputFormat,
+        string OutputS3BucketName,
+        string Text,
+        string VoiceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
+        this.OutputFormat = OutputFormat;
+        global::System.ArgumentNullException.ThrowIfNull(OutputS3BucketName);
+        this.OutputS3BucketName = OutputS3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceId);
+        this.VoiceId = VoiceId;
+    }
+
+    private AwsPollyStartSpeechSynthesisTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPollyStartSpeechSynthesisTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPollyStartSpeechSynthesisTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw
+    /// </summary>
+    [CliOption("--output-format")]
+    public AwsPollyStartSpeechSynthesisTaskOutputFormat? OutputFormat { get; private init; }
+
+    /// <summary>
+    /// Amazon S3 bucket name to which the output file will be saved. Constraints: o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$
+    /// </summary>
+    [CliOption("--output-s3-bucket-name")]
+    public string? OutputS3BucketName { get; private init; }
+
+    /// <summary>
+    /// The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.
+    /// </summary>
+    [CliOption("--text")]
+    public string? Text { get; private init; }
+
+    /// <summary>
+    /// Voice ID to use for the synthesis. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany
+    /// </summary>
+    [CliOption("--voice-id")]
+    public string? VoiceId { get; private init; }
+
     /// <summary>
     /// Specifies the engine (standard , neural , long-form or generative ) for Amazon Polly to use when processing input text for speech syn- thesis. Using a voice that is not supported for the engine selected will result in an error. Possible values: o standard o neural o long-form o generative
     /// </summary>
@@ -39,12 +109,6 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions
     /// </summary>
     [CliOption("--lexicon-names", GroupValues = true)]
     public IEnumerable<string>? LexiconNames { get; set; }
-
-    [CliOption("--output-format")]
-    public string? OutputFormat { get; set; }
-
-    [CliOption("--output-s3-bucket-name")]
-    public string? OutputS3BucketName { get; set; }
 
     /// <summary>
     /// The Amazon S3 key prefix for the output speech file. Constraints: o pattern: ^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&amp;]{0,800}$
@@ -70,22 +134,32 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions
     [CliOption("--speech-mark-types", GroupValues = true)]
     public IEnumerable<string>? SpeechMarkTypes { get; set; }
 
-    [CliOption("--text")]
-    public string? Text { get; set; }
-
     /// <summary>
     /// Specifies whether the input text is plain text or SSML. The default value is plain text. Possible values: o ssml o text
     /// </summary>
     [CliOption("--text-type")]
     public AwsPollyStartSpeechSynthesisTaskTextType? TextType { get; set; }
 
-    [CliOption("--voice-id")]
-    public string? VoiceId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

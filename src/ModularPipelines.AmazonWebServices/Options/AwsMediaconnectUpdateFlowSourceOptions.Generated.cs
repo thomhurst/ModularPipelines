@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-flow-source")]
-public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions
+public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and wa...
+    /// </summary>
+    /// <param name="FlowArn">The ARN of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="SourceArn">The ARN of the source that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+</param>
+    public AwsMediaconnectUpdateFlowSourceOptions(
+        string FlowArn,
+        string SourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+    }
+
+    private AwsMediaconnectUpdateFlowSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateFlowSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateFlowSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the source that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:source:.+
+    /// </summary>
+    [CliOption("--source-arn")]
+    public string? SourceArn { get; private init; }
+
     /// <summary>
     /// The type of encryption that is used on the content ingested from the source. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This pa- rameter is not valid for static key encryption. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (sta- tic-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy end- point was created in. This parameter is required for SPEKE en- cryption and is not valid for static key encryption. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption. Shorthand Syntax: Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string JSON Syntax: { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }
     /// </summary>
@@ -39,9 +89,6 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions
     /// </summary>
     [CliOption("--entitlement-arn")]
     public string? EntitlementArn { get; set; }
-
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
 
     /// <summary>
     /// The port that the flow listens on for incoming content. If the pro- tocol of the source is Zixi, the port must be set to 2088.
@@ -96,9 +143,6 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions
     /// </summary>
     [CliOption("--sender-ip-address")]
     public string? SenderIpAddress { get; set; }
-
-    [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
 
     /// <summary>
     /// The source IP or domain name for SRT-caller protocol.
@@ -159,5 +203,21 @@ public record AwsMediaconnectUpdateFlowSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

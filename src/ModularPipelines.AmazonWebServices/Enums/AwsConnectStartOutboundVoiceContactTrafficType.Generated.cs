@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --traffictype.
+/// Allowed values for --traffic-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectStartOutboundVoiceContactTrafficType
 {
-    [EnumValue("GENERAL")]
-    General = 1,
-
     [EnumValue("CAMPAIGN")]
-    Campaign = 2
+    Campaign,
+
+    [EnumValue("GENERAL")]
+    General
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "update-service-attributes")]
-public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions
+public record AwsServicediscoveryUpdateServiceAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-id")]
-    public string? ServiceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits a request to update a specified service to add service-level attributes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: o max: 255</param>
+    /// <param name="Attributes">A string map that contains attribute key-value pairs. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsServicediscoveryUpdateServiceAttributesOptions(
+        string ServiceId,
+        IReadOnlyList<KeyValue> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceId);
+        this.ServiceId = ServiceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsServicediscoveryUpdateServiceAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryUpdateServiceAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryUpdateServiceAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--service-id")]
+    public string? ServiceId { get; private init; }
+
+    /// <summary>
+    /// A string map that contains attribute key-value pairs. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o max: 255 value -&gt; (string) Constraints: o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Attributes { get; set; }
+    public IReadOnlyList<KeyValue>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

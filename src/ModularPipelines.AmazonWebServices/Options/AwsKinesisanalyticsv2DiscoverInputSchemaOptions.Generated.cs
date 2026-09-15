@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisanalyticsv2", "discover-input-schema")]
-public record AwsKinesisanalyticsv2DiscoverInputSchemaOptions : AwsOptions
+public record AwsKinesisanalyticsv2DiscoverInputSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 ob- ject. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytic...
+    /// </summary>
+    /// <param name="ServiceExecutionRole">The ARN of the role that is used to access the streaming source. Constraints: o min: 1 o max: 2048 o pattern: arn:.*</param>
+    public AwsKinesisanalyticsv2DiscoverInputSchemaOptions(
+        string ServiceExecutionRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceExecutionRole);
+        this.ServiceExecutionRole = ServiceExecutionRole;
+    }
+
+    private AwsKinesisanalyticsv2DiscoverInputSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisanalyticsv2DiscoverInputSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisanalyticsv2DiscoverInputSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the role that is used to access the streaming source. Constraints: o min: 1 o max: 2048 o pattern: arn:.*
+    /// </summary>
+    [CliOption("--service-execution-role")]
+    public string? ServiceExecutionRole { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the streaming source. Constraints: o min: 1 o max: 2048 o pattern: arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
-
-    [CliOption("--service-execution-role")]
-    public string? ServiceExecutionRole { get; set; }
 
     /// <summary>
     /// The point at which you want Kinesis Data Analytics to start reading records from the specified streaming source for discovery purposes. InputStartingPosition -&gt; (string) The starting position on the stream. o NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued. o TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Data Firehose delivery stream. o LAST_STOPPED_POINT - Resume reading from where the application last stopped reading. Possible values: o NOW o TRIM_HORIZON o LAST_STOPPED_POINT Shorthand Syntax: InputStartingPosition=string JSON Syntax: { "InputStartingPosition": "NOW"|"TRIM_HORIZON"|"LAST_STOPPED_POINT" }
@@ -53,5 +90,21 @@ public record AwsKinesisanalyticsv2DiscoverInputSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

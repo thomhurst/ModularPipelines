@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer", "export-idle-recommendations")]
-public record AwsComputeOptimizerExportIdleRecommendationsOptions : AwsOptions
+public record AwsComputeOptimizerExportIdleRecommendationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Export optimization recommendations for your idle resources. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one idle resource export job in progress per Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3DestinationConfig">Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommen- dations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Com- pute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }</param>
+    public AwsComputeOptimizerExportIdleRecommendationsOptions(
+        string S3DestinationConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3DestinationConfig);
+        this.S3DestinationConfig = S3DestinationConfig;
+    }
+
+    private AwsComputeOptimizerExportIdleRecommendationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerExportIdleRecommendationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerExportIdleRecommendationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommen- dations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Com- pute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }
+    /// </summary>
+    [CliOption("--s3-destination-config")]
+    public string? S3DestinationConfig { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account IDs for the export idle resource recommendations. If your account is the management account or the delegated adminis- trator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omit- ted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -40,16 +80,16 @@ public record AwsComputeOptimizerExportIdleRecommendationsOptions : AwsOptions
     [CliOption("--fields-to-export", GroupValues = true)]
     public IEnumerable<string>? FieldsToExport { get; set; }
 
-    [CliOption("--s3-destination-config")]
-    public string? S3DestinationConfig { get; set; }
-
     /// <summary>
     /// The format of the export file. The CSV file is the only export file format currently supported. Possible values: o Csv
     /// </summary>
     [CliOption("--file-format")]
     public AwsComputeOptimizerExportIdleRecommendationsFileFormat? FileFormat { get; set; }
 
-    [CliFlag("--include-member-accounts")]
+    /// <summary>
+    /// If your account is the management account or the delegated adminis- trator of an organization, this parameter indicates whether to in- clude recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organi- zation account. For more information, see Compute Optimizer and Ama- zon Web Services Organizations trusted access in the Compute Opti- mizer User Guide . If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommen- dations for member accounts aren't included in the export.
+    /// </summary>
+    [CliFlag("--include-member-accounts", NegatedName = "--no-include-member-accounts")]
     public bool? IncludeMemberAccounts { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -57,5 +97,21 @@ public record AwsComputeOptimizerExportIdleRecommendationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

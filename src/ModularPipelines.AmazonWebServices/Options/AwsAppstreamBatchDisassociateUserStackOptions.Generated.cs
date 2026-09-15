@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "batch-disassociate-user-stack")]
-public record AwsAppstreamBatchDisassociateUserStackOptions : AwsOptions
+public record AwsAppstreamBatchDisassociateUserStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates the specified users from the specified stacks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserStackAssociations">The list of UserStackAssociation objects. Constraints: o min: 1 o max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: o min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: o API o SAML o USERPOOL o AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]</param>
+    public AwsAppstreamBatchDisassociateUserStackOptions(
+        IEnumerable<string> UserStackAssociations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserStackAssociations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserStackAssociations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserStackAssociations));
+            }
+
+            UserStackAssociations = materialized;
+        }
+        this.UserStackAssociations = UserStackAssociations;
+    }
+
+    private AwsAppstreamBatchDisassociateUserStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamBatchDisassociateUserStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamBatchDisassociateUserStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of UserStackAssociation objects. Constraints: o min: 1 o max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: o min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: o API o SAML o USERPOOL o AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]
+    /// </summary>
     [CliOption("--user-stack-associations", GroupValues = true)]
-    public IEnumerable<string>? UserStackAssociations { get; set; }
+    public IEnumerable<string>? UserStackAssociations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

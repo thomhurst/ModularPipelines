@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-infrastructure-configuration")]
-public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptions
+public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new infrastructure configuration. An infrastructure configu- ration defines the environment in which your image will be built and tested. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the infrastructure configuration. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="InstanceProfileName">The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$</param>
+    public AwsImagebuilderCreateInfrastructureConfigurationOptions(
+        string Name,
+        string InstanceProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceProfileName);
+        this.InstanceProfileName = InstanceProfileName;
+    }
+
+    private AwsImagebuilderCreateInfrastructureConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateInfrastructureConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateInfrastructureConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the infrastructure configuration. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$
+    /// </summary>
+    [CliOption("--instance-profile-name")]
+    public string? InstanceProfileName { get; private init; }
 
     /// <summary>
     /// The description of the infrastructure configuration. Constraints: o min: 1 o max: 1024
@@ -33,13 +80,10 @@ public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptio
     public string? Description { get; set; }
 
     /// <summary>
-    /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The ser- vice will pick one of these instance types based on availability. (string) Syntax: "string" "string" ...
+    /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. Image Builder picks one of these instance types based on availability. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
-
-    [CliOption("--instance-profile-name")]
-    public string? InstanceProfileName { get; set; }
 
     /// <summary>
     /// The security group IDs to associate with the instance used to cus- tomize your Amazon EC2 AMI. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
@@ -65,11 +109,14 @@ public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptio
     [CliOption("--key-pair")]
     public string? KeyPair { get; set; }
 
-    [CliFlag("--terminate-instance-on-failure")]
+    /// <summary>
+    /// Specifies whether to terminate the instance on failure. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. Defaults to true .
+    /// </summary>
+    [CliFlag("--terminate-instance-on-failure", NegatedName = "--no-terminate-instance-on-failure")]
     public bool? TerminateInstanceOnFailure { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications. NOTE: EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys from other accounts. The key that is used to encrypt the SNS topic must reside in the account that the Image Builder service runs under. Constraints: o pattern: ^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$
+    /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications. NOTE: EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys from other accounts. The key that is used to encrypt the SNS topic must reside in the account that the Image Builder service runs under. Constraints: o pattern: ^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$
     /// </summary>
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
@@ -93,22 +140,44 @@ public record AwsImagebuilderCreateInfrastructureConfigurationOptions : AwsOptio
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The instance placement settings that define where the instances that are launched from your image will run. availabilityZone -&gt; (string) The Availability Zone where your build and test instances will launch. Constraints: o min: 1 o max: 1024 tenancy -&gt; (string) The tenancy of the instance. An instance with a tenancy of dedi- cated runs on single-tenant hardware. An instance with a tenancy of host runs on a Dedicated Host. If tenancy is set to host , then you can optionally specify one target for placement either host ID or host resource group ARN. If automatic placement is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to find an available host for your build and test instances. Possible values: o default o dedicated o host hostId -&gt; (string) The ID of the Dedicated Host on which build and test instances run. This only applies if tenancy is host . If you specify the host ID, you must not specify the resource group ARN. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 hostResourceGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances. This only applies if tenancy is host . If you specify the resource group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 Shorthand Syntax: availabilityZone=string,tenancy=string,hostId=string,hostResourceGroupArn=string JSON Syntax: { "availabilityZone": "string", "tenancy": "default"|"dedicated"|"host", "hostId": "string", "hostResourceGroupArn": "string" }
+    /// The instance placement settings that define where the instances that are launched from your image run. availabilityZone -&gt; (string) The Availability Zone where your build and test instances will launch. Constraints: o min: 1 o max: 1024 tenancy -&gt; (string) The tenancy of the instance. An instance with a tenancy of dedi- cated runs on single-tenant hardware. An instance with a tenancy of host runs on a Dedicated Host. If tenancy is set to host , then you can optionally specify one target for placement either host ID or host resource group ARN. If automatic placement is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to find an available host for your build and test instances. Possible values: o default o dedicated o host hostId -&gt; (string) The ID of the Dedicated Host on which build and test instances run. This only applies if tenancy is host . If you specify the host ID, you must not specify the resource group ARN. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 hostResourceGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances. This only applies if tenancy is host . If you specify the resource group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 Shorthand Syntax: availabilityZone=string,tenancy=string,hostId=string,hostResourceGroupArn=string JSON Syntax: { "availabilityZone": "string", "tenancy": "default"|"dedicated"|"host", "hostId": "string", "hostResourceGroupArn": "string" }
     /// </summary>
     [CliOption("--placement")]
     public string? Placement { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
+
+    /// <summary>
+    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

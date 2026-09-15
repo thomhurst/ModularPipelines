@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,23 +22,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "create-license-endpoint")]
-public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions
+public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpcId">The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: o min: 1 o max: 32 o pattern: vpc-[\w]{1,120}</param>
+    /// <param name="SubnetIds">The subnet IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The security group IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[\w]{1,120} Syntax: "string" "string" ...</param>
+    public AwsDeadlineCreateLicenseEndpointOptions(
+        string VpcId,
+        IEnumerable<string> SubnetIds,
+        IEnumerable<string> SecurityGroupIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+    }
+
+    private AwsDeadlineCreateLicenseEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineCreateLicenseEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineCreateLicenseEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: o min: 1 o max: 32 o pattern: vpc-[\w]{1,120}
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// The subnet IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
+    /// <summary>
+    /// The security group IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[\w]{1,120} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--security-group-ids", GroupValues = true)]
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
+
     /// <summary>
     /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
-
-    [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
     /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -50,5 +123,21 @@ public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

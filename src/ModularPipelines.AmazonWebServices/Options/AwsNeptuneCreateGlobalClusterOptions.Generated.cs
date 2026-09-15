@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "create-global-cluster")]
-public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
+public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Neptune global database spread across multiple Amazon Re- gions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operatio...
+    /// </summary>
+    /// <param name="GlobalClusterIdentifier">The cluster identifier of the new global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    public AwsNeptuneCreateGlobalClusterOptions(
+        string GlobalClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalClusterIdentifier);
+        this.GlobalClusterIdentifier = GlobalClusterIdentifier;
+    }
+
+    private AwsNeptuneCreateGlobalClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneCreateGlobalClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneCreateGlobalClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier of the new global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// </summary>
     [CliOption("--global-cluster-identifier")]
-    public string? GlobalClusterIdentifier { get; set; }
+    public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
     /// (Optional ) The Amazon Resource Name (ARN) of an existing Neptune DB cluster to use as the primary cluster of the new global database.
@@ -42,7 +79,10 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is en- abled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -57,7 +97,10 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// The storage encryption setting for the new global database cluster.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +108,21 @@ public record AwsNeptuneCreateGlobalClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

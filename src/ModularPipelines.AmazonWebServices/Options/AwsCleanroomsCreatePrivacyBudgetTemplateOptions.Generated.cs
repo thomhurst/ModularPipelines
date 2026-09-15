@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-privacy-budget-template")]
-public record AwsCleanroomsCreatePrivacyBudgetTemplateOptions : AwsOptions
+public record AwsCleanroomsCreatePrivacyBudgetTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTem- plate operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. The privacy budget template is created in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PrivacyBudgetType">Specifies the type of the privacy budget template. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET</param>
+    /// <param name="Parameters">Specifies your parameters for the privacy budget template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy, accessBudget. differentialPrivacy -&gt; (structure) An object that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to use. Constraints: o min: 1 o max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: o min: 10 o max: 100 accessBudget -&gt; (structure) Access budget configuration for the privacy budget template in- put, enabling integration with access budget functionality. budgetParameters -&gt; (list) [required] An array of budget parameters that define the access budget configuration for the privacy template. Constraints: o min: 1 o max: 2 (structure) Individual budget parameter configuration that defines specific budget allocation settings for access budgets. type -&gt; (string) [required] The type of budget parameter being configured. Possible values: o CALENDAR_DAY o CALENDAR_MONTH o CALENDAR_WEEK o LIFETIME budget -&gt; (integer) [required] The budget allocation amount for this specific parame- ter. Constraints: o min: 0 o max: 1000000 autoRefresh -&gt; (string) Whether this individual budget parameter automatically refreshes when the budget period resets. Possible values: o ENABLED o DISABLED resourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the resource associated with this privacy budget template. Constraints: o min: 0 o max: 200 o pattern: arn:aws:[\w]+:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:mem- bership/[\d\w-]+/(configuredtableassociation|intermedi- atetable)/[\d\w-]+ JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer }, "accessBudget": { "budgetParameters": [ { "type": "CALENDAR_DAY"|"CALENDAR_MONTH"|"CALENDAR_WEEK"|"LIFETIME", "budget": integer, "autoRefresh": "ENABLED"|"DISABLED" } ... ], "resourceArn": "string" } }</param>
+    public AwsCleanroomsCreatePrivacyBudgetTemplateOptions(
+        string MembershipIdentifier,
+        AwsCleanroomsCreatePrivacyBudgetTemplatePrivacyBudgetType PrivacyBudgetType,
+        string Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
+        this.PrivacyBudgetType = PrivacyBudgetType;
+        global::System.ArgumentNullException.ThrowIfNull(Parameters);
+        this.Parameters = Parameters;
+    }
+
+    private AwsCleanroomsCreatePrivacyBudgetTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreatePrivacyBudgetTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreatePrivacyBudgetTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is created in the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of the privacy budget template. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET
+    /// </summary>
+    [CliOption("--privacy-budget-type")]
+    public AwsCleanroomsCreatePrivacyBudgetTemplatePrivacyBudgetType? PrivacyBudgetType { get; private init; }
+
+    /// <summary>
+    /// Specifies your parameters for the privacy budget template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: differentialPrivacy, accessBudget. differentialPrivacy -&gt; (structure) An object that specifies the epsilon and noise parameters. epsilon -&gt; (integer) [required] The epsilon value that you want to use. Constraints: o min: 1 o max: 20 usersNoisePerQuery -&gt; (integer) [required] Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted. Constraints: o min: 10 o max: 100 accessBudget -&gt; (structure) Access budget configuration for the privacy budget template in- put, enabling integration with access budget functionality. budgetParameters -&gt; (list) [required] An array of budget parameters that define the access budget configuration for the privacy template. Constraints: o min: 1 o max: 2 (structure) Individual budget parameter configuration that defines specific budget allocation settings for access budgets. type -&gt; (string) [required] The type of budget parameter being configured. Possible values: o CALENDAR_DAY o CALENDAR_MONTH o CALENDAR_WEEK o LIFETIME budget -&gt; (integer) [required] The budget allocation amount for this specific parame- ter. Constraints: o min: 0 o max: 1000000 autoRefresh -&gt; (string) Whether this individual budget parameter automatically refreshes when the budget period resets. Possible values: o ENABLED o DISABLED resourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the resource associated with this privacy budget template. Constraints: o min: 0 o max: 200 o pattern: arn:aws:[\w]+:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:mem- bership/[\d\w-]+/(configuredtableassociation|intermedi- atetable)/[\d\w-]+ JSON Syntax: { "differentialPrivacy": { "epsilon": integer, "usersNoisePerQuery": integer }, "accessBudget": { "budgetParameters": [ { "type": "CALENDAR_DAY"|"CALENDAR_MONTH"|"CALENDAR_WEEK"|"LIFETIME", "budget": integer, "autoRefresh": "ENABLED"|"DISABLED" } ... ], "resourceArn": "string" } }
+    /// </summary>
+    [CliOption("--parameters")]
+    public string? Parameters { get; private init; }
 
     /// <summary>
     /// How often the privacy budget refreshes. WARNING: If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes. Possible values: o CALENDAR_MONTH o NONE
     /// </summary>
     [CliOption("--auto-refresh")]
     public AwsCleanroomsCreatePrivacyBudgetTemplateAutoRefresh? AutoRefresh { get; set; }
-
-    [CliOption("--privacy-budget-type")]
-    public string? PrivacyBudgetType { get; set; }
-
-    [CliOption("--parameters")]
-    public string? Parameters { get; set; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -49,5 +100,21 @@ public record AwsCleanroomsCreatePrivacyBudgetTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

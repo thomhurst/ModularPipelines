@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "delete-custom-key-store")]
-public record AwsKmsDeleteCustomKeyStoreOptions : AwsOptions
+public record AwsKmsDeleteCustomKeyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a custom key store . This operation does not affect any backing elements of the custom key store. It does not delete the CloudHSM clus- ter that is associated with an CloudHSM key store, or affect any users or keys in the cluster. For an external key store, it does not affect the external key store proxy, external key manager, or any external keys. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso-...
+    /// </summary>
+    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores opera- tion. Constraints: o min: 1 o max: 64</param>
+    public AwsKmsDeleteCustomKeyStoreOptions(
+        string CustomKeyStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomKeyStoreId);
+        this.CustomKeyStoreId = CustomKeyStoreId;
+    }
+
+    private AwsKmsDeleteCustomKeyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsDeleteCustomKeyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsDeleteCustomKeyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores opera- tion. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--custom-key-store-id")]
-    public string? CustomKeyStoreId { get; set; }
+    public string? CustomKeyStoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

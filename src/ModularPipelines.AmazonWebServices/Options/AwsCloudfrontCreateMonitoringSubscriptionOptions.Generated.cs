@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-monitoring-subscription")]
-public record AwsCloudfrontCreateMonitoringSubscriptionOptions : AwsOptions
+public record AwsCloudfrontCreateMonitoringSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--distribution-id")]
-    public string? DistributionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables or disables additional Amazon CloudWatch metrics for the speci- fied CloudFront distribution. The additional metrics incur an addi- tional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DistributionId">The ID of the distribution that you are enabling metrics for.</param>
+    /// <param name="MonitoringSubscription">A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given Cloud- Front distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: o Enabled o Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }</param>
+    public AwsCloudfrontCreateMonitoringSubscriptionOptions(
+        string DistributionId,
+        string MonitoringSubscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DistributionId);
+        this.DistributionId = DistributionId;
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringSubscription);
+        this.MonitoringSubscription = MonitoringSubscription;
+    }
+
+    private AwsCloudfrontCreateMonitoringSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateMonitoringSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateMonitoringSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the distribution that you are enabling metrics for.
+    /// </summary>
+    [CliOption("--distribution-id")]
+    public string? DistributionId { get; private init; }
+
+    /// <summary>
+    /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given Cloud- Front distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: o Enabled o Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }
+    /// </summary>
     [CliOption("--monitoring-subscription")]
-    public string? MonitoringSubscription { get; set; }
+    public string? MonitoringSubscription { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

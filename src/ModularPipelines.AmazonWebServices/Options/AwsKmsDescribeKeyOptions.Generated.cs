@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "describe-key")]
-public record AwsKmsDescribeKeyOptions : AwsOptions
+public record AwsKmsDescribeKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides detailed information about a KMS key. You can run DescribeKey on a customer managed key or an Amazon Web Services managed key . This detailed information includes the key ARN, creation date (and deletion date, if applicable), the key state, and the origin and expi- ration date (if any) of the key material. It includes fields, like KeySpec , that help you distinguish different types of KMS keys. It also displays the key usage (encryption, signing, or generating and verifying MACs) and th...
+    /// </summary>
+    /// <param name="KeyId">Describes the specified KMS key. If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048</param>
+    public AwsKmsDescribeKeyOptions(
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    private AwsKmsDescribeKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsDescribeKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsDescribeKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Describes the specified KMS key. If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
     /// <summary>
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
@@ -37,5 +74,21 @@ public record AwsKmsDescribeKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

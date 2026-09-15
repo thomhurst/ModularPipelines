@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "update-custom-domain-association")]
-public record AwsRedshiftServerlessUpdateCustomDomainAssociationOptions : AwsOptions
+public record AwsRedshiftServerlessUpdateCustomDomainAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an Amazon Redshift Serverless certificate associated with a custom domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CustomDomainCertificateArn">The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CustomDomainName">The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$</param>
+    /// <param name="WorkgroupName">The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    public AwsRedshiftServerlessUpdateCustomDomainAssociationOptions(
+        string CustomDomainCertificateArn,
+        string CustomDomainName,
+        string WorkgroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomDomainCertificateArn);
+        this.CustomDomainCertificateArn = CustomDomainCertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(CustomDomainName);
+        this.CustomDomainName = CustomDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkgroupName);
+        this.WorkgroupName = WorkgroupName;
+    }
+
+    private AwsRedshiftServerlessUpdateCustomDomainAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessUpdateCustomDomainAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessUpdateCustomDomainAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The custom domain names certificate Amazon resource name (ARN). This is optional. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--custom-domain-certificate-arn")]
-    public string? CustomDomainCertificateArn { get; set; }
+    public string? CustomDomainCertificateArn { get; private init; }
 
+    /// <summary>
+    /// The custom domain name associated with the workgroup. Constraints: o min: 1 o max: 253 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$
+    /// </summary>
     [CliOption("--custom-domain-name")]
-    public string? CustomDomainName { get; set; }
+    public string? CustomDomainName { get; private init; }
 
+    /// <summary>
+    /// The name of the workgroup associated with the database. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
     [CliOption("--workgroup-name")]
-    public string? WorkgroupName { get; set; }
+    public string? WorkgroupName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

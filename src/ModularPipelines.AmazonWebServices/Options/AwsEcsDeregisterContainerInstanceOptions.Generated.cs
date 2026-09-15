@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "deregister-container-instance")]
-public record AwsEcsDeregisterContainerInstanceOptions : AwsOptions
+public record AwsEcsDeregisterContainerInstanceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deregisters an Amazon ECS container instance from the specified clus- ter. This instance is no longer available to run tasks. If you intend to use the container instance for some other purpose af- ter deregistration, we recommend that you stop all of the tasks running on the container instance before deregistration. That prevents any or- phaned tasks from consuming resources. Deregistering a container instance removes the instance from a cluster, but it doesn't terminate the EC2 instance. If you...
+    /// </summary>
+    /// <param name="ContainerInstance">The container instance ID or full ARN of the container instance to deregister. For more information about the ARN format, see Amazon Resource Name (ARN) in the Amazon ECS Developer Guide .</param>
+    public AwsEcsDeregisterContainerInstanceOptions(
+        string ContainerInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerInstance);
+        this.ContainerInstance = ContainerInstance;
+    }
+
+    private AwsEcsDeregisterContainerInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDeregisterContainerInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDeregisterContainerInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The container instance ID or full ARN of the container instance to deregister. For more information about the ARN format, see Amazon Resource Name (ARN) in the Amazon ECS Developer Guide .
+    /// </summary>
+    [CliOption("--container-instance")]
+    public string? ContainerInstance { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not spec- ify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instance")]
-    public string? ContainerInstance { get; set; }
-
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the container instance to be deregistered. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the in- stance or the tasks stop through some other means, but they're or- phaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible. Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsEcsDeregisterContainerInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

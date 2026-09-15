@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --eventstatus.
+/// Allowed values for --event-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsApplicationInsightsListConfigurationHistoryEventStatus
 {
+    [EnumValue("ERROR")]
+    Error,
+
     [EnumValue("INFO")]
-    Info = 1,
+    Info,
 
     [EnumValue("WARN")]
-    Warn = 2,
-
-    [EnumValue("ERROR")]
-    Error = 3
+    Warn
 }

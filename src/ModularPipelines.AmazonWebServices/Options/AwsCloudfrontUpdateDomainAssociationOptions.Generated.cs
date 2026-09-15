@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-domain-association")]
-public record AwsCloudfrontUpdateDomainAssociationOptions : AwsOptions
+public record AwsCloudfrontUpdateDomainAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distribu- tions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domai...
+    /// </summary>
+    /// <param name="Domain">The domain to update.</param>
+    /// <param name="TargetResource">The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or Distribution- TenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
+    public AwsCloudfrontUpdateDomainAssociationOptions(
+        string Domain,
+        string TargetResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(TargetResource);
+        this.TargetResource = TargetResource;
+    }
+
+    private AwsCloudfrontUpdateDomainAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateDomainAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateDomainAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain to update.
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or Distribution- TenantId , but not both. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
+    /// </summary>
     [CliOption("--target-resource")]
-    public string? TargetResource { get; set; }
+    public string? TargetResource { get; private init; }
 
     /// <summary>
     /// The value of the ETag identifier for the standard distribution or distribution tenant that will be associated with the domain.
@@ -38,5 +82,21 @@ public record AwsCloudfrontUpdateDomainAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

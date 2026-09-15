@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "create-wireless-gateway-task-definition")]
-public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOptions
+public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--auto-create-tasks")]
-    public bool? AutoCreateTasks { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a gateway task definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutoCreateTasks">Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false , the task must me created by calling CreateWirelessGatewayTask .</param>
+    public AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions(
+        bool AutoCreateTasks
+    )
+    {
+        this.AutoCreateTasks = AutoCreateTasks;
+    }
+
+    private AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false , the task must me created by calling CreateWirelessGatewayTask .
+    /// </summary>
+    [CliFlag("--auto-create-tasks", NegatedName = "--no-auto-create-tasks")]
+    public bool? AutoCreateTasks { get; private init; }
 
     /// <summary>
     /// The name of the new resource. Constraints: o min: 1 o max: 2048
@@ -55,5 +91,21 @@ public record AwsIotwirelessCreateWirelessGatewayTaskDefinitionOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

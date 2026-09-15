@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-agent-permissions")]
-public record AwsQuicksightUpdateAgentPermissionsOptions : AwsOptions
+public record AwsQuicksightUpdateAgentPermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the resource permissions for an agent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentId">The unique identifier for the agent. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    public AwsQuicksightUpdateAgentPermissionsOptions(
+        string AgentId,
+        string AwsAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+    }
+
+    private AwsQuicksightUpdateAgentPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateAgentPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateAgentPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+
+    /// </summary>
+    [CliOption("--agent-id")]
+    public string? AgentId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
     /// <summary>
     /// The resource permissions that you want to grant on the agent. Constraints: o min: 0 o max: 100 (structure) Permission for the resource. Principal -&gt; (string) [required] The Amazon Resource Name (ARN) of the principal. This can be one of the following: o The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.) o The ARN of an Quick Sight user, group, or namespace associ- ated with an analysis, dashboard, template, or theme. Name- space sharing is not supported for action connectors. (This is common.) o The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.) Constraints: o min: 1 o max: 256 Actions -&gt; (list) [required] The IAM action to grant or revoke permissions on. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: Principal=string,Actions=string,string ... JSON Syntax: [ { "Principal": "string", "Actions": ["string", ...] } ... ]
@@ -44,5 +88,21 @@ public record AwsQuicksightUpdateAgentPermissionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

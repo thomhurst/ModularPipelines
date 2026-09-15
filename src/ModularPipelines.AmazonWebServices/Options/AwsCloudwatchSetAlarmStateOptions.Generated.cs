@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "set-alarm-state")]
-public record AwsCloudwatchSetAlarmStateOptions : AwsOptions
+public record AwsCloudwatchSetAlarmStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within sec- onds. Because the metric alarm state change happens quickly, it is typ- ically only v...
+    /// </summary>
+    /// <param name="AlarmName">The name of the alarm. Constraints: o min: 1 o max: 255</param>
+    /// <param name="StateValue">The value of the state. Possible values: o OK o ALARM o INSUFFICIENT_DATA</param>
+    /// <param name="StateReason">The reason that this alarm is set to this specific state, in text format. Constraints: o min: 0 o max: 1023</param>
+    public AwsCloudwatchSetAlarmStateOptions(
+        string AlarmName,
+        AwsCloudwatchSetAlarmStateStateValue StateValue,
+        string StateReason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmName);
+        this.AlarmName = AlarmName;
+        global::System.ArgumentNullException.ThrowIfNull(StateValue);
+        this.StateValue = StateValue;
+        global::System.ArgumentNullException.ThrowIfNull(StateReason);
+        this.StateReason = StateReason;
+    }
+
+    private AwsCloudwatchSetAlarmStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchSetAlarmStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchSetAlarmStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alarm. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--alarm-name")]
-    public string? AlarmName { get; set; }
+    public string? AlarmName { get; private init; }
 
+    /// <summary>
+    /// The value of the state. Possible values: o OK o ALARM o INSUFFICIENT_DATA
+    /// </summary>
     [CliOption("--state-value")]
-    public string? StateValue { get; set; }
+    public AwsCloudwatchSetAlarmStateStateValue? StateValue { get; private init; }
 
+    /// <summary>
+    /// The reason that this alarm is set to this specific state, in text format. Constraints: o min: 0 o max: 1023
+    /// </summary>
     [CliOption("--state-reason")]
-    public string? StateReason { get; set; }
+    public string? StateReason { get; private init; }
 
     /// <summary>
     /// The reason that this alarm is set to this specific state, in JSON format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in this field to take the cor- rect action. Constraints: o min: 0 o max: 4000
@@ -41,5 +93,21 @@ public record AwsCloudwatchSetAlarmStateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

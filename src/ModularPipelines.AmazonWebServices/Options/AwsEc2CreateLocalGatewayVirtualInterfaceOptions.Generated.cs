@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-local-gateway-virtual-interface")]
-public record AwsEc2CreateLocalGatewayVirtualInterfaceOptions : AwsOptions
+public record AwsEc2CreateLocalGatewayVirtualInterfaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a virtual interface for a local gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalGatewayVirtualInterfaceGroupId">The ID of the local gateway virtual interface group.</param>
+    /// <param name="OutpostLagId">References the Link Aggregation Group (LAG) that connects the Out- post to on-premises network devices.</param>
+    /// <param name="Vlan">The virtual local area network (VLAN) used for the local gateway virtual interface.</param>
+    /// <param name="LocalAddress">The IP address assigned to the local gateway virtual interface on the Outpost side. Only IPv4 is supported.</param>
+    /// <param name="PeerAddress">The peer IP address for the local gateway virtual interface. Only IPv4 is supported.</param>
+    public AwsEc2CreateLocalGatewayVirtualInterfaceOptions(
+        string LocalGatewayVirtualInterfaceGroupId,
+        string OutpostLagId,
+        int Vlan,
+        string LocalAddress,
+        string PeerAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalGatewayVirtualInterfaceGroupId);
+        this.LocalGatewayVirtualInterfaceGroupId = LocalGatewayVirtualInterfaceGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(OutpostLagId);
+        this.OutpostLagId = OutpostLagId;
+        this.Vlan = Vlan;
+        global::System.ArgumentNullException.ThrowIfNull(LocalAddress);
+        this.LocalAddress = LocalAddress;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAddress);
+        this.PeerAddress = PeerAddress;
+    }
+
+    private AwsEc2CreateLocalGatewayVirtualInterfaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateLocalGatewayVirtualInterfaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateLocalGatewayVirtualInterfaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the local gateway virtual interface group.
+    /// </summary>
     [CliOption("--local-gateway-virtual-interface-group-id")]
-    public string? LocalGatewayVirtualInterfaceGroupId { get; set; }
+    public string? LocalGatewayVirtualInterfaceGroupId { get; private init; }
 
+    /// <summary>
+    /// References the Link Aggregation Group (LAG) that connects the Out- post to on-premises network devices.
+    /// </summary>
     [CliOption("--outpost-lag-id")]
-    public string? OutpostLagId { get; set; }
+    public string? OutpostLagId { get; private init; }
 
+    /// <summary>
+    /// The virtual local area network (VLAN) used for the local gateway virtual interface.
+    /// </summary>
     [CliOption("--vlan")]
-    public int? Vlan { get; set; }
+    public int? Vlan { get; private init; }
 
+    /// <summary>
+    /// The IP address assigned to the local gateway virtual interface on the Outpost side. Only IPv4 is supported.
+    /// </summary>
     [CliOption("--local-address")]
-    public string? LocalAddress { get; set; }
+    public string? LocalAddress { get; private init; }
 
+    /// <summary>
+    /// The peer IP address for the local gateway virtual interface. Only IPv4 is supported.
+    /// </summary>
     [CliOption("--peer-address")]
-    public string? PeerAddress { get; set; }
+    public string? PeerAddress { get; private init; }
 
     /// <summary>
     /// The Autonomous System Number (ASN) of the Border Gateway Protocol (BGP) peer.
@@ -48,7 +112,10 @@ public record AwsEc2CreateLocalGatewayVirtualInterfaceOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -62,5 +129,21 @@ public record AwsEc2CreateLocalGatewayVirtualInterfaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

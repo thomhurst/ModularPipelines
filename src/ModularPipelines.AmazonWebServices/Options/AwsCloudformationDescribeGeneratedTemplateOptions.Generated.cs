@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "describe-generated-template")]
-public record AwsCloudformationDescribeGeneratedTemplateOptions : AwsOptions
+public record AwsCloudformationDescribeGeneratedTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a Create- GeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128</param>
+    public AwsCloudformationDescribeGeneratedTemplateOptions(
+        string GeneratedTemplateName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GeneratedTemplateName);
+        this.GeneratedTemplateName = GeneratedTemplateName;
+    }
+
+    private AwsCloudformationDescribeGeneratedTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationDescribeGeneratedTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationDescribeGeneratedTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--generated-template-name")]
-    public string? GeneratedTemplateName { get; set; }
+    public string? GeneratedTemplateName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "update-recommendation-lifecycle")]
-public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions
+public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the lifecyle of a Recommendation. This API only supports priori- tized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LifecycleStage">The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved</param>
+    /// <param name="RecommendationIdentifier">The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
+    public AwsTrustedadvisorUpdateRecommendationLifecycleOptions(
+        AwsTrustedadvisorUpdateRecommendationLifecycleLifecycleStage LifecycleStage,
+        string RecommendationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecycleStage);
+        this.LifecycleStage = LifecycleStage;
+        global::System.ArgumentNullException.ThrowIfNull(RecommendationIdentifier);
+        this.RecommendationIdentifier = RecommendationIdentifier;
+    }
+
+    private AwsTrustedadvisorUpdateRecommendationLifecycleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorUpdateRecommendationLifecycleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorUpdateRecommendationLifecycleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved
+    /// </summary>
     [CliOption("--lifecycle-stage")]
-    public string? LifecycleStage { get; set; }
+    public AwsTrustedadvisorUpdateRecommendationLifecycleLifecycleStage? LifecycleStage { get; private init; }
+
+    /// <summary>
+    /// The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
+    /// </summary>
+    [CliOption("--recommendation-identifier")]
+    public string? RecommendationIdentifier { get; private init; }
 
     /// <summary>
     /// Reason for the lifecycle stage change Constraints: o min: 10 o max: 4096 o pattern: [\s\S]*
@@ -37,13 +84,26 @@ public record AwsTrustedadvisorUpdateRecommendationLifecycleOptions : AwsOptions
     [CliOption("--update-reason-code")]
     public AwsTrustedadvisorUpdateRecommendationLifecycleUpdateReasonCode? UpdateReasonCode { get; set; }
 
-    [CliOption("--recommendation-identifier")]
-    public string? RecommendationIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

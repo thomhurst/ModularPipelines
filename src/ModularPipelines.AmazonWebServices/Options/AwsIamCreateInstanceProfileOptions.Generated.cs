@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "create-instance-profile")]
-public record AwsIamCreateInstanceProfileOptions : AwsOptions
+public record AwsIamCreateInstanceProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new instance profile. For information about instance pro- files, see Using roles for applications on Amazon EC2 in the IAM User Guide , and Instance profiles in the Amazon EC2 User Guide . For information about the number of instance profiles you can create, see IAM object quotas in the IAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceProfileName">The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    public AwsIamCreateInstanceProfileOptions(
+        string InstanceProfileName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceProfileName);
+        this.InstanceProfileName = InstanceProfileName;
+    }
+
+    private AwsIamCreateInstanceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamCreateInstanceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamCreateInstanceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the instance profile to create. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--instance-profile-name")]
-    public string? InstanceProfileName { get; set; }
+    public string? InstanceProfileName { get; private init; }
 
     /// <summary>
     /// The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
@@ -41,5 +78,21 @@ public record AwsIamCreateInstanceProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

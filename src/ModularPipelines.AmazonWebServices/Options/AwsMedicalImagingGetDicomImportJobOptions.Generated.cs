@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "get-dicom-import-job")]
-public record AwsMedicalImagingGetDicomImportJobOptions : AwsOptions
+public record AwsMedicalImagingGetDicomImportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Get the import job properties to learn more about the job or job progress. NOTE: The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus re- turns as COMPLETED , we still recommend you review the output mani- fests written to S3, as they provide details on the success or fail- ure of individual P10 object imports. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="JobId">The import job identifier. Constraints: o min: 1 o max: 32 o pattern: [0-9a-z]+</param>
+    public AwsMedicalImagingGetDicomImportJobOptions(
+        string DatastoreId,
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsMedicalImagingGetDicomImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedicalImagingGetDicomImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedicalImagingGetDicomImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
+    [CliOption("--datastore-id")]
+    public string? DatastoreId { get; private init; }
+
+    /// <summary>
+    /// The import job identifier. Constraints: o min: 1 o max: 32 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

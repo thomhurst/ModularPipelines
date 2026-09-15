@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-custom-metric")]
-public record AwsIotCreateCustomMetricOptions : AwsOptions
+public record AwsIotCreateCustomMetricOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Use this API to define a Custom Metric published by your devices to De- vice ...
+    /// </summary>
+    /// <param name="MetricName">The name of the custom metric. This will be used in the metric re- port submitted from the device/thing. The name can't begin with aws: . You can't change the name after you define it. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="MetricType">The type of the custom metric. WARNING: The type number only takes a single metric value as an input, but when you submit the metrics value in the DeviceMetrics re- port, you must pass it as an array with a single value. Possible values: o string-list o ip-address-list o number-list o number</param>
+    public AwsIotCreateCustomMetricOptions(
+        string MetricName,
+        AwsIotCreateCustomMetricMetricType MetricType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(MetricType);
+        this.MetricType = MetricType;
+    }
+
+    private AwsIotCreateCustomMetricOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateCustomMetricOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateCustomMetricOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom metric. This will be used in the metric re- port submitted from the device/thing. The name can't begin with aws: . You can't change the name after you define it. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public string? MetricName { get; private init; }
+
+    /// <summary>
+    /// The type of the custom metric. WARNING: The type number only takes a single metric value as an input, but when you submit the metrics value in the DeviceMetrics re- port, you must pass it as an array with a single value. Possible values: o string-list o ip-address-list o number-list o number
+    /// </summary>
+    [CliOption("--metric-type")]
+    public AwsIotCreateCustomMetricMetricType? MetricType { get; private init; }
 
     /// <summary>
     /// The friendly name in the console for the custom metric. This name doesn't have to be unique. Don't use this name as the metric identi- fier in the device metric report. You can update the friendly name after you define it. Constraints: o max: 128 o pattern: [\p{Graph}\x20]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
-
-    [CliOption("--metric-type")]
-    public string? MetricType { get; set; }
 
     /// <summary>
     /// Metadata that can be used to manage the custom metric. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -52,5 +97,21 @@ public record AwsIotCreateCustomMetricOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

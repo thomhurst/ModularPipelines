@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "put-auto-termination-policy")]
-public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions
+public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR clus- ter. An auto-termination policy defines the amount of idle time in sec- onds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterId">Specifies the ID of the Amazon EMR cluster to which the auto-termi- nation policy will be attached. Constraints: o max: 256</param>
+    public AwsEmrPutAutoTerminationPolicyOptions(
+        string ClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+    }
+
+    private AwsEmrPutAutoTerminationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrPutAutoTerminationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrPutAutoTerminationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the Amazon EMR cluster to which the auto-termi- nation policy will be attached. Constraints: o max: 256
+    /// </summary>
     [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    public string? ClusterId { get; private init; }
 
     /// <summary>
     /// Specifies the auto-termination policy to attach to the cluster. IdleTimeout -&gt; (long) Specifies the amount of idle time in seconds after which the cluster automatically terminates. You can specify a minimum of 60 seconds and a maximum of 604800 seconds (seven days). Shorthand Syntax: IdleTimeout=long JSON Syntax: { "IdleTimeout": long }
@@ -35,5 +72,21 @@ public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

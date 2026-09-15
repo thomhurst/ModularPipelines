@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain-query", "list-asset-contracts")]
-public record AwsManagedblockchainQueryListAssetContractsOptions : AwsOptions
+public record AwsManagedblockchainQueryListAssetContractsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all the contracts for a given contract type deployed by an ad- dress (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation. See also: AWS API Documentation list-asset-contracts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the -...
+    /// </summary>
+    /// <param name="ContractFilter">Contains the filter parameter for the request. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET tokenStandard -&gt; (string) [required] The container for the token standard. Possible values: o ERC20 o ERC721 o ERC1155 deployerAddress -&gt; (string) [required] The network address of the deployer. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,tokenStandard=string,deployerAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "tokenStandard": "ERC20"|"ERC721"|"ERC1155", "deployerAddress": "string" }</param>
+    public AwsManagedblockchainQueryListAssetContractsOptions(
+        string ContractFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContractFilter);
+        this.ContractFilter = ContractFilter;
+    }
+
+    private AwsManagedblockchainQueryListAssetContractsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainQueryListAssetContractsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainQueryListAssetContractsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains the filter parameter for the request. network -&gt; (string) [required] The blockchain network of the contract. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET tokenStandard -&gt; (string) [required] The container for the token standard. Possible values: o ERC20 o ERC721 o ERC1155 deployerAddress -&gt; (string) [required] The network address of the deployer. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: network=string,tokenStandard=string,deployerAddress=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "tokenStandard": "ERC20"|"ERC721"|"ERC1155", "deployerAddress": "string" }
+    /// </summary>
     [CliOption("--contract-filter")]
-    public string? ContractFilter { get; set; }
+    public string? ContractFilter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsManagedblockchainQueryListAssetContractsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

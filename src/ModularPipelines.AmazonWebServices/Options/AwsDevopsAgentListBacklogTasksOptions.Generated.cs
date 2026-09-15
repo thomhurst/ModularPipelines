@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "list-backlog-tasks")]
-public record AwsDevopsAgentListBacklogTasksOptions : AwsOptions
+public record AwsDevopsAgentListBacklogTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists backlog tasks in the specified agent space with optional filter- ing and sorting See also: AWS API Documentation list-backlog-tasks uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-backlog-tasks is a paginated operation. Mu...
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the tasks Constraints: o min: 1 o max: 2048</param>
+    public AwsDevopsAgentListBacklogTasksOptions(
+        string AgentSpaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+    }
+
+    private AwsDevopsAgentListBacklogTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentListBacklogTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentListBacklogTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space containing the tasks Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
     /// <summary>
     /// Filter criteria to apply when listing tasks Filtering restrictions: - Each filter field list is limited to a single value - Filtering by Priority and Status at the same time when not filtering by Type is not permitted - Timestamp filters (createdAfter, createdBefore) can be combined with other filters when not sorting by priority createdAfter -&gt; (timestamp) Filter for tasks created after this timestamp inclusive createdBefore -&gt; (timestamp) Filter for tasks created before this timestamp exclusive priority -&gt; (list) Filter by priority (single value only) Constraints: o min: 1 o max: 1 (string) Priority levels for tasks, from highest to lowest urgency Possible values: o CRITICAL o HIGH o MEDIUM o LOW o MINIMAL status -&gt; (list) Filter by status (single value only) Constraints: o min: 1 o max: 1 (string) Possible states of a task throughout its lifecycle Possible values: o PENDING_TRIAGE o LINKED o PENDING_START o IN_PROGRESS o PENDING_CUSTOMER_APPROVAL o COMPLETED o FAILED o TIMED_OUT o CANCELED o SKIPPED o WAITING taskType -&gt; (list) Filter by task type (single value only) Constraints: o min: 1 o max: 1 (string) Types of tasks that can be created in the backlog Possible values: o INVESTIGATION o EVALUATION o RELEASE_READINESS_REVIEW o RELEASE_TESTING primaryTaskId -&gt; (string) Filter by primary task ID to get linked tasks Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ Shorthand Syntax: createdAfter=timestamp,createdBefore=timestamp,priority=string,string,status=string,string,taskType=string,string,primaryTaskId=string JSON Syntax: { "createdAfter": timestamp, "createdBefore": timestamp, "priority": ["CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"MINIMAL", ...], "status": ["PENDING_TRIAGE"|"LINKED"|"PENDING_START"|"IN_PROGRESS"|"PENDING_CUSTOMER_APPROVAL"|"COMPLETED"|"FAILED"|"TIMED_OUT"|"CANCELED"|"SKIPPED"|"WAITING", ...], "taskType": ["INVESTIGATION"|"EVALUATION"|"RELEASE_READINESS_REVIEW"|"RELEASE_TESTING", ...], "primaryTaskId": "string" }
@@ -68,5 +105,21 @@ public record AwsDevopsAgentListBacklogTasksOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

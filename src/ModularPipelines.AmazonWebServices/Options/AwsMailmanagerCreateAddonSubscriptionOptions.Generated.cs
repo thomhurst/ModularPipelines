@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "create-addon-subscription")]
-public record AwsMailmanagerCreateAddonSubscriptionOptions : AwsOptions
+public record AwsMailmanagerCreateAddonSubscriptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AddonName">The name of the Add On to subscribe to. You can only have one sub- scription for each Add On name.</param>
+    public AwsMailmanagerCreateAddonSubscriptionOptions(
+        string AddonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddonName);
+        this.AddonName = AddonName;
+    }
+
+    private AwsMailmanagerCreateAddonSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerCreateAddonSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerCreateAddonSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Add On to subscribe to. You can only have one sub- scription for each Add On name.
+    /// </summary>
+    [CliOption("--addon-name")]
+    public string? AddonName { get; private init; }
+
     /// <summary>
     /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--addon-name")]
-    public string? AddonName { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -43,5 +80,21 @@ public record AwsMailmanagerCreateAddonSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

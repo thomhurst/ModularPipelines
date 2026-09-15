@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "import-client-branding")]
-public record AwsWorkspacesImportClientBrandingOptions : AwsOptions
+public record AwsWorkspacesImportClientBrandingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal com- pany logo, the support email address, support link, link to reset pass- word, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience NOTE: o You must specify at least one platform type when importing client branding. o You ca...
+    /// </summary>
+    /// <param name="ResourceId">The directory identifier of the WorkSpace for which you want to im- port client branding. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    public AwsWorkspacesImportClientBrandingOptions(
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsWorkspacesImportClientBrandingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesImportClientBrandingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesImportClientBrandingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The directory identifier of the WorkSpace for which you want to im- port client branding. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     /// <summary>
     /// The branding information to import for Windows devices. Logo -&gt; (blob) The logo. The only image format accepted is a binary data object that is converted from a .png file. Constraints: o min: 1 o max: 1500000 SupportEmail -&gt; (string) The support email. The company's customer support email address. NOTE: o In each platform type, the SupportEmail and SupportLink pa- rameters are mutually exclusive. You can specify one para- meter for each platform type, but not both. o The default email is workspaces-feedback@amazon.com . Constraints: o min: 6 o max: 64 o pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$ SupportLink -&gt; (string) The support link. The link for the company's customer support page for their WorkSpace. NOTE: o In each platform type, the SupportEmail and SupportLink pa- rameters are mutually exclusive. You can specify one para- meter for each platform type, but not both. o The default support link is workspaces-feedback@amazon.com . Constraints: o min: 1 o max: 200 o pattern: ^(http|https)\://\S+ ForgotPasswordLink -&gt; (string) The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace. Constraints: o min: 1 o max: 200 o pattern: ^(http|https)\://\S+ LoginMessage -&gt; (map) The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US . The HTML tags sup- ported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul . key -&gt; (string) Constraints: o min: 5 o max: 5 o pattern: ^[a-z]{2}_[A-Z]{2}$ value -&gt; (string) Constraints: o min: 0 o max: 2000 o pattern: ^.*$ Shorthand Syntax: Logo=blob,SupportEmail=string,SupportLink=string,ForgotPasswordLink=string,LoginMessage={KeyName1=string,KeyName2=string} JSON Syntax: { "Logo": blob, "SupportEmail": "string", "SupportLink": "string", "ForgotPasswordLink": "string", "LoginMessage": {"string": "string" ...} }
@@ -65,5 +102,21 @@ public record AwsWorkspacesImportClientBrandingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

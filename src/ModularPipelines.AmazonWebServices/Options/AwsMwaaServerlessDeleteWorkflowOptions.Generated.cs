@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "delete-workflow")]
-public record AwsMwaaServerlessDeleteWorkflowOptions : AwsOptions
+public record AwsMwaaServerlessDeleteWorkflowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a workflow and all its versions. This operation permanently re- moves the workflow and cannot be undone. Amazon Managed Workflows for Apache Airflow Serverless ensures that all associated resources are properly cleaned up, including stopping any running executions, remov- ing scheduled triggers, and cleaning up execution history. The deletion process respects the multi-tenant isolation boundaries and ensures that no residual data or configurations remain that could affect other cus- tome...
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow you want to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    public AwsMwaaServerlessDeleteWorkflowOptions(
+        string WorkflowArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+    }
+
+    private AwsMwaaServerlessDeleteWorkflowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessDeleteWorkflowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessDeleteWorkflowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow you want to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    public string? WorkflowArn { get; private init; }
 
     /// <summary>
     /// Optional. The specific version of the workflow to delete. If not specified, all versions of the workflow are deleted. Constraints: o min: 32 o max: 32 o pattern: [a-z0-9]{32}
@@ -35,5 +72,21 @@ public record AwsMwaaServerlessDeleteWorkflowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

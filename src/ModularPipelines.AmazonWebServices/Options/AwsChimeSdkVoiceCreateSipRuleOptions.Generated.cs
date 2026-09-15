@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,114 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "create-sip-rule")]
-public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions
+public record AwsChimeSdkVoiceCreateSipRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications and rules in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="TriggerType">The type of trigger assigned to the SIP rule in TriggerValue , cur- rently RequestUriHostname or ToPhoneNumber . Possible values: o ToPhoneNumber o RequestUriHostname</param>
+    /// <param name="TriggerValue">If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHost- name , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: o pattern: .*\S.*</param>
+    /// <param name="TargetApplications">List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]</param>
+    public AwsChimeSdkVoiceCreateSipRuleOptions(
+        string Name,
+        AwsChimeSdkVoiceCreateSipRuleTriggerType TriggerType,
+        string TriggerValue,
+        IEnumerable<string> TargetApplications
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TriggerType);
+        this.TriggerType = TriggerType;
+        global::System.ArgumentNullException.ThrowIfNull(TriggerValue);
+        this.TriggerValue = TriggerValue;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetApplications);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetApplications));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetApplications));
+            }
+
+            TargetApplications = materialized;
+        }
+        this.TargetApplications = TargetApplications;
+    }
+
+    private AwsChimeSdkVoiceCreateSipRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceCreateSipRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceCreateSipRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SIP rule. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of trigger assigned to the SIP rule in TriggerValue , cur- rently RequestUriHostname or ToPhoneNumber . Possible values: o ToPhoneNumber o RequestUriHostname
+    /// </summary>
     [CliOption("--trigger-type")]
-    public string? TriggerType { get; set; }
+    public AwsChimeSdkVoiceCreateSipRuleTriggerType? TriggerType { get; private init; }
 
+    /// <summary>
+    /// If TriggerType is RequestUriHostname , the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber , the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHost- name , or if the To header in the incoming SIP request matches the ToPhoneNumber value. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--trigger-value")]
-    public string? TriggerValue { get; set; }
+    public string? TriggerValue { get; private init; }
 
-    [CliFlag("--disabled")]
-    public bool? Disabled { get; set; }
-
+    /// <summary>
+    /// List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used. Constraints: o min: 1 o max: 25 (structure) A target SIP media application and other details, such as prior- ity and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided. SipMediaApplicationId -&gt; (string) The ID of a rule's target SIP media application. Constraints: o pattern: .*\S.* Priority -&gt; (integer) The priority setting of a rule's target SIP media applica- tion. Constraints: o min: 1 AwsRegion -&gt; (string) The AWS Region of a rule's target SIP media application. Shorthand Syntax: SipMediaApplicationId=string,Priority=integer,AwsRegion=string ... JSON Syntax: [ { "SipMediaApplicationId": "string", "Priority": integer, "AwsRegion": "string" } ... ]
+    /// </summary>
     [CliOption("--target-applications", GroupValues = true)]
-    public IEnumerable<string>? TargetApplications { get; set; }
+    public IEnumerable<string>? TargetApplications { get; private init; }
+
+    /// <summary>
+    /// Disables or enables a SIP rule. You must disable SIP rules before you can delete them.
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
+    public bool? Disabled { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

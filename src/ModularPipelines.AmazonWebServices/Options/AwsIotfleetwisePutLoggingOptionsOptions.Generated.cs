@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "put-logging-options")]
-public record AwsIotfleetwisePutLoggingOptionsOptions : AwsOptions
+public record AwsIotfleetwisePutLoggingOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the logging option. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudWatchLogDelivery">Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: o OFF o ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: o min: 1 o max: 512 o pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }</param>
+    public AwsIotfleetwisePutLoggingOptionsOptions(
+        string CloudWatchLogDelivery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudWatchLogDelivery);
+        this.CloudWatchLogDelivery = CloudWatchLogDelivery;
+    }
+
+    private AwsIotfleetwisePutLoggingOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwisePutLoggingOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwisePutLoggingOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: o OFF o ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: o min: 1 o max: 512 o pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }
+    /// </summary>
     [CliOption("--cloud-watch-log-delivery")]
-    public string? CloudWatchLogDelivery { get; set; }
+    public string? CloudWatchLogDelivery { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

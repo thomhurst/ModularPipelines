@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-request-validator")]
-public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions
+public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a RequestValidator of a given RestApi. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    public AwsApigatewayCreateRequestValidatorOptions(
+        string RestApiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+    }
+
+    private AwsApigatewayCreateRequestValidatorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateRequestValidatorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateRequestValidatorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
     /// <summary>
     /// The name of the to-be-created RequestValidator.
@@ -30,10 +67,16 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliFlag("--validate-request-body")]
+    /// <summary>
+    /// A Boolean flag to indicate whether to validate request body accord- ing to the configured model schema for the method (true ) or not (false ).
+    /// </summary>
+    [CliFlag("--validate-request-body", NegatedName = "--no-validate-request-body")]
     public bool? ValidateRequestBody { get; set; }
 
-    [CliFlag("--validate-request-parameters")]
+    /// <summary>
+    /// A Boolean flag to indicate whether to validate request parameters, true , or not false .
+    /// </summary>
+    [CliFlag("--validate-request-parameters", NegatedName = "--no-validate-request-parameters")]
     public bool? ValidateRequestParameters { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +84,21 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

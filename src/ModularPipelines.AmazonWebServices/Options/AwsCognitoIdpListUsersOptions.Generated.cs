@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "list-users")]
-public record AwsCognitoIdpListUsersOptions : AwsOptions
+public record AwsCognitoIdpListUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configura- tion of an individual user, use AdminGetUser . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresp...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to display or search for users. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpListUsersOptions(
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpListUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpListUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpListUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to display or search for users. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     /// <summary>
     /// A JSON array of user attribute names, for example given_name , that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user. Use AttributesToGet with required attributes in your user pool, or in conjunction with Filter . Amazon Cognito returns an error if not all users in the results have set a value for the attribute you re- quest. Attributes that you can't filter on, including custom attrib- utes, must have a value set in every user profile before an Attrib- utesToGet parameter returns results. (string) Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Syntax: "string" "string" ...
@@ -34,8 +71,9 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions
     /// <summary>
     /// A filter string of the form "AttributeName Filter-Type "Attribute- Value" . Quotation marks within the filter string must be escaped using the backslash (\ ) character. For example, "family_name = \"Reddy\"" . o AttributeName : The name of the attribute to search for. You can only search for one attribute at a time. o Filter-Type : For an exact match, use = , for example, "given_name = \"Jon\" ". For a prefix ("starts with") match, use ^= , for ex- ample, "given_name ^= \"Jon\" ". o AttributeValue : The attribute value that must be matched for each user. If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes: o username (case-sensitive) o email o phone_number o name o given_name o family_name o preferred_username o cognito:user_status (called Status in the Console) (case-insensi- tive) o status (called **Enabled** in the Console) (case-sensitive) o sub Custom attributes aren't searchable. NOTE: You can also list users with a client-side filter. The server-side filter matches no more than one attribute. For an advanced search, use a client-side filter with the --query para- meter of the list-users action in the CLI. When you use a client-side filter, ListUsers returns a paginated list of zero or more users. You can receive multiple pages in a row with zero results. Repeat the query with each pagination token that is re- turned until you receive a null pagination token value, and then review the combined result. For more information about server-side and client-side filter- ing, see FilteringCLI output in the Command Line Interface User Guide . For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide . Constraints: o max: 256
     /// </summary>
-    [CliOption("--filter")]
-    public string? Filter { get; set; }
+    [SecretValue]
+    [CliOption("--filter", GroupValues = true)]
+    public IEnumerable<string>? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +99,21 @@ public record AwsCognitoIdpListUsersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

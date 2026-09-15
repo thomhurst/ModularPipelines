@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "describe-exclusions")]
-public record AwsInspectorDescribeExclusionsOptions : AwsOptions
+public record AwsInspectorDescribeExclusionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the exclusions that are specified by the exclusions' ARNs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExclusionArns">The list of ARNs that specify the exclusions that you want to de- scribe. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    public AwsInspectorDescribeExclusionsOptions(
+        IEnumerable<string> ExclusionArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ExclusionArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ExclusionArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ExclusionArns));
+            }
+
+            ExclusionArns = materialized;
+        }
+        this.ExclusionArns = ExclusionArns;
+    }
+
+    private AwsInspectorDescribeExclusionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorDescribeExclusionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorDescribeExclusionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of ARNs that specify the exclusions that you want to de- scribe. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--exclusion-arns", GroupValues = true)]
-    public IEnumerable<string>? ExclusionArns { get; set; }
+    public IEnumerable<string>? ExclusionArns { get; private init; }
 
     /// <summary>
     /// The locale into which you want to translate the exclusion's title, description, and recommendation. Possible values: o EN_US
@@ -36,5 +84,21 @@ public record AwsInspectorDescribeExclusionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

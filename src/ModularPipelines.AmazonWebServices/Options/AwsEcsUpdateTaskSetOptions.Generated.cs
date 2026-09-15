@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-task-set")]
-public record AwsEcsUpdateTaskSetOptions : AwsOptions
+public record AwsEcsUpdateTaskSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a task set. This is used when a service uses the EXTERNAL de- ployment controller type. For more information, see Amazon ECS Deploy- ment Types in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set is found in.</param>
+    /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service that the task set is found in.</param>
+    /// <param name="TaskSet">The short name or full Amazon Resource Name (ARN) of the task set to update.</param>
+    /// <param name="Scale">A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desired- Count , to scale the task set. Accepted values are numbers be- tween 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: o PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }</param>
+    public AwsEcsUpdateTaskSetOptions(
+        string Cluster,
+        string Service,
+        string TaskSet,
+        string Scale
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(TaskSet);
+        this.TaskSet = TaskSet;
+        global::System.ArgumentNullException.ThrowIfNull(Scale);
+        this.Scale = Scale;
+    }
+
+    private AwsEcsUpdateTaskSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateTaskSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateTaskSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set is found in.
+    /// </summary>
     [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    public string? Cluster { get; private init; }
 
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the service that the task set is found in.
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the task set to update.
+    /// </summary>
     [CliOption("--task-set")]
-    public string? TaskSet { get; set; }
+    public string? TaskSet { get; private init; }
 
+    /// <summary>
+    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set. value -&gt; (double) The value, specified as a percent total of a service's desired- Count , to scale the task set. Accepted values are numbers be- tween 0 and 100. unit -&gt; (string) The unit of measure for the scale value. Possible values: o PERCENT Shorthand Syntax: value=double,unit=string JSON Syntax: { "value": double, "unit": "PERCENT" }
+    /// </summary>
     [CliOption("--scale")]
-    public string? Scale { get; set; }
+    public string? Scale { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

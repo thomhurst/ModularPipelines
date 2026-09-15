@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "create-profiling-group")]
-public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions
+public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a profiling group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfilingGroupName">The name of the profiling group to create. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerCreateProfilingGroupOptions(
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerCreateProfilingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerCreateProfilingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerCreateProfilingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the profiling group to create. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
     /// <summary>
     /// Specifies whether profiling is enabled or disabled for the created profiling group. profilingEnabled -&gt; (boolean) [required] A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. Shorthand Syntax: profilingEnabled=boolean JSON Syntax: { "profilingEnabled": true|false }
     /// </summary>
@@ -43,9 +83,6 @@ public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions
     [CliOption("--compute-platform")]
     public AwsCodeguruprofilerCreateProfilingGroupComputePlatform? ComputePlatform { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
     /// <summary>
     /// A list of tags to add to the created profiling group. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -57,5 +94,21 @@ public record AwsCodeguruprofilerCreateProfilingGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

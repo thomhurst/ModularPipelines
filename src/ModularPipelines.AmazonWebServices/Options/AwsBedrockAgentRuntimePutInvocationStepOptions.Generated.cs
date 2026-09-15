@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "put-invocation-step")]
-public record AwsBedrockAgentRuntimePutInvocationStepOptions : AwsOptions
+public record AwsBedrockAgentRuntimePutInvocationStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock ses- sions . Related APIs: o GetInvocationStep o ListInvocationSteps o ListInvocations o ListSessions See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InvocationIdentifier">The unique identifier (in UUID format) of the invocation to add the invocation step to. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="InvocationStepTime">The timestamp for when the invocation step occurred.</param>
+    /// <param name="Payload">The payload for the invocation step, including text and images for the interaction. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: contentBlocks. contentBlocks -&gt; (list) The content for the invocation step. Constraints: o min: 1 (tagged union structure) A block of content that you pass to, or receive from, a Ama- zon Bedrock session in an invocation step. You pass the con- tent to a session in the payLoad of the PutInvocationStep API operation. You retrieve the content with the GetInvocationStep API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: image, text. image -&gt; (structure) The image in the invocation step. format -&gt; (string) [required] The format of the image. Possible values: o png o jpeg o gif o webp source -&gt; (tagged union structure) [required] The source for the image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, s3Lo- cation. bytes -&gt; (blob) The raw image bytes for the image. If you use an Amazon Web Services SDK, you don't need to encode the image bytes in base64. Constraints: o min: 1 s3Location -&gt; (structure) The path to the Amazon S3 bucket where the image is stored. uri -&gt; (string) [required] The path to the Amazon S3 bucket where the im- age is stored. Constraints: o min: 1 o max: 1024 o pattern: ^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024}$ text -&gt; (string) The text in the invocation step. Constraints: o min: 1 JSON Syntax: { "contentBlocks": [ { "image": { "format": "png"|"jpeg"|"gif"|"webp", "source": { "bytes": blob, "s3Location": { "uri": "string" } } }, "text": "string" } ... ] }</param>
+    /// <param name="SessionIdentifier">The unique identifier for the session to add the invocation step to. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    public AwsBedrockAgentRuntimePutInvocationStepOptions(
+        string InvocationIdentifier,
+        string InvocationStepTime,
+        string Payload,
+        string SessionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvocationIdentifier);
+        this.InvocationIdentifier = InvocationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(InvocationStepTime);
+        this.InvocationStepTime = InvocationStepTime;
+        global::System.ArgumentNullException.ThrowIfNull(Payload);
+        this.Payload = Payload;
+        global::System.ArgumentNullException.ThrowIfNull(SessionIdentifier);
+        this.SessionIdentifier = SessionIdentifier;
+    }
+
+    private AwsBedrockAgentRuntimePutInvocationStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimePutInvocationStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimePutInvocationStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (in UUID format) of the invocation to add the invocation step to. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--invocation-identifier")]
-    public string? InvocationIdentifier { get; set; }
+    public string? InvocationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The timestamp for when the invocation step occurred.
+    /// </summary>
+    [CliOption("--invocation-step-time")]
+    public string? InvocationStepTime { get; private init; }
+
+    /// <summary>
+    /// The payload for the invocation step, including text and images for the interaction. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: contentBlocks. contentBlocks -&gt; (list) The content for the invocation step. Constraints: o min: 1 (tagged union structure) A block of content that you pass to, or receive from, a Ama- zon Bedrock session in an invocation step. You pass the con- tent to a session in the payLoad of the PutInvocationStep API operation. You retrieve the content with the GetInvocationStep API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: image, text. image -&gt; (structure) The image in the invocation step. format -&gt; (string) [required] The format of the image. Possible values: o png o jpeg o gif o webp source -&gt; (tagged union structure) [required] The source for the image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: bytes, s3Lo- cation. bytes -&gt; (blob) The raw image bytes for the image. If you use an Amazon Web Services SDK, you don't need to encode the image bytes in base64. Constraints: o min: 1 s3Location -&gt; (structure) The path to the Amazon S3 bucket where the image is stored. uri -&gt; (string) [required] The path to the Amazon S3 bucket where the im- age is stored. Constraints: o min: 1 o max: 1024 o pattern: ^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024}$ text -&gt; (string) The text in the invocation step. Constraints: o min: 1 JSON Syntax: { "contentBlocks": [ { "image": { "format": "png"|"jpeg"|"gif"|"webp", "source": { "bytes": blob, "s3Location": { "uri": "string" } } }, "text": "string" } ... ] }
+    /// </summary>
+    [CliOption("--payload")]
+    public string? Payload { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the session to add the invocation step to. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// </summary>
+    [CliOption("--session-identifier")]
+    public string? SessionIdentifier { get; private init; }
 
     /// <summary>
     /// The unique identifier of the invocation step in UUID format. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
@@ -30,19 +97,26 @@ public record AwsBedrockAgentRuntimePutInvocationStepOptions : AwsOptions
     [CliOption("--invocation-step-id")]
     public string? InvocationStepId { get; set; }
 
-    [CliOption("--invocation-step-time")]
-    public string? InvocationStepTime { get; set; }
-
-    [CliOption("--payload")]
-    public string? Payload { get; set; }
-
-    [CliOption("--session-identifier")]
-    public string? SessionIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

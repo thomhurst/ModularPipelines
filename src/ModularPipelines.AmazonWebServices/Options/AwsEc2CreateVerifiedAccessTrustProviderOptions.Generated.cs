@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-verified-access-trust-provider")]
-public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions
+public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustProviderType">The type of trust provider. Possible values: o user o device</param>
+    /// <param name="PolicyReferenceName">The identifier to be used when working with policy rules.</param>
+    public AwsEc2CreateVerifiedAccessTrustProviderOptions(
+        AwsEc2CreateVerifiedAccessTrustProviderTrustProviderType TrustProviderType,
+        string PolicyReferenceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustProviderType);
+        this.TrustProviderType = TrustProviderType;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyReferenceName);
+        this.PolicyReferenceName = PolicyReferenceName;
+    }
+
+    private AwsEc2CreateVerifiedAccessTrustProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateVerifiedAccessTrustProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateVerifiedAccessTrustProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of trust provider. Possible values: o user o device
+    /// </summary>
     [CliOption("--trust-provider-type")]
-    public string? TrustProviderType { get; set; }
+    public AwsEc2CreateVerifiedAccessTrustProviderTrustProviderType? TrustProviderType { get; private init; }
+
+    /// <summary>
+    /// The identifier to be used when working with policy rules.
+    /// </summary>
+    [CliOption("--policy-reference-name")]
+    public string? PolicyReferenceName { get; private init; }
 
     /// <summary>
     /// The type of user-based trust provider. This parameter is required when the provider type is user . Possible values: o iam-identity-center o oidc
@@ -50,9 +97,6 @@ public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions
     [CliOption("--device-options")]
     public string? DeviceOptions { get; set; }
 
-    [CliOption("--policy-reference-name")]
-    public string? PolicyReferenceName { get; set; }
-
     /// <summary>
     /// A description for the Verified Access trust provider.
     /// </summary>
@@ -72,7 +116,10 @@ public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -92,5 +139,21 @@ public record AwsEc2CreateVerifiedAccessTrustProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

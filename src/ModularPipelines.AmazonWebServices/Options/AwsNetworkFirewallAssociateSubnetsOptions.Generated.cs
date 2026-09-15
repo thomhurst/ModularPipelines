@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "associate-subnets")]
-public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions
+public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans. This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubnetMappings">The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]</param>
+    public AwsNetworkFirewallAssociateSubnetsOptions(
+        IEnumerable<string> SubnetMappings
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetMappings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetMappings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetMappings));
+            }
+
+            SubnetMappings = materialized;
+        }
+        this.SubnetMappings = SubnetMappings;
+    }
+
+    private AwsNetworkFirewallAssociateSubnetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallAssociateSubnetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallAssociateSubnetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the subnets that you want to associate with the firewall. (structure) The ID for a subnet that's used in an association with a fire- wall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an in- stance of the associated firewall in each subnet that you spec- ify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string ... JSON Syntax: [ { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" } ... ]
+    /// </summary>
+    [CliOption("--subnet-mappings", GroupValues = true)]
+    public IEnumerable<string>? SubnetMappings { get; private init; }
+
     /// <summary>
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
@@ -41,13 +92,26 @@ public record AwsNetworkFirewallAssociateSubnetsOptions : AwsOptions
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CliOption("--subnet-mappings", GroupValues = true)]
-    public IEnumerable<string>? SubnetMappings { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

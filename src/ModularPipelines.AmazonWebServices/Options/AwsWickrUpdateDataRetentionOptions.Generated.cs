@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "update-data-retention")]
-public record AwsWickrUpdateDataRetentionOptions : AwsOptions
+public record AwsWickrUpdateDataRetentionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the data retention bot settings, allowing you to enable or dis- able the data retention service, or acknowledge the public key message. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="ActionType">The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUB- KEY_MSG_ACK' (to acknowledge the public key message). Possible values: o ENABLE o DISABLE o PUBKEY_MSG_ACK</param>
+    public AwsWickrUpdateDataRetentionOptions(
+        string NetworkId,
+        AwsWickrUpdateDataRetentionActionType ActionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+    }
+
+    private AwsWickrUpdateDataRetentionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrUpdateDataRetentionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrUpdateDataRetentionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The action to perform. Valid values are 'ENABLE' (to enable the data retention service), 'DISABLE' (to disable the service), or 'PUB- KEY_MSG_ACK' (to acknowledge the public key message). Possible values: o ENABLE o DISABLE o PUBKEY_MSG_ACK
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsWickrUpdateDataRetentionActionType? ActionType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

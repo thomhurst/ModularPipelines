@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcetype.
+/// Allowed values for --resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafRegionalListResourcesForWebAclResourceType
 {
-    [EnumValue("APPLICATION_LOAD_BALANCER")]
-    ApplicationLoadBalancer = 1,
-
     [EnumValue("API_GATEWAY")]
-    ApiGateway = 2
+    ApiGateway,
+
+    [EnumValue("APPLICATION_LOAD_BALANCER")]
+    ApplicationLoadBalancer
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "create-alias")]
-public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions
+public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an alias , or a friendly name, for an Amazon Web Services Pay- ment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as EncryptData or DecryptData . You can associate the alias with any key in the same Amazon Web Ser- vices Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Se...
+    /// </summary>
+    /// <param name="AliasName">A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+</param>
+    public AwsPaymentCryptographyCreateAliasOptions(
+        string AliasName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+    }
+
+    private AwsPaymentCryptographyCreateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyCreateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyCreateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias . It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 7 o max: 256 o pattern: alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    public string? AliasName { get; private init; }
 
     /// <summary>
     /// The KeyARN of the key to associate with the alias. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
@@ -35,5 +72,21 @@ public record AwsPaymentCryptographyCreateAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

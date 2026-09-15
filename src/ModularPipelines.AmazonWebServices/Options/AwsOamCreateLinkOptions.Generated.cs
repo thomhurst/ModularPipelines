@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oam", "create-link")]
-public record AwsOamCreateLinkOptions : AwsOptions
+public record AwsOamCreateLinkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a link between a source account and a sink that you have cre- ated in a monitoring account. After the link is created, data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. Before you create a link, you must create a sink in the monitoring ac- count and create a sink policy in that account. The sink po...
+    /// </summary>
+    /// <param name="LabelTemplate">Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables: o $AccountName is the name of the account o $AccountEmail is the globally unique email address of the account o $AccountEmailNoDomain is the email address of the account without the domain name NOTE: In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-West) Regions, the only supported option is to use custom labels, and the $AccountName , $AccountEmail , and $AccountEmailNoDomain variables all resolve as account-id instead of the specified variable. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResourceTypes">An array of strings that define which types of data that the source account shares with the monitoring account. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...</param>
+    /// <param name="SinkIdentifier">The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see CreateSink . Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    public AwsOamCreateLinkOptions(
+        string LabelTemplate,
+        IEnumerable<string> ResourceTypes,
+        string SinkIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LabelTemplate);
+        this.LabelTemplate = LabelTemplate;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTypes));
+            }
+
+            ResourceTypes = materialized;
+        }
+        this.ResourceTypes = ResourceTypes;
+        global::System.ArgumentNullException.ThrowIfNull(SinkIdentifier);
+        this.SinkIdentifier = SinkIdentifier;
+    }
+
+    private AwsOamCreateLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOamCreateLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOamCreateLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables: o $AccountName is the name of the account o $AccountEmail is the globally unique email address of the account o $AccountEmailNoDomain is the email address of the account without the domain name NOTE: In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-West) Regions, the only supported option is to use custom labels, and the $AccountName , $AccountEmail , and $AccountEmailNoDomain variables all resolve as account-id instead of the specified variable. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--label-template")]
-    public string? LabelTemplate { get; set; }
+    public string? LabelTemplate { get; private init; }
+
+    /// <summary>
+    /// An array of strings that define which types of data that the source account shares with the monitoring account. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-types", GroupValues = true)]
+    public IEnumerable<string>? ResourceTypes { get; private init; }
+
+    /// <summary>
+    /// The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see CreateSink . Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// </summary>
+    [CliOption("--sink-identifier")]
+    public string? SinkIdentifier { get; private init; }
 
     /// <summary>
     /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account. LogGroupConfiguration -&gt; (structure) Use this structure to filter which log groups are to send log events from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which log groups are to share their log events with the monitoring account. Use the term Log- GroupName and one or more of the following operands. Use sin- gle quotation marks (') around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR . o = and != o AND o OR o LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. o IN and NOT IN , using parentheses ( ) Examples: o LogGroupName IN ('This-Log-Group', 'Other-Log-Group') in- cludes only the log groups with names This-Log-Group and Other-Log-Group . o LogGroupName NOT IN ('Private-Log-Group', 'Pri- vate-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and Private-Log-Group-2 . o LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or AWSLogs . NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all log groups with the moni- toring account. Constraints: o min: 1 o max: 2000 MetricConfiguration -&gt; (structure) Use this structure to filter which metric namespaces are to be shared from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five condi- tional operands. Conditional operands are AND and OR . o = and != o AND o OR o LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. o IN and NOT IN , using parentheses ( ) Examples: o Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/ , such as custom namespaces. o Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces. o Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' in- cludes only the EC2 namespace and your custom namespaces. NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all metric namespaces with the monitoring account. Constraints: o min: 1 o max: 2000 Shorthand Syntax: LogGroupConfiguration={Filter=string},MetricConfiguration={Filter=string} JSON Syntax: { "LogGroupConfiguration": { "Filter": "string" }, "MetricConfiguration": { "Filter": "string" } }
     /// </summary>
     [CliOption("--link-configuration")]
     public string? LinkConfiguration { get; set; }
-
-    [CliOption("--resource-types", GroupValues = true)]
-    public IEnumerable<string>? ResourceTypes { get; set; }
-
-    [CliOption("--sink-identifier")]
-    public string? SinkIdentifier { get; set; }
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the link. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permis- sion to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +110,21 @@ public record AwsOamCreateLinkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

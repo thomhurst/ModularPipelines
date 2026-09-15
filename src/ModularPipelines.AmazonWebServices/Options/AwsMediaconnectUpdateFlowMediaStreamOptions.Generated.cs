@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-flow-media-stream")]
-public record AwsMediaconnectUpdateFlowMediaStreamOptions : AwsOptions
+public record AwsMediaconnectUpdateFlowMediaStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing media stream. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that is associated with the media stream that you updated. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="MediaStreamName">The media stream that you updated.</param>
+    public AwsMediaconnectUpdateFlowMediaStreamOptions(
+        string FlowArn,
+        string MediaStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+        global::System.ArgumentNullException.ThrowIfNull(MediaStreamName);
+        this.MediaStreamName = MediaStreamName;
+    }
+
+    private AwsMediaconnectUpdateFlowMediaStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateFlowMediaStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateFlowMediaStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that is associated with the media stream that you updated. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
+    /// <summary>
+    /// The media stream that you updated.
+    /// </summary>
+    [CliOption("--media-stream-name")]
+    public string? MediaStreamName { get; private init; }
+
     /// <summary>
     /// The attributes that you want to assign to the media stream. Fmtp -&gt; (structure) The settings that you want to use to define the media stream. ChannelOrder -&gt; (string) The format of the audio channel. Colorimetry -&gt; (string) The format that is used for the representation of color. Possible values: o BT601 o BT709 o BT2020 o BT2100 o ST2065-1 o ST2065-3 o XYZ ExactFramerate -&gt; (string) The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaCon- nect uses a ratio of N/1. For example, if you specify 60, Me- diaConnect uses 60/1 as the exactFramerate . Par -&gt; (string) The pixel aspect ratio (PAR) of the video. Range -&gt; (string) The encoding range of the video. Possible values: o NARROW o FULL o FULLPROTECT ScanMode -&gt; (string) The type of compression that was used to smooth the videos appearance. Possible values: o progressive o interlace o progressive-segmented-frame Tcs -&gt; (string) The transfer characteristic system (TCS) that is used in the video. Possible values: o SDR o PQ o HLG o LINEAR o BT2100LINPQ o BT2100LINHLG o ST2065-1 o ST428-1 o DENSITY Lang -&gt; (string) The audio language, in a format that is recognized by the re- ceiver. Shorthand Syntax: Fmtp={ChannelOrder=string,Colorimetry=string,ExactFramerate=string,Par=string,Range=string,ScanMode=string,Tcs=string},Lang=string JSON Syntax: { "Fmtp": { "ChannelOrder": "string", "Colorimetry": "BT601"|"BT709"|"BT2020"|"BT2100"|"ST2065-1"|"ST2065-3"|"XYZ", "ExactFramerate": "string", "Par": "string", "Range": "NARROW"|"FULL"|"FULLPROTECT", "ScanMode": "progressive"|"interlace"|"progressive-segmented-frame", "Tcs": "SDR"|"PQ"|"HLG"|"LINEAR"|"BT2100LINPQ"|"BT2100LINHLG"|"ST2065-1"|"ST428-1"|"DENSITY" }, "Lang": "string" }
     /// </summary>
@@ -40,12 +90,6 @@ public record AwsMediaconnectUpdateFlowMediaStreamOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
-
-    [CliOption("--media-stream-name")]
-    public string? MediaStreamName { get; set; }
-
     /// <summary>
     /// The type of media stream. Possible values: o video o audio o ancillary-data
     /// </summary>
@@ -63,5 +107,21 @@ public record AwsMediaconnectUpdateFlowMediaStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

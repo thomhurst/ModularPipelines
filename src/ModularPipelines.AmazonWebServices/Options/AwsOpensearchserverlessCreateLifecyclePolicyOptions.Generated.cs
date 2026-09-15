@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "create-lifecycle-policy")]
-public record AwsOpensearchserverlessCreateLifecyclePolicyOptions : AwsOptions
+public record AwsOpensearchserverlessCreateLifecyclePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a lifecyle policy to be applied to OpenSearch Serverless in- dexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies . See also: AWS API Documentation create-lifecycle-policy uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters ...
+    /// </summary>
+    /// <param name="Type">The type of lifecycle policy. Possible values: o retention</param>
+    /// <param name="Name">The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Policy">The JSON policy document to use as the content for the lifecycle policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
+    public AwsOpensearchserverlessCreateLifecyclePolicyOptions(
+        AwsOpensearchserverlessCreateLifecyclePolicyType Type,
+        string Name,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsOpensearchserverlessCreateLifecyclePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessCreateLifecyclePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessCreateLifecyclePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of lifecycle policy. Possible values: o retention
+    /// </summary>
+    [CliOption("--type")]
+    public AwsOpensearchserverlessCreateLifecyclePolicyType? Type { get; private init; }
+
+    /// <summary>
+    /// The name of the lifecycle policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The JSON policy document to use as the content for the lifecycle policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
+    /// </summary>
+    [CliOption("--policy")]
+    public string? Policy { get; private init; }
 
     /// <summary>
     /// A description of the lifecycle policy. Constraints: o min: 0 o max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--policy")]
-    public string? Policy { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
@@ -49,5 +101,21 @@ public record AwsOpensearchserverlessCreateLifecyclePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

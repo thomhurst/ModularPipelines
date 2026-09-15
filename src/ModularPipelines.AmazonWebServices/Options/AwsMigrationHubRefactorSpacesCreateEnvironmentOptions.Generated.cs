@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +23,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migration-hub-refactor-spaces", "create-environment")]
-public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
+public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces environ- ment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkF...
+    /// </summary>
+    /// <param name="Name">The name of the environment. Constraints: o min: 3 o max: 63 o pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    /// <param name="NetworkFabricType">The network fabric type of the environment. Possible values: o TRANSIT_GATEWAY o NONE</param>
+    public AwsMigrationHubRefactorSpacesCreateEnvironmentOptions(
+        string Name,
+        AwsMigrationHubRefactorSpacesCreateEnvironmentNetworkFabricType NetworkFabricType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkFabricType);
+        this.NetworkFabricType = NetworkFabricType;
+    }
+
+    private AwsMigrationHubRefactorSpacesCreateEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationHubRefactorSpacesCreateEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the environment. Constraints: o min: 3 o max: 63 o pattern: ^(?!env-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The network fabric type of the environment. Possible values: o TRANSIT_GATEWAY o NONE
+    /// </summary>
+    [CliOption("--network-fabric-type")]
+    public AwsMigrationHubRefactorSpacesCreateEnvironmentNetworkFabricType? NetworkFabricType { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
     /// </summary>
@@ -36,12 +87,6 @@ public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--network-fabric-type")]
-    public string? NetworkFabricType { get; set; }
-
     /// <summary>
     /// The tags to assign to the environment. A tag is a label that you as- sign to an Amazon Web Services resource. Each tag consists of a key-value pair. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -53,5 +98,21 @@ public record AwsMigrationHubRefactorSpacesCreateEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

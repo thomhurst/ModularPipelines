@@ -19,11 +19,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3", "mb")]
-public record AwsS3MbOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string S3Uri
-) : AwsOptions
+public record AwsS3MbOptions : AwsOptions
 {
+    /// <summary>
+    /// Creates an S3 bucket.
+    /// </summary>
+    /// <param name="S3Uri">S3 URI to operate on.</param>
+    public AwsS3MbOptions(
+        string S3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Uri);
+        this.S3Uri = S3Uri;
+    }
+
+    public void Deconstruct(out string S3Uri)
+    {
+        S3Uri = this.S3Uri;
+    }
+
     [CliOption("--tags")]
     public string? Tags { get; set; }
+
+    /// <summary>
+    /// S3 URI to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string S3Uri { get; private init; }
 
 }

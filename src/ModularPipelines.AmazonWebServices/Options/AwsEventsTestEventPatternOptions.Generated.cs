@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "test-event-pattern")]
-public record AwsEventsTestEventPatternOptions : AwsOptions
+public record AwsEventsTestEventPatternOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-pattern")]
-    public string? EventPattern { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN char- acters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventPattern">The event pattern. For more information, see Events and Event Pat- terns in the * Amazon EventBridge User Guide * . Constraints: o max: 4096</param>
+    /// <param name="Event">The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: o id o account o source o time o region o resources o detail-type</param>
+    public AwsEventsTestEventPatternOptions(
+        string EventPattern,
+        string Event
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventPattern);
+        this.EventPattern = EventPattern;
+        global::System.ArgumentNullException.ThrowIfNull(Event);
+        this.Event = Event;
+    }
+
+    private AwsEventsTestEventPatternOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsTestEventPatternOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsTestEventPatternOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The event pattern. For more information, see Events and Event Pat- terns in the * Amazon EventBridge User Guide * . Constraints: o max: 4096
+    /// </summary>
+    [CliOption("--event-pattern")]
+    public string? EventPattern { get; private init; }
+
+    /// <summary>
+    /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events , and the following fields are mandatory: o id o account o source o time o region o resources o detail-type
+    /// </summary>
     [CliOption("--event")]
-    public string? Event { get; set; }
+    public string? Event { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

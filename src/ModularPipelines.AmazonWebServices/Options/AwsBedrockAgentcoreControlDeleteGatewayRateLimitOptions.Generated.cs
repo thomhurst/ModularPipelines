@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "delete-gateway-rate-limit")]
-public record AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions : AwsOptions
+public record AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-identifier")]
-    public string? GatewayIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a gateway rate limit. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayIdentifier">The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="RateLimitId">The unique identifier of the rate limit to delete. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]</param>
+    public AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions(
+        string GatewayIdentifier,
+        string RateLimitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayIdentifier);
+        this.GatewayIdentifier = GatewayIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RateLimitId);
+        this.RateLimitId = RateLimitId;
+    }
+
+    private AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteGatewayRateLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--gateway-identifier")]
+    public string? GatewayIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the rate limit to delete. Constraints: o min: 2 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-_\.]{0,62}[a-zA-Z0-9]
+    /// </summary>
     [CliOption("--rate-limit-id")]
-    public string? RateLimitId { get; set; }
+    public string? RateLimitId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

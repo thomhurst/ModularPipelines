@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,40 +23,153 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-exadb-vm-cluster")]
-public record AwsOdbCreateExadbVmClusterOptions : AwsOptions
+public record AwsOdbCreateExadbVmClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Exascale VM cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">A user-friendly name for the Exascale VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="EnabledEcpuCount">The number of ECPUs to enable for the Exascale VM cluster. Constraints: o min: 0</param>
+    /// <param name="ExascaleDbStorageVaultId">The unique identifier of the Exascale storage vault for this Exas- cale VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="GridImageId">The Grid Infrastructure software image ID for the Exascale VM clus- ter. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Hostname">The host name for the Exascale VM cluster. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
+    /// <param name="NodeCount">The number of nodes in the Exascale VM cluster. Constraints: o min: 1</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the Exascale VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="Shape">The shape of the Exascale VM cluster. Constraints: o min: 1 o max: 255</param>
+    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...</param>
+    /// <param name="TotalEcpuCount">The total number of ECPUs for the Exascale VM cluster. Constraints: o min: 2</param>
+    /// <param name="VmFileSystemStorageTotalSizeInGbs">The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: o min: 0</param>
+    public AwsOdbCreateExadbVmClusterOptions(
+        string DisplayName,
+        int EnabledEcpuCount,
+        string ExascaleDbStorageVaultId,
+        string GridImageId,
+        string Hostname,
+        int NodeCount,
+        string OdbNetworkId,
+        string Shape,
+        IEnumerable<string> SshPublicKeys,
+        int TotalEcpuCount,
+        int VmFileSystemStorageTotalSizeInGbs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        this.EnabledEcpuCount = EnabledEcpuCount;
+        global::System.ArgumentNullException.ThrowIfNull(ExascaleDbStorageVaultId);
+        this.ExascaleDbStorageVaultId = ExascaleDbStorageVaultId;
+        global::System.ArgumentNullException.ThrowIfNull(GridImageId);
+        this.GridImageId = GridImageId;
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(OdbNetworkId);
+        this.OdbNetworkId = OdbNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(Shape);
+        this.Shape = Shape;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SshPublicKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SshPublicKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SshPublicKeys));
+            }
+
+            SshPublicKeys = materialized;
+        }
+        this.SshPublicKeys = SshPublicKeys;
+        this.TotalEcpuCount = TotalEcpuCount;
+        this.VmFileSystemStorageTotalSizeInGbs = VmFileSystemStorageTotalSizeInGbs;
+    }
+
+    private AwsOdbCreateExadbVmClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateExadbVmClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateExadbVmClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the Exascale VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
+    /// <summary>
+    /// The number of ECPUs to enable for the Exascale VM cluster. Constraints: o min: 0
+    /// </summary>
     [CliOption("--enabled-ecpu-count")]
-    public int? EnabledEcpuCount { get; set; }
+    public int? EnabledEcpuCount { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Exascale storage vault for this Exas- cale VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--exascale-db-storage-vault-id")]
-    public string? ExascaleDbStorageVaultId { get; set; }
+    public string? ExascaleDbStorageVaultId { get; private init; }
 
+    /// <summary>
+    /// The Grid Infrastructure software image ID for the Exascale VM clus- ter. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--grid-image-id")]
-    public string? GridImageId { get; set; }
+    public string? GridImageId { get; private init; }
 
+    /// <summary>
+    /// The host name for the Exascale VM cluster. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
+    /// </summary>
     [CliOption("--hostname")]
-    public string? Hostname { get; set; }
+    public string? Hostname { get; private init; }
 
+    /// <summary>
+    /// The number of nodes in the Exascale VM cluster. Constraints: o min: 1
+    /// </summary>
     [CliOption("--node-count")]
-    public int? NodeCount { get; set; }
+    public int? NodeCount { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the ODB network for the Exascale VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--odb-network-id")]
-    public string? OdbNetworkId { get; set; }
+    public string? OdbNetworkId { get; private init; }
 
+    /// <summary>
+    /// The shape of the Exascale VM cluster. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--shape")]
-    public string? Shape { get; set; }
+    public string? Shape { get; private init; }
 
+    /// <summary>
+    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--ssh-public-keys", GroupValues = true)]
-    public IEnumerable<string>? SshPublicKeys { get; set; }
+    public IEnumerable<string>? SshPublicKeys { get; private init; }
 
+    /// <summary>
+    /// The total number of ECPUs for the Exascale VM cluster. Constraints: o min: 2
+    /// </summary>
     [CliOption("--total-ecpu-count")]
-    public int? TotalEcpuCount { get; set; }
+    public int? TotalEcpuCount { get; private init; }
 
+    /// <summary>
+    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: o min: 0
+    /// </summary>
     [CliOption("--vm-file-system-storage-total-size-in-gbs")]
-    public int? VmFileSystemStorageTotalSizeInGbs { get; set; }
+    public int? VmFileSystemStorageTotalSizeInGbs { get; private init; }
 
     /// <summary>
     /// A name for the Grid Infrastructure cluster. The name isn't case sen- sitive. Constraints: o min: 1 o max: 11 o pattern: [a-zA-Z][a-zA-Z0-9-]*
@@ -76,13 +190,13 @@ public record AwsOdbCreateExadbVmClusterOptions : AwsOptions
     public AwsOdbCreateExadbVmClusterLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// The port number for TCP connections to the single client access name (SCAN) listener. Constraints: o min: 1024 o max: 8999
+    /// The port number for TCP connections to the Single Client Access Name (SCAN) listener. Constraints: o min: 1024 o max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tcp")]
     public int? ScanListenerPortTcp { get; set; }
 
     /// <summary>
-    /// The port number for TCP connections with SSL to the single client access name (SCAN) listener. Constraints: o min: 1024 o max: 8999
+    /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener. Constraints: o min: 1024 o max: 8999
     /// </summary>
     [CliOption("--scan-listener-port-tcp-ssl")]
     public int? ScanListenerPortTcpSsl { get; set; }
@@ -112,7 +226,7 @@ public record AwsOdbCreateExadbVmClusterOptions : AwsOptions
     public string? TimeZone { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -123,5 +237,21 @@ public record AwsOdbCreateExadbVmClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "get-segment-membership")]
-public record AwsCustomerProfilesGetSegmentMembershipOptions : AwsOptions
+public record AwsCustomerProfilesGetSegmentMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Determines if the given profiles are within a segment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SegmentDefinitionName">The Id of the wanted segment. Needs to be a valid, and existing seg- ment Id. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileIds">The list of profile IDs to query for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
+    public AwsCustomerProfilesGetSegmentMembershipOptions(
+        string DomainName,
+        string SegmentDefinitionName,
+        IEnumerable<string> ProfileIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(SegmentDefinitionName);
+        this.SegmentDefinitionName = SegmentDefinitionName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProfileIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ProfileIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProfileIds));
+            }
+
+            ProfileIds = materialized;
+        }
+        this.ProfileIds = ProfileIds;
+    }
+
+    private AwsCustomerProfilesGetSegmentMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesGetSegmentMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesGetSegmentMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The Id of the wanted segment. Needs to be a valid, and existing seg- ment Id. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--segment-definition-name")]
-    public string? SegmentDefinitionName { get; set; }
+    public string? SegmentDefinitionName { get; private init; }
 
+    /// <summary>
+    /// The list of profile IDs to query for. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--profile-ids", GroupValues = true)]
-    public IEnumerable<string>? ProfileIds { get; set; }
+    public IEnumerable<string>? ProfileIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

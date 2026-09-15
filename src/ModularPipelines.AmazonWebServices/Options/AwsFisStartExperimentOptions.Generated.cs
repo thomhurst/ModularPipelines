@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fis", "start-experiment")]
-public record AwsFisStartExperimentOptions : AwsOptions
+public record AwsFisStartExperimentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts running an experiment from the specified experiment template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExperimentTemplateId">The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+</param>
+    public AwsFisStartExperimentOptions(
+        string ExperimentTemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentTemplateId);
+        this.ExperimentTemplateId = ExperimentTemplateId;
+    }
+
+    private AwsFisStartExperimentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFisStartExperimentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFisStartExperimentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+
+    /// </summary>
+    [CliOption("--experiment-template-id")]
+    public string? ExperimentTemplateId { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--experiment-template-id")]
-    public string? ExperimentTemplateId { get; set; }
 
     /// <summary>
     /// The experiment options for running the experiment. actionsMode -&gt; (string) Specifies the actions mode for experiment options. Possible values: o skip-all o run-all Shorthand Syntax: actionsMode=string JSON Syntax: { "actionsMode": "skip-all"|"run-all" }
@@ -50,5 +87,21 @@ public record AwsFisStartExperimentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

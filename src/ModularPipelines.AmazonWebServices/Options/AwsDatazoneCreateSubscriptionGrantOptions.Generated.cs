@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-subscription-grant")]
-public record AwsDatazoneCreateSubscriptionGrantOptions : AwsOptions
+public record AwsDatazoneCreateSubscriptionGrantOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a subsscription grant in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the subscription grant is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the subscription grant is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="GrantedEntity">The entity to which the subscription is to be granted. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: listing. listing -&gt; (structure) The listing for which a subscription is to be granted. identifier -&gt; (string) [required] An identifier of revision to be made to an asset published in a Amazon DataZone catalog. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} revision -&gt; (string) [required] The details of a revision to be made to an asset published in a Amazon DataZone catalog. Constraints: o min: 1 o max: 64 Shorthand Syntax: listing={identifier=string,revision=string} JSON Syntax: { "listing": { "identifier": "string", "revision": "string" } }</param>
+    public AwsDatazoneCreateSubscriptionGrantOptions(
+        string DomainIdentifier,
+        string EnvironmentIdentifier,
+        string GrantedEntity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(GrantedEntity);
+        this.GrantedEntity = GrantedEntity;
+    }
+
+    private AwsDatazoneCreateSubscriptionGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateSubscriptionGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateSubscriptionGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which the subscription grant is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the environment in which the subscription grant is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
+    public string? EnvironmentIdentifier { get; private init; }
+
+    /// <summary>
+    /// The entity to which the subscription is to be granted. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: listing. listing -&gt; (structure) The listing for which a subscription is to be granted. identifier -&gt; (string) [required] An identifier of revision to be made to an asset published in a Amazon DataZone catalog. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} revision -&gt; (string) [required] The details of a revision to be made to an asset published in a Amazon DataZone catalog. Constraints: o min: 1 o max: 64 Shorthand Syntax: listing={identifier=string,revision=string} JSON Syntax: { "listing": { "identifier": "string", "revision": "string" } }
+    /// </summary>
+    [CliOption("--granted-entity")]
+    public string? GrantedEntity { get; private init; }
 
     /// <summary>
     /// The ID of the subscription target for which the subscription grant is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--subscription-target-identifier")]
     public string? SubscriptionTargetIdentifier { get; set; }
-
-    [CliOption("--granted-entity")]
-    public string? GrantedEntity { get; set; }
 
     /// <summary>
     /// The names of the assets for which the subscription grant is created. (structure) The name map for assets. assetId -&gt; (string) [required] The identifier of the inventory asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} targetName -&gt; (string) [required] The target name in the asset target name map. Shorthand Syntax: assetId=string,targetName=string ... JSON Syntax: [ { "assetId": "string", "targetName": "string" } ... ]
@@ -55,5 +106,21 @@ public record AwsDatazoneCreateSubscriptionGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

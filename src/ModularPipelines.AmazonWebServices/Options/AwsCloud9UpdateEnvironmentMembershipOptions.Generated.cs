@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud9", "update-environment-membership")]
-public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions
+public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the settings of an existing environment member for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">The ID of the environment for the environment member whose settings you want to change. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="UserArn">The Amazon Resource Name (ARN) of the environment member whose set- tings you want to change. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$</param>
+    /// <param name="Permissions">The replacement type of environment member permissions you want to associate with this environment member. Available values include: o read-only : Has read-only access to the environment. o read-write : Has read-write access to the environment. Possible values: o read-write o read-only</param>
+    public AwsCloud9UpdateEnvironmentMembershipOptions(
+        string EnvironmentId,
+        string UserArn,
+        AwsCloud9UpdateEnvironmentMembershipPermissions Permissions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(UserArn);
+        this.UserArn = UserArn;
+        global::System.ArgumentNullException.ThrowIfNull(Permissions);
+        this.Permissions = Permissions;
+    }
+
+    private AwsCloud9UpdateEnvironmentMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloud9UpdateEnvironmentMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloud9UpdateEnvironmentMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the environment for the environment member whose settings you want to change. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the environment member whose set- tings you want to change. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
+    /// </summary>
     [CliOption("--user-arn")]
-    public string? UserArn { get; set; }
+    public string? UserArn { get; private init; }
 
+    /// <summary>
+    /// The replacement type of environment member permissions you want to associate with this environment member. Available values include: o read-only : Has read-only access to the environment. o read-write : Has read-write access to the environment. Possible values: o read-write o read-only
+    /// </summary>
     [CliOption("--permissions")]
-    public string? Permissions { get; set; }
+    public AwsCloud9UpdateEnvironmentMembershipPermissions? Permissions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

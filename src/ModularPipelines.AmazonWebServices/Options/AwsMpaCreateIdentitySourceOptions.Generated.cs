@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mpa", "create-identity-source")]
-public record AwsMpaCreateIdentitySourceOptions : AwsOptions
+public record AwsMpaCreateIdentitySourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new identity source. For more information, see Identity Source in the Multi-party approval User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentitySourceParameters">A IdentitySourceParameters object. Contains details for the resource that provides identities to the identity source. For example, an IAM Identity Center instance. IamIdentityCenter -&gt; (structure) IAM Identity Center credentials. InstanceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the IAM Identity Center in- stance. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:sso:::in- stance/(?:sso)?ins-[a-zA-Z0-9-.]{16} Region -&gt; (string) [required] Amazon Web Services Region where the IAM Identity Center in- stance is located. Constraints: o min: 0 o max: 1000 Shorthand Syntax: IamIdentityCenter={InstanceArn=string,Region=string} JSON Syntax: { "IamIdentityCenter": { "InstanceArn": "string", "Region": "string" } }</param>
+    public AwsMpaCreateIdentitySourceOptions(
+        string IdentitySourceParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentitySourceParameters);
+        this.IdentitySourceParameters = IdentitySourceParameters;
+    }
+
+    private AwsMpaCreateIdentitySourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMpaCreateIdentitySourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMpaCreateIdentitySourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A IdentitySourceParameters object. Contains details for the resource that provides identities to the identity source. For example, an IAM Identity Center instance. IamIdentityCenter -&gt; (structure) IAM Identity Center credentials. InstanceArn -&gt; (string) [required] Amazon Resource Name (ARN) for the IAM Identity Center in- stance. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:sso:::in- stance/(?:sso)?ins-[a-zA-Z0-9-.]{16} Region -&gt; (string) [required] Amazon Web Services Region where the IAM Identity Center in- stance is located. Constraints: o min: 0 o max: 1000 Shorthand Syntax: IamIdentityCenter={InstanceArn=string,Region=string} JSON Syntax: { "IamIdentityCenter": { "InstanceArn": "string", "Region": "string" } }
+    /// </summary>
     [CliOption("--identity-source-parameters")]
-    public string? IdentitySourceParameters { get; set; }
+    public string? IdentitySourceParameters { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services populates this field. NOTE: What is idempotency? When you make a mutating API request, the request typically re- turns a result before the operation's asynchronous workflows have completed. Operations might also time out or encounter other server issues before they complete, even though the re- quest has already returned a result. This could make it diffi- cult to determine whether the request succeeded or not, and could lead to multiple retries to ensure that the operation com- pletes successfully. However, if the original request and the subsequent retries are successful, the operation is completed multiple times. This means that you might create more resources than you intended. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 0 o max: 4096
@@ -44,5 +81,21 @@ public record AwsMpaCreateIdentitySourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

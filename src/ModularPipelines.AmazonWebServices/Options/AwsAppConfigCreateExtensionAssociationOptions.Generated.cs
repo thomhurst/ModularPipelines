@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create-extension-association")]
-public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions
+public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// When you create an extension or configure an Amazon Web Services au- thored extension, you associate the extension with an AppConfig appli- cation, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific ap- plication. Defining which extension to associate with an AppConfig re- source i...
+    /// </summary>
+    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ResourceIdentifier">The ARN of an application, configuration profile, or environment. Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigCreateExtensionAssociationOptions(
+        string ExtensionIdentifier,
+        string ResourceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExtensionIdentifier);
+        this.ExtensionIdentifier = ExtensionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+    }
+
+    private AwsAppConfigCreateExtensionAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigCreateExtensionAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigCreateExtensionAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--extension-identifier")]
-    public string? ExtensionIdentifier { get; set; }
+    public string? ExtensionIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ARN of an application, configuration profile, or environment. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
     /// The version number of the extension. If not specified, AppConfig uses the maximum version of the extension.
     /// </summary>
     [CliOption("--extension-version-number")]
     public int? ExtensionVersionNumber { get; set; }
-
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
 
     /// <summary>
     /// The parameter names and values defined in the extensions. Extension parameters marked Required must be entered for this field. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +95,21 @@ public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

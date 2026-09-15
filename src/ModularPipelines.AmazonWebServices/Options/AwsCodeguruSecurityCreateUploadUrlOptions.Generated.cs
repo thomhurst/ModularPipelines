@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguru-security", "create-upload-url")]
-public record AwsCodeguruSecurityCreateUploadUrlOptions : AwsOptions
+public record AwsCodeguruSecurityCreateUploadUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a pre-signed URL, request headers used to upload a code re- source, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanName">The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multi- ple scans of the same resource. Use this scanName when you call Cre- ateScan on the code resource you upload to this URL. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*</param>
+    public AwsCodeguruSecurityCreateUploadUrlOptions(
+        string ScanName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanName);
+        this.ScanName = ScanName;
+    }
+
+    private AwsCodeguruSecurityCreateUploadUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruSecurityCreateUploadUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruSecurityCreateUploadUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multi- ple scans of the same resource. Use this scanName when you call Cre- ateScan on the code resource you upload to this URL. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*
+    /// </summary>
     [CliOption("--scan-name")]
-    public string? ScanName { get; set; }
+    public string? ScanName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "create-worker-block")]
-public record AwsMturkCreateWorkerBlockOptions : AwsOptions
+public record AwsMturkCreateWorkerBlockOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--worker-id")]
-    public string? WorkerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is pro- ducing poor quality work. You can block up to 100,000 Workers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkerId">The ID of the Worker to block. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="Reason">A message explaining the reason for blocking the Worker. This para- meter enables you to keep track of your Workers. The Worker does not see this message.</param>
+    public AwsMturkCreateWorkerBlockOptions(
+        string WorkerId,
+        string Reason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerId);
+        this.WorkerId = WorkerId;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+    }
+
+    private AwsMturkCreateWorkerBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkCreateWorkerBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkCreateWorkerBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Worker to block. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--worker-id")]
+    public string? WorkerId { get; private init; }
+
+    /// <summary>
+    /// A message explaining the reason for blocking the Worker. This para- meter enables you to keep track of your Workers. The Worker does not see this message.
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

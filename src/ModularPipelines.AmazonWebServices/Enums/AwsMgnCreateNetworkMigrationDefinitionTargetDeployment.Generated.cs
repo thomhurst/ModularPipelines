@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --targetdeployment.
+/// Allowed values for --target-deployment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMgnCreateNetworkMigrationDefinitionTargetDeployment
 {
-    [EnumValue("SINGLE_ACCOUNT")]
-    SingleAccount = 1,
-
     [EnumValue("MULTI_ACCOUNT")]
-    MultiAccount = 2
+    MultiAccount,
+
+    [EnumValue("SINGLE_ACCOUNT")]
+    SingleAccount
 }

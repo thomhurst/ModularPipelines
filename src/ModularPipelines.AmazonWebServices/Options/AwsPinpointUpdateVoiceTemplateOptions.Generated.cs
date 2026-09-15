@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-voice-template")]
-public record AwsPinpointUpdateVoiceTemplateOptions : AwsOptions
+public record AwsPinpointUpdateVoiceTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--create-new-version")]
-    public bool? CreateNewVersion { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing message template for messages that are sent through the voice channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateName">The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.</param>
+    /// <param name="VoiceTemplateRequest">Specifies the content and settings for a message template that can be used in messages that are sent through the voice channel. Body -&gt; (string) The text of the script to use in messages that are based on the message template, in plain text format. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. LanguageCode -&gt; (string) The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide . tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. VoiceId -&gt; (string) The name of the voice to use when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide . Shorthand Syntax: Body=string,DefaultSubstitutions=string,LanguageCode=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string,VoiceId=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "LanguageCode": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string", "VoiceId": "string" }</param>
+    public AwsPinpointUpdateVoiceTemplateOptions(
+        string TemplateName,
+        string VoiceTemplateRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateName);
+        this.TemplateName = TemplateName;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceTemplateRequest);
+        this.VoiceTemplateRequest = VoiceTemplateRequest;
+    }
+
+    private AwsPinpointUpdateVoiceTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateVoiceTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateVoiceTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+    /// </summary>
     [CliOption("--template-name")]
-    public string? TemplateName { get; set; }
+    public string? TemplateName { get; private init; }
 
+    /// <summary>
+    /// Specifies the content and settings for a message template that can be used in messages that are sent through the voice channel. Body -&gt; (string) The text of the script to use in messages that are based on the message template, in plain text format. DefaultSubstitutions -&gt; (string) A JSON object that specifies the default values to use for mes- sage variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the tem- plate. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values. LanguageCode -&gt; (string) The code for the language to use when synthesizing the text of the script in messages that are based on the message template. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide . tags -&gt; (map) NOTE: As of 22-05-2023 tags has been deprecated for update opera- tions. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either Tags in the API Reference for Amazon Pinpoint , resourcegroupstaggingapi commands in the AWS Command Line In- terface Documentation or resourcegroupstaggingapi in the AWS SDK . (Deprecated) A string-to-string map of key-value pairs that de- fines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value. key -&gt; (string) value -&gt; (string) TemplateDescription -&gt; (string) A custom description of the message template. VoiceId -&gt; (string) The name of the voice to use when delivering messages that are based on the message template. For a list of supported voices, see the Amazon Polly Developer Guide . Shorthand Syntax: Body=string,DefaultSubstitutions=string,LanguageCode=string,tags={KeyName1=string,KeyName2=string},TemplateDescription=string,VoiceId=string JSON Syntax: { "Body": "string", "DefaultSubstitutions": "string", "LanguageCode": "string", "tags": {"string": "string" ...}, "TemplateDescription": "string", "VoiceId": "string" }
+    /// </summary>
     [CliOption("--voice-template-request")]
-    public string? VoiceTemplateRequest { get; set; }
+    public string? VoiceTemplateRequest { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to save the updates as a new version of the mes- sage template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest ex- isting version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
+    /// </summary>
+    [CliFlag("--create-new-version", NegatedName = "--no-create-new-version")]
+    public bool? CreateNewVersion { get; set; }
 
     /// <summary>
     /// The unique identifier for the version of the message template to up- date, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versionsresource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: o For a get operation, retrieves information about the active ver- sion of the template. o For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. o For a delete operation, deletes the template, including all ver- sions of the template.
@@ -41,5 +88,21 @@ public record AwsPinpointUpdateVoiceTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

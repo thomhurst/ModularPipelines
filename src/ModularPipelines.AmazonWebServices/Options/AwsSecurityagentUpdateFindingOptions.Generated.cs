@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "update-finding")]
-public record AwsSecurityagentUpdateFindingOptions : AwsOptions
+public record AwsSecurityagentUpdateFindingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--finding-id")]
-    public string? FindingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the status or risk level of a security finding. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FindingId">The unique identifier of the finding to update.</param>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space that contains the finding.</param>
+    public AwsSecurityagentUpdateFindingOptions(
+        string FindingId,
+        string AgentSpaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+    }
+
+    private AwsSecurityagentUpdateFindingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentUpdateFindingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentUpdateFindingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the finding to update.
+    /// </summary>
+    [CliOption("--finding-id")]
+    public string? FindingId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the agent space that contains the finding.
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
     /// <summary>
     /// The updated name for the finding.
@@ -87,5 +131,21 @@ public record AwsSecurityagentUpdateFindingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "update-tracker")]
-public record AwsLocationUpdateTrackerOptions : AwsOptions
+public record AwsLocationUpdateTrackerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified properties of a given tracker resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackerName">The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    public AwsLocationUpdateTrackerOptions(
+        string TrackerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+    }
+
+    private AwsLocationUpdateTrackerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationUpdateTrackerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationUpdateTrackerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    public string? TrackerName { get; private init; }
 
     /// <summary>
     /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
@@ -47,12 +84,18 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions
     /// Updates the position filtering for the tracker resource. Valid values: o TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your up- date frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID. o DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this dis- tance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of ge- ofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map. o AccuracyBased - If the device has moved less than the measured ac- curacy, location updates are ignored. For example, if two consecu- tive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the ef- fects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations. Possible values: o TimeBased o DistanceBased o AccuracyBased
     /// </summary>
     [CliOption("--position-filtering")]
-    public AwsLocationUpdateTrackerPositionFiltering? PositionFiltering { get; set; }
+    public string? PositionFiltering { get; set; }
 
-    [CliFlag("--event-bridge-enabled")]
+    /// <summary>
+    /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge. NOTE: You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+    /// </summary>
+    [CliFlag("--event-bridge-enabled", NegatedName = "--no-event-bridge-enabled")]
     public bool? EventBridgeEnabled { get; set; }
 
-    [CliFlag("--kms-key-enable-geospatial-queries")]
+    /// <summary>
+    /// tial-queries (boolean) Enables GeospatialQueries for a tracker that uses a Amazon Web Ser- vices KMS customer managed key . This parameter is only used if you are using a KMS customer managed key.
+    /// </summary>
+    [CliFlag("--kms-key-enable-geospatial-queries", NegatedName = "--no-kms-key-enable-geospatial-queries")]
     public bool? KmsKeyEnableGeospatialQueries { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -60,5 +103,21 @@ public record AwsLocationUpdateTrackerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

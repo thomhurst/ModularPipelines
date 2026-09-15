@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "revoke-security-group-egress")]
-public record AwsEc2RevokeSecurityGroupEgressOptions : AwsOptions
+public record AwsEc2RevokeSecurityGroupEgressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the specified outbound (egress) rules from the specified secu- rity group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP p...
+    /// </summary>
+    /// <param name="GroupId">The ID of the security group.</param>
+    public AwsEc2RevokeSecurityGroupEgressOptions(
+        string GroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+    }
+
+    private AwsEc2RevokeSecurityGroupEgressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2RevokeSecurityGroupEgressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2RevokeSecurityGroupEgressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the security group.
+    /// </summary>
+    [CliOption("--group-id")]
+    public string? GroupId { get; private init; }
+
     /// <summary>
     /// The IDs of the security group rules. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-rule-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupRuleIds { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--group-id")]
-    public string? GroupId { get; set; }
 
     /// <summary>
     /// The sets of IP permissions. You can't specify a destination security group and a CIDR IP address range in the same set of permissions. (structure) Describes the permissions for a security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or number (see Protocol Numbers ). Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp , udp , icmp , or icmpv6 allows traffic on all ports, re- gardless of any port range you specify. For tcp , udp , and icmp , you must specify a port range. For icmpv6 , the port range is optional; if you omit the port range, traffic for all types and codes is allowed. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). UserIdGroupPairs -&gt; (list) The security group and Amazon Web Services account ID pairs. (structure) Describes a security group and Amazon Web Services ac- count ID pair. Description -&gt; (string) A description for the security group rule that refer- ences this user ID group pair. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$* UserId -&gt; (string) The ID of an Amazon Web Services account. For a referenced security group in another VPC, the account ID of the referenced security group is re- turned in the response. If the referenced security group is deleted, this value is not returned. GroupName -&gt; (string) [Default VPC] The name of the security group. For a security group in a nondefault VPC, use the security group ID. For a referenced security group in another VPC, this value is not returned if the referenced security group is deleted. GroupId -&gt; (string) The ID of the security group. VpcId -&gt; (string) The ID of the VPC for the referenced security group, if applicable. VpcPeeringConnectionId -&gt; (string) The ID of the VPC peering connection, if applicable. PeeringStatus -&gt; (string) The status of a VPC peering connection, if applicable. IpRanges -&gt; (list) The IPv4 address ranges. (structure) Describes an IPv4 address range. Description -&gt; (string) A description for the security group rule that refer- ences this IPv4 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$* CidrIp -&gt; (string) The IPv4 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv4 address, use the /32 prefix length. NOTE: Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block, Amazon Web Services canonical- izes the CIDR block to 100.68.0.0/18. Any subse- quent DescribeSecurityGroups and DescribeSecurity- GroupRules calls will return the canonicalized form of the CIDR block. Additionally, if you at- tempt to add another rule with the non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error. Ipv6Ranges -&gt; (list) The IPv6 address ranges. (structure) Describes an IPv6 address range. Description -&gt; (string) A description for the security group rule that refer- ences this IPv6 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$* CidrIpv6 -&gt; (string) The IPv6 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv6 address, use the /128 prefix length. NOTE: Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block, Amazon Web Services canonical- izes the CIDR block to 100.68.0.0/18. Any subse- quent DescribeSecurityGroups and DescribeSecurity- GroupRules calls will return the canonicalized form of the CIDR block. Additionally, if you at- tempt to add another rule with the non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error. PrefixListIds -&gt; (list) The prefix list IDs. (structure) Describes a prefix list ID. Description -&gt; (string) A description for the security group rule that refer- ences this prefix list ID. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$* PrefixListId -&gt; (string) The ID of the prefix. Shorthand Syntax: IpProtocol=string,FromPort=integer,ToPort=integer,UserIdGroupPairs=[{Description=string,UserId=string,GroupName=string,GroupId=string,VpcId=string,VpcPeeringConnectionId=string,PeeringStatus=string},{Description=string,UserId=string,GroupName=string,GroupId=string,VpcId=string,VpcPeeringConnectionId=string,PeeringStatus=string}],IpRanges=[{Description=string,CidrIp=string},{Description=string,CidrIp=string}],Ipv6Ranges=[{Description=string,CidrIpv6=string},{Description=string,CidrIpv6=string}],PrefixListIds=[{Description=string,PrefixListId=string},{Description=string,PrefixListId=string}] ... JSON Syntax: [ { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "UserIdGroupPairs": [ { "Description": "string", "UserId": "string", "GroupName": "string", "GroupId": "string", "VpcId": "string", "VpcPeeringConnectionId": "string", "PeeringStatus": "string" } ... ], "IpRanges": [ { "Description": "string", "CidrIp": "string" } ... ], "Ipv6Ranges": [ { "Description": "string", "CidrIpv6": "string" } ... ], "PrefixListIds": [ { "Description": "string", "PrefixListId": "string" } ... ] } ... ]
@@ -74,5 +114,21 @@ public record AwsEc2RevokeSecurityGroupEgressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

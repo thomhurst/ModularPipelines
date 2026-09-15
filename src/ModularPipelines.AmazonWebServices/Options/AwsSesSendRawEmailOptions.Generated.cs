@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "send-raw-email")]
-public record AwsSesSendRawEmailOptions : AwsOptions
+public record AwsSesSendRawEmailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the mes- sage as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that con- tains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the f...
+    /// </summary>
+    /// <param name="RawMessage">The raw email message itself. The message has to meet the following criteria: o The message has to contain a header and a body, separated by a blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be of a content type that Amazon SES supports. For a list on unsupported content types, see Unsupported Attach- ment Types in the Amazon SES Developer Guide . o The entire message must be base64-encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, we highly recommend that you encode that content. For more information, see Sending Raw Email in the Amazon SES Developer Guide . o Per RFC 5321 , the maximum length of each line of text, including the &lt;CRLF&gt;, must not exceed 1,000 characters. Data -&gt; (blob) [required] The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS in- terface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message for- mat complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more informa- tion, see the documentation for SendRawEmail . WARNING: Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email. For more information, go to the Amazon SES Developer Guide . Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }</param>
+    public AwsSesSendRawEmailOptions(
+        string RawMessage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RawMessage);
+        this.RawMessage = RawMessage;
+    }
+
+    private AwsSesSendRawEmailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSendRawEmailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSendRawEmailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The raw email message itself. The message has to meet the following criteria: o The message has to contain a header and a body, separated by a blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be of a content type that Amazon SES supports. For a list on unsupported content types, see Unsupported Attach- ment Types in the Amazon SES Developer Guide . o The entire message must be base64-encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, we highly recommend that you encode that content. For more information, see Sending Raw Email in the Amazon SES Developer Guide . o Per RFC 5321 , the maximum length of each line of text, including the &lt;CRLF&gt;, must not exceed 1,000 characters. Data -&gt; (blob) [required] The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS in- terface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message for- mat complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more informa- tion, see the documentation for SendRawEmail . WARNING: Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email. For more information, go to the Amazon SES Developer Guide . Shorthand Syntax: Data=blob JSON Syntax: { "Data": blob }
+    /// </summary>
+    [CliOption("--raw-message")]
+    public string? RawMessage { get; private init; }
+
     /// <summary>
     /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.) NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in`RFC6531 &lt;https://tools.ietf.org/html/rfc6531&gt;`__ . For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API . For more information about Pun- ycode, see RFC 3492 . If you specify the Source parameter and have feedback forwarding en- abled, then bounces and complaints are sent to this email address. This takes precedence over any Return-Path header that you might in- clude in the raw text of the message.
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsSesSendRawEmailOptions : AwsOptions
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
-
-    [CliOption("--raw-message")]
-    public string? RawMessage { get; set; }
 
     /// <summary>
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter. NOTE: For information about when to use this parameter, see the de- scription of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
@@ -71,5 +108,21 @@ public record AwsSesSendRawEmailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

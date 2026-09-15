@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "start-fhir-export-job")]
-public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions
+public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start a FHIR export job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OutputDataConfig">The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }</param>
+    /// <param name="DatastoreId">The data store identifier from which files are being exported. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    public AwsHealthlakeStartFhirExportJobOptions(
+        string OutputDataConfig,
+        string DatastoreId,
+        string DataAccessRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+    }
+
+    private AwsHealthlakeStartFhirExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeStartFhirExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeStartFhirExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The output data configuration supplied when the export job was started. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Configuration. S3Configuration -&gt; (structure) The output data configuration supplied when the export job was created. S3Uri -&gt; (string) [required] The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake. Constraints: o min: 0 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) [required] The Key Management Service (KMS) key ID used to access the Amazon S3 bucket. Constraints: o min: 1 o max: 400 o pattern: (arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\d:)?(\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+)) Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }
+    /// </summary>
+    [CliOption("--output-data-config")]
+    public string? OutputDataConfig { get; private init; }
+
+    /// <summary>
+    /// The data store identifier from which files are being exported. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// </summary>
+    [CliOption("--datastore-id")]
+    public string? DatastoreId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) used during initiation of the export job. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
     /// <summary>
     /// The export job name. Constraints: o min: 1 o max: 64 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
-
-    [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
-
-    [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
-
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
     /// An optional user provided token used for ensuring API idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
@@ -49,5 +100,21 @@ public record AwsHealthlakeStartFhirExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

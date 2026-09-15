@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "create-log-pattern")]
-public record AwsApplicationInsightsCreateLogPatternOptions : AwsOptions
+public record AwsApplicationInsightsCreateLogPatternOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds an log pattern to a LogPatternSet . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="PatternSetName">The name of the log pattern set. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="PatternName">The name of the log pattern. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="Pattern">The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+</param>
+    /// <param name="Rank">Rank of the log pattern. Must be a value between 1 and 1,000,000 . The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.</param>
+    public AwsApplicationInsightsCreateLogPatternOptions(
+        string ResourceGroupName,
+        string PatternSetName,
+        string PatternName,
+        string Pattern,
+        int Rank
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(PatternSetName);
+        this.PatternSetName = PatternSetName;
+        global::System.ArgumentNullException.ThrowIfNull(PatternName);
+        this.PatternName = PatternName;
+        global::System.ArgumentNullException.ThrowIfNull(Pattern);
+        this.Pattern = Pattern;
+        this.Rank = Rank;
+    }
+
+    private AwsApplicationInsightsCreateLogPatternOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsCreateLogPatternOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsCreateLogPatternOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    public string? ResourceGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the log pattern set. Constraints: o min: 1 o max: 30 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--pattern-set-name")]
-    public string? PatternSetName { get; set; }
+    public string? PatternSetName { get; private init; }
 
+    /// <summary>
+    /// The name of the log pattern. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--pattern-name")]
-    public string? PatternName { get; set; }
+    public string? PatternName { get; private init; }
 
+    /// <summary>
+    /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported. Constraints: o min: 1 o max: 50 o pattern: [\S\s]+
+    /// </summary>
     [CliOption("--pattern")]
-    public string? Pattern { get; set; }
+    public string? Pattern { get; private init; }
 
+    /// <summary>
+    /// Rank of the log pattern. Must be a value between 1 and 1,000,000 . The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
+    /// </summary>
     [CliOption("--rank")]
-    public int? Rank { get; set; }
+    public int? Rank { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

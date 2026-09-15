@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "create-graph-snapshot")]
-public record AwsNeptuneGraphCreateGraphSnapshotOptions : AwsOptions
+public record AwsNeptuneGraphCreateGraphSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-identifier")]
-    public string? GraphIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a snapshot of the specific graph. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="SnapshotName">The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    public AwsNeptuneGraphCreateGraphSnapshotOptions(
+        string GraphIdentifier,
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphIdentifier);
+        this.GraphIdentifier = GraphIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    private AwsNeptuneGraphCreateGraphSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphCreateGraphSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphCreateGraphSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--graph-identifier")]
+    public string? GraphIdentifier { get; private init; }
+
+    /// <summary>
+    /// The snapshot name. For example: my-snapshot-1 . The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!gs-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--snapshot-name")]
-    public string? SnapshotName { get; set; }
+    public string? SnapshotName { get; private init; }
 
     /// <summary>
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,21 @@ public record AwsNeptuneGraphCreateGraphSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

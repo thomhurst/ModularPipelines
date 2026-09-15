@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-gateway-rule")]
-public record AwsBedrockAgentcoreControlCreateGatewayRuleOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateGatewayRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, in- cluding principal-based access control and path-based routing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GatewayIdentifier">The identifier of the gateway to create a rule for. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="Priority">The priority of the rule. Rules are evaluated in order of priority, with lower numbers evaluated first. Must be between 1 and 1,000,000. Constraints: o min: 1 o max: 1000000</param>
+    /// <param name="Actions">The actions to take when the rule conditions are met. Actions can route to a specific target or apply a configuration bundle override. Constraints: o min: 1 o max: 2 (tagged union structure) An action to take when a gateway rule's conditions are met. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBundle, routeToTar- get. configurationBundle -&gt; (tagged union structure) An action that applies a configuration bundle override to the request. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: staticOverride, weighte- dOverride. staticOverride -&gt; (structure) A static configuration bundle override that applies a single bundle version to all matching requests. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle to apply. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configuration-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle to apply. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} weightedOverride -&gt; (structure) A weighted configuration bundle override that splits traffic between multiple bundle versions based on config- ured weights. trafficSplit -&gt; (list) [required] The traffic split entries defining how traffic is dis- tributed between configuration bundle versions. Constraints: o min: 2 o max: 2 (structure) An entry in a traffic split configuration, defin- ing a named variant with a weight and configura- tion bundle reference. name -&gt; (string) [required] The name of this traffic split variant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,62}[a-zA-Z0-9])? weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all entries must sum to 100. Constraints: o min: 1 o max: 99 configurationBundle -&gt; (structure) [required] The configuration bundle reference for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the con- figuration bundle. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configura- tion-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} description -&gt; (string) The description of this traffic split variant. Constraints: o min: 1 o max: 200 metadata -&gt; (map) Key-value metadata associated with this traffic split variant. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 routeToTarget -&gt; (tagged union structure) An action that routes the request to a specific target. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: staticRoute, weighte- dRoute. staticRoute -&gt; (structure) A static route that sends all matching requests to a sin- gle target. targetName -&gt; (string) [required] The name of the target to route requests to. Constraints: o pattern: ([0-9a-zA-Z][-]?){1,100} weightedRoute -&gt; (structure) A weighted route that splits traffic between multiple targets. trafficSplit -&gt; (list) [required] The traffic split entries defining how traffic is dis- tributed between targets. Constraints: o min: 2 o max: 2 (structure) An entry in a target traffic split configuration. name -&gt; (string) [required] The name of this traffic split variant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,62}[a-zA-Z0-9])? weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Constraints: o min: 1 o max: 99 targetName -&gt; (string) [required] The name of the target to route traffic to. Constraints: o pattern: ([0-9a-zA-Z][-]?){1,100} description -&gt; (string) The description of this traffic split variant. Constraints: o min: 1 o max: 200 metadata -&gt; (map) Key-value metadata associated with this traffic split variant. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 JSON Syntax: [ { "configurationBundle": { "staticOverride": { "bundleArn": "string", "bundleVersion": "string" }, "weightedOverride": { "trafficSplit": [ { "name": "string", "weight": integer, "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "description": "string", "metadata": {"string": "string" ...} } ... ] } }, "routeToTarget": { "staticRoute": { "targetName": "string" }, "weightedRoute": { "trafficSplit": [ { "name": "string", "weight": integer, "targetName": "string", "description": "string", "metadata": {"string": "string" ...} } ... ] } } } ... ]</param>
+    public AwsBedrockAgentcoreControlCreateGatewayRuleOptions(
+        string GatewayIdentifier,
+        int Priority,
+        IEnumerable<string> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayIdentifier);
+        this.GatewayIdentifier = GatewayIdentifier;
+        this.Priority = Priority;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsBedrockAgentcoreControlCreateGatewayRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateGatewayRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateGatewayRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the gateway to create a rule for. Constraints: o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
     [CliOption("--gateway-identifier")]
-    public string? GatewayIdentifier { get; set; }
+    public string? GatewayIdentifier { get; private init; }
+
+    /// <summary>
+    /// The priority of the rule. Rules are evaluated in order of priority, with lower numbers evaluated first. Must be between 1 and 1,000,000. Constraints: o min: 1 o max: 1000000
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// The actions to take when the rule conditions are met. Actions can route to a specific target or apply a configuration bundle override. Constraints: o min: 1 o max: 2 (tagged union structure) An action to take when a gateway rule's conditions are met. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: configurationBundle, routeToTar- get. configurationBundle -&gt; (tagged union structure) An action that applies a configuration bundle override to the request. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: staticOverride, weighte- dOverride. staticOverride -&gt; (structure) A static configuration bundle override that applies a single bundle version to all matching requests. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the configuration bundle to apply. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configuration-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle to apply. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} weightedOverride -&gt; (structure) A weighted configuration bundle override that splits traffic between multiple bundle versions based on config- ured weights. trafficSplit -&gt; (list) [required] The traffic split entries defining how traffic is dis- tributed between configuration bundle versions. Constraints: o min: 2 o max: 2 (structure) An entry in a traffic split configuration, defin- ing a named variant with a weight and configura- tion bundle reference. name -&gt; (string) [required] The name of this traffic split variant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,62}[a-zA-Z0-9])? weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Weights across all entries must sum to 100. Constraints: o min: 1 o max: 99 configurationBundle -&gt; (structure) [required] The configuration bundle reference for this variant. bundleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the con- figuration bundle. Constraints: o pattern: arn:aws[a-zA-Z-]*:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:configura- tion-bun- dle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10} bundleVersion -&gt; (string) [required] The version of the configuration bundle. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} description -&gt; (string) The description of this traffic split variant. Constraints: o min: 1 o max: 200 metadata -&gt; (map) Key-value metadata associated with this traffic split variant. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 routeToTarget -&gt; (tagged union structure) An action that routes the request to a specific target. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: staticRoute, weighte- dRoute. staticRoute -&gt; (structure) A static route that sends all matching requests to a sin- gle target. targetName -&gt; (string) [required] The name of the target to route requests to. Constraints: o pattern: ([0-9a-zA-Z][-]?){1,100} weightedRoute -&gt; (structure) A weighted route that splits traffic between multiple targets. trafficSplit -&gt; (list) [required] The traffic split entries defining how traffic is dis- tributed between targets. Constraints: o min: 2 o max: 2 (structure) An entry in a target traffic split configuration. name -&gt; (string) [required] The name of this traffic split variant. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([a-zA-Z0-9-]{0,62}[a-zA-Z0-9])? weight -&gt; (integer) [required] The percentage of traffic to route to this variant. Constraints: o min: 1 o max: 99 targetName -&gt; (string) [required] The name of the target to route traffic to. Constraints: o pattern: ([0-9a-zA-Z][-]?){1,100} description -&gt; (string) The description of this traffic split variant. Constraints: o min: 1 o max: 200 metadata -&gt; (map) Key-value metadata associated with this traffic split variant. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 JSON Syntax: [ { "configurationBundle": { "staticOverride": { "bundleArn": "string", "bundleVersion": "string" }, "weightedOverride": { "trafficSplit": [ { "name": "string", "weight": integer, "configurationBundle": { "bundleArn": "string", "bundleVersion": "string" }, "description": "string", "metadata": {"string": "string" ...} } ... ] } }, "routeToTarget": { "staticRoute": { "targetName": "string" }, "weightedRoute": { "trafficSplit": [ { "name": "string", "weight": integer, "targetName": "string", "description": "string", "metadata": {"string": "string" ...} } ... ] } } } ... ]
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -32,17 +99,11 @@ public record AwsBedrockAgentcoreControlCreateGatewayRuleOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
     /// <summary>
     /// The conditions that must be met for the rule to apply. Conditions can match on principals (IAM ARNs) or request paths. Constraints: o min: 0 o max: 2 (tagged union structure) A condition that determines when a gateway rule applies. Condi- tions can match on principals or request paths. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: matchPrincipals, matchPaths. matchPrincipals -&gt; (structure) A condition that matches on the identity of the caller making the request. anyOf -&gt; (list) [required] A list of principal entries. The condition is met if any of the entries match the caller's identity. Constraints: o min: 1 o max: 100 (tagged union structure) Union for principal matching. Currently supports IAM principal ARN glob matching. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: iamPrincipal. iamPrincipal -&gt; (structure) An IAM principal to match against, specified by ARN. arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM prin- cipal. Supports user, role, and assumed-role ARNs. Wildcards can be used with the StringLike operator. Constraints: o min: 0 o max: 2048 o pattern: (arn:aws[a-zA-Z-]*:iam::(\d{12}|\*):(user|role)/[\w+=,.@*?/-]+|arn:aws[a-zA-Z-]*:sts::(\d{12}|\*):as- sumed-role/[\w+=,.@*?/-]+) operator -&gt; (string) The match operator. StringEquals requires an exact match. StringLike supports wildcard pat- terns using * and ? . Possible values: o StringEquals o StringLike matchPaths -&gt; (structure) A condition that matches on the request path. anyOf -&gt; (list) [required] A list of path patterns. The condition is met if the re- quest path matches any of the patterns. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 0 o max: 512 o pattern: /[\w\-.]+/\* JSON Syntax: [ { "matchPrincipals": { "anyOf": [ { "iamPrincipal": { "arn": "string", "operator": "StringEquals"|"StringLike" } } ... ] }, "matchPaths": { "anyOf": ["string", ...] } } ... ]
     /// </summary>
     [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }
-
-    [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
     /// The description of the gateway rule. Constraints: o min: 1 o max: 256
@@ -55,5 +116,21 @@ public record AwsBedrockAgentcoreControlCreateGatewayRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

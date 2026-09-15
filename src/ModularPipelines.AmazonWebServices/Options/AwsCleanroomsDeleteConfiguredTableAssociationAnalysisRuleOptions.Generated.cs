@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "delete-configured-table-association-analysis-rule")]
-public record AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions : AwsOptions
+public record AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an analysis rule for a configured table association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership that the configured table as- sociation belongs to. Currently accepts the membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredTableAssociationIdentifier">The identier for the congured table association that's related to the analysis rule that you want to delete. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisRuleType">The type of the analysis rule that you want to delete. Possible values: o AGGREGATION o LIST o CUSTOM</param>
+    public AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions(
+        string MembershipIdentifier,
+        string ConfiguredTableAssociationIdentifier,
+        AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleAnalysisRuleType AnalysisRuleType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredTableAssociationIdentifier);
+        this.ConfiguredTableAssociationIdentifier = ConfiguredTableAssociationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisRuleType);
+        this.AnalysisRuleType = AnalysisRuleType;
+    }
+
+    private AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the membership that the configured table as- sociation belongs to. Currently accepts the membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identier for the congured table association that's related to the analysis rule that you want to delete. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--configured-table-association-identifier")]
-    public string? ConfiguredTableAssociationIdentifier { get; set; }
+    public string? ConfiguredTableAssociationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the analysis rule that you want to delete. Possible values: o AGGREGATION o LIST o CUSTOM
+    /// </summary>
     [CliOption("--analysis-rule-type")]
-    public string? AnalysisRuleType { get; set; }
+    public AwsCleanroomsDeleteConfiguredTableAssociationAnalysisRuleAnalysisRuleType? AnalysisRuleType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

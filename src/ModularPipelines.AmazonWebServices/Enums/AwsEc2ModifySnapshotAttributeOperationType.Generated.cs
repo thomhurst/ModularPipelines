@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --operationtype.
+/// Allowed values for --operation-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifySnapshotAttributeOperationType
 {
     [EnumValue("add")]
-    Add = 1,
+    Add,
 
     [EnumValue("remove")]
-    Remove = 2
+    Remove
 }

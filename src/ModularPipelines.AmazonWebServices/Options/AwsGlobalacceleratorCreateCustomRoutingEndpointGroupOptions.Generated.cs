@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "create-custom-routing-endpoint-group")]
-public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsOptions
+public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create an endpoint group for the specified listener for a custom rout- ing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: o max: 255</param>
+    /// <param name="EndpointGroupRegion">The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: o max: 255</param>
+    /// <param name="DestinationConfigurations">Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: o min: 1 o max: 100 (structure) For a custom routing accelerator, sets the port range and proto- col for all endpoints (virtual private cloud subnets) in an end- point group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: o min: 1 o max: 2 (string) Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]</param>
+    public AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions(
+        string ListenerArn,
+        string EndpointGroupRegion,
+        IEnumerable<string> DestinationConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ListenerArn);
+        this.ListenerArn = ListenerArn;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointGroupRegion);
+        this.EndpointGroupRegion = EndpointGroupRegion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DestinationConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DestinationConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DestinationConfigurations));
+            }
+
+            DestinationConfigurations = materialized;
+        }
+        this.DestinationConfigurations = DestinationConfigurations;
+    }
+
+    private AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the listener for a custom routing endpoint. Constraints: o max: 255
+    /// </summary>
     [CliOption("--listener-arn")]
-    public string? ListenerArn { get; set; }
+    public string? ListenerArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region. Constraints: o max: 255
+    /// </summary>
     [CliOption("--endpoint-group-region")]
-    public string? EndpointGroupRegion { get; set; }
+    public string? EndpointGroupRegion { get; private init; }
 
+    /// <summary>
+    /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on. Constraints: o min: 1 o max: 100 (structure) For a custom routing accelerator, sets the port range and proto- col for all endpoints (virtual private cloud subnets) in an end- point group to accept client traffic on. FromPort -&gt; (integer) [required] The first port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) [required] The last port, inclusive, in the range of ports for the end- point group that is associated with a custom routing acceler- ator. Constraints: o min: 1 o max: 65535 Protocols -&gt; (list) [required] The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP. Constraints: o min: 1 o max: 2 (string) Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,Protocols=string,string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "Protocols": ["TCP"|"UDP", ...] } ... ]
+    /// </summary>
     [CliOption("--destination-configurations", GroupValues = true)]
-    public IEnumerable<string>? DestinationConfigurations { get; set; }
+    public IEnumerable<string>? DestinationConfigurations { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
@@ -43,5 +105,21 @@ public record AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

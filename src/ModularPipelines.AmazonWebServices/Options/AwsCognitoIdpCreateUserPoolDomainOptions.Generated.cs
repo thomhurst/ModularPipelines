@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "create-user-pool-domain")]
-public record AwsCognitoIdpCreateUserPoolDomainOptions : AwsOptions
+public record AwsCognitoIdpCreateUserPoolDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation creates a new user pool prefix domain or custom domain and sets the managed login branding version. Set the branding version to 1 for hosted UI (classic) or 2 for managed login. When you choose a custom domain, you must pro- vide an SSL certificate in the US East (N. Virginia) Amazon Web Ser- vices Region in your request. Your prefix domain might take up to one mi...
+    /// </summary>
+    /// <param name="Domain">The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For prefix domains, this is the prefix alone, such as myprefix . A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of mypre- fix.auth.us-east-1.amazoncognito.com . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to add a domain. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    public AwsCognitoIdpCreateUserPoolDomainOptions(
+        string Domain,
+        string UserPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+    }
+
+    private AwsCognitoIdpCreateUserPoolDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpCreateUserPoolDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpCreateUserPoolDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com . For prefix domains, this is the prefix alone, such as myprefix . A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of mypre- fix.auth.us-east-1.amazoncognito.com . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The ID of the user pool where you want to add a domain. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
     /// <summary>
     /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite . A ManagedLoginVersion value of 2 does not activate managed login pages for your app client. When you create an app client programmat- ically, your app client has no branding style. To use managed login, create a branding style using the CreateManagedLoginBranding opera- tion. When you use the console, Amazon Cognito assigns a default branding style automatically. When you use the API or an SDK, you must create a branding style yourself.
@@ -50,5 +94,21 @@ public record AwsCognitoIdpCreateUserPoolDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

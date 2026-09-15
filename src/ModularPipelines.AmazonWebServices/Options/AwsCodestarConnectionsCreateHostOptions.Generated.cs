@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "create-host")]
-public record AwsCodestarConnectionsCreateHostOptions : AwsOptions
+public record AwsCodestarConnectionsCreateHostOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. NOTE: A host created through the CLI or the SDK is in PENDING status by default. You can make its status AVAILABLE by setting up the host in the console. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the host to be created. Constraints: o min: 1 o max: 64 o pattern: .*</param>
+    /// <param name="ProviderType">The name of the installed provider to be associated with your con- nection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enter- prise Server. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged</param>
+    /// <param name="ProviderEndpoint">The endpoint of the infrastructure to be represented by the host af- ter it is created. Constraints: o min: 1 o max: 512 o pattern: .*</param>
+    public AwsCodestarConnectionsCreateHostOptions(
+        string Name,
+        AwsCodestarConnectionsCreateHostProviderType ProviderType,
+        string ProviderEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
+        this.ProviderType = ProviderType;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderEndpoint);
+        this.ProviderEndpoint = ProviderEndpoint;
+    }
+
+    private AwsCodestarConnectionsCreateHostOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsCreateHostOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsCreateHostOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the host to be created. Constraints: o min: 1 o max: 64 o pattern: .*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The name of the installed provider to be associated with your con- nection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enter- prise Server. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged
+    /// </summary>
     [CliOption("--provider-type")]
-    public string? ProviderType { get; set; }
+    public AwsCodestarConnectionsCreateHostProviderType? ProviderType { get; private init; }
 
+    /// <summary>
+    /// The endpoint of the infrastructure to be represented by the host af- ter it is created. Constraints: o min: 1 o max: 512 o pattern: .*
+    /// </summary>
     [CliOption("--provider-endpoint")]
-    public string? ProviderEndpoint { get; set; }
+    public string? ProviderEndpoint { get; private init; }
 
     /// <summary>
     /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC. VpcId -&gt; (string) [required] The ID of the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 12 o max: 21 o pattern: vpc-\w{8}(\w{9})? SubnetIds -&gt; (list) [required] The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) [required] The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? TlsCertificate -&gt; (string) The value of the Transport Layer Security (TLS) certificate as- sociated with the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 16384 o pattern: [\s\S]* Shorthand Syntax: VpcId=string,SubnetIds=string,string,SecurityGroupIds=string,string,TlsCertificate=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "TlsCertificate": "string" }
@@ -47,5 +99,21 @@ public record AwsCodestarConnectionsCreateHostOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

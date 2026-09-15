@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "put-account-preferences")]
-public record AwsEfsPutAccountPreferencesOptions : AwsOptions
+public record AwsEfsPutAccountPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 char- acter (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an ...
+    /// </summary>
+    /// <param name="ResourceIdType">Specifies the EFS resource ID preference to set for the user's Ama- zon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when set- ting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: o LONG_ID o SHORT_ID</param>
+    public AwsEfsPutAccountPreferencesOptions(
+        AwsEfsPutAccountPreferencesResourceIdType ResourceIdType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdType);
+        this.ResourceIdType = ResourceIdType;
+    }
+
+    private AwsEfsPutAccountPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsPutAccountPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsPutAccountPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the EFS resource ID preference to set for the user's Ama- zon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when set- ting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: o LONG_ID o SHORT_ID
+    /// </summary>
     [CliOption("--resource-id-type")]
-    public string? ResourceIdType { get; set; }
+    public AwsEfsPutAccountPreferencesResourceIdType? ResourceIdType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

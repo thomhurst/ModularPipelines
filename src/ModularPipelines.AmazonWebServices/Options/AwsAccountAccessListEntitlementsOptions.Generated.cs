@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account-access", "list-entitlements")]
-public record AwsAccountAccessListEntitlementsOptions : AwsOptions
+public record AwsAccountAccessListEntitlementsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the entitlements for a specified account access manager applica- tion. You can filter results by principal, IAM role, or account. Use pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application to list entitlements for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
+    /// <param name="Filter">Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter enti- tlements by. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }</param>
+    public AwsAccountAccessListEntitlementsOptions(
+        string ApplicationArn,
+        string Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsAccountAccessListEntitlementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountAccessListEntitlementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountAccessListEntitlementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application to list entitlements for. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Specifies filter criteria to narrow the entitlements returned. You can filter by principal, IAM role, or account. principalRole -&gt; (structure) The principal-to-role filter criteria for narrowing entitlement results. principal -&gt; (tagged union structure) The principal to filter entitlements by. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: identityCenter. identityCenter -&gt; (tagged union structure) The IAM Identity Center principal filter criteria. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: userId, groupId. userId -&gt; (string) The unique identifier of a user in IAM Identity Center to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} groupId -&gt; (string) The unique identifier of a group in IAM Identity Cen- ter to filter by. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} roleArn -&gt; (string) The IAM role ARN to filter entitlements by. Constraints: o pattern: arn:[a-z0-9-]+:iam::[0-9]{12}:role/([a-zA-Z0-9+=,.@_-]+/)*[a-zA-Z0-9+=,.@_-]+ account -&gt; (string) The 12-digit Amazon Web Services account ID to filter enti- tlements by. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} JSON Syntax: { "principalRole": { "principal": { "identityCenter": { "userId": "string", "groupId": "string" } }, "roleArn": "string", "account": "string" } }
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public string? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsAccountAccessListEntitlementsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

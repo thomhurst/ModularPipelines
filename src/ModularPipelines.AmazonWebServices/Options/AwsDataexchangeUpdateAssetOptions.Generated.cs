@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "update-asset")]
-public record AwsDataexchangeUpdateAssetOptions : AwsOptions
+public record AwsDataexchangeUpdateAssetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation updates an asset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetId">The unique identifier for an asset. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="Name">The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the name.</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    public AwsDataexchangeUpdateAssetOptions(
+        string AssetId,
+        string DataSetId,
+        string Name,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsDataexchangeUpdateAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeUpdateAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeUpdateAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for an asset. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
+    public string? AssetId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the name.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-analysis-template")]
-public record AwsCleanroomsCreateAnalysisTemplateOptions : AwsOptions
+public record AwsCleanroomsCreateAnalysisTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new analysis template. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The identifier for a membership resource. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Name">The name of the analysis template. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?</param>
+    /// <param name="Format">The format of the analysis template. Possible values: o SQL o PYSPARK_1_0</param>
+    /// <param name="Source">The information in the analysis template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, artifacts. text -&gt; (string) The query text. Constraints: o min: 0 o max: 500000 artifacts -&gt; (structure) The artifacts of the analysis source. entryPoint -&gt; (structure) [required] The entry point for the analysis template artifacts. location -&gt; (structure) [required] The artifact location. bucket -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* key -&gt; (string) [required] The object key. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-/]+ additionalArtifacts -&gt; (list) Additional artifacts for the analysis template. Constraints: o min: 1 o max: 1 (structure) The analysis template artifact. location -&gt; (structure) [required] The artifact location. bucket -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* key -&gt; (string) [required] The object key. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-/]+ roleArn -&gt; (string) [required] The role ARN for the analysis template artifacts. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+ JSON Syntax: { "text": "string", "artifacts": { "entryPoint": { "location": { "bucket": "string", "key": "string" } }, "additionalArtifacts": [ { "location": { "bucket": "string", "key": "string" } } ... ], "roleArn": "string" } }</param>
+    public AwsCleanroomsCreateAnalysisTemplateOptions(
+        string MembershipIdentifier,
+        string Name,
+        AwsCleanroomsCreateAnalysisTemplateFormat Format,
+        string Source
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+    }
+
+    private AwsCleanroomsCreateAnalysisTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateAnalysisTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateAnalysisTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for a membership resource. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the analysis template. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The format of the analysis template. Possible values: o SQL o PYSPARK_1_0
+    /// </summary>
+    [CliOption("--format")]
+    public AwsCleanroomsCreateAnalysisTemplateFormat? Format { get; private init; }
+
+    /// <summary>
+    /// The information in the analysis template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text, artifacts. text -&gt; (string) The query text. Constraints: o min: 0 o max: 500000 artifacts -&gt; (structure) The artifacts of the analysis source. entryPoint -&gt; (structure) [required] The entry point for the analysis template artifacts. location -&gt; (structure) [required] The artifact location. bucket -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* key -&gt; (string) [required] The object key. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-/]+ additionalArtifacts -&gt; (list) Additional artifacts for the analysis template. Constraints: o min: 1 o max: 1 (structure) The analysis template artifact. location -&gt; (structure) [required] The artifact location. bucket -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* key -&gt; (string) [required] The object key. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-/]+ roleArn -&gt; (string) [required] The role ARN for the analysis template artifacts. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::[\w]+:role/[\w+=./@-]+ JSON Syntax: { "text": "string", "artifacts": { "entryPoint": { "location": { "bucket": "string", "key": "string" } }, "additionalArtifacts": [ { "location": { "bucket": "string", "key": "string" } } ... ], "roleArn": "string" } }
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
     /// <summary>
     /// The description of the analysis template. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--format")]
-    public string? Format { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -75,5 +134,21 @@ public record AwsCleanroomsCreateAnalysisTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

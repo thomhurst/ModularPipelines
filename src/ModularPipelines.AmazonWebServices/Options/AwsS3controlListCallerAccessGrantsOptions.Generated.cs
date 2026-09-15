@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "list-caller-access-grants")]
-public record AwsS3controlListCallerAccessGrantsOptions : AwsOptions
+public record AwsS3controlListCallerAccessGrantsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope , using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    public AwsS3controlListCallerAccessGrantsOptions(
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsS3controlListCallerAccessGrantsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlListCallerAccessGrantsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlListCallerAccessGrantsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     /// <summary>
     /// The S3 path of the data that you would like to access. Must start with s3:// . You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
@@ -31,7 +68,10 @@ public record AwsS3controlListCallerAccessGrantsOptions : AwsOptions
     [CliOption("--grant-scope")]
     public string? GrantScope { get; set; }
 
-    [CliFlag("--allowed-by-application")]
+    /// <summary>
+    /// If this optional parameter is passed in the request, a filter is ap- plied to the results. The results will include only the access grants for the caller's Identity Center application or for any other applications (ALL ).
+    /// </summary>
+    [CliFlag("--allowed-by-application", NegatedName = "--no-allowed-by-application")]
     public bool? AllowedByApplication { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -58,5 +98,21 @@ public record AwsS3controlListCallerAccessGrantsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

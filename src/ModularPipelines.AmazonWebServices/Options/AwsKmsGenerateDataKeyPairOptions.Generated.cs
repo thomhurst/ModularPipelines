@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "generate-data-key-pair")]
-public record AwsKmsGenerateDataKeyPairOptions : AwsOptions
+public record AwsKmsGenerateDataKeyPairOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryp- tion KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the pu...
+    /// </summary>
+    /// <param name="KeyId">Specifies the symmetric encryption KMS key that encrypts the private key in the data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyPairSpec">Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and ver- ify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. Possible values: o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521 o ECC_SECG_P256K1 o SM2 o ECC_NIST_EDWARDS25519</param>
+    public AwsKmsGenerateDataKeyPairOptions(
+        string KeyId,
+        AwsKmsGenerateDataKeyPairKeyPairSpec KeyPairSpec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairSpec);
+        this.KeyPairSpec = KeyPairSpec;
+    }
+
+    private AwsKmsGenerateDataKeyPairOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsGenerateDataKeyPairOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsGenerateDataKeyPairOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the symmetric encryption KMS key that encrypts the private key in the data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--key-id")]
+    public string? KeyId { get; private init; }
+
+    /// <summary>
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and ver- ify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. Possible values: o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521 o ECC_SECG_P256K1 o SM2 o ECC_NIST_EDWARDS25519
+    /// </summary>
+    [CliOption("--key-pair-spec")]
+    public AwsKmsGenerateDataKeyPairKeyPairSpec? KeyPairSpec { get; private init; }
+
     /// <summary>
     /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an en- cryption context to encrypt data, you must specify the same (an ex- act case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recom- mended. For more information, see Encryption context in the Key Management Service Developer Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EncryptionContext { get; set; }
-
-    [CliOption("--key-id")]
-    public string? KeyId { get; set; }
-
-    [CliOption("--key-pair-spec")]
-    public string? KeyPairSpec { get; set; }
 
     /// <summary>
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
@@ -48,7 +93,10 @@ public record AwsKmsGenerateDataKeyPairOptions : AwsOptions
     [CliOption("--recipient")]
     public string? Recipient { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +104,21 @@ public record AwsKmsGenerateDataKeyPairOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identitystore", "get-user-id")]
-public record AwsIdentitystoreGetUserIdOptions : AwsOptions
+public record AwsIdentitystoreGetUserIdOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity-store-id")]
-    public string? IdentityStoreId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the UserId in an identity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation get-user-id uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nes...
+    /// </summary>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AlternateIdentifier">A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external iden- tity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ExternalId, UniqueAttribute. ExternalId -&gt; (structure) The identifier issued to this resource by an external identity provider. Issuer -&gt; (string) [required] The issuer for an external identifier. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Id -&gt; (string) [required] The identifier issued to this resource by an external iden- tity provider. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ UniqueAttribute -&gt; (structure) An entity attribute that's unique to a specific entity. AttributePath -&gt; (string) [required] A string representation of the path to a given attribute or sub-attribute. Supports JMESPath. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (document) [required] The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. Shorthand Syntax: ExternalId={Issuer=string,Id=string},UniqueAttribute={AttributePath=string} JSON Syntax: { "ExternalId": { "Issuer": "string", "Id": "string" }, "UniqueAttribute": { "AttributePath": "string", "AttributeValue": {...} } }</param>
+    public AwsIdentitystoreGetUserIdOptions(
+        string IdentityStoreId,
+        string AlternateIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
+        this.IdentityStoreId = IdentityStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(AlternateIdentifier);
+        this.AlternateIdentifier = AlternateIdentifier;
+    }
+
+    private AwsIdentitystoreGetUserIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIdentitystoreGetUserIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIdentitystoreGetUserIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--identity-store-id")]
+    public string? IdentityStoreId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external iden- tity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ExternalId, UniqueAttribute. ExternalId -&gt; (structure) The identifier issued to this resource by an external identity provider. Issuer -&gt; (string) [required] The issuer for an external identifier. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Id -&gt; (string) [required] The identifier issued to this resource by an external iden- tity provider. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ UniqueAttribute -&gt; (structure) An entity attribute that's unique to a specific entity. AttributePath -&gt; (string) [required] A string representation of the path to a given attribute or sub-attribute. Supports JMESPath. Constraints: o min: 1 o max: 255 o pattern: (?:\p{L}+:\p{L}+:\p{L}+(?:\.\p{L}+){0,3}|\p{L}+(?:\.\p{L}+){0,2}) AttributeValue -&gt; (document) [required] The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI. Shorthand Syntax: ExternalId={Issuer=string,Id=string},UniqueAttribute={AttributePath=string} JSON Syntax: { "ExternalId": { "Issuer": "string", "Id": "string" }, "UniqueAttribute": { "AttributePath": "string", "AttributeValue": {...} } }
+    /// </summary>
     [CliOption("--alternate-identifier")]
-    public string? AlternateIdentifier { get; set; }
+    public string? AlternateIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

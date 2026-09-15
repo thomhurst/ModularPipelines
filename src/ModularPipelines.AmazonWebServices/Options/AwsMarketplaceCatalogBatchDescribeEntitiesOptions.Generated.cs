@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "batch-describe-entities")]
-public record AwsMarketplaceCatalogBatchDescribeEntitiesOptions : AwsOptions
+public record AwsMarketplaceCatalogBatchDescribeEntitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission ac- tion as DescribeEntity API. See also: AWS API Documentation batch-describe-entities uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthan...
+    /// </summary>
+    /// <param name="EntityRequestList">List of entity IDs and the catalogs the entities are present in. Constraints: o min: 1 o max: 20 (structure) An object that contains entity ID and the catalog in which the entity is present. Catalog -&gt; (string) [required] The name of the catalog the entity is present in. The only value at this time is AWSMarketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$ EntityId -&gt; (string) [required] The ID of the entity. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$ Shorthand Syntax: Catalog=string,EntityId=string ... JSON Syntax: [ { "Catalog": "string", "EntityId": "string" } ... ]</param>
+    public AwsMarketplaceCatalogBatchDescribeEntitiesOptions(
+        IEnumerable<string> EntityRequestList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EntityRequestList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EntityRequestList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EntityRequestList));
+            }
+
+            EntityRequestList = materialized;
+        }
+        this.EntityRequestList = EntityRequestList;
+    }
+
+    private AwsMarketplaceCatalogBatchDescribeEntitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogBatchDescribeEntitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogBatchDescribeEntitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// List of entity IDs and the catalogs the entities are present in. Constraints: o min: 1 o max: 20 (structure) An object that contains entity ID and the catalog in which the entity is present. Catalog -&gt; (string) [required] The name of the catalog the entity is present in. The only value at this time is AWSMarketplace . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$ EntityId -&gt; (string) [required] The ID of the entity. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$ Shorthand Syntax: Catalog=string,EntityId=string ... JSON Syntax: [ { "Catalog": "string", "EntityId": "string" } ... ]
+    /// </summary>
     [CliOption("--entity-request-list", GroupValues = true)]
-    public IEnumerable<string>? EntityRequestList { get; set; }
+    public IEnumerable<string>? EntityRequestList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "create-assessment")]
-public record AwsAuditManagerCreateAssessmentOptions : AwsOptions
+public record AwsAuditManagerCreateAssessmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an assessment in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the assessment to be created. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$</param>
+    /// <param name="AssessmentReportsDestination">The assessment report storage destination for the assessment that's being created. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: o S3 destination -&gt; (string) The destination bucket where Audit Manager stores assessment re- ports. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }</param>
+    /// <param name="Scope">The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. NOTE: You no longer need to specify which Amazon Web Services services are in scope when you create or update an assessment. Audit Man- ager infers the services in scope by examining your assessment controls and their data sources, and then mapping this informa- tion to the relevant Amazon Web Services services. If an underlying data source changes for your assessment, we au- tomatically update the services scope as needed to reflect the correct Amazon Web Services services. This ensures that your as- sessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment. awsAccounts -&gt; (list) The Amazon Web Services accounts that are included in the scope of the assessment. Constraints: o min: 1 o max: 200 (structure) The wrapper of Amazon Web Services account details, such as account ID or email address. id -&gt; (string) The identifier for the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ emailAddress -&gt; (string) The email address that's associated with the Amazon Web Services account. Constraints: o min: 1 o max: 320 o pattern: ^.*@.*$ name -&gt; (string) The name of the Amazon Web Services account. Constraints: o min: 1 o max: 50 o pattern: ^[\u0020-\u007E]+$ awsServices -&gt; (list) The Amazon Web Services services that are included in the scope of the assessment. WARNING: This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services ser- vices, Audit Manager ignores this input. Instead, the value for awsServices will show as empty. (structure) An Amazon Web Services service such as Amazon S3 or Cloud- Trail. For an example of how to find an Amazon Web Services service name and how to define it in your assessment scope, see the following: o Finding an Amazon Web Services service name to use in your assessment scope o Defining an Amazon Web Services service name in your as- sessment scope serviceName -&gt; (string) The name of the Amazon Web Services service. Constraints: o min: 1 o max: 40 o pattern: ^[a-zA-Z0-9-\s().]+$ Shorthand Syntax: awsAccounts=[{id=string,emailAddress=string,name=string},{id=string,emailAddress=string,name=string}],awsServices=[{serviceName=string},{serviceName=string}] JSON Syntax: { "awsAccounts": [ { "id": "string", "emailAddress": "string", "name": "string" } ... ], "awsServices": [ { "serviceName": "string" } ... ] }</param>
+    /// <param name="Roles">The list of roles for the assessment. (structure) The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Re- source Name (ARN). roleType -&gt; (string) [required] The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* Shorthand Syntax: roleType=string,roleArn=string ... JSON Syntax: [ { "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER", "roleArn": "string" } ... ]</param>
+    /// <param name="FrameworkId">The identifier for the framework that the assessment will be created from. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsAuditManagerCreateAssessmentOptions(
+        string Name,
+        string AssessmentReportsDestination,
+        string Scope,
+        IEnumerable<string> Roles,
+        string FrameworkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentReportsDestination);
+        this.AssessmentReportsDestination = AssessmentReportsDestination;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Roles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Roles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Roles));
+            }
+
+            Roles = materialized;
+        }
+        this.Roles = Roles;
+        global::System.ArgumentNullException.ThrowIfNull(FrameworkId);
+        this.FrameworkId = FrameworkId;
+    }
+
+    private AwsAuditManagerCreateAssessmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerCreateAssessmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerCreateAssessmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the assessment to be created. Constraints: o min: 1 o max: 300 o pattern: ^[^\\]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The assessment report storage destination for the assessment that's being created. destinationType -&gt; (string) The destination type, such as Amazon S3. Possible values: o S3 destination -&gt; (string) The destination bucket where Audit Manager stores assessment re- ports. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ Shorthand Syntax: destinationType=string,destination=string JSON Syntax: { "destinationType": "S3", "destination": "string" }
+    /// </summary>
+    [CliOption("--assessment-reports-destination")]
+    public string? AssessmentReportsDestination { get; private init; }
+
+    /// <summary>
+    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. NOTE: You no longer need to specify which Amazon Web Services services are in scope when you create or update an assessment. Audit Man- ager infers the services in scope by examining your assessment controls and their data sources, and then mapping this informa- tion to the relevant Amazon Web Services services. If an underlying data source changes for your assessment, we au- tomatically update the services scope as needed to reflect the correct Amazon Web Services services. This ensures that your as- sessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment. awsAccounts -&gt; (list) The Amazon Web Services accounts that are included in the scope of the assessment. Constraints: o min: 1 o max: 200 (structure) The wrapper of Amazon Web Services account details, such as account ID or email address. id -&gt; (string) The identifier for the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ emailAddress -&gt; (string) The email address that's associated with the Amazon Web Services account. Constraints: o min: 1 o max: 320 o pattern: ^.*@.*$ name -&gt; (string) The name of the Amazon Web Services account. Constraints: o min: 1 o max: 50 o pattern: ^[\u0020-\u007E]+$ awsServices -&gt; (list) The Amazon Web Services services that are included in the scope of the assessment. WARNING: This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services ser- vices, Audit Manager ignores this input. Instead, the value for awsServices will show as empty. (structure) An Amazon Web Services service such as Amazon S3 or Cloud- Trail. For an example of how to find an Amazon Web Services service name and how to define it in your assessment scope, see the following: o Finding an Amazon Web Services service name to use in your assessment scope o Defining an Amazon Web Services service name in your as- sessment scope serviceName -&gt; (string) The name of the Amazon Web Services service. Constraints: o min: 1 o max: 40 o pattern: ^[a-zA-Z0-9-\s().]+$ Shorthand Syntax: awsAccounts=[{id=string,emailAddress=string,name=string},{id=string,emailAddress=string,name=string}],awsServices=[{serviceName=string},{serviceName=string}] JSON Syntax: { "awsAccounts": [ { "id": "string", "emailAddress": "string", "name": "string" } ... ], "awsServices": [ { "serviceName": "string" } ... ] }
+    /// </summary>
+    [CliOption("--scope")]
+    public string? Scope { get; private init; }
+
+    /// <summary>
+    /// The list of roles for the assessment. (structure) The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Re- source Name (ARN). roleType -&gt; (string) [required] The type of customer persona. NOTE: In CreateAssessment , roleType can only be PROCESS_OWNER . In UpdateSettings , roleType can only be PROCESS_OWNER . In BatchCreateDelegationByAssessment , roleType can only be RESOURCE_OWNER . Possible values: o PROCESS_OWNER o RESOURCE_OWNER roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:.*:iam:.* Shorthand Syntax: roleType=string,roleArn=string ... JSON Syntax: [ { "roleType": "PROCESS_OWNER"|"RESOURCE_OWNER", "roleArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--roles", GroupValues = true)]
+    public IEnumerable<string>? Roles { get; private init; }
+
+    /// <summary>
+    /// The identifier for the framework that the assessment will be created from. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
+    [CliOption("--framework-id")]
+    public string? FrameworkId { get; private init; }
 
     /// <summary>
     /// The optional description of the assessment to be created. Constraints: o max: 1000 o pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--assessment-reports-destination")]
-    public string? AssessmentReportsDestination { get; set; }
-
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
-
-    [CliOption("--roles", GroupValues = true)]
-    public IEnumerable<string>? Roles { get; set; }
-
-    [CliOption("--framework-id")]
-    public string? FrameworkId { get; set; }
 
     /// <summary>
     /// The tags that are associated with the assessment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .{0,255} Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -54,5 +130,21 @@ public record AwsAuditManagerCreateAssessmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,14 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "get-client-token")]
-public record AwsCognitoIdpGetClientTokenOptions : AwsOptions
+public record AwsCognitoIdpGetClientTokenOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH...
+    /// </summary>
+    /// <param name="ClientId">The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH au- thentication flow. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="Secret">An active secret for the app client. Constraints: o min: 24 o max: 64 o pattern: [\w+]+</param>
+    public AwsCognitoIdpGetClientTokenOptions(
+        string ClientId,
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    private AwsCognitoIdpGetClientTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpGetClientTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpGetClientTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH au- thentication flow. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// An active secret for the app client. Constraints: o min: 24 o max: 64 o pattern: [\w+]+
+    /// </summary>
     [SecretValue]
     [CliOption("--secret")]
-    public string? Secret { get; set; }
+    public string? Secret { get; private init; }
 
     /// <summary>
     /// The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name . Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 256 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Syntax: "string" "string" ...
@@ -47,5 +91,21 @@ public record AwsCognitoIdpGetClientTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "create-adapter-version")]
-public record AwsTextractCreateAdapterVersionOptions : AwsOptions
+public record AwsTextractCreateAdapterVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Re- quires that you specify an Amazon S3 bucket with the OutputConfig argu- ment. You can provide an optional KMSKeyId, an optional ClientRequest- Token, and optional tags. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter that will receive a new version. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="DataSetConfig">Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="OutputConfig">Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file pre- fix of the results where you can download your results. Addi- tionally, you can set the KMSKeyID parameter to a customer mas- ter key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }</param>
+    public AwsTextractCreateAdapterVersionOptions(
+        string AdapterId,
+        string DataSetConfig,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdapterId);
+        this.AdapterId = AdapterId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetConfig);
+        this.DataSetConfig = DataSetConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsTextractCreateAdapterVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractCreateAdapterVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractCreateAdapterVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string containing a unique ID for the adapter that will receive a new version. Constraints: o min: 12 o max: 1011
+    /// </summary>
     [CliOption("--adapter-id")]
-    public string? AdapterId { get; set; }
+    public string? AdapterId { get; private init; }
+
+    /// <summary>
+    /// Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
+    [CliOption("--dataset-config")]
+    public string? DataSetConfig { get; private init; }
+
+    /// <summary>
+    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file pre- fix of the results where you can download your results. Addi- tionally, you can set the KMSKeyID parameter to a customer mas- ter key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapterVersion requests, the same ses- sion is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -33,17 +90,11 @@ public record AwsTextractCreateAdapterVersionOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--dataset-config")]
-    public string? DataSetConfig { get; set; }
-
     /// <summary>
     /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt your documents. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
 
     /// <summary>
     /// A set of tags (key-value pairs) that you want to attach to the adapter version. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -56,5 +107,21 @@ public record AwsTextractCreateAdapterVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-instance-patch-states")]
-public record AwsSsmDescribeInstancePatchStatesOptions : AwsOptions
+public record AwsSsmDescribeInstancePatchStatesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the high-level patch state of one or more managed nodes. See also: AWS API Documentation describe-instance-patch-states is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstancePatchStates
+    /// </summary>
+    /// <param name="InstanceIds">The ID of the managed node for which patch state information should be retrieved. Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...</param>
+    public AwsSsmDescribeInstancePatchStatesOptions(
+        IEnumerable<string> InstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+    }
+
+    private AwsSsmDescribeInstancePatchStatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeInstancePatchStatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeInstancePatchStatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the managed node for which patch state information should be retrieved. Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
+    public IEnumerable<string>? InstanceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +97,21 @@ public record AwsSsmDescribeInstancePatchStatesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

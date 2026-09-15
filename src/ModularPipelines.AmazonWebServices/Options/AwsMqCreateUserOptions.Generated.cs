@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mq", "create-user")]
-public record AwsMqCreateUserOptions : AwsOptions
+public record AwsMqCreateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--broker-id")]
-    public string? BrokerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--console-access")]
+    /// <summary>
+    /// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confi- dential or sensitive information in broker usernames. Broker user- names are accessible to other Amazon Web Services services, includ- ing CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
+    /// <param name="Password">Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).</param>
+    /// <param name="Username">The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
+    public AwsMqCreateUserOptions(
+        string BrokerId,
+        string Password,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrokerId);
+        this.BrokerId = BrokerId;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsMqCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMqCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMqCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID that Amazon MQ generates for the broker.
+    /// </summary>
+    [CliOption("--broker-id")]
+    public string? BrokerId { get; private init; }
+
+    /// <summary>
+    /// Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
+    /// <summary>
+    /// The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
+
+    /// <summary>
+    /// Enables access to the ActiveMQ Web Console for the ActiveMQ user.
+    /// </summary>
+    [CliFlag("--console-access", NegatedName = "--no-console-access")]
     public bool? ConsoleAccess { get; set; }
 
     /// <summary>
@@ -34,14 +95,10 @@ public record AwsMqCreateUserOptions : AwsOptions
     [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
 
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
-
-    [CliOption("--username")]
-    public string? Username { get; set; }
-
-    [CliFlag("--replication-user")]
+    /// <summary>
+    /// Defines if this user is intended for CRDR replication purposes.
+    /// </summary>
+    [CliFlag("--replication-user", NegatedName = "--no-replication-user")]
     public bool? ReplicationUser { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -49,5 +106,21 @@ public record AwsMqCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

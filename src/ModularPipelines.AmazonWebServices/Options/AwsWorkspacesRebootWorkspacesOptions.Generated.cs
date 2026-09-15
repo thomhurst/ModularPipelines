@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "reboot-workspaces")]
-public record AwsWorkspacesRebootWorkspacesOptions : AwsOptions
+public record AwsWorkspacesRebootWorkspacesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE , UNHEALTHY , or REBOOTING . Reboot a WorkSpace in the REBOOTING state only if your WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is asynchronous and returns before the WorkSpaces have rebooted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RebootWorkspaceRequests">The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]</param>
+    public AwsWorkspacesRebootWorkspacesOptions(
+        IEnumerable<string> RebootWorkspaceRequests
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RebootWorkspaceRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RebootWorkspaceRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RebootWorkspaceRequests));
+            }
+
+            RebootWorkspaceRequests = materialized;
+        }
+        this.RebootWorkspaceRequests = RebootWorkspaceRequests;
+    }
+
+    private AwsWorkspacesRebootWorkspacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesRebootWorkspacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesRebootWorkspacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces. Constraints: o min: 1 o max: 25 (structure) Describes the information used to reboot a WorkSpace. WorkspaceId -&gt; (string) [required] The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Shorthand Syntax: --reboot-workspace-requests WorkspaceId1 WorkspaceId2 WorkspaceId3 JSON Syntax: [ { "WorkspaceId": "string" } ... ]
+    /// </summary>
     [CliOption("--reboot-workspace-requests", GroupValues = true)]
-    public IEnumerable<string>? RebootWorkspaceRequests { get; set; }
+    public IEnumerable<string>? RebootWorkspaceRequests { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "batch-update-memory-records")]
-public record AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions : AwsOptions
+public record AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates multiple memory records with custom content in a single batch operation within the specified memory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MemoryId">The unique ID of the memory resource where records will be updated. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="Records">A list of memory record update inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to update an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be updated. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* timestamp -&gt; (timestamp) [required] Time at which the memory record was updated content -&gt; (tagged union structure) The content to be stored within the memory record. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: text. text -&gt; (string) The text content of the memory record. Constraints: o min: 1 o max: 16000 namespaces -&gt; (list) The updated list of namespace identifiers for categorizing the memory record. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* sourceNamespaces -&gt; (list) The namespaces of the source memory record being updated. This value is used for IAM condition key authorization. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* memoryStrategyId -&gt; (string) The updated ID of the memory strategy that defines how this memory record is grouped. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* metadata -&gt; (map) Metadata key-value pairs to be stored with the memory record. Constraints: o min: 1 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) The value of a memory record metadata entry. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: [ { "memoryRecordId": "string", "timestamp": timestamp, "content": { "text": "string" }, "namespaces": ["string", ...], "sourceNamespaces": ["string", ...], "memoryStrategyId": "string", "metadata": {"string": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } ...} } ... ]</param>
+    public AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions(
+        string MemoryId,
+        IEnumerable<string> Records
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+    }
+
+    private AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreBatchUpdateMemoryRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the memory resource where records will be updated. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// A list of memory record update inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to update an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be updated. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* timestamp -&gt; (timestamp) [required] Time at which the memory record was updated content -&gt; (tagged union structure) The content to be stored within the memory record. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: text. text -&gt; (string) The text content of the memory record. Constraints: o min: 1 o max: 16000 namespaces -&gt; (list) The updated list of namespace identifiers for categorizing the memory record. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* sourceNamespaces -&gt; (list) The namespaces of the source memory record being updated. This value is used for IAM condition key authorization. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* memoryStrategyId -&gt; (string) The updated ID of the memory strategy that defines how this memory record is grouped. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* metadata -&gt; (map) Metadata key-value pairs to be stored with the memory record. Constraints: o min: 1 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) The value of a memory record metadata entry. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: [ { "memoryRecordId": "string", "timestamp": timestamp, "content": { "text": "string" }, "namespaces": ["string", ...], "sourceNamespaces": ["string", ...], "memoryStrategyId": "string", "metadata": {"string": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } ...} } ... ]
+    /// </summary>
     [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    public IEnumerable<string>? Records { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

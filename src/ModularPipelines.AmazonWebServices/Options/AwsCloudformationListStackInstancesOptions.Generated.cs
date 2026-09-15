@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "list-stack-instances")]
-public record AwsCloudformationListStackInstancesOptions : AwsOptions
+public record AwsCloudformationListStackInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns summary information about stack instances that are associated with the specified StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Re- gion, or that have a specific status. See also: AWS API Documentation list-stack-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// </summary>
+    /// <param name="StackSetName">The name or unique ID of the StackSet that you want to list stack instances for.</param>
+    public AwsCloudformationListStackInstancesOptions(
+        string StackSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+    }
+
+    private AwsCloudformationListStackInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationListStackInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationListStackInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or unique ID of the StackSet that you want to list stack instances for.
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
 
     /// <summary>
     /// The filter to apply to stack instances Constraints: o max: 3 (structure) The filter to apply to stack instances Name -&gt; (string) The type of filter to apply. Possible values: o DETAILED_STATUS o LAST_OPERATION_ID o DRIFT_STATUS Values -&gt; (string) The status to filter by. Constraints: o min: 1 o max: 128 o pattern: ^\S{1,128}$ Shorthand Syntax: Name=string,Values=string ... JSON Syntax: [ { "Name": "DETAILED_STATUS"|"LAST_OPERATION_ID"|"DRIFT_STATUS", "Values": "string" } ... ]
@@ -74,5 +111,21 @@ public record AwsCloudformationListStackInstancesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

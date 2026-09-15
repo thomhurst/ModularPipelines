@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-chat-contact")]
-public record AwsConnectStartChatContactOptions : AwsOptions
+public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. A 429 error occurs in the following situations: ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactFlowId">The identifier of the flow for initiating the chat. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, un- der the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
+    /// <param name="ParticipantDetails">Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    public AwsConnectStartChatContactOptions(
+        string InstanceId,
+        string ContactFlowId,
+        string ParticipantDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowId);
+        this.ContactFlowId = ContactFlowId;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantDetails);
+        this.ParticipantDetails = ParticipantDetails;
+    }
+
+    private AwsConnectStartChatContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartChatContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartChatContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the flow for initiating the chat. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, un- der the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// </summary>
     [CliOption("--contact-flow-id")]
-    public string? ContactFlowId { get; set; }
+    public string? ContactFlowId { get; private init; }
+
+    /// <summary>
+    /// Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// </summary>
+    [CliOption("--participant-details")]
+    public string? ParticipantDetails { get; private init; }
 
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
-
-    [CliOption("--participant-details")]
-    public string? ParticipantDetails { get; set; }
 
     /// <summary>
     /// The configuration of the participant. ResponseMode -&gt; (string) The mode in which responses should be sent to the participant. Possible values: o INCREMENTAL o COMPLETE Shorthand Syntax: ResponseMode=string JSON Syntax: { "ResponseMode": "INCREMENTAL"|"COMPLETE" }
@@ -104,5 +155,21 @@ public record AwsConnectStartChatContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "get-adapter-version")]
-public record AwsTextractGetAdapterVersionOptions : AwsOptions
+public record AwsTextractGetAdapterVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--adapter-id")]
-    public string? AdapterId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets configuration information for the specified adapter version, in- cluding: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMes- sage, DatasetConfig, KMSKeyId, OutputConfig, Tags and Evaluation- Metrics. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdapterId">A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="AdapterVersion">A string specifying the adapter version you want to retrieve infor- mation for. Constraints: o min: 1 o max: 128</param>
+    public AwsTextractGetAdapterVersionOptions(
+        string AdapterId,
+        string AdapterVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdapterId);
+        this.AdapterId = AdapterId;
+        global::System.ArgumentNullException.ThrowIfNull(AdapterVersion);
+        this.AdapterVersion = AdapterVersion;
+    }
+
+    private AwsTextractGetAdapterVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractGetAdapterVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractGetAdapterVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: o min: 12 o max: 1011
+    /// </summary>
+    [CliOption("--adapter-id")]
+    public string? AdapterId { get; private init; }
+
+    /// <summary>
+    /// A string specifying the adapter version you want to retrieve infor- mation for. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--adapter-version")]
-    public string? AdapterVersion { get; set; }
+    public string? AdapterVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

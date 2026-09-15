@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "start-import-labels-task-run")]
-public record AwsGlueStartImportLabelsTaskRunOptions : AwsOptions
+public record AwsGlueStartImportLabelsTaskRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to a...
+    /// </summary>
+    /// <param name="TransformId">The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="InputS3Path">The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.</param>
+    public AwsGlueStartImportLabelsTaskRunOptions(
+        string TransformId,
+        string InputS3Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransformId);
+        this.TransformId = TransformId;
+        global::System.ArgumentNullException.ThrowIfNull(InputS3Path);
+        this.InputS3Path = InputS3Path;
+    }
+
+    private AwsGlueStartImportLabelsTaskRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueStartImportLabelsTaskRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueStartImportLabelsTaskRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the machine learning transform. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--transform-id")]
-    public string? TransformId { get; set; }
+    public string? TransformId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
+    /// </summary>
     [CliOption("--input-s3-path")]
-    public string? InputS3Path { get; set; }
+    public string? InputS3Path { get; private init; }
 
-    [CliFlag("--replace-all-labels")]
+    /// <summary>
+    /// Indicates whether to overwrite your existing labels.
+    /// </summary>
+    [CliFlag("--replace-all-labels", NegatedName = "--no-replace-all-labels")]
     public bool? ReplaceAllLabels { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsGlueStartImportLabelsTaskRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

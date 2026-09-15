@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "create-connection-invitation")]
-public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOptions
+public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new connection invitation to establish a partnership with an- other organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier where the connection invitation will be cre- ated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="ConnectionType">The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY</param>
+    /// <param name="Email">The email address of the person to send the connection invitation to. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
+    /// <param name="Message">A custom message to include with the connection invitation. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+</param>
+    /// <param name="Name">The name of the person sending the connection invitation. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+</param>
+    /// <param name="ReceiverIdentifier">The identifier of the organization or partner to invite for connec- tion. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    public AwsPartnercentralAccountCreateConnectionInvitationOptions(
+        string Catalog,
+        AwsPartnercentralAccountCreateConnectionInvitationConnectionType ConnectionType,
+        string Email,
+        string Message,
+        string Name,
+        string ReceiverIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionType);
+        this.ConnectionType = ConnectionType;
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ReceiverIdentifier);
+        this.ReceiverIdentifier = ReceiverIdentifier;
+    }
+
+    private AwsPartnercentralAccountCreateConnectionInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountCreateConnectionInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountCreateConnectionInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier where the connection invitation will be cre- ated. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The type of connection being requested (e.g., reseller, distributor, technology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY
+    /// </summary>
+    [CliOption("--connection-type")]
+    public AwsPartnercentralAccountCreateConnectionInvitationConnectionType? ConnectionType { get; private init; }
+
+    /// <summary>
+    /// The email address of the person to send the connection invitation to. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
+    /// </summary>
+    [CliOption("--email")]
+    public string? Email { get; private init; }
+
+    /// <summary>
+    /// A custom message to include with the connection invitation. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD\n]+
+    /// </summary>
+    [CliOption("--message")]
+    public string? Message { get; private init; }
+
+    /// <summary>
+    /// The name of the person sending the connection invitation. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The identifier of the organization or partner to invite for connec- tion. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--receiver-identifier")]
+    public string? ReceiverIdentifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
@@ -32,25 +120,26 @@ public record AwsPartnercentralAccountCreateConnectionInvitationOptions : AwsOpt
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--connection-type")]
-    public string? ConnectionType { get; set; }
-
-    [CliOption("--email")]
-    public string? Email { get; set; }
-
-    [CliOption("--message")]
-    public string? Message { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--receiver-identifier")]
-    public string? ReceiverIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

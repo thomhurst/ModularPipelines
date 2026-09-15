@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "get-sampling-targets")]
-public record AwsXrayGetSamplingTargetsOptions : AwsOptions
+public record AwsXrayGetSamplingTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests a sampling quota for rules that the service is using to sample requests. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SamplingStatisticsDocuments">Information about rules that the service is using to sample re- quests. Constraints: o max: 25 (structure) Request sampling results for a single rule from a service. Re- sults are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to GetSamplingTargets . RuleName -&gt; (string) [required] The name of the sampling rule. Constraints: o min: 1 o max: 32 ClientID -&gt; (string) [required] A unique identifier for the service in hexadecimal. Constraints: o min: 24 o max: 24 Timestamp -&gt; (timestamp) [required] The current time. RequestCount -&gt; (integer) [required] The number of requests that matched the rule. Constraints: o min: 0 SampledCount -&gt; (integer) [required] The number of requests recorded. Constraints: o min: 0 BorrowCount -&gt; (integer) The number of requests recorded with borrowed reservoir quota. Constraints: o min: 0 Shorthand Syntax: RuleName=string,ClientID=string,Timestamp=timestamp,RequestCount=integer,SampledCount=integer,BorrowCount=integer ... JSON Syntax: [ { "RuleName": "string", "ClientID": "string", "Timestamp": timestamp, "RequestCount": integer, "SampledCount": integer, "BorrowCount": integer } ... ]</param>
+    public AwsXrayGetSamplingTargetsOptions(
+        IEnumerable<string> SamplingStatisticsDocuments
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SamplingStatisticsDocuments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SamplingStatisticsDocuments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SamplingStatisticsDocuments));
+            }
+
+            SamplingStatisticsDocuments = materialized;
+        }
+        this.SamplingStatisticsDocuments = SamplingStatisticsDocuments;
+    }
+
+    private AwsXrayGetSamplingTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayGetSamplingTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayGetSamplingTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about rules that the service is using to sample re- quests. Constraints: o max: 25 (structure) Request sampling results for a single rule from a service. Re- sults are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to GetSamplingTargets . RuleName -&gt; (string) [required] The name of the sampling rule. Constraints: o min: 1 o max: 32 ClientID -&gt; (string) [required] A unique identifier for the service in hexadecimal. Constraints: o min: 24 o max: 24 Timestamp -&gt; (timestamp) [required] The current time. RequestCount -&gt; (integer) [required] The number of requests that matched the rule. Constraints: o min: 0 SampledCount -&gt; (integer) [required] The number of requests recorded. Constraints: o min: 0 BorrowCount -&gt; (integer) The number of requests recorded with borrowed reservoir quota. Constraints: o min: 0 Shorthand Syntax: RuleName=string,ClientID=string,Timestamp=timestamp,RequestCount=integer,SampledCount=integer,BorrowCount=integer ... JSON Syntax: [ { "RuleName": "string", "ClientID": "string", "Timestamp": timestamp, "RequestCount": integer, "SampledCount": integer, "BorrowCount": integer } ... ]
+    /// </summary>
     [CliOption("--sampling-statistics-documents", GroupValues = true)]
-    public IEnumerable<string>? SamplingStatisticsDocuments { get; set; }
+    public IEnumerable<string>? SamplingStatisticsDocuments { get; private init; }
 
     /// <summary>
     /// Information about rules that the service is using to boost sampling rate. Constraints: o max: 25 (structure) Request anomaly stats for a single rule from a service. Results are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to GetSamplingTargets . RuleName -&gt; (string) [required] The name of the sampling rule. Constraints: o min: 1 o max: 32 ServiceName -&gt; (string) [required] Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 Timestamp -&gt; (timestamp) [required] The current time. AnomalyCount -&gt; (integer) [required] The number of requests with anomaly. Constraints: o min: 0 TotalCount -&gt; (integer) [required] The number of requests that associated to the rule. Constraints: o min: 0 SampledAnomalyCount -&gt; (integer) [required] The number of requests with anomaly recorded. Constraints: o min: 0 Shorthand Syntax: RuleName=string,ServiceName=string,Timestamp=timestamp,AnomalyCount=integer,TotalCount=integer,SampledAnomalyCount=integer ... JSON Syntax: [ { "RuleName": "string", "ServiceName": "string", "Timestamp": timestamp, "AnomalyCount": integer, "TotalCount": integer, "SampledAnomalyCount": integer } ... ]
@@ -35,5 +83,21 @@ public record AwsXrayGetSamplingTargetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "reset-notification-settings")]
-public record AwsRolesanywhereResetNotificationSettingsOptions : AwsOptions
+public record AwsRolesanywhereResetNotificationSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trust-anchor-id")]
-    public string? TrustAnchorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="NotificationSettingKeys">A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: o min: 0 o max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: o ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]</param>
+    public AwsRolesanywhereResetNotificationSettingsOptions(
+        string TrustAnchorId,
+        IEnumerable<string> NotificationSettingKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustAnchorId);
+        this.TrustAnchorId = TrustAnchorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NotificationSettingKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NotificationSettingKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NotificationSettingKeys));
+            }
+
+            NotificationSettingKeys = materialized;
+        }
+        this.NotificationSettingKeys = NotificationSettingKeys;
+    }
+
+    private AwsRolesanywhereResetNotificationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywhereResetNotificationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywhereResetNotificationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// </summary>
+    [CliOption("--trust-anchor-id")]
+    public string? TrustAnchorId { get; private init; }
+
+    /// <summary>
+    /// A list of notification setting keys to reset. A notification setting key includes the event and the channel. Constraints: o min: 0 o max: 50 (structure) A notification setting key to reset. A notification setting key includes the event and the channel. event -&gt; (string) [required] The notification setting event to reset. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY channel -&gt; (string) The specified channel of notification. Possible values: o ALL Shorthand Syntax: event=string,channel=string ... JSON Syntax: [ { "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "channel": "ALL" } ... ]
+    /// </summary>
     [CliOption("--notification-setting-keys", GroupValues = true)]
-    public IEnumerable<string>? NotificationSettingKeys { get; set; }
+    public IEnumerable<string>? NotificationSettingKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

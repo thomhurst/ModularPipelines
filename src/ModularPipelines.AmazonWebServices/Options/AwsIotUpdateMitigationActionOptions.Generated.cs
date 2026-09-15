@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-mitigation-action")]
-public record AwsIotUpdateMitigationActionOptions : AwsOptions
+public record AwsIotUpdateMitigationActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the definition for the specified mitigation action. Requires permission to access the UpdateMitigationAction action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActionName">The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction . Instead, you must delete and recreate the mitigation action with the new name. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotUpdateMitigationActionOptions(
+        string ActionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionName);
+        this.ActionName = ActionName;
+    }
+
+    private AwsIotUpdateMitigationActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateMitigationActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateMitigationActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction . Instead, you must delete and recreate the mitigation action with the new name. Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--action-name")]
-    public string? ActionName { get; set; }
+    public string? ActionName { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM role that is used to apply the mitigation action. Constraints: o min: 20 o max: 2048
@@ -41,5 +78,21 @@ public record AwsIotUpdateMitigationActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

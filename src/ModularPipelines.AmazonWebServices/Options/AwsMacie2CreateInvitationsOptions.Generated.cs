@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "create-invitations")]
-public record AwsMacie2CreateInvitationsOptions : AwsOptions
+public record AwsMacie2CreateInvitationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-ids", GroupValues = true)]
-    public IEnumerable<string>? AccountIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--disable-email-notification")]
+    /// <summary>
+    /// Sends an Amazon Macie membership invitation to one or more accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountIds">An array that lists Amazon Web Services account IDs, one for each account to send the invitation to. (string) Syntax: "string" "string" ...</param>
+    public AwsMacie2CreateInvitationsOptions(
+        IEnumerable<string> AccountIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountIds));
+            }
+
+            AccountIds = materialized;
+        }
+        this.AccountIds = AccountIds;
+    }
+
+    private AwsMacie2CreateInvitationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2CreateInvitationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2CreateInvitationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array that lists Amazon Web Services account IDs, one for each account to send the invitation to. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--account-ids", GroupValues = true)]
+    public IEnumerable<string>? AccountIds { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The de- fault value is false.
+    /// </summary>
+    [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
     /// <summary>
@@ -38,5 +89,21 @@ public record AwsMacie2CreateInvitationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

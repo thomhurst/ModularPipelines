@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQbusinessListDataSourceSyncJobsStatusFilter
 {
+    [EnumValue("ABORTED")]
+    Aborted,
+
     [EnumValue("FAILED")]
-    Failed = 1,
-
-    [EnumValue("SUCCEEDED")]
-    Succeeded = 2,
-
-    [EnumValue("SYNCING")]
-    Syncing = 3,
+    Failed,
 
     [EnumValue("INCOMPLETE")]
-    Incomplete = 4,
+    Incomplete,
 
     [EnumValue("STOPPING")]
-    Stopping = 5,
+    Stopping,
 
-    [EnumValue("ABORTED")]
-    Aborted = 6,
+    [EnumValue("SUCCEEDED")]
+    Succeeded,
+
+    [EnumValue("SYNCING")]
+    Syncing,
 
     [EnumValue("SYNCING_INDEXING")]
-    SyncingIndexing = 7
+    SyncingIndexing
 }

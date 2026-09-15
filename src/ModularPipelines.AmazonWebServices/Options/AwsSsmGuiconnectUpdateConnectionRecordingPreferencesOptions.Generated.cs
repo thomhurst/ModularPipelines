@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-guiconnect", "update-connection-recording-preferences")]
-public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsOptions
+public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the preferences for recording RDP connections. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionRecordingPreferences">The set of preferences used for recording RDP connections in the re- questing Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connec- tion to. Constraints: o min: 1 o max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: o min: 1 o max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection record- ings are stored. Constraints: o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: o pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }</param>
+    public AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions(
+        string ConnectionRecordingPreferences
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionRecordingPreferences);
+        this.ConnectionRecordingPreferences = ConnectionRecordingPreferences;
+    }
+
+    private AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The set of preferences used for recording RDP connections in the re- questing Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connec- tion to. Constraints: o min: 1 o max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: o min: 1 o max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection record- ings are stored. Constraints: o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: o pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }
+    /// </summary>
+    [CliOption("--connection-recording-preferences")]
+    public string? ConnectionRecordingPreferences { get; private init; }
+
     /// <summary>
     /// User-provided idempotency token. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -29,13 +69,26 @@ public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsO
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--connection-recording-preferences")]
-    public string? ConnectionRecordingPreferences { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

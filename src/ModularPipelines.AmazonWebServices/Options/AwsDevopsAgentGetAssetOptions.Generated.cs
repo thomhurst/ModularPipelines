@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "get-asset")]
-public record AwsDevopsAgentGetAssetOptions : AwsOptions
+public record AwsDevopsAgentGetAssetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets an asset from the specified agent space See also: AWS API Documentation get-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset to retrieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsDevopsAgentGetAssetOptions(
+        string AgentSpaceId,
+        string AssetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+    }
+
+    private AwsDevopsAgentGetAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentGetAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentGetAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--agent-space-id")]
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the asset to retrieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
+    public string? AssetId { get; private init; }
 
     /// <summary>
     /// The specific version of the asset to retrieve. If omitted, the lat- est version is returned. Constraints: o min: 1
@@ -38,5 +82,21 @@ public record AwsDevopsAgentGetAssetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

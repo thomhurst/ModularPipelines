@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "update-geo-match-set")]
-public record AwsWafUpdateGeoMatchSetOptions : AwsOptions
+public record AwsWafUpdateGeoMatchSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--geo-match-set-id")]
-    public string? GeoMatchSetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes GeoMatchConstraint objects in an GeoMatchSet . For each GeoMatchConstraint object, you specify the following values: o Whether to insert or delete the object from the array. If you w...
+    /// </summary>
+    /// <param name="GeoMatchSetId">The GeoMatchSetId of the GeoMatchSet that you want to update. Geo- MatchSetId is returned by CreateGeoMatchSet and by ListGeoMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of GeoMatchSetUpdate objects that you want to insert into or delete from an GeoMatchSet . For more information, see the ap- plicable data types: o GeoMatchSetUpdate : Contains Action and GeoMatchConstraint o GeoMatchConstraint : Contains Type and Value You can have only one Type and Value per GeoMatchConstraint . To add multiple coun- tries, include multiple GeoMatchSetUpdate objects in your request. Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies the type of update to perform to an GeoMatchSet with UpdateGeoMatchSet . Action -&gt; (string) [required] Specifies whether to insert or delete a country with Update- GeoMatchSet . Possible values: o INSERT o DELETE GeoMatchConstraint -&gt; (structure) [required] The country from which web requests originate that you want AWS WAF to search for. Type -&gt; (string) [required] The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value. Possible values: o Country Value -&gt; (string) [required] The country that you want AWS WAF to search for. Possible values: o AF o AX o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BQ o BA o BW o BV o BR o IO o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CG o CD o CK o CR o CI o HR o CU o CW o CY o CZ o DK o DJ o DM o DO o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o GF o PF o TF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GP o GU o GT o GG o GN o GW o GY o HT o HM o VA o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o JM o JP o JE o JO o KZ o KE o KI o KP o KR o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MQ o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o NC o NZ o NI o NE o NG o NU o NF o MP o NO o OM o PK o PW o PS o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o GS o SS o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TL o TG o TK o TO o TT o TN o TR o TM o TC o TV o UG o UA o AE o GB o US o UM o UY o UZ o VU o VE o VN o VG o VI o WF o EH o YE o ZM o ZW Shorthand Syntax: Action=string,GeoMatchConstraint={Type=string,Value=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "GeoMatchConstraint": { "Type": "Country", "Value": "AF"|"AX"|"AL"|"DZ"|"AS"|"AD"|"AO"|"AI"|"AQ"|"AG"|"AR"|"AM"|"AW"|"AU"|"AT"|"AZ"|"BS"|"BH"|"BD"|"BB"|"BY"|"BE"|"BZ"|"BJ"|"BM"|"BT"|"BO"|"BQ"|"BA"|"BW"|"BV"|"BR"|"IO"|"BN"|"BG"|"BF"|"BI"|"KH"|"CM"|"CA"|"CV"|"KY"|"CF"|"TD"|"CL"|"CN"|"CX"|"CC"|"CO"|"KM"|"CG"|"CD"|"CK"|"CR"|"CI"|"HR"|"CU"|"CW"|"CY"|"CZ"|"DK"|"DJ"|"DM"|"DO"|"EC"|"EG"|"SV"|"GQ"|"ER"|"EE"|"ET"|"FK"|"FO"|"FJ"|"FI"|"FR"|"GF"|"PF"|"TF"|"GA"|"GM"|"GE"|"DE"|"GH"|"GI"|"GR"|"GL"|"GD"|"GP"|"GU"|"GT"|"GG"|"GN"|"GW"|"GY"|"HT"|"HM"|"VA"|"HN"|"HK"|"HU"|"IS"|"IN"|"ID"|"IR"|"IQ"|"IE"|"IM"|"IL"|"IT"|"JM"|"JP"|"JE"|"JO"|"KZ"|"KE"|"KI"|"KP"|"KR"|"KW"|"KG"|"LA"|"LV"|"LB"|"LS"|"LR"|"LY"|"LI"|"LT"|"LU"|"MO"|"MK"|"MG"|"MW"|"MY"|"MV"|"ML"|"MT"|"MH"|"MQ"|"MR"|"MU"|"YT"|"MX"|"FM"|"MD"|"MC"|"MN"|"ME"|"MS"|"MA"|"MZ"|"MM"|"NA"|"NR"|"NP"|"NL"|"NC"|"NZ"|"NI"|"NE"|"NG"|"NU"|"NF"|"MP"|"NO"|"OM"|"PK"|"PW"|"PS"|"PA"|"PG"|"PY"|"PE"|"PH"|"PN"|"PL"|"PT"|"PR"|"QA"|"RE"|"RO"|"RU"|"RW"|"BL"|"SH"|"KN"|"LC"|"MF"|"PM"|"VC"|"WS"|"SM"|"ST"|"SA"|"SN"|"RS"|"SC"|"SL"|"SG"|"SX"|"SK"|"SI"|"SB"|"SO"|"ZA"|"GS"|"SS"|"ES"|"LK"|"SD"|"SR"|"SJ"|"SZ"|"SE"|"CH"|"SY"|"TW"|"TJ"|"TZ"|"TH"|"TL"|"TG"|"TK"|"TO"|"TT"|"TN"|"TR"|"TM"|"TC"|"TV"|"UG"|"UA"|"AE"|"GB"|"US"|"UM"|"UY"|"UZ"|"VU"|"VE"|"VN"|"VG"|"VI"|"WF"|"EH"|"YE"|"ZM"|"ZW" } } ... ]</param>
+    public AwsWafUpdateGeoMatchSetOptions(
+        string GeoMatchSetId,
+        string ChangeToken,
+        IEnumerable<string> Updates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GeoMatchSetId);
+        this.GeoMatchSetId = GeoMatchSetId;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+    }
+
+    private AwsWafUpdateGeoMatchSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafUpdateGeoMatchSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafUpdateGeoMatchSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The GeoMatchSetId of the GeoMatchSet that you want to update. Geo- MatchSetId is returned by CreateGeoMatchSet and by ListGeoMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--geo-match-set-id")]
+    public string? GeoMatchSetId { get; private init; }
+
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
+    /// <summary>
+    /// An array of GeoMatchSetUpdate objects that you want to insert into or delete from an GeoMatchSet . For more information, see the ap- plicable data types: o GeoMatchSetUpdate : Contains Action and GeoMatchConstraint o GeoMatchConstraint : Contains Type and Value You can have only one Type and Value per GeoMatchConstraint . To add multiple coun- tries, include multiple GeoMatchSetUpdate objects in your request. Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies the type of update to perform to an GeoMatchSet with UpdateGeoMatchSet . Action -&gt; (string) [required] Specifies whether to insert or delete a country with Update- GeoMatchSet . Possible values: o INSERT o DELETE GeoMatchConstraint -&gt; (structure) [required] The country from which web requests originate that you want AWS WAF to search for. Type -&gt; (string) [required] The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value. Possible values: o Country Value -&gt; (string) [required] The country that you want AWS WAF to search for. Possible values: o AF o AX o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BQ o BA o BW o BV o BR o IO o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CG o CD o CK o CR o CI o HR o CU o CW o CY o CZ o DK o DJ o DM o DO o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o GF o PF o TF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GP o GU o GT o GG o GN o GW o GY o HT o HM o VA o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o JM o JP o JE o JO o KZ o KE o KI o KP o KR o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MQ o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o NC o NZ o NI o NE o NG o NU o NF o MP o NO o OM o PK o PW o PS o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o GS o SS o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TL o TG o TK o TO o TT o TN o TR o TM o TC o TV o UG o UA o AE o GB o US o UM o UY o UZ o VU o VE o VN o VG o VI o WF o EH o YE o ZM o ZW Shorthand Syntax: Action=string,GeoMatchConstraint={Type=string,Value=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "GeoMatchConstraint": { "Type": "Country", "Value": "AF"|"AX"|"AL"|"DZ"|"AS"|"AD"|"AO"|"AI"|"AQ"|"AG"|"AR"|"AM"|"AW"|"AU"|"AT"|"AZ"|"BS"|"BH"|"BD"|"BB"|"BY"|"BE"|"BZ"|"BJ"|"BM"|"BT"|"BO"|"BQ"|"BA"|"BW"|"BV"|"BR"|"IO"|"BN"|"BG"|"BF"|"BI"|"KH"|"CM"|"CA"|"CV"|"KY"|"CF"|"TD"|"CL"|"CN"|"CX"|"CC"|"CO"|"KM"|"CG"|"CD"|"CK"|"CR"|"CI"|"HR"|"CU"|"CW"|"CY"|"CZ"|"DK"|"DJ"|"DM"|"DO"|"EC"|"EG"|"SV"|"GQ"|"ER"|"EE"|"ET"|"FK"|"FO"|"FJ"|"FI"|"FR"|"GF"|"PF"|"TF"|"GA"|"GM"|"GE"|"DE"|"GH"|"GI"|"GR"|"GL"|"GD"|"GP"|"GU"|"GT"|"GG"|"GN"|"GW"|"GY"|"HT"|"HM"|"VA"|"HN"|"HK"|"HU"|"IS"|"IN"|"ID"|"IR"|"IQ"|"IE"|"IM"|"IL"|"IT"|"JM"|"JP"|"JE"|"JO"|"KZ"|"KE"|"KI"|"KP"|"KR"|"KW"|"KG"|"LA"|"LV"|"LB"|"LS"|"LR"|"LY"|"LI"|"LT"|"LU"|"MO"|"MK"|"MG"|"MW"|"MY"|"MV"|"ML"|"MT"|"MH"|"MQ"|"MR"|"MU"|"YT"|"MX"|"FM"|"MD"|"MC"|"MN"|"ME"|"MS"|"MA"|"MZ"|"MM"|"NA"|"NR"|"NP"|"NL"|"NC"|"NZ"|"NI"|"NE"|"NG"|"NU"|"NF"|"MP"|"NO"|"OM"|"PK"|"PW"|"PS"|"PA"|"PG"|"PY"|"PE"|"PH"|"PN"|"PL"|"PT"|"PR"|"QA"|"RE"|"RO"|"RU"|"RW"|"BL"|"SH"|"KN"|"LC"|"MF"|"PM"|"VC"|"WS"|"SM"|"ST"|"SA"|"SN"|"RS"|"SC"|"SL"|"SG"|"SX"|"SK"|"SI"|"SB"|"SO"|"ZA"|"GS"|"SS"|"ES"|"LK"|"SD"|"SR"|"SJ"|"SZ"|"SE"|"CH"|"SY"|"TW"|"TJ"|"TZ"|"TH"|"TL"|"TG"|"TK"|"TO"|"TT"|"TN"|"TR"|"TM"|"TC"|"TV"|"UG"|"UA"|"AE"|"GB"|"US"|"UM"|"UY"|"UZ"|"VU"|"VE"|"VN"|"VG"|"VI"|"WF"|"EH"|"YE"|"ZM"|"ZW" } } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

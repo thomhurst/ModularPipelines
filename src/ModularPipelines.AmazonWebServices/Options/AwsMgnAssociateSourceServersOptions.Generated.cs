@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "associate-source-servers")]
-public record AwsMgnAssociateSourceServersOptions : AwsOptions
+public record AwsMgnAssociateSourceServersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associate source servers to application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerIds">Source server IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
+    public AwsMgnAssociateSourceServersOptions(
+        string ApplicationId,
+        IEnumerable<string> SourceServerIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SourceServerIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SourceServerIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SourceServerIds));
+            }
+
+            SourceServerIds = materialized;
+        }
+        this.SourceServerIds = SourceServerIds;
+    }
+
+    private AwsMgnAssociateSourceServersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnAssociateSourceServersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnAssociateSourceServersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Source server IDs list. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--source-server-ids", GroupValues = true)]
-    public IEnumerable<string>? SourceServerIds { get; set; }
+    public IEnumerable<string>? SourceServerIds { get; private init; }
 
     /// <summary>
     /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
@@ -38,5 +93,21 @@ public record AwsMgnAssociateSourceServersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "enable-ca-enrollment-policy")]
-public record AwsDsEnableCaEnrollmentPolicyOptions : AwsOptions
+public record AwsDsEnableCaEnrollmentPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables certificate authority (CA) enrollment policy for the specified directory. This allows domain-joined clients to automatically request and receive certificates from the specified Amazon Web Services Private Certificate Authority. NOTE: Before enabling CA enrollment, ensure that the PCA connector is properly configured and accessible from the directory. The connector must be in an active state and have the necessary permissions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which to enable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="PcaConnectorArn">The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the direc- tory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    public AwsDsEnableCaEnrollmentPolicyOptions(
+        string DirectoryId,
+        string PcaConnectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(PcaConnectorArn);
+        this.PcaConnectorArn = PcaConnectorArn;
+    }
+
+    private AwsDsEnableCaEnrollmentPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsEnableCaEnrollmentPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsEnableCaEnrollmentPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which to enable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the direc- tory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--pca-connector-arn")]
-    public string? PcaConnectorArn { get; set; }
+    public string? PcaConnectorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

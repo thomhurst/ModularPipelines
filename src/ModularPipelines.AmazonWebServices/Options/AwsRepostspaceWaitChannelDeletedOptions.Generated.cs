@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repostspace", "wait", "channel-deleted")]
-public record AwsRepostspaceWaitChannelDeletedOptions : AwsOptions
+public record AwsRepostspaceWaitChannelDeletedOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--space-id")]
-    public string? SpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Wait until ResourceNotFoundException is thrown when polling with get-channel. It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpaceId">The unique ID of the private re:Post.</param>
+    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24</param>
+    public AwsRepostspaceWaitChannelDeletedOptions(
+        string SpaceId,
+        string ChannelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceId);
+        this.SpaceId = SpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelId);
+        this.ChannelId = ChannelId;
+    }
+
+    private AwsRepostspaceWaitChannelDeletedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRepostspaceWaitChannelDeletedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRepostspaceWaitChannelDeletedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the private re:Post.
+    /// </summary>
+    [CliOption("--space-id")]
+    public string? SpaceId { get; private init; }
+
+    /// <summary>
+    /// The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24
+    /// </summary>
     [CliOption("--channel-id")]
-    public string? ChannelId { get; set; }
+    public string? ChannelId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

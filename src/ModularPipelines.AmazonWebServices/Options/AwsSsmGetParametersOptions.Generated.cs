@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-parameters")]
-public record AwsSsmGetParametersOptions : AwsOptions
+public record AwsSsmGetParametersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--names", GroupValues = true)]
-    public IEnumerable<string>? Names { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Get information about one or more parameters by specifying multiple pa- rameter names. NOTE: To get information about a single parameter, you can use the GetPa- rameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of AP...
+    /// </summary>
+    /// <param name="Names">The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabeti- cal order in query responses. For information about shared parameters, see Working with shared pa- rameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    public AwsSsmGetParametersOptions(
+        IEnumerable<string> Names
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Names);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Names));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Names));
+            }
+
+            Names = materialized;
+        }
+        this.Names = Names;
+    }
+
+    private AwsSsmGetParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabeti- cal order in query responses. For information about shared parameters, see Working with shared pa- rameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--names", GroupValues = true)]
+    public IEnumerable<string>? Names { get; private init; }
+
+    /// <summary>
+    /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +83,21 @@ public record AwsSsmGetParametersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

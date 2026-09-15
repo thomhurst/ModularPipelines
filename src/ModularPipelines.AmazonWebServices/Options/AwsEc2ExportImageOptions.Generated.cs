@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "export-image")]
-public record AwsEc2ExportImageOptions : AwsOptions
+public record AwsEc2ExportImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exports an Amazon Machine Image (AMI) to a VM file. For more informa- tion, see Exporting a VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DiskImageFormat">The disk image format. Possible values: o VMDK o RAW o VHD</param>
+    /// <param name="ImageId">The ID of the image.</param>
+    /// <param name="S3ExportLocation">The Amazon S3 bucket for the destination image. The destination bucket must exist. S3Bucket -&gt; (string) [required] The destination Amazon S3 bucket. S3Prefix -&gt; (string) The prefix (logical hierarchy) in the bucket. Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }</param>
+    public AwsEc2ExportImageOptions(
+        AwsEc2ExportImageDiskImageFormat DiskImageFormat,
+        string ImageId,
+        string S3ExportLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskImageFormat);
+        this.DiskImageFormat = DiskImageFormat;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        global::System.ArgumentNullException.ThrowIfNull(S3ExportLocation);
+        this.S3ExportLocation = S3ExportLocation;
+    }
+
+    private AwsEc2ExportImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ExportImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ExportImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The disk image format. Possible values: o VMDK o RAW o VHD
+    /// </summary>
+    [CliOption("--disk-image-format")]
+    public AwsEc2ExportImageDiskImageFormat? DiskImageFormat { get; private init; }
+
+    /// <summary>
+    /// The ID of the image.
+    /// </summary>
+    [CliOption("--image-id")]
+    public string? ImageId { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 bucket for the destination image. The destination bucket must exist. S3Bucket -&gt; (string) [required] The destination Amazon S3 bucket. S3Prefix -&gt; (string) The prefix (logical hierarchy) in the bucket. Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
+    /// </summary>
+    [CliOption("--s3-export-location")]
+    public string? S3ExportLocation { get; private init; }
+
     /// <summary>
     /// Token to enable idempotency for export image requests.
     /// </summary>
@@ -35,17 +96,11 @@ public record AwsEc2ExportImageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--disk-image-format")]
-    public string? DiskImageFormat { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--image-id")]
-    public string? ImageId { get; set; }
-
-    [CliOption("--s3-export-location")]
-    public string? S3ExportLocation { get; set; }
 
     /// <summary>
     /// The name of the role that grants VM Import/Export permission to ex- port images to your Amazon S3 bucket. If this parameter is not spec- ified, the default role is named 'vmimport'.
@@ -64,5 +119,21 @@ public record AwsEc2ExportImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

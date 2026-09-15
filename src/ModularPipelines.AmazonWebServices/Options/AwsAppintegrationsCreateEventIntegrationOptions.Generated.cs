@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "create-event-integration")]
-public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions
+public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegra- tion control plane. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    /// <param name="EventFilter">The event filter. Source -&gt; (string) [required] The source of the events. Constraints: o min: 1 o max: 256 o pattern: ^(aws\.(part- ner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-in- tegrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }</param>
+    /// <param name="EventBridgeBus">The EventBridge bus. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    public AwsAppintegrationsCreateEventIntegrationOptions(
+        string Name,
+        string EventFilter,
+        string EventBridgeBus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(EventFilter);
+        this.EventFilter = EventFilter;
+        global::System.ArgumentNullException.ThrowIfNull(EventBridgeBus);
+        this.EventBridgeBus = EventBridgeBus;
+    }
+
+    private AwsAppintegrationsCreateEventIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsCreateEventIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsCreateEventIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The event filter. Source -&gt; (string) [required] The source of the events. Constraints: o min: 1 o max: 256 o pattern: ^(aws\.(part- ner\/.*|cases|cases\-test))|Pipe\s.[a-zA-Z0-9\/\._\-]+$|app\-in- tegrations\.webhooks\/[a-zA-Z0-9\-_.\/]+$ Shorthand Syntax: Source=string JSON Syntax: { "Source": "string" }
+    /// </summary>
+    [CliOption("--event-filter")]
+    public string? EventFilter { get; private init; }
+
+    /// <summary>
+    /// The EventBridge bus. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// </summary>
+    [CliOption("--event-bridge-bus")]
+    public string? EventBridgeBus { get; private init; }
 
     /// <summary>
     /// The description of the event integration. Constraints: o min: 0 o max: 1000 o pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--event-filter")]
-    public string? EventFilter { get; set; }
-
-    [CliOption("--event-bridge-bus")]
-    public string? EventBridgeBus { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 2048 o pattern: .*
@@ -56,5 +107,21 @@ public record AwsAppintegrationsCreateEventIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

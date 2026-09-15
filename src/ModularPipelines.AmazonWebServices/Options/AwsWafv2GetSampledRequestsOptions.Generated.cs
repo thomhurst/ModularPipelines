@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,106 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "get-sampled-requests")]
-public record AwsWafv2GetSampledRequestsOptions : AwsOptions
+public record AwsWafv2GetSampledRequestsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets detailed information about a specified number of requests--a sam- ple--that WAF randomly selects from among the first 5,000 requests that your Amazon Web Services resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) recei...
+    /// </summary>
+    /// <param name="WebAclArn">The Amazon resource name (ARN) of the WebACL for which you want a sample of requests. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="RuleMetricName">The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests. Constraints: o min: 1 o max: 255 o pattern: ^[\w#:\.\-/]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="TimeWindow">The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) for- mat. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. If you specify a start time that's earlier than three hours ago, WAF sets it to three hours ago. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
+    /// <param name="MaxItems">The number of requests that you want WAF to return from among the first 5,000 requests that your Amazon Web Services resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: o min: 1 o max: 500</param>
+    public AwsWafv2GetSampledRequestsOptions(
+        string WebAclArn,
+        string RuleMetricName,
+        AwsWafv2GetSampledRequestsScope Scope,
+        string TimeWindow,
+        int MaxItems
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebAclArn);
+        this.WebAclArn = WebAclArn;
+        global::System.ArgumentNullException.ThrowIfNull(RuleMetricName);
+        this.RuleMetricName = RuleMetricName;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(TimeWindow);
+        this.TimeWindow = TimeWindow;
+        this.MaxItems = MaxItems;
+    }
+
+    private AwsWafv2GetSampledRequestsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2GetSampledRequestsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2GetSampledRequestsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the WebACL for which you want a sample of requests. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--web-acl-arn")]
-    public string? WebAclArn { get; set; }
+    public string? WebAclArn { get; private init; }
 
+    /// <summary>
+    /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests. Constraints: o min: 1 o max: 255 o pattern: ^[\w#:\.\-/]+$
+    /// </summary>
     [CliOption("--rule-metric-name")]
-    public string? RuleMetricName { get; set; }
+    public string? RuleMetricName { get; private init; }
 
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2GetSampledRequestsScope? Scope { get; private init; }
 
+    /// <summary>
+    /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) for- mat. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. If you specify a start time that's earlier than three hours ago, WAF sets it to three hours ago. StartTime -&gt; (timestamp) [required] The beginning of the time range from which you want GetSample- dRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can specify any time range in the previous three hours. EndTime -&gt; (timestamp) [required] The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z . For example, "2016-09-27T14:50Z" . You can spec- ify any time range in the previous three hours. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }
+    /// </summary>
     [CliOption("--time-window")]
-    public string? TimeWindow { get; set; }
+    public string? TimeWindow { get; private init; }
 
+    /// <summary>
+    /// The number of requests that you want WAF to return from among the first 5,000 requests that your Amazon Web Services resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--max-items")]
-    public int? MaxItems { get; set; }
+    public int? MaxItems { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

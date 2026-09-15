@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsNeptuneGraphGetGraphSummaryMode
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("DETAILED")]
-    Detailed = 2
+    Detailed
 }

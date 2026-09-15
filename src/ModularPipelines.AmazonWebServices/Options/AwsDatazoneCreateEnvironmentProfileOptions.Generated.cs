@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-environment-profile")]
-public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions
+public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon DataZone environment profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this environment pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone environment profile. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
+    /// <param name="EnvironmentBlueprintIdentifier">The ID of the blueprint with which this environment profile is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The identifier of the project in which to create the environment profile. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneCreateEnvironmentProfileOptions(
+        string DomainIdentifier,
+        string Name,
+        string EnvironmentBlueprintIdentifier,
+        string ProjectIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentBlueprintIdentifier);
+        this.EnvironmentBlueprintIdentifier = EnvironmentBlueprintIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdentifier);
+        this.ProjectIdentifier = ProjectIdentifier;
+    }
+
+    private AwsDatazoneCreateEnvironmentProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateEnvironmentProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateEnvironmentProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which this environment pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of this Amazon DataZone environment profile. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the blueprint with which this environment profile is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--environment-blueprint-identifier")]
+    public string? EnvironmentBlueprintIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the project in which to create the environment profile. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--project-identifier")]
+    public string? ProjectIdentifier { get; private init; }
 
     /// <summary>
     /// The description of this Amazon DataZone environment profile. Constraints: o min: 0 o max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--environment-blueprint-identifier")]
-    public string? EnvironmentBlueprintIdentifier { get; set; }
-
-    [CliOption("--project-identifier")]
-    public string? ProjectIdentifier { get; set; }
 
     /// <summary>
     /// The user parameters of this Amazon DataZone environment profile. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "string", "value": "string" } ... ]
@@ -62,5 +120,21 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

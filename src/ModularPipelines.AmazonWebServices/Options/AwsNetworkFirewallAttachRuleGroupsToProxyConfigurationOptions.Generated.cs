@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "attach-rule-groups-to-proxy-configuration")]
-public record AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions : AwsOptions
+public record AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches ProxyRuleGroup resources to a ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleGroups">The proxy rule group(s) to attach to the proxy configuration (structure) The proxy rule group(s) to attach to the proxy configuration ProxyRuleGroupName -&gt; (string) The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ InsertPosition -&gt; (integer) Where to insert a proxy rule group in a proxy configuration. Shorthand Syntax: ProxyRuleGroupName=string,InsertPosition=integer ... JSON Syntax: [ { "ProxyRuleGroupName": "string", "InsertPosition": integer } ... ]</param>
+    /// <param name="UpdateToken">A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    public AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions(
+        IEnumerable<string> RuleGroups,
+        string UpdateToken
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RuleGroups);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RuleGroups));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RuleGroups));
+            }
+
+            RuleGroups = materialized;
+        }
+        this.RuleGroups = RuleGroups;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateToken);
+        this.UpdateToken = UpdateToken;
+    }
+
+    private AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The proxy rule group(s) to attach to the proxy configuration (structure) The proxy rule group(s) to attach to the proxy configuration ProxyRuleGroupName -&gt; (string) The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ InsertPosition -&gt; (integer) Where to insert a proxy rule group in a proxy configuration. Shorthand Syntax: ProxyRuleGroupName=string,InsertPosition=integer ... JSON Syntax: [ { "ProxyRuleGroupName": "string", "InsertPosition": integer } ... ]
+    /// </summary>
+    [CliOption("--rule-groups", GroupValues = true)]
+    public IEnumerable<string>? RuleGroups { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. Network Firewall returns a to- ken to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-token")]
+    public string? UpdateToken { get; private init; }
+
     /// <summary>
     /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
@@ -34,17 +96,26 @@ public record AwsNetworkFirewallAttachRuleGroupsToProxyConfigurationOptions : Aw
     [CliOption("--proxy-configuration-arn")]
     public string? ProxyConfigurationArn { get; set; }
 
-    [CliOption("--rule-groups", GroupValues = true)]
-    public IEnumerable<string>? RuleGroups { get; set; }
-
-    [SecretValue]
-    [CliOption("--update-token")]
-    public string? UpdateToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

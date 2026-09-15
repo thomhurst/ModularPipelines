@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,22 +23,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "create-user-settings")]
-public record AwsWorkspacesWebCreateUserSettingsOptions : AwsOptions
+public record AwsWorkspacesWebCreateUserSettingsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user settings resource that can be associated with a web por- tal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local de- vices. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CopyAllowed">Specifies whether the user can copy text from the streaming session to the local device. Possible values: o Disabled o Enabled</param>
+    /// <param name="PasteAllowed">Specifies whether the user can paste text from the local device to the streaming session. Possible values: o Disabled o Enabled</param>
+    /// <param name="DownloadAllowed">Specifies whether the user can download files from the streaming session to the local device. Possible values: o Disabled o Enabled</param>
+    /// <param name="UploadAllowed">Specifies whether the user can upload files from the local device to the streaming session. Possible values: o Disabled o Enabled</param>
+    /// <param name="PrintAllowed">Specifies whether the user can print to the local device. Possible values: o Disabled o Enabled</param>
+    public AwsWorkspacesWebCreateUserSettingsOptions(
+        AwsWorkspacesWebCreateUserSettingsCopyAllowed CopyAllowed,
+        AwsWorkspacesWebCreateUserSettingsPasteAllowed PasteAllowed,
+        AwsWorkspacesWebCreateUserSettingsDownloadAllowed DownloadAllowed,
+        AwsWorkspacesWebCreateUserSettingsUploadAllowed UploadAllowed,
+        AwsWorkspacesWebCreateUserSettingsPrintAllowed PrintAllowed
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CopyAllowed);
+        this.CopyAllowed = CopyAllowed;
+        global::System.ArgumentNullException.ThrowIfNull(PasteAllowed);
+        this.PasteAllowed = PasteAllowed;
+        global::System.ArgumentNullException.ThrowIfNull(DownloadAllowed);
+        this.DownloadAllowed = DownloadAllowed;
+        global::System.ArgumentNullException.ThrowIfNull(UploadAllowed);
+        this.UploadAllowed = UploadAllowed;
+        global::System.ArgumentNullException.ThrowIfNull(PrintAllowed);
+        this.PrintAllowed = PrintAllowed;
+    }
+
+    private AwsWorkspacesWebCreateUserSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebCreateUserSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebCreateUserSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether the user can copy text from the streaming session to the local device. Possible values: o Disabled o Enabled
+    /// </summary>
     [CliOption("--copy-allowed")]
-    public string? CopyAllowed { get; set; }
+    public AwsWorkspacesWebCreateUserSettingsCopyAllowed? CopyAllowed { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the user can paste text from the local device to the streaming session. Possible values: o Disabled o Enabled
+    /// </summary>
     [CliOption("--paste-allowed")]
-    public string? PasteAllowed { get; set; }
+    public AwsWorkspacesWebCreateUserSettingsPasteAllowed? PasteAllowed { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the user can download files from the streaming session to the local device. Possible values: o Disabled o Enabled
+    /// </summary>
     [CliOption("--download-allowed")]
-    public string? DownloadAllowed { get; set; }
+    public AwsWorkspacesWebCreateUserSettingsDownloadAllowed? DownloadAllowed { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the user can upload files from the local device to the streaming session. Possible values: o Disabled o Enabled
+    /// </summary>
     [CliOption("--upload-allowed")]
-    public string? UploadAllowed { get; set; }
+    public AwsWorkspacesWebCreateUserSettingsUploadAllowed? UploadAllowed { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the user can print to the local device. Possible values: o Disabled o Enabled
+    /// </summary>
     [CliOption("--print-allowed")]
-    public string? PrintAllowed { get; set; }
+    public AwsWorkspacesWebCreateUserSettingsPrintAllowed? PrintAllowed { get; private init; }
 
     /// <summary>
     /// The tags to add to the user settings resource. A tag is a key-value pair. Constraints: o min: 0 o max: 200 (structure) The tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value of the tag Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -111,5 +176,21 @@ public record AwsWorkspacesWebCreateUserSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

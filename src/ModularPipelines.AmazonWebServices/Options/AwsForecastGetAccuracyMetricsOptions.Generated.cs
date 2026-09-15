@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "get-accuracy-metrics")]
-public record AwsForecastGetAccuracyMetricsOptions : AwsOptions
+public record AwsForecastGetAccuracyMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation. Use metrics to see how well the model per- formed and to decide whether to use the predictor to generate a fore- cast. For more information, see Predictor Metrics . This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows ) is specified using the EvaluationParameters object, which is optionally included in the CreatePredic...
+    /// </summary>
+    /// <param name="PredictorArn">The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    public AwsForecastGetAccuracyMetricsOptions(
+        string PredictorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PredictorArn);
+        this.PredictorArn = PredictorArn;
+    }
+
+    private AwsForecastGetAccuracyMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastGetAccuracyMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastGetAccuracyMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the predictor to get metrics for. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--predictor-arn")]
-    public string? PredictorArn { get; set; }
+    public string? PredictorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

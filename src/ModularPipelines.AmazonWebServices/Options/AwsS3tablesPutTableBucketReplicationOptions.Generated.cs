@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "put-table-bucket-replication")]
-public record AwsS3tablesPutTableBucketReplicationOptions : AwsOptions
+public record AwsS3tablesPutTableBucketReplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts. Permissions o You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination bucke...
+    /// </summary>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the source table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Configuration">The replication configuration to apply, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate tables on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define which tables to repli- cate and where to replicate them. Constraints: o min: 1 o max: 1 (structure) Defines a rule for replicating tables from a source table bucket to one or more destination table buckets. destinations -&gt; (list) [required] An array of destination table buckets where tables should be replicated. Constraints: o min: 1 o max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }</param>
+    public AwsS3tablesPutTableBucketReplicationOptions(
+        string TableBucketArn,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableBucketArn);
+        this.TableBucketArn = TableBucketArn;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsS3tablesPutTableBucketReplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesPutTableBucketReplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesPutTableBucketReplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the source table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// </summary>
     [CliOption("--table-bucket-arn")]
-    public string? TableBucketArn { get; set; }
+    public string? TableBucketArn { get; private init; }
+
+    /// <summary>
+    /// The replication configuration to apply, including the IAM role and replication rules. role -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate tables on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:.+:iam::[0-9]{12}:role/.+ rules -&gt; (list) [required] An array of replication rules that define which tables to repli- cate and where to replicate them. Constraints: o min: 1 o max: 1 (structure) Defines a rule for replicating tables from a source table bucket to one or more destination table buckets. destinations -&gt; (list) [required] An array of destination table buckets where tables should be replicated. Constraints: o min: 1 o max: 5 (structure) Specifies a destination table bucket for replication. destinationTableBucketARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}) JSON Syntax: { "role": "string", "rules": [ { "destinations": [ { "destinationTableBucketARN": "string" } ... ] } ... ] }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're updating the expected version of the configuration. Constraints: o min: 1 o max: 2048
@@ -32,13 +79,26 @@ public record AwsS3tablesPutTableBucketReplicationOptions : AwsOptions
     [CliOption("--version-token")]
     public string? VersionToken { get; set; }
 
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

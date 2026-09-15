@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs-realtime", "list-participant-replicas")]
-public record AwsIvsRealtimeListParticipantReplicasOptions : AwsOptions
+public record AwsIvsRealtimeListParticipantReplicasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-stage-arn")]
-    public string? SourceStageArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the replicas for a participant from a source stage. See also: AWS API Documentation list-participant-replicas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: replicas
+    /// </summary>
+    /// <param name="SourceStageArn">ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="ParticipantId">Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*</param>
+    public AwsIvsRealtimeListParticipantReplicasOptions(
+        string SourceStageArn,
+        string ParticipantId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceStageArn);
+        this.SourceStageArn = SourceStageArn;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantId);
+        this.ParticipantId = ParticipantId;
+    }
+
+    private AwsIvsRealtimeListParticipantReplicasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsRealtimeListParticipantReplicasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsRealtimeListParticipantReplicasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of the stage where the participant is publishing. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--source-stage-arn")]
+    public string? SourceStageArn { get; private init; }
+
+    /// <summary>
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--participant-id")]
-    public string? ParticipantId { get; set; }
+    public string? ParticipantId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsIvsRealtimeListParticipantReplicasOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

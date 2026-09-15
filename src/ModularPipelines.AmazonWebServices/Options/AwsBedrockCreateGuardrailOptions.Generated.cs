@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-guardrail")]
-public record AwsBedrockCreateGuardrailOptions : AwsOptions
+public record AwsBedrockCreateGuardrailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid unde- sirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection. o Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content. o Denied topics - Define a set of topics that are undesirable in the context of your applica...
+    /// </summary>
+    /// <param name="Name">The name to give the guardrail. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z-_]+</param>
+    /// <param name="BlockedInputMessaging">The message to return when the guardrail blocks a prompt. Constraints: o min: 1 o max: 500</param>
+    /// <param name="BlockedOutputsMessaging">The message to return when the guardrail blocks a model response. Constraints: o min: 1 o max: 500</param>
+    public AwsBedrockCreateGuardrailOptions(
+        string Name,
+        string BlockedInputMessaging,
+        string BlockedOutputsMessaging
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedInputMessaging);
+        this.BlockedInputMessaging = BlockedInputMessaging;
+        global::System.ArgumentNullException.ThrowIfNull(BlockedOutputsMessaging);
+        this.BlockedOutputsMessaging = BlockedOutputsMessaging;
+    }
+
+    private AwsBedrockCreateGuardrailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateGuardrailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateGuardrailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to give the guardrail. Constraints: o min: 1 o max: 50 o pattern: [0-9a-zA-Z-_]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The message to return when the guardrail blocks a prompt. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-input-messaging")]
+    public string? BlockedInputMessaging { get; private init; }
+
+    /// <summary>
+    /// The message to return when the guardrail blocks a model response. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--blocked-outputs-messaging")]
+    public string? BlockedOutputsMessaging { get; private init; }
 
     /// <summary>
     /// A description of the guardrail. Constraints: o min: 1 o max: 200
@@ -73,12 +130,6 @@ public record AwsBedrockCreateGuardrailOptions : AwsOptions
     [CliOption("--cross-region-config")]
     public string? CrossRegionConfig { get; set; }
 
-    [CliOption("--blocked-input-messaging")]
-    public string? BlockedInputMessaging { get; set; }
-
-    [CliOption("--blocked-outputs-messaging")]
-    public string? BlockedOutputsMessaging { get; set; }
-
     /// <summary>
     /// The ARN of the KMS key that you use to encrypt the guardrail. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
     /// </summary>
@@ -103,5 +154,21 @@ public record AwsBedrockCreateGuardrailOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

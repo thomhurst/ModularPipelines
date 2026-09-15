@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "delete-instance-profile")]
-public record AwsDmsDeleteInstanceProfileOptions : AwsOptions
+public record AwsDmsDeleteInstanceProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceProfileIdentifier">The identifier of the instance profile to delete.</param>
+    public AwsDmsDeleteInstanceProfileOptions(
+        string InstanceProfileIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceProfileIdentifier);
+        this.InstanceProfileIdentifier = InstanceProfileIdentifier;
+    }
+
+    private AwsDmsDeleteInstanceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsDeleteInstanceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsDeleteInstanceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the instance profile to delete.
+    /// </summary>
     [CliOption("--instance-profile-identifier")]
-    public string? InstanceProfileIdentifier { get; set; }
+    public string? InstanceProfileIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

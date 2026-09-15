@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "update-accelerator-attributes")]
-public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOptions
+public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--accelerator-arn")]
-    public string? AcceleratorArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--flow-logs-enabled")]
+    /// <summary>
+    /// Update the attributes for an accelerator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorUpdateAcceleratorAttributesOptions(
+        string AcceleratorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AcceleratorArn);
+        this.AcceleratorArn = AcceleratorArn;
+    }
+
+    private AwsGlobalacceleratorUpdateAcceleratorAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorUpdateAcceleratorAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorUpdateAcceleratorAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--accelerator-arn")]
+    public string? AcceleratorArn { get; private init; }
+
+    /// <summary>
+    /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the Global Accelerator Devel- oper Guide .
+    /// </summary>
+    [CliFlag("--flow-logs-enabled", NegatedName = "--no-flow-logs-enabled")]
     public bool? FlowLogsEnabled { get; set; }
 
     /// <summary>
@@ -44,5 +84,21 @@ public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

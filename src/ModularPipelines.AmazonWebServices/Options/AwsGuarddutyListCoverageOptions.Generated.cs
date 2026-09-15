@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "list-coverage")]
-public record AwsGuarddutyListCoverageOptions : AwsOptions
+public record AwsGuarddutyListCoverageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists coverage details for your GuardDuty account. If you're a Guard- Duty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-...
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector whose coverage details you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    public AwsGuarddutyListCoverageOptions(
+        string DetectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+    }
+
+    private AwsGuarddutyListCoverageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyListCoverageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyListCoverageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector whose coverage details you want to re- trieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
     /// <summary>
     /// Represents the criteria used to filter the coverage details. FilterCriterion -&gt; (list) Represents a condition that when matched will be added to the response of the operation. Constraints: o min: 0 o max: 50 (structure) Represents a condition that when matched will be added to the response of the operation. CriterionKey -&gt; (string) An enum value representing possible filter fields. NOTE: Replace the enum value CLUSTER_NAME with EKS_CLUS- TER_NAME . CLUSTER_NAME has been deprecated. Possible values: o ACCOUNT_ID o RESOURCE_TYPE o COVERAGE_STATUS o ADDON_VERSION o CLUSTER_NAME o ECS_CLUSTER_NAME o MANAGEMENT_TYPE o EKS_CLUSTER_NAME o AGENT_VERSION o INSTANCE_ID o CLUSTER_ARN FilterCondition -&gt; (structure) Contains information about the condition. Equals -&gt; (list) Represents an equal condition that is applied to a single field while retrieving the coverage details. (string) NotEquals -&gt; (list) Represents a not equal condition that is applied to a single field while retrieving the coverage details. (string) JSON Syntax: { "FilterCriterion": [ { "CriterionKey": "ACCOUNT_ID"|"RESOURCE_TYPE"|"COVERAGE_STATUS"|"ADDON_VERSION"|"CLUSTER_NAME"|"ECS_CLUSTER_NAME"|"MANAGEMENT_TYPE"|"EKS_CLUSTER_NAME"|"AGENT_VERSION"|"INSTANCE_ID"|"CLUSTER_ARN", "FilterCondition": { "Equals": ["string", ...], "NotEquals": ["string", ...] } } ... ] }
@@ -61,5 +98,21 @@ public record AwsGuarddutyListCoverageOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

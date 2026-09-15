@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account-access", "create-application")]
-public record AwsAccountAccessCreateApplicationOptions : AwsOptions
+public record AwsAccountAccessCreateApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center in- stance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentitySource">Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides prin- cipals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }</param>
+    public AwsAccountAccessCreateApplicationOptions(
+        string IdentitySource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentitySource);
+        this.IdentitySource = IdentitySource;
+    }
+
+    private AwsAccountAccessCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountAccessCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountAccessCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides prin- cipals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }
+    /// </summary>
     [CliOption("--identity-source")]
-    public string? IdentitySource { get; set; }
+    public string? IdentitySource { get; private init; }
 
     /// <summary>
     /// Specifies the tags to assign to the application. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -36,5 +73,21 @@ public record AwsAccountAccessCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

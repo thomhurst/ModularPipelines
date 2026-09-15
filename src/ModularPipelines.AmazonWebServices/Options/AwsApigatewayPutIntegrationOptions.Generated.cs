@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "put-integration")]
-public record AwsApigatewayPutIntegrationOptions : AwsOptions
+public record AwsApigatewayPutIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets up a method's integration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="ResourceId">Specifies a put integration request's resource ID.</param>
+    /// <param name="HttpMethod">Specifies the HTTP method for the integration.</param>
+    /// <param name="Type">Specifies a put integration input's type. Possible values: o HTTP o AWS o MOCK o HTTP_PROXY o AWS_PROXY</param>
+    public AwsApigatewayPutIntegrationOptions(
+        string RestApiId,
+        string ResourceId,
+        string HttpMethod,
+        AwsApigatewayPutIntegrationType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
+        this.HttpMethod = HttpMethod;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsApigatewayPutIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayPutIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayPutIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// Specifies a put integration request's resource ID.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Specifies the HTTP method for the integration.
+    /// </summary>
     [CliOption("--http-method")]
-    public string? HttpMethod { get; set; }
+    public string? HttpMethod { get; private init; }
 
+    /// <summary>
+    /// Specifies a put integration input's type. Possible values: o HTTP o AWS o MOCK o HTTP_PROXY o AWS_PROXY
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsApigatewayPutIntegrationType? Type { get; private init; }
 
     /// <summary>
     /// The HTTP method for the integration.
@@ -83,7 +141,7 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integra- tion resource. There are three valid values: WHEN_NO_MATCH , WHEN_NO_TEMPLATES , and NEVER .
     /// </summary>
     [CliOption("--passthrough-behavior")]
-    public string? PassthroughBehavior { get; set; }
+    public AwsApigatewayPutIntegrationPassthroughBehavior? PassthroughBehavior { get; set; }
 
     /// <summary>
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace . You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -132,5 +190,21 @@ public record AwsApigatewayPutIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

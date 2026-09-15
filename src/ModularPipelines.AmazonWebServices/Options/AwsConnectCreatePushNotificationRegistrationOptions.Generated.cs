@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-push-notification-registration")]
-public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions
+public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifica- tions, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="PinpointAppArn">The Amazon Resource Name (ARN) of the Pinpoint application.</param>
+    /// <param name="DeviceToken">The push notification token issued by the Apple or Google gateways. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DeviceType">The device type to use when sending the message. Possible values: o GCM o APNS o APNS_SANDBOX</param>
+    /// <param name="ContactConfiguration">The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect in- stance. Constraints: o min: 1 o max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }</param>
+    public AwsConnectCreatePushNotificationRegistrationOptions(
+        string InstanceId,
+        string PinpointAppArn,
+        string DeviceToken,
+        AwsConnectCreatePushNotificationRegistrationDeviceType DeviceType,
+        string ContactConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(PinpointAppArn);
+        this.PinpointAppArn = PinpointAppArn;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceToken);
+        this.DeviceToken = DeviceToken;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceType);
+        this.DeviceType = DeviceType;
+        global::System.ArgumentNullException.ThrowIfNull(ContactConfiguration);
+        this.ContactConfiguration = ContactConfiguration;
+    }
+
+    private AwsConnectCreatePushNotificationRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreatePushNotificationRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreatePushNotificationRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Pinpoint application.
+    /// </summary>
+    [CliOption("--pinpoint-app-arn")]
+    public string? PinpointAppArn { get; private init; }
+
+    /// <summary>
+    /// The push notification token issued by the Apple or Google gateways. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [SecretValue]
+    [CliOption("--device-token")]
+    public string? DeviceToken { get; private init; }
+
+    /// <summary>
+    /// The device type to use when sending the message. Possible values: o GCM o APNS o APNS_SANDBOX
+    /// </summary>
+    [CliOption("--device-type")]
+    public AwsConnectCreatePushNotificationRegistrationDeviceType? DeviceType { get; private init; }
+
+    /// <summary>
+    /// The contact configuration for push notification registration. ContactId -&gt; (string) [required] The identifier of the contact within the Amazon Connect in- stance. Constraints: o min: 1 o max: 256 ParticipantRole -&gt; (string) The role of the participant in the chat conversation. NOTE: Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error). Possible values: o AGENT o CUSTOMER o SYSTEM o CUSTOM_BOT o SUPERVISOR IncludeRawMessage -&gt; (boolean) Whether to include raw connect message in the push notification payload. Default is False . Shorthand Syntax: ContactId=string,ParticipantRole=string,IncludeRawMessage=boolean JSON Syntax: { "ContactId": "string", "ParticipantRole": "AGENT"|"CUSTOMER"|"SYSTEM"|"CUSTOM_BOT"|"SUPERVISOR", "IncludeRawMessage": true|false }
+    /// </summary>
+    [CliOption("--contact-configuration")]
+    public string? ContactConfiguration { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -32,23 +111,26 @@ public record AwsConnectCreatePushNotificationRegistrationOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--pinpoint-app-arn")]
-    public string? PinpointAppArn { get; set; }
-
-    [SecretValue]
-    [CliOption("--device-token")]
-    public string? DeviceToken { get; set; }
-
-    [CliOption("--device-type")]
-    public string? DeviceType { get; set; }
-
-    [CliOption("--contact-configuration")]
-    public string? ContactConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

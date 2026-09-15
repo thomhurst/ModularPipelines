@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-email-identity-configuration-set-attributes")]
-public record AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions : AwsOptions
+public record AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to associate a configuration set with an email identity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EmailIdentity">The email address or domain to associate with a configuration set. Constraints: o min: 1</param>
+    public AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions(
+        string EmailIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+    }
+
+    private AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email address or domain to associate with a configuration set. Constraints: o min: 1
+    /// </summary>
     [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    public string? EmailIdentity { get; private init; }
 
     /// <summary>
     /// The configuration set to associate with an email identity.
@@ -35,5 +72,21 @@ public record AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

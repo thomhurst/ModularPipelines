@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "create-package")]
-public record AwsOpensearchCreatePackageOptions : AwsOptions
+public record AwsOpensearchCreatePackageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-name")]
-    public string? PackageName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageName">Unique name for the package. Constraints: o min: 3 o max: 256 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PackageType">The type of package. Possible values: o TXT-DICTIONARY o ZIP-PLUGIN o PACKAGE-LICENSE o PACKAGE-CONFIG</param>
+    /// <param name="PackageSource">The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }</param>
+    public AwsOpensearchCreatePackageOptions(
+        string PackageName,
+        AwsOpensearchCreatePackagePackageType PackageType,
+        string PackageSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+        global::System.ArgumentNullException.ThrowIfNull(PackageType);
+        this.PackageType = PackageType;
+        global::System.ArgumentNullException.ThrowIfNull(PackageSource);
+        this.PackageSource = PackageSource;
+    }
+
+    private AwsOpensearchCreatePackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchCreatePackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchCreatePackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique name for the package. Constraints: o min: 3 o max: 256 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--package-name")]
+    public string? PackageName { get; private init; }
+
+    /// <summary>
+    /// The type of package. Possible values: o TXT-DICTIONARY o ZIP-PLUGIN o PACKAGE-LICENSE o PACKAGE-CONFIG
+    /// </summary>
     [CliOption("--package-type")]
-    public string? PackageType { get; set; }
+    public AwsOpensearchCreatePackagePackageType? PackageType { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 location from which to import the package. S3BucketName -&gt; (string) The name of the Amazon S3 bucket containing the package. Constraints: o min: 3 o max: 63 S3Key -&gt; (string) Key (file name) of the package. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3BucketName=string,S3Key=string JSON Syntax: { "S3BucketName": "string", "S3Key": "string" }
+    /// </summary>
+    [CliOption("--package-source")]
+    public string? PackageSource { get; private init; }
 
     /// <summary>
     /// Description of the package. Constraints: o max: 1024
     /// </summary>
     [CliOption("--package-description")]
     public string? PackageDescription { get; set; }
-
-    [CliOption("--package-source")]
-    public string? PackageSource { get; set; }
 
     /// <summary>
     /// The configuration parameters for the package being created. LicenseRequirement -&gt; (string) [required] The license requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE LicenseFilepath -&gt; (string) The relative file path for the license associated with the pack- age. Constraints: o max: 256 o pattern: ^(?!.*\/\.{2,})(?!.*\.\.)[a-zA-Z0-9_.-]+(?:\/[a-zA-Z0-9_.-]+)*$ ConfigurationRequirement -&gt; (string) [required] The configuration requirements for the package. Possible values: o REQUIRED o OPTIONAL o NONE RequiresRestartForConfigurationUpdate -&gt; (boolean) This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for. Shorthand Syntax: LicenseRequirement=string,LicenseFilepath=string,ConfigurationRequirement=string,RequiresRestartForConfigurationUpdate=boolean JSON Syntax: { "LicenseRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "LicenseFilepath": "string", "ConfigurationRequirement": "REQUIRED"|"OPTIONAL"|"NONE", "RequiresRestartForConfigurationUpdate": true|false }
@@ -65,5 +117,21 @@ public record AwsOpensearchCreatePackageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

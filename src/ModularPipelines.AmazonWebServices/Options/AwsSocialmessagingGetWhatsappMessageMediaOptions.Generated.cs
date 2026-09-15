@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "get-whatsapp-message-media")]
-public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions
+public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Ama- zon S3 bucket. Use either destinationS3File or destinationS3Presigne- dUrl for the destination. If both are used then an InvalidParameterEx- ception is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MediaId">The unique identifier for the media file. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the originating phone number for the What- sApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    public AwsSocialmessagingGetWhatsappMessageMediaOptions(
+        string MediaId,
+        string OriginationPhoneNumberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MediaId);
+        this.MediaId = MediaId;
+        global::System.ArgumentNullException.ThrowIfNull(OriginationPhoneNumberId);
+        this.OriginationPhoneNumberId = OriginationPhoneNumberId;
+    }
+
+    private AwsSocialmessagingGetWhatsappMessageMediaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingGetWhatsappMessageMediaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingGetWhatsappMessageMediaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the media file. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+
+    /// </summary>
     [CliOption("--media-id")]
-    public string? MediaId { get; set; }
+    public string? MediaId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the originating phone number for the What- sApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--origination-phone-number-id")]
-    public string? OriginationPhoneNumberId { get; set; }
+    public string? OriginationPhoneNumberId { get; private init; }
 
-    [CliFlag("--metadata-only")]
+    /// <summary>
+    /// Set to True to get only the metadata for the file.
+    /// </summary>
+    [CliFlag("--metadata-only", NegatedName = "--no-metadata-only")]
     public bool? MetadataOnly { get; set; }
 
     /// <summary>
@@ -47,5 +94,21 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

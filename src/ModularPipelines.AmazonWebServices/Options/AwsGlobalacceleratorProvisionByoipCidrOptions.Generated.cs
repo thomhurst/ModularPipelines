@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "provision-byoip-cidr")]
-public record AwsGlobalacceleratorProvisionByoipCidrOptions : AwsOptions
+public record AwsGlobalacceleratorProvisionByoipCidrOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provisions an IP address range to use with your Amazon Web Services re- sources through bring your own IP addresses (BYOIP) and creates a cor- responding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr . For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cidr">The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Ama- zon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255</param>
+    /// <param name="CidrAuthorizationContext">A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: o max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: o max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }</param>
+    public AwsGlobalacceleratorProvisionByoipCidrOptions(
+        string Cidr,
+        string CidrAuthorizationContext
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+        global::System.ArgumentNullException.ThrowIfNull(CidrAuthorizationContext);
+        this.CidrAuthorizationContext = CidrAuthorizationContext;
+    }
+
+    private AwsGlobalacceleratorProvisionByoipCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorProvisionByoipCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorProvisionByoipCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Ama- zon Web Services Region or another Region. For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255
+    /// </summary>
+    [CliOption("--cidr")]
+    public string? Cidr { get; private init; }
+
+    /// <summary>
+    /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Constraints: o max: 255 Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Constraints: o max: 255 Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }
+    /// </summary>
     [CliOption("--cidr-authorization-context")]
-    public string? CidrAuthorizationContext { get; set; }
+    public string? CidrAuthorizationContext { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

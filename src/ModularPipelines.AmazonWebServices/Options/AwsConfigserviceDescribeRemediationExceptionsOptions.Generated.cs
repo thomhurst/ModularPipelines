@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "describe-remediation-exceptions")]
-public record AwsConfigserviceDescribeRemediationExceptionsOptions : AwsOptions
+public record AwsConfigserviceDescribeRemediationExceptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response. NOTE: Config generates a remediation exception when a problem occurs exe- cuting a remediation action to a specific resource. Remediation ex- ceptions blocks auto-remediation until the exception is cl...
+    /// </summary>
+    /// <param name="ConfigRuleName">The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsConfigserviceDescribeRemediationExceptionsOptions(
+        string ConfigRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigRuleName);
+        this.ConfigRuleName = ConfigRuleName;
+    }
+
+    private AwsConfigserviceDescribeRemediationExceptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDescribeRemediationExceptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDescribeRemediationExceptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--config-rule-name")]
-    public string? ConfigRuleName { get; set; }
+    public string? ConfigRuleName { get; private init; }
 
     /// <summary>
     /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys. Constraints: o min: 1 o max: 100 (structure) The details that identify a resource within Config, including the resource type and resource ID. ResourceType -&gt; (string) The type of a resource. Constraints: o min: 1 o max: 256 ResourceId -&gt; (string) The ID of the resource (for example., sg-xxxxxx). Constraints: o min: 1 o max: 1024 Shorthand Syntax: ResourceType=string,ResourceId=string ... JSON Syntax: [ { "ResourceType": "string", "ResourceId": "string" } ... ]
@@ -49,5 +86,21 @@ public record AwsConfigserviceDescribeRemediationExceptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

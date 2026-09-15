@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "get-delegated-access-token")]
-public record AwsStsGetDelegatedAccessTokenOptions : AwsOptions
+public record AwsStsGetDelegatedAccessTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exchanges a trade-in token for temporary Amazon Web Services creden- tials with the permissions associated with the assumed principal. This operation allows you to obtain credentials for a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TradeInToken">The token to exchange for temporary Amazon Web Services credentials. This token must be valid and unexpired at the time of the request.</param>
+    public AwsStsGetDelegatedAccessTokenOptions(
+        string TradeInToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TradeInToken);
+        this.TradeInToken = TradeInToken;
+    }
+
+    private AwsStsGetDelegatedAccessTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsGetDelegatedAccessTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsGetDelegatedAccessTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The token to exchange for temporary Amazon Web Services credentials. This token must be valid and unexpired at the time of the request.
+    /// </summary>
     [SecretValue]
     [CliOption("--trade-in-token")]
-    public string? TradeInToken { get; set; }
+    public string? TradeInToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

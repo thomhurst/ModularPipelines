@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "register-certificate-without-ca")]
-public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions
+public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms sup- ported by IoT . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    public AwsIotRegisterCertificateWithoutCaOptions(
+        string CertificatePem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificatePem);
+        this.CertificatePem = CertificatePem;
+    }
+
+    private AwsIotRegisterCertificateWithoutCaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotRegisterCertificateWithoutCaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotRegisterCertificateWithoutCaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--certificate-pem")]
-    public string? CertificatePem { get; set; }
+    public string? CertificatePem { get; private init; }
 
     /// <summary>
     /// The status of the register certificate request. Possible values: o ACTIVE o INACTIVE o REVOKED o PENDING_TRANSFER o REGISTER_INACTIVE o PENDING_ACTIVATION
@@ -36,5 +73,21 @@ public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "describe-engine-default-parameters")]
-public record AwsRdsDescribeEngineDefaultParametersOptions : AwsOptions
+public record AwsRdsDescribeEngineDefaultParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the default engine and system parameter information for the specified database engine. See also: AWS API Documentation describe-engine-default-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// </summary>
+    /// <param name="DbParameterGroupFamily">The name of the DB parameter group family. Valid Values: o aurora-mysql5.7 o aurora-mysql8.0 o aurora-postgresql10 o aurora-postgresql11 o aurora-postgresql12 o aurora-postgresql13 o aurora-postgresql14 o custom-oracle-ee-19 o custom-oracle-ee-cdb-19 o db2-ae o db2-ce o db2-se o mariadb10.2 o mariadb10.3 o mariadb10.4 o mariadb10.5 o mariadb10.6 o mysql5.7 o mysql8.0 o oracle-ee-19 o oracle-ee-cdb-19 o oracle-ee-cdb-21 o oracle-se2-19 o oracle-se2-cdb-19 o oracle-se2-cdb-21 o postgres10 o postgres11 o postgres12 o postgres13 o postgres14 o sqlserver-ee-11.0 o sqlserver-ee-12.0 o sqlserver-ee-13.0 o sqlserver-ee-14.0 o sqlserver-ee-15.0 o sqlserver-ex-11.0 o sqlserver-ex-12.0 o sqlserver-ex-13.0 o sqlserver-ex-14.0 o sqlserver-ex-15.0 o sqlserver-se-11.0 o sqlserver-se-12.0 o sqlserver-se-13.0 o sqlserver-se-14.0 o sqlserver-se-15.0 o sqlserver-web-11.0 o sqlserver-web-12.0 o sqlserver-web-13.0 o sqlserver-web-14.0 o sqlserver-web-15.0</param>
+    public AwsRdsDescribeEngineDefaultParametersOptions(
+        string DbParameterGroupFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupFamily);
+        this.DbParameterGroupFamily = DbParameterGroupFamily;
+    }
+
+    private AwsRdsDescribeEngineDefaultParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDescribeEngineDefaultParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDescribeEngineDefaultParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group family. Valid Values: o aurora-mysql5.7 o aurora-mysql8.0 o aurora-postgresql10 o aurora-postgresql11 o aurora-postgresql12 o aurora-postgresql13 o aurora-postgresql14 o custom-oracle-ee-19 o custom-oracle-ee-cdb-19 o db2-ae o db2-ce o db2-se o mariadb10.2 o mariadb10.3 o mariadb10.4 o mariadb10.5 o mariadb10.6 o mysql5.7 o mysql8.0 o oracle-ee-19 o oracle-ee-cdb-19 o oracle-ee-cdb-21 o oracle-se2-19 o oracle-se2-cdb-19 o oracle-se2-cdb-21 o postgres10 o postgres11 o postgres12 o postgres13 o postgres14 o sqlserver-ee-11.0 o sqlserver-ee-12.0 o sqlserver-ee-13.0 o sqlserver-ee-14.0 o sqlserver-ee-15.0 o sqlserver-ex-11.0 o sqlserver-ex-12.0 o sqlserver-ex-13.0 o sqlserver-ex-14.0 o sqlserver-ex-15.0 o sqlserver-se-11.0 o sqlserver-se-12.0 o sqlserver-se-13.0 o sqlserver-se-14.0 o sqlserver-se-15.0 o sqlserver-web-11.0 o sqlserver-web-12.0 o sqlserver-web-13.0 o sqlserver-web-14.0 o sqlserver-web-15.0
+    /// </summary>
     [CliOption("--db-parameter-group-family")]
-    public string? DbParameterGroupFamily { get; set; }
+    public string? DbParameterGroupFamily { get; private init; }
 
     /// <summary>
     /// A filter that specifies one or more parameters to describe. The only supported filter is parameter-name . The results list only includes information about the parameters with these names. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -55,5 +92,21 @@ public record AwsRdsDescribeEngineDefaultParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

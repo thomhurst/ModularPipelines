@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,26 +22,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-payment-connector")]
-public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--payment-manager-id")]
-    public string? PaymentManagerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new payment connector for a payment manager. A payment con- nector integrates with a supported payment provider to enable payment processing capabilities. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerId">The unique identifier of the payment manager to create the connector for. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="Name">The name of the payment connector. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="Type">The type of payment connector, which determines the payment provider integration. Possible values: o CoinbaseCDP o StripePrivy</param>
+    /// <param name="CredentialProviderConfigurations">The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: o min: 0 o max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated creden- tial provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]</param>
+    public AwsBedrockAgentcoreControlCreatePaymentConnectorOptions(
+        string PaymentManagerId,
+        string Name,
+        AwsBedrockAgentcoreControlCreatePaymentConnectorType Type,
+        IEnumerable<string> CredentialProviderConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerId);
+        this.PaymentManagerId = PaymentManagerId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CredentialProviderConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CredentialProviderConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CredentialProviderConfigurations));
+            }
+
+            CredentialProviderConfigurations = materialized;
+        }
+        this.CredentialProviderConfigurations = CredentialProviderConfigurations;
+    }
+
+    private AwsBedrockAgentcoreControlCreatePaymentConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePaymentConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreatePaymentConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the payment manager to create the connector for. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// </summary>
+    [CliOption("--payment-manager-id")]
+    public string? PaymentManagerId { get; private init; }
+
+    /// <summary>
+    /// The name of the payment connector. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of payment connector, which determines the payment provider integration. Possible values: o CoinbaseCDP o StripePrivy
+    /// </summary>
+    [CliOption("--type")]
+    public AwsBedrockAgentcoreControlCreatePaymentConnectorType? Type { get; private init; }
+
+    /// <summary>
+    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. Constraints: o min: 0 o max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated creden- tial provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-provider-configurations", GroupValues = true)]
+    public IEnumerable<string>? CredentialProviderConfigurations { get; private init; }
 
     /// <summary>
     /// A description of the payment connector. Constraints: o min: 1 o max: 4096 o pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
-    [SecretValue]
-    [CliOption("--credential-provider-configurations", GroupValues = true)]
-    public IEnumerable<string>? CredentialProviderConfigurations { get; set; }
 
     /// <summary>
     /// The provision mode for creating the payment connector. If you don't specify a value, the default is MANUAL . o MANUAL - You provide the credential provider configurations di- rectly. o QUICK_CREATE - The service orchestrates OAuth consent and provi- sions the credential provider for you. Possible values: o MANUAL o QUICK_CREATE
@@ -60,5 +129,21 @@ public record AwsBedrockAgentcoreControlCreatePaymentConnectorOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-integration-association")]
-public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions
+public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Web Services resource association with an Connect Customer instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="IntegrationType">The type of information to be ingested. Possible values: o EVENT o VOICE_ID o PINPOINT_APP o WISDOM_ASSISTANT o WISDOM_KNOWLEDGE_BASE o WISDOM_QUICK_RESPONSES o Q_MESSAGE_TEMPLATES o CASES_DOMAIN o APPLICATION o FILE_SCANNER o SES_IDENTITY o ANALYTICS_CONNECTOR o CALL_TRANSFER_CONNECTOR o COGNITO_USER_POOL o MESSAGE_PROCESSOR</param>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the integration. NOTE: When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.</param>
+    public AwsConnectCreateIntegrationAssociationOptions(
+        string InstanceId,
+        AwsConnectCreateIntegrationAssociationIntegrationType IntegrationType,
+        string IntegrationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationType);
+        this.IntegrationType = IntegrationType;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationArn);
+        this.IntegrationArn = IntegrationArn;
+    }
+
+    private AwsConnectCreateIntegrationAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateIntegrationAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateIntegrationAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The type of information to be ingested. Possible values: o EVENT o VOICE_ID o PINPOINT_APP o WISDOM_ASSISTANT o WISDOM_KNOWLEDGE_BASE o WISDOM_QUICK_RESPONSES o Q_MESSAGE_TEMPLATES o CASES_DOMAIN o APPLICATION o FILE_SCANNER o SES_IDENTITY o ANALYTICS_CONNECTOR o CALL_TRANSFER_CONNECTOR o COGNITO_USER_POOL o MESSAGE_PROCESSOR
+    /// </summary>
     [CliOption("--integration-type")]
-    public string? IntegrationType { get; set; }
+    public AwsConnectCreateIntegrationAssociationIntegrationType? IntegrationType { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the integration. NOTE: When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.
+    /// </summary>
     [CliOption("--integration-arn")]
-    public string? IntegrationArn { get; set; }
+    public string? IntegrationArn { get; private init; }
 
     /// <summary>
     /// The URL for the external application. This field is only required for the EVENT integration type. Constraints: o min: 1 o max: 2000
@@ -61,5 +112,21 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

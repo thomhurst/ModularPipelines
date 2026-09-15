@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "set-type-configuration")]
-public record AwsCloudformationSetTypeConfigurationOptions : AwsOptions
+public record AwsCloudformationSetTypeConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to re- strict sensitive configuration definitions, such as third-party cre-...
+    /// </summary>
+    /// <param name="Configuration">The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response ele- ment of DescribeType . Constraints: o min: 1 o max: 204800 o pattern: [\s\S]+</param>
+    public AwsCloudformationSetTypeConfigurationOptions(
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsCloudformationSetTypeConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationSetTypeConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationSetTypeConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response ele- ment of DescribeType . Constraints: o min: 1 o max: 204800 o pattern: [\s\S]+
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) for the extension in this account and Region. For public extensions, this will be the ARN assigned when you call the ActivateType API operation in this account and Region. For pri- vate extensions, this will be the ARN assigned when you call the RegisterType API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a spe- cific extension version. Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
     /// </summary>
     [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
-
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
 
     /// <summary>
     /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when set- ting a configuration for a resource type extension. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9]{1,256}$
@@ -54,5 +91,21 @@ public record AwsCloudformationSetTypeConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

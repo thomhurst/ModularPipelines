@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "create-job-template")]
-public record AwsEmrContainersCreateJobTemplateOptions : AwsOptions
+public record AwsEmrContainersCreateJobTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The specified name of the job template. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="JobTemplateData">The job template data which holds values of StartJobRun API request. executionRoleArn -&gt; (string) [required] The execution role ARN of the job run. Constraints: o min: 4 o max: 2048 o pattern: (^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$)|([\.\-_\#A-Za-z0-9\$\{\}]+) releaseLabel -&gt; (string) [required] The release version of Amazon EMR. Constraints: o min: 1 o max: 64 o pattern: ([\.\-_/A-Za-z0-9]+|\$\{[a-zA-Z]\w*\}) configurationOverrides -&gt; (structure) The configuration settings that are used to override defaults configuration. applicationConfiguration -&gt; (list) The configurations for the application running by the job run. Constraints: o max: 100 (structure) A configuration specification to be used when provision- ing virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, prop- erties, and optional nested configurations. A classifica- tion refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: o max: 100 (structure) A configuration specification to be used when pro- visioning virtual clusters, which can include con- figurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Prop- erties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configu- ration classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* monitoringConfiguration -&gt; (structure) The configurations for monitoring. persistentAppUI -&gt; (string) Monitoring configurations for the persistent application UI. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9\$\{\}]+ cloudWatchMonitoringConfiguration -&gt; (structure) Monitoring configurations for CloudWatch. logGroupName -&gt; (string) The name of the log group for log publishing. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9\$\{\}]+ logStreamNamePrefix -&gt; (string) The specified name prefix for log streams. Constraints: o min: 1 o max: 256 o pattern: .*\S.* s3MonitoringConfiguration -&gt; (structure) Amazon S3 configuration for monitoring log publishing. logUri -&gt; (string) Amazon S3 destination URI for log publishing. Constraints: o min: 1 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* jobDriver -&gt; (structure) [required] Specify the driver that the job runs on. Exactly one of the two available job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver. sparkSubmitJobDriver -&gt; (structure) The job driver parameters specified for spark submit. entryPoint -&gt; (string) [required] The entry point of job application. Constraints: o min: 1 o max: 256 o pattern: .*\S.* entryPointArguments -&gt; (list) The arguments for job application. (string) Constraints: o min: 1 o max: 10280 o pattern: .*\S.* sparkSubmitParameters -&gt; (string) The Spark submit parameters that are used for job runs. Constraints: o min: 1 o max: 102400 o pattern: .*\S.* sparkSqlJobDriver -&gt; (structure) The job driver for job type. entryPoint -&gt; (string) The SQL file to be executed. Constraints: o min: 1 o max: 256 o pattern: .*\S.* sparkSqlParameters -&gt; (string) The Spark parameters to be included in the Spark SQL com- mand. Constraints: o min: 1 o max: 102400 o pattern: .*\S.* parameterConfiguration -&gt; (map) The configuration of parameters existing in the job template. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_\#A-Za-z0-9]+ value -&gt; (structure) The configuration of a job template parameter. type -&gt; (string) The type of the job template parameter. Allowed values are: STRING, NUMBER. Possible values: o NUMBER o STRING defaultValue -&gt; (string) The default value for the job template parameter. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* jobTags -&gt; (map) The tags assigned to jobs started using the job template. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* JSON Syntax: { "executionRoleArn": "string", "releaseLabel": "string", "configurationOverrides": { "applicationConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ], "monitoringConfiguration": { "persistentAppUI": "string", "cloudWatchMonitoringConfiguration": { "logGroupName": "string", "logStreamNamePrefix": "string" }, "s3MonitoringConfiguration": { "logUri": "string" } } }, "jobDriver": { "sparkSubmitJobDriver": { "entryPoint": "string", "entryPointArguments": ["string", ...], "sparkSubmitParameters": "string" }, "sparkSqlJobDriver": { "entryPoint": "string", "sparkSqlParameters": "string" } }, "parameterConfiguration": {"string": { "type": "NUMBER"|"STRING", "defaultValue": "string" } ...}, "jobTags": {"string": "string" ...} }</param>
+    public AwsEmrContainersCreateJobTemplateOptions(
+        string Name,
+        string JobTemplateData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(JobTemplateData);
+        this.JobTemplateData = JobTemplateData;
+    }
+
+    private AwsEmrContainersCreateJobTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersCreateJobTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersCreateJobTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The specified name of the job template. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The job template data which holds values of StartJobRun API request. executionRoleArn -&gt; (string) [required] The execution role ARN of the job run. Constraints: o min: 4 o max: 2048 o pattern: (^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$)|([\.\-_\#A-Za-z0-9\$\{\}]+) releaseLabel -&gt; (string) [required] The release version of Amazon EMR. Constraints: o min: 1 o max: 64 o pattern: ([\.\-_/A-Za-z0-9]+|\$\{[a-zA-Z]\w*\}) configurationOverrides -&gt; (structure) The configuration settings that are used to override defaults configuration. applicationConfiguration -&gt; (list) The configurations for the application running by the job run. Constraints: o max: 100 (structure) A configuration specification to be used when provision- ing virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, prop- erties, and optional nested configurations. A classifica- tion refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: o max: 100 (structure) A configuration specification to be used when pro- visioning virtual clusters, which can include con- figurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Prop- erties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configu- ration classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* monitoringConfiguration -&gt; (structure) The configurations for monitoring. persistentAppUI -&gt; (string) Monitoring configurations for the persistent application UI. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9\$\{\}]+ cloudWatchMonitoringConfiguration -&gt; (structure) Monitoring configurations for CloudWatch. logGroupName -&gt; (string) The name of the log group for log publishing. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9\$\{\}]+ logStreamNamePrefix -&gt; (string) The specified name prefix for log streams. Constraints: o min: 1 o max: 256 o pattern: .*\S.* s3MonitoringConfiguration -&gt; (structure) Amazon S3 configuration for monitoring log publishing. logUri -&gt; (string) Amazon S3 destination URI for log publishing. Constraints: o min: 1 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* jobDriver -&gt; (structure) [required] Specify the driver that the job runs on. Exactly one of the two available job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver. sparkSubmitJobDriver -&gt; (structure) The job driver parameters specified for spark submit. entryPoint -&gt; (string) [required] The entry point of job application. Constraints: o min: 1 o max: 256 o pattern: .*\S.* entryPointArguments -&gt; (list) The arguments for job application. (string) Constraints: o min: 1 o max: 10280 o pattern: .*\S.* sparkSubmitParameters -&gt; (string) The Spark submit parameters that are used for job runs. Constraints: o min: 1 o max: 102400 o pattern: .*\S.* sparkSqlJobDriver -&gt; (structure) The job driver for job type. entryPoint -&gt; (string) The SQL file to be executed. Constraints: o min: 1 o max: 256 o pattern: .*\S.* sparkSqlParameters -&gt; (string) The Spark parameters to be included in the Spark SQL com- mand. Constraints: o min: 1 o max: 102400 o pattern: .*\S.* parameterConfiguration -&gt; (map) The configuration of parameters existing in the job template. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 512 o pattern: [\.\-_\#A-Za-z0-9]+ value -&gt; (structure) The configuration of a job template parameter. type -&gt; (string) The type of the job template parameter. Allowed values are: STRING, NUMBER. Possible values: o NUMBER o STRING defaultValue -&gt; (string) The default value for the job template parameter. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* jobTags -&gt; (map) The tags assigned to jobs started using the job template. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* JSON Syntax: { "executionRoleArn": "string", "releaseLabel": "string", "configurationOverrides": { "applicationConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ], "monitoringConfiguration": { "persistentAppUI": "string", "cloudWatchMonitoringConfiguration": { "logGroupName": "string", "logStreamNamePrefix": "string" }, "s3MonitoringConfiguration": { "logUri": "string" } } }, "jobDriver": { "sparkSubmitJobDriver": { "entryPoint": "string", "entryPointArguments": ["string", ...], "sparkSubmitParameters": "string" }, "sparkSqlJobDriver": { "entryPoint": "string", "sparkSqlParameters": "string" } }, "parameterConfiguration": {"string": { "type": "NUMBER"|"STRING", "defaultValue": "string" } ...}, "jobTags": {"string": "string" ...} }
+    /// </summary>
+    [CliOption("--job-template-data")]
+    public string? JobTemplateData { get; private init; }
 
     /// <summary>
     /// The client token of the job template. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
@@ -32,9 +79,6 @@ public record AwsEmrContainersCreateJobTemplateOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--job-template-data")]
-    public string? JobTemplateData { get; set; }
 
     /// <summary>
     /// The tags that are associated with the job template. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +97,21 @@ public record AwsEmrContainersCreateJobTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

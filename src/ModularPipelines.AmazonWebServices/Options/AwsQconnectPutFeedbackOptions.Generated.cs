@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qconnect", "put-feedback")]
-public record AwsQconnectPutFeedbackOptions : AwsOptions
+public record AwsQconnectPutFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="TargetId">The identifier of the feedback target. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TargetType">The type of the feedback target. Possible values: o RECOMMENDATION o RESULT o MESSAGE</param>
+    /// <param name="ContentFeedback">Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: o HELPFUL o NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }</param>
+    public AwsQconnectPutFeedbackOptions(
+        string AssistantId,
+        string TargetId,
+        AwsQconnectPutFeedbackTargetType TargetType,
+        string ContentFeedback
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssistantId);
+        this.AssistantId = AssistantId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetId);
+        this.TargetId = TargetId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+        global::System.ArgumentNullException.ThrowIfNull(ContentFeedback);
+        this.ContentFeedback = ContentFeedback;
+    }
+
+    private AwsQconnectPutFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQconnectPutFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQconnectPutFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// </summary>
     [CliOption("--assistant-id")]
-    public string? AssistantId { get; set; }
+    public string? AssistantId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the feedback target. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--target-id")]
-    public string? TargetId { get; set; }
+    public string? TargetId { get; private init; }
 
+    /// <summary>
+    /// The type of the feedback target. Possible values: o RECOMMENDATION o RESULT o MESSAGE
+    /// </summary>
     [CliOption("--target-type")]
-    public string? TargetType { get; set; }
+    public AwsQconnectPutFeedbackTargetType? TargetType { get; private init; }
 
+    /// <summary>
+    /// Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: o HELPFUL o NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }
+    /// </summary>
     [CliOption("--content-feedback")]
-    public string? ContentFeedback { get; set; }
+    public string? ContentFeedback { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

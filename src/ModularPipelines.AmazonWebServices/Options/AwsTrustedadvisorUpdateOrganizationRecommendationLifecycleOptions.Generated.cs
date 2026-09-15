@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "update-organization-recommendation-lifecycle")]
-public record AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions : AwsOptions
+public record AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global prior- ity recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LifecycleStage">The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved</param>
+    /// <param name="OrganizationRecommendationIdentifier">The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+</param>
+    public AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions(
+        AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleLifecycleStage LifecycleStage,
+        string OrganizationRecommendationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecycleStage);
+        this.LifecycleStage = LifecycleStage;
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationRecommendationIdentifier);
+        this.OrganizationRecommendationIdentifier = OrganizationRecommendationIdentifier;
+    }
+
+    private AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new lifecycle stage Possible values: o pending_response o in_progress o dismissed o resolved
+    /// </summary>
     [CliOption("--lifecycle-stage")]
-    public string? LifecycleStage { get; set; }
+    public AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleLifecycleStage? LifecycleStage { get; private init; }
+
+    /// <summary>
+    /// The Recommendation identifier for AWS Trusted Advisor Priority rec- ommendations Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+
+    /// </summary>
+    [CliOption("--organization-recommendation-identifier")]
+    public string? OrganizationRecommendationIdentifier { get; private init; }
 
     /// <summary>
     /// Reason for the lifecycle stage change Constraints: o min: 10 o max: 4096 o pattern: [\s\S]*
@@ -37,13 +84,26 @@ public record AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions 
     [CliOption("--update-reason-code")]
     public AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleUpdateReasonCode? UpdateReasonCode { get; set; }
 
-    [CliOption("--organization-recommendation-identifier")]
-    public string? OrganizationRecommendationIdentifier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

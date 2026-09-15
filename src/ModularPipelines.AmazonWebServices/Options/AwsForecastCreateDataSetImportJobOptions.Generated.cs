@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-dataset-import-job")]
-public record AwsForecastCreateDataSetImportJobOptions : AwsOptions
+public record AwsForecastCreateDataSetImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a DataSource object that includes an Identity and Ac- cess Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system...
+    /// </summary>
+    /// <param name="DataSetImportJobName">The name for the dataset import job. We recommend including the cur- rent timestamp in the name, for example, 20190721DatasetImport . This can help you avoid getting a ResourceAlreadyExistsException ex- ception. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSource">The location of the training data to import and an Identity and Ac- cess Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an Key Management Service (KMS) key and the IAM role must allow Amazon Forecast per- mission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset op- eration. S3Config -&gt; (structure) [required] The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }</param>
+    public AwsForecastCreateDataSetImportJobOptions(
+        string DataSetImportJobName,
+        string DataSetArn,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetImportJobName);
+        this.DataSetImportJobName = DataSetImportJobName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsForecastCreateDataSetImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreateDataSetImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreateDataSetImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the dataset import job. We recommend including the cur- rent timestamp in the name, for example, 20190721DatasetImport . This can help you avoid getting a ResourceAlreadyExistsException ex- ception. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
     [CliOption("--dataset-import-job-name")]
-    public string? DataSetImportJobName { get; set; }
+    public string? DataSetImportJobName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    public string? DataSetArn { get; private init; }
 
+    /// <summary>
+    /// The location of the training data to import and an Identity and Ac- cess Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an Key Management Service (KMS) key and the IAM role must allow Amazon Forecast per- mission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset op- eration. S3Config -&gt; (structure) [required] The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public string? DataSource { get; private init; }
 
     /// <summary>
     /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported o "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D o "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss". Constraints: o max: 256 o pattern: ^[a-zA-Z0-9\-\:\.\,\'\s]+$
@@ -43,7 +94,10 @@ public record AwsForecastCreateDataSetImportJobOptions : AwsOptions
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CliFlag("--use-geolocation-for-time-zone")]
+    /// <summary>
+    /// Automatically derive time zone information from the geolocation at- tribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
+    /// </summary>
+    [CliFlag("--use-geolocation-for-time-zone", NegatedName = "--no-use-geolocation-for-time-zone")]
     public bool? UseGeolocationForTimeZone { get; set; }
 
     /// <summary>
@@ -75,5 +129,21 @@ public record AwsForecastCreateDataSetImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

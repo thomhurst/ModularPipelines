@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-endpoint")]
-public record AwsSagemakerUpdateEndpointOptions : AwsOptions
+public record AwsSagemakerUpdateEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous EndpointConfig (there is no availability loss). For more information about how to control the update and traffic shifting process, see Update models in production . When SageMaker receives the request, it sets the endpoint status to Up- dating . After updating the endpo...
+    /// </summary>
+    /// <param name="EndpointName">The name of the endpoint whose configuration you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="EndpointConfigName">The name of the new endpoint configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateEndpointOptions(
+        string EndpointName,
+        string EndpointConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointConfigName);
+        this.EndpointConfigName = EndpointConfigName;
+    }
+
+    private AwsSagemakerUpdateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the endpoint whose configuration you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
 
+    /// <summary>
+    /// The name of the new endpoint configuration. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--endpoint-config-name")]
-    public string? EndpointConfigName { get; set; }
+    public string? EndpointConfigName { get; private init; }
 
-    [CliFlag("--retain-all-variant-properties")]
+    /// <summary>
+    /// When updating endpoint resources, enables or disables the retention of variant properties , such as the instance count or the variant weight. To retain the variant properties of an endpoint when updat- ing it, set RetainAllVariantProperties to true . To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false . The default is false .
+    /// </summary>
+    [CliFlag("--retain-all-variant-properties", NegatedName = "--no-retain-all-variant-properties")]
     public bool? RetainAllVariantProperties { get; set; }
 
     /// <summary>
@@ -42,7 +89,10 @@ public record AwsSagemakerUpdateEndpointOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--retain-deployment-config")]
+    /// <summary>
+    /// Specifies whether to reuse the last deployment configuration. The default value is false (the configuration is not reused).
+    /// </summary>
+    [CliFlag("--retain-deployment-config", NegatedName = "--no-retain-deployment-config")]
     public bool? RetainDeploymentConfig { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -50,5 +100,21 @@ public record AwsSagemakerUpdateEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

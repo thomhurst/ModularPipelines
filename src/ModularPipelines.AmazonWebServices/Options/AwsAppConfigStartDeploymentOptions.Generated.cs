@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "start-deployment")]
-public record AwsAppConfigStartDeploymentOptions : AwsOptions
+public record AwsAppConfigStartDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a deployment. NOTE: AppConfig Agent supports deploying feature flag or free-form config- uration data to specific segments or individual users during a grad- ual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regard- less of which compute resource serves their requests. For more in- formation, see Using AppConfig Agent for user-based or entity-based ...
+    /// </summary>
+    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="EnvironmentId">The environment ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="DeploymentStrategyId">The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ConfigurationVersion">The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: o min: 1 o max: 1024</param>
+    public AwsAppConfigStartDeploymentOptions(
+        string ApplicationId,
+        string EnvironmentId,
+        string DeploymentStrategyId,
+        string ConfigurationProfileId,
+        string ConfigurationVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentStrategyId);
+        this.DeploymentStrategyId = DeploymentStrategyId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationProfileId);
+        this.ConfigurationProfileId = ConfigurationProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationVersion);
+        this.ConfigurationVersion = ConfigurationVersion;
+    }
+
+    private AwsAppConfigStartDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigStartDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigStartDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The environment ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The deployment strategy ID. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// </summary>
     [CliOption("--deployment-strategy-id")]
-    public string? DeploymentStrategyId { get; set; }
+    public string? DeploymentStrategyId { get; private init; }
 
+    /// <summary>
+    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--configuration-profile-id")]
-    public string? ConfigurationProfileId { get; set; }
+    public string? ConfigurationProfileId { get; private init; }
 
+    /// <summary>
+    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--configuration-version")]
-    public string? ConfigurationVersion { get; set; }
+    public string? ConfigurationVersion { get; private init; }
 
     /// <summary>
     /// A description of the deployment. Constraints: o min: 0 o max: 1024
@@ -72,5 +137,21 @@ public record AwsAppConfigStartDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

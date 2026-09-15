@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "reserve-contact")]
-public record AwsGroundstationReserveContactOptions : AwsOptions
+public record AwsGroundstationReserveContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reserves a contact using specified parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MissionProfileArn">ARN of a mission profile. Constraints: o min: 89 o max: 138 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mis- sion-pro- file/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="StartTime">Start time of a contact in UTC.</param>
+    /// <param name="EndTime">End time of a contact in UTC.</param>
+    /// <param name="GroundStation">Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}</param>
+    public AwsGroundstationReserveContactOptions(
+        string MissionProfileArn,
+        string StartTime,
+        string EndTime,
+        string GroundStation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MissionProfileArn);
+        this.MissionProfileArn = MissionProfileArn;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(GroundStation);
+        this.GroundStation = GroundStation;
+    }
+
+    private AwsGroundstationReserveContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationReserveContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationReserveContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN of a mission profile. Constraints: o min: 89 o max: 138 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mis- sion-pro- file/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--mission-profile-arn")]
-    public string? MissionProfileArn { get; set; }
+    public string? MissionProfileArn { get; private init; }
+
+    /// <summary>
+    /// Start time of a contact in UTC.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// End time of a contact in UTC.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}
+    /// </summary>
+    [CliOption("--ground-station")]
+    public string? GroundStation { get; private init; }
 
     /// <summary>
     /// ARN of a satellite Constraints: o min: 82 o max: 132 o pattern: arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satel- lite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--satellite-arn")]
     public string? SatelliteArn { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
-
-    [CliOption("--ground-station")]
-    public string? GroundStation { get; set; }
 
     /// <summary>
     /// Tags assigned to a contact. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -57,5 +115,21 @@ public record AwsGroundstationReserveContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

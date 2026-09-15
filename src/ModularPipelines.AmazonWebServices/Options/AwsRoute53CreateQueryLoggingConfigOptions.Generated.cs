@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "create-query-logging-config")]
-public record AwsRoute53CreateQueryLoggingConfigOptions : AwsOptions
+public record AwsRoute53CreateQueryLoggingConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 re- ceives for a specified public hosted zone, such as the following: o Route 53 edge location that responded to the DNS query o Domain or subdomain that was requested o DNS record type, such as A or AAAA o DNS response code, such as NoError or ServFail L...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: o max: 32</param>
+    /// <param name="CloudWatchLogsLogGroupArn">The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region :account-id :log-group:log_group_name To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the Amazon Web Services SDKs.</param>
+    public AwsRoute53CreateQueryLoggingConfigOptions(
+        string HostedZoneId,
+        string CloudWatchLogsLogGroupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(CloudWatchLogsLogGroupArn);
+        this.CloudWatchLogsLogGroupArn = CloudWatchLogsLogGroupArn;
+    }
+
+    private AwsRoute53CreateQueryLoggingConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53CreateQueryLoggingConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53CreateQueryLoggingConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones. Constraints: o max: 32
+    /// </summary>
+    [CliOption("--hosted-zone-id")]
+    public string? HostedZoneId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region :account-id :log-group:log_group_name To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the Amazon Web Services SDKs.
+    /// </summary>
     [CliOption("--cloud-watch-logs-log-group-arn")]
-    public string? CloudWatchLogsLogGroupArn { get; set; }
+    public string? CloudWatchLogsLogGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

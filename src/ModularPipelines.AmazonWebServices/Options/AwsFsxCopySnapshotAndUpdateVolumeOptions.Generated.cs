@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "copy-snapshot-and-update-volume")]
-public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions
+public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeId">Specifies the ID of the volume that you are copying the snapshot to. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    /// <param name="SourceSnapshotArn">The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$</param>
+    public AwsFsxCopySnapshotAndUpdateVolumeOptions(
+        string VolumeId,
+        string SourceSnapshotArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceSnapshotArn);
+        this.SourceSnapshotArn = SourceSnapshotArn;
+    }
+
+    private AwsFsxCopySnapshotAndUpdateVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCopySnapshotAndUpdateVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCopySnapshotAndUpdateVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the volume that you are copying the snapshot to. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// </summary>
+    [CliOption("--volume-id")]
+    public string? VolumeId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$
+    /// </summary>
+    [CliOption("--source-snapshot-arn")]
+    public string? SourceSnapshotArn { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
-
-    [CliOption("--source-snapshot-arn")]
-    public string? SourceSnapshotArn { get; set; }
 
     /// <summary>
     /// Specifies the strategy to use when copying data from a snapshot to the volume. o FULL_COPY - Copies all data from the snapshot to the volume. o INCREMENTAL_COPY - Copies only the snapshot data that's changed since the previous replication. NOTE: CLONE isn't a valid copy strategy option for the CopySnap- shotAndUpdateVolume operation. Possible values: o CLONE o FULL_COPY o INCREMENTAL_COPY
@@ -53,5 +97,21 @@ public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "update-application")]
-public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions
+public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--ops-center-enabled")]
+    /// <summary>
+    /// Updates the application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    public AwsApplicationInsightsUpdateApplicationOptions(
+        string ResourceGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+    }
+
+    private AwsApplicationInsightsUpdateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsUpdateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsUpdateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
+    [CliOption("--resource-group-name")]
+    public string? ResourceGroupName { get; private init; }
+
+    /// <summary>
+    /// When set to true , creates opsItems for any problems detected on an application.
+    /// </summary>
+    [CliFlag("--ops-center-enabled", NegatedName = "--no-ops-center-enabled")]
     public bool? OpsCenterEnabled { get; set; }
 
-    [CliFlag("--cwe-monitor-enabled")]
+    /// <summary>
+    /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated , failed deployment , and others.
+    /// </summary>
+    [CliFlag("--cwe-monitor-enabled", NegatedName = "--no-cwe-monitor-enabled")]
     public bool? CweMonitorEnabled { get; set; }
 
     /// <summary>
@@ -42,13 +85,22 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions
     [CliOption("--sns-notification-arn")]
     public string? SnsNotificationArn { get; set; }
 
-    [CliFlag("--remove-sns-topic")]
+    /// <summary>
+    /// Disassociates the SNS topic from the opsItem created for detected problems.
+    /// </summary>
+    [CliFlag("--remove-sns-topic", NegatedName = "--no-remove-sns-topic")]
     public bool? RemoveSnsTopic { get; set; }
 
-    [CliFlag("--auto-config-enabled")]
+    /// <summary>
+    /// Turns auto-configuration on or off.
+    /// </summary>
+    [CliFlag("--auto-config-enabled", NegatedName = "--no-auto-config-enabled")]
     public bool? AutoConfigEnabled { get; set; }
 
-    [CliFlag("--attach-missing-permission")]
+    /// <summary>
+    /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+    /// </summary>
+    [CliFlag("--attach-missing-permission", NegatedName = "--no-attach-missing-permission")]
     public bool? AttachMissingPermission { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +108,21 @@ public record AwsApplicationInsightsUpdateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

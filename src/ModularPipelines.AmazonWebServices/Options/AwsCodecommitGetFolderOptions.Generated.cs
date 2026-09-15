@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-folder")]
-public record AwsCodecommitGetFolderOptions : AwsOptions
+public record AwsCodecommitGetFolderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the contents of a specified folder in a repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="FolderPath">The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-quali- fied path to a folder named examples that was created off of the root directory (/) of a repository.</param>
+    public AwsCodecommitGetFolderOptions(
+        string RepositoryName,
+        string FolderPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(FolderPath);
+        this.FolderPath = FolderPath;
+    }
+
+    private AwsCodecommitGetFolderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetFolderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetFolderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-quali- fied path to a folder named examples that was created off of the root directory (/) of a repository.
+    /// </summary>
+    [CliOption("--folder-path")]
+    public string? FolderPath { get; private init; }
 
     /// <summary>
     /// A fully qualified reference used to identify a commit that contains the version of the folder's content to return. A fully qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content is returned as it exists in the HEAD commit.
@@ -30,13 +77,26 @@ public record AwsCodecommitGetFolderOptions : AwsOptions
     [CliOption("--commit-specifier")]
     public string? CommitSpecifier { get; set; }
 
-    [CliOption("--folder-path")]
-    public string? FolderPath { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

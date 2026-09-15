@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "get-reserved-node-exchange-configuration-options")]
-public record AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions : AwsOptions
+public record AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type. See also: AWS API Documentation get-reserved-node-exchange-configuration-options is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
+    /// </summary>
+    /// <param name="ActionType">The action type of the reserved-node configuration. The action type can be an exchange initiated from either a snapshot or a resize. Possible values: o restore-cluster o resize-cluster</param>
+    public AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions(
+        AwsRedshiftGetReservedNodeExchangeConfigurationOptionsActionType ActionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+    }
+
+    private AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The action type of the reserved-node configuration. The action type can be an exchange initiated from either a snapshot or a resize. Possible values: o restore-cluster o resize-cluster
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsRedshiftGetReservedNodeExchangeConfigurationOptionsActionType? ActionType { get; private init; }
 
     /// <summary>
     /// The identifier for the cluster that is the source for a re- served-node exchange. Constraints: o max: 2147483647
@@ -61,5 +99,21 @@ public record AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions : Aw
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

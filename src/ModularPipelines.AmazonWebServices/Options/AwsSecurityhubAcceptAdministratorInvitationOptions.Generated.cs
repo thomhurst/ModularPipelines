@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "accept-administrator-invitation")]
-public record AwsSecurityhubAcceptAdministratorInvitationOptions : AwsOptions
+public record AwsSecurityhubAcceptAdministratorInvitationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--administrator-id")]
-    public string? AdministratorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: We recommend using Organizations instead of Security Hub CSPM invi- tations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide . Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the memb...
+    /// </summary>
+    /// <param name="AdministratorId">The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: o pattern: .*\S.*</param>
+    /// <param name="InvitationId">The identifier of the invitation sent from the Security Hub CSPM ad- ministrator account. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubAcceptAdministratorInvitationOptions(
+        string AdministratorId,
+        string InvitationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdministratorId);
+        this.AdministratorId = AdministratorId;
+        global::System.ArgumentNullException.ThrowIfNull(InvitationId);
+        this.InvitationId = InvitationId;
+    }
+
+    private AwsSecurityhubAcceptAdministratorInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubAcceptAdministratorInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubAcceptAdministratorInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The account ID of the Security Hub CSPM administrator account that sent the invitation. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--administrator-id")]
+    public string? AdministratorId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the invitation sent from the Security Hub CSPM ad- ministrator account. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--invitation-id")]
-    public string? InvitationId { get; set; }
+    public string? InvitationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

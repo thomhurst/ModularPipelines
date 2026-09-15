@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "delete-keyword")]
-public record AwsPinpointSmsVoiceV2DeleteKeywordOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2DeleteKeywordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--origination-identity")]
-    public string? OriginationIdentity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. Keywords "HELP" and "STOP" can't be deleted or modified. See a...
+    /// </summary>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="Keyword">The keyword to delete. Constraints: o min: 1 o max: 30 o pattern: [ \S]+</param>
+    public AwsPinpointSmsVoiceV2DeleteKeywordOptions(
+        string OriginationIdentity,
+        string Keyword
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginationIdentity);
+        this.OriginationIdentity = OriginationIdentity;
+        global::System.ArgumentNullException.ThrowIfNull(Keyword);
+        this.Keyword = Keyword;
+    }
+
+    private AwsPinpointSmsVoiceV2DeleteKeywordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteKeywordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2DeleteKeywordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--origination-identity")]
+    public string? OriginationIdentity { get; private init; }
+
+    /// <summary>
+    /// The keyword to delete. Constraints: o min: 1 o max: 30 o pattern: [ \S]+
+    /// </summary>
     [CliOption("--keyword")]
-    public string? Keyword { get; set; }
+    public string? Keyword { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

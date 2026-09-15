@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "send-data-to-multicast-group")]
-public record AwsIotwirelessSendDataToMulticastGroupOptions : AwsOptions
+public record AwsIotwirelessSendDataToMulticastGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends the specified data to a multicast group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the multicast group. Constraints: o max: 256</param>
+    /// <param name="PayloadData">The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$</param>
+    /// <param name="WirelessMetadata">Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }</param>
+    public AwsIotwirelessSendDataToMulticastGroupOptions(
+        string Id,
+        string PayloadData,
+        string WirelessMetadata
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(PayloadData);
+        this.PayloadData = PayloadData;
+        global::System.ArgumentNullException.ThrowIfNull(WirelessMetadata);
+        this.WirelessMetadata = WirelessMetadata;
+    }
+
+    private AwsIotwirelessSendDataToMulticastGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessSendDataToMulticastGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessSendDataToMulticastGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the multicast group. Constraints: o max: 256
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The binary to be sent to the end device, encoded in base64. Constraints: o max: 2048 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// </summary>
     [CliOption("--payload-data")]
-    public string? PayloadData { get; set; }
+    public string? PayloadData { get; private init; }
 
+    /// <summary>
+    /// Wireless metadata that is to be sent to multicast group. LoRaWAN -&gt; (structure) The metadata information of the LoRaWAN multicast group. FPort -&gt; (integer) The Fport value. Constraints: o min: 1 o max: 223 Shorthand Syntax: LoRaWAN={FPort=integer} JSON Syntax: { "LoRaWAN": { "FPort": integer } }
+    /// </summary>
     [CliOption("--wireless-metadata")]
-    public string? WirelessMetadata { get; set; }
+    public string? WirelessMetadata { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

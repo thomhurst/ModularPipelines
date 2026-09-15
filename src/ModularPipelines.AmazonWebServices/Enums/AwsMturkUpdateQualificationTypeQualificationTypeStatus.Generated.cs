@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --qualificationtypestatus.
+/// Allowed values for --qualification-type-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsMturkUpdateQualificationTypeQualificationTypeStatus
 {
     [EnumValue("Active")]
-    Active = 1,
+    Active,
 
     [EnumValue("Inactive")]
-    Inactive = 2
+    Inactive
 }

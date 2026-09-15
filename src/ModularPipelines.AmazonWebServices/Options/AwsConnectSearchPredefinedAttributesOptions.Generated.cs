@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-predefined-attributes")]
-public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions
+public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined at- tributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business unit handling th...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectSearchPredefinedAttributesOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectSearchPredefinedAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchPredefinedAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchPredefinedAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The search criteria to be used to return predefined attributes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. (structure) The search criteria to be used to return predefined attrib- utes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. (structure) The search criteria to be used to return predefined attrib- utes. OrConditions -&gt; (list) A list of conditions which would be applied together with an OR condition. ( ... recursive ... ) AndConditions -&gt; (list) A list of conditions which would be applied together with an AND condition. ( ... recursive ... ) StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string condition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT StringCondition -&gt; (structure) A leaf node condition which can be used to specify a string con- dition. FieldName -&gt; (string) The name of the field in the string condition. Value -&gt; (string) The value of the string. ComparisonType -&gt; (string) The type of comparison to be made when evaluating the string condition. Possible values: o STARTS_WITH o CONTAINS o EXACT JSON Syntax: { "OrConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "AndConditions": [ { "OrConditions": [ { ... recursive ... } ... ], "AndConditions": [ { ... recursive ... } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } } ... ], "StringCondition": { "FieldName": "string", "Value": "string", "ComparisonType": "STARTS_WITH"|"CONTAINS"|"EXACT" } }
@@ -55,5 +92,21 @@ public record AwsConnectSearchPredefinedAttributesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

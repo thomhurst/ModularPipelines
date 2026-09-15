@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "update-detector-version-status")]
-public record AwsFrauddetectorUpdateDetectorVersionStatusOptions : AwsOptions
+public record AwsFrauddetectorUpdateDetectorVersionStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the detector versions status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus : DRAFT to ACTIVE , ACTIVE to INACTIVE , and INACTIVE to ACTIVE . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="Status">The new status. The only supported values are ACTIVE and INACTIVE Possible values: o DRAFT o ACTIVE o INACTIVE</param>
+    public AwsFrauddetectorUpdateDetectorVersionStatusOptions(
+        string DetectorId,
+        string DetectorVersionId,
+        AwsFrauddetectorUpdateDetectorVersionStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(DetectorVersionId);
+        this.DetectorVersionId = DetectorVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsFrauddetectorUpdateDetectorVersionStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorUpdateDetectorVersionStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorUpdateDetectorVersionStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    public string? DetectorId { get; private init; }
 
+    /// <summary>
+    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// </summary>
     [CliOption("--detector-version-id")]
-    public string? DetectorVersionId { get; set; }
+    public string? DetectorVersionId { get; private init; }
 
+    /// <summary>
+    /// The new status. The only supported values are ACTIVE and INACTIVE Possible values: o DRAFT o ACTIVE o INACTIVE
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsFrauddetectorUpdateDetectorVersionStatusStatus? Status { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

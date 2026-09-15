@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "delete-workspace-api-key")]
-public record AwsGrafanaDeleteWorkspaceApiKeyOptions : AwsOptions
+public record AwsGrafanaDeleteWorkspaceApiKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--key-name")]
-    public string? KeyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a Grafana API key for the workspace. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyName">The name of the API key to delete. Constraints: o min: 1 o max: 100</param>
+    /// <param name="WorkspaceId">The ID of the workspace to delete. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaDeleteWorkspaceApiKeyOptions(
+        string KeyName,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaDeleteWorkspaceApiKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaDeleteWorkspaceApiKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaDeleteWorkspaceApiKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the API key to delete. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; private init; }
+
+    /// <summary>
+    /// The ID of the workspace to delete. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "create-opt-out-list")]
-public record AwsPinpointSmsVoiceV2CreateOptOutListOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2CreateOptOutListOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any sup- ported opt-out keyword, such as CANCEL or OPTOUT. For a list of sup- ported opt-out keywords, see SMS opt out in the End User Messagi...
+    /// </summary>
+    /// <param name="OptOutListName">The name of the new OptOutList. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+</param>
+    public AwsPinpointSmsVoiceV2CreateOptOutListOptions(
+        string OptOutListName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OptOutListName);
+        this.OptOutListName = OptOutListName;
+    }
+
+    private AwsPinpointSmsVoiceV2CreateOptOutListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateOptOutListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateOptOutListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new OptOutList. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+
+    /// </summary>
     [CliOption("--opt-out-list-name")]
-    public string? OptOutListName { get; set; }
+    public string? OptOutListName { get; private init; }
 
     /// <summary>
     /// An array of tags (key and value pairs) to associate with the new OptOutList. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -43,5 +80,21 @@ public record AwsPinpointSmsVoiceV2CreateOptOutListOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

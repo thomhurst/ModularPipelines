@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "remove-schema-version-metadata")]
-public record AwsGlueRemoveSchemaVersionMetadataOptions : AwsOptions
+public record AwsGlueRemoveSchemaVersionMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a key value pair from the schema version metadata for the spec- ified schema version ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetadataKeyValue">The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }</param>
+    public AwsGlueRemoveSchemaVersionMetadataOptions(
+        string MetadataKeyValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetadataKeyValue);
+        this.MetadataKeyValue = MetadataKeyValue;
+    }
+
+    private AwsGlueRemoveSchemaVersionMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueRemoveSchemaVersionMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueRemoveSchemaVersionMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The value of the metadata key. MetadataKey -&gt; (string) A metadata key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9+-=._./@]+ MetadataValue -&gt; (string) A metadata keys corresponding value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9+-=._./@]+ Shorthand Syntax: MetadataKey=string,MetadataValue=string JSON Syntax: { "MetadataKey": "string", "MetadataValue": "string" }
+    /// </summary>
+    [CliOption("--metadata-key-value")]
+    public string? MetadataKeyValue { get; private init; }
+
     /// <summary>
     /// A wrapper structure that may contain the schema name and Amazon Re- source Name (ARN). SchemaArn -&gt; (string) The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* SchemaName -&gt; (string) The name of the schema. One of SchemaArn or SchemaName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryName -&gt; (string) The name of the schema registry that contains the schema. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ Shorthand Syntax: SchemaArn=string,SchemaName=string,RegistryName=string JSON Syntax: { "SchemaArn": "string", "SchemaName": "string", "RegistryName": "string" }
     /// </summary>
@@ -39,13 +79,26 @@ public record AwsGlueRemoveSchemaVersionMetadataOptions : AwsOptions
     [CliOption("--schema-version-id")]
     public string? SchemaVersionId { get; set; }
 
-    [CliOption("--metadata-key-value")]
-    public string? MetadataKeyValue { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "update-model")]
-public record AwsFrauddetectorUpdateModelOptions : AwsOptions
+public record AwsFrauddetectorUpdateModelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--model-id")]
-    public string? ModelId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates model description. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
+    public AwsFrauddetectorUpdateModelOptions(
+        string ModelId,
+        AwsFrauddetectorUpdateModelModelType ModelType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ModelType);
+        this.ModelType = ModelType;
+    }
+
+    private AwsFrauddetectorUpdateModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorUpdateModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorUpdateModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// </summary>
+    [CliOption("--model-id")]
+    public string? ModelId { get; private init; }
+
+    /// <summary>
+    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// </summary>
     [CliOption("--model-type")]
-    public string? ModelType { get; set; }
+    public AwsFrauddetectorUpdateModelModelType? ModelType { get; private init; }
 
     /// <summary>
     /// The new model description. Constraints: o min: 1 o max: 128
@@ -38,5 +83,21 @@ public record AwsFrauddetectorUpdateModelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

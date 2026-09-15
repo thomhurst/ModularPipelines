@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firehose", "update-destination")]
-public record AwsFirehoseUpdateDestinationOptions : AwsOptions
+public record AwsFirehoseUpdateDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified destination of the specified Firehose stream. Use this operation to change the destination type (for example, to re- place the Amazon S3 destination with Amazon Redshift) or change the pa- rameters associated with a destination (for example, to change the bucket name of the Amazon S3 destination). The update might not occur immediately. The target Firehose stream remains active while the con- figurations are updated, so data writes to the Firehose stream can con- tinue duri...
+    /// </summary>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentDeliveryStreamVersionId">Obtain this value from the VersionId result of DeliveryStreamDe- scription . This value is required, and helps the service perform conditional operations. For example, if there is an interleaving up- date and this value is null, then the update destination fails. Af- ter the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration. Constraints: o min: 1 o max: 50 o pattern: [0-9]+</param>
+    /// <param name="DestinationId">The ID of the destination. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    public AwsFirehoseUpdateDestinationOptions(
+        string DeliveryStreamName,
+        string CurrentDeliveryStreamVersionId,
+        string DestinationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryStreamName);
+        this.DeliveryStreamName = DeliveryStreamName;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentDeliveryStreamVersionId);
+        this.CurrentDeliveryStreamVersionId = CurrentDeliveryStreamVersionId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationId);
+        this.DestinationId = DestinationId;
+    }
+
+    private AwsFirehoseUpdateDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFirehoseUpdateDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFirehoseUpdateDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--delivery-stream-name")]
-    public string? DeliveryStreamName { get; set; }
+    public string? DeliveryStreamName { get; private init; }
 
+    /// <summary>
+    /// Obtain this value from the VersionId result of DeliveryStreamDe- scription . This value is required, and helps the service perform conditional operations. For example, if there is an interleaving up- date and this value is null, then the update destination fails. Af- ter the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration. Constraints: o min: 1 o max: 50 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--current-delivery-stream-version-id")]
-    public string? CurrentDeliveryStreamVersionId { get; set; }
+    public string? CurrentDeliveryStreamVersionId { get; private init; }
 
+    /// <summary>
+    /// The ID of the destination. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--destination-id")]
-    public string? DestinationId { get; set; }
+    public string? DestinationId { get; private init; }
 
     /// <summary>
     /// [Deprecated] Describes an update for a destination in Amazon S3. RoleARN -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services cre- dentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: o min: 1 o max: 512 o pattern: arn:.*:iam::\d{12}:role/[a-zA-Z_0-9+=,.@\-_/]+ BucketARN -&gt; (string) The ARN of the S3 bucket. For more information, see Amazon Re- source Names (ARNs) and Amazon Web Services Service Namespaces . Constraints: o min: 1 o max: 2048 o pattern: arn:.*:s3:::[\w\.\-]{1,255} Prefix -&gt; (string) The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects . Constraints: o min: 0 o max: 1024 o pattern: .* ErrorOutputPrefix -&gt; (string) A prefix that Firehose evaluates and adds to failed records be- fore writing them to S3. This prefix appears immediately follow- ing the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects . Constraints: o min: 0 o max: 1024 o pattern: .* BufferingHints -&gt; (structure) The buffering option. If no value is specified, BufferingHints object default values are used. SizeInMBs -&gt; (integer) Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds , and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher. Constraints: o min: 1 o max: 128 IntervalInSeconds -&gt; (integer) Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs , and vice versa. Constraints: o min: 0 o max: 900 CompressionFormat -&gt; (string) The compression format. If no value is specified, the default is UNCOMPRESSED . The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket. Possible values: o UNCOMPRESSED o GZIP o ZIP o Snappy o HADOOP_SNAPPY EncryptionConfiguration -&gt; (structure) The encryption configuration. If no value is specified, the de- fault is no encryption. NoEncryptionConfig -&gt; (string) Specifically override existing encryption information to en- sure that no encryption is used. Possible values: o NoEncryption KMSEncryptionConfig -&gt; (structure) The encryption key. AWSKMSKeyARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces . Constraints: o min: 1 o max: 512 o pattern: arn:.*:kms:[a-zA-Z0-9\-]+:\d{12}:(key|alias)/[a-zA-Z_0-9+=,.@\-_/]+ CloudWatchLoggingOptions -&gt; (structure) The CloudWatch logging options for your Firehose stream. Enabled -&gt; (boolean) Enables or disables CloudWatch logging. LogGroupName -&gt; (string) The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled. Constraints: o min: 0 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]* LogStreamName -&gt; (string) The CloudWatch log stream name for logging. This value is re- quired if CloudWatch logging is enabled. Constraints: o min: 0 o max: 512 o pattern: [^:*]* Shorthand Syntax: RoleARN=string,BucketARN=string,Prefix=string,ErrorOutputPrefix=string,BufferingHints={SizeInMBs=integer,IntervalInSeconds=integer},CompressionFormat=string,EncryptionConfiguration={NoEncryptionConfig=string,KMSEncryptionConfig={AWSKMSKeyARN=string}},CloudWatchLoggingOptions={Enabled=boolean,LogGroupName=string,LogStreamName=string} JSON Syntax: { "RoleARN": "string", "BucketARN": "string", "Prefix": "string", "ErrorOutputPrefix": "string", "BufferingHints": { "SizeInMBs": integer, "IntervalInSeconds": integer }, "CompressionFormat": "UNCOMPRESSED"|"GZIP"|"ZIP"|"Snappy"|"HADOOP_SNAPPY", "EncryptionConfiguration": { "NoEncryptionConfig": "NoEncryption", "KMSEncryptionConfig": { "AWSKMSKeyARN": "string" } }, "CloudWatchLoggingOptions": { "Enabled": true|false, "LogGroupName": "string", "LogStreamName": "string" } }
@@ -95,5 +146,21 @@ public record AwsFirehoseUpdateDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

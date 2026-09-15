@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "delete-cluster")]
-public record AwsRedshiftDeleteClusterOptions : AwsOptions
+public record AwsRedshiftDeleteClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-final-cluster-snapshot")]
+    /// <summary>
+    /// Deletes a previously provisioned cluster without its final snapshot be- ing created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . If you want to shut down the cluster and retain it for future us...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The identifier of the cluster to be deleted. Constraints: o Must contain lowercase characters. o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647</param>
+    public AwsRedshiftDeleteClusterOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftDeleteClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDeleteClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDeleteClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster to be deleted. Constraints: o Must contain lowercase characters. o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true , a final cluster snap- shot is not created. If false , a final cluster snapshot is created before the cluster is deleted. NOTE: The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-cluster-snapshot", NegatedName = "--no-skip-final-cluster-snapshot")]
     public bool? SkipFinalClusterSnapshot { get; set; }
 
     /// <summary>
@@ -44,5 +84,21 @@ public record AwsRedshiftDeleteClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --endpointtype.
+/// Allowed values for --endpoint-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotManagedIntegrationsCreateCloudConnectorEndpointType
 {
     [EnumValue("LAMBDA")]
-    Lambda = 1
+    Lambda,
+
+    [EnumValue("o")]
+    O
 }

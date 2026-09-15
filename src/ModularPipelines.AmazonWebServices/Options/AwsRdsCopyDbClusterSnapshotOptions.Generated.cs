@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "copy-db-cluster-snapshot")]
-public record AwsRdsCopyDbClusterSnapshotOptions : AwsOptions
+public record AwsRdsCopyDbClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-db-cluster-snapshot-identifier")]
-    public string? SourceDbClusterSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another Amazon Web Services Region. In that case, the Amazon Web Services Region where you call the CopyDBClusterSnapshot operation is the destination Amazon Web Services Region for the encrypted DB cluster snapshot to be copied to. T...
+    /// </summary>
+    /// <param name="SourceDbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. Constraints: o Must specify a valid source snapshot in the "available" state. o If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. o If the source snapshot is in a different Amazon Web Services Re- gion than the copy, specify a valid DB cluster snapshot ARN. You can also specify an ARN of a snapshot that is in a different ac- count and a different Amazon Web Services Region. For more infor- mation, go to Copying Snapshots Across Amazon Web Services Regions in the Amazon Aurora User Guide . Example: my-cluster-snapshot1</param>
+    /// <param name="TargetDbClusterSnapshotIdentifier">The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2</param>
+    public AwsRdsCopyDbClusterSnapshotOptions(
+        string SourceDbClusterSnapshotIdentifier,
+        string TargetDbClusterSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterSnapshotIdentifier);
+        this.SourceDbClusterSnapshotIdentifier = SourceDbClusterSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterSnapshotIdentifier);
+        this.TargetDbClusterSnapshotIdentifier = TargetDbClusterSnapshotIdentifier;
+    }
+
+    private AwsRdsCopyDbClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCopyDbClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCopyDbClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. Constraints: o Must specify a valid source snapshot in the "available" state. o If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. o If the source snapshot is in a different Amazon Web Services Re- gion than the copy, specify a valid DB cluster snapshot ARN. You can also specify an ARN of a snapshot that is in a different ac- count and a different Amazon Web Services Region. For more infor- mation, go to Copying Snapshots Across Amazon Web Services Regions in the Amazon Aurora User Guide . Example: my-cluster-snapshot1
+    /// </summary>
+    [CliOption("--source-db-cluster-snapshot-identifier")]
+    public string? SourceDbClusterSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2
+    /// </summary>
     [CliOption("--target-db-cluster-snapshot-identifier")]
-    public string? TargetDbClusterSnapshotIdentifier { get; set; }
+    public string? TargetDbClusterSnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier for an encrypted DB clus- ter snapshot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the Amazon Web Services KMS key. If you copy an encrypted DB cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS key. If you don't specify a value for KmsKeyId , then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from an- other Amazon Web Services account, then you must specify a value for KmsKeyId . To copy an encrypted DB cluster snapshot to another Amazon Web Ser- vices Region, you must set KmsKeyId to the Amazon Web Services KMS key identifier you want to use to encrypt the copy of the DB cluster snapshot in the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -39,7 +83,10 @@ public record AwsRdsCopyDbClusterSnapshotOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the source DB cluster snap- shot to the target DB cluster snapshot. By default, tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -59,5 +106,21 @@ public record AwsRdsCopyDbClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-stream-pipeline")]
-public record AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a streaming media pipeline. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sources">The data sources for the media pipeline. Constraints: o min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: o ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]</param>
+    /// <param name="Sinks">The data sink for the media pipeline. Constraints: o min: 1 o max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: o KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: o min: 1 o max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: o MixedAudio o IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions(
+        IEnumerable<string> Sources,
+        IEnumerable<string> Sinks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sinks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sinks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sinks));
+            }
+
+            Sinks = materialized;
+        }
+        this.Sinks = Sinks;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data sources for the media pipeline. Constraints: o min: 1 (structure) Structure that contains the settings for media stream sources. SourceType -&gt; (string) [required] The type of media stream source. Possible values: o ChimeSdkMeeting SourceArn -&gt; (string) [required] The ARN of the meeting. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: SourceType=string,SourceArn=string ... JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "SourceArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--sources", GroupValues = true)]
+    public IEnumerable<string>? Sources { get; private init; }
+
+    /// <summary>
+    /// The data sink for the media pipeline. Constraints: o min: 1 o max: 2 (structure) Structure that contains the settings for a media stream sink. SinkArn -&gt; (string) [required] The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ SinkType -&gt; (string) [required] The media stream sink's type. Possible values: o KinesisVideoStreamPool ReservedStreamCapacity -&gt; (integer) [required] Specifies the number of streams that the sink can accept. Constraints: o min: 1 o max: 10 MediaStreamType -&gt; (string) [required] The media stream sink's media stream type. Possible values: o MixedAudio o IndividualAudio Shorthand Syntax: SinkArn=string,SinkType=string,ReservedStreamCapacity=integer,MediaStreamType=string ... JSON Syntax: [ { "SinkArn": "string", "SinkType": "KinesisVideoStreamPool", "ReservedStreamCapacity": integer, "MediaStreamType": "MixedAudio"|"IndividualAudio" } ... ]
+    /// </summary>
     [CliOption("--sinks", GroupValues = true)]
-    public IEnumerable<string>? Sinks { get; set; }
+    public IEnumerable<string>? Sinks { get; private init; }
 
     /// <summary>
     /// The token assigned to the client making the request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
@@ -46,5 +112,21 @@ public record AwsChimeSdkMediaPipelinesCreateMediaStreamPipelineOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

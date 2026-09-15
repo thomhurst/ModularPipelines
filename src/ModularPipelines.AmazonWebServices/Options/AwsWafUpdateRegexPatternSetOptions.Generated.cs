@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "update-regex-pattern-set")]
-public record AwsWafUpdateRegexPatternSetOptions : AwsOptions
+public record AwsWafUpdateRegexPatternSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a RegexPatternSet . For each RegexPatternString object, you specify the following values: o Whether to insert or delete the RegexPatternString . o The r...
+    /// </summary>
+    /// <param name="RegexPatternSetId">The RegexPatternSetId of the RegexPatternSet that you want to up- date. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: o INSERT o DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafUpdateRegexPatternSetOptions(
+        string RegexPatternSetId,
+        IEnumerable<string> Updates,
+        string ChangeToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegexPatternSetId);
+        this.RegexPatternSetId = RegexPatternSetId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+    }
+
+    private AwsWafUpdateRegexPatternSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafUpdateRegexPatternSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafUpdateRegexPatternSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RegexPatternSetId of the RegexPatternSet that you want to up- date. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--regex-pattern-set-id")]
-    public string? RegexPatternSetId { get; set; }
+    public string? RegexPatternSetId { get; private init; }
 
+    /// <summary>
+    /// An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: o INSERT o DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

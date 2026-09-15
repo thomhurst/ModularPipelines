@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,21 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "update-automated-discovery-configuration")]
-public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions
+public record AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Status">The new status of automated sensitive data discovery for the organi- zation or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also dis- able automated sensitive data discovery for all member accounts in the organization. Possible values: o ENABLED o DISABLED</param>
+    public AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions(
+        AwsMacie2UpdateAutomatedDiscoveryConfigurationStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new status of automated sensitive data discovery for the organi- zation or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also dis- able automated sensitive data discovery for all member accounts in the organization. Possible values: o ENABLED o DISABLED
+    /// </summary>
+    [CliOption("--status")]
+    public AwsMacie2UpdateAutomatedDiscoveryConfigurationStatus? Status { get; private init; }
+
     /// <summary>
     /// Specifies whether to automatically enable automated sensitive data discovery for accounts in the organization. Valid values are: ALL (default), enable it for all existing accounts and new member ac- counts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts. If you specify NEW or NONE, automated sensitive data discovery con- tinues to be enabled for any existing accounts that it's currently enabled for. To enable or disable it for individual member accounts, specify NEW or NONE, and then enable or disable it for each account by using the BatchUpdateAutomatedDiscoveryAccounts operation. Possible values: o ALL o NEW o NONE
     /// </summary>
     [CliOption("--auto-enable-organization-members")]
     public AwsMacie2UpdateAutomatedDiscoveryConfigurationAutoEnableOrganizationMembers? AutoEnableOrganizationMembers { get; set; }
 
-    [CliOption("--status")]
-    public string? Status { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

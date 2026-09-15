@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-hub-content-reference")]
-public record AwsSagemakerCreateHubContentReferenceOptions : AwsOptions
+public record AwsSagemakerCreateHubContentReferenceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hub-name")]
-    public string? HubName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a hub content reference in order to add a model in the JumpStart public hub to a private hub. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HubName">The name of the hub to add the hub content reference to. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="SageMakerPublicHubContentArn">The ARN of the public hub content to reference. Constraints: o min: 0 o max: 255 o pattern: arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:aws:hub-con- tent\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}\/Model\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    public AwsSagemakerCreateHubContentReferenceOptions(
+        string HubName,
+        string SageMakerPublicHubContentArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(SageMakerPublicHubContentArn);
+        this.SageMakerPublicHubContentArn = SageMakerPublicHubContentArn;
+    }
+
+    private AwsSagemakerCreateHubContentReferenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateHubContentReferenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateHubContentReferenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the hub to add the hub content reference to. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--hub-name")]
+    public string? HubName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the public hub content to reference. Constraints: o min: 0 o max: 255 o pattern: arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:aws:hub-con- tent\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}\/Model\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// </summary>
     [CliOption("--sage-maker-public-hub-content-arn")]
-    public string? SageMakerPublicHubContentArn { get; set; }
+    public string? SageMakerPublicHubContentArn { get; private init; }
 
     /// <summary>
     /// The name of the hub content to reference. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
@@ -50,5 +94,21 @@ public record AwsSagemakerCreateHubContentReferenceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

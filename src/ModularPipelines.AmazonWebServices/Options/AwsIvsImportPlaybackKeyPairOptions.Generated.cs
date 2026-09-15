@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs", "import-playback-key-pair")]
-public record AwsIvsImportPlaybackKeyPairOptions : AwsOptions
+public record AwsIvsImportPlaybackKeyPairOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports the public portion of a new key pair and returns its arn and fingerprint . The privateKey can then be used to generate viewer autho- rization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PublicKeyMaterial">The public portion of a customer-generated key pair.</param>
+    public AwsIvsImportPlaybackKeyPairOptions(
+        string PublicKeyMaterial
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyMaterial);
+        this.PublicKeyMaterial = PublicKeyMaterial;
+    }
+
+    private AwsIvsImportPlaybackKeyPairOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsImportPlaybackKeyPairOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsImportPlaybackKeyPairOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The public portion of a customer-generated key pair.
+    /// </summary>
     [CliOption("--public-key-material")]
-    public string? PublicKeyMaterial { get; set; }
+    public string? PublicKeyMaterial { get; private init; }
 
     /// <summary>
     /// Playback-key-pair name. The value does not need to be unique. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
@@ -42,5 +79,21 @@ public record AwsIvsImportPlaybackKeyPairOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

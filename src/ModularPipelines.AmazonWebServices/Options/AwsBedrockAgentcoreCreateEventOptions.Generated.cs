@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,25 +23,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "create-event")]
-public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions
+public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an event in an AgentCore Memory resource. Events represent in- teractions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For com...
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource in which to create the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ActorId">The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="EventTimestamp">The timestamp when the event occurred. If not specified, the current time is used.</param>
+    /// <param name="Payload">The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: o min: 0 o max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for ex- ample, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]</param>
+    public AwsBedrockAgentcoreCreateEventOptions(
+        string MemoryId,
+        string ActorId,
+        string EventTimestamp,
+        IEnumerable<string> Payload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(ActorId);
+        this.ActorId = ActorId;
+        global::System.ArgumentNullException.ThrowIfNull(EventTimestamp);
+        this.EventTimestamp = EventTimestamp;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Payload);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Payload));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Payload));
+            }
+
+            Payload = materialized;
+        }
+        this.Payload = Payload;
+    }
+
+    private AwsBedrockAgentcoreCreateEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreCreateEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreCreateEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource in which to create the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--memory-id")]
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// </summary>
     [CliOption("--actor-id")]
-    public string? ActorId { get; set; }
+    public string? ActorId { get; private init; }
+
+    /// <summary>
+    /// The timestamp when the event occurred. If not specified, the current time is used.
+    /// </summary>
+    [CliOption("--event-timestamp")]
+    public string? EventTimestamp { get; private init; }
+
+    /// <summary>
+    /// The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: o min: 0 o max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for ex- ample, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]
+    /// </summary>
+    [CliOption("--payload", GroupValues = true)]
+    public IEnumerable<string>? Payload { get; private init; }
 
     /// <summary>
     /// The identifier of the session in which this event occurs. A session represents a sequence of related events. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
-
-    [CliOption("--event-timestamp")]
-    public string? EventTimestamp { get; set; }
-
-    [CliOption("--payload", GroupValues = true)]
-    public IEnumerable<string>? Payload { get; set; }
 
     /// <summary>
     /// The branch information for this event. Branches allow for organizing events into different conversation threads or paths. rootEventId -&gt; (string) The identifier of the root event for this branch. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+ name -&gt; (string) [required] The name of the branch. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* Shorthand Syntax: rootEventId=string,name=string JSON Syntax: { "rootEventId": "string", "name": "string" }
@@ -78,5 +147,21 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

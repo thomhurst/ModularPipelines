@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "update-network-analyzer-configuration")]
-public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptions
+public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update network analyzer configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationName">Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+</param>
+    public AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions(
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    private AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the network analyzer configuration. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--configuration-name")]
-    public string? ConfigurationName { get; set; }
+    public string? ConfigurationName { get; private init; }
 
     /// <summary>
     /// Trace content for your wireless devices, gateways, and multicast groups. WirelessDeviceFrameInfo -&gt; (string) FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server. Possible values: o ENABLED o DISABLED LogLevel -&gt; (string) The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only er- ror information, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED MulticastFrameInfo -&gt; (string) FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server. Possible values: o ENABLED o DISABLED Shorthand Syntax: WirelessDeviceFrameInfo=string,LogLevel=string,MulticastFrameInfo=string JSON Syntax: { "WirelessDeviceFrameInfo": "ENABLED"|"DISABLED", "LogLevel": "INFO"|"ERROR"|"DISABLED", "MulticastFrameInfo": "ENABLED"|"DISABLED" }
@@ -77,5 +114,21 @@ public record AwsIotwirelessUpdateNetworkAnalyzerConfigurationOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

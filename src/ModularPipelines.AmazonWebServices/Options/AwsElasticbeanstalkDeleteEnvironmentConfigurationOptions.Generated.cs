@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "delete-environment-configuration")]
-public record AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions : AwsOptions
+public record AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the draft configuration associated with the running environ- ment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using De- scribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indi- cates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this ac- tion. ...
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application the environment is associated with. Constraints: o min: 1 o max: 100</param>
+    /// <param name="EnvironmentName">The name of the environment to delete the draft configuration from. Constraints: o min: 4 o max: 40</param>
+    public AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions(
+        string ApplicationName,
+        string EnvironmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    private AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application the environment is associated with. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// The name of the environment to delete the draft configuration from. Constraints: o min: 4 o max: 40
+    /// </summary>
     [CliOption("--environment-name")]
-    public string? EnvironmentName { get; set; }
+    public string? EnvironmentName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

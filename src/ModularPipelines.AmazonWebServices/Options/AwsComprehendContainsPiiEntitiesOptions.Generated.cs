@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "contains-pii-entities")]
-public record AwsComprehendContainsPiiEntitiesOptions : AwsOptions
+public record AwsComprehendContainsPiiEntitiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--text")]
-    public string? Text { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Analyzes input text for the presence of personally identifiable infor- mation (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Text">A UTF-8 text string. The maximum string size is 100 KB. Constraints: o min: 1</param>
+    /// <param name="LanguageCode">The language of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    public AwsComprehendContainsPiiEntitiesOptions(
+        string Text,
+        AwsComprehendContainsPiiEntitiesLanguageCode LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendContainsPiiEntitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendContainsPiiEntitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendContainsPiiEntitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A UTF-8 text string. The maximum string size is 100 KB. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--text")]
+    public string? Text { get; private init; }
+
+    /// <summary>
+    /// The language of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public AwsComprehendContainsPiiEntitiesLanguageCode? LanguageCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

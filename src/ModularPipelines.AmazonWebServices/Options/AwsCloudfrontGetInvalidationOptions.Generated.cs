@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "get-invalidation")]
-public record AwsCloudfrontGetInvalidationOptions : AwsOptions
+public record AwsCloudfrontGetInvalidationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--distribution-id")]
-    public string? DistributionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Get the information about an invalidation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DistributionId">The distribution's ID.</param>
+    /// <param name="Id">The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .</param>
+    public AwsCloudfrontGetInvalidationOptions(
+        string DistributionId,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DistributionId);
+        this.DistributionId = DistributionId;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontGetInvalidationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontGetInvalidationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontGetInvalidationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The distribution's ID.
+    /// </summary>
+    [CliOption("--distribution-id")]
+    public string? DistributionId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

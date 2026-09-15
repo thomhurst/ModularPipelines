@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-sync", "describe-dataset")]
-public record AwsCognitoSyncDescribeDataSetOptions : AwsOptions
+public record AwsCognitoSyncDescribeDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets meta data about a dataset by identity and dataset name. With Ama- zon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. This API can be called with temporary user credentials provided by Cog- nito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId"></param>
+    /// <param name="IdentityId"></param>
+    /// <param name="DataSetName"></param>
+    public AwsCognitoSyncDescribeDataSetOptions(
+        string IdentityPoolId,
+        string IdentityId,
+        string DataSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityId);
+        this.IdentityId = IdentityId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+    }
+
+    private AwsCognitoSyncDescribeDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoSyncDescribeDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoSyncDescribeDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
     [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    public string? IdentityPoolId { get; private init; }
 
     [CliOption("--identity-id")]
-    public string? IdentityId { get; set; }
+    public string? IdentityId { get; private init; }
 
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

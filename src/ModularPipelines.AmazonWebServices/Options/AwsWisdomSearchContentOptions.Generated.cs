@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wisdom", "search-content")]
-public record AwsWisdomSearchContentOptions : AwsOptions
+public record AwsWisdomSearchContentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$</param>
+    /// <param name="SearchExpression">The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: o NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: o EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: o min: 1 o max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }</param>
+    public AwsWisdomSearchContentOptions(
+        string KnowledgeBaseId,
+        string SearchExpression
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(SearchExpression);
+        this.SearchExpression = SearchExpression;
+    }
+
+    private AwsWisdomSearchContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWisdomSearchContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWisdomSearchContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base if you're storing Wisdom Content re- source to it. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: o NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: o EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: o min: 1 o max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }
+    /// </summary>
     [CliOption("--search-expression")]
-    public string? SearchExpression { get; set; }
+    public string? SearchExpression { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsWisdomSearchContentOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

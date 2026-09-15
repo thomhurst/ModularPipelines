@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-influxdb", "restore-from-db-backup")]
-public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
+public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same re- source using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the new resource to create from the restore. If restor- ing to an existing resource, the name must match the existing re- source name. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="DbBackupId">The identifier of the backup to restore from. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    public AwsTimestreamInfluxdbRestoreFromDbBackupOptions(
+        string Name,
+        string DbBackupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DbBackupId);
+        this.DbBackupId = DbBackupId;
+    }
+
+    private AwsTimestreamInfluxdbRestoreFromDbBackupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamInfluxdbRestoreFromDbBackupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamInfluxdbRestoreFromDbBackupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new resource to create from the restore. If restor- ing to an existing resource, the name must match the existing re- source name. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The identifier of the backup to restore from. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--db-backup-id")]
-    public string? DbBackupId { get; set; }
+    public string? DbBackupId { get; private init; }
 
     /// <summary>
     /// The point in time to restore to, for continuous backups. Must be within the backup's retention window.
@@ -53,7 +97,10 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the restored resource is publicly accessible.
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -109,5 +156,21 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

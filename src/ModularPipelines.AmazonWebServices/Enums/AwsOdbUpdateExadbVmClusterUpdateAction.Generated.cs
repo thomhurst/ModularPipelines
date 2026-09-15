@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --updateaction.
+/// Allowed values for --update-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbUpdateExadbVmClusterUpdateAction
 {
-    [EnumValue("ROLLING_APPLY")]
-    RollingApply = 1,
-
     [EnumValue("NON_ROLLING_APPLY")]
-    NonRollingApply = 2,
+    NonRollingApply,
 
     [EnumValue("PRECHECK")]
-    Precheck = 3,
+    Precheck,
 
     [EnumValue("ROLLBACK")]
-    Rollback = 4
+    Rollback,
+
+    [EnumValue("ROLLING_APPLY")]
+    RollingApply
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-data-table-metadata")]
-public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions
+public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Provid- ing any other alias fails with an error. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="ValueLockLevel">The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE</param>
+    /// <param name="TimeZone">The updated IANA timezone identifier to use when resolving time based dynamic values.</param>
+    public AwsConnectUpdateDataTableMetadataOptions(
+        string InstanceId,
+        string DataTableId,
+        string Name,
+        AwsConnectUpdateDataTableMetadataValueLockLevel ValueLockLevel,
+        string TimeZone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataTableId);
+        this.DataTableId = DataTableId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ValueLockLevel);
+        this.ValueLockLevel = ValueLockLevel;
+        global::System.ArgumentNullException.ThrowIfNull(TimeZone);
+        this.TimeZone = TimeZone;
+    }
+
+    private AwsConnectUpdateDataTableMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateDataTableMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateDataTableMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Provid- ing any other alias fails with an error. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--data-table-id")]
-    public string? DataTableId { get; set; }
+    public string? DataTableId { get; private init; }
 
+    /// <summary>
+    /// The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE
+    /// </summary>
+    [CliOption("--value-lock-level")]
+    public AwsConnectUpdateDataTableMetadataValueLockLevel? ValueLockLevel { get; private init; }
+
+    /// <summary>
+    /// The updated IANA timezone identifier to use when resolving time based dynamic values.
+    /// </summary>
+    [CliOption("--time-zone")]
+    public string? TimeZone { get; private init; }
 
     /// <summary>
     /// The updated description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$
@@ -36,16 +108,26 @@ public record AwsConnectUpdateDataTableMetadataOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--value-lock-level")]
-    public string? ValueLockLevel { get; set; }
-
-    [CliOption("--time-zone")]
-    public string? TimeZone { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-dataset-export-job")]
-public record AwsIotsitewiseCreateDataSetExportJobOptions : AwsOptions
+public record AwsIotsitewiseCreateDataSetExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon S3. The operation returns a jobId immedi- ately; poll DescribeDatasetExportJob to track progress and ListDataset- ExportJobs to enumerate a workspace's jobs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace in which to create the dataset export job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DestinationS3Uri">The S3 URI where output clips will be written. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+</param>
+    /// <param name="Input">The processing input source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timeseries, dataset. timeseries -&gt; (list) &lt;p&gt;List of individual timeseries items to process.&lt;/p&gt; Constraints: o min: 1 o max: 100 (structure) &lt;p&gt;A single timeseries item to process. Exactly one of time- SeriesId or propertyAlias must be provided.&lt;/p&gt; timeSeriesId -&gt; (string) &lt;p&gt;The unique identifier for the timeseries. Mutually ex- clusive with propertyAlias.&lt;/p&gt; Constraints: o min: 36 o max: 73 propertyAlias -&gt; (string) &lt;p&gt;The customer-friendly alias for the timeseries. Mutu- ally exclusive with timeSeriesId.&lt;/p&gt; Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ trimSettings -&gt; (structure) &lt;p&gt;The trim settings for the time range to export. Re- quired for VIDEO and TELEMETRY data types; optional for ANNOTATION data types.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;The start time for the trim range.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;The end time for the trim range. Must be greater than startTime.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 formatSettings -&gt; (structure) &lt;p&gt;The optional format settings for the output.&lt;/p&gt; framesPerSecond -&gt; (integer) &lt;p&gt;The target frame rate for the output.&lt;/p&gt; Constraints: o min: 1 widthInPixels -&gt; (integer) &lt;p&gt;The target width of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 heightInPixels -&gt; (integer) &lt;p&gt;The target height of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 dataset -&gt; (structure) &lt;p&gt;A dataset containing multiple items to process.&lt;/p&gt; datasetId -&gt; (string) [required] &lt;p&gt;The unique identifier for the dataset.&lt;/p&gt; Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ trimSettings -&gt; (structure) &lt;p&gt;The trim settings applied to all items in the dataset. When omitted, the full dataset time range is used.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;The start time for the trim range.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;The end time for the trim range. Must be greater than startTime.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 exportDataTypes -&gt; (list) &lt;p&gt;The optional subset of data types to export. If omitted, all data types are exported.&lt;/p&gt; Constraints: o min: 1 o max: 3 (string) &lt;p&gt;Data types that can be exported from a dataset.&lt;/p&gt; Possible values: o VIDEO o TELEMETRY o ANNOTATION JSON Syntax: { "timeseries": [ { "timeSeriesId": "string", "propertyAlias": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } }, "formatSettings": { "framesPerSecond": integer, "widthInPixels": integer, "heightInPixels": integer } } ... ], "dataset": { "datasetId": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } }, "exportDataTypes": ["VIDEO"|"TELEMETRY"|"ANNOTATION", ...] } }</param>
+    /// <param name="ErrorReportLocation">The location where the error report will be written on failure. s3Uri -&gt; (string) [required] &lt;p&gt;The S3 URI prefix for the error report.&lt;/p&gt; Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+ Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    public AwsIotsitewiseCreateDataSetExportJobOptions(
+        string WorkspaceName,
+        string DestinationS3Uri,
+        string Input,
+        string ErrorReportLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationS3Uri);
+        this.DestinationS3Uri = DestinationS3Uri;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+        global::System.ArgumentNullException.ThrowIfNull(ErrorReportLocation);
+        this.ErrorReportLocation = ErrorReportLocation;
+    }
+
+    private AwsIotsitewiseCreateDataSetExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateDataSetExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateDataSetExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace in which to create the dataset export job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The S3 URI where output clips will be written. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+
+    /// </summary>
+    [CliOption("--destination-s3-uri")]
+    public string? DestinationS3Uri { get; private init; }
+
+    /// <summary>
+    /// The processing input source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timeseries, dataset. timeseries -&gt; (list) &lt;p&gt;List of individual timeseries items to process.&lt;/p&gt; Constraints: o min: 1 o max: 100 (structure) &lt;p&gt;A single timeseries item to process. Exactly one of time- SeriesId or propertyAlias must be provided.&lt;/p&gt; timeSeriesId -&gt; (string) &lt;p&gt;The unique identifier for the timeseries. Mutually ex- clusive with propertyAlias.&lt;/p&gt; Constraints: o min: 36 o max: 73 propertyAlias -&gt; (string) &lt;p&gt;The customer-friendly alias for the timeseries. Mutu- ally exclusive with timeSeriesId.&lt;/p&gt; Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ trimSettings -&gt; (structure) &lt;p&gt;The trim settings for the time range to export. Re- quired for VIDEO and TELEMETRY data types; optional for ANNOTATION data types.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;The start time for the trim range.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;The end time for the trim range. Must be greater than startTime.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 formatSettings -&gt; (structure) &lt;p&gt;The optional format settings for the output.&lt;/p&gt; framesPerSecond -&gt; (integer) &lt;p&gt;The target frame rate for the output.&lt;/p&gt; Constraints: o min: 1 widthInPixels -&gt; (integer) &lt;p&gt;The target width of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 heightInPixels -&gt; (integer) &lt;p&gt;The target height of the output, in pixels.&lt;/p&gt; Constraints: o min: 1 dataset -&gt; (structure) &lt;p&gt;A dataset containing multiple items to process.&lt;/p&gt; datasetId -&gt; (string) [required] &lt;p&gt;The unique identifier for the dataset.&lt;/p&gt; Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ trimSettings -&gt; (structure) &lt;p&gt;The trim settings applied to all items in the dataset. When omitted, the full dataset time range is used.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;The start time for the trim range.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;The end time for the trim range. Must be greater than startTime.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 exportDataTypes -&gt; (list) &lt;p&gt;The optional subset of data types to export. If omitted, all data types are exported.&lt;/p&gt; Constraints: o min: 1 o max: 3 (string) &lt;p&gt;Data types that can be exported from a dataset.&lt;/p&gt; Possible values: o VIDEO o TELEMETRY o ANNOTATION JSON Syntax: { "timeseries": [ { "timeSeriesId": "string", "propertyAlias": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } }, "formatSettings": { "framesPerSecond": integer, "widthInPixels": integer, "heightInPixels": integer } } ... ], "dataset": { "datasetId": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } }, "exportDataTypes": ["VIDEO"|"TELEMETRY"|"ANNOTATION", ...] } }
+    /// </summary>
+    [CliOption("--input")]
+    public string? Input { get; private init; }
+
+    /// <summary>
+    /// The location where the error report will be written on failure. s3Uri -&gt; (string) [required] &lt;p&gt;The S3 URI prefix for the error report.&lt;/p&gt; Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+ Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// </summary>
+    [CliOption("--error-report-location")]
+    public string? ErrorReportLocation { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The AWS SDKs and CLI populate this auto- matically. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -32,19 +99,26 @@ public record AwsIotsitewiseCreateDataSetExportJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--destination-s3-uri")]
-    public string? DestinationS3Uri { get; set; }
-
-    [CliOption("--input")]
-    public string? Input { get; set; }
-
-    [CliOption("--error-report-location")]
-    public string? ErrorReportLocation { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

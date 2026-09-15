@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-broker-type")]
-public record AwsKafkaUpdateBrokerTypeOptions : AwsOptions
+public record AwsKafkaUpdateBrokerTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates EC2 instance type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="CurrentVersion">The cluster version that you want to change. After this operation completes successfully, the cluster will have a new version.</param>
+    /// <param name="TargetInstanceType">The Amazon MSK broker type that you want all of the brokers in this cluster to be.</param>
+    public AwsKafkaUpdateBrokerTypeOptions(
+        string ClusterArn,
+        string CurrentVersion,
+        string TargetInstanceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+        global::System.ArgumentNullException.ThrowIfNull(TargetInstanceType);
+        this.TargetInstanceType = TargetInstanceType;
+    }
+
+    private AwsKafkaUpdateBrokerTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateBrokerTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateBrokerTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// The cluster version that you want to change. After this operation completes successfully, the cluster will have a new version.
+    /// </summary>
     [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
+    public string? CurrentVersion { get; private init; }
 
+    /// <summary>
+    /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
+    /// </summary>
     [CliOption("--target-instance-type")]
-    public string? TargetInstanceType { get; set; }
+    public string? TargetInstanceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

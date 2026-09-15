@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "describe-managed-login-branding-by-client")]
-public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOptions
+public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command in- put, options and nested parameters that are labeled with the type docu- ment must be provided as JSON. Shorthand syntax does not support docu- ment t...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The app client that's assigned to the branding style that you want more information about. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    public AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions(
+        string UserPoolId,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The app client that's assigned to the branding style that you want more information about. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
-    [CliFlag("--return-merged-resources")]
+    /// <summary>
+    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this para- meter, returns only values that you customized in your branding style.
+    /// </summary>
+    [CliFlag("--return-merged-resources", NegatedName = "--no-return-merged-resources")]
     public bool? ReturnMergedResources { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

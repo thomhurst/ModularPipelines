@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "get-durable-execution")]
-public record AwsLambdaGetDurableExecutionOptions : AwsOptions
+public record AwsLambdaGetDurableExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--durable-execution-arn")]
-    public string? DurableExecutionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// Retrieves detailed information about a specific durable execution , in- cluding its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DurableExecutionArn">The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)</param>
+    public AwsLambdaGetDurableExecutionOptions(
+        string DurableExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DurableExecutionArn);
+        this.DurableExecutionArn = DurableExecutionArn;
+    }
+
+    private AwsLambdaGetDurableExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaGetDurableExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaGetDurableExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the durable execution. Constraints: o min: 1 o max: 1024 o pattern: arn:([a-zA-Z0-9-]+):lambda:([a-zA-Z0-9-]+):(\d{12}):func- tion:([a-zA-Z0-9_-]+):(\$LATEST(?:\.PUB- LISHED)?|[0-9]+)/durable-execu- tion/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)
+    /// </summary>
+    [CliOption("--durable-execution-arn")]
+    public string? DurableExecutionArn { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The de- fault value is set to true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsLambdaGetDurableExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

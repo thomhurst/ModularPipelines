@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubCreateRecommendationTemplateFormat
 {
-    [EnumValue("CfnYaml")]
-    CfnYaml = 1,
-
     [EnumValue("CfnJson")]
-    CfnJson = 2
+    CfnJson,
+
+    [EnumValue("CfnYaml")]
+    CfnYaml
 }

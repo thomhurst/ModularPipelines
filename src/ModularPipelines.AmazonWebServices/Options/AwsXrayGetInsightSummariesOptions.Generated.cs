@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "get-insight-summaries")]
-public record AwsXrayGetInsightSummariesOptions : AwsOptions
+public record AwsXrayGetInsightSummariesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the summaries of all insights in the specified group matching the provided filter values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StartTime">The beginning of the time frame in which the insights started. The start time can't be more than 30 days old.</param>
+    /// <param name="EndTime">The end of the time frame in which the insights ended. The end time can't be more than 30 days old.</param>
+    public AwsXrayGetInsightSummariesOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsXrayGetInsightSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayGetInsightSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayGetInsightSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The beginning of the time frame in which the insights started. The start time can't be more than 30 days old.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end of the time frame in which the insights ended. The end time can't be more than 30 days old.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
+
     /// <summary>
     /// The list of insight states. Constraints: o min: 0 o max: 1 (string) Possible values: o ACTIVE o CLOSED Syntax: "string" "string" ...
     /// </summary>
@@ -39,12 +89,6 @@ public record AwsXrayGetInsightSummariesOptions : AwsOptions
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
 
     /// <summary>
     /// The maximum number of results to display. Constraints: o min: 1 o max: 100
@@ -64,5 +108,21 @@ public record AwsXrayGetInsightSummariesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-vpc-endpoint-connection-notification")]
-public record AwsEc2CreateVpcEndpointConnectionNotificationOptions : AwsOptions
+public record AwsEc2CreateVpcEndpointConnectionNotificationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide . You can create a connection notification for interface endpoints only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionNotificationArn">The ARN of the SNS topic for the notifications.</param>
+    /// <param name="ConnectionEvents">The endpoint events for which to receive notifications. Valid values are Accept , Connect , Delete , and Reject . (string) Syntax: "string" "string" ...</param>
+    public AwsEc2CreateVpcEndpointConnectionNotificationOptions(
+        string ConnectionNotificationArn,
+        IEnumerable<string> ConnectionEvents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionNotificationArn);
+        this.ConnectionNotificationArn = ConnectionNotificationArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConnectionEvents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConnectionEvents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConnectionEvents));
+            }
+
+            ConnectionEvents = materialized;
+        }
+        this.ConnectionEvents = ConnectionEvents;
+    }
+
+    private AwsEc2CreateVpcEndpointConnectionNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateVpcEndpointConnectionNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateVpcEndpointConnectionNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the SNS topic for the notifications.
+    /// </summary>
+    [CliOption("--connection-notification-arn")]
+    public string? ConnectionNotificationArn { get; private init; }
+
+    /// <summary>
+    /// The endpoint events for which to receive notifications. Valid values are Accept , Connect , Delete , and Reject . (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--connection-events", GroupValues = true)]
+    public IEnumerable<string>? ConnectionEvents { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -37,12 +101,6 @@ public record AwsEc2CreateVpcEndpointConnectionNotificationOptions : AwsOptions
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
-    [CliOption("--connection-notification-arn")]
-    public string? ConnectionNotificationArn { get; set; }
-
-    [CliOption("--connection-events", GroupValues = true)]
-    public IEnumerable<string>? ConnectionEvents { get; set; }
-
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency .
     /// </summary>
@@ -55,5 +113,21 @@ public record AwsEc2CreateVpcEndpointConnectionNotificationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

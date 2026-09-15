@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "update-scheduled-action")]
-public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions
+public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the domain to reschedule an action for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="ActionId">The unique identifier of the action to reschedule. To retrieve this ID, send a ListScheduledActions request.</param>
+    /// <param name="ActionType">The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UP- DATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: o SERVICE_SOFTWARE_UPDATE o JVM_HEAP_SIZE_TUNING o JVM_YOUNG_GEN_TUNING</param>
+    /// <param name="ScheduleAt">When to schedule the action. o NOW - Immediately schedules the update to happen in the current hour if there's capacity available. o TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . o OFF_PEAK_WINDOW - Marks the action to be picked up during an up- coming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on ca- pacity, it might happen in subsequent days. Possible values: o NOW o TIMESTAMP o OFF_PEAK_WINDOW</param>
+    public AwsOpensearchUpdateScheduledActionOptions(
+        string DomainName,
+        string ActionId,
+        AwsOpensearchUpdateScheduledActionActionType ActionType,
+        AwsOpensearchUpdateScheduledActionScheduleAt ScheduleAt
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ActionId);
+        this.ActionId = ActionId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleAt);
+        this.ScheduleAt = ScheduleAt;
+    }
+
+    private AwsOpensearchUpdateScheduledActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchUpdateScheduledActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchUpdateScheduledActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain to reschedule an action for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the action to reschedule. To retrieve this ID, send a ListScheduledActions request.
+    /// </summary>
     [CliOption("--action-id")]
-    public string? ActionId { get; set; }
+    public string? ActionId { get; private init; }
 
+    /// <summary>
+    /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UP- DATE , JVM_HEAP_SIZE_TUNING , or JVM_YOUNG_GEN_TUNING . To retrieve this value, send a ListScheduledActions request. Possible values: o SERVICE_SOFTWARE_UPDATE o JVM_HEAP_SIZE_TUNING o JVM_YOUNG_GEN_TUNING
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsOpensearchUpdateScheduledActionActionType? ActionType { get; private init; }
 
+    /// <summary>
+    /// When to schedule the action. o NOW - Immediately schedules the update to happen in the current hour if there's capacity available. o TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime . o OFF_PEAK_WINDOW - Marks the action to be picked up during an up- coming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on ca- pacity, it might happen in subsequent days. Possible values: o NOW o TIMESTAMP o OFF_PEAK_WINDOW
+    /// </summary>
     [CliOption("--schedule-at")]
-    public string? ScheduleAt { get; set; }
+    public AwsOpensearchUpdateScheduledActionScheduleAt? ScheduleAt { get; private init; }
 
     /// <summary>
     /// The time to implement the change, in Coordinated Universal Time (UTC). Only specify this parameter if you set ScheduleAt to TIME- STAMP .
@@ -44,5 +103,21 @@ public record AwsOpensearchUpdateScheduledActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

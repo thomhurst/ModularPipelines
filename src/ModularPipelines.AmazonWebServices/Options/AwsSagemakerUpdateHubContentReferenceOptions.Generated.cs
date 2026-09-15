@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-hub-content-reference")]
-public record AwsSagemakerUpdateHubContentReferenceOptions : AwsOptions
+public record AwsSagemakerUpdateHubContentReferenceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the contents of a SageMaker hub for a ModelReference resource. A ModelReference allows you to access public SageMaker JumpStart models from within your private hub. When using this API, you can update the MinVersion field for additional flexibility in the model version. You shouldn't update any additional fields when using this API, because the metadata in your private hub should match the public JumpStart model's metadata. NOTE: If you want to update a Model or Notebook resource in your...
+    /// </summary>
+    /// <param name="HubName">The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentName">The name of the hub content resource that you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The content type of the resource that you want to update. Only spec- ify a ModelReference resource for this API. To update a Model or Notebook resource, use the UpdateHubContent API instead. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
+    public AwsSagemakerUpdateHubContentReferenceOptions(
+        string HubName,
+        string HubContentName,
+        AwsSagemakerUpdateHubContentReferenceHubContentType HubContentType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentName);
+        this.HubContentName = HubContentName;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
+        this.HubContentType = HubContentType;
+    }
+
+    private AwsSagemakerUpdateHubContentReferenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateHubContentReferenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateHubContentReferenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--hub-name")]
-    public string? HubName { get; set; }
+    public string? HubName { get; private init; }
 
+    /// <summary>
+    /// The name of the hub content resource that you want to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--hub-content-name")]
-    public string? HubContentName { get; set; }
+    public string? HubContentName { get; private init; }
 
+    /// <summary>
+    /// The content type of the resource that you want to update. Only spec- ify a ModelReference resource for this API. To update a Model or Notebook resource, use the UpdateHubContent API instead. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// </summary>
     [CliOption("--hub-content-type")]
-    public string? HubContentType { get; set; }
+    public AwsSagemakerUpdateHubContentReferenceHubContentType? HubContentType { get; private init; }
 
     /// <summary>
     /// The minimum hub content version of the referenced model that you want to use. The minimum version must be older than the latest available version of the referenced model. To support all versions of a model, set the value to 1.0.0 . Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
@@ -41,5 +93,21 @@ public record AwsSagemakerUpdateHubContentReferenceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

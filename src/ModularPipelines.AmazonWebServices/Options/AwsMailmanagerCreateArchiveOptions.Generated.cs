@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "create-archive")]
-public record AwsMailmanagerCreateArchiveOptions : AwsOptions
+public record AwsMailmanagerCreateArchiveOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new email archive resource for storing and retaining emails. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ArchiveName">A unique name for the new archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]</param>
+    public AwsMailmanagerCreateArchiveOptions(
+        string ArchiveName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveName);
+        this.ArchiveName = ArchiveName;
+    }
+
+    private AwsMailmanagerCreateArchiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerCreateArchiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerCreateArchiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the new archive. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]
+    /// </summary>
+    [CliOption("--archive-name")]
+    public string? ArchiveName { get; private init; }
+
     /// <summary>
     /// A unique token Amazon SES uses to recognize retries of this request. Constraints: o min: 1 o max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--archive-name")]
-    public string? ArchiveName { get; set; }
 
     /// <summary>
     /// The period for retaining emails in the archive before automatic deletion. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RetentionPeriod. RetentionPeriod -&gt; (string) The enum value sets the period for retaining emails in an archive. Possible values: o THREE_MONTHS o SIX_MONTHS o NINE_MONTHS o ONE_YEAR o EIGHTEEN_MONTHS o TWO_YEARS o THIRTY_MONTHS o THREE_YEARS o FOUR_YEARS o FIVE_YEARS o SIX_YEARS o SEVEN_YEARS o EIGHT_YEARS o NINE_YEARS o TEN_YEARS o PERMANENT Shorthand Syntax: RetentionPeriod=string JSON Syntax: { "RetentionPeriod": "THREE_MONTHS"|"SIX_MONTHS"|"NINE_MONTHS"|"ONE_YEAR"|"EIGHTEEN_MONTHS"|"TWO_YEARS"|"THIRTY_MONTHS"|"THREE_YEARS"|"FOUR_YEARS"|"FIVE_YEARS"|"SIX_YEARS"|"SEVEN_YEARS"|"EIGHT_YEARS"|"NINE_YEARS"|"TEN_YEARS"|"PERMANENT" }
@@ -55,5 +92,21 @@ public record AwsMailmanagerCreateArchiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

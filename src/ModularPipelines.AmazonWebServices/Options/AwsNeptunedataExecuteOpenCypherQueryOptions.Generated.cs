@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "execute-open-cypher-query")]
-public record AwsNeptunedataExecuteOpenCypherQueryOptions : AwsOptions
+public record AwsNeptunedataExecuteOpenCypherQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Executes an openCypher query. See Accessing the Neptune Graph with openCypher for more information. Neptune supports building graph applications using openCypher, which is currently one of the most popular query languages among developers working with graph databases. Developers, business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax because it provides a familiar structure in which to querying property graphs. The openCypher language was originally developed b...
+    /// </summary>
+    /// <param name="OpenCypherQuery">The openCypher query string to be executed.</param>
+    public AwsNeptunedataExecuteOpenCypherQueryOptions(
+        string OpenCypherQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OpenCypherQuery);
+        this.OpenCypherQuery = OpenCypherQuery;
+    }
+
+    private AwsNeptunedataExecuteOpenCypherQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptunedataExecuteOpenCypherQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptunedataExecuteOpenCypherQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The openCypher query string to be executed.
+    /// </summary>
     [CliOption("--open-cypher-query")]
-    public string? OpenCypherQuery { get; set; }
+    public string? OpenCypherQuery { get; private init; }
 
     /// <summary>
     /// The openCypher query parameters for query execution. See Examples of openCypher parameterized queries for more information.
@@ -35,5 +72,21 @@ public record AwsNeptunedataExecuteOpenCypherQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "subscribe-to-event")]
-public record AwsInspectorSubscribeToEventOptions : AwsOptions
+public record AwsInspectorSubscribeToEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: o min: 1 o max: 300</param>
+    /// <param name="Event">The event for which you want to receive SNS notifications. Possible values: o ASSESSMENT_RUN_STARTED o ASSESSMENT_RUN_COMPLETED o ASSESSMENT_RUN_STATE_CHANGED o FINDING_REPORTED o OTHER</param>
+    /// <param name="TopicArn">The ARN of the SNS topic to which the SNS notifications are sent. Constraints: o min: 1 o max: 300</param>
+    public AwsInspectorSubscribeToEventOptions(
+        string ResourceArn,
+        AwsInspectorSubscribeToEventEvent Event,
+        string TopicArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Event);
+        this.Event = Event;
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+    }
+
+    private AwsInspectorSubscribeToEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorSubscribeToEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorSubscribeToEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// The event for which you want to receive SNS notifications. Possible values: o ASSESSMENT_RUN_STARTED o ASSESSMENT_RUN_COMPLETED o ASSESSMENT_RUN_STATE_CHANGED o FINDING_REPORTED o OTHER
+    /// </summary>
     [CliOption("--event")]
-    public string? Event { get; set; }
+    public AwsInspectorSubscribeToEventEvent? Event { get; private init; }
 
+    /// <summary>
+    /// The ARN of the SNS topic to which the SNS notifications are sent. Constraints: o min: 1 o max: 300
+    /// </summary>
     [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    public string? TopicArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

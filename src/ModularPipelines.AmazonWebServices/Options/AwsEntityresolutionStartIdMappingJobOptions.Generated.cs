@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "start-id-mapping-job")]
-public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions
+public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the IdMappingJob of a workflow. The workflow must have previ- ously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkflowName">The name of the ID mapping job to be retrieved. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})</param>
+    public AwsEntityresolutionStartIdMappingJobOptions(
+        string WorkflowName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowName);
+        this.WorkflowName = WorkflowName;
+    }
+
+    private AwsEntityresolutionStartIdMappingJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionStartIdMappingJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionStartIdMappingJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ID mapping job to be retrieved. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})
+    /// </summary>
     [CliOption("--workflow-name")]
-    public string? WorkflowName { get; set; }
+    public string? WorkflowName { get; private init; }
 
     /// <summary>
     /// A list of OutputSource objects. Constraints: o min: 1 o max: 1 (structure) An object containing KMSArn , outputS3Path , and roleARN . roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Entity Reso- lution assumes this role to access Amazon Web Services re- sources on your behalf as part of workflow execution. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* Shorthand Syntax: roleArn=string,outputS3Path=string,KMSArn=string ... JSON Syntax: [ { "roleArn": "string", "outputS3Path": "string", "KMSArn": "string" } ... ]
@@ -42,5 +79,21 @@ public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

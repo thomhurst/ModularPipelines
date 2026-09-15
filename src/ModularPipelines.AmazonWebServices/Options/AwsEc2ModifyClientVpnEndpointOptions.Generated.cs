@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-client-vpn-endpoint")]
-public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions
+public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint to modify.</param>
+    public AwsEc2ModifyClientVpnEndpointOptions(
+        string ClientVpnEndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientVpnEndpointId);
+        this.ClientVpnEndpointId = ClientVpnEndpointId;
+    }
+
+    private AwsEc2ModifyClientVpnEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyClientVpnEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyClientVpnEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Client VPN endpoint to modify.
+    /// </summary>
     [CliOption("--client-vpn-endpoint-id")]
-    public string? ClientVpnEndpointId { get; set; }
+    public string? ClientVpnEndpointId { get; private init; }
 
     /// <summary>
     /// The ARN of the server certificate to be used. The server certificate must be provisioned in Certificate Manager (ACM).
@@ -55,10 +92,16 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--split-tunnel")]
+    /// <summary>
+    /// Indicates whether the VPN is split-tunnel. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide .
+    /// </summary>
+    [CliFlag("--split-tunnel", NegatedName = "--no-split-tunnel")]
     public bool? SplitTunnel { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -103,7 +146,10 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions
     [CliOption("--client-route-enforcement-options")]
     public string? ClientRouteEnforcementOptions { get; set; }
 
-    [CliFlag("--disconnect-on-session-timeout")]
+    /// <summary>
+    /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true , users are prompted to reconnect client VPN. If false , client VPN attempts to reconnect automatically. The default value is true .
+    /// </summary>
+    [CliFlag("--disconnect-on-session-timeout", NegatedName = "--no-disconnect-on-session-timeout")]
     public bool? DisconnectOnSessionTimeout { get; set; }
 
     /// <summary>
@@ -117,5 +163,21 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

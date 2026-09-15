@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "stop-voice-tone-analysis-task")]
-public record AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions : AwsOptions
+public record AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--voice-connector-id")]
-    public string? VoiceConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Stops a voice tone analysis task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="VoiceToneAnalysisTaskId">The ID of the voice tone analysis task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions(
+        string VoiceConnectorId,
+        string VoiceToneAnalysisTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
+        this.VoiceConnectorId = VoiceConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceToneAnalysisTaskId);
+        this.VoiceToneAnalysisTaskId = VoiceToneAnalysisTaskId;
+    }
+
+    private AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceStopVoiceToneAnalysisTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// </summary>
+    [CliOption("--voice-connector-id")]
+    public string? VoiceConnectorId { get; private init; }
+
+    /// <summary>
+    /// The ID of the voice tone analysis task. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--voice-tone-analysis-task-id")]
-    public string? VoiceToneAnalysisTaskId { get; set; }
+    public string? VoiceToneAnalysisTaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

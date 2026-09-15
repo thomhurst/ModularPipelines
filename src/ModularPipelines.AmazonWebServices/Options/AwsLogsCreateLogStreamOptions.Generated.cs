@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "create-log-stream")]
-public record AwsLogsCreateLogStreamOptions : AwsOptions
+public record AwsLogsCreateLogStreamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--log-group-name")]
-    public string? LogGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a log stream for the specified log group. A log stream is a se- quence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream: o Log stream names must be unique within the log grou...
+    /// </summary>
+    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    public AwsLogsCreateLogStreamOptions(
+        string LogGroupName,
+        string LogStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupName);
+        this.LogGroupName = LogGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(LogStreamName);
+        this.LogStreamName = LogStreamName;
+    }
+
+    private AwsLogsCreateLogStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsCreateLogStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsCreateLogStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--log-group-name")]
+    public string? LogGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
     [CliOption("--log-stream-name")]
-    public string? LogStreamName { get; set; }
+    public string? LogStreamName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

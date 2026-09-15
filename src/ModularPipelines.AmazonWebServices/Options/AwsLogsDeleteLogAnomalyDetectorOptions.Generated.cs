@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "delete-log-anomaly-detector")]
-public record AwsLogsDeleteLogAnomalyDetectorOptions : AwsOptions
+public record AwsLogsDeleteLogAnomalyDetectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified CloudWatch Logs anomaly detector. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsDeleteLogAnomalyDetectorOptions(
+        string AnomalyDetectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyDetectorArn);
+        this.AnomalyDetectorArn = AnomalyDetectorArn;
+    }
+
+    private AwsLogsDeleteLogAnomalyDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsDeleteLogAnomalyDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsDeleteLogAnomalyDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the ListLogAnomalyDetectors operation. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
     [CliOption("--anomaly-detector-arn")]
-    public string? AnomalyDetectorArn { get; set; }
+    public string? AnomalyDetectorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

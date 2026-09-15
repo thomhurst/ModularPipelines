@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-get-partition")]
-public record AwsGlueBatchGetPartitionOptions : AwsOptions
+public record AwsGlueBatchGetPartitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves partitions in a batch request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the partitions' table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="PartitionsToGet">A list of partition values identifying the partitions to retrieve. Constraints: o min: 0 o max: 1000 (structure) Contains a list of values defining partitions. Values -&gt; (list) [required] The list of values. (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Values=string,string ... JSON Syntax: [ { "Values": ["string", ...] } ... ]</param>
+    public AwsGlueBatchGetPartitionOptions(
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> PartitionsToGet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PartitionsToGet);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PartitionsToGet));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PartitionsToGet));
+            }
+
+            PartitionsToGet = materialized;
+        }
+        this.PartitionsToGet = PartitionsToGet;
+    }
+
+    private AwsGlueBatchGetPartitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchGetPartitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchGetPartitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the partitions' table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A list of partition values identifying the partitions to retrieve. Constraints: o min: 0 o max: 1000 (structure) Contains a list of values defining partitions. Values -&gt; (list) [required] The list of values. (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Values=string,string ... JSON Syntax: [ { "Values": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--partitions-to-get", GroupValues = true)]
+    public IEnumerable<string>? PartitionsToGet { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--partitions-to-get", GroupValues = true)]
-    public IEnumerable<string>? PartitionsToGet { get; set; }
 
     /// <summary>
     /// A structure containing the Lake Formation audit context. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: o min: 0 o max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
@@ -53,5 +115,21 @@ public record AwsGlueBatchGetPartitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

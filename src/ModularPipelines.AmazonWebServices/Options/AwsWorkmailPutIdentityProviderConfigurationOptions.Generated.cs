@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "put-identity-provider-configuration")]
-public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions
+public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Per- sonal Access Tokens. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The ID of the WorkMail Organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="AuthenticationMode">The authentication mode used in WorkMail. Possible values: o IDENTITY_PROVIDER_ONLY o IDENTITY_PROVIDER_AND_DIRECTORY</param>
+    /// <param name="IdentityCenterConfiguration">The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center in- stance. Must be in the same AWS account and region as WorkMail organization. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateI- dentityCenterApplication. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:ap- plication/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }</param>
+    /// <param name="PersonalAccessTokenConfiguration">The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organi- zation. o Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connec- tion from desktop or mobile email clients. o Inactive - Personal Access Tokens are disabled for your orga- nization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: o ACTIVE o INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: o min: 1 o max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }</param>
+    public AwsWorkmailPutIdentityProviderConfigurationOptions(
+        string OrganizationId,
+        AwsWorkmailPutIdentityProviderConfigurationAuthenticationMode AuthenticationMode,
+        string IdentityCenterConfiguration,
+        string PersonalAccessTokenConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMode);
+        this.AuthenticationMode = AuthenticationMode;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityCenterConfiguration);
+        this.IdentityCenterConfiguration = IdentityCenterConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(PersonalAccessTokenConfiguration);
+        this.PersonalAccessTokenConfiguration = PersonalAccessTokenConfiguration;
+    }
+
+    private AwsWorkmailPutIdentityProviderConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailPutIdentityProviderConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailPutIdentityProviderConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the WorkMail Organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The authentication mode used in WorkMail. Possible values: o IDENTITY_PROVIDER_ONLY o IDENTITY_PROVIDER_AND_DIRECTORY
+    /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationMode { get; set; }
+    public AwsWorkmailPutIdentityProviderConfigurationAuthenticationMode? AuthenticationMode { get; private init; }
 
+    /// <summary>
+    /// The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center in- stance. Must be in the same AWS account and region as WorkMail organization. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateI- dentityCenterApplication. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:ap- plication/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }
+    /// </summary>
     [CliOption("--identity-center-configuration")]
-    public string? IdentityCenterConfiguration { get; set; }
+    public string? IdentityCenterConfiguration { get; private init; }
 
+    /// <summary>
+    /// The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organi- zation. o Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connec- tion from desktop or mobile email clients. o Inactive - Personal Access Tokens are disabled for your orga- nization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: o ACTIVE o INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: o min: 1 o max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }
+    /// </summary>
     [SecretValue]
     [CliOption("--personal-access-token-configuration")]
-    public string? PersonalAccessTokenConfiguration { get; set; }
+    public string? PersonalAccessTokenConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

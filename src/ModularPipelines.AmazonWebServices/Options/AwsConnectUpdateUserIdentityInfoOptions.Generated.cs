@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-user-identity-info")]
-public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions
+public record AwsConnectUpdateUserIdentityInfoOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke Upda- teUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the ...
+    /// </summary>
+    /// <param name="IdentityInfo">The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than pass- word reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: o pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }</param>
+    /// <param name="UserId">The identifier of the user account.</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateUserIdentityInfoOptions(
+        string IdentityInfo,
+        string UserId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityInfo);
+        this.IdentityInfo = IdentityInfo;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateUserIdentityInfoOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateUserIdentityInfoOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateUserIdentityInfoOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity information for the user. FirstName -&gt; (string) The first name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 255 LastName -&gt; (string) The last name. This is required if you are using Connect Cus- tomer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted. Constraints: o min: 0 o max: 300 Email -&gt; (string) The email address. If you are using SAML for identity management and include this parameter, an error is returned. SecondaryEmail -&gt; (string) The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than pass- word reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63} Mobile -&gt; (string) The user's mobile number. Constraints: o pattern: \\+[1-9]\\d{1,14}$ Shorthand Syntax: FirstName=string,LastName=string,Email=string,SecondaryEmail=string,Mobile=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "SecondaryEmail": "string", "Mobile": "string" }
+    /// </summary>
     [CliOption("--identity-info")]
-    public string? IdentityInfo { get; set; }
+    public string? IdentityInfo { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user account.
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

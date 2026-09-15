@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("health", "describe-event-details")]
-public record AwsHealthDescribeEventDetailsOptions : AwsOptions
+public record AwsHealthDescribeEventDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed information about one or more specified events. Infor- mation includes standard event data (Amazon Web Services Region, ser- vice, and so on, as returned by DescribeEvents ), a detailed event de- scription, and possible additional metadata that depends upon the na- ture of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: ...
+    /// </summary>
+    /// <param name="EventArns">A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...</param>
+    public AwsHealthDescribeEventDetailsOptions(
+        IEnumerable<string> EventArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventArns));
+            }
+
+            EventArns = materialized;
+        }
+        this.EventArns = EventArns;
+    }
+
+    private AwsHealthDescribeEventDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthDescribeEventDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthDescribeEventDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 10 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--event-arns", GroupValues = true)]
-    public IEnumerable<string>? EventArns { get; set; }
+    public IEnumerable<string>? EventArns { get; private init; }
 
     /// <summary>
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
@@ -35,5 +83,21 @@ public record AwsHealthDescribeEventDetailsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

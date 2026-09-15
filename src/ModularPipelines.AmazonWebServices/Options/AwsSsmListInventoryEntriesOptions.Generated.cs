@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "list-inventory-entries")]
-public record AwsSsmListInventoryEntriesOptions : AwsOptions
+public record AwsSsmListInventoryEntriesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// A list of inventory items returned by the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The managed node ID for which you want inventory information. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)</param>
+    /// <param name="TypeName">The type of inventory item for which you want information. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$</param>
+    public AwsSsmListInventoryEntriesOptions(
+        string InstanceId,
+        string TypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+    }
+
+    private AwsSsmListInventoryEntriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmListInventoryEntriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmListInventoryEntriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The managed node ID for which you want inventory information. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The type of inventory item for which you want information. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
 
     /// <summary>
     /// One or more filters. Use a filter to return a more specific list of results. Constraints: o min: 1 o max: 5 (structure) One or more filters. Use a filter to return a more specific list of results. Example formats for the ``aws ssm get-inventory`` command: --filters Key=AWS:InstanceInformation.AgentType,Values=ama- zon-ssm-agent,Type=Equal --filters Key=AWS:InstanceInformation.AgentVersion,Val- ues=3.3.2299.0,Type=Equal --filters Key=AWS:InstanceInformation.ComputerName,Val- ues=ip-192.0.2.0.us-east-2.compute.internal,Type=Equal --filters Key=AWS:InstanceInformation.InstanceId,Val- ues=i-0a4cd6ceffEXAMPLE,i-1a2b3c4d5e6EXAMPLE,Type=Equal --filters Key=AWS:InstanceInformation.InstanceStatus,Val- ues=Active,Type=Equal --filters Key=AWS:InstanceInformation.IpAddress,Val- ues=198.51.100.0,Type=Equal --filters Key=AWS:InstanceInformation.PlatformName,Val- ues="Amazon Linux",Type=Equal --filters Key=AWS:InstanceInformation.PlatformType,Val- ues=Linux,Type=Equal --filters Key=AWS:InstanceInformation.PlatformVersion,Val- ues=2023,Type=BeginWith --filters Key=AWS:InstanceInformation.ResourceType,Val- ues=EC2Instance,Type=Equal Key -&gt; (string) [required] The name of the filter key. Constraints: o min: 1 o max: 200 Values -&gt; (list) [required] Inventory filter values. Constraints: o min: 1 o max: 40 (string) Type -&gt; (string) The type of filter. NOTE: The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the Amazon Web Services Systems Manager User Guide . Possible values: o Equal o NotEqual o BeginWith o LessThan o GreaterThan o Exists Shorthand Syntax: Key=string,Values=string,string,Type=string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...], "Type": "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"|"Exists" } ... ]
@@ -52,5 +96,21 @@ public record AwsSsmListInventoryEntriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

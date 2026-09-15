@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "register-opentdf-config")]
-public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions
+public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="ClientId">The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="ClientSecret">The OIDC client secret used for authenticating with the OpenTDF provider Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Domain">The domain of the OpenTDF server. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="Provider">The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: o pattern: [\S\s]*</param>
+    public AwsWickrRegisterOpentdfConfigOptions(
+        string NetworkId,
+        string ClientId,
+        string ClientSecret,
+        string Domain,
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientSecret);
+        this.ClientSecret = ClientSecret;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    private AwsWickrRegisterOpentdfConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrRegisterOpentdfConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrRegisterOpentdfConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network for which OpenTDF integration will be configured. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
 
+    /// <summary>
+    /// The OIDC client ID used for authenticating with the OpenTDF provider. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
+    /// <summary>
+    /// The OIDC client secret used for authenticating with the OpenTDF provider Constraints: o pattern: [\S\s]*
+    /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
-    public string? ClientSecret { get; set; }
+    public string? ClientSecret { get; private init; }
 
+    /// <summary>
+    /// The domain of the OpenTDF server. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
+    /// <summary>
+    /// The provider of the OpenTDF platform. NOTE: Currently only Virtru is supported as the OpenTDF provider. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--provider")]
-    public string? Provider { get; set; }
+    public string? Provider { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Perform dry-run test connection of OpenTDF configuration (optional).
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +114,21 @@ public record AwsWickrRegisterOpentdfConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

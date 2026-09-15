@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "update-profiling-group")]
-public record AwsCodeguruprofilerUpdateProfilingGroupOptions : AwsOptions
+public record AwsCodeguruprofilerUpdateProfilingGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-orchestration-config")]
-    public string? AgentOrchestrationConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a profiling group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentOrchestrationConfig">Specifies whether profiling is enabled or disabled for a profiling group. profilingEnabled -&gt; (boolean) [required] A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. Shorthand Syntax: profilingEnabled=boolean JSON Syntax: { "profilingEnabled": true|false }</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to update. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerUpdateProfilingGroupOptions(
+        string AgentOrchestrationConfig,
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentOrchestrationConfig);
+        this.AgentOrchestrationConfig = AgentOrchestrationConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerUpdateProfilingGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerUpdateProfilingGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerUpdateProfilingGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether profiling is enabled or disabled for a profiling group. profilingEnabled -&gt; (boolean) [required] A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling. Shorthand Syntax: profilingEnabled=boolean JSON Syntax: { "profilingEnabled": true|false }
+    /// </summary>
+    [CliOption("--agent-orchestration-config")]
+    public string? AgentOrchestrationConfig { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group to update. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
     [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
+    public string? ProfilingGroupName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "create-data-grant")]
-public record AwsDataexchangeCreateDataGrantOptions : AwsOptions
+public record AwsDataexchangeCreateDataGrantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation creates a data grant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the data grant. Constraints: o min: 1 o max: 256</param>
+    /// <param name="GrantDistributionScope">The distribution scope of the data grant. Possible values: o AWS_ORGANIZATION o NONE</param>
+    /// <param name="ReceiverPrincipal">The Amazon Web Services account ID of the data grant receiver. Constraints: o pattern: \d{12}</param>
+    /// <param name="SourceDataSetId">The ID of the data set used to create the data grant. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    public AwsDataexchangeCreateDataGrantOptions(
+        string Name,
+        AwsDataexchangeCreateDataGrantGrantDistributionScope GrantDistributionScope,
+        string ReceiverPrincipal,
+        string SourceDataSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(GrantDistributionScope);
+        this.GrantDistributionScope = GrantDistributionScope;
+        global::System.ArgumentNullException.ThrowIfNull(ReceiverPrincipal);
+        this.ReceiverPrincipal = ReceiverPrincipal;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDataSetId);
+        this.SourceDataSetId = SourceDataSetId;
+    }
+
+    private AwsDataexchangeCreateDataGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeCreateDataGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeCreateDataGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the data grant. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The distribution scope of the data grant. Possible values: o AWS_ORGANIZATION o NONE
+    /// </summary>
     [CliOption("--grant-distribution-scope")]
-    public string? GrantDistributionScope { get; set; }
+    public AwsDataexchangeCreateDataGrantGrantDistributionScope? GrantDistributionScope { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID of the data grant receiver. Constraints: o pattern: \d{12}
+    /// </summary>
     [CliOption("--receiver-principal")]
-    public string? ReceiverPrincipal { get; set; }
+    public string? ReceiverPrincipal { get; private init; }
 
+    /// <summary>
+    /// The ID of the data set used to create the data grant. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--source-data-set-id")]
-    public string? SourceDataSetId { get; set; }
+    public string? SourceDataSetId { get; private init; }
 
     /// <summary>
     /// The timestamp of when access to the associated data set ends.
@@ -57,5 +116,21 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

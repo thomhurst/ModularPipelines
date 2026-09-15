@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "get-current-metric-data")]
-public record AwsConnectGetCurrentMetricDataOptions : AwsOptions
+public record AwsConnectGetCurrentMetricDataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the real-time metric data from the specified Connect Customer in- stance. For a description of each metric, see Metrics definitions in the Con- nect Customer Administrator Guide . NOTE: When you make a successful API request, you can expect the following metric values in the response: o Metric value is null : The calculation cannot be performed due to divide by zero or insufficient data o Metric value is a number (including 0) of defined type : The num- ber provided is the calculation resul...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Filters">The filters to apply to returned metrics. You can filter up to the following limits: o Queues: 100 o Routing profiles: 100 o Channels: 3 (VOICE, CHAT, and TASK channels are supported.) o RoutingStepExpressions: 50 o AgentStatuses: 50 o Subtypes: 10 o ValidationTestTypes: 10 Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the fil- ter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as pri- mary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass ex- actly one QueueId . The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRES- SION is required. Currently tagging is only supported on the resources that are passed in the filter. Queues -&gt; (list) The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request. Constraints: o min: 1 o max: 100 (string) Channels -&gt; (list) The channel to use to filter the metrics. Constraints: o max: 4 (string) Possible values: o VOICE o CHAT o TASK o EMAIL RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) RoutingStepExpressions -&gt; (list) A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array or- der and tree structure must be preserved. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 3000 AgentStatuses -&gt; (list) A list of up to 50 agent status IDs or ARNs. (string) Subtypes -&gt; (list) A list of up to 10 subtypes can be provided. Constraints: o max: 10 (string) Constraints: o min: 1 o max: 100 ValidationTestTypes -&gt; (list) A list of up to 10 validationTestTypes can be provided. Constraints: o max: 10 (string) Shorthand Syntax: Queues=string,string,Channels=string,string,RoutingProfiles=string,string,RoutingStepExpressions=string,string,AgentStatuses=string,string,Subtypes=string,string,ValidationTestTypes=string,string JSON Syntax: { "Queues": ["string", ...], "Channels": ["VOICE"|"CHAT"|"TASK"|"EMAIL", ...], "RoutingProfiles": ["string", ...], "RoutingStepExpressions": ["string", ...], "AgentStatuses": ["string", ...], "Subtypes": ["string", ...], "ValidationTestTypes": ["string", ...] }</param>
+    /// <param name="CurrentMetrics">The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 Met- ricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: ACW AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: Available AGENTS_ERROR Unit: COUNT Name in real-time metrics report: Error AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: On contact AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: On contact AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: Online AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: Staffed CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: In queue CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: Scheduled ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases: o Filter by a list of [Queues] and a list of [Channels], group by [QUEUE, CHANNEL] o Filter by a singleton list of [Queue], a singleton list of [Chan- nel], a list of [RoutingStepExpression], group by [ROUT- ING_STEP_EXPRESSION]. OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under &lt;Expression 1&gt; for 10 seconds has expired and &lt;Ex- pression 2&gt; becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: Active SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: Availability (structure) Contains information about a real-time metric. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide . WARNING: Only one of either the Name or MetricId is required. Name -&gt; (string) The name of the metric. Possible values: o AGENTS_ONLINE o AGENTS_AVAILABLE o AGENTS_ON_CALL o AGENTS_NON_PRODUCTIVE o AGENTS_AFTER_CONTACT_WORK o AGENTS_ERROR o AGENTS_STAFFED o CONTACTS_IN_QUEUE o OLDEST_CONTACT_AGE o CONTACTS_SCHEDULED o AGENTS_ON_CONTACT o SLOTS_ACTIVE o SLOTS_AVAILABLE o ESTIMATED_WAIT_TIME MetricId -&gt; (string) Out of the box current metrics or custom metrics can be ref- erenced via this field. This field is a valid AWS Connect Arn or a UUID. Constraints: o pattern: ^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(arn:[a-z0-9-]+:con- nect:[a-z0-9-]+:(?:([0-9]{12}):instance/[a-z0-9-]+/met- ric/[a-z0-9-]+(?::[a-z0-9-]+)?|aws:metric/[A-Z_]+))$ Unit -&gt; (string) NOTE: The Unit parameter is not supported for custom metrics. The unit for the metric. Possible values: o SECONDS o COUNT o PERCENT Shorthand Syntax: Name=string,MetricId=string,Unit=string ... JSON Syntax: [ { "Name": "AGENTS_ONLINE"|"AGENTS_AVAILABLE"|"AGENTS_ON_CALL"|"AGENTS_NON_PRODUCTIVE"|"AGENTS_AFTER_CONTACT_WORK"|"AGENTS_ERROR"|"AGENTS_STAFFED"|"CONTACTS_IN_QUEUE"|"OLDEST_CONTACT_AGE"|"CONTACTS_SCHEDULED"|"AGENTS_ON_CONTACT"|"SLOTS_ACTIVE"|"SLOTS_AVAILABLE"|"ESTIMATED_WAIT_TIME", "MetricId": "string", "Unit": "SECONDS"|"COUNT"|"PERCENT" } ... ]</param>
+    public AwsConnectGetCurrentMetricDataOptions(
+        string InstanceId,
+        string Filters,
+        IEnumerable<string> CurrentMetrics
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Filters);
+        this.Filters = Filters;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CurrentMetrics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CurrentMetrics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CurrentMetrics));
+            }
+
+            CurrentMetrics = materialized;
+        }
+        this.CurrentMetrics = CurrentMetrics;
+    }
+
+    private AwsConnectGetCurrentMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectGetCurrentMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectGetCurrentMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The filters to apply to returned metrics. You can filter up to the following limits: o Queues: 100 o Routing profiles: 100 o Channels: 3 (VOICE, CHAT, and TASK channels are supported.) o RoutingStepExpressions: 50 o AgentStatuses: 50 o Subtypes: 10 o ValidationTestTypes: 10 Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the fil- ter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as pri- mary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass ex- actly one QueueId . The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRES- SION is required. Currently tagging is only supported on the resources that are passed in the filter. Queues -&gt; (list) The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request. Constraints: o min: 1 o max: 100 (string) Channels -&gt; (list) The channel to use to filter the metrics. Constraints: o max: 4 (string) Possible values: o VOICE o CHAT o TASK o EMAIL RoutingProfiles -&gt; (list) A list of up to 100 routing profile IDs or ARNs. Constraints: o min: 1 o max: 100 (string) RoutingStepExpressions -&gt; (list) A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array or- der and tree structure must be preserved. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 3000 AgentStatuses -&gt; (list) A list of up to 50 agent status IDs or ARNs. (string) Subtypes -&gt; (list) A list of up to 10 subtypes can be provided. Constraints: o max: 10 (string) Constraints: o min: 1 o max: 100 ValidationTestTypes -&gt; (list) A list of up to 10 validationTestTypes can be provided. Constraints: o max: 10 (string) Shorthand Syntax: Queues=string,string,Channels=string,string,RoutingProfiles=string,string,RoutingStepExpressions=string,string,AgentStatuses=string,string,Subtypes=string,string,ValidationTestTypes=string,string JSON Syntax: { "Queues": ["string", ...], "Channels": ["VOICE"|"CHAT"|"TASK"|"EMAIL", ...], "RoutingProfiles": ["string", ...], "RoutingStepExpressions": ["string", ...], "AgentStatuses": ["string", ...], "Subtypes": ["string", ...], "ValidationTestTypes": ["string", ...] }
+    /// </summary>
     [CliOption("--filters")]
-    public string? Filters { get; set; }
+    public string? Filters { get; private init; }
+
+    /// <summary>
+    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 Met- ricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: ACW AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: Available AGENTS_ERROR Unit: COUNT Name in real-time metrics report: Error AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: On contact AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: On contact AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: Online AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: Staffed CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: In queue CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: Scheduled ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases: o Filter by a list of [Queues] and a list of [Channels], group by [QUEUE, CHANNEL] o Filter by a singleton list of [Queue], a singleton list of [Chan- nel], a list of [RoutingStepExpression], group by [ROUT- ING_STEP_EXPRESSION]. OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under &lt;Expression 1&gt; for 10 seconds has expired and &lt;Ex- pression 2&gt; becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: Active SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: Availability (structure) Contains information about a real-time metric. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide . WARNING: Only one of either the Name or MetricId is required. Name -&gt; (string) The name of the metric. Possible values: o AGENTS_ONLINE o AGENTS_AVAILABLE o AGENTS_ON_CALL o AGENTS_NON_PRODUCTIVE o AGENTS_AFTER_CONTACT_WORK o AGENTS_ERROR o AGENTS_STAFFED o CONTACTS_IN_QUEUE o OLDEST_CONTACT_AGE o CONTACTS_SCHEDULED o AGENTS_ON_CONTACT o SLOTS_ACTIVE o SLOTS_AVAILABLE o ESTIMATED_WAIT_TIME MetricId -&gt; (string) Out of the box current metrics or custom metrics can be ref- erenced via this field. This field is a valid AWS Connect Arn or a UUID. Constraints: o pattern: ^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(arn:[a-z0-9-]+:con- nect:[a-z0-9-]+:(?:([0-9]{12}):instance/[a-z0-9-]+/met- ric/[a-z0-9-]+(?::[a-z0-9-]+)?|aws:metric/[A-Z_]+))$ Unit -&gt; (string) NOTE: The Unit parameter is not supported for custom metrics. The unit for the metric. Possible values: o SECONDS o COUNT o PERCENT Shorthand Syntax: Name=string,MetricId=string,Unit=string ... JSON Syntax: [ { "Name": "AGENTS_ONLINE"|"AGENTS_AVAILABLE"|"AGENTS_ON_CALL"|"AGENTS_NON_PRODUCTIVE"|"AGENTS_AFTER_CONTACT_WORK"|"AGENTS_ERROR"|"AGENTS_STAFFED"|"CONTACTS_IN_QUEUE"|"OLDEST_CONTACT_AGE"|"CONTACTS_SCHEDULED"|"AGENTS_ON_CONTACT"|"SLOTS_ACTIVE"|"SLOTS_AVAILABLE"|"ESTIMATED_WAIT_TIME", "MetricId": "string", "Unit": "SECONDS"|"COUNT"|"PERCENT" } ... ]
+    /// </summary>
+    [CliOption("--current-metrics", GroupValues = true)]
+    public IEnumerable<string>? CurrentMetrics { get; private init; }
 
     /// <summary>
     /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common charac- teristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE , the metrics returned apply to each queue rather than aggregated for all queues. The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level. o If you group by CHANNEL , you should include a Channels filter. VOICE, CHAT, and TASK channels are supported. o If you group by AGENT_STATUS , you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS , the only metric available is the AGENTS_ONLINE met- ric. o If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as primary grouping and use Queue as filter o If you group by ROUTING_PROFILE , you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED , CONTACTS_IN_QUEUE , and OLDEST_CONTACT_AGE . o When using the RoutingStepExpression filter, group by ROUT- ING_STEP_EXPRESSION is required. Constraints: o max: 2 (string) Possible values: o QUEUE o CHANNEL o ROUTING_PROFILE o ROUTING_STEP_EXPRESSION o AGENT_STATUS o SUBTYPE o VALIDATION_TEST_TYPE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--groupings", GroupValues = true)]
     public IEnumerable<string>? Groupings { get; set; }
-
-    [CliOption("--current-metrics", GroupValues = true)]
-    public IEnumerable<string>? CurrentMetrics { get; set; }
 
     /// <summary>
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Sub- sequent requests that use the token must use the same request para- meters as the request that generated the token.
@@ -61,5 +123,21 @@ public record AwsConnectGetCurrentMetricDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

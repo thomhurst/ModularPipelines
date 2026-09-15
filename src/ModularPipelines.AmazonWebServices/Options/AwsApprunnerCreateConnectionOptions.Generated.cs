@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apprunner", "create-connection")]
-public record AwsApprunnerCreateConnectionOptions : AwsOptions
+public record AwsApprunnerCreateConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connection-name")]
-    public string? ConnectionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create an App Runner connection resource. App Runner requires a connec- tion resource when you create App Runner services that access private repositories from certain third-party providers. You can share a con- nection across multiple services. A connection resource is needed to access GitHub and Bitbucket reposi- tories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionName">A name for the new connection. It must be unique across all App Run- ner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    /// <param name="ProviderType">The source repository provider. Possible values: o GITHUB o BITBUCKET</param>
+    public AwsApprunnerCreateConnectionOptions(
+        string ConnectionName,
+        AwsApprunnerCreateConnectionProviderType ProviderType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionName);
+        this.ConnectionName = ConnectionName;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
+        this.ProviderType = ProviderType;
+    }
+
+    private AwsApprunnerCreateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApprunnerCreateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApprunnerCreateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the new connection. It must be unique across all App Run- ner connections for the Amazon Web Services account in the Amazon Web Services Region. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// </summary>
+    [CliOption("--connection-name")]
+    public string? ConnectionName { get; private init; }
+
+    /// <summary>
+    /// The source repository provider. Possible values: o GITHUB o BITBUCKET
+    /// </summary>
     [CliOption("--provider-type")]
-    public string? ProviderType { get; set; }
+    public AwsApprunnerCreateConnectionProviderType? ProviderType { get; private init; }
 
     /// <summary>
     /// A list of metadata items that you can associate with your connection resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +83,21 @@ public record AwsApprunnerCreateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

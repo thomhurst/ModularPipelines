@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,11 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "get-access-token")]
-public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions
+public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Token">Refresh token, encoded as a JWT token. Constraints: o max: 4096 o pattern: \S+</param>
+    public AwsLicenseManagerGetAccessTokenOptions(
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsLicenseManagerGetAccessTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerGetAccessTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerGetAccessTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Refresh token, encoded as a JWT token. Constraints: o max: 4096 o pattern: \S+
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
     /// <summary>
     /// Token properties to validate against those present in the JWT token. Constraints: o max: 3 (string) Syntax: "string" "string" ...
@@ -38,5 +75,21 @@ public record AwsLicenseManagerGetAccessTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

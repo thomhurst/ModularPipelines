@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "get-gateway-response")]
-public record AwsApigatewayGetGatewayResponseOptions : AwsOptions
+public record AwsApigatewayGetGatewayResponseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a GatewayResponse of a specified response type on the given RestApi. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="ResponseType">The response type of the associated GatewayResponse. Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED</param>
+    public AwsApigatewayGetGatewayResponseOptions(
+        string RestApiId,
+        string ResponseType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(ResponseType);
+        this.ResponseType = ResponseType;
+    }
+
+    private AwsApigatewayGetGatewayResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayGetGatewayResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayGetGatewayResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
+    [CliOption("--rest-api-id")]
+    public string? RestApiId { get; private init; }
+
+    /// <summary>
+    /// The response type of the associated GatewayResponse. Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED
+    /// </summary>
     [CliOption("--response-type")]
-    public string? ResponseType { get; set; }
+    public string? ResponseType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-analytics-configuration")]
-public record AwsS3apiPutBucketAnalyticsConfigurationOptions : AwsOptions
+public record AwsS3apiPutBucketAnalyticsConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets an analytics configuration for the bucket (specified by the ana- lytics configuration ID). You can have up to 1,000 analytics configura- tions per bucket. You can choose to have storage class analysis export analysis reports sent to a comma-separated values (CSV) flat file. See the DataExport request element. Reports are updated daily and are based on the object filters that you configure. When selecting data export, you specify a...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket to which an analytics configuration is stored.</param>
+    /// <param name="Id">The ID that identifies the analytics configuration.</param>
+    /// <param name="AnalyticsConfiguration">The configuration and any analyses for the analytics filter. Id -&gt; (string) [required] The ID that identifies the analytics configuration. Filter -&gt; (structure) The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis. Prefix -&gt; (string) The prefix to use when evaluating an analytics filter. Tag -&gt; (structure) The tag to use when evaluating an analytics filter. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates. Prefix -&gt; (string) The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results. Tags -&gt; (list) The list of tags to use when evaluating an AND predicate. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. StorageClassAnalysis -&gt; (structure) [required] Contains data related to access patterns to be collected and made available to analyze the tradeoffs between different stor- age classes. DataExport -&gt; (structure) Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported. OutputSchemaVersion -&gt; (string) [required] The version of the output schema to use when exporting data. Must be V_1 . Possible values: o V_1 Destination -&gt; (structure) [required] The place to store the data for an analysis. S3BucketDestination -&gt; (structure) [required] A destination signifying output to an S3 bucket. Format -&gt; (string) [required] Specifies the file format used when exporting data to Amazon S3. Possible values: o CSV BucketAccountId -&gt; (string) The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data. NOTE: Although this value is optional, we strongly recommend that you set it to help prevent prob- lems if the destination bucket ownership changes. Bucket -&gt; (string) [required] The Amazon Resource Name (ARN) of the bucket to which data is exported. Prefix -&gt; (string) The prefix to use when exporting data. The prefix is prepended to all results. JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } }, "StorageClassAnalysis": { "DataExport": { "OutputSchemaVersion": "V_1", "Destination": { "S3BucketDestination": { "Format": "CSV", "BucketAccountId": "string", "Bucket": "string", "Prefix": "string" } } } } }</param>
+    public AwsS3apiPutBucketAnalyticsConfigurationOptions(
+        string Bucket,
+        string Id,
+        string AnalyticsConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(AnalyticsConfiguration);
+        this.AnalyticsConfiguration = AnalyticsConfiguration;
+    }
+
+    private AwsS3apiPutBucketAnalyticsConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketAnalyticsConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketAnalyticsConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket to which an analytics configuration is stored.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
+    /// <summary>
+    /// The ID that identifies the analytics configuration.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The configuration and any analyses for the analytics filter. Id -&gt; (string) [required] The ID that identifies the analytics configuration. Filter -&gt; (structure) The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis. Prefix -&gt; (string) The prefix to use when evaluating an analytics filter. Tag -&gt; (structure) The tag to use when evaluating an analytics filter. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. And -&gt; (structure) A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates. Prefix -&gt; (string) The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results. Tags -&gt; (list) The list of tags to use when evaluating an AND predicate. (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. StorageClassAnalysis -&gt; (structure) [required] Contains data related to access patterns to be collected and made available to analyze the tradeoffs between different stor- age classes. DataExport -&gt; (structure) Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported. OutputSchemaVersion -&gt; (string) [required] The version of the output schema to use when exporting data. Must be V_1 . Possible values: o V_1 Destination -&gt; (structure) [required] The place to store the data for an analysis. S3BucketDestination -&gt; (structure) [required] A destination signifying output to an S3 bucket. Format -&gt; (string) [required] Specifies the file format used when exporting data to Amazon S3. Possible values: o CSV BucketAccountId -&gt; (string) The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data. NOTE: Although this value is optional, we strongly recommend that you set it to help prevent prob- lems if the destination bucket ownership changes. Bucket -&gt; (string) [required] The Amazon Resource Name (ARN) of the bucket to which data is exported. Prefix -&gt; (string) The prefix to use when exporting data. The prefix is prepended to all results. JSON Syntax: { "Id": "string", "Filter": { "Prefix": "string", "Tag": { "Key": "string", "Value": "string" }, "And": { "Prefix": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } }, "StorageClassAnalysis": { "DataExport": { "OutputSchemaVersion": "V_1", "Destination": { "S3BucketDestination": { "Format": "CSV", "BucketAccountId": "string", "Bucket": "string", "Prefix": "string" } } } } }
+    /// </summary>
     [CliOption("--analytics-configuration")]
-    public string? AnalyticsConfiguration { get; set; }
+    public string? AnalyticsConfiguration { get; private init; }
 
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
@@ -41,5 +92,21 @@ public record AwsS3apiPutBucketAnalyticsConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

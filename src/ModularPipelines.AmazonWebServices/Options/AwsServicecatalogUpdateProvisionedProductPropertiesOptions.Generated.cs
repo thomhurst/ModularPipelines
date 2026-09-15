@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "update-provisioned-product-properties")]
-public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOptions
+public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests updates to the properties of the specified provisioned prod- uct. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProvisionedProductId">The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductProperties">A map that contains the provisioned product properties to be up- dated. The LAUNCH_ROLE key accepts role ARNs. This key allows an adminis- trator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as Up- dateProvisionedProduct , TerminateProvisionedProduct , or Exe- cuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, ter- minate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provi- sioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the De- scribeRecord API. The previous owner can no longer use DescribeRe- cord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned prod- uct. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o OWNER o LAUNCH_ROLE Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}</param>
+    public AwsServicecatalogUpdateProvisionedProductPropertiesOptions(
+        string ProvisionedProductId,
+        IReadOnlyList<KeyValue> ProvisionedProductProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductId);
+        this.ProvisionedProductId = ProvisionedProductId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductProperties);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(ProvisionedProductProperties));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProvisionedProductProperties));
+            }
+
+            ProvisionedProductProperties = materialized;
+        }
+        this.ProvisionedProductProperties = ProvisionedProductProperties;
+    }
+
+    private AwsServicecatalogUpdateProvisionedProductPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogUpdateProvisionedProductPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogUpdateProvisionedProductPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the provisioned product. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioned-product-id")]
+    public string? ProvisionedProductId { get; private init; }
+
+    /// <summary>
+    /// A map that contains the provisioned product properties to be up- dated. The LAUNCH_ROLE key accepts role ARNs. This key allows an adminis- trator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as Up- dateProvisionedProduct , TerminateProvisionedProduct , or Exe- cuteProvisionedProductServiceAction . Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, ter- minate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provi- sioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the De- scribeRecord API. The previous owner can no longer use DescribeRe- cord , but can still see the product's history from when he was an owner using ListRecordHistory . If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned prod- uct. Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o OWNER o LAUNCH_ROLE Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: OWNER LAUNCH_ROLE JSON Syntax: {"OWNER"|"LAUNCH_ROLE": "string" ...}
+    /// </summary>
+    [CliOption("--provisioned-product-properties", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ProvisionedProductProperties { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--provisioned-product-id")]
-    public string? ProvisionedProductId { get; set; }
-
-    [CliOption("--provisioned-product-properties", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? ProvisionedProductProperties { get; set; }
 
     /// <summary>
     /// The idempotency token that uniquely identifies the provisioning product update request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
@@ -47,5 +102,21 @@ public record AwsServicecatalogUpdateProvisionedProductPropertiesOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

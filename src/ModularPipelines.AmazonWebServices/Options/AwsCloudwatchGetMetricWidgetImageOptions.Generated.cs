@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "get-metric-widget-image")]
-public record AwsCloudwatchGetMetricWidgetImageOptions : AwsOptions
+public record AwsCloudwatchGetMetricWidgetImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regu- larly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph fea- tures, including metric math and horizontal and vertical annotations. There is a limit...
+    /// </summary>
+    /// <param name="MetricWidget">A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, an- notations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax . If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.</param>
+    public AwsCloudwatchGetMetricWidgetImageOptions(
+        string MetricWidget
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricWidget);
+        this.MetricWidget = MetricWidget;
+    }
+
+    private AwsCloudwatchGetMetricWidgetImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchGetMetricWidgetImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchGetMetricWidgetImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, an- notations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax . If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
+    /// </summary>
     [CliOption("--metric-widget")]
-    public string? MetricWidget { get; set; }
+    public string? MetricWidget { get; private init; }
 
     /// <summary>
     /// The format of the resulting image. Only PNG images are supported. The default is png . If you specify png , the API returns an HTTP response with the content-type set to text/xml . The image data is in a MetricWidgetImage field. For example: &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt; &lt;GetMetricWidgetImageResult&gt; &lt;MetricWidgetImage&gt; iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip... &lt;/MetricWidgetImage&gt; &lt;/GetMetricWidgetImageResult&gt; &lt;ResponseMetadata&gt; &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt; &lt;/ResponseMetadata&gt; &lt;/GetMetricWidgetImageResponse&gt; The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an Amazon Web Services SDK, you should use png . If you specify image/png , the HTTP response has a content-type set to image/png , and the body of the response is a PNG image.
@@ -35,5 +72,21 @@ public record AwsCloudwatchGetMetricWidgetImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

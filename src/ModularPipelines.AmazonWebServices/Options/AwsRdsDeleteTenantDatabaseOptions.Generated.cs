@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "delete-tenant-database")]
-public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions
+public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a tenant database from your DB instance. This command only ap- plies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The user-supplied identifier for the DB instance that contains the tenant database that you want to delete.</param>
+    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to re- move from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.</param>
+    public AwsRdsDeleteTenantDatabaseOptions(
+        string DbInstanceIdentifier,
+        string TenantDbName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TenantDbName);
+        this.TenantDbName = TenantDbName;
+    }
+
+    private AwsRdsDeleteTenantDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDeleteTenantDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDeleteTenantDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The user-supplied identifier for the DB instance that contains the tenant database that you want to delete.
+    /// </summary>
     [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    public string? DbInstanceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The user-supplied name of the tenant database that you want to re- move from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.
+    /// </summary>
     [CliOption("--tenant-db-name")]
-    public string? TenantDbName { get; set; }
+    public string? TenantDbName { get; private init; }
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Specifies whether to skip the creation of a final DB snapshot before removing the tenant database from your DB instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't en- able this parameter, RDS creates a DB snapshot before it deletes the tenant database. By default, RDS doesn't skip the final snapshot. If you don't enable this parameter, you must specify the FinalDBSnap- shotIdentifier parameter.
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -41,5 +88,21 @@ public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

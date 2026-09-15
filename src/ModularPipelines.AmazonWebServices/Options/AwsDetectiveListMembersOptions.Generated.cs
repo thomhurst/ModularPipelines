@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "list-members")]
-public record AwsDetectiveListMembersOptions : AwsOptions
+public record AwsDetectiveListMembersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the list of member accounts for a behavior graph. For invited accounts, the results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organi- zation accounts that the Detective administrator account has not en- abled as member accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph for which to retrieve the list of mem- ber accounts. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    public AwsDetectiveListMembersOptions(
+        string GraphArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+    }
+
+    private AwsDetectiveListMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveListMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveListMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph for which to retrieve the list of mem- ber accounts. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
     [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    public string? GraphArn { get; private init; }
 
     /// <summary>
     /// For requests to retrieve the next page of member account results, the pagination token that was returned with the previous page of re- sults. The initial request does not include a pagination token. Constraints: o min: 1 o max: 1024
@@ -43,5 +80,21 @@ public record AwsDetectiveListMembersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

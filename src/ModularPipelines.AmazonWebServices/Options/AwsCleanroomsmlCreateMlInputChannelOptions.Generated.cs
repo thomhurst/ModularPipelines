@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "create-ml-input-channel")]
-public record AwsCleanroomsmlCreateMlInputChannelOptions : AwsOptions
+public record AwsCleanroomsmlCreateMlInputChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">The membership ID of the member that is creating the ML input chan- nel. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredModelAlgorithmAssociations">The associated configured model algorithms that are necessary to create this ML input channel. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+ Syntax: "string" "string" ...</param>
+    /// <param name="InputChannel">The input data that is used to create this ML input channel. dataSource -&gt; (tagged union structure) [required] The data source that is used to create the ML input channel. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: protectedQueryInputParameters. protectedQueryInputParameters -&gt; (structure) Provides information necessary to perform the protected query. sqlParameters -&gt; (structure) [required] The parameters for the SQL type Protected Query. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 computeConfiguration -&gt; (tagged union structure) Provides configuration information for the workers that will perform the protected query. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: worker. worker -&gt; (structure) The worker instances that will perform the compute work. type -&gt; (string) The instance type of the compute workers that are used. Possible values: o CR.1X o CR.4X o CR.8X number -&gt; (integer) The number of compute workers that are used. Constraints: o min: 2 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker com- pute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to opti- mize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 resultFormat -&gt; (string) The format in which the query results should be returned. If not specified, defaults to CSV . Possible values: o CSV o PARQUET roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role used to run the query specified in the dataSource field of the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedExcep- tion error. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ JSON Syntax: { "dataSource": { "protectedQueryInputParameters": { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }, "computeConfiguration": { "worker": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }, "resultFormat": "CSV"|"PARQUET" } }, "roleArn": "string" }</param>
+    /// <param name="Name">The name of the ML input channel. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="RetentionInDays">The number of days that the data in the ML input channel is re- tained. Constraints: o min: 1 o max: 30</param>
+    public AwsCleanroomsmlCreateMlInputChannelOptions(
+        string MembershipIdentifier,
+        IEnumerable<string> ConfiguredModelAlgorithmAssociations,
+        string InputChannel,
+        string Name,
+        int RetentionInDays
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConfiguredModelAlgorithmAssociations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConfiguredModelAlgorithmAssociations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConfiguredModelAlgorithmAssociations));
+            }
+
+            ConfiguredModelAlgorithmAssociations = materialized;
+        }
+        this.ConfiguredModelAlgorithmAssociations = ConfiguredModelAlgorithmAssociations;
+        global::System.ArgumentNullException.ThrowIfNull(InputChannel);
+        this.InputChannel = InputChannel;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.RetentionInDays = RetentionInDays;
+    }
+
+    private AwsCleanroomsmlCreateMlInputChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlCreateMlInputChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlCreateMlInputChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The membership ID of the member that is creating the ML input chan- nel. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The associated configured model algorithms that are necessary to create this ML input channel. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:clean- rooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/con- figured-model-algorithm-association/[-a-zA-Z0-9_/.]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--configured-model-algorithm-associations", GroupValues = true)]
-    public IEnumerable<string>? ConfiguredModelAlgorithmAssociations { get; set; }
+    public IEnumerable<string>? ConfiguredModelAlgorithmAssociations { get; private init; }
 
+    /// <summary>
+    /// The input data that is used to create this ML input channel. dataSource -&gt; (tagged union structure) [required] The data source that is used to create the ML input channel. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: protectedQueryInputParameters. protectedQueryInputParameters -&gt; (structure) Provides information necessary to perform the protected query. sqlParameters -&gt; (structure) [required] The parameters for the SQL type Protected Query. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 computeConfiguration -&gt; (tagged union structure) Provides configuration information for the workers that will perform the protected query. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: worker. worker -&gt; (structure) The worker instances that will perform the compute work. type -&gt; (string) The instance type of the compute workers that are used. Possible values: o CR.1X o CR.4X o CR.8X number -&gt; (integer) The number of compute workers that are used. Constraints: o min: 2 o max: 1024 properties -&gt; (tagged union structure) The configuration properties for the worker com- pute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: spark. spark -&gt; (map) The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to opti- mize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 200 value -&gt; (string) Constraints: o min: 0 o max: 500 resultFormat -&gt; (string) The format in which the query results should be returned. If not specified, defaults to CSV . Possible values: o CSV o PARQUET roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role used to run the query specified in the dataSource field of the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedExcep- tion error. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ JSON Syntax: { "dataSource": { "protectedQueryInputParameters": { "sqlParameters": { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }, "computeConfiguration": { "worker": { "type": "CR.1X"|"CR.4X"|"CR.8X", "number": integer, "properties": { "spark": {"string": "string" ...} } } }, "resultFormat": "CSV"|"PARQUET" } }, "roleArn": "string" }
+    /// </summary>
     [CliOption("--input-channel")]
-    public string? InputChannel { get; set; }
+    public string? InputChannel { get; private init; }
 
+    /// <summary>
+    /// The name of the ML input channel. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The number of days that the data in the ML input channel is re- tained. Constraints: o min: 1 o max: 30
+    /// </summary>
     [CliOption("--retention-in-days")]
-    public int? RetentionInDays { get; set; }
+    public int? RetentionInDays { get; private init; }
 
     /// <summary>
     /// The description of the ML input channel. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -66,5 +141,21 @@ public record AwsCleanroomsmlCreateMlInputChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

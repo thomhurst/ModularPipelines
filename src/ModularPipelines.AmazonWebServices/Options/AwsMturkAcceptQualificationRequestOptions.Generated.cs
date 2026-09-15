@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "accept-qualification-request")]
-public record AwsMturkAcceptQualificationRequestOptions : AwsOptions
+public record AwsMturkAcceptQualificationRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification re- quest for that type. A successful request for the AcceptQualificationRequest operation re- turns with no errors and an empty body. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the GetQualifi- cationRequests operation.</param>
+    public AwsMturkAcceptQualificationRequestOptions(
+        string QualificationRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationRequestId);
+        this.QualificationRequestId = QualificationRequestId;
+    }
+
+    private AwsMturkAcceptQualificationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkAcceptQualificationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkAcceptQualificationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification request, as returned by the GetQualifi- cationRequests operation.
+    /// </summary>
     [CliOption("--qualification-request-id")]
-    public string? QualificationRequestId { get; set; }
+    public string? QualificationRequestId { get; private init; }
 
     /// <summary>
     /// The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement.
@@ -35,5 +72,21 @@ public record AwsMturkAcceptQualificationRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

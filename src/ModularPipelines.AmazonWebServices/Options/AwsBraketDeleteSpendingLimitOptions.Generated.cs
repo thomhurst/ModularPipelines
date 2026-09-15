@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "delete-spending-limit")]
-public record AwsBraketDeleteSpendingLimitOptions : AwsOptions
+public record AwsBraketDeleteSpendingLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpendingLimitArn">The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*</param>
+    public AwsBraketDeleteSpendingLimitOptions(
+        string SpendingLimitArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpendingLimitArn);
+        this.SpendingLimitArn = SpendingLimitArn;
+    }
+
+    private AwsBraketDeleteSpendingLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketDeleteSpendingLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketDeleteSpendingLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*
+    /// </summary>
     [CliOption("--spending-limit-arn")]
-    public string? SpendingLimitArn { get; set; }
+    public string? SpendingLimitArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

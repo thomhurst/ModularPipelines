@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-meetings", "batch-update-attendee-capabilities-except")]
-public record AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions : AwsOptions
+public record AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates AttendeeCapabilities except the capabilities listed in an Ex- cludedAttendeeIds table. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you cre- ate a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video ...
+    /// </summary>
+    /// <param name="MeetingId">The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="ExcludedAttendeeIds">The AttendeeIDs that you want to exclude from one or more capabili- ties. Constraints: o min: 1 o max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]</param>
+    /// <param name="Capabilities">The capabilities (audio , video , or content ) that you want to up- date. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }</param>
+    public AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions(
+        string MeetingId,
+        IEnumerable<string> ExcludedAttendeeIds,
+        string Capabilities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeetingId);
+        this.MeetingId = MeetingId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ExcludedAttendeeIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ExcludedAttendeeIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ExcludedAttendeeIds));
+            }
+
+            ExcludedAttendeeIds = materialized;
+        }
+        this.ExcludedAttendeeIds = ExcludedAttendeeIds;
+        global::System.ArgumentNullException.ThrowIfNull(Capabilities);
+        this.Capabilities = Capabilities;
+    }
+
+    private AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// </summary>
     [CliOption("--meeting-id")]
-    public string? MeetingId { get; set; }
+    public string? MeetingId { get; private init; }
 
+    /// <summary>
+    /// The AttendeeIDs that you want to exclude from one or more capabili- ties. Constraints: o min: 1 o max: 250 (structure) A structure that contains one or more attendee IDs. AttendeeId -&gt; (string) [required] A list of one or more attendee IDs. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Shorthand Syntax: AttendeeId=string ... JSON Syntax: [ { "AttendeeId": "string" } ... ]
+    /// </summary>
     [CliOption("--excluded-attendee-ids", GroupValues = true)]
-    public IEnumerable<string>? ExcludedAttendeeIds { get; set; }
+    public IEnumerable<string>? ExcludedAttendeeIds { get; private init; }
 
+    /// <summary>
+    /// The capabilities (audio , video , or content ) that you want to up- date. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
+    /// </summary>
     [CliOption("--capabilities")]
-    public string? Capabilities { get; set; }
+    public string? Capabilities { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

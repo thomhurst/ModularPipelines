@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-transit-gateway-peering-attachment")]
-public record AwsEc2CreateTransitGatewayPeeringAttachmentOptions : AwsOptions
+public record AwsEc2CreateTransitGatewayPeeringAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The peer transit gateway can be in your account or a different Amazon Web Services account. After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayId">The ID of the transit gateway.</param>
+    /// <param name="PeerTransitGatewayId">The ID of the peer transit gateway with which to create the peering attachment.</param>
+    /// <param name="PeerAccountId">The ID of the Amazon Web Services account that owns the peer transit gateway.</param>
+    /// <param name="PeerRegion">The Region where the peer transit gateway is located.</param>
+    public AwsEc2CreateTransitGatewayPeeringAttachmentOptions(
+        string TransitGatewayId,
+        string PeerTransitGatewayId,
+        string PeerAccountId,
+        string PeerRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayId);
+        this.TransitGatewayId = TransitGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerTransitGatewayId);
+        this.PeerTransitGatewayId = PeerTransitGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAccountId);
+        this.PeerAccountId = PeerAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerRegion);
+        this.PeerRegion = PeerRegion;
+    }
+
+    private AwsEc2CreateTransitGatewayPeeringAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateTransitGatewayPeeringAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateTransitGatewayPeeringAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway.
+    /// </summary>
     [CliOption("--transit-gateway-id")]
-    public string? TransitGatewayId { get; set; }
+    public string? TransitGatewayId { get; private init; }
 
+    /// <summary>
+    /// The ID of the peer transit gateway with which to create the peering attachment.
+    /// </summary>
     [CliOption("--peer-transit-gateway-id")]
-    public string? PeerTransitGatewayId { get; set; }
+    public string? PeerTransitGatewayId { get; private init; }
 
+    /// <summary>
+    /// The ID of the Amazon Web Services account that owns the peer transit gateway.
+    /// </summary>
     [CliOption("--peer-account-id")]
-    public string? PeerAccountId { get; set; }
+    public string? PeerAccountId { get; private init; }
 
+    /// <summary>
+    /// The Region where the peer transit gateway is located.
+    /// </summary>
     [CliOption("--peer-region")]
-    public string? PeerRegion { get; set; }
+    public string? PeerRegion { get; private init; }
 
     /// <summary>
     /// Requests a transit gateway peering attachment. DynamicRouting -&gt; (string) Indicates whether dynamic routing is enabled or disabled. Possible values: o enable o disable Shorthand Syntax: DynamicRouting=string JSON Syntax: { "DynamicRouting": "enable"|"disable" }
@@ -45,7 +103,10 @@ public record AwsEc2CreateTransitGatewayPeeringAttachmentOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +114,21 @@ public record AwsEc2CreateTransitGatewayPeeringAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

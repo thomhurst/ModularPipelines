@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "get-parameters-by-path")]
-public record AwsSsmGetParametersByPathOptions : AwsOptions
+public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--path")]
-    public string? Path { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--recursive")]
+    /// <summary>
+    /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults . If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken . You ...
+    /// </summary>
+    /// <param name="Path">The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Fi- nance/Prod/IAD/WinServ2016/license33 Constraints: o min: 1 o max: 2048</param>
+    public AwsSsmGetParametersByPathOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    private AwsSsmGetParametersByPathOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmGetParametersByPathOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmGetParametersByPathOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Fi- nance/Prod/IAD/WinServ2016/license33 Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; private init; }
+
+    /// <summary>
+    /// Retrieve all parameters within a hierarchy. WARNING: If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a , then the user can also access /a/b . Even if a user has explicitly been denied access in IAM for parameter /a/b , they can still call the GetParametersByPath API operation re- cursively for /a and view /a/b .
+    /// </summary>
+    [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -34,7 +74,10 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions
     [CliOption("--parameter-filters", GroupValues = true)]
     public IEnumerable<string>? ParameterFilters { get; set; }
 
-    [CliFlag("--with-decryption")]
+    /// <summary>
+    /// Retrieve all parameters in a hierarchy with their value decrypted.
+    /// </summary>
+    [CliFlag("--with-decryption", NegatedName = "--no-with-decryption")]
     public bool? WithDecryption { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -61,5 +104,21 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

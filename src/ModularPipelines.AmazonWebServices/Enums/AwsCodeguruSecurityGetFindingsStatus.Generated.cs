@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodeguruSecurityGetFindingsStatus
 {
+    [EnumValue("All")]
+    All,
+
     [EnumValue("Closed")]
-    Closed = 1,
+    Closed,
 
     [EnumValue("Open")]
-    Open = 2,
-
-    [EnumValue("All")]
-    All = 3
+    Open
 }

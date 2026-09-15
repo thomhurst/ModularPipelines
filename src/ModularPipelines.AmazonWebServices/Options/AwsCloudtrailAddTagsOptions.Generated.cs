@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "add-tags")]
-public record AwsCloudtrailAddTagsOptions : AwsOptions
+public record AwsCloudtrailAddTagsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds one or more tags to a trail, event data store, dashboard, or chan- nel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different val- ues. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region...
+    /// </summary>
+    /// <param name="ResourceId">Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a dashboard ARN is: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash The format of a channel ARN is: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890</param>
+    /// <param name="TagsList">Contains a list of tags, up to a limit of 50 Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsCloudtrailAddTagsOptions(
+        string ResourceId,
+        IEnumerable<string> TagsList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagsList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagsList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagsList));
+            }
+
+            TagsList = materialized;
+        }
+        this.TagsList = TagsList;
+    }
+
+    private AwsCloudtrailAddTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailAddTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailAddTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a dashboard ARN is: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash The format of a channel ARN is: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// Contains a list of tags, up to a limit of 50 Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags-list", GroupValues = true)]
-    public IEnumerable<string>? TagsList { get; set; }
+    public IEnumerable<string>? TagsList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

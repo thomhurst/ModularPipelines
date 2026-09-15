@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-stage-devices")]
-public record AwsSagemakerListStageDevicesOptions : AwsOptions
+public record AwsSagemakerListStageDevicesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists devices allocated to the stage, containing detailed device infor- mation and deployment status. See also: AWS API Documentation list-stage-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// </summary>
+    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="StageName">The name of the stage in the deployment. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerListStageDevicesOptions(
+        string EdgeDeploymentPlanName,
+        string StageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EdgeDeploymentPlanName);
+        this.EdgeDeploymentPlanName = EdgeDeploymentPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+    }
+
+    private AwsSagemakerListStageDevicesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListStageDevicesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListStageDevicesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--edge-deployment-plan-name")]
-    public string? EdgeDeploymentPlanName { get; set; }
+    public string? EdgeDeploymentPlanName { get; private init; }
 
-    [CliFlag("--exclude-devices-deployed-in-other-stage")]
-    public bool? ExcludeDevicesDeployedInOtherStage { get; set; }
-
+    /// <summary>
+    /// The name of the stage in the deployment. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string? StageName { get; private init; }
+
+    /// <summary>
+    /// ployed-in-other-stage (boolean) Toggle for excluding devices deployed in other stages.
+    /// </summary>
+    [CliFlag("--exclude-devices-deployed-in-other-stage", NegatedName = "--no-exclude-devices-deployed-in-other-stage")]
+    public bool? ExcludeDevicesDeployedInOtherStage { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +102,21 @@ public record AwsSagemakerListStageDevicesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

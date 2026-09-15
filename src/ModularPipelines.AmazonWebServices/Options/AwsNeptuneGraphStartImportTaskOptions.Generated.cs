@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "start-import-task")]
-public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions
+public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Source">A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
+    public AwsNeptuneGraphStartImportTaskOptions(
+        string Source,
+        string GraphIdentifier,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(GraphIdentifier);
+        this.GraphIdentifier = GraphIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsNeptuneGraphStartImportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphStartImportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphStartImportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--graph-identifier")]
+    public string? GraphIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role that will allow access to the data that is to be imported. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
     /// <summary>
     /// Options for how to perform an import. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: neptune. neptune -&gt; (structure) Options for importing data from a Neptune database. s3ExportPath -&gt; (string) [required] The path to an S3 bucket from which to import data. Constraints: o min: 1 o max: 1024 s3ExportKmsKeyId -&gt; (string) [required] The KMS key to use to encrypt data in the S3 bucket where the graph data is exported Constraints: o min: 1 o max: 1024 preserveDefaultVertexLabels -&gt; (boolean) Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune as- signs default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when pre- serveDefaultVertexLabels is set to false. preserveEdgeIds -&gt; (boolean) Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId . Shorthand Syntax: neptune={s3ExportPath=string,s3ExportKmsKeyId=string,preserveDefaultVertexLabels=boolean,preserveEdgeIds=boolean} JSON Syntax: { "neptune": { "s3ExportPath": "string", "s3ExportKmsKeyId": "string", "preserveDefaultVertexLabels": true|false, "preserveEdgeIds": true|false } }
     /// </summary>
     [CliOption("--import-options")]
     public string? ImportOptions { get; set; }
 
-    [CliFlag("--fail-on-error")]
+    /// <summary>
+    /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
+    /// </summary>
+    [CliFlag("--fail-on-error", NegatedName = "--no-fail-on-error")]
     public bool? FailOnError { get; set; }
-
-    [CliOption("--source")]
-    public string? Source { get; set; }
 
     /// <summary>
     /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format. Possible values: o CSV o OPEN_CYPHER o PARQUET o NTRIPLES
@@ -52,16 +112,26 @@ public record AwsNeptuneGraphStartImportTaskOptions : AwsOptions
     [CliOption("--blank-node-handling")]
     public AwsNeptuneGraphStartImportTaskBlankNodeHandling? BlankNodeHandling { get; set; }
 
-    [CliOption("--graph-identifier")]
-    public string? GraphIdentifier { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

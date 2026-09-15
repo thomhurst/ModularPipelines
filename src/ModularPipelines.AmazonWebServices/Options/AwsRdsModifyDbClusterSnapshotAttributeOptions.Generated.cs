@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "modify-db-cluster-snapshot-attribute")]
-public record AwsRdsModifyDbClusterSnapshotAttributeOptions : AwsOptions
+public record AwsRdsModifyDbClusterSnapshotAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-cluster-snapshot-identifier")]
-    public string? DbClusterSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon W...
+    /// </summary>
+    /// <param name="DbClusterSnapshotIdentifier">The identifier for the DB cluster snapshot to modify the attributes for.</param>
+    /// <param name="AttributeName">The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB cluster snapshot, set this value to re- store . NOTE: To view the list of attributes available to modify, use the De- scribeDBClusterSnapshotAttributes API operation.</param>
+    public AwsRdsModifyDbClusterSnapshotAttributeOptions(
+        string DbClusterSnapshotIdentifier,
+        string AttributeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterSnapshotIdentifier);
+        this.DbClusterSnapshotIdentifier = DbClusterSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
+        this.AttributeName = AttributeName;
+    }
+
+    private AwsRdsModifyDbClusterSnapshotAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsModifyDbClusterSnapshotAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsModifyDbClusterSnapshotAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the DB cluster snapshot to modify the attributes for.
+    /// </summary>
+    [CliOption("--db-cluster-snapshot-identifier")]
+    public string? DbClusterSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB cluster snapshot, set this value to re- store . NOTE: To view the list of attributes available to modify, use the De- scribeDBClusterSnapshotAttributes API operation.
+    /// </summary>
     [CliOption("--attribute-name")]
-    public string? AttributeName { get; set; }
+    public string? AttributeName { get; private init; }
 
     /// <summary>
     /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon Web Services account IDs, or all to make the manual DB clus- ter snapshot restorable by any Amazon Web Services account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
@@ -44,5 +88,21 @@ public record AwsRdsModifyDbClusterSnapshotAttributeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

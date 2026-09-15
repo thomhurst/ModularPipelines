@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --enhancedmonitoring.
+/// Allowed values for --enhanced-monitoring.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKafkaCreateClusterEnhancedMonitoring
 {
     [EnumValue("DEFAULT")]
-    Default = 1,
+    Default,
 
     [EnumValue("PER_BROKER")]
-    PerBroker = 2,
+    PerBroker,
 
     [EnumValue("PER_TOPIC_PER_BROKER")]
-    PerTopicPerBroker = 3,
+    PerTopicPerBroker,
 
     [EnumValue("PER_TOPIC_PER_PARTITION")]
-    PerTopicPerPartition = 4
+    PerTopicPerPartition
 }

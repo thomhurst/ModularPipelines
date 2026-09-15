@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing-plan-manager", "update-subscription")]
-public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions
+public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the plan tier of an existing subscription. NOTE: Upgrades take effect immediately. Downgrades are scheduled and the current tier remains unchanged until the end of the billing cycle (calendar month). You cannot update a subscription while a scheduled change is pending. To make a new change, first cancel the pending change using CancelSubscriptionChange . This operation replaces the plan tier value. If you omit the op- tional usageLevel field, it is reset to the default. See also: AWS API...
+    /// </summary>
+    /// <param name="Arn">The ARN of the subscription to update. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="PlanTier">The new tier level for the subscription.</param>
+    /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response. This ensures you are updating the expected version of the subscription.</param>
+    public AwsPricingPlanManagerUpdateSubscriptionOptions(
+        string Arn,
+        string PlanTier,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(PlanTier);
+        this.PlanTier = PlanTier;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsPricingPlanManagerUpdateSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingPlanManagerUpdateSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingPlanManagerUpdateSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the subscription to update. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The new tier level for the subscription.
+    /// </summary>
     [CliOption("--plan-tier")]
-    public string? PlanTier { get; set; }
+    public string? PlanTier { get; private init; }
+
+    /// <summary>
+    /// The ETag value from a previous GetSubscription or ListSubscriptions response. This ensures you are updating the expected version of the subscription.
+    /// </summary>
+    [CliOption("--if-match")]
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// The usage level within the plan tier. Specify DEFAULT for the base configuration. If omitted, the usage level is reset to the default.
     /// </summary>
     [CliOption("--usage-level")]
     public string? UsageLevel { get; set; }
-
-    [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
@@ -49,5 +100,21 @@ public record AwsPricingPlanManagerUpdateSubscriptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

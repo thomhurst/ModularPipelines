@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "activate-gateway")]
-public record AwsStoragegatewayActivateGatewayOptions : AwsOptions
+public record AwsStoragegatewayActivateGatewayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Activates the gateway you previously deployed on your host. In the ac- tivation process, you specify information such as the Amazon Web Ser- vices Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation . NOTE: You must turn on the gateway VM before ...
+    /// </summary>
+    /// <param name="ActivationKey">Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response pro- vides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-re- lated parameters, however, these are merely defaults -- the argu- ments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: o min: 1 o max: 50</param>
+    /// <param name="GatewayName">The name you configured for your gateway. Constraints: o min: 2 o max: 255 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
+    /// <param name="GatewayTimezone">A value that indicates the time zone you want to set for the gate- way. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: o min: 3 o max: 10</param>
+    /// <param name="GatewayRegion">A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Ser- vices Region in your Host header in the request. For more informa- tion about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 25</param>
+    public AwsStoragegatewayActivateGatewayOptions(
+        string ActivationKey,
+        string GatewayName,
+        string GatewayTimezone,
+        string GatewayRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationKey);
+        this.ActivationKey = ActivationKey;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayName);
+        this.GatewayName = GatewayName;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayTimezone);
+        this.GatewayTimezone = GatewayTimezone;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayRegion);
+        this.GatewayRegion = GatewayRegion;
+    }
+
+    private AwsStoragegatewayActivateGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayActivateGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayActivateGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response pro- vides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-re- lated parameters, however, these are merely defaults -- the argu- ments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: o min: 1 o max: 50
+    /// </summary>
     [CliOption("--activation-key")]
-    public string? ActivationKey { get; set; }
+    public string? ActivationKey { get; private init; }
 
+    /// <summary>
+    /// The name you configured for your gateway. Constraints: o min: 2 o max: 255 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
+    /// </summary>
     [CliOption("--gateway-name")]
-    public string? GatewayName { get; set; }
+    public string? GatewayName { get; private init; }
 
+    /// <summary>
+    /// A value that indicates the time zone you want to set for the gate- way. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: o min: 3 o max: 10
+    /// </summary>
     [CliOption("--gateway-timezone")]
-    public string? GatewayTimezone { get; set; }
+    public string? GatewayTimezone { get; private init; }
 
+    /// <summary>
+    /// A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Ser- vices Region in your Host header in the request. For more informa- tion about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 25
+    /// </summary>
     [CliOption("--gateway-region")]
-    public string? GatewayRegion { get; set; }
+    public string? GatewayRegion { get; private init; }
 
     /// <summary>
     /// A value that defines the type of gateway to activate. The type spec- ified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED . WARNING: Amazon FSx File Gateway is no longer available to new customers. Existing customers of FSx File Gateway can continue to use the service normally. For capabilities similar to FSx File Gateway, visit this blog post . Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB Constraints: o min: 2 o max: 20
@@ -44,7 +101,7 @@ public record AwsStoragegatewayActivateGatewayOptions : AwsOptions
     /// The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5 Constraints: o min: 2 o max: 50
     /// </summary>
     [CliOption("--tape-drive-type")]
-    public AwsStoragegatewayActivateGatewayTapeDriveType? TapeDriveType { get; set; }
+    public string? TapeDriveType { get; set; }
 
     /// <summary>
     /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50
@@ -63,5 +120,21 @@ public record AwsStoragegatewayActivateGatewayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

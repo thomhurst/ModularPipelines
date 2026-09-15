@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "describe-trust-store-revocations")]
-public record AwsElbv2DescribeTrustStoreRevocationsOptions : AwsOptions
+public record AwsElbv2DescribeTrustStoreRevocationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the revocation files in use by the specified trust store or revocation files. See also: AWS API Documentation describe-trust-store-revocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// </summary>
+    /// <param name="TrustStoreArn">The Amazon Resource Name (ARN) of the trust store.</param>
+    public AwsElbv2DescribeTrustStoreRevocationsOptions(
+        string TrustStoreArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustStoreArn);
+        this.TrustStoreArn = TrustStoreArn;
+    }
+
+    private AwsElbv2DescribeTrustStoreRevocationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2DescribeTrustStoreRevocationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2DescribeTrustStoreRevocationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the trust store.
+    /// </summary>
     [CliOption("--trust-store-arn")]
-    public string? TrustStoreArn { get; set; }
+    public string? TrustStoreArn { get; private init; }
 
     /// <summary>
     /// The revocation IDs of the revocation files you want to describe. (long) Syntax: long long ...
@@ -55,5 +92,21 @@ public record AwsElbv2DescribeTrustStoreRevocationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

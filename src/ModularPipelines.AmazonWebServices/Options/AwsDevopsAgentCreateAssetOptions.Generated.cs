@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "create-asset")]
-public record AwsDevopsAgentCreateAssetOptions : AwsOptions
+public record AwsDevopsAgentCreateAssetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new asset in the specified agent space See also: AWS API Documentation create-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space where the asset will be created Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AssetType">The type of asset to create Constraints: o min: 1 o max: 64</param>
+    /// <param name="Content">The content for the asset. Provide a single file, a zip bundle, or a sourceUrl to import from an external source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: file, zip, sourceUrl. file -&gt; (structure) A single file with path and content path -&gt; (string) [required] The path of the file within the asset Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+ body -&gt; (tagged union structure) [required] The file content NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: o min: 0 o max: 6291456 text -&gt; (string) Text file content Constraints: o min: 0 o max: 6291456 metadata -&gt; (document) Optional metadata for this file zip -&gt; (structure) A zip file containing multiple files zipFile -&gt; (blob) [required] The zip file bytes Constraints: o min: 0 o max: 6291456 sourceUrl -&gt; (structure) A source URL to import asset content from url -&gt; (string) [required] The source URL to import asset content from. Constraints: o min: 1 o max: 2048 o pattern: https://.* Shorthand Syntax: file={path=string,body={bytes=blob,text=string}},zip={zipFile=blob},sourceUrl={url=string} JSON Syntax: { "file": { "path": "string", "body": { "bytes": blob, "text": "string" }, "metadata": {...} }, "zip": { "zipFile": blob }, "sourceUrl": { "url": "string" } }</param>
+    public AwsDevopsAgentCreateAssetOptions(
+        string AgentSpaceId,
+        string AssetType,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetType);
+        this.AssetType = AssetType;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsDevopsAgentCreateAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentCreateAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentCreateAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space where the asset will be created Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--agent-space-id")]
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The type of asset to create Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--asset-type")]
-    public string? AssetType { get; set; }
+    public string? AssetType { get; private init; }
+
+    /// <summary>
+    /// The content for the asset. Provide a single file, a zip bundle, or a sourceUrl to import from an external source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: file, zip, sourceUrl. file -&gt; (structure) A single file with path and content path -&gt; (string) [required] The path of the file within the asset Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+ body -&gt; (tagged union structure) [required] The file content NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: bytes, text. bytes -&gt; (blob) Binary file content Constraints: o min: 0 o max: 6291456 text -&gt; (string) Text file content Constraints: o min: 0 o max: 6291456 metadata -&gt; (document) Optional metadata for this file zip -&gt; (structure) A zip file containing multiple files zipFile -&gt; (blob) [required] The zip file bytes Constraints: o min: 0 o max: 6291456 sourceUrl -&gt; (structure) A source URL to import asset content from url -&gt; (string) [required] The source URL to import asset content from. Constraints: o min: 1 o max: 2048 o pattern: https://.* Shorthand Syntax: file={path=string,body={bytes=blob,text=string}},zip={zipFile=blob},sourceUrl={url=string} JSON Syntax: { "file": { "path": "string", "body": { "bytes": blob, "text": "string" }, "metadata": {...} }, "zip": { "zipFile": blob }, "sourceUrl": { "url": "string" } }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// The metadata describing this asset JSON Syntax: {...}
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier used for idempotent asset cre- ation Constraints: o min: 1 o max: 128
@@ -49,5 +100,21 @@ public record AwsDevopsAgentCreateAssetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

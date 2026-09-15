@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "delete-payment-session")]
-public record AwsBedrockAgentcoreDeletePaymentSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreDeletePaymentSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a payment session. This permanently removes the payment session record. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerArn">The payment manager ARN. Must match the session's paymentManagerArn. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentSessionId">The payment session ID to delete. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}</param>
+    public AwsBedrockAgentcoreDeletePaymentSessionOptions(
+        string PaymentManagerArn,
+        string PaymentSessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentSessionId);
+        this.PaymentSessionId = PaymentSessionId;
+    }
+
+    private AwsBedrockAgentcoreDeletePaymentSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreDeletePaymentSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreDeletePaymentSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The payment manager ARN. Must match the session's paymentManagerArn. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
+    /// <summary>
+    /// The payment session ID to delete. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}
+    /// </summary>
+    [CliOption("--payment-session-id")]
+    public string? PaymentSessionId { get; private init; }
+
     /// <summary>
     /// The user ID making the delete request. Must match the session's userId. Constraints: o min: 0 o max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
-
-    [CliOption("--payment-session-id")]
-    public string? PaymentSessionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

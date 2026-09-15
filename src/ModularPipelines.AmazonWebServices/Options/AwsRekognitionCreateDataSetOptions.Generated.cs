@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "create-dataset")]
-public record AwsRekognitionCreateDataSetOptions : AwsOptions
+public record AwsRekognitionCreateDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copy- ing an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify TRAIN for the value of DatasetType . To create the test dataset for a project, specify TEST for the value of DatasetType . The response from CreateDataset is the Amazon Resourc...
+    /// </summary>
+    /// <param name="DataSetType">The type of the dataset. Specify TRAIN to create a training dataset. Specify TEST to create a test dataset. Possible values: o TRAIN o TEST</param>
+    /// <param name="ProjectArn">The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    public AwsRekognitionCreateDataSetOptions(
+        AwsRekognitionCreateDataSetDataSetType DataSetType,
+        string ProjectArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetType);
+        this.DataSetType = DataSetType;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+    }
+
+    private AwsRekognitionCreateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionCreateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionCreateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the dataset. Specify TRAIN to create a training dataset. Specify TEST to create a test dataset. Possible values: o TRAIN o TEST
+    /// </summary>
+    [CliOption("--dataset-type")]
+    public AwsRekognitionCreateDataSetDataSetType? DataSetType { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
     /// <summary>
     /// The source files for the dataset. You can specify the ARN of an ex- isting dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format manifest file. If you don't specify datasetSource , an empty dataset is created. To add labeled images to the dataset, You can use the console or call UpdateDatasetEntries . GroundTruthManifest -&gt; (structure) The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file. S3Object -&gt; (structure) Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more informa- tion, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: o min: 1 o max: 1024 DatasetArn -&gt; (string) The ARN of an Amazon Rekognition Custom Labels dataset that you want to copy. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$) Shorthand Syntax: GroundTruthManifest={S3Object={Bucket=string,Name=string,Version=string}},DatasetArn=string JSON Syntax: { "GroundTruthManifest": { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }, "DatasetArn": "string" }
     /// </summary>
     [CliOption("--dataset-source")]
     public string? DataSetSource { get; set; }
-
-    [CliOption("--dataset-type")]
-    public string? DataSetType { get; set; }
-
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
 
     /// <summary>
     /// A set of tags (key-value pairs) that you want to attach to the dataset. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +90,21 @@ public record AwsRekognitionCreateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

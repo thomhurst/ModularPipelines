@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListAgentRecommendationsState
 {
-    [EnumValue("OPEN")]
-    Open = 1,
-
     [EnumValue("CLOSED")]
-    Closed = 2
+    Closed,
+
+    [EnumValue("OPEN")]
+    Open
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "send-delegation-token")]
-public record AwsIamSendDelegationTokenOptions : AwsOptions
+public record AwsIamSendDelegationTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notifica- tion channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called. For more details, see Managing...
+    /// </summary>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request for which to send the token. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    public AwsIamSendDelegationTokenOptions(
+        string DelegationRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DelegationRequestId);
+        this.DelegationRequestId = DelegationRequestId;
+    }
+
+    private AwsIamSendDelegationTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamSendDelegationTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamSendDelegationTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the delegation request for which to send the token. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// </summary>
     [CliOption("--delegation-request-id")]
-    public string? DelegationRequestId { get; set; }
+    public string? DelegationRequestId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

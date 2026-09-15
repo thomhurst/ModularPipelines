@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controlcatalog", "get-control")]
-public record AwsControlcatalogGetControlOptions : AwsOptions
+public record AwsControlcatalogGetControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not ap- ply. Controls that have the value REGIONAL in the Scope field retu...
+    /// </summary>
+    /// <param name="ControlArn">The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATA- LOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CON- TROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Con- trol Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: o min: 34 o max: 2048 o pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+</param>
+    public AwsControlcatalogGetControlOptions(
+        string ControlArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ControlArn);
+        this.ControlArn = ControlArn;
+    }
+
+    private AwsControlcatalogGetControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControlcatalogGetControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControlcatalogGetControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATA- LOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CON- TROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Con- trol Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: o min: 34 o max: 2048 o pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+
+    /// </summary>
     [CliOption("--control-arn")]
-    public string? ControlArn { get; set; }
+    public string? ControlArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

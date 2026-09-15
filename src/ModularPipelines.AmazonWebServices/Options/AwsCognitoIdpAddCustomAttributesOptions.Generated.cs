@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "add-custom-attributes")]
-public record AwsCognitoIdpAddCustomAttributesOptions : AwsOptions
+public record AwsCognitoIdpAddCustomAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds additional user attributes to the user pool schema. Custom attrib- utes can be mutable or immutable and have a custom: or dev: prefix. For more information, see Custom attributes . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more o Signing Amazon Web Services API Requests...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to add custom attributes. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="CustomAttributes">An array of custom attribute names and other properties. Sets the following characteristics: AttributeDataType The expected data type. Can be a string, a number, a date and time, or a boolean. Mutable If true, you can grant app clients write access to the attribute value. If false, the attribute value can only be set up on sign-up or administrator creation of users. Name The attribute name. For an attribute like custom:myAttribute , enter myAttribute for this field. Required When true, users who sign up or are created must set a value for the attribute. NumberAttributeConstraints The minimum and maximum length of accepted values for a Number -type attribute. StringAttributeConstraints The minimum and maximum length of accepted values for a String -type attribute. DeveloperOnlyAttribute This legacy option creates an attribute with a dev: prefix. You can only set the value of a developer-only attribute with administrative IAM credentials. Constraints: o min: 1 o max: 25 (structure) A list of the user attributes and their properties in your user pool. The attribute schema contains standard attributes, custom attributes with a custom: prefix, and developer attributes with a dev: prefix. For more information, see User pool attributes . Developer-only dev: attributes are a legacy feature of user pools, and are read-only to all app clients. You can create and update developer-only attributes only with IAM-authenticated API operations. Use app client read/write permissions instead. Name -&gt; (string) The name of your user pool attribute. When you create or up- date a user pool, adding a schema attribute creates a custom or developer-only attribute. When you add an attribute with a Name value of MyAttribute , Amazon Cognito creates the custom attribute custom:MyAttribute . When DeveloperOnlyAttribute is true , Amazon Cognito creates your attribute as dev:MyAt- tribute . In an operation that describes a user pool, Amazon Cognito returns this value as value for standard attributes, custom:value for custom attributes, and dev:value for devel- oper-only attributes.. Constraints: o min: 1 o max: 20 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AttributeDataType -&gt; (string) The data format of the values for your attribute. When you choose an AttributeDataType , Amazon Cognito validates the input against the data type. A custom attribute value in your user's ID token is always a string, for example "custom:is- Member" : "true" or "custom:YearsAsMember" : "12" . Possible values: o String o Number o DateTime o Boolean DeveloperOnlyAttribute -&gt; (boolean) NOTE: You should use WriteAttributes in the user pool client to control how attributes can be mutated for new use cases instead of using DeveloperOnlyAttribute . Specifies whether the attribute type is developer only. This attribute can only be modified by an administrator. Users won't be able to modify this attribute using their access to- ken. For example, DeveloperOnlyAttribute can be modified us- ing AdminUpdateUserAttributes but can't be updated using Up- dateUserAttributes. Mutable -&gt; (boolean) Specifies whether the value of the attribute can be changed. Any user pool attribute whose value you map from an IdP at- tribute must be mutable, with a parameter value of true . Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If an attribute is im- mutable, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool . Required -&gt; (boolean) Specifies whether a user pool attribute is required. If the attribute is required and the user doesn't provide a value, registration or sign-in will fail. NumberAttributeConstraints -&gt; (structure) Specifies the constraints for an attribute of the number type. MinValue -&gt; (string) The minimum value of an attribute that is of the number data type. Constraints: o min: 0 o max: 131072 MaxValue -&gt; (string) The maximum length of a number attribute value. Must be a number less than or equal to 2^1023 , represented as a string with a length of 131072 characters or fewer. Constraints: o min: 0 o max: 131072 StringAttributeConstraints -&gt; (structure) Specifies the constraints for an attribute of the string type. MinLength -&gt; (string) The minimum length of a string attribute value. Constraints: o min: 0 o max: 131072 MaxLength -&gt; (string) The maximum length of a string attribute value. Must be a number less than or equal to 2^1023 , represented as a string with a length of 131072 characters or fewer. Constraints: o min: 0 o max: 131072 Shorthand Syntax: Name=string,AttributeDataType=string,DeveloperOnlyAttribute=boolean,Mutable=boolean,Required=boolean,NumberAttributeConstraints={MinValue=string,MaxValue=string},StringAttributeConstraints={MinLength=string,MaxLength=string} ... JSON Syntax: [ { "Name": "string", "AttributeDataType": "String"|"Number"|"DateTime"|"Boolean", "DeveloperOnlyAttribute": true|false, "Mutable": true|false, "Required": true|false, "NumberAttributeConstraints": { "MinValue": "string", "MaxValue": "string" }, "StringAttributeConstraints": { "MinLength": "string", "MaxLength": "string" } } ... ]</param>
+    public AwsCognitoIdpAddCustomAttributesOptions(
+        string UserPoolId,
+        IEnumerable<string> CustomAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CustomAttributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CustomAttributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CustomAttributes));
+            }
+
+            CustomAttributes = materialized;
+        }
+        this.CustomAttributes = CustomAttributes;
+    }
+
+    private AwsCognitoIdpAddCustomAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAddCustomAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAddCustomAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to add custom attributes. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// An array of custom attribute names and other properties. Sets the following characteristics: AttributeDataType The expected data type. Can be a string, a number, a date and time, or a boolean. Mutable If true, you can grant app clients write access to the attribute value. If false, the attribute value can only be set up on sign-up or administrator creation of users. Name The attribute name. For an attribute like custom:myAttribute , enter myAttribute for this field. Required When true, users who sign up or are created must set a value for the attribute. NumberAttributeConstraints The minimum and maximum length of accepted values for a Number -type attribute. StringAttributeConstraints The minimum and maximum length of accepted values for a String -type attribute. DeveloperOnlyAttribute This legacy option creates an attribute with a dev: prefix. You can only set the value of a developer-only attribute with administrative IAM credentials. Constraints: o min: 1 o max: 25 (structure) A list of the user attributes and their properties in your user pool. The attribute schema contains standard attributes, custom attributes with a custom: prefix, and developer attributes with a dev: prefix. For more information, see User pool attributes . Developer-only dev: attributes are a legacy feature of user pools, and are read-only to all app clients. You can create and update developer-only attributes only with IAM-authenticated API operations. Use app client read/write permissions instead. Name -&gt; (string) The name of your user pool attribute. When you create or up- date a user pool, adding a schema attribute creates a custom or developer-only attribute. When you add an attribute with a Name value of MyAttribute , Amazon Cognito creates the custom attribute custom:MyAttribute . When DeveloperOnlyAttribute is true , Amazon Cognito creates your attribute as dev:MyAt- tribute . In an operation that describes a user pool, Amazon Cognito returns this value as value for standard attributes, custom:value for custom attributes, and dev:value for devel- oper-only attributes.. Constraints: o min: 1 o max: 20 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AttributeDataType -&gt; (string) The data format of the values for your attribute. When you choose an AttributeDataType , Amazon Cognito validates the input against the data type. A custom attribute value in your user's ID token is always a string, for example "custom:is- Member" : "true" or "custom:YearsAsMember" : "12" . Possible values: o String o Number o DateTime o Boolean DeveloperOnlyAttribute -&gt; (boolean) NOTE: You should use WriteAttributes in the user pool client to control how attributes can be mutated for new use cases instead of using DeveloperOnlyAttribute . Specifies whether the attribute type is developer only. This attribute can only be modified by an administrator. Users won't be able to modify this attribute using their access to- ken. For example, DeveloperOnlyAttribute can be modified us- ing AdminUpdateUserAttributes but can't be updated using Up- dateUserAttributes. Mutable -&gt; (boolean) Specifies whether the value of the attribute can be changed. Any user pool attribute whose value you map from an IdP at- tribute must be mutable, with a parameter value of true . Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If an attribute is im- mutable, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool . Required -&gt; (boolean) Specifies whether a user pool attribute is required. If the attribute is required and the user doesn't provide a value, registration or sign-in will fail. NumberAttributeConstraints -&gt; (structure) Specifies the constraints for an attribute of the number type. MinValue -&gt; (string) The minimum value of an attribute that is of the number data type. Constraints: o min: 0 o max: 131072 MaxValue -&gt; (string) The maximum length of a number attribute value. Must be a number less than or equal to 2^1023 , represented as a string with a length of 131072 characters or fewer. Constraints: o min: 0 o max: 131072 StringAttributeConstraints -&gt; (structure) Specifies the constraints for an attribute of the string type. MinLength -&gt; (string) The minimum length of a string attribute value. Constraints: o min: 0 o max: 131072 MaxLength -&gt; (string) The maximum length of a string attribute value. Must be a number less than or equal to 2^1023 , represented as a string with a length of 131072 characters or fewer. Constraints: o min: 0 o max: 131072 Shorthand Syntax: Name=string,AttributeDataType=string,DeveloperOnlyAttribute=boolean,Mutable=boolean,Required=boolean,NumberAttributeConstraints={MinValue=string,MaxValue=string},StringAttributeConstraints={MinLength=string,MaxLength=string} ... JSON Syntax: [ { "Name": "string", "AttributeDataType": "String"|"Number"|"DateTime"|"Boolean", "DeveloperOnlyAttribute": true|false, "Mutable": true|false, "Required": true|false, "NumberAttributeConstraints": { "MinValue": "string", "MaxValue": "string" }, "StringAttributeConstraints": { "MinLength": "string", "MaxLength": "string" } } ... ]
+    /// </summary>
     [CliOption("--custom-attributes", GroupValues = true)]
-    public IEnumerable<string>? CustomAttributes { get; set; }
+    public IEnumerable<string>? CustomAttributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

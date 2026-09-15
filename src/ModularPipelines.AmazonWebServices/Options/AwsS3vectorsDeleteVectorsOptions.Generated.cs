@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3vectors", "delete-vectors")]
-public record AwsS3vectorsDeleteVectorsOptions : AwsOptions
+public record AwsS3vectorsDeleteVectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this opera- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Keys">The keys of the vectors to delete. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    public AwsS3vectorsDeleteVectorsOptions(
+        IEnumerable<string> Keys
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Keys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Keys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Keys));
+            }
+
+            Keys = materialized;
+        }
+        this.Keys = Keys;
+    }
+
+    private AwsS3vectorsDeleteVectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3vectorsDeleteVectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3vectorsDeleteVectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keys of the vectors to delete. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--keys", GroupValues = true)]
+    public IEnumerable<string>? Keys { get; private init; }
+
     /// <summary>
     /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
     /// </summary>
@@ -39,13 +90,26 @@ public record AwsS3vectorsDeleteVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--keys", GroupValues = true)]
-    public IEnumerable<string>? Keys { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

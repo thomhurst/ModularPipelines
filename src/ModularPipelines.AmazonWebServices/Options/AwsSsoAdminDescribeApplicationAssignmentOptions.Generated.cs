@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "describe-application-assignment")]
-public record AwsSsoAdminDescribeApplicationAssignmentOptions : AwsOptions
+public record AwsSsoAdminDescribeApplicationAssignmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a direct assignment of a user or group to an application. If the user doesnt have a direct assignment to the application, the user may still have access to the application through a group. Therefore, dont use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="PrincipalId">An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference . Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="PrincipalType">The entity type for which the assignment will be created. Possible values: o USER o GROUP</param>
+    public AwsSsoAdminDescribeApplicationAssignmentOptions(
+        string ApplicationArn,
+        string PrincipalId,
+        AwsSsoAdminDescribeApplicationAssignmentPrincipalType PrincipalType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalId);
+        this.PrincipalId = PrincipalId;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalType);
+        this.PrincipalType = PrincipalType;
+    }
+
+    private AwsSsoAdminDescribeApplicationAssignmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminDescribeApplicationAssignmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminDescribeApplicationAssignmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
     [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    public string? ApplicationArn { get; private init; }
 
+    /// <summary>
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity Store API Reference . Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// </summary>
     [CliOption("--principal-id")]
-    public string? PrincipalId { get; set; }
+    public string? PrincipalId { get; private init; }
 
+    /// <summary>
+    /// The entity type for which the assignment will be created. Possible values: o USER o GROUP
+    /// </summary>
     [CliOption("--principal-type")]
-    public string? PrincipalType { get; set; }
+    public AwsSsoAdminDescribeApplicationAssignmentPrincipalType? PrincipalType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

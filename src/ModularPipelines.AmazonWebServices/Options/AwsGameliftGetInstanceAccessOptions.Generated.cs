@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "get-instance-access")]
-public record AwsGameliftGetInstanceAccessOptions : AwsOptions
+public record AwsGameliftGetInstanceAccessOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to in- stances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="InstanceId">A unique identifier for the instance you want to access. You can ac- cess an instance in any status. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$</param>
+    public AwsGameliftGetInstanceAccessOptions(
+        string FleetId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsGameliftGetInstanceAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftGetInstanceAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftGetInstanceAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the instance you want to access. You can ac- cess an instance in any status. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

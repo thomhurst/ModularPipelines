@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "delete-code-interpreter")]
-public record AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions : AwsOptions
+public record AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a custom code interpreter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CodeInterpreterId">The unique identifier of the code interpreter to delete. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})</param>
+    public AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions(
+        string CodeInterpreterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeInterpreterId);
+        this.CodeInterpreterId = CodeInterpreterId;
+    }
+
+    private AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the code interpreter to delete. Constraints: o pattern: (aws\.codeinter- preter\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})
+    /// </summary>
     [CliOption("--code-interpreter-id")]
-    public string? CodeInterpreterId { get; set; }
+    public string? CodeInterpreterId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -37,5 +74,21 @@ public record AwsBedrockAgentcoreControlDeleteCodeInterpreterOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

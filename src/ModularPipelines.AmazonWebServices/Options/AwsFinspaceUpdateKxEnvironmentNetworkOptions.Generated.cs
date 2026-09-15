@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "update-kx-environment-network")]
-public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions
+public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates environment network to connect to your internal network by us- ing a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    public AwsFinspaceUpdateKxEnvironmentNetworkOptions(
+        string EnvironmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+    }
+
+    private AwsFinspaceUpdateKxEnvironmentNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceUpdateKxEnvironmentNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceUpdateKxEnvironmentNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
     /// <summary>
     /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network. transitGatewayID -&gt; (string) [required] The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal net- work. Constraints: o min: 1 o max: 32 routableCIDRSpace -&gt; (string) [required] The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network. attachmentNetworkAclConfiguration -&gt; (list) The rules that define how you manage the outbound traffic from kdb network to your internal network. Constraints: o min: 1 o max: 100 (structure) The network access control list (ACL) is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. The entry is a set of numbered ingress and egress rules that determine whether a packet should be allowed in or out of a subnet associated with the ACL. We process the entries in the ACL according to the rule numbers, in ascending order. ruleNumber -&gt; (integer) [required] The rule number for the entry. For example 100 . All the network ACL entries are processed in ascending order by rule number. Constraints: o min: 1 o max: 32766 protocol -&gt; (string) [required] The protocol number. A value of -1 means all the proto- cols. Constraints: o min: 1 o max: 5 o pattern: ^-1|[0-9]+$ ruleAction -&gt; (string) [required] Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny portRange -&gt; (structure) The range of ports the rule applies to. from -&gt; (integer) [required] The first port in the range. Constraints: o min: 0 o max: 65535 to -&gt; (integer) [required] The last port in the range. Constraints: o min: 0 o max: 65535 icmpTypeCode -&gt; (structure) Defines the ICMP protocol that consists of the ICMP type and code. type -&gt; (integer) [required] The ICMP type. A value of -1 means all types. code -&gt; (integer) [required] The ICMP code. A value of -1 means all codes for the specified ICMP type. cidrBlock -&gt; (string) [required] The IPv4 network range to allow or deny, in CIDR nota- tion. For example, 172.16.0.0/24 . We modify the speci- fied CIDR block to its canonical form. For example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 . Constraints: o min: 1 o max: 18 o pattern: ^(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:3[0-2]|[12]\d|\d))$ JSON Syntax: { "transitGatewayID": "string", "routableCIDRSpace": "string", "attachmentNetworkAclConfiguration": [ { "ruleNumber": integer, "protocol": "string", "ruleAction": "allow"|"deny", "portRange": { "from": integer, "to": integer }, "icmpTypeCode": { "type": integer, "code": integer }, "cidrBlock": "string" } ... ] }
@@ -49,5 +86,21 @@ public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

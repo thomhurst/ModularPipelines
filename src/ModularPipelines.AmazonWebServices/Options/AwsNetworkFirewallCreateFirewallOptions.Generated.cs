@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "create-firewall")]
-public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
+public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--firewall-name")]
-    public string? FirewallName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall end- points, and any tags that are attached to the firewall Amazon Web Ser- vices resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for...
+    /// </summary>
+    /// <param name="FirewallName">The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="FirewallPolicyArn">The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    public AwsNetworkFirewallCreateFirewallOptions(
+        string FirewallName,
+        string FirewallPolicyArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallName);
+        this.FirewallName = FirewallName;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicyArn);
+        this.FirewallPolicyArn = FirewallPolicyArn;
+    }
+
+    private AwsNetworkFirewallCreateFirewallOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallCreateFirewallOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallCreateFirewallOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
+    [CliOption("--firewall-name")]
+    public string? FirewallName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// </summary>
     [CliOption("--firewall-policy-arn")]
-    public string? FirewallPolicyArn { get; set; }
+    public string? FirewallPolicyArn { get; private init; }
 
     /// <summary>
     /// The unique identifier of the VPC where Network Firewall should cre- ate the firewall. You can't change this setting after you create the firewall. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$
@@ -39,13 +83,22 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     [CliOption("--subnet-mappings", GroupValues = true)]
     public IEnumerable<string>? SubnetMappings { get; set; }
 
-    [CliFlag("--delete-protection")]
+    /// <summary>
+    /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE .
+    /// </summary>
+    [CliFlag("--delete-protection", NegatedName = "--no-delete-protection")]
     public bool? DeleteProtection { get; set; }
 
-    [CliFlag("--subnet-change-protection")]
+    /// <summary>
+    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
+    [CliFlag("--subnet-change-protection", NegatedName = "--no-subnet-change-protection")]
     public bool? SubnetChangeProtection { get; set; }
 
-    [CliFlag("--firewall-policy-change-protection")]
+    /// <summary>
+    /// tection (boolean) A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// </summary>
+    [CliFlag("--firewall-policy-change-protection", NegatedName = "--no-firewall-policy-change-protection")]
     public bool? FirewallPolicyChangeProtection { get; set; }
 
     /// <summary>
@@ -85,9 +138,9 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     public IEnumerable<string>? AvailabilityZoneMappings { get; set; }
 
     /// <summary>
-    /// | --no-availabil- ity-zone-change-protection (boolean) Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtec- tion . Default value: FALSE
+    /// ity-zone-change-protection (boolean) Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE , you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtec- tion . Default value: FALSE
     /// </summary>
-    [CliFlag("--availability-zone-change-protection")]
+    [CliFlag("--availability-zone-change-protection", NegatedName = "--no-availability-zone-change-protection")]
     public bool? AvailabilityZoneChangeProtection { get; set; }
 
     /// <summary>
@@ -102,7 +155,10 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
     [CliOption("--proxy-settings")]
     public string? ProxySettings { get; set; }
 
-    [CliFlag("--no-source-preservation")]
+    /// <summary>
+    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE , the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP ad- dress as the source. When you set this to TRUE , you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings . You can't change this setting after you create the firewall. Default value: FALSE
+    /// </summary>
+    [CliFlag("--no-source-preservation", NegatedName = "--no-no-source-preservation")]
     public bool? NoSourcePreservation { get; set; }
 
     /// <summary>
@@ -116,5 +172,21 @@ public record AwsNetworkFirewallCreateFirewallOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

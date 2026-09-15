@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "request-phone-number")]
-public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the End User Messaging SMS User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
+    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL</param>
+    /// <param name="NumberCapabilities">Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
+    /// <param name="NumberType">The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: o LONG_CODE o TOLL_FREE o TEN_DLC o SIMULATOR</param>
+    public AwsPinpointSmsVoiceV2RequestPhoneNumberOptions(
+        string IsoCountryCode,
+        AwsPinpointSmsVoiceV2RequestPhoneNumberMessageType MessageType,
+        IEnumerable<string> NumberCapabilities,
+        AwsPinpointSmsVoiceV2RequestPhoneNumberNumberType NumberType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IsoCountryCode);
+        this.IsoCountryCode = IsoCountryCode;
+        global::System.ArgumentNullException.ThrowIfNull(MessageType);
+        this.MessageType = MessageType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NumberCapabilities);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NumberCapabilities));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NumberCapabilities));
+            }
+
+            NumberCapabilities = materialized;
+        }
+        this.NumberCapabilities = NumberCapabilities;
+        global::System.ArgumentNullException.ThrowIfNull(NumberType);
+        this.NumberType = NumberType;
+    }
+
+    private AwsPinpointSmsVoiceV2RequestPhoneNumberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2RequestPhoneNumberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2RequestPhoneNumberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// </summary>
     [CliOption("--iso-country-code")]
-    public string? IsoCountryCode { get; set; }
+    public string? IsoCountryCode { get; private init; }
 
+    /// <summary>
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL
+    /// </summary>
     [CliOption("--message-type")]
-    public string? MessageType { get; set; }
+    public AwsPinpointSmsVoiceV2RequestPhoneNumberMessageType? MessageType { get; private init; }
 
+    /// <summary>
+    /// Indicates if the phone number will be used for text messages, voice messages, or both. Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--number-capabilities", GroupValues = true)]
-    public IEnumerable<string>? NumberCapabilities { get; set; }
+    public IEnumerable<string>? NumberCapabilities { get; private init; }
 
+    /// <summary>
+    /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL . Possible values: o LONG_CODE o TOLL_FREE o TEN_DLC o SIMULATOR
+    /// </summary>
     [CliOption("--number-type")]
-    public string? NumberType { get; set; }
+    public AwsPinpointSmsVoiceV2RequestPhoneNumberNumberType? NumberType { get; private init; }
 
     /// <summary>
     /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
@@ -52,10 +122,22 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
     [CliOption("--registration-id")]
     public string? RegistrationId { get; set; }
 
-    [CliFlag("--international-sending-enabled")]
+    /// <summary>
+    /// An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US . Constraints: o min: 1 o max: 1 (structure) A single number preference specifies a pattern type and filter value. PreferenceType -&gt; (list) [required] The type of match to apply to the filter values. o StartsWith : Returns numbers that begin with the filter value. o EndsWith : Returns numbers that end with the filter value. o Contains : Returns numbers that contain the filter value. o ExactMatch : Returns the number that exactly matches the filter value. Constraints: o min: 1 o max: 1 (string) The type of pattern matching to apply. Possible values: o StartsWith o EndsWith o Contains o ExactMatch Filter -&gt; (list) [required] The digit pattern values to match against available phone numbers, using the specified preference type. Constraints: o min: 1 o max: 10 (string) A filter value either a pattern (e.g., "+1510") or full E.164 number. Constraints: o min: 2 o max: 16 o pattern: \+?[0-9]{1,15} Shorthand Syntax: PreferenceType=string,string,Filter=string,string ... JSON Syntax: [ { "PreferenceType": ["StartsWith"|"EndsWith"|"Contains"|"ExactMatch", ...], "Filter": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--number-preference", GroupValues = true)]
+    public IEnumerable<string>? NumberPreference { get; set; }
+
+    /// <summary>
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    /// </summary>
+    [CliFlag("--international-sending-enabled", NegatedName = "--no-international-sending-enabled")]
     public bool? InternationalSendingEnabled { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the phone number can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -76,5 +158,21 @@ public record AwsPinpointSmsVoiceV2RequestPhoneNumberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

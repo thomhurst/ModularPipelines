@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-account-settings")]
-public record AwsQuicksightUpdateAccountSettingsOptions : AwsOptions
+public record AwsQuicksightUpdateAccountSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the Amazon Quick Sight settings in your Amazon Web Services ac- count. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the Quick Sight settings that you want to list. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DefaultNamespace">The default namespace for this Amazon Web Services account. Cur- rently, the default is default . IAM users that register for the first time with Amazon Quick Sight provide an email address that be- comes associated with the default namespace. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsQuicksightUpdateAccountSettingsOptions(
+        string AwsAccountId,
+        string DefaultNamespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DefaultNamespace);
+        this.DefaultNamespace = DefaultNamespace;
+    }
+
+    private AwsQuicksightUpdateAccountSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateAccountSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateAccountSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that contains the Quick Sight settings that you want to list. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The default namespace for this Amazon Web Services account. Cur- rently, the default is default . IAM users that register for the first time with Amazon Quick Sight provide an email address that be- comes associated with the default namespace. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--default-namespace")]
-    public string? DefaultNamespace { get; set; }
+    public string? DefaultNamespace { get; private init; }
 
     /// <summary>
     /// The email address that you want Quick Sight to send notifications to regarding your Amazon Web Services account or Quick Sight subscrip- tion.
@@ -33,7 +77,10 @@ public record AwsQuicksightUpdateAccountSettingsOptions : AwsOptions
     [CliOption("--notification-email")]
     public string? NotificationEmail { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// A boolean value that determines whether or not an Quick Sight ac- count can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the ac- count to be deleted.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsQuicksightUpdateAccountSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

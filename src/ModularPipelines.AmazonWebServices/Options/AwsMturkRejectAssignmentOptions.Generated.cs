@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "reject-assignment")]
-public record AwsMturkRejectAssignmentOptions : AwsOptions
+public record AwsMturkRejectAssignmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--assignment-id")]
-    public string? AssignmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The RejectAssignment operation rejects the results of a completed as- signment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you in- clude a feedback message with the rejection, it helps the Worker under- stand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT. See also: AWS...
+    /// </summary>
+    /// <param name="AssignmentId">The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="RequesterFeedback">A message for the Worker, which the Worker can see in the Status section of the web site.</param>
+    public AwsMturkRejectAssignmentOptions(
+        string AssignmentId,
+        string RequesterFeedback
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssignmentId);
+        this.AssignmentId = AssignmentId;
+        global::System.ArgumentNullException.ThrowIfNull(RequesterFeedback);
+        this.RequesterFeedback = RequesterFeedback;
+    }
+
+    private AwsMturkRejectAssignmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkRejectAssignmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkRejectAssignmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--assignment-id")]
+    public string? AssignmentId { get; private init; }
+
+    /// <summary>
+    /// A message for the Worker, which the Worker can see in the Status section of the web site.
+    /// </summary>
     [CliOption("--requester-feedback")]
-    public string? RequesterFeedback { get; set; }
+    public string? RequesterFeedback { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

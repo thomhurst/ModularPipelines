@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "delete-ota-update")]
-public record AwsIotDeleteOtaUpdateOptions : AwsOptions
+public record AwsIotDeleteOtaUpdateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ota-update-id")]
-    public string? OtaUpdateId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-stream")]
+    /// <summary>
+    /// Delete an OTA update. Requires permission to access the DeleteOTAUpdate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OtaUpdateId">The ID of the OTA update to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotDeleteOtaUpdateOptions(
+        string OtaUpdateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OtaUpdateId);
+        this.OtaUpdateId = OtaUpdateId;
+    }
+
+    private AwsIotDeleteOtaUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDeleteOtaUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDeleteOtaUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the OTA update to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--ota-update-id")]
+    public string? OtaUpdateId { get; private init; }
+
+    /// <summary>
+    /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
+    /// </summary>
+    [CliFlag("--delete-stream", NegatedName = "--no-delete-stream")]
     public bool? DeleteStream { get; set; }
 
-    [CliFlag("--force-delete-aws-job")]
+    /// <summary>
+    /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The de- fault is false.
+    /// </summary>
+    [CliFlag("--force-delete-aws-job", NegatedName = "--no-force-delete-aws-job")]
     public bool? ForceDeleteAwsJob { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,21 @@ public record AwsIotDeleteOtaUpdateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

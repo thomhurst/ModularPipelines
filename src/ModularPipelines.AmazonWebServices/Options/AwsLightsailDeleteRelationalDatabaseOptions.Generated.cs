@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-relational-database")]
-public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions
+public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access con- trol via resource tags applied to the resource identified by relation- alDatabaseName. For more information, see the Amazon Lightsail Devel- oper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of the database that you are deleting. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailDeleteRelationalDatabaseOptions(
+        string RelationalDatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+    }
+
+    private AwsLightsailDeleteRelationalDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteRelationalDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteRelationalDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database that you are deleting. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--relational-database-name")]
+    public string? RelationalDatabaseName { get; private init; }
+
+    /// <summary>
+    /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created be- fore your database is deleted. You must specify the final relational database snapshot name parame- ter if the skip final snapshot parameter is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -38,5 +78,21 @@ public record AwsLightsailDeleteRelationalDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "get-config")]
-public record AwsGroundstationGetConfigOptions : AwsOptions
+public record AwsGroundstationGetConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--config-id")]
-    public string? ConfigId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns Config information. Only one Config response can be returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigId">UUID of a Config . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ConfigType">Type of a Config . Possible values: o antenna-downlink o antenna-downlink-demod-decode o tracking o dataflow-endpoint o antenna-uplink o uplink-echo o s3-recording o telemetry-sink</param>
+    public AwsGroundstationGetConfigOptions(
+        string ConfigId,
+        AwsGroundstationGetConfigConfigType ConfigType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigId);
+        this.ConfigId = ConfigId;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigType);
+        this.ConfigType = ConfigType;
+    }
+
+    private AwsGroundstationGetConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationGetConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationGetConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// UUID of a Config . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--config-id")]
+    public string? ConfigId { get; private init; }
+
+    /// <summary>
+    /// Type of a Config . Possible values: o antenna-downlink o antenna-downlink-demod-decode o tracking o dataflow-endpoint o antenna-uplink o uplink-echo o s3-recording o telemetry-sink
+    /// </summary>
     [CliOption("--config-type")]
-    public string? ConfigType { get; set; }
+    public AwsGroundstationGetConfigConfigType? ConfigType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

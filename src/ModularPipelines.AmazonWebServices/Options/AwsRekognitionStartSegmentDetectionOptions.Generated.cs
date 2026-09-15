@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "start-segment-detection")]
-public record AwsRekognitionStartSegmentDetectionOptions : AwsOptions
+public record AwsRekognitionStartSegmentDetectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts asynchronous detection of segment detection in a stored video. Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartSegmentDetection returns a job identifier (Jo- bId ) which you use to get the results of the operation. When segment detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in Notif...
+    /// </summary>
+    /// <param name="Video">Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as StartLabelDetection use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="SegmentTypes">An array of segment types to detect in the video. Valid values are TECHNICAL_CUE and SHOT. Constraints: o min: 1 (string) Possible values: o TECHNICAL_CUE o SHOT Syntax: "string" "string" ...</param>
+    public AwsRekognitionStartSegmentDetectionOptions(
+        string Video,
+        IEnumerable<string> SegmentTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Video);
+        this.Video = Video;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SegmentTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SegmentTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SegmentTypes));
+            }
+
+            SegmentTypes = materialized;
+        }
+        this.SegmentTypes = SegmentTypes;
+    }
+
+    private AwsRekognitionStartSegmentDetectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionStartSegmentDetectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionStartSegmentDetectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as StartLabelDetection use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
     [CliOption("--video")]
-    public string? Video { get; set; }
+    public string? Video { get; private init; }
+
+    /// <summary>
+    /// An array of segment types to detect in the video. Valid values are TECHNICAL_CUE and SHOT. Constraints: o min: 1 (string) Possible values: o TECHNICAL_CUE o SHOT Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--segment-types", GroupValues = true)]
+    public IEnumerable<string>? SegmentTypes { get; private init; }
 
     /// <summary>
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartSegmentDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -50,13 +108,26 @@ public record AwsRekognitionStartSegmentDetectionOptions : AwsOptions
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CliOption("--segment-types", GroupValues = true)]
-    public IEnumerable<string>? SegmentTypes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

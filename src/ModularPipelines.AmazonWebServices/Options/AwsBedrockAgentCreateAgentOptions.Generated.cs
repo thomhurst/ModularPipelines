@@ -12,20 +12,57 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an agent that orchestrates interactions between foundation mod- els, data sources, software applications, user conversations, and APIs to carry out tasks to help customers. o Specify the following fields for security purposes. o agentResourceRoleArn The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent. o (Optional) customerEncryptionKeyArn The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent. o (Optional) idleSession...
+/// NOTE: Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change . Creates an agent that orchestrates interactions between foundation mod- els, data sources, software applications, user conversations, and APIs to carry out tasks to help cust...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "create-agent")]
-public record AwsBedrockAgentCreateAgentOptions : AwsOptions
+public record AwsBedrockAgentCreateAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change . Creates an agent that orchestrates interactions between foundation mod- els, data sources, software applications, user conversations, and APIs to carry out tasks to help cust...
+    /// </summary>
+    /// <param name="AgentName">A name for the agent that you create. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    public AwsBedrockAgentCreateAgentOptions(
+        string AgentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentName);
+        this.AgentName = AgentName;
+    }
+
+    private AwsBedrockAgentCreateAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentCreateAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentCreateAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the agent that you create. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// </summary>
     [CliOption("--agent-name")]
-    public string? AgentName { get; set; }
+    public string? AgentName { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -117,5 +154,21 @@ public record AwsBedrockAgentCreateAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

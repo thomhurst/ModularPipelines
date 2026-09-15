@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "upgrade-applied-schema")]
-public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions
+public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor ver- sion upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple di- rectories from one schema, you would need to call this API on each di- rectory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PublishedSchemaArn">The revision of the published schema to upgrade the directory to.</param>
+    /// <param name="DirectoryArn">The ARN for the directory to which the upgraded schema will be ap- plied.</param>
+    public AwsClouddirectoryUpgradeAppliedSchemaOptions(
+        string PublishedSchemaArn,
+        string DirectoryArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublishedSchemaArn);
+        this.PublishedSchemaArn = PublishedSchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+    }
+
+    private AwsClouddirectoryUpgradeAppliedSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryUpgradeAppliedSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryUpgradeAppliedSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The revision of the published schema to upgrade the directory to.
+    /// </summary>
     [CliOption("--published-schema-arn")]
-    public string? PublishedSchemaArn { get; set; }
+    public string? PublishedSchemaArn { get; private init; }
 
+    /// <summary>
+    /// The ARN for the directory to which the upgraded schema will be ap- plied.
+    /// </summary>
     [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    public string? DirectoryArn { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Used for testing whether the major version schemas are backward com- patible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsClouddirectoryUpgradeAppliedSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

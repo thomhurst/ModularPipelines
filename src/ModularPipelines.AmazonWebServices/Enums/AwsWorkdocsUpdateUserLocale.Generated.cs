@@ -16,36 +16,36 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkdocsUpdateUserLocale
 {
-    [EnumValue("en")]
-    En = 1,
-
-    [EnumValue("fr")]
-    Fr = 2,
-
-    [EnumValue("ko")]
-    Ko = 3,
-
     [EnumValue("de")]
-    De = 4,
-
-    [EnumValue("es")]
-    Es = 5,
-
-    [EnumValue("ja")]
-    Ja = 6,
-
-    [EnumValue("ru")]
-    Ru = 7,
-
-    [EnumValue("zh_CN")]
-    ZhCn = 8,
-
-    [EnumValue("zh_TW")]
-    ZhTw = 9,
-
-    [EnumValue("pt_BR")]
-    PtBr = 10,
+    De,
 
     [EnumValue("default")]
-    Default = 11
+    Default,
+
+    [EnumValue("en")]
+    En,
+
+    [EnumValue("es")]
+    Es,
+
+    [EnumValue("fr")]
+    Fr,
+
+    [EnumValue("ja")]
+    Ja,
+
+    [EnumValue("ko")]
+    Ko,
+
+    [EnumValue("pt_BR")]
+    PtBr,
+
+    [EnumValue("ru")]
+    Ru,
+
+    [EnumValue("zh_CN")]
+    ZhCn,
+
+    [EnumValue("zh_TW")]
+    ZhTw
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "get-integration")]
-public record AwsLogsGetIntegrationOptions : AwsOptions
+public record AwsLogsGetIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about one integration between CloudWatch Logs and OpenSearch Service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationName">The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    public AwsLogsGetIntegrationOptions(
+        string IntegrationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
+        this.IntegrationName = IntegrationName;
+    }
+
+    private AwsLogsGetIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsGetIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsGetIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// </summary>
     [CliOption("--integration-name")]
-    public string? IntegrationName { get; set; }
+    public string? IntegrationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

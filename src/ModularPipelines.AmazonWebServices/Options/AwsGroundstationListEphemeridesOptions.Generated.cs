@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "list-ephemerides")]
-public record AwsGroundstationListEphemeridesOptions : AwsOptions
+public record AwsGroundstationListEphemeridesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List your existing ephemerides. See also: AWS API Documentation list-ephemerides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ephemerides
+    /// </summary>
+    /// <param name="StartTime">The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.</param>
+    /// <param name="EndTime">The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.</param>
+    public AwsGroundstationListEphemeridesOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsGroundstationListEphemeridesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationListEphemeridesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationListEphemeridesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
+
     /// <summary>
     /// The AWS Ground Station satellite ID to list ephemeris for. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
@@ -34,12 +84,6 @@ public record AwsGroundstationListEphemeridesOptions : AwsOptions
     /// </summary>
     [CliOption("--ephemeris-type")]
     public AwsGroundstationListEphemeridesEphemerisType? EphemerisType { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
 
     /// <summary>
     /// The list of ephemeris status to return. Constraints: o min: 0 o max: 500 (string) Possible values: o VALIDATING o INVALID o ERROR o ENABLED o DISABLED o EXPIRED Syntax: "string" "string" ...
@@ -71,5 +115,21 @@ public record AwsGroundstationListEphemeridesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

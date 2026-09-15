@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "export-compliance-inquiry")]
-public record AwsArtifactExportComplianceInquiryOptions : AwsOptions
+public record AwsArtifactExportComplianceInquiryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Export a compliance inquiry report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ComplianceInquiryId">Unique resource ID for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}</param>
+    public AwsArtifactExportComplianceInquiryOptions(
+        string ComplianceInquiryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComplianceInquiryId);
+        this.ComplianceInquiryId = ComplianceInquiryId;
+    }
+
+    private AwsArtifactExportComplianceInquiryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArtifactExportComplianceInquiryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArtifactExportComplianceInquiryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique resource ID for the compliance inquiry. Constraints: o pattern: compliance-inquiry-[a-zA-Z0-9]{16}
+    /// </summary>
     [CliOption("--compliance-inquiry-id")]
-    public string? ComplianceInquiryId { get; set; }
+    public string? ComplianceInquiryId { get; private init; }
 
     /// <summary>
     /// List of query identifiers to include in the export. (integer) Syntax: integer integer ...
@@ -30,7 +67,10 @@ public record AwsArtifactExportComplianceInquiryOptions : AwsOptions
     [CliOption("--query-identifiers", GroupValues = true)]
     public IEnumerable<string>? QueryIdentifiers { get; set; }
 
-    [CliFlag("--include-citations")]
+    /// <summary>
+    /// When true, include citations in the exported document.
+    /// </summary>
+    [CliFlag("--include-citations", NegatedName = "--no-include-citations")]
     public bool? IncludeCitations { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsArtifactExportComplianceInquiryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

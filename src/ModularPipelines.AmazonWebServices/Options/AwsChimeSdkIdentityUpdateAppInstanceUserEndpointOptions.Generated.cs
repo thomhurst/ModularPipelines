@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-identity", "update-app-instance-user-endpoint")]
-public record AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions : AwsOptions
+public record AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-instance-user-arn")]
-    public string? AppInstanceUserArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the details of an AppInstanceUserEndpoint . You can update the name and AllowMessage values. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="EndpointId">The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*</param>
+    public AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions(
+        string AppInstanceUserArn,
+        string EndpointId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceUserArn);
+        this.AppInstanceUserArn = AppInstanceUserArn;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointId);
+        this.EndpointId = EndpointId;
+    }
+
+    private AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the AppInstanceUser . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--app-instance-user-arn")]
+    public string? AppInstanceUserArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*
+    /// </summary>
     [CliOption("--endpoint-id")]
-    public string? EndpointId { get; set; }
+    public string? EndpointId { get; private init; }
 
     /// <summary>
     /// The name of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 1600 o pattern: .*
@@ -45,5 +89,21 @@ public record AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "enable-organization-admin-account")]
-public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions
+public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Designates an account as the delegated Amazon Macie administrator ac- count for an organization in Organizations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdminAccountId">The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organiza- tion.</param>
+    public AwsMacie2EnableOrganizationAdminAccountOptions(
+        string AdminAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminAccountId);
+        this.AdminAccountId = AdminAccountId;
+    }
+
+    private AwsMacie2EnableOrganizationAdminAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2EnableOrganizationAdminAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2EnableOrganizationAdminAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organiza- tion.
+    /// </summary>
     [CliOption("--admin-account-id")]
-    public string? AdminAccountId { get; set; }
+    public string? AdminAccountId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
@@ -37,5 +74,21 @@ public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

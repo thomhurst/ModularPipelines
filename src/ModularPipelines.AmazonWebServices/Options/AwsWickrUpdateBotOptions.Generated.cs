@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "update-bot")]
-public record AwsWickrUpdateBotOptions : AwsOptions
+public record AwsWickrUpdateBotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of an existing bot in a Wickr network. This op- eration allows you to modify the bot's display name, security group, password, or suspension status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network containing the bot to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="BotId">The unique identifier of the bot to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    public AwsWickrUpdateBotOptions(
+        string NetworkId,
+        string BotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+    }
+
+    private AwsWickrUpdateBotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrUpdateBotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrUpdateBotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network containing the bot to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the bot to update. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
     /// <summary>
     /// The new display name for the bot. Constraints: o pattern: [\S\s]*
@@ -45,7 +89,10 @@ public record AwsWickrUpdateBotOptions : AwsOptions
     [CliOption("--challenge")]
     public string? Challenge { get; set; }
 
-    [CliFlag("--suspend")]
+    /// <summary>
+    /// Set to true to suspend the bot or false to unsuspend it. Omit this field for standard updates that don't affect suspension status.
+    /// </summary>
+    [CliFlag("--suspend", NegatedName = "--no-suspend")]
     public bool? Suspend { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +100,21 @@ public record AwsWickrUpdateBotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

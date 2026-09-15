@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "list-autonomous-database-backups")]
-public record AwsOdbListAutonomousDatabaseBackupsOptions : AwsOptions
+public record AwsOdbListAutonomousDatabaseBackupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the backups of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseBackups
+    /// </summary>
+    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database whose backups you want to list. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    public AwsOdbListAutonomousDatabaseBackupsOptions(
+        string AutonomousDatabaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabaseId);
+        this.AutonomousDatabaseId = AutonomousDatabaseId;
+    }
+
+    private AwsOdbListAutonomousDatabaseBackupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbListAutonomousDatabaseBackupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbListAutonomousDatabaseBackupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Autonomous Database whose backups you want to list. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// </summary>
     [CliOption("--autonomous-database-id")]
-    public string? AutonomousDatabaseId { get; set; }
+    public string? AutonomousDatabaseId { get; private init; }
 
     /// <summary>
     /// The status of the Autonomous Database backups to return results for. Possible values: o ACTIVE o CREATING o UPDATING o DELETING o FAILED
@@ -62,5 +99,21 @@ public record AwsOdbListAutonomousDatabaseBackupsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

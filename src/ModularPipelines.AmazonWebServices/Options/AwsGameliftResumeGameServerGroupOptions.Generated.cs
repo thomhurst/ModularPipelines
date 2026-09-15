@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "resume-game-server-group")]
-public record AwsGameliftResumeGameServerGroupOptions : AwsOptions
+public record AwsGameliftResumeGameServerGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Reinstates activity on a game server group after it has been suspended. A game server group might be suspended by the SuspendGameServerGroup operation, or it might be suspended involuntarily due to a configura- tion problem. In the second case, you can manually resume activity on the group once the configuration problem has been resolved. Refer to the game server group status and status reason for more information on why group activity...
+    /// </summary>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    /// <param name="ResumeActions">The activity to resume for this game server group. Constraints: o min: 1 o max: 1 (string) Possible values: o REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...</param>
+    public AwsGameliftResumeGameServerGroupOptions(
+        string GameServerGroupName,
+        IEnumerable<string> ResumeActions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResumeActions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResumeActions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResumeActions));
+            }
+
+            ResumeActions = materialized;
+        }
+        this.ResumeActions = ResumeActions;
+    }
+
+    private AwsGameliftResumeGameServerGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftResumeGameServerGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftResumeGameServerGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// </summary>
+    [CliOption("--game-server-group-name")]
+    public string? GameServerGroupName { get; private init; }
+
+    /// <summary>
+    /// The activity to resume for this game server group. Constraints: o min: 1 o max: 1 (string) Possible values: o REPLACE_INSTANCE_TYPES Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resume-actions", GroupValues = true)]
-    public IEnumerable<string>? ResumeActions { get; set; }
+    public IEnumerable<string>? ResumeActions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

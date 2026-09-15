@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "list-trained-model-versions")]
-public record AwsCleanroomsmlListTrainedModelVersionsOptions : AwsOptions
+public record AwsCleanroomsmlListTrainedModelVersionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, in- cluding information about their status and creation details. You can use this to track the evolution of your trained models and select spe- cific versions for inference or further training. See also: AWS API Documentation list-trained-model-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- ...
+    /// </summary>
+    /// <param name="MembershipIdentifier">The membership identifier for the collaboration that contains the trained model. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="TrainedModelArn">The Amazon Resource Name (ARN) of the trained model for which to list versions. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+</param>
+    public AwsCleanroomsmlListTrainedModelVersionsOptions(
+        string MembershipIdentifier,
+        string TrainedModelArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TrainedModelArn);
+        this.TrainedModelArn = TrainedModelArn;
+    }
+
+    private AwsCleanroomsmlListTrainedModelVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlListTrainedModelVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlListTrainedModelVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The membership identifier for the collaboration that contains the trained model. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the trained model for which to list versions. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:member- ship/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/trained-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--trained-model-arn")]
-    public string? TrainedModelArn { get; set; }
+    public string? TrainedModelArn { get; private init; }
 
     /// <summary>
     /// Filter the results to only include trained model versions with the specified status. Valid values include CREATE_PENDING , CRE- ATE_IN_PROGRESS , ACTIVE , CREATE_FAILED , and others. Possible values: o CREATE_PENDING o CREATE_IN_PROGRESS o CREATE_FAILED o ACTIVE o DELETE_PENDING o DELETE_IN_PROGRESS o DELETE_FAILED o INACTIVE o CANCEL_PENDING o CANCEL_IN_PROGRESS o CANCEL_FAILED
@@ -59,5 +103,21 @@ public record AwsCleanroomsmlListTrainedModelVersionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

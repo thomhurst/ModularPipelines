@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "get-clusters-for-image")]
-public record AwsInspector2GetClustersForImageOptions : AwsOptions
+public record AwsInspector2GetClustersForImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of clusters and metadata associated with an image. See also: AWS API Documentation get-clusters-for-image is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: cluster
+    /// </summary>
+    /// <param name="Filter">The resource Id for the Amazon ECR image. resourceId -&gt; (string) [required] The resource Id to be used in the filter criteria. Constraints: o pattern: arn:.*:ecr:.*:\d{12}:reposi- tory\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})? Shorthand Syntax: resourceId=string JSON Syntax: { "resourceId": "string" }</param>
+    public AwsInspector2GetClustersForImageOptions(
+        string Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    private AwsInspector2GetClustersForImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2GetClustersForImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2GetClustersForImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource Id for the Amazon ECR image. resourceId -&gt; (string) [required] The resource Id to be used in the filter criteria. Constraints: o pattern: arn:.*:ecr:.*:\d{12}:reposi- tory\/[a-zA-Z0-9._\/-]+(\/sha256:[a-z0-9]{64})? Shorthand Syntax: resourceId=string JSON Syntax: { "resourceId": "string" }
+    /// </summary>
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public string? Filter { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsInspector2GetClustersForImageOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

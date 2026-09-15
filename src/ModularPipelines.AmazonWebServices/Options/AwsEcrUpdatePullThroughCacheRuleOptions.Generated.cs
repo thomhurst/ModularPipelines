@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "update-pull-through-cache-rule")]
-public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions
+public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing pull through cache rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    public AwsEcrUpdatePullThroughCacheRuleOptions(
+        string EcrRepositoryPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EcrRepositoryPrefix);
+        this.EcrRepositoryPrefix = EcrRepositoryPrefix;
+    }
+
+    private AwsEcrUpdatePullThroughCacheRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrUpdatePullThroughCacheRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrUpdatePullThroughCacheRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The repository name prefix to use when caching images from the source registry. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// </summary>
+    [CliOption("--ecr-repository-prefix")]
+    public string? EcrRepositoryPrefix { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry as- sociated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
-
-    [CliOption("--ecr-repository-prefix")]
-    public string? EcrRepositoryPrefix { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: o min: 50 o max: 612 o pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:se- cret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
@@ -49,5 +86,21 @@ public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

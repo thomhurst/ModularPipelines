@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "get-organization-recommendation")]
-public record AwsTrustedadvisorGetOrganizationRecommendationOptions : AwsOptions
+public record AwsTrustedadvisorGetOrganizationRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationRecommendationIdentifier">The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+</param>
+    public AwsTrustedadvisorGetOrganizationRecommendationOptions(
+        string OrganizationRecommendationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationRecommendationIdentifier);
+        this.OrganizationRecommendationIdentifier = OrganizationRecommendationIdentifier;
+    }
+
+    private AwsTrustedadvisorGetOrganizationRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorGetOrganizationRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorGetOrganizationRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor:::organization-recommenda- tion\/[\w-]+
+    /// </summary>
     [CliOption("--organization-recommendation-identifier")]
-    public string? OrganizationRecommendationIdentifier { get; set; }
+    public string? OrganizationRecommendationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

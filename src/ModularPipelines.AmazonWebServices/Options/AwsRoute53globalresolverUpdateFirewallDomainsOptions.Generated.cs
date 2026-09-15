@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "update-firewall-domains")]
-public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions
+public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a DNS Firewall domain list from an array of specified domains. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domains">A list of the domains. You can add up to 1000 domains per request. (string) Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...</param>
+    /// <param name="FirewallDomainListId">The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Operation">The operation for updating the domain list. The allowed values are ADD, REMOVE, and REPLACE.</param>
+    public AwsRoute53globalresolverUpdateFirewallDomainsOptions(
+        IEnumerable<string> Domains,
+        string FirewallDomainListId,
+        string Operation
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Domains);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Domains));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Domains));
+            }
+
+            Domains = materialized;
+        }
+        this.Domains = Domains;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallDomainListId);
+        this.FirewallDomainListId = FirewallDomainListId;
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    private AwsRoute53globalresolverUpdateFirewallDomainsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverUpdateFirewallDomainsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverUpdateFirewallDomainsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of the domains. You can add up to 1000 domains per request. (string) Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--domains", GroupValues = true)]
-    public IEnumerable<string>? Domains { get; set; }
+    public IEnumerable<string>? Domains { get; private init; }
 
+    /// <summary>
+    /// The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--firewall-domain-list-id")]
-    public string? FirewallDomainListId { get; set; }
+    public string? FirewallDomainListId { get; private init; }
 
+    /// <summary>
+    /// The operation for updating the domain list. The allowed values are ADD, REMOVE, and REPLACE.
+    /// </summary>
     [CliOption("--operation")]
-    public string? Operation { get; set; }
+    public string? Operation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

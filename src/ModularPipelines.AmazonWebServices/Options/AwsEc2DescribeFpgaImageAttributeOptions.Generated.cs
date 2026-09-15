@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-fpga-image-attribute")]
-public record AwsEc2DescribeFpgaImageAttributeOptions : AwsOptions
+public record AwsEc2DescribeFpgaImageAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the specified attribute of the specified Amazon FPGA Image (AFI). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FpgaImageId">The ID of the AFI.</param>
+    /// <param name="Attribute">The AFI attribute. Possible values: o description o name o loadPermission o productCodes</param>
+    public AwsEc2DescribeFpgaImageAttributeOptions(
+        string FpgaImageId,
+        AwsEc2DescribeFpgaImageAttributeAttribute Attribute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FpgaImageId);
+        this.FpgaImageId = FpgaImageId;
+        global::System.ArgumentNullException.ThrowIfNull(Attribute);
+        this.Attribute = Attribute;
+    }
+
+    private AwsEc2DescribeFpgaImageAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeFpgaImageAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeFpgaImageAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the AFI.
+    /// </summary>
     [CliOption("--fpga-image-id")]
-    public string? FpgaImageId { get; set; }
+    public string? FpgaImageId { get; private init; }
 
+    /// <summary>
+    /// The AFI attribute. Possible values: o description o name o loadPermission o productCodes
+    /// </summary>
     [CliOption("--attribute")]
-    public string? Attribute { get; set; }
+    public AwsEc2DescribeFpgaImageAttributeAttribute? Attribute { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

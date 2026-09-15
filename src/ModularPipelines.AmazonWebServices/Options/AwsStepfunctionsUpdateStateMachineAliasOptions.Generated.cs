@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "update-state-machine-alias")]
-public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions
+public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an existing state machine alias by modify- ing its description or routingConfiguration . You must specify at least one of the description or routingConfigura- tion parameters to update a state machine alias. NOTE: UpdateStateMachineAlias is an idempotent API. Step Functions bases the idempotency check on the stateMachineAliasArn , description , and routingConfiguration parameters. Requests with the same parame- ters return an idempotent response. NOTE: This operation...
+    /// </summary>
+    /// <param name="StateMachineAliasArn">The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsUpdateStateMachineAliasOptions(
+        string StateMachineAliasArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StateMachineAliasArn);
+        this.StateMachineAliasArn = StateMachineAliasArn;
+    }
+
+    private AwsStepfunctionsUpdateStateMachineAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsUpdateStateMachineAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsUpdateStateMachineAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--state-machine-alias-arn")]
-    public string? StateMachineAliasArn { get; set; }
+    public string? StateMachineAliasArn { get; private init; }
 
     /// <summary>
     /// A description of the state machine alias. Constraints: o max: 256
@@ -41,5 +78,21 @@ public record AwsStepfunctionsUpdateStateMachineAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

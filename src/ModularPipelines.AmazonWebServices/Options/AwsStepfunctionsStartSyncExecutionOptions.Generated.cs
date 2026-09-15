@@ -10,20 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a Synchronous Express state machine execution. StartSyncExecu- tion is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your exe- cution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configura- tion. NOTE: This API action isn't logged in C...
+/// Starts a Synchronous Express state machine execution. StartSyncExecu- tion is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your exe- cution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configura- tion. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "start-sync-execution")]
-public record AwsStepfunctionsStartSyncExecutionOptions : AwsOptions
+public record AwsStepfunctionsStartSyncExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a Synchronous Express state machine execution. StartSyncExecu- tion is not available for STANDARD workflows. NOTE: StartSyncExecution will return a 200 OK response, even if your exe- cution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configura- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine to execute. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsStartSyncExecutionOptions(
+        string StateMachineArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StateMachineArn);
+        this.StateMachineArn = StateMachineArn;
+    }
+
+    private AwsStepfunctionsStartSyncExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsStartSyncExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsStartSyncExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the state machine to execute. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--state-machine-arn")]
-    public string? StateMachineArn { get; set; }
+    public string? StateMachineArn { get; private init; }
 
     /// <summary>
     /// The name of the execution. Constraints: o min: 1 o max: 80
@@ -54,5 +91,21 @@ public record AwsStepfunctionsStartSyncExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

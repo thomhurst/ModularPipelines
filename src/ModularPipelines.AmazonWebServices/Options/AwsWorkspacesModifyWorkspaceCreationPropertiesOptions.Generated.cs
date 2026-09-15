@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-workspace-creation-properties")]
-public record AwsWorkspacesModifyWorkspaceCreationPropertiesOptions : AwsOptions
+public record AwsWorkspacesModifyWorkspaceCreationPropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify the default properties used to create WorkSpaces. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="WorkspaceCreationProperties">The default properties for creating WorkSpaces. EnableInternetAccess -&gt; (boolean) Indicates whether internet access is enabled for your Work- Spaces. DefaultOu -&gt; (string) The default organizational unit (OU) for your WorkSpaces direc- tories. This string must be the full Lightweight Directory Ac- cess Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=*value* ,DC=*value* ,DC=*value* " , where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com . WARNING: o To avoid errors, certain characters in the distinguished name must be escaped. For more information, see Distinguished Names in the Microsoft documentation. o The API doesn't validate whether the OU exists. CustomSecurityGroupId -&gt; (string) The identifier of your custom security group. Constraints: o min: 11 o max: 20 o pattern: ^(sg-([0-9a-f]{8}|[0-9a-f]{17}))$ UserEnabledAsLocalAdministrator -&gt; (boolean) Indicates whether users are local administrators of their Work- Spaces. EnableMaintenanceMode -&gt; (boolean) Indicates whether maintenance mode is enabled for your Work- Spaces. For more information, see WorkSpace Maintenance . InstanceIamRoleArn -&gt; (string) Indicates the IAM role ARN of the instance. Constraints: o pattern: ^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Shorthand Syntax: EnableInternetAccess=boolean,DefaultOu=string,CustomSecurityGroupId=string,UserEnabledAsLocalAdministrator=boolean,EnableMaintenanceMode=boolean,InstanceIamRoleArn=string JSON Syntax: { "EnableInternetAccess": true|false, "DefaultOu": "string", "CustomSecurityGroupId": "string", "UserEnabledAsLocalAdministrator": true|false, "EnableMaintenanceMode": true|false, "InstanceIamRoleArn": "string" }</param>
+    public AwsWorkspacesModifyWorkspaceCreationPropertiesOptions(
+        string ResourceId,
+        string WorkspaceCreationProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceCreationProperties);
+        this.WorkspaceCreationProperties = WorkspaceCreationProperties;
+    }
+
+    private AwsWorkspacesModifyWorkspaceCreationPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifyWorkspaceCreationPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifyWorkspaceCreationPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The default properties for creating WorkSpaces. EnableInternetAccess -&gt; (boolean) Indicates whether internet access is enabled for your Work- Spaces. DefaultOu -&gt; (string) The default organizational unit (OU) for your WorkSpaces direc- tories. This string must be the full Lightweight Directory Ac- cess Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=*value* ,DC=*value* ,DC=*value* " , where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com . WARNING: o To avoid errors, certain characters in the distinguished name must be escaped. For more information, see Distinguished Names in the Microsoft documentation. o The API doesn't validate whether the OU exists. CustomSecurityGroupId -&gt; (string) The identifier of your custom security group. Constraints: o min: 11 o max: 20 o pattern: ^(sg-([0-9a-f]{8}|[0-9a-f]{17}))$ UserEnabledAsLocalAdministrator -&gt; (boolean) Indicates whether users are local administrators of their Work- Spaces. EnableMaintenanceMode -&gt; (boolean) Indicates whether maintenance mode is enabled for your Work- Spaces. For more information, see WorkSpace Maintenance . InstanceIamRoleArn -&gt; (string) Indicates the IAM role ARN of the instance. Constraints: o pattern: ^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Shorthand Syntax: EnableInternetAccess=boolean,DefaultOu=string,CustomSecurityGroupId=string,UserEnabledAsLocalAdministrator=boolean,EnableMaintenanceMode=boolean,InstanceIamRoleArn=string JSON Syntax: { "EnableInternetAccess": true|false, "DefaultOu": "string", "CustomSecurityGroupId": "string", "UserEnabledAsLocalAdministrator": true|false, "EnableMaintenanceMode": true|false, "InstanceIamRoleArn": "string" }
+    /// </summary>
     [CliOption("--workspace-creation-properties")]
-    public string? WorkspaceCreationProperties { get; set; }
+    public string? WorkspaceCreationProperties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

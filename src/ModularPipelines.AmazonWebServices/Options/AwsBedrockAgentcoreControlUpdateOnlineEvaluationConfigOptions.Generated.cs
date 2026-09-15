@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,17 +22,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "update-online-evaluation-config")]
-public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : AwsOptions
+public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect im- mediately for ongoing evaluations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OnlineEvaluationConfigId">The unique identifier of the online evaluation configuration to up- date. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    public AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions(
+        string OnlineEvaluationConfigId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OnlineEvaluationConfigId);
+        this.OnlineEvaluationConfigId = OnlineEvaluationConfigId;
+    }
+
+    private AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the online evaluation configuration to up- date. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--online-evaluation-config-id")]
+    public string? OnlineEvaluationConfigId { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--online-evaluation-config-id")]
-    public string? OnlineEvaluationConfigId { get; set; }
 
     /// <summary>
     /// The updated description of the online evaluation configuration. Constraints: o min: 1 o max: 200 o pattern: .+
@@ -46,13 +83,13 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
     public string? Rule { get; set; }
 
     /// <summary>
-    /// The updated data source configuration specifying CloudWatch log groups and service names to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch logs configuration for reading agent traces from log groups. logGroupNames -&gt; (list) [required] The list of CloudWatch log group names to monitor for agent traces. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: [.\-_/#A-Za-z0-9]+ serviceNames -&gt; (list) [required] The list of service names to filter traces within the speci- fied log groups. Used to identify relevant agent sessions. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: cloudWatchLogs={logGroupNames=[string,string],serviceNames=[string,string]} JSON Syntax: { "cloudWatchLogs": { "logGroupNames": ["string", ...], "serviceNames": ["string", ...] } }
+    /// The updated data source configuration specifying CloudWatch log groups and service names to monitor. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudWatchLogs. cloudWatchLogs -&gt; (structure) The CloudWatch logs configuration for reading agent traces from log groups. logGroupNames -&gt; (list) The list of CloudWatch log group names to monitor for agent traces. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: [.\-_/#A-Za-z0-9]+ logGroupNamePrefixes -&gt; (list) The list of CloudWatch log group name prefixes to monitor for agent traces. Specify this instead of logGroupNames to match log groups by prefix. Specify either logGroupNames or log- GroupNamePrefixes , not both. One of the two is required. Constraints: o min: 1 o max: 5 (string) Prefix of a CloudWatch Logs log group name. Constraints: o min: 1 o max: 512 o pattern: [.\-_/#A-Za-z0-9]+ serviceNames -&gt; (list) [required] The list of service names to filter traces within the speci- fied log groups. Used to identify relevant agent sessions. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: cloudWatchLogs={logGroupNames=[string,string],logGroupNamePrefixes=[string,string],serviceNames=[string,string]} JSON Syntax: { "cloudWatchLogs": { "logGroupNames": ["string", ...], "logGroupNamePrefixes": ["string", ...], "serviceNames": ["string", ...] } }
     /// </summary>
     [CliOption("--data-source-config")]
     public string? DataSourceConfig { get; set; }
 
     /// <summary>
-    /// The updated list of evaluators to apply during online evaluation. Constraints: o min: 0 o max: 10 (tagged union structure) The reference to an evaluator used in online evaluation configu- rations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
+    /// The updated list of evaluators to apply during online evaluation. Constraints: o min: 0 o max: 25 (tagged union structure) The reference to an evaluator used in online evaluation configu- rations, containing the evaluator identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: evaluatorId. evaluatorId -&gt; (string) The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}) Shorthand Syntax: evaluatorId=string ... JSON Syntax: [ { "evaluatorId": "string" } ... ]
     /// </summary>
     [CliOption("--evaluators", GroupValues = true)]
     public IEnumerable<string>? Evaluators { get; set; }
@@ -68,6 +105,12 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
     /// </summary>
     [CliOption("--clustering-config")]
     public string? ClusteringConfig { get; set; }
+
+    /// <summary>
+    /// The configuration that specifies where evaluation results should be written for monitoring and analysis. cloudWatchConfig -&gt; (structure) [required] The CloudWatch configuration for writing evaluation results to CloudWatch logs with embedded metric format. logGroupName -&gt; (string) The name of the CloudWatch log group where evaluation results will be written. An existing log group is used as-is; other- wise the service creates it, which requires the evaluation execution role to grant logs:CreateLogGroup on the log group. Don't specify this value when resultDestination is SOURCE_LOG_GROUP . The name can't be under the service-re- served /aws/bedrock-agentcore/evaluations/ namespace, apart from this configuration's own service-managed default group. Constraints: o pattern: $|^[.\-_/#A-Za-z0-9]+ metricsNamespace -&gt; (string) The CloudWatch metrics namespace where evaluation result met- rics are published. If you omit this value, the service pub- lishes metrics to Bedrock-AgentCore/Evaluations . This value can't begin with AWS/ . Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._#/:-]+ resultDestination -&gt; (string) The destination where evaluation results are written. Valid values: o DEDICATED_LOG_GROUP (default) Writes results to a dedi- cated result log group. o SOURCE_LOG_GROUP Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName . Possible values: o DEDICATED_LOG_GROUP o SOURCE_LOG_GROUP Shorthand Syntax: cloudWatchConfig={logGroupName=string,metricsNamespace=string,resultDestination=string} JSON Syntax: { "cloudWatchConfig": { "logGroupName": "string", "metricsNamespace": "string", "resultDestination": "DEDICATED_LOG_GROUP"|"SOURCE_LOG_GROUP" } }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; set; }
 
     /// <summary>
     /// The updated Amazon Resource Name (ARN) of the IAM role used for evaluation execution. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
@@ -86,5 +129,21 @@ public record AwsBedrockAgentcoreControlUpdateOnlineEvaluationConfigOptions : Aw
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

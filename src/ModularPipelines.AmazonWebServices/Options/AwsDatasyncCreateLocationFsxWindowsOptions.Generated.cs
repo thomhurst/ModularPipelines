@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,89 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-fsx-windows")]
-public record AwsDatasyncCreateLocationFsxWindowsOptions : AwsOptions
+public record AwsDatasyncCreateLocationFsxWindowsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Windows File Server file systems . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FsxFilesystemArn">Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-sys- tem/fs-[0-9a-f]+$</param>
+    /// <param name="SecurityGroupArns">Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about con- figuring security groups for file system access, see the ` Amazon FSx for Windows File Server User Guide https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html`__ . NOTE: If you choose a security group that doesn't allow connections from within itself, do one of the following: o Configure the security group to allow it to communicate within itself. o Choose a different security group that can communicate with the mount target's security group. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="User">Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations. Constraints: o max: 104 o pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$</param>
+    public AwsDatasyncCreateLocationFsxWindowsOptions(
+        string FsxFilesystemArn,
+        IEnumerable<string> SecurityGroupArns,
+        string User
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FsxFilesystemArn);
+        this.FsxFilesystemArn = FsxFilesystemArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupArns));
+            }
+
+            SecurityGroupArns = materialized;
+        }
+        this.SecurityGroupArns = SecurityGroupArns;
+        global::System.ArgumentNullException.ThrowIfNull(User);
+        this.User = User;
+    }
+
+    private AwsDatasyncCreateLocationFsxWindowsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationFsxWindowsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationFsxWindowsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):fsx:[a-z\-0-9]+:[0-9]{12}:file-sys- tem/fs-[0-9a-f]+$
+    /// </summary>
+    [CliOption("--fsx-filesystem-arn")]
+    public string? FsxFilesystemArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about con- figuring security groups for file system access, see the ` Amazon FSx for Windows File Server User Guide https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html`__ . NOTE: If you choose a security group that doesn't allow connections from within itself, do one of the following: o Configure the security group to allow it to communicate within itself. o Choose a different security group that can communicate with the mount target's security group. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--security-group-arns", GroupValues = true)]
+    public IEnumerable<string>? SecurityGroupArns { get; private init; }
+
+    /// <summary>
+    /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations. Constraints: o max: 104 o pattern: ^[^\x22\x5B\x5D/\\:;|=,+*?\x3C\x3E]{1,104}$
+    /// </summary>
+    [CliOption("--user")]
+    public string? User { get; private init; }
+
     /// <summary>
     /// Specifies a mount path for your file system using forward slashes. This is where DataSync reads or writes data (depending on if this is a source or destination location). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
-    [CliOption("--fsx-filesystem-arn")]
-    public string? FsxFilesystemArn { get; set; }
-
-    [CliOption("--security-group-arns", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupArns { get; set; }
-
     /// <summary>
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--user")]
-    public string? User { get; set; }
 
     /// <summary>
     /// Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system. Constraints: o max: 253 o pattern: ^[A-Za-z0-9]((\.|-+)?[A-Za-z0-9]){0,252}$
@@ -75,5 +137,21 @@ public record AwsDatasyncCreateLocationFsxWindowsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

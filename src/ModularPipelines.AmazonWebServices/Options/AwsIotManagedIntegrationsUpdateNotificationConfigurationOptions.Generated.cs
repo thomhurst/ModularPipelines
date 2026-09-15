@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "update-notification-configuration")]
-public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : AwsOptions
+public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-type")]
-    public string? EventType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update a notification configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventType">The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT</param>
+    /// <param name="DestinationName">The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    public AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions(
+        AwsIotManagedIntegrationsUpdateNotificationConfigurationEventType EventType,
+        string DestinationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventType);
+        this.EventType = EventType;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationName);
+        this.DestinationName = DestinationName;
+    }
+
+    private AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT
+    /// </summary>
+    [CliOption("--event-type")]
+    public AwsIotManagedIntegrationsUpdateNotificationConfigurationEventType? EventType { get; private init; }
+
+    /// <summary>
+    /// The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// </summary>
     [CliOption("--destination-name")]
-    public string? DestinationName { get; set; }
+    public string? DestinationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

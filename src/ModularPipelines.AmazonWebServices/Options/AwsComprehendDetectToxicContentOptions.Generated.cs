@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "detect-toxic-content")]
-public record AwsComprehendDetectToxicContentOptions : AwsOptions
+public record AwsComprehendDetectToxicContentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--text-segments", GroupValues = true)]
-    public IEnumerable<string>? TextSegments { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see Toxicity detection in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TextSegments">A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: o min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: o min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]</param>
+    /// <param name="LanguageCode">The language of the input text. Currently, English is the only sup- ported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    public AwsComprehendDetectToxicContentOptions(
+        IEnumerable<string> TextSegments,
+        AwsComprehendDetectToxicContentLanguageCode LanguageCode
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TextSegments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TextSegments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TextSegments));
+            }
+
+            TextSegments = materialized;
+        }
+        this.TextSegments = TextSegments;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsComprehendDetectToxicContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendDetectToxicContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendDetectToxicContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB. Constraints: o min: 1 (structure) One of the of text strings. Each string has a size limit of 1KB. Text -&gt; (string) [required] The text content. Constraints: o min: 1 Shorthand Syntax: Text=string ... JSON Syntax: [ { "Text": "string" } ... ]
+    /// </summary>
+    [CliOption("--text-segments", GroupValues = true)]
+    public IEnumerable<string>? TextSegments { get; private init; }
+
+    /// <summary>
+    /// The language of the input text. Currently, English is the only sup- ported language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public AwsComprehendDetectToxicContentLanguageCode? LanguageCode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

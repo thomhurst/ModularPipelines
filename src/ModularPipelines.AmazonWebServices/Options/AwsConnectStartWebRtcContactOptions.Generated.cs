@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-web-rtc-contact")]
-public record AwsConnectStartWebRtcContactOptions : AwsOptions
+public record AwsConnectStartWebRtcContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are speci- fied (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactFlowId">The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The Contact- FlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ParticipantDetails">The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    public AwsConnectStartWebRtcContactOptions(
+        string ContactFlowId,
+        string InstanceId,
+        string ParticipantDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowId);
+        this.ContactFlowId = ContactFlowId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantDetails);
+        this.ParticipantDetails = ParticipantDetails;
+    }
+
+    private AwsConnectStartWebRtcContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartWebRtcContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartWebRtcContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The Contact- FlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// </summary>
+    [CliOption("--contact-flow-id")]
+    public string? ContactFlowId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// </summary>
+    [CliOption("--participant-details")]
+    public string? ParticipantDetails { get; private init; }
+
     /// <summary>
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -36,20 +96,11 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--contact-flow-id")]
-    public string? ContactFlowId { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
     /// <summary>
     /// Information about the video sharing capabilities of the participants (customer, agent). Customer -&gt; (structure) Information about the customer's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Agent -&gt; (structure) Information about the agent's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Shorthand Syntax: Customer={Video=string,ScreenShare=string},Agent={Video=string,ScreenShare=string} JSON Syntax: { "Customer": { "Video": "SEND", "ScreenShare": "SEND" }, "Agent": { "Video": "SEND", "ScreenShare": "SEND" } }
     /// </summary>
     [CliOption("--allowed-capabilities")]
     public string? AllowedCapabilities { get; set; }
-
-    [CliOption("--participant-details")]
-    public string? ParticipantDetails { get; set; }
 
     /// <summary>
     /// The unique identifier for an Connect Customer contact. This identi- fier is related to the contact starting. Constraints: o min: 1 o max: 256
@@ -80,5 +131,21 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

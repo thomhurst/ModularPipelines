@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "set-endpoint-attributes")]
-public record AwsSnsSetEndpointAttributesOptions : AwsOptions
+public record AwsSnsSetEndpointAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-arn")]
-    public string? EndpointArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the attributes for an endpoint for a device on one of the sup- ported push notification services, such as GCM (Firebase Cloud Messag- ing) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointArn">EndpointArn used for SetEndpointAttributes action.</param>
+    /// <param name="Attributes">A map of the endpoint attributes. Attributes in this map include the following: o CustomUserData arbitrary user data to associate with the end- point. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. o Enabled flag that enables/disables delivery to the endpoint. Ama- zon SNS will set this to false when a notification service indi- cates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. o Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification ser- vice when an app and mobile device are registered with the notifi- cation service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsSnsSetEndpointAttributesOptions(
+        string EndpointArn,
+        IReadOnlyList<KeyValue> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointArn);
+        this.EndpointArn = EndpointArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsSnsSetEndpointAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsSetEndpointAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsSetEndpointAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// EndpointArn used for SetEndpointAttributes action.
+    /// </summary>
+    [CliOption("--endpoint-arn")]
+    public string? EndpointArn { get; private init; }
+
+    /// <summary>
+    /// A map of the endpoint attributes. Attributes in this map include the following: o CustomUserData arbitrary user data to associate with the end- point. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB. o Enabled flag that enables/disables delivery to the endpoint. Ama- zon SNS will set this to false when a notification service indi- cates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token. o Token device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification ser- vice when an app and mobile device are registered with the notifi- cation service. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Attributes { get; set; }
+    public IReadOnlyList<KeyValue>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

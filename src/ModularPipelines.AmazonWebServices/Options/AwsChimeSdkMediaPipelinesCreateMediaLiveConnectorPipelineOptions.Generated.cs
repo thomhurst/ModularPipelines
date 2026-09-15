@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "create-media-live-connector-pipeline")]
-public record AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a media live connector pipeline in an Amazon Chime SDK meeting. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Sources">The media live connector pipeline's data sources. Constraints: o min: 1 o max: 1 (structure) The data source configuration object of a streaming media pipeline. SourceType -&gt; (string) [required] The source configuration's media source type. Possible values: o ChimeSdkMeeting ChimeSdkMeetingLiveConnectorConfiguration -&gt; (structure) [re- quired] The configuration settings of the connector pipeline. Arn -&gt; (string) [required] The configuration object's Chime SDK meeting ARN. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ MuxType -&gt; (string) [required] The configuration object's multiplex type. Possible values: o AudioWithCompositedVideo o AudioWithActiveSpeakerVideo CompositedVideo -&gt; (structure) The media pipeline's composited video. Layout -&gt; (string) The layout setting, such as GridView in the configura- tion object. Possible values: o GridView Resolution -&gt; (string) The video resolution setting in the configuration ob- ject. Default: HD at 1280 x 720. FHD resolution: 1920 x 1080. Possible values: o HD o FHD GridViewConfiguration -&gt; (structure) [required] The GridView configuration setting. ContentShareLayout -&gt; (string) [required] Defines the layout of the video tiles when content sharing is enabled. Possible values: o PresenterOnly o Horizontal o Vertical o ActiveSpeakerOnly PresenterOnlyConfiguration -&gt; (structure) Defines the configuration options for a presenter only video tile. PresenterPosition -&gt; (string) Defines the position of the presenter video tile. Default: TopRight . Possible values: o TopLeft o TopRight o BottomLeft o BottomRight ActiveSpeakerOnlyConfiguration -&gt; (structure) The configuration settings for an ActiveS- peakerOnly video tile. ActiveSpeakerPosition -&gt; (string) The position of the ActiveSpeakerOnly video tile. Possible values: o TopLeft o TopRight o BottomLeft o BottomRight HorizontalLayoutConfiguration -&gt; (structure) The configuration settings for a horizontal lay- out. TileOrder -&gt; (string) Sets the automatic ordering of the video tiles. Possible values: o JoinSequence o SpeakerSequence TilePosition -&gt; (string) Sets the position of horizontal tiles. Possible values: o Top o Bottom TileCount -&gt; (integer) The maximum number of video tiles to display. Constraints: o min: 1 o max: 10 TileAspectRatio -&gt; (string) Specifies the aspect ratio of all video tiles. Constraints: o pattern: ^\d{1,2}\/\d{1,2}$ VerticalLayoutConfiguration -&gt; (structure) The configuration settings for a vertical layout. TileOrder -&gt; (string) Sets the automatic ordering of the video tiles. Possible values: o JoinSequence o SpeakerSequence TilePosition -&gt; (string) Sets the position of vertical tiles. Possible values: o Left o Right TileCount -&gt; (integer) The maximum number of tiles to display. Constraints: o min: 1 o max: 10 TileAspectRatio -&gt; (string) Sets the aspect ratio of the video tiles, such as 16:9. Constraints: o pattern: ^\d{1,2}\/\d{1,2}$ VideoAttribute -&gt; (structure) The attribute settings for the video tiles. CornerRadius -&gt; (integer) Sets the corner radius of all video tiles. Constraints: o min: 1 o max: 20 BorderColor -&gt; (string) Defines the border color of all video tiles. Possible values: o Black o Blue o Red o Green o White o Yellow HighlightColor -&gt; (string) Defines the highlight color for the active video tile. Possible values: o Black o Blue o Red o Green o White o Yellow BorderThickness -&gt; (integer) Defines the border thickness for all video tiles. Constraints: o min: 1 o max: 20 CanvasOrientation -&gt; (string) The orientation setting, horizontal or vertical. Possible values: o Landscape o Portrait SourceConfiguration -&gt; (structure) The source configuration settings of the media pipeline's configuration object. SelectedVideoStreams -&gt; (structure) The selected video streams for a specified media pipeline. The number of video streams can't exceed 25. AttendeeIds -&gt; (list) The attendee IDs of the streams selected for a me- dia pipeline. Constraints: o min: 1 (string) Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} ExternalUserIds -&gt; (list) The external user IDs of the streams selected for a media pipeline. Constraints: o min: 1 (string) Constraints: o min: 2 o max: 64 JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "ChimeSdkMeetingLiveConnectorConfiguration": { "Arn": "string", "MuxType": "AudioWithCompositedVideo"|"AudioWithActiveSpeakerVideo", "CompositedVideo": { "Layout": "GridView", "Resolution": "HD"|"FHD", "GridViewConfiguration": { "ContentShareLayout": "PresenterOnly"|"Horizontal"|"Vertical"|"ActiveSpeakerOnly", "PresenterOnlyConfiguration": { "PresenterPosition": "TopLeft"|"TopRight"|"BottomLeft"|"BottomRight" }, "ActiveSpeakerOnlyConfiguration": { "ActiveSpeakerPosition": "TopLeft"|"TopRight"|"BottomLeft"|"BottomRight" }, "HorizontalLayoutConfiguration": { "TileOrder": "JoinSequence"|"SpeakerSequence", "TilePosition": "Top"|"Bottom", "TileCount": integer, "TileAspectRatio": "string" }, "VerticalLayoutConfiguration": { "TileOrder": "JoinSequence"|"SpeakerSequence", "TilePosition": "Left"|"Right", "TileCount": integer, "TileAspectRatio": "string" }, "VideoAttribute": { "CornerRadius": integer, "BorderColor": "Black"|"Blue"|"Red"|"Green"|"White"|"Yellow", "HighlightColor": "Black"|"Blue"|"Red"|"Green"|"White"|"Yellow", "BorderThickness": integer }, "CanvasOrientation": "Landscape"|"Portrait" } }, "SourceConfiguration": { "SelectedVideoStreams": { "AttendeeIds": ["string", ...], "ExternalUserIds": ["string", ...] } } } } ... ]</param>
+    /// <param name="Sinks">The media live connector pipeline's data sinks. Constraints: o min: 1 o max: 1 (structure) The media pipeline's sink configuration settings. SinkType -&gt; (string) [required] The sink configuration's sink type. Possible values: o RTMP RTMPConfiguration -&gt; (structure) [required] The sink configuration's RTMP configuration settings. Url -&gt; (string) [required] The URL of the RTMP configuration. Constraints: o min: 1 o max: 1024 AudioChannels -&gt; (string) The audio channels set for the RTMP configuration Possible values: o Stereo o Mono AudioSampleRate -&gt; (string) The audio sample rate set for the RTMP configuration. De- fault: 48000. Constraints: o pattern: 44100|48000 Shorthand Syntax: SinkType=string,RTMPConfiguration={Url=string,AudioChannels=string,AudioSampleRate=string} ... JSON Syntax: [ { "SinkType": "RTMP", "RTMPConfiguration": { "Url": "string", "AudioChannels": "Stereo"|"Mono", "AudioSampleRate": "string" } } ... ]</param>
+    public AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions(
+        IEnumerable<string> Sources,
+        IEnumerable<string> Sinks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sinks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sinks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sinks));
+            }
+
+            Sinks = materialized;
+        }
+        this.Sinks = Sinks;
+    }
+
+    private AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The media live connector pipeline's data sources. Constraints: o min: 1 o max: 1 (structure) The data source configuration object of a streaming media pipeline. SourceType -&gt; (string) [required] The source configuration's media source type. Possible values: o ChimeSdkMeeting ChimeSdkMeetingLiveConnectorConfiguration -&gt; (structure) [re- quired] The configuration settings of the connector pipeline. Arn -&gt; (string) [required] The configuration object's Chime SDK meeting ARN. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ MuxType -&gt; (string) [required] The configuration object's multiplex type. Possible values: o AudioWithCompositedVideo o AudioWithActiveSpeakerVideo CompositedVideo -&gt; (structure) The media pipeline's composited video. Layout -&gt; (string) The layout setting, such as GridView in the configura- tion object. Possible values: o GridView Resolution -&gt; (string) The video resolution setting in the configuration ob- ject. Default: HD at 1280 x 720. FHD resolution: 1920 x 1080. Possible values: o HD o FHD GridViewConfiguration -&gt; (structure) [required] The GridView configuration setting. ContentShareLayout -&gt; (string) [required] Defines the layout of the video tiles when content sharing is enabled. Possible values: o PresenterOnly o Horizontal o Vertical o ActiveSpeakerOnly PresenterOnlyConfiguration -&gt; (structure) Defines the configuration options for a presenter only video tile. PresenterPosition -&gt; (string) Defines the position of the presenter video tile. Default: TopRight . Possible values: o TopLeft o TopRight o BottomLeft o BottomRight ActiveSpeakerOnlyConfiguration -&gt; (structure) The configuration settings for an ActiveS- peakerOnly video tile. ActiveSpeakerPosition -&gt; (string) The position of the ActiveSpeakerOnly video tile. Possible values: o TopLeft o TopRight o BottomLeft o BottomRight HorizontalLayoutConfiguration -&gt; (structure) The configuration settings for a horizontal lay- out. TileOrder -&gt; (string) Sets the automatic ordering of the video tiles. Possible values: o JoinSequence o SpeakerSequence TilePosition -&gt; (string) Sets the position of horizontal tiles. Possible values: o Top o Bottom TileCount -&gt; (integer) The maximum number of video tiles to display. Constraints: o min: 1 o max: 10 TileAspectRatio -&gt; (string) Specifies the aspect ratio of all video tiles. Constraints: o pattern: ^\d{1,2}\/\d{1,2}$ VerticalLayoutConfiguration -&gt; (structure) The configuration settings for a vertical layout. TileOrder -&gt; (string) Sets the automatic ordering of the video tiles. Possible values: o JoinSequence o SpeakerSequence TilePosition -&gt; (string) Sets the position of vertical tiles. Possible values: o Left o Right TileCount -&gt; (integer) The maximum number of tiles to display. Constraints: o min: 1 o max: 10 TileAspectRatio -&gt; (string) Sets the aspect ratio of the video tiles, such as 16:9. Constraints: o pattern: ^\d{1,2}\/\d{1,2}$ VideoAttribute -&gt; (structure) The attribute settings for the video tiles. CornerRadius -&gt; (integer) Sets the corner radius of all video tiles. Constraints: o min: 1 o max: 20 BorderColor -&gt; (string) Defines the border color of all video tiles. Possible values: o Black o Blue o Red o Green o White o Yellow HighlightColor -&gt; (string) Defines the highlight color for the active video tile. Possible values: o Black o Blue o Red o Green o White o Yellow BorderThickness -&gt; (integer) Defines the border thickness for all video tiles. Constraints: o min: 1 o max: 20 CanvasOrientation -&gt; (string) The orientation setting, horizontal or vertical. Possible values: o Landscape o Portrait SourceConfiguration -&gt; (structure) The source configuration settings of the media pipeline's configuration object. SelectedVideoStreams -&gt; (structure) The selected video streams for a specified media pipeline. The number of video streams can't exceed 25. AttendeeIds -&gt; (list) The attendee IDs of the streams selected for a me- dia pipeline. Constraints: o min: 1 (string) Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} ExternalUserIds -&gt; (list) The external user IDs of the streams selected for a media pipeline. Constraints: o min: 1 (string) Constraints: o min: 2 o max: 64 JSON Syntax: [ { "SourceType": "ChimeSdkMeeting", "ChimeSdkMeetingLiveConnectorConfiguration": { "Arn": "string", "MuxType": "AudioWithCompositedVideo"|"AudioWithActiveSpeakerVideo", "CompositedVideo": { "Layout": "GridView", "Resolution": "HD"|"FHD", "GridViewConfiguration": { "ContentShareLayout": "PresenterOnly"|"Horizontal"|"Vertical"|"ActiveSpeakerOnly", "PresenterOnlyConfiguration": { "PresenterPosition": "TopLeft"|"TopRight"|"BottomLeft"|"BottomRight" }, "ActiveSpeakerOnlyConfiguration": { "ActiveSpeakerPosition": "TopLeft"|"TopRight"|"BottomLeft"|"BottomRight" }, "HorizontalLayoutConfiguration": { "TileOrder": "JoinSequence"|"SpeakerSequence", "TilePosition": "Top"|"Bottom", "TileCount": integer, "TileAspectRatio": "string" }, "VerticalLayoutConfiguration": { "TileOrder": "JoinSequence"|"SpeakerSequence", "TilePosition": "Left"|"Right", "TileCount": integer, "TileAspectRatio": "string" }, "VideoAttribute": { "CornerRadius": integer, "BorderColor": "Black"|"Blue"|"Red"|"Green"|"White"|"Yellow", "HighlightColor": "Black"|"Blue"|"Red"|"Green"|"White"|"Yellow", "BorderThickness": integer }, "CanvasOrientation": "Landscape"|"Portrait" } }, "SourceConfiguration": { "SelectedVideoStreams": { "AttendeeIds": ["string", ...], "ExternalUserIds": ["string", ...] } } } } ... ]
+    /// </summary>
+    [CliOption("--sources", GroupValues = true)]
+    public IEnumerable<string>? Sources { get; private init; }
+
+    /// <summary>
+    /// The media live connector pipeline's data sinks. Constraints: o min: 1 o max: 1 (structure) The media pipeline's sink configuration settings. SinkType -&gt; (string) [required] The sink configuration's sink type. Possible values: o RTMP RTMPConfiguration -&gt; (structure) [required] The sink configuration's RTMP configuration settings. Url -&gt; (string) [required] The URL of the RTMP configuration. Constraints: o min: 1 o max: 1024 AudioChannels -&gt; (string) The audio channels set for the RTMP configuration Possible values: o Stereo o Mono AudioSampleRate -&gt; (string) The audio sample rate set for the RTMP configuration. De- fault: 48000. Constraints: o pattern: 44100|48000 Shorthand Syntax: SinkType=string,RTMPConfiguration={Url=string,AudioChannels=string,AudioSampleRate=string} ... JSON Syntax: [ { "SinkType": "RTMP", "RTMPConfiguration": { "Url": "string", "AudioChannels": "Stereo"|"Mono", "AudioSampleRate": "string" } } ... ]
+    /// </summary>
     [CliOption("--sinks", GroupValues = true)]
-    public IEnumerable<string>? Sinks { get; set; }
+    public IEnumerable<string>? Sinks { get; private init; }
 
     /// <summary>
     /// The token assigned to the client making the request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
@@ -46,5 +112,21 @@ public record AwsChimeSdkMediaPipelinesCreateMediaLiveConnectorPipelineOptions :
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

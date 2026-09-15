@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "restore-db-cluster-to-point-in-time")]
-public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions
+public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. NOTE: This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens</param>
+    /// <param name="SourceDbClusterIdentifier">The identifier of the source DB cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster.</param>
+    public AwsNeptuneRestoreDbClusterToPointInTimeOptions(
+        string DbClusterIdentifier,
+        string SourceDbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterIdentifier);
+        this.SourceDbClusterIdentifier = SourceDbClusterIdentifier;
+    }
+
+    private AwsNeptuneRestoreDbClusterToPointInTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneRestoreDbClusterToPointInTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneRestoreDbClusterToPointInTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the source DB cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster.
+    /// </summary>
+    [CliOption("--source-db-cluster-identifier")]
+    public string? SourceDbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The type of restore to be performed. You can specify one of the fol- lowing values: o full-copy - The new DB cluster is restored as a full copy of the source DB cluster. o copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
@@ -31,16 +77,16 @@ public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 
-    [CliOption("--source-db-cluster-identifier")]
-    public string? SourceDbClusterIdentifier { get; set; }
-
     /// <summary>
     /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints: o Must be before the latest restorable time for the DB instance o Must be specified if UseLatestRestorableTime parameter is not pro- vided o Cannot be specified if UseLatestRestorableTime parameter is true o Cannot be specified if RestoreType parameter is copy-on-write Example: 2015-03-07T23:45:00Z
     /// </summary>
     [CliOption("--restore-to-time")]
-    public AwsNeptuneRestoreDbClusterToPointInTimeRestoreToTime? RestoreToTime { get; set; }
+    public string? RestoreToTime { get; set; }
 
-    [CliFlag("--use-latest-restorable-time")]
+    /// <summary>
+    /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if RestoreToTime parameter is pro- vided.
+    /// </summary>
+    [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
@@ -79,7 +125,10 @@ public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -94,7 +143,10 @@ public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// A value that indicates whether the DB cluster has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -120,5 +172,21 @@ public record AwsNeptuneRestoreDbClusterToPointInTimeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-get-table-optimizer")]
-public record AwsGlueBatchGetTableOptimizerOptions : AwsOptions
+public record AwsGlueBatchGetTableOptimizerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the configuration for the specified table optimizers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entries">A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOp- timizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: o min: 1 tableName -&gt; (string) The name of the table. Constraints: o min: 1 type -&gt; (string) The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]</param>
+    public AwsGlueBatchGetTableOptimizerOptions(
+        IEnumerable<string> Entries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsGlueBatchGetTableOptimizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchGetTableOptimizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchGetTableOptimizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve. (structure) Represents a table optimizer to retrieve in the BatchGetTableOp- timizer operation. catalogId -&gt; (string) The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* databaseName -&gt; (string) The name of the database in the catalog in which the table resides. Constraints: o min: 1 tableName -&gt; (string) The name of the table. Constraints: o min: 1 type -&gt; (string) The type of table optimizer. Possible values: o compaction o retention o orphan_file_deletion Shorthand Syntax: catalogId=string,databaseName=string,tableName=string,type=string ... JSON Syntax: [ { "catalogId": "string", "databaseName": "string", "tableName": "string", "type": "compaction"|"retention"|"orphan_file_deletion" } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

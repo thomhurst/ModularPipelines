@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-contact-recording")]
-public record AwsConnectStartContactRecordingOptions : AwsOptions
+public record AwsConnectStartContactRecordingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts recording the contact: o If the API is called before the agent joins the call, recording starts when the agent joins the call. o If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InitialContactId">The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256</param>
+    /// <param name="VoiceRecordingConfiguration">The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: o FROM_AGENT o TO_AGENT o ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: o ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }</param>
+    public AwsConnectStartContactRecordingOptions(
+        string InstanceId,
+        string ContactId,
+        string InitialContactId,
+        string VoiceRecordingConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(InitialContactId);
+        this.InitialContactId = InitialContactId;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceRecordingConfiguration);
+        this.VoiceRecordingConfiguration = VoiceRecordingConfiguration;
+    }
+
+    private AwsConnectStartContactRecordingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartContactRecordingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartContactRecordingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--initial-contact-id")]
-    public string? InitialContactId { get; set; }
+    public string? InitialContactId { get; private init; }
 
+    /// <summary>
+    /// The person being recorded. VoiceRecordingTrack -&gt; (string) Identifies which track is being recorded. Possible values: o FROM_AGENT o TO_AGENT o ALL IvrRecordingTrack -&gt; (string) Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request. Possible values: o ALL Shorthand Syntax: VoiceRecordingTrack=string,IvrRecordingTrack=string JSON Syntax: { "VoiceRecordingTrack": "FROM_AGENT"|"TO_AGENT"|"ALL", "IvrRecordingTrack": "ALL" }
+    /// </summary>
     [CliOption("--voice-recording-configuration")]
-    public string? VoiceRecordingConfiguration { get; set; }
+    public string? VoiceRecordingConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

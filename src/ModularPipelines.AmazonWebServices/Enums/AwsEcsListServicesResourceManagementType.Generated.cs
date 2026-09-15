@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourcemanagementtype.
+/// Allowed values for --resource-management-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsListServicesResourceManagementType
 {
     [EnumValue("CUSTOMER")]
-    Customer = 1,
+    Customer,
 
     [EnumValue("ECS")]
-    Ecs = 2
+    Ecs
 }

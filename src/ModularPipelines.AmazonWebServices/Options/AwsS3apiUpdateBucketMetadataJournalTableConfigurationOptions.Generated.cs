@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "update-bucket-metadata-journal-table-configuration")]
-public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : AwsOptions
+public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadata- JournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetada...
+    /// </summary>
+    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable journal table record expi- ration for.</param>
+    /// <param name="JournalTableConfiguration">The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal ta- ble. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }</param>
+    public AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions(
+        string Bucket,
+        string JournalTableConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(JournalTableConfiguration);
+        this.JournalTableConfiguration = JournalTableConfiguration;
+    }
+
+    private AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The general purpose bucket that corresponds to the metadata configu- ration that you want to enable or disable journal table record expi- ration for.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The contents of your journal table configuration. RecordExpiration -&gt; (structure) [required] The journal table record expiration settings for the journal ta- ble. Expiration -&gt; (string) [required] Specifies whether journal table record expiration is enabled or disabled. Possible values: o ENABLED o DISABLED Days -&gt; (integer) If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647 . For example, to retain your journal table records for one year, set this value to 365 . Shorthand Syntax: RecordExpiration={Expiration=string,Days=integer} JSON Syntax: { "RecordExpiration": { "Expiration": "ENABLED"|"DISABLED", "Days": integer } }
+    /// </summary>
+    [CliOption("--journal-table-configuration")]
+    public string? JournalTableConfiguration { get; private init; }
 
     /// <summary>
     /// The Content-MD5 header for the journal table configuration.
@@ -37,9 +84,6 @@ public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : Aws
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateBucketMetadataJournalTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--journal-table-configuration")]
-    public string? JournalTableConfiguration { get; set; }
-
     /// <summary>
     /// The expected owner of the general purpose bucket that corresponds to the metadata table configuration that you want to enable or disable journal table record expiration for.
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

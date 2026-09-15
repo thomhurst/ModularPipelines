@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "get-findings")]
-public record AwsGuarddutyGetFindingsOptions : AwsOptions
+public record AwsGuarddutyGetFindingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes Amazon GuardDuty findings specified by finding IDs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="FindingIds">The IDs of the findings that you want to retrieve. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    public AwsGuarddutyGetFindingsOptions(
+        string DetectorId,
+        IEnumerable<string> FindingIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FindingIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FindingIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FindingIds));
+            }
+
+            FindingIds = materialized;
+        }
+        this.FindingIds = FindingIds;
+    }
+
+    private AwsGuarddutyGetFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyGetFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyGetFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The IDs of the findings that you want to retrieve. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
-    public IEnumerable<string>? FindingIds { get; set; }
+    public IEnumerable<string>? FindingIds { get; private init; }
 
     /// <summary>
     /// Represents the criteria used for sorting findings. AttributeName -&gt; (string) Represents the finding attribute, such as accountId , that sorts the findings. OrderBy -&gt; (string) The order by which the sorted findings are to be displayed. Possible values: o ASC o DESC Shorthand Syntax: AttributeName=string,OrderBy=string JSON Syntax: { "AttributeName": "string", "OrderBy": "ASC"|"DESC" }
@@ -38,5 +93,21 @@ public record AwsGuarddutyGetFindingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

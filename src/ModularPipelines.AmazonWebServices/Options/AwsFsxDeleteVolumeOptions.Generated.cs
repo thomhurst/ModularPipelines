@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "delete-volume")]
-public record AwsFsxDeleteVolumeOptions : AwsOptions
+public record AwsFsxDeleteVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS vol- ume. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VolumeId">The ID of the volume that you are deleting. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    public AwsFsxDeleteVolumeOptions(
+        string VolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+    }
+
+    private AwsFsxDeleteVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxDeleteVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxDeleteVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the volume that you are deleting. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// </summary>
+    [CliOption("--volume-id")]
+    public string? VolumeId { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
 
     /// <summary>
     /// For Amazon FSx for ONTAP volumes, specify whether to take a final backup of the volume and apply tags to the backup. To apply tags to the backup, you must have the fsx:TagResource permission. SkipFinalBackup -&gt; (boolean) Set to true if you want to skip taking a final backup of the volume you are deleting. FinalBackupTags -&gt; (list) A list of Tag values, with a maximum of 50 elements. Constraints: o min: 1 o max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are attached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ BypassSnaplockEnterpriseRetention -&gt; (boolean) Setting this to true allows a SnapLock administrator to delete an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read many (WORM) files. The IAM permission fsx:BypassS- naplockEnterpriseRetention is also required to delete SnapLock Enterprise volumes with unexpired WORM files. The default value is false . For more information, see Deleting a SnapLock volume . Shorthand Syntax: SkipFinalBackup=boolean,FinalBackupTags=[{Key=string,Value=string},{Key=string,Value=string}],BypassSnaplockEnterpriseRetention=boolean JSON Syntax: { "SkipFinalBackup": true|false, "FinalBackupTags": [ { "Key": "string", "Value": "string" } ... ], "BypassSnaplockEnterpriseRetention": true|false }
@@ -49,5 +86,21 @@ public record AwsFsxDeleteVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snowball", "create-long-term-pricing")]
-public record AwsSnowballCreateLongTermPricingOptions : AwsOptions
+public record AwsSnowballCreateLongTermPricingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides dis- counts for long-term pricing. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LongTermPricingType">The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: o OneYear o ThreeYear o OneMonth</param>
+    /// <param name="SnowballType">The type of Snow Family devices to use for the long-term pricing job. Possible values: o STANDARD o EDGE o EDGE_C o EDGE_CG o EDGE_S o SNC1_HDD o SNC1_SSD o V3_5C o V3_5S o RACK_5U_C</param>
+    public AwsSnowballCreateLongTermPricingOptions(
+        AwsSnowballCreateLongTermPricingLongTermPricingType LongTermPricingType,
+        AwsSnowballCreateLongTermPricingSnowballType SnowballType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LongTermPricingType);
+        this.LongTermPricingType = LongTermPricingType;
+        global::System.ArgumentNullException.ThrowIfNull(SnowballType);
+        this.SnowballType = SnowballType;
+    }
+
+    private AwsSnowballCreateLongTermPricingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowballCreateLongTermPricingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowballCreateLongTermPricingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing. Possible values: o OneYear o ThreeYear o OneMonth
+    /// </summary>
     [CliOption("--long-term-pricing-type")]
-    public string? LongTermPricingType { get; set; }
+    public AwsSnowballCreateLongTermPricingLongTermPricingType? LongTermPricingType { get; private init; }
 
-    [CliFlag("--is-long-term-pricing-auto-renew")]
-    public bool? IsLongTermPricingAutoRenew { get; set; }
-
+    /// <summary>
+    /// The type of Snow Family devices to use for the long-term pricing job. Possible values: o STANDARD o EDGE o EDGE_C o EDGE_CG o EDGE_S o SNC1_HDD o SNC1_SSD o V3_5C o V3_5S o RACK_5U_C
+    /// </summary>
     [CliOption("--snowball-type")]
-    public string? SnowballType { get; set; }
+    public AwsSnowballCreateLongTermPricingSnowballType? SnowballType { get; private init; }
+
+    /// <summary>
+    /// new (boolean) Specifies whether the current long-term pricing type for the device should be renewed.
+    /// </summary>
+    [CliFlag("--is-long-term-pricing-auto-renew", NegatedName = "--no-is-long-term-pricing-auto-renew")]
+    public bool? IsLongTermPricingAutoRenew { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

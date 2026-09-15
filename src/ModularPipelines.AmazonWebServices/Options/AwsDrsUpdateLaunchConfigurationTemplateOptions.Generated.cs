@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-launch-configuration-template")]
-public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
+public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Launch Configuration Template by ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LaunchConfigurationTemplateId">Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}</param>
+    public AwsDrsUpdateLaunchConfigurationTemplateOptions(
+        string LaunchConfigurationTemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LaunchConfigurationTemplateId);
+        this.LaunchConfigurationTemplateId = LaunchConfigurationTemplateId;
+    }
+
+    private AwsDrsUpdateLaunchConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateLaunchConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateLaunchConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Launch Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: lct-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--launch-configuration-template-id")]
-    public string? LaunchConfigurationTemplateId { get; set; }
+    public string? LaunchConfigurationTemplateId { get; private init; }
 
     /// <summary>
     /// Launch disposition. Possible values: o STOPPED o STARTED
@@ -37,10 +74,16 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsDrsUpdateLaunchConfigurationTemplateTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Copy private IP.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Copy tags.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -55,10 +98,16 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
     [CliOption("--export-bucket-arn")]
     public string? ExportBucketArn { get; set; }
 
-    [CliFlag("--post-launch-enabled")]
+    /// <summary>
+    /// Whether we want to activate post-launch actions.
+    /// </summary>
+    [CliFlag("--post-launch-enabled", NegatedName = "--no-post-launch-enabled")]
     public bool? PostLaunchEnabled { get; set; }
 
-    [CliFlag("--launch-into-source-instance")]
+    /// <summary>
+    /// DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
+    /// </summary>
+    [CliFlag("--launch-into-source-instance", NegatedName = "--no-launch-into-source-instance")]
     public bool? LaunchIntoSourceInstance { get; set; }
 
     /// <summary>
@@ -72,5 +121,21 @@ public record AwsDrsUpdateLaunchConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

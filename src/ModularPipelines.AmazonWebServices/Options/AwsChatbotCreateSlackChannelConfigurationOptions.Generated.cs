@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "create-slack-channel-configuration")]
-public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions
+public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--slack-team-id")]
-    public string? SlackTeamId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an AWS Chatbot confugration for Slack. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SlackTeamId">The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}</param>
+    /// <param name="SlackChannelId">The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="IamRoleArn">A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="ConfigurationName">The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsChatbotCreateSlackChannelConfigurationOptions(
+        string SlackTeamId,
+        string SlackChannelId,
+        string IamRoleArn,
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SlackTeamId);
+        this.SlackTeamId = SlackTeamId;
+        global::System.ArgumentNullException.ThrowIfNull(SlackChannelId);
+        this.SlackChannelId = SlackChannelId;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    private AwsChatbotCreateSlackChannelConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotCreateSlackChannelConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotCreateSlackChannelConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Slack workspace authorized with AWS Chatbot. Constraints: o min: 1 o max: 255 o pattern: [0-9A-Z]{1,255}
+    /// </summary>
+    [CliOption("--slack-team-id")]
+    public string? SlackTeamId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Slack channel. To get this ID, open Slack, right click on the channel name in the left pane, then choose Copy Link. The channel ID is the 9-character string at the end of the URL. For example, ABCBBLZZZ. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9]+
+    /// </summary>
     [CliOption("--slack-channel-id")]
-    public string? SlackChannelId { get; set; }
+    public string? SlackChannelId { get; private init; }
+
+    /// <summary>
+    /// A user-defined role that AWS Chatbot assumes. This is not the ser- vice-linked role. For more information, see IAM policies for AWS Chatbot in the AWS Chatbot Administrator Guide . Constraints: o min: 12 o max: 1224 o pattern: arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
+    [CliOption("--iam-role-arn")]
+    public string? IamRoleArn { get; private init; }
+
+    /// <summary>
+    /// The name of the configuration. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
+    [CliOption("--configuration-name")]
+    public string? ConfigurationName { get; private init; }
 
     /// <summary>
     /// The name of the Slack channel. Constraints: o min: 1 o max: 255
@@ -39,12 +103,6 @@ public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--sns-topic-arns", GroupValues = true)]
     public IEnumerable<string>? SnsTopicArns { get; set; }
 
-    [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
-
-    [CliOption("--configuration-name")]
-    public string? ConfigurationName { get; set; }
-
     /// <summary>
     /// Logging levels include ERROR , INFO , or NONE . Constraints: o min: 4 o max: 5 o pattern: (ERROR|INFO|NONE)
     /// </summary>
@@ -57,7 +115,10 @@ public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions
     [CliOption("--guardrail-policy-arns", GroupValues = true)]
     public IEnumerable<string>? GuardrailPolicyArns { get; set; }
 
-    [CliFlag("--user-authorization-required")]
+    /// <summary>
+    /// Enables use of a user role requirement in your chat configuration.
+    /// </summary>
+    [CliFlag("--user-authorization-required", NegatedName = "--no-user-authorization-required")]
     public bool? UserAuthorizationRequired { get; set; }
 
     /// <summary>
@@ -71,5 +132,21 @@ public record AwsChatbotCreateSlackChannelConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "describe-state-machine-for-execution")]
-public record AwsStepfunctionsDescribeStateMachineForExecutionOptions : AwsOptions
+public record AwsStepfunctionsDescribeStateMachineForExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides information about a state machine's definition, its execution role ARN, and configuration. If a Map Run dispatched the execution, this action returns the Map Run Amazon Resource Name (ARN) in the re- sponse. The state machine returned is the state machine associated with the Map Run. NOTE: This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines. See also: AWS API ...
+    /// </summary>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution you want state ma- chine information for. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsDescribeStateMachineForExecutionOptions(
+        string ExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionArn);
+        this.ExecutionArn = ExecutionArn;
+    }
+
+    private AwsStepfunctionsDescribeStateMachineForExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsDescribeStateMachineForExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsDescribeStateMachineForExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the execution you want state ma- chine information for. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--execution-arn")]
-    public string? ExecutionArn { get; set; }
+    public string? ExecutionArn { get; private init; }
 
     /// <summary>
     /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = META- DATA_ONLY to get a successful response without the encrypted defini- tion. Possible values: o ALL_DATA o METADATA_ONLY
@@ -36,5 +73,21 @@ public record AwsStepfunctionsDescribeStateMachineForExecutionOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

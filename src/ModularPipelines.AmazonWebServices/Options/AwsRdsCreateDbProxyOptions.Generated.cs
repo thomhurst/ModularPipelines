@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-proxy")]
-public record AwsRdsCreateDbProxyOptions : AwsOptions
+public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-proxy-name")]
-    public string? DbProxyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new DB proxy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbProxyName">The identifier for the proxy. This name must be unique for all prox- ies owned by your Amazon Web Services account in the specified Ama- zon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="EngineFamily">The kinds of databases that the proxy can connect to. This value de- termines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: o MYSQL o POSTGRESQL o SQLSERVER</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="VpcSubnetIds">One or more VPC subnet IDs to associate with the new proxy. (string) Syntax: "string" "string" ...</param>
+    public AwsRdsCreateDbProxyOptions(
+        string DbProxyName,
+        AwsRdsCreateDbProxyEngineFamily EngineFamily,
+        string RoleArn,
+        IEnumerable<string> VpcSubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbProxyName);
+        this.DbProxyName = DbProxyName;
+        global::System.ArgumentNullException.ThrowIfNull(EngineFamily);
+        this.EngineFamily = EngineFamily;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(VpcSubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VpcSubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(VpcSubnetIds));
+            }
+
+            VpcSubnetIds = materialized;
+        }
+        this.VpcSubnetIds = VpcSubnetIds;
+    }
+
+    private AwsRdsCreateDbProxyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbProxyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbProxyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the proxy. This name must be unique for all prox- ies owned by your Amazon Web Services account in the specified Ama- zon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--db-proxy-name")]
+    public string? DbProxyName { get; private init; }
+
+    /// <summary>
+    /// The kinds of databases that the proxy can connect to. This value de- termines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: o MYSQL o POSTGRESQL o SQLSERVER
+    /// </summary>
     [CliOption("--engine-family")]
-    public string? EngineFamily { get; set; }
+    public AwsRdsCreateDbProxyEngineFamily? EngineFamily { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: o min: 20 o max: 2048
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// One or more VPC subnet IDs to associate with the new proxy. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--vpc-subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? VpcSubnetIds { get; private init; }
 
     /// <summary>
     /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the un- derlying database. Valid values are NONE and IAM_AUTH . When set to IAM_AUTH , the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE , you must specify the Auth option. Possible values: o IAM_AUTH o NONE
@@ -40,19 +115,16 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--vpc-subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? VpcSubnetIds { get; set; }
-
     /// <summary>
     /// One or more VPC security group IDs to associate with the new proxy. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
-    [CliFlag("--require-tls")]
+    /// <summary>
+    /// Specifies whether Transport Layer Security (TLS) encryption is re- quired for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
+    /// </summary>
+    [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
 
     /// <summary>
@@ -61,7 +133,10 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     [CliOption("--idle-client-timeout")]
     public int? IdleClientTimeout { get; set; }
 
-    [CliFlag("--debug-logging")]
+    /// <summary>
+    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// </summary>
+    [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
 
     /// <summary>
@@ -74,18 +149,34 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions
     /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
-    public AwsRdsCreateDbProxyEndpointNetworkType? EndpointNetworkType { get; set; }
+    public string? EndpointNetworkType { get; set; }
 
     /// <summary>
     /// The network type that the proxy uses to connect to the target data- base. The network type determines the IP version that the proxy uses for connections to the database. Valid values: o IPV4 - The proxy connects to the database using IPv4 only. o IPV6 - The proxy connects to the database using IPv6 only. Default: IPV4 Constraints: o If you specify IPV6 , the database must support dual-stack mode. RDS doesn't support IPv6-only databases. o All targets registered with the proxy must be compatible with the specified network type. Possible values: o IPV4 o IPV6
     /// </summary>
     [CliOption("--target-connection-network-type")]
-    public AwsRdsCreateDbProxyTargetConnectionNetworkType? TargetConnectionNetworkType { get; set; }
+    public string? TargetConnectionNetworkType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

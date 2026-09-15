@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-job")]
-public record AwsSagemakerDescribeJobOptions : AwsOptions
+public record AwsSagemakerDescribeJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : o CreateJob o ListJobs o StopJob o DeleteJob See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobName">The name of the job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="JobCategory">The category of the job. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    public AwsSagemakerDescribeJobOptions(
+        string JobName,
+        AwsSagemakerDescribeJobJobCategory JobCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(JobCategory);
+        this.JobCategory = JobCategory;
+    }
+
+    private AwsSagemakerDescribeJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--job-name")]
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// The category of the job. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// </summary>
     [CliOption("--job-category")]
-    public string? JobCategory { get; set; }
+    public AwsSagemakerDescribeJobJobCategory? JobCategory { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

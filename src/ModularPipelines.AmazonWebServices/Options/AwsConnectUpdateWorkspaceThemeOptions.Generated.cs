@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-workspace-theme")]
-public record AwsConnectUpdateWorkspaceThemeOptions : AwsOptions
+public record AwsConnectUpdateWorkspaceThemeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the theme configuration for a workspace, including colors and styling. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: o min: 1 o max: 256</param>
+    public AwsConnectUpdateWorkspaceThemeOptions(
+        string InstanceId,
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsConnectUpdateWorkspaceThemeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateWorkspaceThemeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateWorkspaceThemeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the workspace. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     /// <summary>
     /// The theme configuration, including color schemes and visual styles. Light -&gt; (structure) The theme configuration for light mode. Palette -&gt; (structure) The color palette configuration for the workspace theme. Header -&gt; (structure) The color configuration for the header area. Background -&gt; (string) The background color of the header. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Text -&gt; (string) The text color in the header. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextHover -&gt; (string) The text color when hovering over header elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* InvertActionsColors -&gt; (boolean) Whether to invert the colors of action buttons in the header. Navigation -&gt; (structure) The color configuration for the navigation area. Background -&gt; (string) The background color of the navigation area. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextBackgroundHover -&gt; (string) The background color when hovering over navigation text. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextBackgroundActive -&gt; (string) The background color for active navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Text -&gt; (string) The text color in the navigation area. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextHover -&gt; (string) The text color when hovering over navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextActive -&gt; (string) The text color for active navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* InvertActionsColors -&gt; (boolean) Whether to invert the colors of action buttons in the navigation area. Canvas -&gt; (structure) The color configuration for the canvas area. ContainerBackground -&gt; (string) The background color for container elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* PageBackground -&gt; (string) The background color for page elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* ActiveBackground -&gt; (string) The background color for active elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Primary -&gt; (structure) The primary color configuration used throughout the work- space. Default -&gt; (string) The default primary color used throughout the work- space. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Active -&gt; (string) The primary color used for active states. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* ContrastText -&gt; (string) The text color that contrasts with the primary color for readability. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Images -&gt; (structure) The image assets used in the workspace theme. Logo -&gt; (structure) The logo images used in the workspace. Default -&gt; (string) The default logo image displayed in the workspace. Constraints: o min: 1 o max: 254 o pattern: .*\\S.* Favicon -&gt; (string) The favicon image displayed in the browser tab. Constraints: o min: 1 o max: 254 o pattern: .*\\S.* Typography -&gt; (structure) The typography configuration for the workspace theme. FontFamily -&gt; (structure) The font family configuration for text in the workspace. Default -&gt; (string) The default font family to use in the workspace theme. Possible values: o Arial o Courier New o Georgia o Times New Roman o Trebuchet o Verdana Dark -&gt; (structure) The theme configuration for dark mode. Palette -&gt; (structure) The color palette configuration for the workspace theme. Header -&gt; (structure) The color configuration for the header area. Background -&gt; (string) The background color of the header. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Text -&gt; (string) The text color in the header. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextHover -&gt; (string) The text color when hovering over header elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* InvertActionsColors -&gt; (boolean) Whether to invert the colors of action buttons in the header. Navigation -&gt; (structure) The color configuration for the navigation area. Background -&gt; (string) The background color of the navigation area. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextBackgroundHover -&gt; (string) The background color when hovering over navigation text. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextBackgroundActive -&gt; (string) The background color for active navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Text -&gt; (string) The text color in the navigation area. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextHover -&gt; (string) The text color when hovering over navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* TextActive -&gt; (string) The text color for active navigation items. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* InvertActionsColors -&gt; (boolean) Whether to invert the colors of action buttons in the navigation area. Canvas -&gt; (structure) The color configuration for the canvas area. ContainerBackground -&gt; (string) The background color for container elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* PageBackground -&gt; (string) The background color for page elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* ActiveBackground -&gt; (string) The background color for active elements. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Primary -&gt; (structure) The primary color configuration used throughout the work- space. Default -&gt; (string) The default primary color used throughout the work- space. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Active -&gt; (string) The primary color used for active states. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* ContrastText -&gt; (string) The text color that contrasts with the primary color for readability. Constraints: o min: 1 o max: 127 o pattern: .*\\S.* Images -&gt; (structure) The image assets used in the workspace theme. Logo -&gt; (structure) The logo images used in the workspace. Default -&gt; (string) The default logo image displayed in the workspace. Constraints: o min: 1 o max: 254 o pattern: .*\\S.* Favicon -&gt; (string) The favicon image displayed in the browser tab. Constraints: o min: 1 o max: 254 o pattern: .*\\S.* Typography -&gt; (structure) The typography configuration for the workspace theme. FontFamily -&gt; (structure) The font family configuration for text in the workspace. Default -&gt; (string) The default font family to use in the workspace theme. Possible values: o Arial o Courier New o Georgia o Times New Roman o Trebuchet o Verdana JSON Syntax: { "Light": { "Palette": { "Header": { "Background": "string", "Text": "string", "TextHover": "string", "InvertActionsColors": true|false }, "Navigation": { "Background": "string", "TextBackgroundHover": "string", "TextBackgroundActive": "string", "Text": "string", "TextHover": "string", "TextActive": "string", "InvertActionsColors": true|false }, "Canvas": { "ContainerBackground": "string", "PageBackground": "string", "ActiveBackground": "string" }, "Primary": { "Default": "string", "Active": "string", "ContrastText": "string" } }, "Images": { "Logo": { "Default": "string", "Favicon": "string" } }, "Typography": { "FontFamily": { "Default": "Arial"|"Courier New"|"Georgia"|"Times New Roman"|"Trebuchet"|"Verdana" } } }, "Dark": { "Palette": { "Header": { "Background": "string", "Text": "string", "TextHover": "string", "InvertActionsColors": true|false }, "Navigation": { "Background": "string", "TextBackgroundHover": "string", "TextBackgroundActive": "string", "Text": "string", "TextHover": "string", "TextActive": "string", "InvertActionsColors": true|false }, "Canvas": { "ContainerBackground": "string", "PageBackground": "string", "ActiveBackground": "string" }, "Primary": { "Default": "string", "Active": "string", "ContrastText": "string" } }, "Images": { "Logo": { "Default": "string", "Favicon": "string" } }, "Typography": { "FontFamily": { "Default": "Arial"|"Courier New"|"Georgia"|"Times New Roman"|"Trebuchet"|"Verdana" } } } }
@@ -38,5 +82,21 @@ public record AwsConnectUpdateWorkspaceThemeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

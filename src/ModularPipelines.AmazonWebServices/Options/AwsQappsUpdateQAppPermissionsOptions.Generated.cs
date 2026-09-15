@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "update-q-app-permissions")]
-public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions
+public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates read permissions for a Amazon Q App in Amazon Q Business appli- cation environment instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="AppId">The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    public AwsQappsUpdateQAppPermissionsOptions(
+        string InstanceId,
+        string AppId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+    }
+
+    private AwsQappsUpdateQAppPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsUpdateQAppPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsUpdateQAppPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q App for which permissions are being updated. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
     /// <summary>
     /// The list of permissions to grant for the Amazon Q App. Constraints: o min: 0 o max: 100 (structure) The permission to grant or revoke for a Amazon Q App. action -&gt; (string) [required] The action associated with the permission. Possible values: o read o write Constraints: o min: 1 o max: 20 principal -&gt; (string) [required] The principal user to which the permission applies. Constraints: o min: 1 o max: 256 Shorthand Syntax: action=string,principal=string ... JSON Syntax: [ { "action": "read"|"write", "principal": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsQappsUpdateQAppPermissionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

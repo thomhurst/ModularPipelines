@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-integration-response")]
-public record AwsApigatewayv2CreateIntegrationResponseOptions : AwsOptions
+public record AwsApigatewayv2CreateIntegrationResponseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IntegrationResponses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API identifier.</param>
+    /// <param name="IntegrationId">The integration ID.</param>
+    /// <param name="IntegrationResponseKey">The integration response key.</param>
+    public AwsApigatewayv2CreateIntegrationResponseOptions(
+        string ApiId,
+        string IntegrationId,
+        string IntegrationResponseKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationId);
+        this.IntegrationId = IntegrationId;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationResponseKey);
+        this.IntegrationResponseKey = IntegrationResponseKey;
+    }
+
+    private AwsApigatewayv2CreateIntegrationResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateIntegrationResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateIntegrationResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API identifier.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
+
+    /// <summary>
+    /// The integration ID.
+    /// </summary>
+    [CliOption("--integration-id")]
+    public string? IntegrationId { get; private init; }
+
+    /// <summary>
+    /// The integration response key.
+    /// </summary>
+    [CliOption("--integration-response-key")]
+    public string? IntegrationResponseKey { get; private init; }
 
     /// <summary>
     /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification. Possible values: o CONVERT_TO_BINARY o CONVERT_TO_TEXT
     /// </summary>
     [CliOption("--content-handling-strategy")]
     public AwsApigatewayv2CreateIntegrationResponseContentHandlingStrategy? ContentHandlingStrategy { get; set; }
-
-    [CliOption("--integration-id")]
-    public string? IntegrationId { get; set; }
-
-    [CliOption("--integration-response-key")]
-    public string? IntegrationResponseKey { get; set; }
 
     /// <summary>
     /// A key-value map specifying response parameters that are passed to the method response from the backend. The key is a method response header parameter name and the mapped value is an integration re- sponse header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where {name} is a valid and unique header name. The mapped non-sta- tic value must match the pattern of integration.re- sponse.header.{name} or integration.response.body.{JSON-expression}, where {name} is a valid and unique response header name and {JSON-expression} is a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) A string with a length between [1-512]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -61,5 +112,21 @@ public record AwsApigatewayv2CreateIntegrationResponseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

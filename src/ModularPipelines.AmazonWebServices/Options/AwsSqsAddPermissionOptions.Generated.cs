@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,119 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "add-permission")]
-public record AwsSqsAddPermissionOptions : AwsOptions
+public record AwsSqsAddPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a permission to a queue for a specific principal . This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see Allow Developers to Write Messages to a Shared Queue in the Amazon SQS Devel- oper Guide . NOTE: o AddPermission generates a policy for you. You can use `` SetQueueAttributes `` to upload your policy...
+    /// </summary>
+    /// <param name="QueueUrl">The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.</param>
+    /// <param name="Label">The unique identification of the permission you're setting (for ex- ample, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).</param>
+    /// <param name="AwsAccountIds">The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Iden- tifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...</param>
+    /// <param name="Actions">The action the client wants to allow for the specified principal. Valid values: the name of any action or * . For more information about these actions, see Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon SQS Developer Guide . Specifying SendMessage , DeleteMessage , or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch , DeleteMessageBatch , and ChangeMessageVisibilityBatch . (string) Syntax: "string" "string" ...</param>
+    public AwsSqsAddPermissionOptions(
+        string QueueUrl,
+        string Label,
+        IEnumerable<string> AwsAccountIds,
+        IEnumerable<string> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueUrl);
+        this.QueueUrl = QueueUrl;
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AwsAccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AwsAccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AwsAccountIds));
+            }
+
+            AwsAccountIds = materialized;
+        }
+        this.AwsAccountIds = AwsAccountIds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsSqsAddPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsAddPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsAddPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.
+    /// </summary>
     [CliOption("--queue-url")]
-    public string? QueueUrl { get; set; }
+    public string? QueueUrl { get; private init; }
 
+    /// <summary>
+    /// The unique identification of the permission you're setting (for ex- ample, AliceSendMessage ). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (- ), and underscores (_ ).
+    /// </summary>
     [CliOption("--label")]
-    public string? Label { get; set; }
+    public string? Label { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account numbers of the principals who are to receive permission. For information about locating the Amazon Web Services account identification, see Your Amazon Web Services Iden- tifiers in the Amazon SQS Developer Guide . (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--aws-account-ids", GroupValues = true)]
-    public IEnumerable<string>? AwsAccountIds { get; set; }
+    public IEnumerable<string>? AwsAccountIds { get; private init; }
 
+    /// <summary>
+    /// The action the client wants to allow for the specified principal. Valid values: the name of any action or * . For more information about these actions, see Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon SQS Developer Guide . Specifying SendMessage , DeleteMessage , or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch , DeleteMessageBatch , and ChangeMessageVisibilityBatch . (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "update-job-queue")]
-public record AwsBatchUpdateJobQueueOptions : AwsOptions
+public record AwsBatchUpdateJobQueueOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a job queue. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobQueue">The name or the Amazon Resource Name (ARN) of the job queue.</param>
+    public AwsBatchUpdateJobQueueOptions(
+        string JobQueue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobQueue);
+        this.JobQueue = JobQueue;
+    }
+
+    private AwsBatchUpdateJobQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchUpdateJobQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchUpdateJobQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or the Amazon Resource Name (ARN) of the job queue.
+    /// </summary>
     [CliOption("--job-queue")]
-    public string? JobQueue { get; set; }
+    public string? JobQueue { get; private init; }
 
     /// <summary>
     /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED , it can accept jobs. If the job queue state is DISABLED , new jobs can't be added to the queue, but jobs already in the queue can finish. Possible values: o ENABLED o DISABLED
@@ -66,5 +103,21 @@ public record AwsBatchUpdateJobQueueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

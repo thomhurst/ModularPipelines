@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "start-copy-job")]
-public record AwsBackupStartCopyJobOptions : AwsOptions
+public record AwsBackupStartCopyJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See Copy job retry for information on how Backup retries copy job oper- ations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPointArn">An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.</param>
+    /// <param name="SourceBackupVaultName">The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="DestinationBackupVaultArn">An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault .</param>
+    /// <param name="IamRoleArn">Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .</param>
+    public AwsBackupStartCopyJobOptions(
+        string RecoveryPointArn,
+        string SourceBackupVaultName,
+        string DestinationBackupVaultArn,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
+        this.RecoveryPointArn = RecoveryPointArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackupVaultName);
+        this.SourceBackupVaultName = SourceBackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationBackupVaultArn);
+        this.DestinationBackupVaultArn = DestinationBackupVaultArn;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsBackupStartCopyJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupStartCopyJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupStartCopyJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// </summary>
     [CliOption("--recovery-point-arn")]
-    public string? RecoveryPointArn { get; set; }
+    public string? RecoveryPointArn { get; private init; }
 
+    /// <summary>
+    /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--source-backup-vault-name")]
-    public string? SourceBackupVaultName { get; set; }
+    public string? SourceBackupVaultName { get; private init; }
 
+    /// <summary>
+    /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault .
+    /// </summary>
     [CliOption("--destination-backup-vault-arn")]
-    public string? DestinationBackupVaultArn { get; set; }
+    public string? DestinationBackupVaultArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartCopyJob . Retrying a successful request with the same idempotency token results in a success message with no action taken.
@@ -52,5 +110,21 @@ public record AwsBackupStartCopyJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

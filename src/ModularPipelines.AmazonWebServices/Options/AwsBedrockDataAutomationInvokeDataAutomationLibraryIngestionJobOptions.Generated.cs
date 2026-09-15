@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "invoke-data-automation-library-ingestion-job")]
-public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions : AwsOptions
+public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Async API: Invoke data automation library ingestion job See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="InputConfiguration">Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEnti- tiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutoma- tionLibraryIngestionJob Constraints: o min: 1 o max: 10 (tagged union structure) Input configuration for upserting data in a DataAutoma- tionLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?-----]*\^_`\{\|\}~&gt;&lt;-- language -&gt; (string) [required] Supported input languages Possible values: o EN o DE o ES o FR o IT o PT o JA o KO o CN o TW o HK phrases -&gt; (list) [required] List of phrases Constraints: o min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: o min: 1 o max: 256 o pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: o min: 1 o max: 256 o pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: o min: 1 o max: 1000 (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }</param>
+    /// <param name="EntityType">The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: o VOCABULARY</param>
+    /// <param name="OperationType">The operation to be performed by DataAutomationLibraryIngestionJob Possible values: o UPSERT o DELETE</param>
+    /// <param name="OutputConfiguration">Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions(
+        string LibraryArn,
+        string InputConfiguration,
+        AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobEntityType EntityType,
+        AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOperationType OperationType,
+        string OutputConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LibraryArn);
+        this.LibraryArn = LibraryArn;
+        global::System.ArgumentNullException.ThrowIfNull(InputConfiguration);
+        this.InputConfiguration = InputConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(OperationType);
+        this.OperationType = OperationType;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfiguration);
+        this.OutputConfiguration = OutputConfiguration;
+    }
+
+    private AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}
+    /// </summary>
     [CliOption("--library-arn")]
-    public string? LibraryArn { get; set; }
+    public string? LibraryArn { get; private init; }
+
+    /// <summary>
+    /// Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEnti- tiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutoma- tionLibraryIngestionJob Constraints: o min: 1 o max: 10 (tagged union structure) Input configuration for upserting data in a DataAutoma- tionLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?-----]*\^_`\{\|\}~&gt;&lt;-- language -&gt; (string) [required] Supported input languages Possible values: o EN o DE o ES o FR o IT o PT o JA o KO o CN o TW o HK phrases -&gt; (list) [required] List of phrases Constraints: o min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: o min: 1 o max: 256 o pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: o min: 1 o max: 256 o pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: o min: 1 o max: 1000 (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }
+    /// </summary>
+    [CliOption("--input-configuration")]
+    public string? InputConfiguration { get; private init; }
+
+    /// <summary>
+    /// The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: o VOCABULARY
+    /// </summary>
+    [CliOption("--entity-type")]
+    public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobEntityType? EntityType { get; private init; }
+
+    /// <summary>
+    /// The operation to be performed by DataAutomationLibraryIngestionJob Possible values: o UPSERT o DELETE
+    /// </summary>
+    [CliOption("--operation-type")]
+    public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOperationType? OperationType { get; private init; }
+
+    /// <summary>
+    /// Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// </summary>
+    [CliOption("--output-configuration")]
+    public string? OutputConfiguration { get; private init; }
 
     /// <summary>
     /// Idempotency token Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -31,18 +109,6 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--input-configuration")]
-    public string? InputConfiguration { get; set; }
-
-    [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
-
-    [CliOption("--operation-type")]
-    public string? OperationType { get; set; }
-
-    [CliOption("--output-configuration")]
-    public string? OutputConfiguration { get; set; }
 
     /// <summary>
     /// Notification configuration. eventBridgeConfiguration -&gt; (structure) [required] Event bridge configuration. eventBridgeEnabled -&gt; (boolean) [required] Event bridge flag. Shorthand Syntax: eventBridgeConfiguration={eventBridgeEnabled=boolean} JSON Syntax: { "eventBridgeConfiguration": { "eventBridgeEnabled": true|false } }
@@ -61,5 +127,21 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

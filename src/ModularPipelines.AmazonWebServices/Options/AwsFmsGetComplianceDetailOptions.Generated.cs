@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "get-compliance-detail")]
-public record AwsFmsGetComplianceDetailOptions : AwsOptions
+public record AwsFmsGetComplianceDetailOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns detailed compliance information about the specified member ac- count. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyId">The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="MemberAccount">The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    public AwsFmsGetComplianceDetailOptions(
+        string PolicyId,
+        string MemberAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberAccount);
+        this.MemberAccount = MemberAccount;
+    }
+
+    private AwsFmsGetComplianceDetailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsGetComplianceDetailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsGetComplianceDetailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string? PolicyId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--member-account")]
-    public string? MemberAccount { get; set; }
+    public string? MemberAccount { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "create-workflow-version")]
-public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions
+public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. NOTE: Don't include any personally identifiable information (PII) in the version name. Version names appear in the...
+    /// </summary>
+    /// <param name="WorkflowId">The ID of the workflow where you are creating the new version. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="VersionName">A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. The version name must start with a letter or number and it can in- clude upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    public AwsOmicsCreateWorkflowVersionOptions(
+        string WorkflowId,
+        string VersionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+        global::System.ArgumentNullException.ThrowIfNull(VersionName);
+        this.VersionName = VersionName;
+    }
+
+    private AwsOmicsCreateWorkflowVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsCreateWorkflowVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsCreateWorkflowVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workflow where you are creating the new version. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--workflow-id")]
+    public string? WorkflowId { get; private init; }
+
+    /// <summary>
+    /// A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. The version name must start with a letter or number and it can in- clude upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// </summary>
     [CliOption("--version-name")]
-    public string? VersionName { get; set; }
+    public string? VersionName { get; private init; }
 
     /// <summary>
     /// A ZIP archive containing the main workflow definition file and de- pendencies that it imports for this workflow version. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the Amazon Web Services HealthOmics User Guide .
@@ -148,5 +192,21 @@ public record AwsOmicsCreateWorkflowVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

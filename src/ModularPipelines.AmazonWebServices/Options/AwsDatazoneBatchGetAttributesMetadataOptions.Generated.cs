@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "batch-get-attributes-metadata")]
-public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions
+public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the attribute metadata. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The domain ID where you want to get the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The entity type for which you want to get attribute metadata. Possible values: o ASSET o LISTING</param>
+    /// <param name="EntityIdentifier">The entity ID for which you want to get attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="AttributeIdentifiers">The attribute identifier. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...</param>
+    public AwsDatazoneBatchGetAttributesMetadataOptions(
+        string DomainIdentifier,
+        AwsDatazoneBatchGetAttributesMetadataEntityType EntityType,
+        string EntityIdentifier,
+        IEnumerable<string> AttributeIdentifiers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttributeIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeIdentifiers));
+            }
+
+            AttributeIdentifiers = materialized;
+        }
+        this.AttributeIdentifiers = AttributeIdentifiers;
+    }
+
+    private AwsDatazoneBatchGetAttributesMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneBatchGetAttributesMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneBatchGetAttributesMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID where you want to get the attribute metadata. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The entity type for which you want to get attribute metadata. Possible values: o ASSET o LISTING
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneBatchGetAttributesMetadataEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The entity ID for which you want to get attribute metadata. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
+
+    /// <summary>
+    /// The attribute identifier. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--attribute-identifiers", GroupValues = true)]
+    public IEnumerable<string>? AttributeIdentifiers { get; private init; }
 
     /// <summary>
     /// The entity revision for which you want to get attribute metadata. Constraints: o min: 1 o max: 64
@@ -36,13 +109,26 @@ public record AwsDatazoneBatchGetAttributesMetadataOptions : AwsOptions
     [CliOption("--entity-revision")]
     public string? EntityRevision { get; set; }
 
-    [CliOption("--attribute-identifiers", GroupValues = true)]
-    public IEnumerable<string>? AttributeIdentifiers { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

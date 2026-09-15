@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "list-message-move-tasks")]
-public record AwsSqsListMessageMoveTasksOptions : AwsOptions
+public record AwsSqsListMessageMoveTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: o This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. o Only one active message movement task is supported per queue at any given time. Se...
+    /// </summary>
+    /// <param name="SourceArn">The ARN of the queue whose message movement tasks are to be listed.</param>
+    public AwsSqsListMessageMoveTasksOptions(
+        string SourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+    }
+
+    private AwsSqsListMessageMoveTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsListMessageMoveTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsListMessageMoveTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the queue whose message movement tasks are to be listed.
+    /// </summary>
     [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    public string? SourceArn { get; private init; }
 
     /// <summary>
     /// The maximum number of results to include in the response. The de- fault is 1, which provides the most recent message movement task. The upper limit is 10.
@@ -35,5 +72,21 @@ public record AwsSqsListMessageMoveTasksOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

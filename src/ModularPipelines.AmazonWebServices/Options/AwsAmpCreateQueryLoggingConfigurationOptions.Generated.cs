@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amp", "create-query-logging-configuration")]
-public record AwsAmpCreateQueryLoggingConfigurationOptions : AwsOptions
+public record AwsAmpCreateQueryLoggingConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The ID of the workspace for which to create the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Destinations">The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: o min: 1 o max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: o min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]</param>
+    public AwsAmpCreateQueryLoggingConfigurationOptions(
+        string WorkspaceId,
+        IEnumerable<string> Destinations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Destinations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Destinations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Destinations));
+            }
+
+            Destinations = materialized;
+        }
+        this.Destinations = Destinations;
+    }
+
+    private AwsAmpCreateQueryLoggingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmpCreateQueryLoggingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmpCreateQueryLoggingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the workspace for which to create the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// </summary>
+    [CliOption("--workspace-id")]
+    public string? WorkspaceId { get; private init; }
+
+    /// <summary>
+    /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: o min: 1 o max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: o min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]
+    /// </summary>
     [CliOption("--destinations", GroupValues = true)]
-    public IEnumerable<string>? Destinations { get; set; }
+    public IEnumerable<string>? Destinations { get; private init; }
 
     /// <summary>
     /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -40,5 +95,21 @@ public record AwsAmpCreateQueryLoggingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

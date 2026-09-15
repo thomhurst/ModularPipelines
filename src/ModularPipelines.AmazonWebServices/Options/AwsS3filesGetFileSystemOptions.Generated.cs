@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3files", "get-file-system")]
-public record AwsS3filesGetFileSystemOptions : AwsOptions
+public record AwsS3filesGetFileSystemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns resource information for the specified S3 File System including status, configuration, and metadata. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to re- trieve information for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    public AwsS3filesGetFileSystemOptions(
+        string FileSystemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+    }
+
+    private AwsS3filesGetFileSystemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3filesGetFileSystemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3filesGetFileSystemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to re- trieve information for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// </summary>
     [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    public string? FileSystemId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

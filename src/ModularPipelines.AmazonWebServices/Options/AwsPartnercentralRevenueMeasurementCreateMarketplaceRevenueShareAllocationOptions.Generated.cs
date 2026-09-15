@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "create-marketplace-revenue-share-allocation")]
-public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new marketplace revenue share allocation for the specified product. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog in which to create the allocation. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="EffectiveFrom">The effective start date for the allocation. Must be the first day of a month. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}</param>
+    /// <param name="RevenueSharePercent">The revenue share percentage for this allocation. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})?</param>
+    public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions(
+        AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationCatalog Catalog,
+        string ProductId,
+        string EffectiveFrom,
+        string RevenueSharePercent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(EffectiveFrom);
+        this.EffectiveFrom = EffectiveFrom;
+        global::System.ArgumentNullException.ThrowIfNull(RevenueSharePercent);
+        this.RevenueSharePercent = RevenueSharePercent;
+    }
+
+    private AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog in which to create the allocation. Possible values: o AWS o Sandbox
+    /// </summary>
+    [CliOption("--catalog")]
+    public AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// The effective start date for the allocation. Must be the first day of a month. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// </summary>
+    [CliOption("--effective-from")]
+    public string? EffectiveFrom { get; private init; }
+
+    /// <summary>
+    /// The revenue share percentage for this allocation. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})?
+    /// </summary>
+    [CliOption("--revenue-share-percent")]
+    public string? RevenueSharePercent { get; private init; }
 
     /// <summary>
     /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -35,22 +100,32 @@ public record AwsPartnercentralRevenueMeasurementCreateMarketplaceRevenueShareAl
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--effective-from")]
-    public string? EffectiveFrom { get; set; }
-
     /// <summary>
     /// The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD). Omit for open-ended allocations. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--effective-until")]
     public string? EffectiveUntil { get; set; }
 
-    [CliOption("--revenue-share-percent")]
-    public string? RevenueSharePercent { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "update-bot-locale")]
-public record AwsLexv2ModelsUpdateBotLocaleOptions : AwsOptions
+public record AwsLexv2ModelsUpdateBotLocaleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the settings that a bot has for a specific locale. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot that contains the locale. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the locale to be updated. The version can only be the DRAFT version. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="LocaleId">The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages .</param>
+    /// <param name="NluIntentConfidenceThreshold">The new confidence threshold where Amazon Lex inserts the AMA- ZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance. Constraints: o min: 0 o max: 1</param>
+    public AwsLexv2ModelsUpdateBotLocaleOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        int NluIntentConfidenceThreshold
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        this.NluIntentConfidenceThreshold = NluIntentConfidenceThreshold;
+    }
+
+    private AwsLexv2ModelsUpdateBotLocaleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsUpdateBotLocaleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsUpdateBotLocaleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot that contains the locale. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot that contains the locale to be updated. The version can only be the DRAFT version. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages .
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
+
+    /// <summary>
+    /// The new confidence threshold where Amazon Lex inserts the AMA- ZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance. Constraints: o min: 0 o max: 1
+    /// </summary>
+    [CliOption("--nlu-intent-confidence-threshold")]
+    public int? NluIntentConfidenceThreshold { get; private init; }
 
     /// <summary>
     /// The new description of the locale. Constraints: o min: 0 o max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--nlu-intent-confidence-threshold")]
-    public int? NluIntentConfidenceThreshold { get; set; }
 
     /// <summary>
     /// The new Amazon Polly voice Amazon Lex should use for voice interac- tion with the user. engine -&gt; (string) Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see the ` engine parameter of the SynthesizeSpeech operation &lt;- https://docs.aws.amazon.com/polly/latest/dg/API_Synthesize- Speech.html#polly-SynthesizeSpeech-request-Engine&gt;`__ in the Amazon Polly developer guide . If you do not specify a value, the default is standard . Possible values: o standard o neural o long-form o generative voiceId -&gt; (string) [required] The identifier of the Amazon Polly voice to use. Shorthand Syntax: engine=string,voiceId=string JSON Syntax: { "engine": "standard"|"neural"|"long-form"|"generative", "voiceId": "string" }
@@ -81,5 +138,21 @@ public record AwsLexv2ModelsUpdateBotLocaleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "update-ruleset")]
-public record AwsDatabrewUpdateRulesetOptions : AwsOptions
+public record AwsDatabrewUpdateRulesetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates specified ruleset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the ruleset to be updated. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Rules">A list of rules that are defined with the ruleset. A rule includes one or more checks to be validated on a DataBrew dataset. Constraints: o min: 1 (structure) Represents a single data quality requirement that should be val- idated in the scope of this dataset. Name -&gt; (string) [required] The name of the rule. Constraints: o min: 1 o max: 128 Disabled -&gt; (boolean) A value that specifies whether the rule is disabled. Once a rule is disabled, a profile job will not validate it during a job run. Default value is false. CheckExpression -&gt; (string) [required] The expression which includes column references, condition names followed by variable references, possibly grouped and combined with other conditions. For example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2) . Col- umn and value references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual value or a column name. These values are defined in the Substitu- tionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the rule should be null. If ColumnSe- lectors has been defined, then there should be no column ref- erence in the left side of a condition, for example, is_be- tween :val1 and :val2 . For more information, see Available checks Constraints: o min: 4 o max: 1024 o pattern: ^[&lt;&gt;0-9A-Za-z_.,:)(!= ]+$ SubstitutionMap -&gt; (map) The map of substitution variable names to their values used in a check expression. Variable names should start with a ':' (colon). Variable values can either be actual values or col- umn names. To differentiate between the two, column names should be enclosed in backticks, for example, ":col1": "`Col- umn A`". key -&gt; (string) Constraints: o min: 2 o max: 128 o pattern: ^:[A-Za-z0-9_]+$ value -&gt; (string) Constraints: o max: 1024 Threshold -&gt; (structure) The threshold used with a non-aggregate check expression. Non-aggregate check expressions will be applied to each row in a specific column, and the threshold will be used to de- termine whether the validation succeeds. Value -&gt; (double) [required] The value of a threshold. Constraints: o min: 0 Type -&gt; (string) The type of a threshold. Used for comparison of an actual count of rows that satisfy the rule to the threshold value. Possible values: o GREATER_THAN_OR_EQUAL o LESS_THAN_OR_EQUAL o GREATER_THAN o LESS_THAN Unit -&gt; (string) Unit of threshold value. Can be either a COUNT or PER- CENTAGE of the full sample size used for validation. Possible values: o COUNT o PERCENTAGE ColumnSelectors -&gt; (list) List of column selectors. Selectors can be used to select columns using a name or regular expression from the dataset. Rule will be applied to selected columns. Constraints: o min: 1 (structure) Selector of a column from a dataset for profile job con- figuration. One selector includes either a column name or a regular expression. Regex -&gt; (string) A regular expression for selecting a column from a dataset. Constraints: o min: 1 o max: 255 Name -&gt; (string) The name of a column from a dataset. Constraints: o min: 1 o max: 255 Shorthand Syntax: Name=string,Disabled=boolean,CheckExpression=string,SubstitutionMap={KeyName1=string,KeyName2=string},Threshold={Value=double,Type=string,Unit=string},ColumnSelectors=[{Regex=string,Name=string},{Regex=string,Name=string}] ... JSON Syntax: [ { "Name": "string", "Disabled": true|false, "CheckExpression": "string", "SubstitutionMap": {"string": "string" ...}, "Threshold": { "Value": double, "Type": "GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN", "Unit": "COUNT"|"PERCENTAGE" }, "ColumnSelectors": [ { "Regex": "string", "Name": "string" } ... ] } ... ]</param>
+    public AwsDatabrewUpdateRulesetOptions(
+        string Name,
+        IEnumerable<string> Rules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+    }
+
+    private AwsDatabrewUpdateRulesetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewUpdateRulesetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewUpdateRulesetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ruleset to be updated. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A list of rules that are defined with the ruleset. A rule includes one or more checks to be validated on a DataBrew dataset. Constraints: o min: 1 (structure) Represents a single data quality requirement that should be val- idated in the scope of this dataset. Name -&gt; (string) [required] The name of the rule. Constraints: o min: 1 o max: 128 Disabled -&gt; (boolean) A value that specifies whether the rule is disabled. Once a rule is disabled, a profile job will not validate it during a job run. Default value is false. CheckExpression -&gt; (string) [required] The expression which includes column references, condition names followed by variable references, possibly grouped and combined with other conditions. For example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2) . Col- umn and value references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual value or a column name. These values are defined in the Substitu- tionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the rule should be null. If ColumnSe- lectors has been defined, then there should be no column ref- erence in the left side of a condition, for example, is_be- tween :val1 and :val2 . For more information, see Available checks Constraints: o min: 4 o max: 1024 o pattern: ^[&lt;&gt;0-9A-Za-z_.,:)(!= ]+$ SubstitutionMap -&gt; (map) The map of substitution variable names to their values used in a check expression. Variable names should start with a ':' (colon). Variable values can either be actual values or col- umn names. To differentiate between the two, column names should be enclosed in backticks, for example, ":col1": "`Col- umn A`". key -&gt; (string) Constraints: o min: 2 o max: 128 o pattern: ^:[A-Za-z0-9_]+$ value -&gt; (string) Constraints: o max: 1024 Threshold -&gt; (structure) The threshold used with a non-aggregate check expression. Non-aggregate check expressions will be applied to each row in a specific column, and the threshold will be used to de- termine whether the validation succeeds. Value -&gt; (double) [required] The value of a threshold. Constraints: o min: 0 Type -&gt; (string) The type of a threshold. Used for comparison of an actual count of rows that satisfy the rule to the threshold value. Possible values: o GREATER_THAN_OR_EQUAL o LESS_THAN_OR_EQUAL o GREATER_THAN o LESS_THAN Unit -&gt; (string) Unit of threshold value. Can be either a COUNT or PER- CENTAGE of the full sample size used for validation. Possible values: o COUNT o PERCENTAGE ColumnSelectors -&gt; (list) List of column selectors. Selectors can be used to select columns using a name or regular expression from the dataset. Rule will be applied to selected columns. Constraints: o min: 1 (structure) Selector of a column from a dataset for profile job con- figuration. One selector includes either a column name or a regular expression. Regex -&gt; (string) A regular expression for selecting a column from a dataset. Constraints: o min: 1 o max: 255 Name -&gt; (string) The name of a column from a dataset. Constraints: o min: 1 o max: 255 Shorthand Syntax: Name=string,Disabled=boolean,CheckExpression=string,SubstitutionMap={KeyName1=string,KeyName2=string},Threshold={Value=double,Type=string,Unit=string},ColumnSelectors=[{Regex=string,Name=string},{Regex=string,Name=string}] ... JSON Syntax: [ { "Name": "string", "Disabled": true|false, "CheckExpression": "string", "SubstitutionMap": {"string": "string" ...}, "Threshold": { "Value": double, "Type": "GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN", "Unit": "COUNT"|"PERCENTAGE" }, "ColumnSelectors": [ { "Regex": "string", "Name": "string" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; private init; }
 
     /// <summary>
     /// The description of the ruleset. Constraints: o max: 1024
@@ -30,13 +88,26 @@ public record AwsDatabrewUpdateRulesetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--rules", GroupValues = true)]
-    public IEnumerable<string>? Rules { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

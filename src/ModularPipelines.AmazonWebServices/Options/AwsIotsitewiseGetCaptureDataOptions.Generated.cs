@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "get-capture-data")]
-public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions
+public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves video data for a specific time range. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace that contains the capture source. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="StartTime">The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
+    /// <param name="EndTime">The end time for the video data range. Must be greater than start- Time. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }</param>
+    public AwsIotsitewiseGetCaptureDataOptions(
+        string WorkspaceName,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsIotsitewiseGetCaptureDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseGetCaptureDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseGetCaptureDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace that contains the capture source. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
 
+    /// <summary>
+    /// The start time for the video data range. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end time for the video data range. Must be greater than start- Time. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Frac- tional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 Shorthand Syntax: timeInSeconds=long,offsetInNanos=integer JSON Syntax: { "timeInSeconds": long, "offsetInNanos": integer }
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// The time series ID that identifies the capture source. Mutually ex- clusive with propertyAlias. Constraints: o min: 36 o max: 73
@@ -61,5 +112,21 @@ public record AwsIotsitewiseGetCaptureDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

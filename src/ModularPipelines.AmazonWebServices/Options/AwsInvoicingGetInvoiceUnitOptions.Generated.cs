@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("invoicing", "get-invoice-unit")]
-public record AwsInvoicingGetInvoiceUnitOptions : AwsOptions
+public record AwsInvoicingGetInvoiceUnitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This retrieves the invoice unit definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InvoiceUnitArn">The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    public AwsInvoicingGetInvoiceUnitOptions(
+        string InvoiceUnitArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvoiceUnitArn);
+        this.InvoiceUnitArn = InvoiceUnitArn;
+    }
+
+    private AwsInvoicingGetInvoiceUnitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInvoicingGetInvoiceUnitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInvoicingGetInvoiceUnitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN to identify an invoice unit. This information can't be modi- fied or deleted. Constraints: o min: 1 o max: 256 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
     [CliOption("--invoice-unit-arn")]
-    public string? InvoiceUnitArn { get; set; }
+    public string? InvoiceUnitArn { get; private init; }
 
     /// <summary>
     /// The state of an invoice unit at a specified time. You can see legacy invoice units that are currently deleted if the AsOf time is set to before it was deleted. If an AsOf is not provided, the default value is the current time.
@@ -35,5 +72,21 @@ public record AwsInvoicingGetInvoiceUnitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

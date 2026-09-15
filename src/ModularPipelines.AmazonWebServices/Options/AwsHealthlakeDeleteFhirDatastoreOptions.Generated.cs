@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "delete-fhir-datastore")]
-public record AwsHealthlakeDeleteFhirDatastoreOptions : AwsOptions
+public record AwsHealthlakeDeleteFhirDatastoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a FHIR-enabled data store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatastoreId">The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    public AwsHealthlakeDeleteFhirDatastoreOptions(
+        string DatastoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+    }
+
+    private AwsHealthlakeDeleteFhirDatastoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeDeleteFhirDatastoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeDeleteFhirDatastoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services-generated identifier for the data store to be deleted. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// </summary>
     [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
+    public string? DatastoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

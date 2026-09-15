@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "describe-code-coverages")]
-public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions
+public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves one or more code coverage reports. See also: AWS API Documentation describe-code-coverages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: codeCoverages
+    /// </summary>
+    /// <param name="ReportArn">The ARN of the report for which test cases are returned. Constraints: o min: 1</param>
+    public AwsCodebuildDescribeCodeCoveragesOptions(
+        string ReportArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportArn);
+        this.ReportArn = ReportArn;
+    }
+
+    private AwsCodebuildDescribeCodeCoveragesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildDescribeCodeCoveragesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildDescribeCodeCoveragesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the report for which test cases are returned. Constraints: o min: 1
+    /// </summary>
     [CliOption("--report-arn")]
-    public string? ReportArn { get; set; }
+    public string? ReportArn { get; private init; }
 
     /// <summary>
     /// Specifies if the results are sorted in ascending or descending or- der. Possible values: o ASCENDING o DESCENDING
@@ -74,5 +111,21 @@ public record AwsCodebuildDescribeCodeCoveragesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

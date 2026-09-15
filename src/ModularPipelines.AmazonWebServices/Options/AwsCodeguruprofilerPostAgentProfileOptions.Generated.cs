@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "post-agent-profile")]
-public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions
+public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-profile")]
-    public string? AgentProfile { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Submits profiling data to an aggregated profile of a profiling group. To get an aggregated profile that is created with this profiling data, use ` GetProfile https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html`__ . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentProfile">The submitted profiling data.</param>
+    /// <param name="ContentType">The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group with the aggregated profile that re- ceives the submitted profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    public AwsCodeguruprofilerPostAgentProfileOptions(
+        string AgentProfile,
+        string ContentType,
+        string ProfilingGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentProfile);
+        this.AgentProfile = AgentProfile;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+    }
+
+    private AwsCodeguruprofilerPostAgentProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerPostAgentProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerPostAgentProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The submitted profiling data.
+    /// </summary>
+    [CliOption("--agent-profile")]
+    public string? AgentProfile { get; private init; }
+
+    /// <summary>
+    /// The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
+    /// </summary>
     [CliOption("--content-type")]
-    public string? ContentType { get; set; }
+    public string? ContentType { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group with the aggregated profile that re- ceives the submitted profiling data. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
     /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries. Constraints: o min: 1 o max: 64 o pattern: ^[\w-]+$
@@ -35,13 +89,26 @@ public record AwsCodeguruprofilerPostAgentProfileOptions : AwsOptions
     [CliOption("--profile-token")]
     public string? ProfileToken { get; set; }
 
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "update-case-status")]
-public record AwsSecurityIrUpdateCaseStatusOptions : AwsOptions
+public record AwsSecurityIrUpdateCaseStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the state transitions for a designated cases. Self-managed : the following states are available for self-managed cases. o Submitted Detection and Analysis o Detection and Analysis Containment, Eradication, and Recovery o Detection and Analysis Post-incident Activities o Containment, Eradication, and Recovery Detection and Analysis o Containment, Eradication, and Recovery Post-incident Activities o Post-incident Activities Containment, Eradication, and Recovery o Post-incident Activities ...
+    /// </summary>
+    /// <param name="CaseId">Required element for UpdateCaseStatus to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    /// <param name="CaseStatus">Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Contain- ment, Eradication and Recovery | Post-incident Activities . Possible values: o Submitted o Detection and Analysis o Containment, Eradication and Recovery o Post-incident Activities</param>
+    public AwsSecurityIrUpdateCaseStatusOptions(
+        string CaseId,
+        string CaseStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(CaseStatus);
+        this.CaseStatus = CaseStatus;
+    }
+
+    private AwsSecurityIrUpdateCaseStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrUpdateCaseStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrUpdateCaseStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element for UpdateCaseStatus to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// </summary>
+    [CliOption("--case-id")]
+    public string? CaseId { get; private init; }
+
+    /// <summary>
+    /// Required element for UpdateCaseStatus to identify the status for a case. Options include Submitted | Detection and Analysis | Contain- ment, Eradication and Recovery | Post-incident Activities . Possible values: o Submitted o Detection and Analysis o Containment, Eradication and Recovery o Post-incident Activities
+    /// </summary>
     [CliOption("--case-status")]
-    public string? CaseStatus { get; set; }
+    public string? CaseStatus { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

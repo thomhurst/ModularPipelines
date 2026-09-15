@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "list-browser-sessions")]
-public record AwsBedrockAgentcoreListBrowserSessionsOptions : AwsOptions
+public record AwsBedrockAgentcoreListBrowserSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary informa- tion about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets effi- ciently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The fol...
+    /// </summary>
+    /// <param name="BrowserIdentifier">The unique identifier of the browser to list sessions for. If speci- fied, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.</param>
+    public AwsBedrockAgentcoreListBrowserSessionsOptions(
+        string BrowserIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrowserIdentifier);
+        this.BrowserIdentifier = BrowserIdentifier;
+    }
+
+    private AwsBedrockAgentcoreListBrowserSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreListBrowserSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreListBrowserSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the browser to list sessions for. If speci- fied, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.
+    /// </summary>
     [CliOption("--browser-identifier")]
-    public string? BrowserIdentifier { get; set; }
+    public string? BrowserIdentifier { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return in a single call. The de- fault value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 1 o max: 100
@@ -50,5 +87,21 @@ public record AwsBedrockAgentcoreListBrowserSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "list-firewall-rules")]
-public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions
+public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
+    /// </summary>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverListFirewallRulesOptions(
+        string FirewallRuleGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupId);
+        this.FirewallRuleGroupId = FirewallRuleGroupId;
+    }
+
+    private AwsRoute53resolverListFirewallRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverListFirewallRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverListFirewallRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--firewall-rule-group-id")]
-    public string? FirewallRuleGroupId { get; set; }
+    public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
     /// Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting.
@@ -62,5 +99,21 @@ public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

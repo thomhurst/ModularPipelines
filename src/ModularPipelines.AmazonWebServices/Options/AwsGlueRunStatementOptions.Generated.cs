@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "run-statement")]
-public record AwsGlueRunStatementOptions : AwsOptions
+public record AwsGlueRunStatementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Executes the statement. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionId">The Session Id of the statement to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Code">The statement code to be run. Constraints: o max: 68000</param>
+    public AwsGlueRunStatementOptions(
+        string SessionId,
+        string Code
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(Code);
+        this.Code = Code;
+    }
+
+    private AwsGlueRunStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueRunStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueRunStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Session Id of the statement to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--session-id")]
+    public string? SessionId { get; private init; }
+
+    /// <summary>
+    /// The statement code to be run. Constraints: o max: 68000
+    /// </summary>
     [CliOption("--code")]
-    public string? Code { get; set; }
+    public string? Code { get; private init; }
 
     /// <summary>
     /// The origin of the request. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
@@ -38,5 +82,21 @@ public record AwsGlueRunStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

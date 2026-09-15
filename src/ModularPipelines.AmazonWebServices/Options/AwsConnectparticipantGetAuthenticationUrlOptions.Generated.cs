@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "get-authentication-url")]
-public record AwsConnectparticipantGetAuthenticationUrlOptions : AwsOptions
+public record AwsConnectparticipantGetAuthenticationUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: o This API can only be called within one minute of receiving the au- thenticationInitiated event. o The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantTo...
+    /// </summary>
+    /// <param name="SessionId">The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36</param>
+    /// <param name="RedirectUri">The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantGetAuthenticationUrlOptions(
+        string SessionId,
+        string RedirectUri,
+        string ConnectionToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(RedirectUri);
+        this.RedirectUri = RedirectUri;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionToken);
+        this.ConnectionToken = ConnectionToken;
+    }
+
+    private AwsConnectparticipantGetAuthenticationUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantGetAuthenticationUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantGetAuthenticationUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--redirect-uri")]
-    public string? RedirectUri { get; set; }
+    public string? RedirectUri { get; private init; }
 
+    /// <summary>
+    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
-    public string? ConnectionToken { get; set; }
+    public string? ConnectionToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

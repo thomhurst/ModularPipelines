@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-featurestore-runtime", "delete-record")]
-public record AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions : AwsOptions
+public record AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Record from a FeatureGroup in the OnlineStore . Feature Store supports both SoftDelete and HardDelete . For SoftDelete (default), feature columns are set to null and the record is no longer retrievable by GetRecord or BatchGetRecord . For HardDelete , the complete Record is removed from the OnlineStore . In both cases, Feature Store appends the deleted record marker to the OfflineStore . The deleted record marker is a record with the same RecordIdentifer as the original, but with is_de...
+    /// </summary>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group to delete the record from. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="RecordIdentifierValueAsString">The value for the RecordIdentifier that uniquely identifies the record, in string format. Constraints: o max: 358400 o pattern: .*</param>
+    /// <param name="EventTime">Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time. Constraints: o max: 358400 o pattern: .*</param>
+    public AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions(
+        string FeatureGroupName,
+        string RecordIdentifierValueAsString,
+        string EventTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FeatureGroupName);
+        this.FeatureGroupName = FeatureGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(RecordIdentifierValueAsString);
+        this.RecordIdentifierValueAsString = RecordIdentifierValueAsString;
+        global::System.ArgumentNullException.ThrowIfNull(EventTime);
+        this.EventTime = EventTime;
+    }
+
+    private AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the feature group to delete the record from. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
+    /// </summary>
     [CliOption("--feature-group-name")]
-    public string? FeatureGroupName { get; set; }
+    public string? FeatureGroupName { get; private init; }
 
+    /// <summary>
+    /// The value for the RecordIdentifier that uniquely identifies the record, in string format. Constraints: o max: 358400 o pattern: .*
+    /// </summary>
     [CliOption("--record-identifier-value-as-string")]
-    public string? RecordIdentifierValueAsString { get; set; }
+    public string? RecordIdentifierValueAsString { get; private init; }
 
+    /// <summary>
+    /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time. Constraints: o max: 358400 o pattern: .*
+    /// </summary>
     [CliOption("--event-time")]
-    public string? EventTime { get; set; }
+    public string? EventTime { get; private init; }
 
     /// <summary>
     /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore Syntax: "string" "string" ...
@@ -48,5 +99,21 @@ public record AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

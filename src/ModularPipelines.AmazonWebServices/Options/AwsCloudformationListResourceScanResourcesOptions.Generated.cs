@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "list-resource-scan-resources")]
-public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions
+public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The re- sponse indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// </summary>
+    /// <param name="ResourceScanId">The Amazon Resource Name (ARN) of the resource scan.</param>
+    public AwsCloudformationListResourceScanResourcesOptions(
+        string ResourceScanId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceScanId);
+        this.ResourceScanId = ResourceScanId;
+    }
+
+    private AwsCloudformationListResourceScanResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationListResourceScanResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationListResourceScanResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the resource scan.
+    /// </summary>
     [CliOption("--resource-scan-id")]
-    public string? ResourceScanId { get; set; }
+    public string? ResourceScanId { get; private init; }
 
     /// <summary>
     /// If specified, the returned resources will have the specified re- source identifier (or one of them in the case where the resource has multiple identifiers).
@@ -73,5 +110,21 @@ public record AwsCloudformationListResourceScanResourcesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

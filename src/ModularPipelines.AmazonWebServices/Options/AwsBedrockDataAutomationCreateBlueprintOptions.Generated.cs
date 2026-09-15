@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-data-automation", "create-blueprint")]
-public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions
+public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--blueprint-name")]
-    public string? BlueprintName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlueprintName">Name of the Blueprint Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Type">Type Possible values: o DOCUMENT o IMAGE o AUDIO o VIDEO</param>
+    /// <param name="Schema">Schema of the blueprint Constraints: o min: 1 o max: 100000</param>
+    public AwsBedrockDataAutomationCreateBlueprintOptions(
+        string BlueprintName,
+        AwsBedrockDataAutomationCreateBlueprintType Type,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueprintName);
+        this.BlueprintName = BlueprintName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    private AwsBedrockDataAutomationCreateBlueprintOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDataAutomationCreateBlueprintOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDataAutomationCreateBlueprintOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the Blueprint Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
+    [CliOption("--blueprint-name")]
+    public string? BlueprintName { get; private init; }
+
+    /// <summary>
+    /// Type Possible values: o DOCUMENT o IMAGE o AUDIO o VIDEO
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsBedrockDataAutomationCreateBlueprintType? Type { get; private init; }
+
+    /// <summary>
+    /// Schema of the blueprint Constraints: o min: 1 o max: 100000
+    /// </summary>
+    [CliOption("--schema")]
+    public string? Schema { get; private init; }
 
     /// <summary>
     /// Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE
     /// </summary>
     [CliOption("--blueprint-stage")]
     public AwsBedrockDataAutomationCreateBlueprintBlueprintStage? BlueprintStage { get; set; }
-
-    [CliOption("--schema")]
-    public string? Schema { get; set; }
 
     /// <summary>
     /// Client specified token used for idempotency checks Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -62,5 +113,21 @@ public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

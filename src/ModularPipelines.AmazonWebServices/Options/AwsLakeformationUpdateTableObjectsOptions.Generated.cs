@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "update-table-objects")]
-public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions
+public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the manifest of Amazon S3 objects that make up the specified governed table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The database containing the governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="WriteOperations">A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: o min: 1 o max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]</param>
+    public AwsLakeformationUpdateTableObjectsOptions(
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> WriteOperations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(WriteOperations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(WriteOperations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(WriteOperations));
+            }
+
+            WriteOperations = materialized;
+        }
+        this.WriteOperations = WriteOperations;
+    }
+
+    private AwsLakeformationUpdateTableObjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationUpdateTableObjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationUpdateTableObjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database containing the governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: o min: 1 o max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]
+    /// </summary>
+    [CliOption("--write-operations", GroupValues = true)]
+    public IEnumerable<string>? WriteOperations { get; private init; }
+
     /// <summary>
     /// The catalog containing the governed table to update. Defaults to the callers account ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
 
     /// <summary>
     /// The transaction at which to do the write. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
@@ -39,13 +104,26 @@ public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
 
-    [CliOption("--write-operations", GroupValues = true)]
-    public IEnumerable<string>? WriteOperations { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

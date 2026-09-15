@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "deactivate-evaluation-form")]
-public record AwsConnectDeactivateEvaluationFormOptions : AwsOptions
+public record AwsConnectDeactivateEvaluationFormOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deactivates an evaluation form in the specified Connect Customer in- stance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="EvaluationFormId">The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500</param>
+    /// <param name="EvaluationFormVersion">A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.</param>
+    public AwsConnectDeactivateEvaluationFormOptions(
+        string InstanceId,
+        string EvaluationFormId,
+        int EvaluationFormVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationFormId);
+        this.EvaluationFormId = EvaluationFormId;
+        this.EvaluationFormVersion = EvaluationFormVersion;
+    }
+
+    private AwsConnectDeactivateEvaluationFormOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDeactivateEvaluationFormOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDeactivateEvaluationFormOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the evaluation form. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--evaluation-form-id")]
-    public string? EvaluationFormId { get; set; }
+    public string? EvaluationFormId { get; private init; }
 
+    /// <summary>
+    /// A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
+    /// </summary>
     [CliOption("--evaluation-form-version")]
-    public int? EvaluationFormVersion { get; set; }
+    public int? EvaluationFormVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

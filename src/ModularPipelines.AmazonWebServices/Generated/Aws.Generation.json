@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "aws",
+  "toolVersion": "aws-cli/2.36.45 Python/3.14.6 Linux/6.17.0-1022-azure exe/x86_64.ubuntu.24",
+  "commandTreeSha256": "44cb2f3370a3ed33984db0e7c3caeb9682e5001166da65f930862165198e851b",
+  "generatorSourceSha256": "43bf8999043fa3d6c0be971b9c8b10e2b8b6e60ca434435afc0e535ff1870c66"
+}

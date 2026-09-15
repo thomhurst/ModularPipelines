@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-field-level-encryption-config")]
-public record AwsCloudfrontCreateFieldLevelEncryptionConfigOptions : AwsOptions
+public record AwsCloudfrontCreateFieldLevelEncryptionConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new field-level encryption configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FieldLevelEncryptionConfig">The request to create a new field-level encryption configuration. CallerReference -&gt; (string) [required] A unique number that ensures the request can't be replayed. Comment -&gt; (string) An optional comment about the configuration. The comment cannot be longer than 128 characters. QueryArgProfileConfig -&gt; (structure) A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request. ForwardWhenQueryArgProfileIsUnknown -&gt; (boolean) [required] Flag to set if you want a request to be forwarded to the ori- gin even if the profile specified by the field-level encryp- tion query argument, fle-profile, is unknown. QueryArgProfiles -&gt; (structure) Profiles specified for query argument-profile mapping for field-level encryption. Quantity -&gt; (integer) [required] Number of profiles for query argument-profile mapping for field-level encryption. Items -&gt; (list) Number of items for query argument-profile mapping for field-level encryption. (structure) Query argument-profile mapping for field-level encryp- tion. QueryArg -&gt; (string) [required] Query argument for field-level encryption query argument-profile mapping. ProfileId -&gt; (string) [required] ID of profile to use for field-level encryption query argument-profile mapping ContentTypeProfileConfig -&gt; (structure) A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use. ForwardWhenContentTypeIsUnknown -&gt; (boolean) [required] The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is for- warded without being encrypted when the content type is un- known. If false (the default), an error is returned when the content type is unknown. ContentTypeProfiles -&gt; (structure) The configuration for a field-level encryption content type-profile. Quantity -&gt; (integer) [required] The number of field-level encryption content type-profile mappings. Items -&gt; (list) Items in a field-level encryption content type-profile mapping. (structure) A field-level encryption content type profile. Format -&gt; (string) [required] The format for a field-level encryption content type-profile mapping. Possible values: o URLEncoded ProfileId -&gt; (string) The profile ID for a field-level encryption con- tent type-profile mapping. ContentType -&gt; (string) [required] The content type for a field-level encryption con- tent type-profile mapping. JSON Syntax: { "CallerReference": "string", "Comment": "string", "QueryArgProfileConfig": { "ForwardWhenQueryArgProfileIsUnknown": true|false, "QueryArgProfiles": { "Quantity": integer, "Items": [ { "QueryArg": "string", "ProfileId": "string" } ... ] } }, "ContentTypeProfileConfig": { "ForwardWhenContentTypeIsUnknown": true|false, "ContentTypeProfiles": { "Quantity": integer, "Items": [ { "Format": "URLEncoded", "ProfileId": "string", "ContentType": "string" } ... ] } } }</param>
+    public AwsCloudfrontCreateFieldLevelEncryptionConfigOptions(
+        string FieldLevelEncryptionConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FieldLevelEncryptionConfig);
+        this.FieldLevelEncryptionConfig = FieldLevelEncryptionConfig;
+    }
+
+    private AwsCloudfrontCreateFieldLevelEncryptionConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateFieldLevelEncryptionConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateFieldLevelEncryptionConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The request to create a new field-level encryption configuration. CallerReference -&gt; (string) [required] A unique number that ensures the request can't be replayed. Comment -&gt; (string) An optional comment about the configuration. The comment cannot be longer than 128 characters. QueryArgProfileConfig -&gt; (structure) A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request. ForwardWhenQueryArgProfileIsUnknown -&gt; (boolean) [required] Flag to set if you want a request to be forwarded to the ori- gin even if the profile specified by the field-level encryp- tion query argument, fle-profile, is unknown. QueryArgProfiles -&gt; (structure) Profiles specified for query argument-profile mapping for field-level encryption. Quantity -&gt; (integer) [required] Number of profiles for query argument-profile mapping for field-level encryption. Items -&gt; (list) Number of items for query argument-profile mapping for field-level encryption. (structure) Query argument-profile mapping for field-level encryp- tion. QueryArg -&gt; (string) [required] Query argument for field-level encryption query argument-profile mapping. ProfileId -&gt; (string) [required] ID of profile to use for field-level encryption query argument-profile mapping ContentTypeProfileConfig -&gt; (structure) A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use. ForwardWhenContentTypeIsUnknown -&gt; (boolean) [required] The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is for- warded without being encrypted when the content type is un- known. If false (the default), an error is returned when the content type is unknown. ContentTypeProfiles -&gt; (structure) The configuration for a field-level encryption content type-profile. Quantity -&gt; (integer) [required] The number of field-level encryption content type-profile mappings. Items -&gt; (list) Items in a field-level encryption content type-profile mapping. (structure) A field-level encryption content type profile. Format -&gt; (string) [required] The format for a field-level encryption content type-profile mapping. Possible values: o URLEncoded ProfileId -&gt; (string) The profile ID for a field-level encryption con- tent type-profile mapping. ContentType -&gt; (string) [required] The content type for a field-level encryption con- tent type-profile mapping. JSON Syntax: { "CallerReference": "string", "Comment": "string", "QueryArgProfileConfig": { "ForwardWhenQueryArgProfileIsUnknown": true|false, "QueryArgProfiles": { "Quantity": integer, "Items": [ { "QueryArg": "string", "ProfileId": "string" } ... ] } }, "ContentTypeProfileConfig": { "ForwardWhenContentTypeIsUnknown": true|false, "ContentTypeProfiles": { "Quantity": integer, "Items": [ { "Format": "URLEncoded", "ProfileId": "string", "ContentType": "string" } ... ] } } }
+    /// </summary>
     [CliOption("--field-level-encryption-config")]
-    public string? FieldLevelEncryptionConfig { get; set; }
+    public string? FieldLevelEncryptionConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

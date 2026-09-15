@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "get-health-check-status")]
-public record AwsRoute53GetHealthCheckStatusOptions : AwsOptions
+public record AwsRoute53GetHealthCheckStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behav- ior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HealthCheckId">The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch con- sole. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: o max: 64</param>
+    public AwsRoute53GetHealthCheckStatusOptions(
+        string HealthCheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthCheckId);
+        this.HealthCheckId = HealthCheckId;
+    }
+
+    private AwsRoute53GetHealthCheckStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53GetHealthCheckStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53GetHealthCheckStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch con- sole. You can't use GetHealthCheckStatus to get the status of a calculated health check. Constraints: o max: 64
+    /// </summary>
     [CliOption("--health-check-id")]
-    public string? HealthCheckId { get; set; }
+    public string? HealthCheckId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

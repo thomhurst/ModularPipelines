@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-access-grants-location")]
-public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions
+public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Ac- cess Grants instance. The location can be one of the following: o The default S3 location s3:// o A bucket - S3://&lt;bucket-name&gt; o A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume th...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="LocationScope">The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*</param>
+    public AwsS3controlCreateAccessGrantsLocationOptions(
+        string AccountId,
+        string LocationScope,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(LocationScope);
+        this.LocationScope = LocationScope;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsS3controlCreateAccessGrantsLocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateAccessGrantsLocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateAccessGrantsLocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// </summary>
     [CliOption("--location-scope")]
-    public string? LocationScope { get; set; }
+    public string? LocationScope { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants location. Each tag is a label consisting of a user-de- fined key and value. Tags can help you manage, identify, organize, search for, and filter resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources. Key -&gt; (string) [required] The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: arent supported. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

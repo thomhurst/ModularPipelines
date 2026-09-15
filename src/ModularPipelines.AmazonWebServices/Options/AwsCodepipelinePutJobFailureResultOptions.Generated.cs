@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "put-job-failure-result")]
-public record AwsCodepipelinePutJobFailureResultOptions : AwsOptions
+public record AwsCodepipelinePutJobFailureResultOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="FailureDetails">The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }</param>
+    public AwsCodepipelinePutJobFailureResultOptions(
+        string JobId,
+        string FailureDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(FailureDetails);
+        this.FailureDetails = FailureDetails;
+    }
+
+    private AwsCodepipelinePutJobFailureResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelinePutJobFailureResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelinePutJobFailureResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// The details about the failure of a job. type -&gt; (string) [required] The type of the failure. Possible values: o JobFailed o ConfigurationError o PermissionError o RevisionOutOfSync o RevisionUnavailable o SystemUnavailable message -&gt; (string) [required] The message about the failure. Constraints: o min: 1 o max: 5000 externalExecutionId -&gt; (string) The external ID of the run of the action that failed. Constraints: o min: 1 o max: 1500 Shorthand Syntax: type=string,message=string,externalExecutionId=string JSON Syntax: { "type": "JobFailed"|"ConfigurationError"|"PermissionError"|"RevisionOutOfSync"|"RevisionUnavailable"|"SystemUnavailable", "message": "string", "externalExecutionId": "string" }
+    /// </summary>
     [CliOption("--failure-details")]
-    public string? FailureDetails { get; set; }
+    public string? FailureDetails { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

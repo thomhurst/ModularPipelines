@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "search-vulnerabilities")]
-public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions
+public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists Amazon Inspector coverage details for a specific vulnerability. See also: AWS API Documentation search-vulnerabilities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: vulnerabilities
+    /// </summary>
+    /// <param name="FilterCriteria">The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }</param>
+    public AwsInspector2SearchVulnerabilitiesOptions(
+        string FilterCriteria
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FilterCriteria);
+        this.FilterCriteria = FilterCriteria;
+    }
+
+    private AwsInspector2SearchVulnerabilitiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2SearchVulnerabilitiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2SearchVulnerabilitiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The criteria used to filter the results of a vulnerability search. vulnerabilityIds -&gt; (list) [required] The IDs for specific vulnerabilities. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: CVE-[12][0-9]{3}-[0-9]{1,10} Shorthand Syntax: vulnerabilityIds=string,string JSON Syntax: { "vulnerabilityIds": ["string", ...] }
+    /// </summary>
     [CliOption("--filter-criteria")]
-    public string? FilterCriteria { get; set; }
+    public string? FilterCriteria { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,21 @@ public record AwsInspector2SearchVulnerabilitiesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

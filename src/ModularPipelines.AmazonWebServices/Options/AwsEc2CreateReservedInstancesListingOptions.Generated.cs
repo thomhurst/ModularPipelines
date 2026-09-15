@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-reserved-instances-listing")]
-public record AwsEc2CreateReservedInstancesListingOptions : AwsOptions
+public record AwsEc2CreateReservedInstancesListingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Re- served Instance listing at a time. To get a list of your Standard Re- served Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved In- stance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard R...
+    /// </summary>
+    /// <param name="ReservedInstancesId">The ID of the active Standard Reserved Instance.</param>
+    /// <param name="InstanceCount">The number of instances that are a part of a Reserved Instance ac- count to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.</param>
+    /// <param name="PriceSchedules">A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For exam- ple, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: o USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more in- formation, see Ensuring Idempotency .</param>
+    public AwsEc2CreateReservedInstancesListingOptions(
+        string ReservedInstancesId,
+        int InstanceCount,
+        IEnumerable<string> PriceSchedules,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedInstancesId);
+        this.ReservedInstancesId = ReservedInstancesId;
+        this.InstanceCount = InstanceCount;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PriceSchedules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PriceSchedules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PriceSchedules));
+            }
+
+            PriceSchedules = materialized;
+        }
+        this.PriceSchedules = PriceSchedules;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsEc2CreateReservedInstancesListingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateReservedInstancesListingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateReservedInstancesListingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the active Standard Reserved Instance.
+    /// </summary>
     [CliOption("--reserved-instances-id")]
-    public string? ReservedInstancesId { get; set; }
+    public string? ReservedInstancesId { get; private init; }
 
+    /// <summary>
+    /// The number of instances that are a part of a Reserved Instance ac- count to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
+    /// </summary>
     [CliOption("--instance-count")]
-    public int? InstanceCount { get; set; }
+    public int? InstanceCount { get; private init; }
 
+    /// <summary>
+    /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term. (structure) Describes the price for a Reserved Instance. Term -&gt; (long) The number of months remaining in the reservation. For exam- ple, 2 is the second to the last month before the capacity reservation expires. Price -&gt; (double) The fixed price for the term. CurrencyCode -&gt; (string) The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD . Possible values: o USD Shorthand Syntax: Term=long,Price=double,CurrencyCode=string ... JSON Syntax: [ { "Term": long, "Price": double, "CurrencyCode": "USD" } ... ]
+    /// </summary>
     [CliOption("--price-schedules", GroupValues = true)]
-    public IEnumerable<string>? PriceSchedules { get; set; }
+    public IEnumerable<string>? PriceSchedules { get; private init; }
 
+    /// <summary>
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more in- formation, see Ensuring Idempotency .
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

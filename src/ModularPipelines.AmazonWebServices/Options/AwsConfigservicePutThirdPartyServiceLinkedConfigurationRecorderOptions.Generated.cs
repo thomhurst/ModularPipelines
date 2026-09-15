@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-third-party-service-linked-configuration-recorder")]
-public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions : AwsOptions
+public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the Connec- torArn you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. If a service-linked configuration recorder already exists for the spec- ified service principal and connector, calling this operation again up- dates the ScopeConfiguration . NOTE: This o...
+    /// </summary>
+    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Con- fig. The specified connector must exist. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ScopeConfiguration">Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: o min: 1 o max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud re- sources. For example, a list of Azure subscriptions or manage- ment groups. (string) Constraints: o min: 1 o max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }</param>
+    public AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions(
+        string ServicePrincipal,
+        string ConnectorArn,
+        string ScopeConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServicePrincipal);
+        this.ServicePrincipal = ServicePrincipal;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorArn);
+        this.ConnectorArn = ConnectorArn;
+        global::System.ArgumentNullException.ThrowIfNull(ScopeConfiguration);
+        this.ScopeConfiguration = ScopeConfiguration;
+    }
+
+    private AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--service-principal")]
-    public string? ServicePrincipal { get; set; }
+    public string? ServicePrincipal { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Con- fig. The specified connector must exist. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--connector-arn")]
-    public string? ConnectorArn { get; set; }
+    public string? ConnectorArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the scope of resources to record from the third-party cloud service provider. scopeType -&gt; (string) [required] The type of scope for the third-party cloud resources. Valid values include tenant and subscription . Constraints: o min: 1 o max: 256 scopeValues -&gt; (list) The list of specific scope values for the third-party cloud re- sources. For example, a list of Azure subscriptions or manage- ment groups. (string) Constraints: o min: 1 o max: 256 allRegions -&gt; (boolean) [required] Specifies whether to record resources from all supported regions for the third-party cloud service provider. includedRegions -&gt; (list) The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false . Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: scopeType=string,scopeValues=string,string,allRegions=boolean,includedRegions=string,string JSON Syntax: { "scopeType": "string", "scopeValues": ["string", ...], "allRegions": true|false, "includedRegions": ["string", ...] }
+    /// </summary>
     [CliOption("--scope-configuration")]
-    public string? ScopeConfiguration { get; set; }
+    public string? ScopeConfiguration { get; private init; }
 
     /// <summary>
     /// The tags for a service-linked configuration recorder. Each tag con- sists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsConfigservicePutThirdPartyServiceLinkedConfigurationRecorderOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

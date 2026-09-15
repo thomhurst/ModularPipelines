@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "create-revenue-attribution")]
-public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new revenue attribution record in the specified catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog in which to create the revenue attribution. Possible values: o AWS o Sandbox</param>
+    /// <param name="Name">The name of the revenue attribution. Must be unique within the cata- log and the partner's account. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+</param>
+    /// <param name="TenancyModel">The tenancy model for this revenue attribution. Possible values: o MULTI_TENANT o SINGLE_TENANT</param>
+    public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions(
+        AwsPartnercentralRevenueMeasurementCreateRevenueAttributionCatalog Catalog,
+        string Name,
+        AwsPartnercentralRevenueMeasurementCreateRevenueAttributionTenancyModel TenancyModel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TenancyModel);
+        this.TenancyModel = TenancyModel;
+    }
+
+    private AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog in which to create the revenue attribution. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The name of the revenue attribution. Must be unique within the cata- log and the partner's account. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The tenancy model for this revenue attribution. Possible values: o MULTI_TENANT o SINGLE_TENANT
+    /// </summary>
+    [CliOption("--tenancy-model")]
+    public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionTenancyModel? TenancyModel { get; private init; }
 
     /// <summary>
     /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -32,17 +90,11 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// A description of the revenue attribution. Constraints: o min: 0 o max: 1024 o pattern: [\x20-\x7E]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--tenancy-model")]
-    public string? TenancyModel { get; set; }
 
     /// <summary>
     /// The unique product identifier in AWS Marketplace. Accepts a product entity ID (e.g., prod-abc123def4567) or a product ARN. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+
@@ -61,5 +113,21 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

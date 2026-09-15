@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "associate-packages")]
-public record AwsOpensearchAssociatePackagesOptions : AwsOptions
+public record AwsOpensearchAssociatePackagesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--package-list", GroupValues = true)]
-    public IEnumerable<string>? PackageList { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackageList">A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]</param>
+    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    public AwsOpensearchAssociatePackagesOptions(
+        IEnumerable<string> PackageList,
+        string DomainName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackageList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PackageList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackageList));
+            }
+
+            PackageList = materialized;
+        }
+        this.PackageList = PackageList;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+    }
+
+    private AwsOpensearchAssociatePackagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchAssociatePackagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchAssociatePackagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]
+    /// </summary>
+    [CliOption("--package-list", GroupValues = true)]
+    public IEnumerable<string>? PackageList { get; private init; }
+
+    /// <summary>
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

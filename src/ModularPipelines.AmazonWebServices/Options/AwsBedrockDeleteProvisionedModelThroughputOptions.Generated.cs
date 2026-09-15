@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "delete-provisioned-model-throughput")]
-public record AwsBedrockDeleteProvisionedModelThroughputOptions : AwsOptions
+public record AwsBedrockDeleteProvisionedModelThroughputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProvisionedModelId">The Amazon Resource Name (ARN) or name of the Provisioned Through- put. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))</param>
+    public AwsBedrockDeleteProvisionedModelThroughputOptions(
+        string ProvisionedModelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedModelId);
+        this.ProvisionedModelId = ProvisionedModelId;
+    }
+
+    private AwsBedrockDeleteProvisionedModelThroughputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDeleteProvisionedModelThroughputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDeleteProvisionedModelThroughputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Through- put. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))
+    /// </summary>
     [CliOption("--provisioned-model-id")]
-    public string? ProvisionedModelId { get; set; }
+    public string? ProvisionedModelId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

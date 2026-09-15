@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,24 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-maintenance-options")]
-public record AwsEc2ModifyInstanceMaintenanceOptionsOptions : AwsOptions
+public record AwsEc2ModifyInstanceMaintenanceOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an un- supported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more infor- mation, see Enable or disable reboot migration . See also: AWS ...
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    public AwsEc2ModifyInstanceMaintenanceOptionsOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2ModifyInstanceMaintenanceOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceMaintenanceOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceMaintenanceOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// Disables the automatic recovery behavior of your instance or sets it to default. Possible values: o disabled o default
     /// </summary>
     [CliOption("--auto-recovery")]
-    public AwsEc2ModifyInstanceMaintenanceAutoRecovery? AutoRecovery { get; set; }
+    public AwsEc2ModifyInstanceMaintenanceOptionsAutoRecovery? AutoRecovery { get; set; }
 
     /// <summary>
     /// Specifies whether to attempt reboot migration during a user-initi- ated reboot of an instance that has a scheduled system-reboot event: o default - Amazon EC2 attempts to migrate the instance to new hard- ware (reboot migration). If successful, the system-reboot event is cleared. If unsuccessful, an in-place reboot occurs and the event remains scheduled. o disabled - Amazon EC2 keeps the instance on the same hardware (in-place reboot). The system-reboot event remains scheduled. This setting only applies to supported instances that have a sched- uled reboot event. For more information, see Enable or disable re- boot migration in the Amazon EC2 User Guide . Possible values: o disabled o default
     /// </summary>
     [CliOption("--reboot-migration")]
-    public AwsEc2ModifyInstanceMaintenanceRebootMigration? RebootMigration { get; set; }
+    public AwsEc2ModifyInstanceMaintenanceOptionsRebootMigration? RebootMigration { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -45,5 +85,21 @@ public record AwsEc2ModifyInstanceMaintenanceOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

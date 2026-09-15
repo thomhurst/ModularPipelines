@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-routing-profile-agent-availability-timer")]
-public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsOptions
+public record AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="RoutingProfileId">The identifier of the routing profile.</param>
+    /// <param name="AgentAvailabilityTimer">Whether agents with this routing profile will have their routing or- der calculated based on time since their last inbound contact or longest idle time . Possible values: o TIME_SINCE_LAST_ACTIVITY o TIME_SINCE_LAST_INBOUND</param>
+    public AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions(
+        string InstanceId,
+        string RoutingProfileId,
+        AwsConnectUpdateRoutingProfileAgentAvailabilityTimerAgentAvailabilityTimer AgentAvailabilityTimer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingProfileId);
+        this.RoutingProfileId = RoutingProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentAvailabilityTimer);
+        this.AgentAvailabilityTimer = AgentAvailabilityTimer;
+    }
+
+    private AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the routing profile.
+    /// </summary>
     [CliOption("--routing-profile-id")]
-    public string? RoutingProfileId { get; set; }
+    public string? RoutingProfileId { get; private init; }
 
+    /// <summary>
+    /// Whether agents with this routing profile will have their routing or- der calculated based on time since their last inbound contact or longest idle time . Possible values: o TIME_SINCE_LAST_ACTIVITY o TIME_SINCE_LAST_INBOUND
+    /// </summary>
     [CliOption("--agent-availability-timer")]
-    public string? AgentAvailabilityTimer { get; set; }
+    public AwsConnectUpdateRoutingProfileAgentAvailabilityTimerAgentAvailabilityTimer? AgentAvailabilityTimer { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

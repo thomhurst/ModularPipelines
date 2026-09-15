@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,70 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "stop-deployment")]
-public record AwsAppConfigStopDeploymentOptions : AwsOptions
+public record AwsAppConfigStopDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress de- ployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="EnvironmentId">The environment ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="DeploymentNumber">The sequence number of the deployment.</param>
+    public AwsAppConfigStopDeploymentOptions(
+        string ApplicationId,
+        string EnvironmentId,
+        int DeploymentNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        this.DeploymentNumber = DeploymentNumber;
+    }
+
+    private AwsAppConfigStopDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigStopDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigStopDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The environment ID. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    public string? EnvironmentId { get; private init; }
 
+    /// <summary>
+    /// The sequence number of the deployment.
+    /// </summary>
     [CliOption("--deployment-number")]
-    public int? DeploymentNumber { get; set; }
+    public int? DeploymentNumber { get; private init; }
 
-    [CliFlag("--allow-revert")]
+    /// <summary>
+    /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deploy- ment to a status of REVERTED .
+    /// </summary>
+    [CliFlag("--allow-revert", NegatedName = "--no-allow-revert")]
     public bool? AllowRevert { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +91,21 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

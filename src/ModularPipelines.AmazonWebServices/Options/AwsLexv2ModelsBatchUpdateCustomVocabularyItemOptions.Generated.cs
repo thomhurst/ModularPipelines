@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "batch-update-custom-vocabulary-item")]
-public record AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions : AwsOptions
+public record AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The identifier of the bot associated with this custom vocabulary Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The identifier of the version of the bot associated with this custom vocabulary. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale where this custom vocabu- lary is used. The string must match one of the supported locales. For more information, see Supported Languages .</param>
+    /// <param name="CustomVocabularyItemList">A list of custom vocabulary items with updated fields. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: o min: 1 o max: 10 (structure) The unique custom vocabulary item from the custom vocabulary list. itemId -&gt; (string) [required] The unique item identifer for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 32 phrase -&gt; (string) [required] The unique phrase for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 weight -&gt; (integer) The weight assigned for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 0 o max: 3 displayAs -&gt; (string) The DisplayAs value for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 Shorthand Syntax: itemId=string,phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "itemId": "string", "phrase": "string", "weight": integer, "displayAs": "string" } ... ]</param>
+    public AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions(
+        string BotId,
+        string BotVersion,
+        string LocaleId,
+        IEnumerable<string> CustomVocabularyItemList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CustomVocabularyItemList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CustomVocabularyItemList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CustomVocabularyItemList));
+            }
+
+            CustomVocabularyItemList = materialized;
+        }
+        this.CustomVocabularyItemList = CustomVocabularyItemList;
+    }
+
+    private AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsBatchUpdateCustomVocabularyItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the bot associated with this custom vocabulary Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the version of the bot associated with this custom vocabulary. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The identifier of the language and locale where this custom vocabu- lary is used. The string must match one of the supported locales. For more information, see Supported Languages .
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
+    /// <summary>
+    /// A list of custom vocabulary items with updated fields. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: o min: 1 o max: 10 (structure) The unique custom vocabulary item from the custom vocabulary list. itemId -&gt; (string) [required] The unique item identifer for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 32 phrase -&gt; (string) [required] The unique phrase for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 weight -&gt; (integer) The weight assigned for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 0 o max: 3 displayAs -&gt; (string) The DisplayAs value for the custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 Shorthand Syntax: itemId=string,phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "itemId": "string", "phrase": "string", "weight": integer, "displayAs": "string" } ... ]
+    /// </summary>
     [CliOption("--custom-vocabulary-item-list", GroupValues = true)]
-    public IEnumerable<string>? CustomVocabularyItemList { get; set; }
+    public IEnumerable<string>? CustomVocabularyItemList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "resize-cluster")]
-public record AwsRedshiftResizeClusterOptions : AwsOptions
+public record AwsRedshiftResizeClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The unique identifier for the cluster to resize. Constraints: o max: 2147483647</param>
+    public AwsRedshiftResizeClusterOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftResizeClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftResizeClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftResizeClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the cluster to resize. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The new cluster type for the specified cluster. Constraints: o max: 2147483647
@@ -42,7 +79,10 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions
     [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CliFlag("--classic")]
+    /// <summary>
+    /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false , the resize type is elastic.
+    /// </summary>
+    [CliFlag("--classic", NegatedName = "--no-classic")]
     public bool? Classic { get; set; }
 
     /// <summary>
@@ -62,5 +102,21 @@ public record AwsRedshiftResizeClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

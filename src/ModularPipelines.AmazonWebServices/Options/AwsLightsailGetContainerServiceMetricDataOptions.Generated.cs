@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +21,127 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-container-service-metric-data")]
-public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions
+public record AwsLightsailGetContainerServiceMetricDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the data points of a specific metric of your Amazon Lightsail container service. Metrics report the utilization of your resources. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceName">The name of the container service for which to get metric data. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="MetricName">The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the pub- lished unit value. o CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . o MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container ser- vice. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: o CPUUtilization o MemoryUtilization</param>
+    /// <param name="StartTime">The start time of the time period.</param>
+    /// <param name="EndTime">The end time of the time period.</param>
+    /// <param name="Period">The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 sec- onds) granularity. Constraints: o min: 60 o max: 86400</param>
+    /// <param name="Statistics">The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a met- ric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...</param>
+    public AwsLightsailGetContainerServiceMetricDataOptions(
+        string ServiceName,
+        AwsLightsailGetContainerServiceMetricDataMetricName MetricName,
+        string StartTime,
+        string EndTime,
+        int Period,
+        IEnumerable<string> Statistics
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        this.Period = Period;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Statistics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Statistics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Statistics));
+            }
+
+            Statistics = materialized;
+        }
+        this.Statistics = Statistics;
+    }
+
+    private AwsLightsailGetContainerServiceMetricDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetContainerServiceMetricDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetContainerServiceMetricDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container service for which to get metric data. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// </summary>
     [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    public string? ServiceName { get; private init; }
 
+    /// <summary>
+    /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the pub- lished unit value. o CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . o MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container ser- vice. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average . Unit: The published unit is Percent . Possible values: o CPUUtilization o MemoryUtilization
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public AwsLightsailGetContainerServiceMetricDataMetricName? MetricName { get; private init; }
 
+    /// <summary>
+    /// The start time of the time period.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end time of the time period.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 sec- onds) granularity. Constraints: o min: 60 o max: 86400
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
+    /// <summary>
+    /// The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a met- ric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--statistics", GroupValues = true)]
-    public IEnumerable<string>? Statistics { get; set; }
+    public IEnumerable<string>? Statistics { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

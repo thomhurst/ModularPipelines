@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-control-config", "update-control-panel")]
-public record AwsRoute53RecoveryControlConfigUpdateControlPanelOptions : AwsOptions
+public record AwsRoute53RecoveryControlConfigUpdateControlPanelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--control-panel-arn")]
-    public string? ControlPanelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a control panel. The only update you can make to a control panel is to change the name of the control panel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ControlPanelArn">The Amazon Resource Name (ARN) of the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="ControlPanelName">The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    public AwsRoute53RecoveryControlConfigUpdateControlPanelOptions(
+        string ControlPanelArn,
+        string ControlPanelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ControlPanelArn);
+        this.ControlPanelArn = ControlPanelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ControlPanelName);
+        this.ControlPanelName = ControlPanelName;
+    }
+
+    private AwsRoute53RecoveryControlConfigUpdateControlPanelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryControlConfigUpdateControlPanelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryControlConfigUpdateControlPanelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// </summary>
+    [CliOption("--control-panel-arn")]
+    public string? ControlPanelArn { get; private init; }
+
+    /// <summary>
+    /// The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// </summary>
     [CliOption("--control-panel-name")]
-    public string? ControlPanelName { get; set; }
+    public string? ControlPanelName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

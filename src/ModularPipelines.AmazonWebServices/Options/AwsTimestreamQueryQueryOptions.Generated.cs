@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-query", "query")]
-public record AwsTimestreamQueryQueryOptions : AwsOptions
+public record AwsTimestreamQueryQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed. QueryInsights helps with performance tuning of your query. For more information about QueryIn- sights , see Using query insights to optimize queries in Amazon Timestream . NOTE: The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query pe...
+    /// </summary>
+    /// <param name="QueryString">The query to be run by Timestream. Constraints: o min: 1 o max: 262144</param>
+    public AwsTimestreamQueryQueryOptions(
+        string QueryString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+    }
+
+    private AwsTimestreamQueryQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamQueryQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamQueryQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The query to be run by Timestream. Constraints: o min: 1 o max: 262144
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string? QueryString { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive string of up to 64 ASCII characters specified when a Query request is made. Providing a ClientToken makes the call to Query idempotent . This means that running the same query re- peatedly will produce the same result. In other words, making multi- ple identical Query requests has the same effect as making a single request. When using ClientToken in a query, note the following: o If the Query API is instantiated without a ClientToken , the Query SDK generates a ClientToken on your behalf. o If the Query invocation only contains the ClientToken but does not include a NextToken , that invocation of Query is assumed to be a new query run. o If the invocation contains NextToken , that particular invocation is assumed to be a subsequent invocation of a prior call to the Query API, and a result set is returned. o After 4 hours, any request with the same ClientToken is treated as a new request. Constraints: o min: 32 o max: 128
@@ -62,5 +99,21 @@ public record AwsTimestreamQueryQueryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "put-permissions-boundary-to-permission-set")]
-public record AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions : AwsOptions
+public record AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="PermissionsBoundary">The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your per- mission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The de- fault is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to at- tach to a permission set as a permissions boundary. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }</param>
+    public AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions(
+        string InstanceArn,
+        string PermissionSetArn,
+        string PermissionsBoundary
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
+        this.PermissionSetArn = PermissionSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionsBoundary);
+        this.PermissionsBoundary = PermissionsBoundary;
+    }
+
+    private AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminPutPermissionsBoundaryToPermissionSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the PermissionSet . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// </summary>
     [CliOption("--permission-set-arn")]
-    public string? PermissionSetArn { get; set; }
+    public string? PermissionSetArn { get; private init; }
 
+    /// <summary>
+    /// The permissions boundary that you want to attach to a PermissionSet . CustomerManagedPolicyReference -&gt; (structure) Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your per- mission set. Name -&gt; (string) [required] The name of the IAM policy that you have configured in each account where you want to deploy your permission set. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Path -&gt; (string) The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The de- fault is / . For more information, see Friendly names and paths in the IAM User Guide . Constraints: o min: 1 o max: 512 o pattern: ((/[A-Za-z0-9\.,\+@=_-]+)*)/ ManagedPolicyArn -&gt; (string) The Amazon Web Services managed policy ARN that you want to at- tach to a permission set as a permissions boundary. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z]{1,5}){0,3}:iam::aws:pol- icy((/[A-Za-z0-9\.,\+@=_-]+)*)/([A-Za-z0-9\.,\+=@_-]+) Shorthand Syntax: CustomerManagedPolicyReference={Name=string,Path=string},ManagedPolicyArn=string JSON Syntax: { "CustomerManagedPolicyReference": { "Name": "string", "Path": "string" }, "ManagedPolicyArn": "string" }
+    /// </summary>
     [CliOption("--permissions-boundary")]
-    public string? PermissionsBoundary { get; set; }
+    public string? PermissionsBoundary { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

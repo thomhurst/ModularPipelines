@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-model-package")]
-public record AwsSagemakerDescribeModelPackageOptions : AwsOptions
+public record AwsSagemakerDescribeModelPackageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Market- place. WARNING: If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:De- crypt permission on the customer-managed key, set IncludedData to MetadataOnly ; the response is returned with the embedded Model- Card.ModelCard...
+    /// </summary>
+    /// <param name="ModelPackageName">The name or Amazon Resource Name (ARN) of the model package to de- scribe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: o min: 1 o max: 176 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)(\/[0-9]{1,9})?</param>
+    public AwsSagemakerDescribeModelPackageOptions(
+        string ModelPackageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelPackageName);
+        this.ModelPackageName = ModelPackageName;
+    }
+
+    private AwsSagemakerDescribeModelPackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeModelPackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeModelPackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the model package to de- scribe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: o min: 1 o max: 176 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)(\/[0-9]{1,9})?
+    /// </summary>
     [CliOption("--model-package-name")]
-    public string? ModelPackageName { get; set; }
+    public string? ModelPackageName { get; private init; }
 
     /// <summary>
     /// Specifies the level of model package data to include in the re- sponse. Use this parameter to call DescribeModelPackage on a model package that has an associated model card without requiring kms:De- crypt permission on the customer-managed KMS key associated with the embedded model card. o AllData : Returns the full model package response, including the unredacted ModelCard.ModelCardContent . This option requires kms:Decrypt permission on the customer-managed key, if one is as- sociated with the embedded model card. This is the default. o MetadataOnly : Returns the full model package response, but with the embedded ModelCard.ModelCardContent sanitized to include only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. All other top-level response fields, including InferenceSpecification , ModelMetrics , DriftCheckBaselines , and SecurityConfig , are returned unchanged. For the list of fields preserved within ModelCardContent , see ModelCard . If you don't specify a value, SageMaker returns AllData . Possible values: o AllData o MetadataOnly
@@ -36,5 +73,21 @@ public record AwsSagemakerDescribeModelPackageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

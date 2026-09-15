@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databrew", "update-recipe")]
-public record AwsDatabrewUpdateRecipeOptions : AwsOptions
+public record AwsDatabrewUpdateRecipeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the recipe to be updated. Constraints: o min: 1 o max: 255</param>
+    public AwsDatabrewUpdateRecipeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDatabrewUpdateRecipeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatabrewUpdateRecipeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatabrewUpdateRecipeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the recipe to be updated. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// A description of the recipe. Constraints: o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// One or more steps to be performed by the recipe. Each step consists of an action, and the conditions under which the action should suc- ceed. (structure) Represents a single step from a DataBrew recipe to be performed. Action -&gt; (structure) [required] The particular action to be performed in the recipe step. Operation -&gt; (string) [required] The name of a valid DataBrew transformation to be per- formed on the data. Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Parameters -&gt; (map) Contextual parameters for the transformation. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[A-Za-z0-9]+$ value -&gt; (string) Constraints: o min: 1 o max: 32768 ConditionExpressions -&gt; (list) One or more conditions that must be met for the recipe step to succeed. NOTE: All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation. (structure) Represents an individual condition that evaluates to true or false. Conditions are used with recipe actions. The action is only performed for column values where the condition evaluates to true. If a recipe requires more than one condition, then the recipe must specify multiple ConditionExpression ele- ments. Each condition is applied to the rows in a dataset first, before the recipe action is performed. Condition -&gt; (string) [required] A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue DataBrew Developer Guide . Constraints: o min: 1 o max: 128 o pattern: ^[A-Z\_]+$ Value -&gt; (string) A value that the condition must evaluate to for the condition to succeed. Constraints: o max: 1024 TargetColumn -&gt; (string) [required] A column to apply this condition to. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Action={Operation=string,Parameters={KeyName1=string,KeyName2=string}},ConditionExpressions=[{Condition=string,Value=string,TargetColumn=string},{Condition=string,Value=string,TargetColumn=string}] ... JSON Syntax: [ { "Action": { "Operation": "string", "Parameters": {"string": "string" ...} }, "ConditionExpressions": [ { "Condition": "string", "Value": "string", "TargetColumn": "string" } ... ] } ... ]
@@ -41,5 +78,21 @@ public record AwsDatabrewUpdateRecipeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

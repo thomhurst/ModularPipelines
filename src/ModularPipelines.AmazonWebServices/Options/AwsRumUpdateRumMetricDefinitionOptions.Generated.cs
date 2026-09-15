@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rum", "update-rum-metric-definition")]
-public record AwsRumUpdateRumMetricDefinitionOptions : AwsOptions
+public record AwsRumUpdateRumMetricDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-monitor-name")]
-    public string? AppMonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that sends these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">The destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that will receive the met- rics and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
+    /// <param name="MetricDefinition">A structure that contains the new definition that you want to use for this metric. Name -&gt; (string) [required] The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For ex- tended metrics, valid values are the following: o PerformanceNavigationDuration o PerformanceResourceDuration o NavigationSatisfiedTransaction o NavigationToleratedTransaction o NavigationFrustratedTransaction o WebVitalsCumulativeLayoutShift o WebVitalsFirstInputDelay o WebVitalsLargestContentfulPaint o JsErrorCount o HttpErrorCount o SessionCount Constraints: o min: 1 o max: 255 ValueKey -&gt; (string) The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extrac- tion from the event. Constraints: o min: 1 o max: 280 UnitLabel -&gt; (string) The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit. Constraints: o min: 1 o max: 256 DimensionKeys -&gt; (map) Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It de- fines the dimensions to associate with this metric in Cloud- Watch. For extended metrics, valid values for the entries in this field are the following: o "metadata.pageId": "PageId" o "metadata.browserName": "BrowserName" o "metadata.deviceType": "DeviceType" o "metadata.osName": "OSName" o "metadata.countryCode": "CountryCode" o "event_details.fileType": "FileType" For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern . Constraints: o min: 0 o max: 29 key -&gt; (string) Constraints: o min: 1 o max: 280 value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: (?!:).*[^\s].* EventPattern -&gt; (string) The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the met- ric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns: o '{ "event_type": ["com.amazon.rum.js_error_event"], "meta- data": { "browserName": [ "Chrome", "Safari" ], } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Fire- fox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Sa- fari" ], "countryCode": [ "US" ] }, "event_details": { "dura- tion": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }' If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys , then the metric is published with the specified dimensions. Constraints: o min: 0 o max: 4000 Namespace -&gt; (string) If this structure is for a custom metric instead of an extended metrics, use this parameter to define the metric namespace for that custom metric. Do not specify this parameter if this struc- ture is for an extended metric. You cannot use any string that starts with AWS/ for your name- space. Constraints: o min: 1 o max: 237 o pattern: .*[a-zA-Z0-9-._/#:]+ Shorthand Syntax: Name=string,ValueKey=string,UnitLabel=string,DimensionKeys={KeyName1=string,KeyName2=string},EventPattern=string,Namespace=string JSON Syntax: { "Name": "string", "ValueKey": "string", "UnitLabel": "string", "DimensionKeys": {"string": "string" ...}, "EventPattern": "string", "Namespace": "string" }</param>
+    /// <param name="MetricDefinitionId">The ID of the metric definition to update. Constraints: o min: 1 o max: 255</param>
+    public AwsRumUpdateRumMetricDefinitionOptions(
+        string AppMonitorName,
+        AwsRumUpdateRumMetricDefinitionDestination Destination,
+        string MetricDefinition,
+        string MetricDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
+        this.AppMonitorName = AppMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(MetricDefinition);
+        this.MetricDefinition = MetricDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(MetricDefinitionId);
+        this.MetricDefinitionId = MetricDefinitionId;
+    }
+
+    private AwsRumUpdateRumMetricDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRumUpdateRumMetricDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRumUpdateRumMetricDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CloudWatch RUM app monitor that sends these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--app-monitor-name")]
+    public string? AppMonitorName { get; private init; }
+
+    /// <summary>
+    /// The destination to send the metrics to. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that will receive the met- rics and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public AwsRumUpdateRumMetricDefinitionDestination? Destination { get; private init; }
+
+    /// <summary>
+    /// A structure that contains the new definition that you want to use for this metric. Name -&gt; (string) [required] The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For ex- tended metrics, valid values are the following: o PerformanceNavigationDuration o PerformanceResourceDuration o NavigationSatisfiedTransaction o NavigationToleratedTransaction o NavigationFrustratedTransaction o WebVitalsCumulativeLayoutShift o WebVitalsFirstInputDelay o WebVitalsLargestContentfulPaint o JsErrorCount o HttpErrorCount o SessionCount Constraints: o min: 1 o max: 255 ValueKey -&gt; (string) The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extrac- tion from the event. Constraints: o min: 1 o max: 280 UnitLabel -&gt; (string) The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit. Constraints: o min: 1 o max: 256 DimensionKeys -&gt; (map) Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It de- fines the dimensions to associate with this metric in Cloud- Watch. For extended metrics, valid values for the entries in this field are the following: o "metadata.pageId": "PageId" o "metadata.browserName": "BrowserName" o "metadata.deviceType": "DeviceType" o "metadata.osName": "OSName" o "metadata.countryCode": "CountryCode" o "event_details.fileType": "FileType" For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern . Constraints: o min: 0 o max: 29 key -&gt; (string) Constraints: o min: 1 o max: 280 value -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: (?!:).*[^\s].* EventPattern -&gt; (string) The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the met- ric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns: o '{ "event_type": ["com.amazon.rum.js_error_event"], "meta- data": { "browserName": [ "Chrome", "Safari" ], } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Fire- fox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }' o '{ "event_type": ["com.amazon.rum.performance_naviga- tion_event"], "metadata": { "browserName": [ "Chrome", "Sa- fari" ], "countryCode": [ "US" ] }, "event_details": { "dura- tion": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }' If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys , then the metric is published with the specified dimensions. Constraints: o min: 0 o max: 4000 Namespace -&gt; (string) If this structure is for a custom metric instead of an extended metrics, use this parameter to define the metric namespace for that custom metric. Do not specify this parameter if this struc- ture is for an extended metric. You cannot use any string that starts with AWS/ for your name- space. Constraints: o min: 1 o max: 237 o pattern: .*[a-zA-Z0-9-._/#:]+ Shorthand Syntax: Name=string,ValueKey=string,UnitLabel=string,DimensionKeys={KeyName1=string,KeyName2=string},EventPattern=string,Namespace=string JSON Syntax: { "Name": "string", "ValueKey": "string", "UnitLabel": "string", "DimensionKeys": {"string": "string" ...}, "EventPattern": "string", "Namespace": "string" }
+    /// </summary>
+    [CliOption("--metric-definition")]
+    public string? MetricDefinition { get; private init; }
+
+    /// <summary>
+    /// The ID of the metric definition to update. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--metric-definition-id")]
+    public string? MetricDefinitionId { get; private init; }
 
     /// <summary>
     /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experi- ment as a valid destination. For more information, see PutRumMetricsDestination . Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
@@ -33,16 +98,26 @@ public record AwsRumUpdateRumMetricDefinitionOptions : AwsOptions
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CliOption("--metric-definition")]
-    public string? MetricDefinition { get; set; }
-
-    [CliOption("--metric-definition-id")]
-    public string? MetricDefinitionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

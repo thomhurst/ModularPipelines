@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ivs", "start-viewer-session-revocation")]
-public record AwsIvsStartViewerSessionRevocationOptions : AwsOptions
+public record AwsIvsStartViewerSessionRevocationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a ver- sion to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see Setting Up Private Channels . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="ViewerId">The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40</param>
+    public AwsIvsStartViewerSessionRevocationOptions(
+        string ChannelArn,
+        string ViewerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ViewerId);
+        this.ViewerId = ViewerId;
+    }
+
+    private AwsIvsStartViewerSessionRevocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIvsStartViewerSessionRevocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIvsStartViewerSessionRevocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel associated with the viewer session to revoke. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--channel-arn")]
+    public string? ChannelArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the viewer associated with the viewer session to revoke. Do not use this field for personally identifying, confidential, or sensitive information. Constraints: o min: 1 o max: 40
+    /// </summary>
     [CliOption("--viewer-id")]
-    public string? ViewerId { get; set; }
+    public string? ViewerId { get; private init; }
 
     /// <summary>
     /// An optional filter on which versions of the viewer session to re- voke. All versions less than or equal to the specified version will be revoked. Default: 0. Constraints: o min: 0
@@ -38,5 +82,21 @@ public record AwsIvsStartViewerSessionRevocationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

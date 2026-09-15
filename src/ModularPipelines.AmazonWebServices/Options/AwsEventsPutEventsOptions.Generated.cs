@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "put-events")]
-public record AwsEventsPutEventsOptions : AwsOptions
+public record AwsEventsPutEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency. However, the total entry size must be less than 256KB. You can calcu- late the entry size before you send the events. For more information, see Calculating PutEvents event entry size in the * Amazon EventBridge User Guide * . PutEvents accepts the data in JSON format. For the JSON number (inte- ger) data type, the constraints are: a minimum value o...
+    /// </summary>
+    /// <param name="Entries">The entry that defines an event in your system. You can specify sev- eral parameters for the entry such as the source and type of the event, resources associated with the event, and so on. Constraints: o min: 1 o max: 10 (structure) Represents an event to be submitted. Time -&gt; (timestamp) The time stamp of the event, per RFC3339 . If no time stamp is provided, the time stamp of the PutEvents call is used. Source -&gt; (string) The source of the event. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. Resources -&gt; (list) Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present. (string) Constraints: o max: 2048 DetailType -&gt; (string) Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. Detail -&gt; (string) A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested sub-objects. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. EventBusName -&gt; (string) The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used. NOTE: If you're using a global endpoint with a custom bus, you can enter either the name or Amazon Resource Name (ARN) of the event bus in either the primary or secondary Re- gion here. EventBridge then determines the corresponding event bus in the other Region based on the endpoint ref- erenced by the EndpointId . Specifying the event bus ARN is preferred. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[\.\-_A-Za-z0-9]+ TraceHeader -&gt; (string) An X-Ray trace header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide. Constraints: o min: 1 o max: 500 Shorthand Syntax: Time=timestamp,Source=string,Resources=string,string,DetailType=string,Detail=string,EventBusName=string,TraceHeader=string ... JSON Syntax: [ { "Time": timestamp, "Source": "string", "Resources": ["string", ...], "DetailType": "string", "Detail": "string", "EventBusName": "string", "TraceHeader": "string" } ... ]</param>
+    public AwsEventsPutEventsOptions(
+        IEnumerable<string> Entries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsEventsPutEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsPutEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsPutEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The entry that defines an event in your system. You can specify sev- eral parameters for the entry such as the source and type of the event, resources associated with the event, and so on. Constraints: o min: 1 o max: 10 (structure) Represents an event to be submitted. Time -&gt; (timestamp) The time stamp of the event, per RFC3339 . If no time stamp is provided, the time stamp of the PutEvents call is used. Source -&gt; (string) The source of the event. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. Resources -&gt; (list) Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present. (string) Constraints: o max: 2048 DetailType -&gt; (string) Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. Detail -&gt; (string) A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested sub-objects. NOTE: Detail , DetailType , and Source are required for Event- Bridge to successfully send an event to an event bus. If you include event entries in a request that do not in- clude each of those properties, EventBridge fails that entry. If you submit a request in which none of the en- tries have each of these properties, EventBridge fails the entire request. EventBusName -&gt; (string) The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used. NOTE: If you're using a global endpoint with a custom bus, you can enter either the name or Amazon Resource Name (ARN) of the event bus in either the primary or secondary Re- gion here. EventBridge then determines the corresponding event bus in the other Region based on the endpoint ref- erenced by the EndpointId . Specifying the event bus ARN is preferred. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[\.\-_A-Za-z0-9]+ TraceHeader -&gt; (string) An X-Ray trace header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide. Constraints: o min: 1 o max: 500 Shorthand Syntax: Time=timestamp,Source=string,Resources=string,string,DetailType=string,Detail=string,EventBusName=string,TraceHeader=string ... JSON Syntax: [ { "Time": timestamp, "Source": "string", "Resources": ["string", ...], "DetailType": "string", "Detail": "string", "EventBusName": "string", "TraceHeader": "string" } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
 
     /// <summary>
     /// The URL subdomain of the endpoint. For example, if the URL for End- point is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo . WARNING: When using Java, you must include auth-crt on the class path. Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z0-9\-]+[\.][A-Za-z0-9\-]+$
@@ -35,5 +83,21 @@ public record AwsEventsPutEventsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

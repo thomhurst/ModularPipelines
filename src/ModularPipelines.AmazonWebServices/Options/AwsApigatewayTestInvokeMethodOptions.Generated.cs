@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "test-invoke-method")]
-public record AwsApigatewayTestInvokeMethodOptions : AwsOptions
+public record AwsApigatewayTestInvokeMethodOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Simulate the invocation of a Method in your RestApi with headers, para- meters, and an incoming request body. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="ResourceId">Specifies a test invoke method request's resource ID.</param>
+    /// <param name="HttpMethod">Specifies a test invoke method request's HTTP method.</param>
+    public AwsApigatewayTestInvokeMethodOptions(
+        string RestApiId,
+        string ResourceId,
+        string HttpMethod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
+        this.HttpMethod = HttpMethod;
+    }
+
+    private AwsApigatewayTestInvokeMethodOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayTestInvokeMethodOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayTestInvokeMethodOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// Specifies a test invoke method request's resource ID.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Specifies a test invoke method request's HTTP method.
+    /// </summary>
     [CliOption("--http-method")]
-    public string? HttpMethod { get; set; }
+    public string? HttpMethod { get; private init; }
 
     /// <summary>
     /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string para- meters.
@@ -72,5 +123,21 @@ public record AwsApigatewayTestInvokeMethodOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

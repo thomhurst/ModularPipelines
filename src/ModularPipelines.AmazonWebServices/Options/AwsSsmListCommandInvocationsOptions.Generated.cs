@@ -40,7 +40,10 @@ public record AwsSsmListCommandInvocationsOptions : AwsOptions
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
-    [CliFlag("--details")]
+    /// <summary>
+    /// (Optional) If set this returns the response of the command execu- tions and any command output. The default value is false .
+    /// </summary>
+    [CliFlag("--details", NegatedName = "--no-details")]
     public bool? Details { get; set; }
 
     [CliOption("--cli-input-json")]

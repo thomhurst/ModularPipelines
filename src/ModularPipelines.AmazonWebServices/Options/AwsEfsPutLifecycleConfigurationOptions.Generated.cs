@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("efs", "put-lifecycle-configuration")]
-public record AwsEfsPutLifecycleConfigurationOptions : AwsOptions
+public record AwsEfsPutLifecycleConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Use this action to manage storage for your file system. A LifecycleCon- figuration consists of one or more LifecyclePolicy objects that define the following: o ** TransitionToIA ** When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access (IA) storage. System Message: WARNING/2 (&lt;string&gt;:, line 26) Inline strong start-string without end-string. o ** TransitionToArchive ** When to move files in the file system from their current storage class (...
+    /// </summary>
+    /// <param name="FileSystemId">The ID of the file system for which you are creating the Lifecycle- Configuration object (String). Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="LifecyclePolicies">An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object in- forms lifecycle management of the following: o ** TransitionToIA ** When to move files in the file system from pri- mary storage (Standard storage class) into the Infrequent Access (IA) storage. System Message: WARNING/2 (&lt;string&gt;:, line 143) Inline strong start-string without end-string. o ** TransitionToArchive ** When to move files in the file system from their current storage class (either IA or Standard storage) into the Archive storage. File systems cannot transition into Archive storage before transitioning into IA storage. Therefore, Transi- tionToArchive must either not be set or must be later than Transi- tionToIA. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. NOTE: The Archive storage class is available only for file systems that use the Elastic throughput mode and the General Purpose performance mode. o ** TransitionToPrimaryStorageClass ** Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage. System Message: WARNING/2 (&lt;string&gt;:, line 153) Inline strong start-string without end-string. NOTE: When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be struc- tured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the follow- ing section for more information. Constraints: o max: 3 (structure) Describes a policy used by lifecycle management that specifies when to transition files into and out of storage classes. For more information, see Managing file system storage . NOTE: When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transi- tion. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition. For more information, see the request examples in PutLifecycleConfiguration . TransitionToIA -&gt; (string) The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file ac- cess events. Possible values: o AFTER_7_DAYS o AFTER_14_DAYS o AFTER_30_DAYS o AFTER_60_DAYS o AFTER_90_DAYS o AFTER_1_DAY o AFTER_180_DAYS o AFTER_270_DAYS o AFTER_365_DAYS TransitionToPrimaryStorageClass -&gt; (string) Whether to move files back to primary (Standard) storage af- ter they are accessed in IA or Archive storage. Metadata op- erations such as listing the contents of a directory don't count as file access events. Possible values: o AFTER_1_ACCESS TransitionToArchive -&gt; (string) The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Archive storage. Metadata operations such as listing the con- tents of a directory don't count as file access events. Possible values: o AFTER_1_DAY o AFTER_7_DAYS o AFTER_14_DAYS o AFTER_30_DAYS o AFTER_60_DAYS o AFTER_90_DAYS o AFTER_180_DAYS o AFTER_270_DAYS o AFTER_365_DAYS Shorthand Syntax: TransitionToIA=string,TransitionToPrimaryStorageClass=string,TransitionToArchive=string ... JSON Syntax: [ { "TransitionToIA": "AFTER_7_DAYS"|"AFTER_14_DAYS"|"AFTER_30_DAYS"|"AFTER_60_DAYS"|"AFTER_90_DAYS"|"AFTER_1_DAY"|"AFTER_180_DAYS"|"AFTER_270_DAYS"|"AFTER_365_DAYS", "TransitionToPrimaryStorageClass": "AFTER_1_ACCESS", "TransitionToArchive": "AFTER_1_DAY"|"AFTER_7_DAYS"|"AFTER_14_DAYS"|"AFTER_30_DAYS"|"AFTER_60_DAYS"|"AFTER_90_DAYS"|"AFTER_180_DAYS"|"AFTER_270_DAYS"|"AFTER_365_DAYS" } ... ]</param>
+    public AwsEfsPutLifecycleConfigurationOptions(
+        string FileSystemId,
+        IEnumerable<string> LifecyclePolicies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LifecyclePolicies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LifecyclePolicies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LifecyclePolicies));
+            }
+
+            LifecyclePolicies = materialized;
+        }
+        this.LifecyclePolicies = LifecyclePolicies;
+    }
+
+    private AwsEfsPutLifecycleConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEfsPutLifecycleConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEfsPutLifecycleConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the file system for which you are creating the Lifecycle- Configuration object (String). Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object in- forms lifecycle management of the following: o ** TransitionToIA ** When to move files in the file system from pri- mary storage (Standard storage class) into the Infrequent Access (IA) storage. System Message: WARNING/2 (&lt;string&gt;:, line 143) Inline strong start-string without end-string. o ** TransitionToArchive ** When to move files in the file system from their current storage class (either IA or Standard storage) into the Archive storage. File systems cannot transition into Archive storage before transitioning into IA storage. Therefore, Transi- tionToArchive must either not be set or must be later than Transi- tionToIA. System Message: WARNING/2 (&lt;string&gt;:, line 145) Inline strong start-string without end-string. NOTE: The Archive storage class is available only for file systems that use the Elastic throughput mode and the General Purpose performance mode. o ** TransitionToPrimaryStorageClass ** Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage. System Message: WARNING/2 (&lt;string&gt;:, line 153) Inline strong start-string without end-string. NOTE: When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be struc- tured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the follow- ing section for more information. Constraints: o max: 3 (structure) Describes a policy used by lifecycle management that specifies when to transition files into and out of storage classes. For more information, see Managing file system storage . NOTE: When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transi- tion. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition. For more information, see the request examples in PutLifecycleConfiguration . TransitionToIA -&gt; (string) The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file ac- cess events. Possible values: o AFTER_7_DAYS o AFTER_14_DAYS o AFTER_30_DAYS o AFTER_60_DAYS o AFTER_90_DAYS o AFTER_1_DAY o AFTER_180_DAYS o AFTER_270_DAYS o AFTER_365_DAYS TransitionToPrimaryStorageClass -&gt; (string) Whether to move files back to primary (Standard) storage af- ter they are accessed in IA or Archive storage. Metadata op- erations such as listing the contents of a directory don't count as file access events. Possible values: o AFTER_1_ACCESS TransitionToArchive -&gt; (string) The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Archive storage. Metadata operations such as listing the con- tents of a directory don't count as file access events. Possible values: o AFTER_1_DAY o AFTER_7_DAYS o AFTER_14_DAYS o AFTER_30_DAYS o AFTER_60_DAYS o AFTER_90_DAYS o AFTER_180_DAYS o AFTER_270_DAYS o AFTER_365_DAYS Shorthand Syntax: TransitionToIA=string,TransitionToPrimaryStorageClass=string,TransitionToArchive=string ... JSON Syntax: [ { "TransitionToIA": "AFTER_7_DAYS"|"AFTER_14_DAYS"|"AFTER_30_DAYS"|"AFTER_60_DAYS"|"AFTER_90_DAYS"|"AFTER_1_DAY"|"AFTER_180_DAYS"|"AFTER_270_DAYS"|"AFTER_365_DAYS", "TransitionToPrimaryStorageClass": "AFTER_1_ACCESS", "TransitionToArchive": "AFTER_1_DAY"|"AFTER_7_DAYS"|"AFTER_14_DAYS"|"AFTER_30_DAYS"|"AFTER_60_DAYS"|"AFTER_90_DAYS"|"AFTER_180_DAYS"|"AFTER_270_DAYS"|"AFTER_365_DAYS" } ... ]
+    /// </summary>
     [CliOption("--lifecycle-policies", GroupValues = true)]
-    public IEnumerable<string>? LifecyclePolicies { get; set; }
+    public IEnumerable<string>? LifecyclePolicies { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

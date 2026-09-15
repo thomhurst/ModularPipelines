@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,119 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "create-grant")]
-public record AwsLicenseManagerCreateGrantOptions : AwsOptions
+public record AwsLicenseManagerCreateGrantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
+    /// <param name="GrantName">Grant name.</param>
+    /// <param name="LicenseArn">Amazon Resource Name (ARN) of the license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="Principals">The grant principals. You can specify one of the following as an Amazon Resource Name (ARN): o An Amazon Web Services account, which includes only the account specified. o An organizational unit (OU), which includes all accounts in the OU. o An organization, which will include all accounts across your orga- nization. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...</param>
+    /// <param name="HomeRegion">Home Region of the grant.</param>
+    /// <param name="AllowedOperations">Allowed operations for the grant. Constraints: o min: 1 o max: 8 (string) Possible values: o CreateGrant o CheckoutLicense o CheckoutBorrowLicense o CheckInLicense o ExtendConsumptionLicense o ListPurchasedLicenses o CreateToken Syntax: "string" "string" ...</param>
+    public AwsLicenseManagerCreateGrantOptions(
+        string ClientToken,
+        string GrantName,
+        string LicenseArn,
+        IEnumerable<string> Principals,
+        string HomeRegion,
+        IEnumerable<string> AllowedOperations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        global::System.ArgumentNullException.ThrowIfNull(GrantName);
+        this.GrantName = GrantName;
+        global::System.ArgumentNullException.ThrowIfNull(LicenseArn);
+        this.LicenseArn = LicenseArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Principals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Principals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Principals));
+            }
+
+            Principals = materialized;
+        }
+        this.Principals = Principals;
+        global::System.ArgumentNullException.ThrowIfNull(HomeRegion);
+        this.HomeRegion = HomeRegion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedOperations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedOperations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedOperations));
+            }
+
+            AllowedOperations = materialized;
+        }
+        this.AllowedOperations = AllowedOperations;
+    }
+
+    private AwsLicenseManagerCreateGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCreateGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCreateGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
+    /// <summary>
+    /// Grant name.
+    /// </summary>
     [CliOption("--grant-name")]
-    public string? GrantName { get; set; }
+    public string? GrantName { get; private init; }
 
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the license. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// </summary>
     [CliOption("--license-arn")]
-    public string? LicenseArn { get; set; }
+    public string? LicenseArn { get; private init; }
 
+    /// <summary>
+    /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN): o An Amazon Web Services account, which includes only the account specified. o An organizational unit (OU), which includes all accounts in the OU. o An organization, which will include all accounts across your orga- nization. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--principals", GroupValues = true)]
-    public IEnumerable<string>? Principals { get; set; }
+    public IEnumerable<string>? Principals { get; private init; }
 
+    /// <summary>
+    /// Home Region of the grant.
+    /// </summary>
     [CliOption("--home-region")]
-    public string? HomeRegion { get; set; }
+    public string? HomeRegion { get; private init; }
 
+    /// <summary>
+    /// Allowed operations for the grant. Constraints: o min: 1 o max: 8 (string) Possible values: o CreateGrant o CheckoutLicense o CheckoutBorrowLicense o CheckInLicense o ExtendConsumptionLicense o ListPurchasedLicenses o CreateToken Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--allowed-operations", GroupValues = true)]
-    public IEnumerable<string>? AllowedOperations { get; set; }
+    public IEnumerable<string>? AllowedOperations { get; private init; }
 
     /// <summary>
     /// Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -52,5 +146,21 @@ public record AwsLicenseManagerCreateGrantOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

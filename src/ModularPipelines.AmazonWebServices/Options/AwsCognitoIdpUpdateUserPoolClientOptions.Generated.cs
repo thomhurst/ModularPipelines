@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-user-pool-client")]
-public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
+public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Given a user pool app client ID, updates the configuration. To avoid setting parameters to Amazon Cognito defaults, construct this API re- quest to pass the existing configuration of your app client, modified to include the changes that you want to make. WARNING: If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. Unlike app clients created in the console, Amazon Cognito doesn't auto- matically assign a branding style to app clients that you configure with...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to update the app client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The ID of the app client that you want to update. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    public AwsCognitoIdpUpdateUserPoolClientOptions(
+        string UserPoolId,
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsCognitoIdpUpdateUserPoolClientOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolClientOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateUserPoolClientOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to update the app client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The ID of the app client that you want to update. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
 
     /// <summary>
     /// A friendly name for the app client. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+
@@ -118,9 +162,9 @@ public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
     public IEnumerable<string>? AllowedOAuthScopes { get; set; }
 
     /// <summary>
-    /// | --no-al- lowed-o-auth-flows-user-pool-client (boolean) Set to true to use OAuth 2.0 authorization server features in your app client. This parameter must have a value of true before you can configure the following features in your app client. o CallBackURLs : Callback URLs. o LogoutURLs : Sign-out redirect URLs. o AllowedOAuthScopes : OAuth 2.0 scopes. o AllowedOAuthFlows : Support for authorization code, implicit, and client credentials OAuth 2.0 grants. To use authorization server features, configure one of these fea- tures in the Amazon Cognito console or set AllowedOAuthFlowsUser- PoolClient to true in a CreateUserPoolClient or UpdateUserPoolClient API request. If you don't set a value for AllowedOAuthFlowsUserPool- Client in a request with the CLI or SDKs, it defaults to false . When false , only SDK-based API sign-in is permitted.
+    /// lowed-o-auth-flows-user-pool-client (boolean) Set to true to use OAuth 2.0 authorization server features in your app client. This parameter must have a value of true before you can configure the following features in your app client. o CallBackURLs : Callback URLs. o LogoutURLs : Sign-out redirect URLs. o AllowedOAuthScopes : OAuth 2.0 scopes. o AllowedOAuthFlows : Support for authorization code, implicit, and client credentials OAuth 2.0 grants. To use authorization server features, configure one of these fea- tures in the Amazon Cognito console or set AllowedOAuthFlowsUser- PoolClient to true in a CreateUserPoolClient or UpdateUserPoolClient API request. If you don't set a value for AllowedOAuthFlowsUserPool- Client in a request with the CLI or SDKs, it defaults to false . When false , only SDK-based API sign-in is permitted.
     /// </summary>
-    [CliFlag("--allowed-o-auth-flows-user-pool-client")]
+    [CliFlag("--allowed-o-auth-flows-user-pool-client", NegatedName = "--no-allowed-o-auth-flows-user-pool-client")]
     public bool? AllowedOAuthFlowsUserPoolClient { get; set; }
 
     /// <summary>
@@ -135,10 +179,16 @@ public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
     [CliOption("--prevent-user-existence-errors")]
     public AwsCognitoIdpUpdateUserPoolClientPreventUserExistenceErrors? PreventUserExistenceErrors { get; set; }
 
-    [CliFlag("--enable-token-revocation")]
+    /// <summary>
+    /// Activates or deactivates token revocation in the target app client.
+    /// </summary>
+    [CliFlag("--enable-token-revocation", NegatedName = "--no-enable-token-revocation")]
     public bool? EnableTokenRevocation { get; set; }
 
-    [CliFlag("--enable-propagate-additional-user-context-data")]
+    /// <summary>
+    /// gate-additional-user-context-data (boolean) When true , your application can include additional UserContextData in authentication requests. This data includes the IP address, and contributes to analysis by threat protection features. For more in- formation about propagation of user context data, see Adding session data to API requests . If you dont include this parameter, you can't send the source IP address to Amazon Cognito threat protection fea- tures. You can only activate EnablePropagateAdditionalUserContext- Data in an app client that has a client secret.
+    /// </summary>
+    [CliFlag("--enable-propagate-additional-user-context-data", NegatedName = "--no-enable-propagate-additional-user-context-data")]
     public bool? EnablePropagateAdditionalUserContextData { get; set; }
 
     /// <summary>
@@ -159,5 +209,21 @@ public record AwsCognitoIdpUpdateUserPoolClientOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

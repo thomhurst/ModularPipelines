@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "create-upload-job")]
-public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions
+public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Domain should be exists for the up- load job to be created. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DisplayName">The unique name of the upload job. Could be a file name to identify the upload job. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Fields">The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}</param>
+    /// <param name="UniqueKey">The unique key columns for de-duping the profiles used to map data to the profile. Constraints: o min: 1 o max: 1000</param>
+    public AwsCustomerProfilesCreateUploadJobOptions(
+        string DomainName,
+        string DisplayName,
+        IReadOnlyList<KeyValue> Fields,
+        string UniqueKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+        global::System.ArgumentNullException.ThrowIfNull(UniqueKey);
+        this.UniqueKey = UniqueKey;
+    }
+
+    private AwsCustomerProfilesCreateUploadJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesCreateUploadJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesCreateUploadJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Domain should be exists for the up- load job to be created. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
 
+    /// <summary>
+    /// The unique name of the upload job. Could be a file name to identify the upload job. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
+    /// <summary>
+    /// The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) Represents a field in a ProfileObjectType. Source -&gt; (string) A field of a ProfileObject. For example: _source.FirstName, where _source is a ProfileObjectType of a Zendesk user and FirstName is a field in that ObjectType. Constraints: o min: 1 o max: 1000 Target -&gt; (string) The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sen- sitive or personally identifiable information (PII) in the target field name. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Used for determining equality when searching. Possible values: o STRING o NUMBER o PHONE_NUMBER o EMAIL_ADDRESS o NAME Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string},KeyName2={Source=string,Target=string,ContentType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER"|"PHONE_NUMBER"|"EMAIL_ADDRESS"|"NAME" } ...}
+    /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Fields { get; set; }
+    public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
+    /// <summary>
+    /// The unique key columns for de-duping the profiles used to map data to the profile. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [CliOption("--unique-key")]
-    public string? UniqueKey { get; set; }
+    public string? UniqueKey { get; private init; }
 
     /// <summary>
     /// The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used. Constraints: o min: 1 o max: 1098
@@ -45,5 +114,21 @@ public record AwsCustomerProfilesCreateUploadJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

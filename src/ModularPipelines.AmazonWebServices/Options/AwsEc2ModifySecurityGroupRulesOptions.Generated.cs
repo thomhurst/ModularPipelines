@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-security-group-rules")]
-public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions
+public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the rules of a security group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupId">The ID of the security group.</param>
+    /// <param name="SecurityGroupRules">Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or num- ber (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]</param>
+    public AwsEc2ModifySecurityGroupRulesOptions(
+        string GroupId,
+        IEnumerable<string> SecurityGroupRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupId);
+        this.GroupId = GroupId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupRules));
+            }
+
+            SecurityGroupRules = materialized;
+        }
+        this.SecurityGroupRules = SecurityGroupRules;
+    }
+
+    private AwsEc2ModifySecurityGroupRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifySecurityGroupRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifySecurityGroupRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the security group.
+    /// </summary>
     [CliOption("--group-id")]
-    public string? GroupId { get; set; }
+    public string? GroupId { get; private init; }
 
+    /// <summary>
+    /// Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or num- ber (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]
+    /// </summary>
     [CliOption("--security-group-rules", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupRules { get; set; }
+    public IEnumerable<string>? SecurityGroupRules { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +93,21 @@ public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

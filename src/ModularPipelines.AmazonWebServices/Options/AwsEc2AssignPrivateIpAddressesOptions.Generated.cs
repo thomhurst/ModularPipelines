@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "assign-private-ip-addresses")]
-public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
+public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more infor- mation about Elastic IP addresses, see Elastic IP Addresses in the Ama- zon EC2 User Guide . When you move a secondary private I...
+    /// </summary>
+    /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
+    public AwsEc2AssignPrivateIpAddressesOptions(
+        string NetworkInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+    }
+
+    private AwsEc2AssignPrivateIpAddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssignPrivateIpAddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssignPrivateIpAddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the network interface.
+    /// </summary>
+    [CliOption("--network-interface-id")]
+    public string? NetworkInterfaceId { get; private init; }
+
     /// <summary>
     /// One or more IPv4 prefixes assigned to the network interface. You can't use this option if you use the Ipv4PrefixCount option. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
     /// </summary>
     [CliOption("--ipv4-prefix-count")]
     public int? Ipv4PrefixCount { get; set; }
-
-    [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
     /// The IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range. (string) Syntax: "string" "string" ...
@@ -48,7 +85,10 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
     [CliOption("--secondary-private-ip-address-count")]
     public int? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CliFlag("--allow-reassignment")]
+    /// <summary>
+    /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the speci- fied network interface.
+    /// </summary>
+    [CliFlag("--allow-reassignment", NegatedName = "--no-allow-reassignment")]
     public bool? AllowReassignment { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +96,21 @@ public record AwsEc2AssignPrivateIpAddressesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

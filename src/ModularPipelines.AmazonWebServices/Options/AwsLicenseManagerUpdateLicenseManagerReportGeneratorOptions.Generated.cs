@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,26 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "update-license-manager-report-generator")]
-public record AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions : AwsOptions
+public record AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseManagerReportGeneratorArn">Amazon Resource Name (ARN) of the report generator to update.</param>
+    /// <param name="ReportGeneratorName">Name of the report generator. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Type">Type of reports to generate. The following report types are sup- ported: o License configuration report - Reports the number and details of consumed licenses for a license configuration. o Resource report - Reports the tracked licenses and resource con- sumption for a license configuration. (string) Possible values: o LicenseConfigurationSummaryReport o LicenseConfigurationUsageReport o LicenseAssetGroupUsageReport Syntax: "string" "string" ...</param>
+    /// <param name="ReportContext">The report context. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to in- clude in the report. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }</param>
+    /// <param name="ReportFrequency">Frequency by which reports are generated. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: o DAY o WEEK o MONTH o ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 36</param>
+    public AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions(
+        string LicenseManagerReportGeneratorArn,
+        string ReportGeneratorName,
+        IEnumerable<string> Type,
+        string ReportContext,
+        string ReportFrequency,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseManagerReportGeneratorArn);
+        this.LicenseManagerReportGeneratorArn = LicenseManagerReportGeneratorArn;
+        global::System.ArgumentNullException.ThrowIfNull(ReportGeneratorName);
+        this.ReportGeneratorName = ReportGeneratorName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Type);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Type));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Type));
+            }
+
+            Type = materialized;
+        }
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(ReportContext);
+        this.ReportContext = ReportContext;
+        global::System.ArgumentNullException.ThrowIfNull(ReportFrequency);
+        this.ReportFrequency = ReportFrequency;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the report generator to update.
+    /// </summary>
     [CliOption("--license-manager-report-generator-arn")]
-    public string? LicenseManagerReportGeneratorArn { get; set; }
+    public string? LicenseManagerReportGeneratorArn { get; private init; }
 
+    /// <summary>
+    /// Name of the report generator. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--report-generator-name")]
-    public string? ReportGeneratorName { get; set; }
+    public string? ReportGeneratorName { get; private init; }
 
+    /// <summary>
+    /// Type of reports to generate. The following report types are sup- ported: o License configuration report - Reports the number and details of consumed licenses for a license configuration. o Resource report - Reports the tracked licenses and resource con- sumption for a license configuration. (string) Possible values: o LicenseConfigurationSummaryReport o LicenseConfigurationUsageReport o LicenseAssetGroupUsageReport Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--type", GroupValues = true)]
-    public IEnumerable<string>? Type { get; set; }
+    public IEnumerable<string>? Type { get; private init; }
 
+    /// <summary>
+    /// The report context. licenseConfigurationArns -&gt; (list) Amazon Resource Name (ARN) of the license configuration that this generator reports on. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ licenseAssetGroupArns -&gt; (list) Amazon Resource Names (ARNs) of the license asset groups to in- clude in the report. (string) Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ reportStartDate -&gt; (timestamp) Start date for the report data collection period. reportEndDate -&gt; (timestamp) End date for the report data collection period. Shorthand Syntax: licenseConfigurationArns=string,string,licenseAssetGroupArns=string,string,reportStartDate=timestamp,reportEndDate=timestamp JSON Syntax: { "licenseConfigurationArns": ["string", ...], "licenseAssetGroupArns": ["string", ...], "reportStartDate": timestamp, "reportEndDate": timestamp }
+    /// </summary>
     [CliOption("--report-context")]
-    public string? ReportContext { get; set; }
+    public string? ReportContext { get; private init; }
 
+    /// <summary>
+    /// Frequency by which reports are generated. value -&gt; (integer) Number of times within the frequency period that a report is generated. The only supported value is 1 . period -&gt; (string) Time period between each report. The period can be daily, weekly, or monthly. Possible values: o DAY o WEEK o MONTH o ONE_TIME Shorthand Syntax: value=integer,period=string JSON Syntax: { "value": integer, "period": "DAY"|"WEEK"|"MONTH"|"ONE_TIME" }
+    /// </summary>
     [CliOption("--report-frequency")]
-    public string? ReportFrequency { get; set; }
+    public string? ReportFrequency { get; private init; }
 
+    /// <summary>
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 36
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// Description of the report generator.
@@ -52,5 +135,21 @@ public record AwsLicenseManagerUpdateLicenseManagerReportGeneratorOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "delete-environment-connector")]
-public record AwsEvsDeleteEnvironmentConnectorOptions : AwsOptions
+public record AwsEvsDeleteEnvironmentConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a connector from an Amazon EVS environment. NOTE: Before deleting a connector, you must remove all entitlements that are associated with the same vCenter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique ID for the environment that the connector belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="ConnectorId">A unique ID for the connector to be deleted. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})</param>
+    public AwsEvsDeleteEnvironmentConnectorOptions(
+        string EnvironmentId,
+        string ConnectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+    }
+
+    private AwsEvsDeleteEnvironmentConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsDeleteEnvironmentConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsDeleteEnvironmentConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the environment that the connector belongs to. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// A unique ID for the connector to be deleted. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--connector-id")]
+    public string? ConnectorId { get; private init; }
+
     /// <summary>
     /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
     /// </summary>
@@ -29,16 +79,26 @@ public record AwsEvsDeleteEnvironmentConnectorOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

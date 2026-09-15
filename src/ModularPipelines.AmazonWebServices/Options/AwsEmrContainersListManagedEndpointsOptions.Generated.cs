@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "list-managed-endpoints")]
-public record AwsEmrContainersListManagedEndpointsOptions : AwsOptions
+public record AwsEmrContainersListManagedEndpointsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists managed endpoints based on a set of parameters. A managed end- point is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation list-managed-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// </summary>
+    /// <param name="VirtualClusterId">The ID of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    public AwsEmrContainersListManagedEndpointsOptions(
+        string VirtualClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VirtualClusterId);
+        this.VirtualClusterId = VirtualClusterId;
+    }
+
+    private AwsEmrContainersListManagedEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersListManagedEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersListManagedEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
     [CliOption("--virtual-cluster-id")]
-    public string? VirtualClusterId { get; set; }
+    public string? VirtualClusterId { get; private init; }
 
     /// <summary>
     /// The date and time before which the endpoints are created.
@@ -73,5 +110,21 @@ public record AwsEmrContainersListManagedEndpointsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

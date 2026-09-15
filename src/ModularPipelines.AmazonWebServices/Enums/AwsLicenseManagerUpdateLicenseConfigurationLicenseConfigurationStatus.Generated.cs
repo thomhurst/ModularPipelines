@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --licenseconfigurationstatus.
+/// Allowed values for --license-configuration-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLicenseManagerUpdateLicenseConfigurationLicenseConfigurationStatus
 {
     [EnumValue("AVAILABLE")]
-    Available = 1,
+    Available,
 
     [EnumValue("DISABLED")]
-    Disabled = 2
+    Disabled
 }

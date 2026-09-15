@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-replication-configuration-template")]
-public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
+public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationConfigurationTemplateId">The Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}</param>
+    public AwsDrsUpdateReplicationConfigurationTemplateOptions(
+        string ReplicationConfigurationTemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationConfigurationTemplateId);
+        this.ReplicationConfigurationTemplateId = ReplicationConfigurationTemplateId;
+    }
+
+    private AwsDrsUpdateReplicationConfigurationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateReplicationConfigurationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateReplicationConfigurationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Replication Configuration Template ID. Constraints: o min: 21 o max: 21 o pattern: rct-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--replication-configuration-template-id")]
-    public string? ReplicationConfigurationTemplateId { get; set; }
+    public string? ReplicationConfigurationTemplateId { get; private init; }
 
     /// <summary>
     /// The Replication Configuration Template ARN. Constraints: o min: 20 o max: 2048 o pattern: arn:.{16,2044}
@@ -38,7 +75,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--staging-area-subnet-id")]
     public string? StagingAreaSubnetId { get; set; }
 
-    [CliFlag("--associate-default-security-group")]
+    /// <summary>
+    /// rity-group (boolean) Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
+    /// </summary>
+    [CliFlag("--associate-default-security-group", NegatedName = "--no-associate-default-security-group")]
     public bool? AssociateDefaultSecurityGroup { get; set; }
 
     /// <summary>
@@ -53,7 +93,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--replication-server-instance-type")]
     public string? ReplicationServerInstanceType { get; set; }
 
-    [CliFlag("--use-dedicated-replication-server")]
+    /// <summary>
+    /// tion-server (boolean) Whether to use a dedicated Replication Server in the replication staging area.
+    /// </summary>
+    [CliFlag("--use-dedicated-replication-server", NegatedName = "--no-use-dedicated-replication-server")]
     public bool? UseDedicatedReplicationServer { get; set; }
 
     /// <summary>
@@ -86,7 +129,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--data-plane-routing")]
     public AwsDrsUpdateReplicationConfigurationTemplateDataPlaneRouting? DataPlaneRouting { get; set; }
 
-    [CliFlag("--create-public-ip")]
+    /// <summary>
+    /// Whether to create a Public IP for the Recovery Instance by default.
+    /// </summary>
+    [CliFlag("--create-public-ip", NegatedName = "--no-create-public-ip")]
     public bool? CreatePublicIp { get; set; }
 
     /// <summary>
@@ -101,7 +147,10 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
     [CliOption("--pit-policy", GroupValues = true)]
     public IEnumerable<string>? PitPolicy { get; set; }
 
-    [CliFlag("--auto-replicate-new-disks")]
+    /// <summary>
+    /// Whether to allow the AWS replication agent to automatically repli- cate newly added disks.
+    /// </summary>
+    [CliFlag("--auto-replicate-new-disks", NegatedName = "--no-auto-replicate-new-disks")]
     public bool? AutoReplicateNewDisks { get; set; }
 
     /// <summary>
@@ -115,5 +164,21 @@ public record AwsDrsUpdateReplicationConfigurationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

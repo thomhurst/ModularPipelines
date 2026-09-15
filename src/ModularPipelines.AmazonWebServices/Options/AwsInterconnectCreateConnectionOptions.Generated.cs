@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("interconnect", "create-connection")]
-public record AwsInterconnectCreateConnectionOptions : AwsOptions
+public record AwsInterconnectCreateConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates the process to create a Connection across the specified Envi- ronment. The Environment dictates the specified partner and location to which the other end of the connection should attach. You can see a list of the available Environments by calling ListEnvironments The Attach Point specifies where within the AWS Network your connection will logically connect. After a successful call to this method, the resulting Connection will return an Activation Key which will need to be brought to th...
+    /// </summary>
+    /// <param name="Bandwidth">The desired bandwidth of the requested Connection Constraints: o min: 1 o max: 8 o pattern: \d+[MG]bps</param>
+    /// <param name="AttachPoint">The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }</param>
+    /// <param name="EnvironmentId">The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEn- vironments . Constraints: o min: 1 o max: 64</param>
+    public AwsInterconnectCreateConnectionOptions(
+        string Bandwidth,
+        string AttachPoint,
+        string EnvironmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bandwidth);
+        this.Bandwidth = Bandwidth;
+        global::System.ArgumentNullException.ThrowIfNull(AttachPoint);
+        this.AttachPoint = AttachPoint;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+    }
+
+    private AwsInterconnectCreateConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInterconnectCreateConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInterconnectCreateConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The desired bandwidth of the requested Connection Constraints: o min: 1 o max: 8 o pattern: \d+[MG]bps
+    /// </summary>
+    [CliOption("--bandwidth")]
+    public string? Bandwidth { get; private init; }
+
+    /// <summary>
+    /// The Attach Point to which the connection should be associated." NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
+    /// </summary>
+    [CliOption("--attach-point")]
+    public string? AttachPoint { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Environment across which this Connection should be created. The available Environment objects can be determined using ListEn- vironments . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
     /// <summary>
     /// A description to distinguish this Connection . Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_ ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--bandwidth")]
-    public string? Bandwidth { get; set; }
-
-    [CliOption("--attach-point")]
-    public string? AttachPoint { get; set; }
-
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
 
     /// <summary>
     /// Account and/or principal identifying information that can be veri- fied by the partner of this specific Environment. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identifier. identifier -&gt; (string) A generic bit of identifying information. Can be used in place of any of the more specific types. Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_@\.]+ Shorthand Syntax: identifier=string JSON Syntax: { "identifier": "string" }
@@ -62,5 +113,21 @@ public record AwsInterconnectCreateConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-aliases")]
-public record AwsSagemakerListAliasesOptions : AwsOptions
+public record AwsSagemakerListAliasesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the aliases of a specified image or image version. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: SageMakerImageVersionAliases
+    /// </summary>
+    /// <param name="ImageName">The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerListAliasesOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    private AwsSagemakerListAliasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListAliasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListAliasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--image-name")]
-    public string? ImageName { get; set; }
+    public string? ImageName { get; private init; }
 
     /// <summary>
     /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
@@ -61,5 +98,21 @@ public record AwsSagemakerListAliasesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dsql", "create-stream")]
-public record AwsDsqlCreateStreamOptions : AwsOptions
+public record AwsDsqlCreateStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination. Required permissions dsql:CreateStream Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id iam:PassRole Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kine- sis.roleArn kms:Decrypt Required when the cluste...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The ID of the cluster for which to create the stream. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="TargetDefinition">The target destination configuration for the stream. Contains Kine- sis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:kine- sis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/ser- vice-role/role-name ), such as roles auto-created by the con- sole. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }</param>
+    /// <param name="Ordering">The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: o UNORDERED</param>
+    /// <param name="Format">The format of the stream records. Possible values: o JSON</param>
+    public AwsDsqlCreateStreamOptions(
+        string ClusterIdentifier,
+        string TargetDefinition,
+        AwsDsqlCreateStreamOrdering Ordering,
+        AwsDsqlCreateStreamFormat Format
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDefinition);
+        this.TargetDefinition = TargetDefinition;
+        global::System.ArgumentNullException.ThrowIfNull(Ordering);
+        this.Ordering = Ordering;
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+    }
+
+    private AwsDsqlCreateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsqlCreateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsqlCreateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the cluster for which to create the stream. Constraints: o pattern: [a-z0-9]{26}
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The target destination configuration for the stream. Contains Kine- sis stream configuration including stream ARN and IAM role ARN. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kinesis. kinesis -&gt; (structure) Kinesis stream target configuration. streamArn -&gt; (string) [required] The ARN of the Kinesis stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-zA-Z-]*:kine- sis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\-]+ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name ) or a role with a path prefix (arn:aws:iam::account-id:role/ser- vice-role/role-name ), such as roles auto-created by the con- sole. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+ Shorthand Syntax: kinesis={streamArn=string,roleArn=string} JSON Syntax: { "kinesis": { "streamArn": "string", "roleArn": "string" } }
+    /// </summary>
     [CliOption("--target-definition")]
-    public string? TargetDefinition { get; set; }
+    public string? TargetDefinition { get; private init; }
 
+    /// <summary>
+    /// The ordering mode for the stream. Determines how change events are ordered when delivered to the target. Possible values: o UNORDERED
+    /// </summary>
     [CliOption("--ordering")]
-    public string? Ordering { get; set; }
+    public AwsDsqlCreateStreamOrdering? Ordering { get; private init; }
 
+    /// <summary>
+    /// The format of the stream records. Possible values: o JSON
+    /// </summary>
     [CliOption("--format")]
-    public string? Format { get; set; }
+    public AwsDsqlCreateStreamFormat? Format { get; private init; }
 
     /// <summary>
     /// A map of key and value pairs to use to tag your stream. Constraints: o min: 0 o max: 200 key -&gt; (string) Unique tag key, maximum 128 Unicode characters in UTF-8. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* value -&gt; (string) Tag value, maximum 256 Unicode characters in UTF-8. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:/=+\-@ ]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +112,21 @@ public record AwsDsqlCreateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

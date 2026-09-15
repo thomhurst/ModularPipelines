@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "update-role-alias")]
-public record AwsIotUpdateRoleAliasOptions : AwsOptions
+public record AwsIotUpdateRoleAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action. WARNING: The value of ` credentialDurationSeconds https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds`__ must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identi...
+    /// </summary>
+    /// <param name="RoleAlias">The role alias to update. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    public AwsIotUpdateRoleAliasOptions(
+        string RoleAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleAlias);
+        this.RoleAlias = RoleAlias;
+    }
+
+    private AwsIotUpdateRoleAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotUpdateRoleAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotUpdateRoleAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The role alias to update. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// </summary>
     [CliOption("--role-alias")]
-    public string? RoleAlias { get; set; }
+    public string? RoleAlias { get; private init; }
 
     /// <summary>
     /// The role ARN. Constraints: o min: 20 o max: 2048
@@ -43,5 +80,21 @@ public record AwsIotUpdateRoleAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

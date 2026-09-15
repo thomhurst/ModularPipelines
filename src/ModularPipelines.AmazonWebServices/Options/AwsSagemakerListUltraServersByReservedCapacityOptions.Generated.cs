@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "list-ultra-servers-by-reserved-capacity")]
-public record AwsSagemakerListUltraServersByReservedCapacityOptions : AwsOptions
+public record AwsSagemakerListUltraServersByReservedCapacityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all UltraServers that are part of a specified reserved capacity. See also: AWS API Documentation list-ultra-servers-by-reserved-capacity is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: UltraS...
+    /// </summary>
+    /// <param name="ReservedCapacityArn">The ARN of the reserved capacity to list UltraServers for. Constraints: o min: 50 o max: 2048 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:re- served-capacity/.*</param>
+    public AwsSagemakerListUltraServersByReservedCapacityOptions(
+        string ReservedCapacityArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedCapacityArn);
+        this.ReservedCapacityArn = ReservedCapacityArn;
+    }
+
+    private AwsSagemakerListUltraServersByReservedCapacityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerListUltraServersByReservedCapacityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerListUltraServersByReservedCapacityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the reserved capacity to list UltraServers for. Constraints: o min: 50 o max: 2048 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:re- served-capacity/.*
+    /// </summary>
     [CliOption("--reserved-capacity-arn")]
-    public string? ReservedCapacityArn { get; set; }
+    public string? ReservedCapacityArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsSagemakerListUltraServersByReservedCapacityOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

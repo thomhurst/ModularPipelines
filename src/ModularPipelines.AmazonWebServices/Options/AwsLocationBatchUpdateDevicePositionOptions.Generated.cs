@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "batch-update-device-position")]
-public record AwsLocationBatchUpdateDevicePositionOptions : AwsOptions
+public record AwsLocationBatchUpdateDevicePositionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracker-name")]
-    public string? TrackerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Uploads position update data for one or more devices to a tracker re- source (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. NOTE: Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased , updates are evaluated against linked geofence collections, and location data is stored at a maximum of one ...
+    /// </summary>
+    /// <param name="TrackerName">The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Updates">Contains the position update details for each device, up to 10 de- vices. Constraints: o min: 1 o max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the mea- sured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]</param>
+    public AwsLocationBatchUpdateDevicePositionOptions(
+        string TrackerName,
+        IEnumerable<string> Updates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackerName);
+        this.TrackerName = TrackerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+    }
+
+    private AwsLocationBatchUpdateDevicePositionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationBatchUpdateDevicePositionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationBatchUpdateDevicePositionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tracker resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--tracker-name")]
+    public string? TrackerName { get; private init; }
+
+    /// <summary>
+    /// Contains the position update details for each device, up to 10 de- vices. Constraints: o min: 1 o max: 10 (structure) Contains the position update details for a device. DeviceId -&gt; (string) [required] The device associated to the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ SampleTime -&gt; (timestamp) [required] The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ Position -&gt; (list) [required] The latest device position defined in WGS 84 format: [X or longitude, Y or latitude] . Constraints: o min: 2 o max: 2 (double) Accuracy -&gt; (structure) The accuracy of the device position. Horizontal -&gt; (double) [required] Estimated maximum distance, in meters, between the mea- sured position and the true position of a device, along the Earth's surface. Constraints: o min: 0 o max: 10000000 PositionProperties -&gt; (map) Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value" Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o min: 1 o max: 20 value -&gt; (string) Constraints: o min: 1 o max: 150 Shorthand Syntax: DeviceId=string,SampleTime=timestamp,Position=double,double,Accuracy={Horizontal=double},PositionProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DeviceId": "string", "SampleTime": timestamp, "Position": [double, ...], "Accuracy": { "Horizontal": double }, "PositionProperties": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

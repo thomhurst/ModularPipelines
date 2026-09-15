@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "create-provisioned-product-plan")]
-public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
+public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAIL- ABLE or TAINTED. To view the resource changes in the change set, use DescribeProvi- sionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductP...
+    /// </summary>
+    /// <param name="PlanName">The name of the plan.</param>
+    /// <param name="PlanType">The plan type. Possible values: o CLOUDFORMATION</param>
+    /// <param name="ProductId">The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="ProvisionedProductName">A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*</param>
+    /// <param name="ProvisioningArtifactId">The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogCreateProvisionedProductPlanOptions(
+        string PlanName,
+        AwsServicecatalogCreateProvisionedProductPlanPlanType PlanType,
+        string ProductId,
+        string ProvisionedProductName,
+        string ProvisioningArtifactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanName);
+        this.PlanName = PlanName;
+        global::System.ArgumentNullException.ThrowIfNull(PlanType);
+        this.PlanType = PlanType;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisionedProductName);
+        this.ProvisionedProductName = ProvisionedProductName;
+        global::System.ArgumentNullException.ThrowIfNull(ProvisioningArtifactId);
+        this.ProvisioningArtifactId = ProvisioningArtifactId;
+    }
+
+    private AwsServicecatalogCreateProvisionedProductPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogCreateProvisionedProductPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogCreateProvisionedProductPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the plan.
+    /// </summary>
+    [CliOption("--plan-name")]
+    public string? PlanName { get; private init; }
+
+    /// <summary>
+    /// The plan type. Possible values: o CLOUDFORMATION
+    /// </summary>
+    [CliOption("--plan-type")]
+    public AwsServicecatalogCreateProvisionedProductPlanPlanType? PlanType { get; private init; }
+
+    /// <summary>
+    /// The product identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--product-id")]
+    public string? ProductId { get; private init; }
+
+    /// <summary>
+    /// A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated af- ter the product is provisioned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9._-]*
+    /// </summary>
+    [CliOption("--provisioned-product-name")]
+    public string? ProvisionedProductName { get; private init; }
+
+    /// <summary>
+    /// The identifier of the provisioning artifact. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--provisioning-artifact-id")]
+    public string? ProvisioningArtifactId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--plan-name")]
-    public string? PlanName { get; set; }
-
-    [CliOption("--plan-type")]
-    public string? PlanType { get; set; }
 
     /// <summary>
     /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events. Constraints: o max: 5 (string) Constraints: o min: 1 o max: 1224 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
@@ -45,15 +120,6 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
     /// </summary>
     [CliOption("--path-id")]
     public string? PathId { get; set; }
-
-    [CliOption("--product-id")]
-    public string? ProductId { get; set; }
-
-    [CliOption("--provisioned-product-name")]
-    public string? ProvisionedProductName { get; set; }
-
-    [CliOption("--provisioning-artifact-id")]
-    public string? ProvisioningArtifactId { get; set; }
 
     /// <summary>
     /// Parameters specified by the administrator that are required for pro- visioning the product. (structure) The parameter key-value pair used to update a provisioned prod- uct. Key -&gt; (string) The parameter key. Constraints: o min: 1 o max: 1000 Value -&gt; (string) The parameter value. Constraints: o max: 4096 UsePreviousValue -&gt; (boolean) If set to true, Value is ignored and the previous parameter value is kept. Shorthand Syntax: Key=string,Value=string,UsePreviousValue=boolean ... JSON Syntax: [ { "Key": "string", "Value": "string", "UsePreviousValue": true|false } ... ]
@@ -79,5 +145,21 @@ public record AwsServicecatalogCreateProvisionedProductPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

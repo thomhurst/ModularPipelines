@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-target-group")]
-public record AwsVpcLatticeCreateTargetGroupOptions : AwsOptions
+public record AwsVpcLatticeCreateTargetGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see Target groups in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the target group. The name must be unique within the ac- count. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 128 o pattern: (?!tg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Type">The type of target group. Possible values: o IP o LAMBDA o INSTANCE o ALB</param>
+    public AwsVpcLatticeCreateTargetGroupOptions(
+        string Name,
+        AwsVpcLatticeCreateTargetGroupType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsVpcLatticeCreateTargetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateTargetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateTargetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the target group. The name must be unique within the ac- count. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: o min: 3 o max: 128 o pattern: (?!tg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of target group. Possible values: o IP o LAMBDA o INSTANCE o ALB
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsVpcLatticeCreateTargetGroupType? Type { get; private init; }
 
     /// <summary>
     /// The target group configuration. port -&gt; (integer) The port on which the targets are listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Not supported if the target group type is LAMBDA . Constraints: o min: 1 o max: 65535 protocol -&gt; (string) The protocol to use for routing traffic to the targets. The de- fault is the protocol of the target group. Not supported if the target group type is LAMBDA . Possible values: o HTTP o HTTPS o TCP protocolVersion -&gt; (string) The protocol version. The default is HTTP1 . Not supported if the target group type is LAMBDA . Possible values: o HTTP1 o HTTP2 o GRPC ipAddressType -&gt; (string) The type of IP address used for the target group. Supported only if the target group type is IP . The default is IPV4 . Possible values: o IPV4 o IPV6 vpcIdentifier -&gt; (string) The ID of the VPC. Not supported if the target group type is LAMBDA . Constraints: o min: 5 o max: 50 o pattern: vpc-(([0-9a-z]{8})|([0-9a-z]{17})) healthCheck -&gt; (structure) The health check configuration. Not supported if the target group type is LAMBDA or ALB . enabled -&gt; (boolean) Indicates whether health checking is enabled. protocol -&gt; (string) The protocol used when performing health checks on targets. The possible protocols are HTTP and HTTPS . The default is HTTP . Possible values: o HTTP o HTTPS o TCP protocolVersion -&gt; (string) The protocol version used when performing health checks on targets. The possible protocol versions are HTTP1 and HTTP2 . Possible values: o HTTP1 o HTTP2 port -&gt; (integer) The port used when performing health checks on targets. The default setting is the port that a target receives traffic on. Constraints: o min: 0 o max: 65535 path -&gt; (string) The destination for health checks on the targets. If the pro- tocol version is HTTP/1.1 or HTTP/2 , specify a valid URI (for example, /path?query ). The default path is / . Health checks are not supported if the protocol version is gRPC , however, you can choose HTTP/1.1 or HTTP/2 and specify a valid URI. Constraints: o min: 0 o max: 2048 o pattern: .*(^/[a-zA-Z0-9@:%_+.~#?&amp;/=-]*$|(^$)).* healthCheckIntervalSeconds -&gt; (integer) The approximate amount of time, in seconds, between health checks of an individual target. The range is 5300 seconds. The default is 30 seconds. Constraints: o min: 0 o max: 300 healthCheckTimeoutSeconds -&gt; (integer) The amount of time, in seconds, to wait before reporting a target as unhealthy. The range is 1120 seconds. The default is 5 seconds. Constraints: o min: 0 o max: 120 healthyThresholdCount -&gt; (integer) The number of consecutive successful health checks required before considering an unhealthy target healthy. The range is 210. The default is 5. Constraints: o min: 0 o max: 10 unhealthyThresholdCount -&gt; (integer) The number of consecutive failed health checks required be- fore considering a target unhealthy. The range is 210. The default is 2. Constraints: o min: 0 o max: 10 matcher -&gt; (tagged union structure) The codes to use when checking for a successful response from a target. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: httpCode. httpCode -&gt; (string) The HTTP code to use when checking for a successful re- sponse from a target. Constraints: o min: 0 o max: 2000 o pattern: .*(^[0-9-,]+$|(^$)).* lambdaEventStructureVersion -&gt; (string) The version of the event structure that your Lambda function re- ceives. Supported only if the target group type is LAMBDA . The default is V1 . Possible values: o V1 o V2 Shorthand Syntax: port=integer,protocol=string,protocolVersion=string,ipAddressType=string,vpcIdentifier=string,healthCheck={enabled=boolean,protocol=string,protocolVersion=string,port=integer,path=string,healthCheckIntervalSeconds=integer,healthCheckTimeoutSeconds=integer,healthyThresholdCount=integer,unhealthyThresholdCount=integer,matcher={httpCode=string}},lambdaEventStructureVersion=string JSON Syntax: { "port": integer, "protocol": "HTTP"|"HTTPS"|"TCP", "protocolVersion": "HTTP1"|"HTTP2"|"GRPC", "ipAddressType": "IPV4"|"IPV6", "vpcIdentifier": "string", "healthCheck": { "enabled": true|false, "protocol": "HTTP"|"HTTPS"|"TCP", "protocolVersion": "HTTP1"|"HTTP2", "port": integer, "path": "string", "healthCheckIntervalSeconds": integer, "healthCheckTimeoutSeconds": integer, "healthyThresholdCount": integer, "unhealthyThresholdCount": integer, "matcher": { "httpCode": "string" } }, "lambdaEventStructureVersion": "V1"|"V2" }
@@ -53,5 +98,21 @@ public record AwsVpcLatticeCreateTargetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

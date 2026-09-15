@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "create-matching-workflow")]
-public record AwsEntityresolutionCreateMatchingWorkflowOptions : AwsOptions
+public record AwsEntityresolutionCreateMatchingWorkflowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow . WARNING: For workflows where resolutionType is PROVIDER , incremental pro- cessing is not supported. See also: AWS API Documentation create-matching-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command...
+    /// </summary>
+    /// <param name="WorkflowName">The name of the workflow. There can't be multiple MatchingWorkflows with the same name. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="InputSourceConfig">A list of InputSource objects, which have the fields InputSourceARN and SchemaName . Constraints: o min: 1 o max: 20 (structure) An object containing inputSourceARN , schemaName , and applyNor- malization . inputSourceARN -&gt; (string) [required] An Glue table Amazon Resource Name (ARN) for the input source table. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) schemaName -&gt; (string) [required] The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]* applyNormalization -&gt; (boolean) Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890. Shorthand Syntax: inputSourceARN=string,schemaName=string,applyNormalization=boolean ... JSON Syntax: [ { "inputSourceARN": "string", "schemaName": "string", "applyNormalization": true|false } ... ]</param>
+    /// <param name="OutputSourceConfig">A list of OutputSource objects, each of which contains fields out- putS3Path , applyNormalization , KMSArn , and output . Constraints: o min: 1 o max: 1 (structure) A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a column to be included in the output table, and whether the values of the col- umn should be hashed. KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* outputS3Path -&gt; (string) The S3 path to which Entity Resolution will write the output table. Constraints: o min: 0 o max: 1024 o pattern: $|^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? output -&gt; (list) [required] A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a col- umn to be included in the output table, and whether the val- ues of the column should be hashed. Constraints: o min: 0 o max: 750 (structure) A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed. name -&gt; (string) [required] A name of a column to be written to the output. This must be an InputField name in the schema mapping. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* hashed -&gt; (boolean) Enables the ability to hash the column values in the output. applyNormalization -&gt; (boolean) Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890. customerProfilesIntegrationConfig -&gt; (structure) Specifies the Customer Profiles integration configuration for sending matched output directly to Customer Profiles. When configured, Entity Resolution automatically creates and up- dates customer profiles based on match clusters, eliminating the need for manual Amazon S3 integration setup. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Customer Profiles domain where the matched output will be sent. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):pro- file:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(do- mains/[a-zA-Z_0-9-]{1,255}) objectTypeArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Customer Profiles object type that defines the structure for the matched customer data. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):pro- file:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(do- mains/[a-zA-Z_0-9-]{1,255}/ob- ject-types/[a-zA-Z_0-9-]{1,255}) Shorthand Syntax: KMSArn=string,outputS3Path=string,output=[{name=string,hashed=boolean},{name=string,hashed=boolean}],applyNormalization=boolean,customerProfilesIntegrationConfig={domainArn=string,objectTypeArn=string} ... JSON Syntax: [ { "KMSArn": "string", "outputS3Path": "string", "output": [ { "name": "string", "hashed": true|false } ... ], "applyNormalization": true|false, "customerProfilesIntegrationConfig": { "domainArn": "string", "objectTypeArn": "string" } } ... ]</param>
+    /// <param name="ResolutionTechniques">An object which defines the resolutionType and the ruleBasedProper- ties . resolutionType -&gt; (string) [required] The type of matching workflow to create. Specify one of the fol- lowing types: o RULE_MATCHING : Match records using configurable rule-based criteria o ML_MATCHING : Match records using machine learning models o PROVIDER : Match records using a third-party matching provider Possible values: o RULE_MATCHING o ML_MATCHING o PROVIDER ruleBasedProperties -&gt; (structure) An object which defines the list of matching rules to run and has a field rules , which is a list of rule objects. rules -&gt; (list) [required] A list of Rule objects, each of which have fields RuleName and MatchingKeys . Constraints: o min: 1 o max: 25 (structure) An object containing the ruleName and matchingKeys . ruleName -&gt; (string) [required] A name for the matching rule. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* matchingKeys -&gt; (list) [required] A list of MatchingKeys . The MatchingKeys must have been defined in the SchemaMapping . Two records are considered to match according to this rule if all of the MatchingKeys match. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* attributeMatchingModel -&gt; (string) [required] The comparison type. You can choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel . If you choose ONE_TO_ONE , the system can only match attrib- utes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY , the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type. Possible values: o ONE_TO_ONE o MANY_TO_MANY matchPurpose -&gt; (string) An indicator of whether to generate IDs and index the data or not. If you choose IDENTIFIER_GENERATION , the process generates IDs and indexes the data. If you choose INDEXING , the process indexes the data without generating IDs. Possible values: o IDENTIFIER_GENERATION o INDEXING ruleConditionProperties -&gt; (structure) An object containing the rules for a matching workflow. rules -&gt; (list) [required] A list of rule objects, each of which have fields ruleName and condition . Constraints: o min: 1 o max: 25 (structure) An object that defines the ruleCondition and the ruleName to use in a matching workflow. ruleName -&gt; (string) [required] A name for the matching rule. For example: Rule1 Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* condition -&gt; (string) [required] A statement that specifies the conditions for a match- ing rule. If your data is accurate, use an Exact matching func- tion: Exact or ExactManyToMany . If your data has variations in spelling or pronuncia- tion, use a Fuzzy matching function: Cosine , Leven- shtein , or Soundex . Use operators if you want to combine (AND ), separate (OR ), or group matching functions (...) . For example: (Cosine(a, 10) AND Exact(b, true)) OR Ex- actManyToMany(c, d) Constraints: o min: 0 o max: 2048 matchingConfig -&gt; (structure) An object that contains configuration settings for the match- ing process. enableTransitiveMatching -&gt; (boolean) Enables transitive matching for the rule-based matching workflow. When enabled, records that match through dif- ferent rules are grouped together into the same match group. enableRealTimeMatching -&gt; (boolean) Specifies whether real-time matching is enabled for the rule-based matching workflow. When you enable real-time match- ing, you can use the GenerateMatchId operation with the work- flow. providerProperties -&gt; (structure) The properties of the provider service. providerServiceArn -&gt; (string) [required] The ARN of the provider service. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255}) providerConfiguration -&gt; (document) The required configuration fields to use with the provider service. intermediateSourceConfiguration -&gt; (structure) The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved perma- nently. intermediateS3Path -&gt; (string) [required] The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "resolutionType": "RULE_MATCHING"|"ML_MATCHING"|"PROVIDER", "ruleBasedProperties": { "rules": [ { "ruleName": "string", "matchingKeys": ["string", ...] } ... ], "attributeMatchingModel": "ONE_TO_ONE"|"MANY_TO_MANY", "matchPurpose": "IDENTIFIER_GENERATION"|"INDEXING" }, "ruleConditionProperties": { "rules": [ { "ruleName": "string", "condition": "string" } ... ], "matchingConfig": { "enableTransitiveMatching": true|false } }, "enableRealTimeMatching": true|false, "providerProperties": { "providerServiceArn": "string", "providerConfiguration": {...}, "intermediateSourceConfiguration": { "intermediateS3Path": "string" } } }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.</param>
+    public AwsEntityresolutionCreateMatchingWorkflowOptions(
+        string WorkflowName,
+        IEnumerable<string> InputSourceConfig,
+        IEnumerable<string> OutputSourceConfig,
+        string ResolutionTechniques,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowName);
+        this.WorkflowName = WorkflowName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InputSourceConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InputSourceConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InputSourceConfig));
+            }
+
+            InputSourceConfig = materialized;
+        }
+        this.InputSourceConfig = InputSourceConfig;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OutputSourceConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OutputSourceConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OutputSourceConfig));
+            }
+
+            OutputSourceConfig = materialized;
+        }
+        this.OutputSourceConfig = OutputSourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ResolutionTechniques);
+        this.ResolutionTechniques = ResolutionTechniques;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsEntityresolutionCreateMatchingWorkflowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionCreateMatchingWorkflowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionCreateMatchingWorkflowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workflow. There can't be multiple MatchingWorkflows with the same name. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// </summary>
     [CliOption("--workflow-name")]
-    public string? WorkflowName { get; set; }
+    public string? WorkflowName { get; private init; }
+
+    /// <summary>
+    /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName . Constraints: o min: 1 o max: 20 (structure) An object containing inputSourceARN , schemaName , and applyNor- malization . inputSourceARN -&gt; (string) [required] An Glue table Amazon Resource Name (ARN) for the input source table. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) schemaName -&gt; (string) [required] The name of the schema to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]* applyNormalization -&gt; (boolean) Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890. Shorthand Syntax: inputSourceARN=string,schemaName=string,applyNormalization=boolean ... JSON Syntax: [ { "inputSourceARN": "string", "schemaName": "string", "applyNormalization": true|false } ... ]
+    /// </summary>
+    [CliOption("--input-source-config", GroupValues = true)]
+    public IEnumerable<string>? InputSourceConfig { get; private init; }
+
+    /// <summary>
+    /// A list of OutputSource objects, each of which contains fields out- putS3Path , applyNormalization , KMSArn , and output . Constraints: o min: 1 o max: 1 (structure) A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a column to be included in the output table, and whether the values of the col- umn should be hashed. KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* outputS3Path -&gt; (string) The S3 path to which Entity Resolution will write the output table. Constraints: o min: 0 o max: 1024 o pattern: $|^s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? output -&gt; (list) [required] A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a col- umn to be included in the output table, and whether the val- ues of the column should be hashed. Constraints: o min: 0 o max: 750 (structure) A list of OutputAttribute objects, each of which have the fields Name and Hashed . Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed. name -&gt; (string) [required] A name of a column to be written to the output. This must be an InputField name in the schema mapping. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* hashed -&gt; (boolean) Enables the ability to hash the column values in the output. applyNormalization -&gt; (boolean) Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER , and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890. customerProfilesIntegrationConfig -&gt; (structure) Specifies the Customer Profiles integration configuration for sending matched output directly to Customer Profiles. When configured, Entity Resolution automatically creates and up- dates customer profiles based on match clusters, eliminating the need for manual Amazon S3 integration setup. domainArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Customer Profiles domain where the matched output will be sent. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):pro- file:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(do- mains/[a-zA-Z_0-9-]{1,255}) objectTypeArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Customer Profiles object type that defines the structure for the matched customer data. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):pro- file:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(do- mains/[a-zA-Z_0-9-]{1,255}/ob- ject-types/[a-zA-Z_0-9-]{1,255}) Shorthand Syntax: KMSArn=string,outputS3Path=string,output=[{name=string,hashed=boolean},{name=string,hashed=boolean}],applyNormalization=boolean,customerProfilesIntegrationConfig={domainArn=string,objectTypeArn=string} ... JSON Syntax: [ { "KMSArn": "string", "outputS3Path": "string", "output": [ { "name": "string", "hashed": true|false } ... ], "applyNormalization": true|false, "customerProfilesIntegrationConfig": { "domainArn": "string", "objectTypeArn": "string" } } ... ]
+    /// </summary>
+    [CliOption("--output-source-config", GroupValues = true)]
+    public IEnumerable<string>? OutputSourceConfig { get; private init; }
+
+    /// <summary>
+    /// An object which defines the resolutionType and the ruleBasedProper- ties . resolutionType -&gt; (string) [required] The type of matching workflow to create. Specify one of the fol- lowing types: o RULE_MATCHING : Match records using configurable rule-based criteria o ML_MATCHING : Match records using machine learning models o PROVIDER : Match records using a third-party matching provider Possible values: o RULE_MATCHING o ML_MATCHING o PROVIDER ruleBasedProperties -&gt; (structure) An object which defines the list of matching rules to run and has a field rules , which is a list of rule objects. rules -&gt; (list) [required] A list of Rule objects, each of which have fields RuleName and MatchingKeys . Constraints: o min: 1 o max: 25 (structure) An object containing the ruleName and matchingKeys . ruleName -&gt; (string) [required] A name for the matching rule. Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* matchingKeys -&gt; (list) [required] A list of MatchingKeys . The MatchingKeys must have been defined in the SchemaMapping . Two records are considered to match according to this rule if all of the MatchingKeys match. Constraints: o min: 0 o max: 15 (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* attributeMatchingModel -&gt; (string) [required] The comparison type. You can choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel . If you choose ONE_TO_ONE , the system can only match attrib- utes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B. If you choose MANY_TO_MANY , the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type. Possible values: o ONE_TO_ONE o MANY_TO_MANY matchPurpose -&gt; (string) An indicator of whether to generate IDs and index the data or not. If you choose IDENTIFIER_GENERATION , the process generates IDs and indexes the data. If you choose INDEXING , the process indexes the data without generating IDs. Possible values: o IDENTIFIER_GENERATION o INDEXING ruleConditionProperties -&gt; (structure) An object containing the rules for a matching workflow. rules -&gt; (list) [required] A list of rule objects, each of which have fields ruleName and condition . Constraints: o min: 1 o max: 25 (structure) An object that defines the ruleCondition and the ruleName to use in a matching workflow. ruleName -&gt; (string) [required] A name for the matching rule. For example: Rule1 Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- ]* condition -&gt; (string) [required] A statement that specifies the conditions for a match- ing rule. If your data is accurate, use an Exact matching func- tion: Exact or ExactManyToMany . If your data has variations in spelling or pronuncia- tion, use a Fuzzy matching function: Cosine , Leven- shtein , or Soundex . Use operators if you want to combine (AND ), separate (OR ), or group matching functions (...) . For example: (Cosine(a, 10) AND Exact(b, true)) OR Ex- actManyToMany(c, d) Constraints: o min: 0 o max: 2048 matchingConfig -&gt; (structure) An object that contains configuration settings for the match- ing process. enableTransitiveMatching -&gt; (boolean) Enables transitive matching for the rule-based matching workflow. When enabled, records that match through dif- ferent rules are grouped together into the same match group. enableRealTimeMatching -&gt; (boolean) Specifies whether real-time matching is enabled for the rule-based matching workflow. When you enable real-time match- ing, you can use the GenerateMatchId operation with the work- flow. providerProperties -&gt; (structure) The properties of the provider service. providerServiceArn -&gt; (string) [required] The ARN of the provider service. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255}) providerConfiguration -&gt; (document) The required configuration fields to use with the provider service. intermediateSourceConfiguration -&gt; (structure) The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved perma- nently. intermediateS3Path -&gt; (string) [required] The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "resolutionType": "RULE_MATCHING"|"ML_MATCHING"|"PROVIDER", "ruleBasedProperties": { "rules": [ { "ruleName": "string", "matchingKeys": ["string", ...] } ... ], "attributeMatchingModel": "ONE_TO_ONE"|"MANY_TO_MANY", "matchPurpose": "IDENTIFIER_GENERATION"|"INDEXING" }, "ruleConditionProperties": { "rules": [ { "ruleName": "string", "condition": "string" } ... ], "matchingConfig": { "enableTransitiveMatching": true|false } }, "enableRealTimeMatching": true|false, "providerProperties": { "providerServiceArn": "string", "providerConfiguration": {...}, "intermediateSourceConfiguration": { "intermediateS3Path": "string" } } }
+    /// </summary>
+    [CliOption("--resolution-techniques")]
+    public string? ResolutionTechniques { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A description of the workflow. Constraints: o min: 0 o max: 255
@@ -31,23 +130,11 @@ public record AwsEntityresolutionCreateMatchingWorkflowOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--input-source-config", GroupValues = true)]
-    public IEnumerable<string>? InputSourceConfig { get; set; }
-
-    [CliOption("--output-source-config", GroupValues = true)]
-    public IEnumerable<string>? OutputSourceConfig { get; set; }
-
-    [CliOption("--resolution-techniques")]
-    public string? ResolutionTechniques { get; set; }
-
     /// <summary>
     /// Optional. An object that defines the incremental run type. This ob- ject contains only the incrementalRunType field, which appears as "Automatic" in the console. WARNING: For workflows where resolutionType is PROVIDER , incremental processing is not supported. incrementalRunType -&gt; (string) The type of incremental run. The only valid value is IMMEDIATE . This appears as "Automatic" in the console. WARNING: For workflows where resolutionType is PROVIDER , incremental processing is not supported. Possible values: o IMMEDIATE Shorthand Syntax: incrementalRunType=string JSON Syntax: { "incrementalRunType": "IMMEDIATE" }
     /// </summary>
     [CliOption("--incremental-run-config")]
     public string? IncrementalRunConfig { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -60,5 +147,21 @@ public record AwsEntityresolutionCreateMatchingWorkflowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

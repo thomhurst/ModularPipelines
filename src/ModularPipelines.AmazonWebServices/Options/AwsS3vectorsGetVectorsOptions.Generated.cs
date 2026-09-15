@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3vectors", "get-vectors")]
-public record AwsS3vectorsGetVectorsOptions : AwsOptions
+public record AwsS3vectorsGetVectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this opera- tion. See also: AWS API Documentation get-vectors uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested p...
+    /// </summary>
+    /// <param name="Keys">The names of the vectors you want to return attributes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    public AwsS3vectorsGetVectorsOptions(
+        IEnumerable<string> Keys
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Keys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Keys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Keys));
+            }
+
+            Keys = materialized;
+        }
+        this.Keys = Keys;
+    }
+
+    private AwsS3vectorsGetVectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3vectorsGetVectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3vectorsGetVectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The names of the vectors you want to return attributes for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--keys", GroupValues = true)]
+    public IEnumerable<string>? Keys { get; private init; }
+
     /// <summary>
     /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
     /// </summary>
@@ -39,13 +90,16 @@ public record AwsS3vectorsGetVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--keys", GroupValues = true)]
-    public IEnumerable<string>? Keys { get; set; }
-
-    [CliFlag("--return-data")]
+    /// <summary>
+    /// Indicates whether to include the vector data in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-data", NegatedName = "--no-return-data")]
     public bool? ReturnData { get; set; }
 
-    [CliFlag("--return-metadata")]
+    /// <summary>
+    /// Indicates whether to include metadata in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]
     public bool? ReturnMetadata { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +107,21 @@ public record AwsS3vectorsGetVectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

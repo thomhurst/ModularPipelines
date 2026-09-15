@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "start-notebook-import")]
-public record AwsDatazoneStartNotebookImportOptions : AwsOptions
+public record AwsDatazoneStartNotebookImportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a notebook import in Amazon SageMaker Unified Studio. This oper- ation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that will own the imported notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SourceLocation">The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }</param>
+    /// <param name="Name">The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: o min: 1 o max: 256</param>
+    public AwsDatazoneStartNotebookImportOptions(
+        string DomainIdentifier,
+        string OwningProjectIdentifier,
+        string SourceLocation,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
+        this.OwningProjectIdentifier = OwningProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLocation);
+        this.SourceLocation = SourceLocation;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsDatazoneStartNotebookImportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneStartNotebookImportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneStartNotebookImportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the project that will own the imported notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--owning-project-identifier")]
-    public string? OwningProjectIdentifier { get; set; }
+    public string? OwningProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3. s3 -&gt; (string) The Amazon Simple Storage Service URI of the notebook source file. Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: s3=string JSON Syntax: { "s3": "string" }
+    /// </summary>
     [CliOption("--source-location")]
-    public string? SourceLocation { get; set; }
+    public string? SourceLocation { get; private init; }
 
+    /// <summary>
+    /// The name of the imported notebook. The name must be between 1 and 256 characters. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The description of the imported notebook. Constraints: o min: 0 o max: 2048
@@ -52,5 +110,21 @@ public record AwsDatazoneStartNotebookImportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

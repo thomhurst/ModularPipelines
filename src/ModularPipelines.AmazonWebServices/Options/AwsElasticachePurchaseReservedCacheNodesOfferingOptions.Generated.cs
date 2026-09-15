@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "purchase-reserved-cache-nodes-offering")]
-public record AwsElasticachePurchaseReservedCacheNodesOfferingOptions : AwsOptions
+public record AwsElasticachePurchaseReservedCacheNodesOfferingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more in- formation, see Managing Costs with Reserved Nodes . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedCacheNodesOfferingId">The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706</param>
+    public AwsElasticachePurchaseReservedCacheNodesOfferingOptions(
+        string ReservedCacheNodesOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedCacheNodesOfferingId);
+        this.ReservedCacheNodesOfferingId = ReservedCacheNodesOfferingId;
+    }
+
+    private AwsElasticachePurchaseReservedCacheNodesOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticachePurchaseReservedCacheNodesOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticachePurchaseReservedCacheNodesOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
+    /// </summary>
     [CliOption("--reserved-cache-nodes-offering-id")]
-    public string? ReservedCacheNodesOfferingId { get; set; }
+    public string? ReservedCacheNodesOfferingId { get; private init; }
 
     /// <summary>
     /// A customer-specified identifier to track this reservation. NOTE: The Reserved Cache Node ID is an unique customer-specified iden- tifier to track this reservation. If this parameter is not spec- ified, ElastiCache automatically generates an identifier for the reservation. Example: myreservationID
@@ -47,5 +84,21 @@ public record AwsElasticachePurchaseReservedCacheNodesOfferingOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

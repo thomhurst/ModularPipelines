@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptunedata", "cancel-ml-model-transform-job")]
-public record AwsNeptunedataCancelMlModelTransformJobOptions : AwsOptions
+public record AwsNeptunedataCancelMlModelTransformJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels a specified model transform job. See Use a trained model to generate new model artifacts . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique ID of the model transform job to be canceled.</param>
+    public AwsNeptunedataCancelMlModelTransformJobOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsNeptunedataCancelMlModelTransformJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptunedataCancelMlModelTransformJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptunedataCancelMlModelTransformJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the model transform job to be canceled.
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
@@ -30,7 +67,10 @@ public record AwsNeptunedataCancelMlModelTransformJobOptions : AwsOptions
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
-    [CliFlag("--clean")]
+    /// <summary>
+    /// If this flag is set to TRUE , all Neptune ML S3 artifacts should be deleted when the job is stopped. The default is FALSE .
+    /// </summary>
+    [CliFlag("--clean", NegatedName = "--no-clean")]
     public bool? Clean { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsNeptunedataCancelMlModelTransformJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

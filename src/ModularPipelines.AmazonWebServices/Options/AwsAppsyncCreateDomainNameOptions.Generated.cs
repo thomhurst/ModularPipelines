@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "create-domain-name")]
-public record AwsAppsyncCreateDomainNameOptions : AwsOptions
+public record AwsAppsyncCreateDomainNameOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a custom DomainName object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Man- agement (IAM) server certificate. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certifi- cate|server-certificate)/[0-9A-Za-z_/-]*$</param>
+    public AwsAppsyncCreateDomainNameOptions(
+        string DomainName,
+        string CertificateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+    }
+
+    private AwsAppsyncCreateDomainNameOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncCreateDomainNameOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncCreateDomainNameOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Man- agement (IAM) server certificate. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\d{12}:(certifi- cate|server-certificate)/[0-9A-Za-z_/-]*$
+    /// </summary>
     [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    public string? CertificateArn { get; private init; }
 
     /// <summary>
     /// A description of the DomainName . Constraints: o min: 0 o max: 255 o pattern: ^.*$
@@ -45,5 +89,21 @@ public record AwsAppsyncCreateDomainNameOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

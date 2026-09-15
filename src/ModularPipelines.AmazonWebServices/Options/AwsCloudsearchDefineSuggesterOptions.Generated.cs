@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearch", "define-suggester")]
-public record AwsCloudsearchDefineSuggesterOptions : AwsOptions
+public record AwsCloudsearchDefineSuggesterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the sug- gester. For more information, see Getting Search Suggestions in the Amazon CloudSearch Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Suggester">Configuration information for a search suggester. Each suggester has a unique name and specifies the text field you want to use for sug- gestions. The following options can be configured for a suggester: FuzzyMatching , SortExpression . SuggesterName -&gt; (string) [required] Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* DocumentSuggesterOptions -&gt; (structure) [required] Options for a search suggester. SourceField -&gt; (string) [required] The name of the index field you want to use for suggestions. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* FuzzyMatching -&gt; (string) The level of fuzziness allowed when suggesting matches for a string: none , low , or high . With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. Possible values: o none o low o high SortExpression -&gt; (string) An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expres- sion, simply specify the name of the field or expression. If no expression is configured for the suggester, the sugges- tions are sorted with the closest matches listed first. Shorthand Syntax: SuggesterName=string,DocumentSuggesterOptions={SourceField=string,FuzzyMatching=string,SortExpression=string} JSON Syntax: { "SuggesterName": "string", "DocumentSuggesterOptions": { "SourceField": "string", "FuzzyMatching": "none"|"low"|"high", "SortExpression": "string" } }</param>
+    public AwsCloudsearchDefineSuggesterOptions(
+        string DomainName,
+        string Suggester
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Suggester);
+        this.Suggester = Suggester;
+    }
+
+    private AwsCloudsearchDefineSuggesterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchDefineSuggesterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchDefineSuggesterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// Configuration information for a search suggester. Each suggester has a unique name and specifies the text field you want to use for sug- gestions. The following options can be configured for a suggester: FuzzyMatching , SortExpression . SuggesterName -&gt; (string) [required] Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* DocumentSuggesterOptions -&gt; (structure) [required] Options for a search suggester. SourceField -&gt; (string) [required] The name of the index field you want to use for suggestions. Constraints: o min: 1 o max: 64 o pattern: [a-z][a-z0-9_]* FuzzyMatching -&gt; (string) The level of fuzziness allowed when suggesting matches for a string: none , low , or high . With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. Possible values: o none o low o high SortExpression -&gt; (string) An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expres- sion, simply specify the name of the field or expression. If no expression is configured for the suggester, the sugges- tions are sorted with the closest matches listed first. Shorthand Syntax: SuggesterName=string,DocumentSuggesterOptions={SourceField=string,FuzzyMatching=string,SortExpression=string} JSON Syntax: { "SuggesterName": "string", "DocumentSuggesterOptions": { "SourceField": "string", "FuzzyMatching": "none"|"low"|"high", "SortExpression": "string" } }
+    /// </summary>
     [CliOption("--suggester")]
-    public string? Suggester { get; set; }
+    public string? Suggester { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

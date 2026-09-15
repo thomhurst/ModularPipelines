@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,25 +22,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "put-asset")]
-public record AwsGluePutAssetOptions : AwsOptions
+public record AwsGluePutAssetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetTypeId">The identifier of the asset type for the asset. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Identifier">The unique identifier of the asset. If an asset with this identifier already exists, it is updated. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="Name">The name of the asset.</param>
+    /// <param name="Forms">The forms to set on the asset, keyed by form name. Each entry speci- fies the form type and its JSON content. key -&gt; (string) value -&gt; (structure) A form on an asset, consisting of the form type identifier and its JSON content. FormTypeId -&gt; (string) The identifier of the form type that defines this form's schema. Constraints: o min: 1 o max: 256 Content -&gt; (string) The JSON content of the form, conforming to the schema of the specified form type. Shorthand Syntax: KeyName1={FormTypeId=string,Content=string},KeyName2={FormTypeId=string,Content=string} JSON Syntax: {"string": { "FormTypeId": "string", "Content": "string" } ...}</param>
+    public AwsGluePutAssetOptions(
+        string AssetTypeId,
+        string Identifier,
+        string Name,
+        IReadOnlyList<KeyValue> Forms
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetTypeId);
+        this.AssetTypeId = AssetTypeId;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Forms);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Forms));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Forms));
+            }
+
+            Forms = materialized;
+        }
+        this.Forms = Forms;
+    }
+
+    private AwsGluePutAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGluePutAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGluePutAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the asset type for the asset. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--asset-type-id")]
-    public string? AssetTypeId { get; set; }
+    public string? AssetTypeId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the asset. If an asset with this identifier already exists, it is updated. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The name of the asset.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The forms to set on the asset, keyed by form name. Each entry speci- fies the form type and its JSON content. key -&gt; (string) value -&gt; (structure) A form on an asset, consisting of the form type identifier and its JSON content. FormTypeId -&gt; (string) The identifier of the form type that defines this form's schema. Constraints: o min: 1 o max: 256 Content -&gt; (string) The JSON content of the form, conforming to the schema of the specified form type. Shorthand Syntax: KeyName1={FormTypeId=string,Content=string},KeyName2={FormTypeId=string,Content=string} JSON Syntax: {"string": { "FormTypeId": "string", "Content": "string" } ...}
+    /// </summary>
+    [CliOption("--forms", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Forms { get; private init; }
 
     /// <summary>
     /// The description of the asset.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--forms", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Forms { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
@@ -53,5 +122,21 @@ public record AwsGluePutAssetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

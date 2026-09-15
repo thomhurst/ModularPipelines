@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "update-label-group")]
-public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions
+public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the label group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LabelGroupName">The name of the label group to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    public AwsLookoutequipmentUpdateLabelGroupOptions(
+        string LabelGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LabelGroupName);
+        this.LabelGroupName = LabelGroupName;
+    }
+
+    private AwsLookoutequipmentUpdateLabelGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentUpdateLabelGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentUpdateLabelGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the label group to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--label-group-name")]
-    public string? LabelGroupName { get; set; }
+    public string? LabelGroupName { get; private init; }
 
     /// <summary>
     /// Updates the code indicating the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "start-configuration-recorder")]
-public record AwsConfigserviceStartConfigurationRecorderOptions : AwsOptions
+public record AwsConfigserviceStartConfigurationRecorderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the customer managed configuration recorder. The customer man- aged configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to successfully start the cus- tomer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigurationRecorderName">The name of the customer managed configuration recorder that you want to start. Constraints: o min: 1 o max: 256</param>
+    public AwsConfigserviceStartConfigurationRecorderOptions(
+        string ConfigurationRecorderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationRecorderName);
+        this.ConfigurationRecorderName = ConfigurationRecorderName;
+    }
+
+    private AwsConfigserviceStartConfigurationRecorderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceStartConfigurationRecorderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceStartConfigurationRecorderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the customer managed configuration recorder that you want to start. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--configuration-recorder-name")]
-    public string? ConfigurationRecorderName { get; set; }
+    public string? ConfigurationRecorderName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

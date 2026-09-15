@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusfilter.
+/// Allowed values for --status-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftDescribeScalingPoliciesStatusFilter
 {
     [EnumValue("ACTIVE")]
-    Active = 1,
-
-    [EnumValue("UPDATE_REQUESTED")]
-    UpdateRequested = 2,
-
-    [EnumValue("UPDATING")]
-    Updating = 3,
-
-    [EnumValue("DELETE_REQUESTED")]
-    DeleteRequested = 4,
-
-    [EnumValue("DELETING")]
-    Deleting = 5,
+    Active,
 
     [EnumValue("DELETED")]
-    Deleted = 6,
+    Deleted,
+
+    [EnumValue("DELETE_REQUESTED")]
+    DeleteRequested,
+
+    [EnumValue("DELETING")]
+    Deleting,
 
     [EnumValue("ERROR")]
-    Error = 7
+    Error,
+
+    [EnumValue("UPDATE_REQUESTED")]
+    UpdateRequested,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

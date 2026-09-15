@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr-containers", "start-job-run")]
-public record AwsEmrContainersStartJobRunOptions : AwsOptions
+public record AwsEmrContainersStartJobRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VirtualClusterId">The virtual cluster ID for which the job run request is submitted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    public AwsEmrContainersStartJobRunOptions(
+        string VirtualClusterId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VirtualClusterId);
+        this.VirtualClusterId = VirtualClusterId;
+    }
+
+    private AwsEmrContainersStartJobRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrContainersStartJobRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrContainersStartJobRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The virtual cluster ID for which the job run request is submitted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// </summary>
+    [CliOption("--virtual-cluster-id")]
+    public string? VirtualClusterId { get; private init; }
+
     /// <summary>
     /// The name of the job run. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--virtual-cluster-id")]
-    public string? VirtualClusterId { get; set; }
 
     /// <summary>
     /// The client idempotency token of the job run request. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
@@ -92,5 +129,21 @@ public record AwsEmrContainersStartJobRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

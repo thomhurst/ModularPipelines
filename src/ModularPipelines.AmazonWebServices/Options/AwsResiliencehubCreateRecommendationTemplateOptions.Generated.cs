@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "create-recommendation-template")]
-public record AwsResiliencehubCreateRecommendationTemplateOptions : AwsOptions
+public record AwsResiliencehubCreateRecommendationTemplateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new recommendation template for the Resilience Hub applica- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentArn">Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="Name">The name for the recommendation template. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    public AwsResiliencehubCreateRecommendationTemplateOptions(
+        string AssessmentArn,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentArn);
+        this.AssessmentArn = AssessmentArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsResiliencehubCreateRecommendationTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubCreateRecommendationTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubCreateRecommendationTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
     [CliOption("--assessment-arn")]
-    public string? AssessmentArn { get; set; }
+    public string? AssessmentArn { get; private init; }
+
+    /// <summary>
+    /// The name for the recommendation template. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The name of the Amazon S3 bucket that will contain the recommenda- tion template. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
@@ -45,9 +92,6 @@ public record AwsResiliencehubCreateRecommendationTemplateOptions : AwsOptions
     /// </summary>
     [CliOption("--format")]
     public AwsResiliencehubCreateRecommendationTemplateFormat? Format { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Identifiers for the recommendations used to create a recommendation template. Constraints: o min: 1 o max: 200 (string) Constraints: o pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$ Syntax: "string" "string" ...
@@ -72,5 +116,21 @@ public record AwsResiliencehubCreateRecommendationTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

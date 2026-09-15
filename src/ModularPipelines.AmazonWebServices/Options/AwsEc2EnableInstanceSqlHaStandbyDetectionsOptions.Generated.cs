@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-instance-sql-ha-standby-detections")]
-public record AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
+public record AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enable Amazon EC2 instances running in an SQL Server High Availability cluster for SQL Server High Availability instance standby detection monitoring. Once enabled, Amazon Web Services monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. If the instances are deter- mined to be standby failover nodes, Amazon Web Services automatically applies SQL Server licensing fee waiver for those instances. To register an in...
+    /// </summary>
+    /// <param name="InstanceIds">The IDs of the instances to enable for SQL Server High Availability standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...</param>
+    public AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions(
+        IEnumerable<string> InstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+    }
+
+    private AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the instances to enable for SQL Server High Availability standby detection monitoring. Constraints: o min: 1 o max: 30 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
+    public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
     /// The ARN of the Secrets Manager secret containing the SQL Server ac- cess credentials. The specified secret must contain valid SQL Server credentials for the specified instances. If not specified, deafult local user credentials will be used by the Amazon Web Services Sys- tems Manager agent. To enable instances with different credentials, you must make separate requests. Constraints: o pattern: ^(?=.{20,2048}$)arn:aws[a-z-]*:secretsman- ager:[a-z0-9-]+:\d{12}:secret:[a-zA-Z0-9/_+=.@-]+
@@ -32,7 +80,10 @@ public record AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
     [CliOption("--sql-server-credentials")]
     public string? SqlServerCredentials { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -40,5 +91,21 @@ public record AwsEc2EnableInstanceSqlHaStandbyDetectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

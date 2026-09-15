@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "update-ip-set")]
-public record AwsGuarddutyUpdateIpSetOptions : AwsOptions
+public record AwsGuarddutyUpdateIpSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the IPSet specified by the IPSet ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="IpSetId">The unique ID that specifies the IPSet that you want to update.</param>
+    public AwsGuarddutyUpdateIpSetOptions(
+        string DetectorId,
+        string IpSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(IpSetId);
+        this.IpSetId = IpSetId;
+    }
+
+    private AwsGuarddutyUpdateIpSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyUpdateIpSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyUpdateIpSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The unique ID that specifies the IPSet that you want to update.
+    /// </summary>
     [CliOption("--ip-set-id")]
-    public string? IpSetId { get; set; }
+    public string? IpSetId { get; private init; }
 
     /// <summary>
     /// The unique ID that specifies the IPSet that you want to update. Constraints: o min: 1 o max: 300
@@ -39,7 +83,10 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions
     [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CliFlag("--activate")]
+    /// <summary>
+    /// The updated Boolean value that specifies whether the IPSet is active or not.
+    /// </summary>
+    [CliFlag("--activate", NegatedName = "--no-activate")]
     public bool? Activate { get; set; }
 
     /// <summary>
@@ -53,5 +100,21 @@ public record AwsGuarddutyUpdateIpSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

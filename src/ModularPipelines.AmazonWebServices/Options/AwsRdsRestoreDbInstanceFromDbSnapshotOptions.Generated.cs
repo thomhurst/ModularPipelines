@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "restore-db-instance-from-db-snapshot")]
-public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
+public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to ...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The name of the DB instance to create from the DB snapshot. This pa- rameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 numbers, letters, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id</param>
+    public AwsRdsRestoreDbInstanceFromDbSnapshotOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsRdsRestoreDbInstanceFromDbSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRestoreDbInstanceFromDbSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRestoreDbInstanceFromDbSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB instance to create from the DB snapshot. This pa- rameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 numbers, letters, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id
+    /// </summary>
     [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
     /// The identifier for the DB snapshot to restore from. Constraints: o Must match the identifier of an existing DB snapshot. o Can't be specified when DBClusterSnapshotIdentifier is specified. o Must be specified when DBClusterSnapshotIdentifier isn't speci- fied. o If you are restoring from a shared manual DB snapshot, the DBSnap- shotIdentifier must be the ARN of the shared DB snapshot.
@@ -56,20 +93,29 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CliFlag("--multi-az")]
+    /// <summary>
+    /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
+    /// </summary>
+    [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB in- stance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
-    [CliFlag("--auto-minor-version-upgrade")]
+    /// <summary>
+    /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this pa- rameter. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// </summary>
+    [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
     /// License model information for the restored DB instance. NOTE: License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom para- meter group and an Amazon Web Services License Manager self-man- aged license. The Db2 license through Amazon Web Services Mar- ketplace model requires an Amazon Web Services Marketplace sub- scription. For more information, see Amazon RDS for Db2 licens- ing options in the Amazon RDS User Guide . This setting doesn't apply to Amazon Aurora or RDS Custom DB in- stances. Valid Values: o RDS for Db2 - bring-your-own-license | marketplace-license o RDS for MariaDB - general-public-license o RDS for Microsoft SQL Server - license-included | bring-your-own-media o RDS for MySQL - general-public-license o RDS for Oracle - bring-your-own-license | license-included o RDS for PostgreSQL - postgresql-license Default: Same as the source.
     /// </summary>
     [CliOption("--license-model")]
-    public AwsRdsRestoreDbInstanceFromDbSnapshotLicenseModel? LicenseModel { get; set; }
+    public string? LicenseModel { get; set; }
 
     /// <summary>
     /// The name of the database for the restored DB instance. This parameter only applies to RDS for Oracle and RDS for SQL Server DB instances. It doesn't apply to the other engines or to RDS Custom DB instances.
@@ -164,7 +210,10 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--domain-dns-ips", GroupValues = true)]
     public IEnumerable<string>? DomainDnsIps { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. In most cases, tags aren't copied by default. However, when you re- store a DB instance from a DB snapshot, RDS checks whether you spec- ify new tags. If yes, the new tags are added to the restored DB in- stance. If there are no new tags, RDS looks for the tags from the source DB instance for the DB snapshot, and then adds those tags to the restored DB instance. For more information, see Copying tags to DB instance snapshots in the Amazon RDS User Guide .
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -173,7 +222,10 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping is disabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -188,7 +240,10 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
 
-    [CliFlag("--use-default-processor-features")]
+    /// <summary>
+    /// Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom.
+    /// </summary>
+    [CliFlag("--use-default-processor-features", NegatedName = "--no-use-default-processor-features")]
     public bool? UseDefaultProcessorFeatures { get; set; }
 
     /// <summary>
@@ -197,10 +252,16 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see Deleting a DB Instance .
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--enable-customer-owned-ip")]
+    /// <summary>
+    /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your lo- cal network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide . For more information about CoIPs, see Customer-owned IP addresses in the Amazon Web Services Outposts User Guide .
+    /// </summary>
+    [CliFlag("--enable-customer-owned-ip", NegatedName = "--no-enable-customer-owned-ip")]
     public bool? EnableCustomerOwnedIp { get; set; }
 
     /// <summary>
@@ -245,7 +306,10 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CliFlag("--dedicated-log-volume")]
+    /// <summary>
+    /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
+    /// </summary>
+    [CliFlag("--dedicated-log-volume", NegatedName = "--no-dedicated-log-volume")]
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>
@@ -272,13 +336,15 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide . Constraints: o Applies to RDS for Oracle only.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
@@ -287,5 +353,21 @@ public record AwsRdsRestoreDbInstanceFromDbSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

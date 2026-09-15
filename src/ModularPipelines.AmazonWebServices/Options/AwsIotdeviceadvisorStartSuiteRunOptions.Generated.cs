@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotdeviceadvisor", "start-suite-run")]
-public record AwsIotdeviceadvisorStartSuiteRunOptions : AwsOptions
+public record AwsIotdeviceadvisorStartSuiteRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SuiteDefinitionId">Suite definition ID of the test suite. Constraints: o min: 12 o max: 36</param>
+    /// <param name="SuiteRunConfiguration">Suite run configuration. primaryDevice -&gt; (structure) [required] Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN. thingArn -&gt; (string) Lists device's thing ARN. Constraints: o min: 20 o max: 2048 certificateArn -&gt; (string) Lists device's certificate ARN. Constraints: o min: 20 o max: 2048 deviceRoleArn -&gt; (string) Lists device's role ARN. Constraints: o min: 20 o max: 2048 selectedTestList -&gt; (list) Sets test case list. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 36 parallelRun -&gt; (boolean) TRUE if multiple test suites run in parallel. Shorthand Syntax: primaryDevice={thingArn=string,certificateArn=string,deviceRoleArn=string},selectedTestList=string,string,parallelRun=boolean JSON Syntax: { "primaryDevice": { "thingArn": "string", "certificateArn": "string", "deviceRoleArn": "string" }, "selectedTestList": ["string", ...], "parallelRun": true|false }</param>
+    public AwsIotdeviceadvisorStartSuiteRunOptions(
+        string SuiteDefinitionId,
+        string SuiteRunConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SuiteDefinitionId);
+        this.SuiteDefinitionId = SuiteDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(SuiteRunConfiguration);
+        this.SuiteRunConfiguration = SuiteRunConfiguration;
+    }
+
+    private AwsIotdeviceadvisorStartSuiteRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotdeviceadvisorStartSuiteRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotdeviceadvisorStartSuiteRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Suite definition ID of the test suite. Constraints: o min: 12 o max: 36
+    /// </summary>
     [CliOption("--suite-definition-id")]
-    public string? SuiteDefinitionId { get; set; }
+    public string? SuiteDefinitionId { get; private init; }
+
+    /// <summary>
+    /// Suite run configuration. primaryDevice -&gt; (structure) [required] Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN. thingArn -&gt; (string) Lists device's thing ARN. Constraints: o min: 20 o max: 2048 certificateArn -&gt; (string) Lists device's certificate ARN. Constraints: o min: 20 o max: 2048 deviceRoleArn -&gt; (string) Lists device's role ARN. Constraints: o min: 20 o max: 2048 selectedTestList -&gt; (list) Sets test case list. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 36 parallelRun -&gt; (boolean) TRUE if multiple test suites run in parallel. Shorthand Syntax: primaryDevice={thingArn=string,certificateArn=string,deviceRoleArn=string},selectedTestList=string,string,parallelRun=boolean JSON Syntax: { "primaryDevice": { "thingArn": "string", "certificateArn": "string", "deviceRoleArn": "string" }, "selectedTestList": ["string", ...], "parallelRun": true|false }
+    /// </summary>
+    [CliOption("--suite-run-configuration")]
+    public string? SuiteRunConfiguration { get; private init; }
 
     /// <summary>
     /// Suite definition version of the test suite. Constraints: o min: 2 o max: 255
     /// </summary>
     [CliOption("--suite-definition-version")]
     public string? SuiteDefinitionVersion { get; set; }
-
-    [CliOption("--suite-run-configuration")]
-    public string? SuiteRunConfiguration { get; set; }
 
     /// <summary>
     /// The tags to be attached to the suite run. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +89,21 @@ public record AwsIotdeviceadvisorStartSuiteRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

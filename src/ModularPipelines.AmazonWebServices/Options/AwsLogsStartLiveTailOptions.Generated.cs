@@ -21,8 +21,36 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("logs", "start-live-tail")]
 public record AwsLogsStartLiveTailOptions : AwsOptions
 {
+    /// <summary>
+    /// Starts a Live Tail streaming session for one or more log groups. A Live Tail session provides a near real-time streaming of log events as they are ingested into selected log groups. A session can go on for a maxi- mum of 3 hours. By default, this command start a native tailing session where recent log events appear from the bottom, the log events are output as-is in Plain text. You can run this command with --mode interactive, which starts an interactive tailing session. Interactive tailing prov...
+    /// </summary>
+    /// <param name="LogGroupIdentifiers"></param>
+    public AwsLogsStartLiveTailOptions(
+        IEnumerable<string> LogGroupIdentifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LogGroupIdentifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LogGroupIdentifiers));
+            }
+
+            LogGroupIdentifiers = materialized;
+        }
+        this.LogGroupIdentifiers = LogGroupIdentifiers;
+    }
+
+    public void Deconstruct(out IEnumerable<string> LogGroupIdentifiers)
+    {
+        LogGroupIdentifiers = this.LogGroupIdentifiers;
+    }
+
     [CliOption("--log-group-identifiers", GroupValues = true)]
-    public IEnumerable<string>? LogGroupIdentifiers { get; set; }
+    public IEnumerable<string> LogGroupIdentifiers { get; private init; }
 
     [CliOption("--log-stream-names", GroupValues = true)]
     public IEnumerable<string>? LogStreamNames { get; set; }
@@ -35,5 +63,11 @@ public record AwsLogsStartLiveTailOptions : AwsOptions
 
     [CliOption("--mode")]
     public string? Mode { get; set; }
+
+    /// <summary>
+    /// The &lt;value&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Value { get; set; }
 
 }

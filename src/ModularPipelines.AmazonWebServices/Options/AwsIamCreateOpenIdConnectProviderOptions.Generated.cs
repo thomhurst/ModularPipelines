@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "create-open-id-connect-provider")]
-public record AwsIamCreateOpenIdConnectProviderOptions : AwsOptions
+public record AwsIamCreateOpenIdConnectProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IAM entity to describe an identity provider (IdP) that sup- ports OpenID Connect (OIDC) . The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in...
+    /// </summary>
+    /// <param name="Url">The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Con- nect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com . The URL should not contain a port number. You cannot register the same provider multiple times in a single Amazon Web Services account. If you try to submit a URL that has al- ready been used for an OpenID Connect provider in the Amazon Web Services account, you will get an error. Constraints: o min: 1 o max: 255</param>
+    public AwsIamCreateOpenIdConnectProviderOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    private AwsIamCreateOpenIdConnectProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamCreateOpenIdConnectProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamCreateOpenIdConnectProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Con- nect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com . The URL should not contain a port number. You cannot register the same provider multiple times in a single Amazon Web Services account. If you try to submit a URL that has al- ready been used for an OpenID Connect provider in the Amazon Web Services account, you will get an error. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--url")]
-    public string? Url { get; set; }
+    public string? Url { get; private init; }
 
     /// <summary>
     /// Provides a list of client IDs, also known as audiences. When a mo- bile or web app registers with an OpenID Connect provider, they es- tablish a value that identifies the application. This is the value that's sent as the client_id parameter on OAuth requests. You can register multiple client IDs with the same provider. For ex- ample, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnect- ProviderRequest operation accepts client IDs up to 255 characters long. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
@@ -47,5 +84,21 @@ public record AwsIamCreateOpenIdConnectProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

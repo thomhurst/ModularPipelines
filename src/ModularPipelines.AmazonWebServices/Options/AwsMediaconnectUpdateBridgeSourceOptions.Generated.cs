@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-bridge-source")]
-public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions
+public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing bridge source. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="SourceName">The name of the source that you want to update.</param>
+    public AwsMediaconnectUpdateBridgeSourceOptions(
+        string BridgeArn,
+        string SourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
+        this.BridgeArn = BridgeArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+    }
+
+    private AwsMediaconnectUpdateBridgeSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateBridgeSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateBridgeSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// </summary>
     [CliOption("--bridge-arn")]
-    public string? BridgeArn { get; set; }
+    public string? BridgeArn { get; private init; }
+
+    /// <summary>
+    /// The name of the source that you want to update.
+    /// </summary>
+    [CliOption("--source-name")]
+    public string? SourceName { get; private init; }
 
     /// <summary>
     /// The name of the flow that you want to update. FlowArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the MediaConnect resource from which to delete tags. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+ FlowVpcInterfaceAttachment -&gt; (structure) The name of the VPC interface attachment to use for this source. VpcInterfaceName -&gt; (string) The name of the VPC interface to use for this resource. Shorthand Syntax: FlowArn=string,FlowVpcInterfaceAttachment={VpcInterfaceName=string} JSON Syntax: { "FlowArn": "string", "FlowVpcInterfaceAttachment": { "VpcInterfaceName": "string" } }
@@ -36,13 +83,26 @@ public record AwsMediaconnectUpdateBridgeSourceOptions : AwsOptions
     [CliOption("--network-source")]
     public string? NetworkSource { get; set; }
 
-    [CliOption("--source-name")]
-    public string? SourceName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

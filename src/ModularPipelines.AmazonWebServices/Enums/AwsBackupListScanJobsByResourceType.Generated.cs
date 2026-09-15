@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --byresourcetype.
+/// Allowed values for --by-resource-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBackupListScanJobsByResourceType
 {
     [EnumValue("EBS")]
-    Ebs = 1,
+    Ebs,
 
     [EnumValue("EC2")]
-    Ec2 = 2,
+    Ec2,
 
     [EnumValue("S3")]
-    S3 = 3
+    S3
 }

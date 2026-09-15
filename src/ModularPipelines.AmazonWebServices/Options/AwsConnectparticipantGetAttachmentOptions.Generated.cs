@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,14 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "get-attachment")]
-public record AwsConnectparticipantGetAttachmentOptions : AwsOptions
+public record AwsConnectparticipantGetAttachmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--attachment-id")]
-    public string? AttachmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: o The participant role CUSTOM_BOT is not permitted to access attach- ments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have ac- cess to attachments. o ConnectionToken is used for invoking this API instead of Partici...
+    /// </summary>
+    /// <param name="AttachmentId">A unique identifier for the attachment. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantGetAttachmentOptions(
+        string AttachmentId,
+        string ConnectionToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentId);
+        this.AttachmentId = AttachmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionToken);
+        this.ConnectionToken = ConnectionToken;
+    }
+
+    private AwsConnectparticipantGetAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantGetAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantGetAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the attachment. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--attachment-id")]
+    public string? AttachmentId { get; private init; }
+
+    /// <summary>
+    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
-    public string? ConnectionToken { get; set; }
+    public string? ConnectionToken { get; private init; }
 
     /// <summary>
     /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z. Constraints: o min: 5 o max: 300
@@ -40,5 +84,21 @@ public record AwsConnectparticipantGetAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-metadata-model-export-to-target")]
-public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions
+public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already ex...
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only target selection rules, where server-name in the ob- ject locator matches the target data provider. o Supports explicit , include , and exclude rule actions.</param>
+    public AwsDmsStartMetadataModelExportToTargetOptions(
+        string MigrationProjectIdentifier,
+        string SelectionRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SelectionRules);
+        this.SelectionRules = SelectionRules;
+    }
+
+    private AwsDmsStartMetadataModelExportToTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartMetadataModelExportToTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartMetadataModelExportToTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
     [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    public string? MigrationProjectIdentifier { get; private init; }
 
+    /// <summary>
+    /// A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only target selection rules, where server-name in the ob- ject locator matches the target data provider. o Supports explicit , include , and exclude rule actions.
+    /// </summary>
     [CliOption("--selection-rules")]
-    public string? SelectionRules { get; set; }
+    public string? SelectionRules { get; private init; }
 
-    [CliFlag("--overwrite-extension-pack")]
+    /// <summary>
+    /// Specifies whether to overwrite the extension pack if one already ex- ists on the target database. The default value is true .
+    /// </summary>
+    [CliFlag("--overwrite-extension-pack", NegatedName = "--no-overwrite-extension-pack")]
     public bool? OverwriteExtensionPack { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsDmsStartMetadataModelExportToTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

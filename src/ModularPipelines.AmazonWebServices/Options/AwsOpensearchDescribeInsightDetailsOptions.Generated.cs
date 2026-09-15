@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "describe-insight-details")]
-public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions
+public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the details of an existing insight for an Amazon OpenSearch Service domain. Returns detailed fields associated with the specified insight, such as text descriptions and metric data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entity">The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Ser- vices account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
+    /// <param name="InsightId">The unique identifier of the insight to describe. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    public AwsOpensearchDescribeInsightDetailsOptions(
+        string Entity,
+        string InsightId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entity);
+        this.Entity = Entity;
+        global::System.ArgumentNullException.ThrowIfNull(InsightId);
+        this.InsightId = InsightId;
+    }
+
+    private AwsOpensearchDescribeInsightDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchDescribeInsightDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchDescribeInsightDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Ser- vices account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
+    /// </summary>
     [CliOption("--entity")]
-    public string? Entity { get; set; }
+    public string? Entity { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the insight to describe. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// </summary>
     [CliOption("--insight-id")]
-    public string? InsightId { get; set; }
+    public string? InsightId { get; private init; }
 
-    [CliFlag("--show-html-content")]
+    /// <summary>
+    /// Specifies whether to show response with HTML content in response or not.
+    /// </summary>
+    [CliFlag("--show-html-content", NegatedName = "--no-show-html-content")]
     public bool? ShowHtmlContent { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

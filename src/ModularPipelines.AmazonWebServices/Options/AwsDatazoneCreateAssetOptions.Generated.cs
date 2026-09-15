@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-asset")]
-public record AwsDatazoneCreateAssetOptions : AwsOptions
+public record AwsDatazoneCreateAssetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: o --domain-identifier must refer to an existing domain. o --owning-project-identifier must be a valid project within the do- main. o Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . o --type-revision (if used) must match a valid revision of the asset type. o formsInput is require...
+    /// </summary>
+    /// <param name="Name">Asset name. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">Amazon DataZone domain where the asset is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="TypeIdentifier">The unique identifier of this asset's type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w</param>
+    /// <param name="OwningProjectIdentifier">The unique identifier of the project that owns this asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneCreateAssetOptions(
+        string Name,
+        string DomainIdentifier,
+        string TypeIdentifier,
+        string OwningProjectIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TypeIdentifier);
+        this.TypeIdentifier = TypeIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(OwningProjectIdentifier);
+        this.OwningProjectIdentifier = OwningProjectIdentifier;
+    }
+
+    private AwsDatazoneCreateAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Asset name. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Amazon DataZone domain where the asset is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of this asset's type. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w
+    /// </summary>
+    [CliOption("--type-identifier")]
+    public string? TypeIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the project that owns this asset. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--owning-project-identifier")]
+    public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
     /// The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value. Constraints: o min: 1 o max: 600
     /// </summary>
     [CliOption("--external-identifier")]
     public string? ExternalIdentifier { get; set; }
-
-    [CliOption("--type-identifier")]
-    public string? TypeIdentifier { get; set; }
 
     /// <summary>
     /// The revision of this asset's type. Constraints: o min: 1 o max: 64
@@ -61,9 +122,6 @@ public record AwsDatazoneCreateAssetOptions : AwsOptions
     [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
 
-    [CliOption("--owning-project-identifier")]
-    public string? OwningProjectIdentifier { get; set; }
-
     /// <summary>
     /// The configuration of the automatically generated business-friendly metadata for the asset. businessNameGeneration -&gt; (structure) The business name generation mechanism. enabled -&gt; (boolean) Specifies whether the business name generation is enabled. Shorthand Syntax: businessNameGeneration={enabled=boolean} JSON Syntax: { "businessNameGeneration": { "enabled": true|false } }
     /// </summary>
@@ -82,5 +140,21 @@ public record AwsDatazoneCreateAssetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

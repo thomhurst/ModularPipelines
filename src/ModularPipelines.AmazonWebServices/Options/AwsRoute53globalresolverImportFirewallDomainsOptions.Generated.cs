@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53globalresolver", "import-firewall-domains")]
-public record AwsRoute53globalresolverImportFirewallDomainsOptions : AwsOptions
+public record AwsRoute53globalresolverImportFirewallDomainsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainFileUrl">The fully qualified URL of the file in Amazon S3 that contains the list of domains to import. The file should contain one domain per line.</param>
+    /// <param name="FirewallDomainListId">ID of the DNS Firewall domain list that you want to import the do- main list to. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Operation">This value is REPLACE , and it updates the domain list to match the list of domains in the imported file.</param>
+    public AwsRoute53globalresolverImportFirewallDomainsOptions(
+        string DomainFileUrl,
+        string FirewallDomainListId,
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainFileUrl);
+        this.DomainFileUrl = DomainFileUrl;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallDomainListId);
+        this.FirewallDomainListId = FirewallDomainListId;
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    private AwsRoute53globalresolverImportFirewallDomainsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53globalresolverImportFirewallDomainsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53globalresolverImportFirewallDomainsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully qualified URL of the file in Amazon S3 that contains the list of domains to import. The file should contain one domain per line.
+    /// </summary>
     [CliOption("--domain-file-url")]
-    public string? DomainFileUrl { get; set; }
+    public string? DomainFileUrl { get; private init; }
 
+    /// <summary>
+    /// ID of the DNS Firewall domain list that you want to import the do- main list to. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--firewall-domain-list-id")]
-    public string? FirewallDomainListId { get; set; }
+    public string? FirewallDomainListId { get; private init; }
 
+    /// <summary>
+    /// This value is REPLACE , and it updates the domain list to match the list of domains in the imported file.
+    /// </summary>
     [CliOption("--operation")]
-    public string? Operation { get; set; }
+    public string? Operation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

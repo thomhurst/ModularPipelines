@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesisvideo", "update-stream")]
-public record AwsKinesisvideoUpdateStreamOptions : AwsOptions
+public record AwsKinesisvideoUpdateStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before up- dating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operati...
+    /// </summary>
+    /// <param name="CurrentVersion">The version of the stream whose metadata you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    public AwsKinesisvideoUpdateStreamOptions(
+        string CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsKinesisvideoUpdateStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisvideoUpdateStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisvideoUpdateStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The version of the stream whose metadata you want to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--current-version")]
+    public string? CurrentVersion { get; private init; }
+
     /// <summary>
     /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsKinesisvideoUpdateStreamOptions : AwsOptions
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
-
-    [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
 
     /// <summary>
     /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams does not use this name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
@@ -53,5 +90,21 @@ public record AwsKinesisvideoUpdateStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

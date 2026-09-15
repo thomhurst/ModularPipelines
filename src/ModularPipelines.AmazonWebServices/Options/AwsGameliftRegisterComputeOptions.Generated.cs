@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "register-compute")]
-public record AwsGameliftRegisterComputeOptions : AwsOptions
+public record AwsGameliftRegisterComputeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: Anywhere Registers a compute resource in an Amazon GameLift Servers Anywhere fleet. For an Anywhere fleet that's running the Amazon GameLift Servers Agent, the Agent handles all compute registry tasks for you. For an Anywhere fleet that doesn't use the Agent, call this operation to register fleet computes. To register a compute, give the compute a name (must be unique within the fleet) and specify the compute resource's DNS name or IP address. Provi...
+    /// </summary>
+    /// <param name="FleetId">A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ComputeName">A descriptive label for the compute resource. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$</param>
+    public AwsGameliftRegisterComputeOptions(
+        string FleetId,
+        string ComputeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(ComputeName);
+        this.ComputeName = ComputeName;
+    }
+
+    private AwsGameliftRegisterComputeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftRegisterComputeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftRegisterComputeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--fleet-id")]
+    public string? FleetId { get; private init; }
+
+    /// <summary>
+    /// A descriptive label for the compute resource. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?$
+    /// </summary>
     [CliOption("--compute-name")]
-    public string? ComputeName { get; set; }
+    public string? ComputeName { get; private init; }
 
     /// <summary>
     /// The path to a TLS certificate on your compute resource. Amazon GameLift Servers doesn't validate the path and certificate. Constraints: o min: 1 o max: 1024
@@ -56,5 +100,21 @@ public record AwsGameliftRegisterComputeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

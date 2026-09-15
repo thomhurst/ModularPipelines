@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rum", "batch-delete-rum-metric-definitions")]
-public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions
+public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-monitor-name")]
-    public string? AppMonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefin- itions operations are not valid, those metric definitions fail and re- turn errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppMonitorName">The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently</param>
+    /// <param name="MetricDefinitionIds">An array of structures which define the metrics that you want to stop sending. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    public AwsRumBatchDeleteRumMetricDefinitionsOptions(
+        string AppMonitorName,
+        AwsRumBatchDeleteRumMetricDefinitionsDestination Destination,
+        IEnumerable<string> MetricDefinitionIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppMonitorName);
+        this.AppMonitorName = AppMonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MetricDefinitionIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MetricDefinitionIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MetricDefinitionIds));
+            }
+
+            MetricDefinitionIds = materialized;
+        }
+        this.MetricDefinitionIds = MetricDefinitionIds;
+    }
+
+    private AwsRumBatchDeleteRumMetricDefinitionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRumBatchDeleteRumMetricDefinitionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRumBatchDeleteRumMetricDefinitionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CloudWatch RUM app monitor that is sending these metrics. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--app-monitor-name")]
+    public string? AppMonitorName { get; private init; }
+
+    /// <summary>
+    /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently . If you specify Evidently , you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment. Possible values: o CloudWatch o Evidently
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public AwsRumBatchDeleteRumMetricDefinitionsDestination? Destination { get; private init; }
+
+    /// <summary>
+    /// An array of structures which define the metrics that you want to stop sending. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--metric-definition-ids", GroupValues = true)]
+    public IEnumerable<string>? MetricDefinitionIds { get; private init; }
 
     /// <summary>
     /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted. Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
@@ -33,13 +99,26 @@ public record AwsRumBatchDeleteRumMetricDefinitionsOptions : AwsOptions
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
 
-    [CliOption("--metric-definition-ids", GroupValues = true)]
-    public IEnumerable<string>? MetricDefinitionIds { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

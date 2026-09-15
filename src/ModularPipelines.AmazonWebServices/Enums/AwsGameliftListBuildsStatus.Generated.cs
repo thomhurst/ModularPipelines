@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsGameliftListBuildsStatus
 {
+    [EnumValue("FAILED")]
+    Failed,
+
     [EnumValue("INITIALIZED")]
-    Initialized = 1,
+    Initialized,
 
     [EnumValue("READY")]
-    Ready = 2,
-
-    [EnumValue("FAILED")]
-    Failed = 3
+    Ready
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "create-license-conversion-task-for-resource")]
-public record AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions : AwsOptions
+public record AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new license conversion task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource you are converting the license type for. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="SourceLicenseContext">Information that identifies the license type you are converting from. For the structure of the source license, see Convert a license type using the CLI in the License Manager User Guide . UsageOperation -&gt; (string) The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform Constraints: o max: 50 ProductCodes -&gt; (list) Product codes referred to in the license conversion process. (structure) A list item that contains a product code. ProductCodeId -&gt; (string) [required] The product code ID Constraints: o pattern: ^[A-Za-z0-9]{1,25}$ ProductCodeType -&gt; (string) [required] The product code type Possible values: o marketplace Shorthand Syntax: UsageOperation=string,ProductCodes=[{ProductCodeId=string,ProductCodeType=string},{ProductCodeId=string,ProductCodeType=string}] JSON Syntax: { "UsageOperation": "string", "ProductCodes": [ { "ProductCodeId": "string", "ProductCodeType": "marketplace" } ... ] }</param>
+    /// <param name="DestinationLicenseContext">Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the CLI in the License Manager User Guide . UsageOperation -&gt; (string) The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform Constraints: o max: 50 ProductCodes -&gt; (list) Product codes referred to in the license conversion process. (structure) A list item that contains a product code. ProductCodeId -&gt; (string) [required] The product code ID Constraints: o pattern: ^[A-Za-z0-9]{1,25}$ ProductCodeType -&gt; (string) [required] The product code type Possible values: o marketplace Shorthand Syntax: UsageOperation=string,ProductCodes=[{ProductCodeId=string,ProductCodeType=string},{ProductCodeId=string,ProductCodeType=string}] JSON Syntax: { "UsageOperation": "string", "ProductCodes": [ { "ProductCodeId": "string", "ProductCodeType": "marketplace" } ... ] }</param>
+    public AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions(
+        string ResourceArn,
+        string SourceLicenseContext,
+        string DestinationLicenseContext
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceLicenseContext);
+        this.SourceLicenseContext = SourceLicenseContext;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationLicenseContext);
+        this.DestinationLicenseContext = DestinationLicenseContext;
+    }
+
+    private AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerCreateLicenseConversionTaskForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the resource you are converting the license type for. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// Information that identifies the license type you are converting from. For the structure of the source license, see Convert a license type using the CLI in the License Manager User Guide . UsageOperation -&gt; (string) The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform Constraints: o max: 50 ProductCodes -&gt; (list) Product codes referred to in the license conversion process. (structure) A list item that contains a product code. ProductCodeId -&gt; (string) [required] The product code ID Constraints: o pattern: ^[A-Za-z0-9]{1,25}$ ProductCodeType -&gt; (string) [required] The product code type Possible values: o marketplace Shorthand Syntax: UsageOperation=string,ProductCodes=[{ProductCodeId=string,ProductCodeType=string},{ProductCodeId=string,ProductCodeType=string}] JSON Syntax: { "UsageOperation": "string", "ProductCodes": [ { "ProductCodeId": "string", "ProductCodeType": "marketplace" } ... ] }
+    /// </summary>
     [CliOption("--source-license-context")]
-    public string? SourceLicenseContext { get; set; }
+    public string? SourceLicenseContext { get; private init; }
 
+    /// <summary>
+    /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the CLI in the License Manager User Guide . UsageOperation -&gt; (string) The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform Constraints: o max: 50 ProductCodes -&gt; (list) Product codes referred to in the license conversion process. (structure) A list item that contains a product code. ProductCodeId -&gt; (string) [required] The product code ID Constraints: o pattern: ^[A-Za-z0-9]{1,25}$ ProductCodeType -&gt; (string) [required] The product code type Possible values: o marketplace Shorthand Syntax: UsageOperation=string,ProductCodes=[{ProductCodeId=string,ProductCodeType=string},{ProductCodeId=string,ProductCodeType=string}] JSON Syntax: { "UsageOperation": "string", "ProductCodes": [ { "ProductCodeId": "string", "ProductCodeType": "marketplace" } ... ] }
+    /// </summary>
     [CliOption("--destination-license-context")]
-    public string? DestinationLicenseContext { get; set; }
+    public string? DestinationLicenseContext { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

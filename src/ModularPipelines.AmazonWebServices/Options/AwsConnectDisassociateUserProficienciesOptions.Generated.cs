@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "disassociate-user-proficiencies")]
-public record AwsConnectDisassociateUserProficienciesOptions : AwsOptions
+public record AwsConnectDisassociateUserProficienciesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a set of proficiencies from a user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="UserId">The identifier of the user account.</param>
+    /// <param name="UserProficiencies">The proficiencies to disassociate from the user. (structure) Information about proficiency to be disassociated from the user. AttributeName -&gt; (string) [required] The name of user's proficiency. Constraints: o min: 1 o max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. Constraints: o min: 1 o max: 100 Shorthand Syntax: AttributeName=string,AttributeValue=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string" } ... ]</param>
+    public AwsConnectDisassociateUserProficienciesOptions(
+        string InstanceId,
+        string UserId,
+        IEnumerable<string> UserProficiencies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(UserId);
+        this.UserId = UserId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserProficiencies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserProficiencies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserProficiencies));
+            }
+
+            UserProficiencies = materialized;
+        }
+        this.UserProficiencies = UserProficiencies;
+    }
+
+    private AwsConnectDisassociateUserProficienciesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDisassociateUserProficienciesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDisassociateUserProficienciesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the user account.
+    /// </summary>
     [CliOption("--user-id")]
-    public string? UserId { get; set; }
+    public string? UserId { get; private init; }
 
+    /// <summary>
+    /// The proficiencies to disassociate from the user. (structure) Information about proficiency to be disassociated from the user. AttributeName -&gt; (string) [required] The name of user's proficiency. Constraints: o min: 1 o max: 100 AttributeValue -&gt; (string) [required] The value of user's proficiency. Constraints: o min: 1 o max: 100 Shorthand Syntax: AttributeName=string,AttributeValue=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string" } ... ]
+    /// </summary>
     [CliOption("--user-proficiencies", GroupValues = true)]
-    public IEnumerable<string>? UserProficiencies { get; set; }
+    public IEnumerable<string>? UserProficiencies { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

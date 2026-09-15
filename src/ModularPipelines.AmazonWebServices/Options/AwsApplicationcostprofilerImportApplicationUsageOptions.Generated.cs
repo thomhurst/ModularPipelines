@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("applicationcostprofiler", "import-application-usage")]
-public record AwsApplicationcostprofilerImportApplicationUsageOptions : AwsOptions
+public record AwsApplicationcostprofilerImportApplicationUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Ingests application usage data from Amazon Simple Storage Service (Ama- zon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceS3Location">Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: o min: 1 o max: 512 o pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are dis- abled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: o ap-east-1 o me-south-1 o eu-south-1 o af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }</param>
+    public AwsApplicationcostprofilerImportApplicationUsageOptions(
+        string SourceS3Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceS3Location);
+        this.SourceS3Location = SourceS3Location;
+    }
+
+    private AwsApplicationcostprofilerImportApplicationUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationcostprofilerImportApplicationUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationcostprofilerImportApplicationUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon S3 location to import application usage data from. bucket -&gt; (string) [required] Name of the bucket. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) key -&gt; (string) [required] Key of the object. Constraints: o min: 1 o max: 512 o pattern: .*\S.* region -&gt; (string) Region of the bucket. Only required for Regions that are dis- abled by default. For more infomration about Regions that are disabled by default, see Enabling a Region in the AWS General Reference guide . Possible values: o ap-east-1 o me-south-1 o eu-south-1 o af-south-1 Shorthand Syntax: bucket=string,key=string,region=string JSON Syntax: { "bucket": "string", "key": "string", "region": "ap-east-1"|"me-south-1"|"eu-south-1"|"af-south-1" }
+    /// </summary>
     [CliOption("--source-s3-location")]
-    public string? SourceS3Location { get; set; }
+    public string? SourceS3Location { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

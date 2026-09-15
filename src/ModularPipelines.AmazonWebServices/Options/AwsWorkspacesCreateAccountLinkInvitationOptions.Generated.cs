@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-account-link-invitation")]
-public record AwsWorkspacesCreateAccountLinkInvitationOptions : AwsOptions
+public record AwsWorkspacesCreateAccountLinkInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the account link invitation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetAccountId">The identifier of the target account. Constraints: o pattern: ^\d{12}$</param>
+    public AwsWorkspacesCreateAccountLinkInvitationOptions(
+        string TargetAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetAccountId);
+        this.TargetAccountId = TargetAccountId;
+    }
+
+    private AwsWorkspacesCreateAccountLinkInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateAccountLinkInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateAccountLinkInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the target account. Constraints: o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--target-account-id")]
-    public string? TargetAccountId { get; set; }
+    public string? TargetAccountId { get; private init; }
 
     /// <summary>
     /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: o pattern: ^.{1,64}$
@@ -37,5 +74,21 @@ public record AwsWorkspacesCreateAccountLinkInvitationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

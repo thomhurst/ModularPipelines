@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "search-available-phone-numbers")]
-public record AwsConnectSearchAvailablePhoneNumbersOptions : AwsOptions
+public record AwsConnectSearchAvailablePhoneNumbersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided Targe- tArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group. See also: AWS API Documentation search-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by provi...
+    /// </summary>
+    /// <param name="PhoneNumberCountryCode">The ISO country code. Possible values: o AF o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BA o BW o BR o IO o VG o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CK o CR o HR o CU o CW o CY o CZ o CD o DK o DJ o DM o DO o TL o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o PF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GU o GT o GG o GN o GW o GY o HT o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o CI o JM o JP o JE o JO o KZ o KE o KI o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o AN o NC o NZ o NI o NE o NG o NU o KP o MP o NO o OM o PK o PW o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o CG o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o KR o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TG o TK o TO o TT o TN o TR o TM o TC o TV o VI o UG o UA o AE o GB o US o UY o UZ o VU o VA o VE o VN o WF o EH o YE o ZM o ZW</param>
+    /// <param name="PhoneNumberType">The type of phone number. Possible values: o TOLL_FREE o DID o UIFN o SHARED o THIRD_PARTY_TF o THIRD_PARTY_DID o SHORT_CODE</param>
+    public AwsConnectSearchAvailablePhoneNumbersOptions(
+        string PhoneNumberCountryCode,
+        AwsConnectSearchAvailablePhoneNumbersPhoneNumberType PhoneNumberType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberCountryCode);
+        this.PhoneNumberCountryCode = PhoneNumberCountryCode;
+        global::System.ArgumentNullException.ThrowIfNull(PhoneNumberType);
+        this.PhoneNumberType = PhoneNumberType;
+    }
+
+    private AwsConnectSearchAvailablePhoneNumbersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectSearchAvailablePhoneNumbersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectSearchAvailablePhoneNumbersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ISO country code. Possible values: o AF o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BA o BW o BR o IO o VG o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CK o CR o HR o CU o CW o CY o CZ o CD o DK o DJ o DM o DO o TL o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o PF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GU o GT o GG o GN o GW o GY o HT o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o CI o JM o JP o JE o JO o KZ o KE o KI o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o AN o NC o NZ o NI o NE o NG o NU o KP o MP o NO o OM o PK o PW o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o CG o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o KR o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TG o TK o TO o TT o TN o TR o TM o TC o TV o VI o UG o UA o AE o GB o US o UY o UZ o VU o VA o VE o VN o WF o EH o YE o ZM o ZW
+    /// </summary>
+    [CliOption("--phone-number-country-code")]
+    public string? PhoneNumberCountryCode { get; private init; }
+
+    /// <summary>
+    /// The type of phone number. Possible values: o TOLL_FREE o DID o UIFN o SHARED o THIRD_PARTY_TF o THIRD_PARTY_DID o SHORT_CODE
+    /// </summary>
+    [CliOption("--phone-number-type")]
+    public AwsConnectSearchAvailablePhoneNumbersPhoneNumberType? PhoneNumberType { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn .
     /// </summary>
@@ -33,12 +84,6 @@ public record AwsConnectSearchAvailablePhoneNumbersOptions : AwsOptions
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
-
-    [CliOption("--phone-number-country-code")]
-    public string? PhoneNumberCountryCode { get; set; }
-
-    [CliOption("--phone-number-type")]
-    public string? PhoneNumberType { get; set; }
 
     /// <summary>
     /// The prefix of the phone number. If provided, it must contain + as part of the country code. Constraints: o pattern: \\+?[0-9]{1,11}
@@ -70,5 +115,21 @@ public record AwsConnectSearchAvailablePhoneNumbersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

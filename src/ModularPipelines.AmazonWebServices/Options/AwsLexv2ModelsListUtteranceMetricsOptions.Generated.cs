@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-utterance-metrics")]
-public record AwsLexv2ModelsListUtteranceMetricsOptions : AwsOptions
+public record AwsLexv2ModelsListUtteranceMetricsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required: o metrics A list of AnalyticsUtteranceMetric objects. In each object, use the name field to specify the metric to calculate, the statistic field to spe...
+    /// </summary>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve utterance metrics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see utterance metrics.</param>
+    /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see utterance metrics.</param>
+    /// <param name="Metrics">A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results. Constraints: o min: 1 o max: 4 (structure) Contains the metric and the summary statistic you want to calcu- late, and the order in which to sort the results, for the utter- ances across the user sessions with the bot. name -&gt; (string) [required] The metric for which you want to get utterance summary sta- tistics. o Count The number of utterances. o Missed The number of utterances that Amazon Lex failed to recognize. o Detected The number of utterances that Amazon Lex managed to detect. o UtteranceTimestamp The date and time of the utterance. Possible values: o Count o Missed o Detected o UtteranceTimestamp statistic -&gt; (string) [required] The summary statistic to calculate. o Sum The total count for the category you provide in name . o Average The total count divided by the number of utter- ances in the category you provide in name . o Max The highest count in the category you provide in name . Possible values: o Sum o Avg o Max order -&gt; (string) Specifies whether to sort the results in ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,statistic=string,order=string ... JSON Syntax: [ { "name": "Count"|"Missed"|"Detected"|"UtteranceTimestamp", "statistic": "Sum"|"Avg"|"Max", "order": "Ascending"|"Descending" } ... ]</param>
+    public AwsLexv2ModelsListUtteranceMetricsOptions(
+        string BotId,
+        string StartDateTime,
+        string EndDateTime,
+        IEnumerable<string> Metrics
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDateTime);
+        this.StartDateTime = StartDateTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndDateTime);
+        this.EndDateTime = EndDateTime;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Metrics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Metrics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Metrics));
+            }
+
+            Metrics = materialized;
+        }
+        this.Metrics = Metrics;
+    }
+
+    private AwsLexv2ModelsListUtteranceMetricsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListUtteranceMetricsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListUtteranceMetricsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the bot for which you want to retrieve utterance metrics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
+    /// </summary>
     [CliOption("--start-date-time")]
-    public string? StartDateTime { get; set; }
+    public string? StartDateTime { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the end of the range of time for which you want to see utterance metrics.
+    /// </summary>
     [CliOption("--end-date-time")]
-    public string? EndDateTime { get; set; }
+    public string? EndDateTime { get; private init; }
 
+    /// <summary>
+    /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results. Constraints: o min: 1 o max: 4 (structure) Contains the metric and the summary statistic you want to calcu- late, and the order in which to sort the results, for the utter- ances across the user sessions with the bot. name -&gt; (string) [required] The metric for which you want to get utterance summary sta- tistics. o Count The number of utterances. o Missed The number of utterances that Amazon Lex failed to recognize. o Detected The number of utterances that Amazon Lex managed to detect. o UtteranceTimestamp The date and time of the utterance. Possible values: o Count o Missed o Detected o UtteranceTimestamp statistic -&gt; (string) [required] The summary statistic to calculate. o Sum The total count for the category you provide in name . o Average The total count divided by the number of utter- ances in the category you provide in name . o Max The highest count in the category you provide in name . Possible values: o Sum o Avg o Max order -&gt; (string) Specifies whether to sort the results in ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,statistic=string,order=string ... JSON Syntax: [ { "name": "Count"|"Missed"|"Detected"|"UtteranceTimestamp", "statistic": "Sum"|"Avg"|"Max", "order": "Ascending"|"Descending" } ... ]
+    /// </summary>
     [CliOption("--metrics", GroupValues = true)]
-    public IEnumerable<string>? Metrics { get; set; }
+    public IEnumerable<string>? Metrics { get; private init; }
 
     /// <summary>
     /// A list of objects, each of which contains specifications for orga- nizing the results by time. Constraints: o min: 1 o max: 1 (structure) Contains the time metric, interval, and method by which to bin the analytics data. name -&gt; (string) [required] Specifies the time metric by which to bin the analytics data. Possible values: o ConversationStartTime o UtteranceTimestamp interval -&gt; (string) [required] Specifies the interval of time by which to bin the analytics data. Possible values: o OneHour o OneDay order -&gt; (string) Specifies whether to bin the analytics data in ascending or descending order. If this field is left blank, the default order is by the key of the bin in descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,interval=string,order=string ... JSON Syntax: [ { "name": "ConversationStartTime"|"UtteranceTimestamp", "interval": "OneHour"|"OneDay", "order": "Ascending"|"Descending" } ... ]
@@ -76,5 +145,21 @@ public record AwsLexv2ModelsListUtteranceMetricsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

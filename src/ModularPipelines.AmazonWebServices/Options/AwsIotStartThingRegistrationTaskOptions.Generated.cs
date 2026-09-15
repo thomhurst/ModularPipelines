@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "start-thing-registration-task")]
-public record AwsIotStartThingRegistrationTaskOptions : AwsOptions
+public record AwsIotStartThingRegistrationTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a bulk thing provisioning task. Requires permission to access the StartThingRegistrationTask action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateBody">The provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*</param>
+    /// <param name="InputFileBucket">The S3 bucket that contains the input file. Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="InputFileKey">The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-\/]+</param>
+    /// <param name="RoleArn">The IAM role ARN that grants permission the input file. Constraints: o min: 20 o max: 2048</param>
+    public AwsIotStartThingRegistrationTaskOptions(
+        string TemplateBody,
+        string InputFileBucket,
+        string InputFileKey,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateBody);
+        this.TemplateBody = TemplateBody;
+        global::System.ArgumentNullException.ThrowIfNull(InputFileBucket);
+        this.InputFileBucket = InputFileBucket;
+        global::System.ArgumentNullException.ThrowIfNull(InputFileKey);
+        this.InputFileKey = InputFileKey;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsIotStartThingRegistrationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotStartThingRegistrationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotStartThingRegistrationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The provisioning template. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--template-body")]
-    public string? TemplateBody { get; set; }
+    public string? TemplateBody { get; private init; }
 
+    /// <summary>
+    /// The S3 bucket that contains the input file. Constraints: o min: 3 o max: 256 o pattern: [a-zA-Z0-9._-]+
+    /// </summary>
     [CliOption("--input-file-bucket")]
-    public string? InputFileBucket { get; set; }
+    public string? InputFileBucket { get; private init; }
 
+    /// <summary>
+    /// The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing). Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!_.*'()-\/]+
+    /// </summary>
     [CliOption("--input-file-key")]
-    public string? InputFileKey { get; set; }
+    public string? InputFileKey { get; private init; }
 
+    /// <summary>
+    /// The IAM role ARN that grants permission the input file. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

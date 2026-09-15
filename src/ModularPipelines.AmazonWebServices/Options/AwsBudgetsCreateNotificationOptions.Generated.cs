@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("budgets", "create-notification")]
-public record AwsBudgetsCreateNotificationOptions : AwsOptions
+public record AwsBudgetsCreateNotificationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a notification. You must create the budget before you create the associated notification. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The accountId that is associated with the budget that you want to create a notification for. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="BudgetName">The name of the budget that you want Amazon Web Services to notify you about. Budget names must be unique within an account. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="Notification">The notification that you want to create. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }</param>
+    /// <param name="Subscribers">A list of subscribers that you want to associate with the notifica- tion. Each notification can have one SNS subscriber and up to 10 email subscribers. Constraints: o min: 1 o max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: o A subscriptionType of EMAIL o An address of example@example.com SubscriptionType -&gt; (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: o SNS o EMAIL Address -&gt; (string) [required] The address that Amazon Web Services sends budget notifica- tions to, either an SNS topic or an email. When you create a subscriber, the value of Address can't con- tain line breaks. Constraints: o min: 1 o max: 2147483647 o pattern: (.*[\n\r\t\f\ ]?)* Shorthand Syntax: SubscriptionType=string,Address=string ... JSON Syntax: [ { "SubscriptionType": "SNS"|"EMAIL", "Address": "string" } ... ]</param>
+    public AwsBudgetsCreateNotificationOptions(
+        string AccountId,
+        string BudgetName,
+        string Notification,
+        IEnumerable<string> Subscribers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(BudgetName);
+        this.BudgetName = BudgetName;
+        global::System.ArgumentNullException.ThrowIfNull(Notification);
+        this.Notification = Notification;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subscribers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subscribers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subscribers));
+            }
+
+            Subscribers = materialized;
+        }
+        this.Subscribers = Subscribers;
+    }
+
+    private AwsBudgetsCreateNotificationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBudgetsCreateNotificationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBudgetsCreateNotificationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The accountId that is associated with the budget that you want to create a notification for. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name of the budget that you want Amazon Web Services to notify you about. Budget names must be unique within an account. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// </summary>
     [CliOption("--budget-name")]
-    public string? BudgetName { get; set; }
+    public string? BudgetName { get; private init; }
 
+    /// <summary>
+    /// The notification that you want to create. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }
+    /// </summary>
     [CliOption("--notification")]
-    public string? Notification { get; set; }
+    public string? Notification { get; private init; }
 
+    /// <summary>
+    /// A list of subscribers that you want to associate with the notifica- tion. Each notification can have one SNS subscriber and up to 10 email subscribers. Constraints: o min: 1 o max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: o A subscriptionType of EMAIL o An address of example@example.com SubscriptionType -&gt; (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: o SNS o EMAIL Address -&gt; (string) [required] The address that Amazon Web Services sends budget notifica- tions to, either an SNS topic or an email. When you create a subscriber, the value of Address can't con- tain line breaks. Constraints: o min: 1 o max: 2147483647 o pattern: (.*[\n\r\t\f\ ]?)* Shorthand Syntax: SubscriptionType=string,Address=string ... JSON Syntax: [ { "SubscriptionType": "SNS"|"EMAIL", "Address": "string" } ... ]
+    /// </summary>
     [CliOption("--subscribers", GroupValues = true)]
-    public IEnumerable<string>? Subscribers { get; set; }
+    public IEnumerable<string>? Subscribers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

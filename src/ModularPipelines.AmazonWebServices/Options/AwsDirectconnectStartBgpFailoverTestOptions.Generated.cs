@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "start-bgp-failover-test")]
-public record AwsDirectconnectStartBgpFailoverTestOptions : AwsOptions
+public record AwsDirectconnectStartBgpFailoverTestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the virtual interface failover test that verifies your configu- ration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use ListVirtualInterfaceTestHistory to view the virtual inter- face test history. If you need to stop the test before the test interval completes, use StopBgpFailoverTest . See also...
+    /// </summary>
+    /// <param name="VirtualInterfaceId">The ID of the virtual interface you want to test.</param>
+    public AwsDirectconnectStartBgpFailoverTestOptions(
+        string VirtualInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VirtualInterfaceId);
+        this.VirtualInterfaceId = VirtualInterfaceId;
+    }
+
+    private AwsDirectconnectStartBgpFailoverTestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectStartBgpFailoverTestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectStartBgpFailoverTestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the virtual interface you want to test.
+    /// </summary>
     [CliOption("--virtual-interface-id")]
-    public string? VirtualInterfaceId { get; set; }
+    public string? VirtualInterfaceId { get; private init; }
 
     /// <summary>
     /// The BGP peers to place in the DOWN state. (string) Syntax: "string" "string" ...
@@ -41,5 +78,21 @@ public record AwsDirectconnectStartBgpFailoverTestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

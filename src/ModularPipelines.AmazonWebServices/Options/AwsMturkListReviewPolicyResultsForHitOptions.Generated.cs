@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "list-review-policy-results-for-hit")]
-public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions
+public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The ListReviewPolicyResultsForHIT operation retrieves the computed re- sults and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReview- PolicyResultsForHIT operation can return results for both Assign- ment-level and HIT-level review results. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HitId">The unique identifier of the HIT to retrieve review results for. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkListReviewPolicyResultsForHitOptions(
+        string HitId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HitId);
+        this.HitId = HitId;
+    }
+
+    private AwsMturkListReviewPolicyResultsForHitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkListReviewPolicyResultsForHitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkListReviewPolicyResultsForHitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the HIT to retrieve review results for. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--hit-id")]
-    public string? HitId { get; set; }
+    public string? HitId { get; private init; }
 
     /// <summary>
     /// The Policy Level(s) to retrieve review results for - HIT or Assign- ment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. (string) Possible values: o Assignment o HIT Syntax: "string" "string" ...
@@ -31,10 +68,16 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions
     [CliOption("--policy-levels", GroupValues = true)]
     public IEnumerable<string>? PolicyLevels { get; set; }
 
-    [CliFlag("--retrieve-actions")]
+    /// <summary>
+    /// Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes.
+    /// </summary>
+    [CliFlag("--retrieve-actions", NegatedName = "--no-retrieve-actions")]
     public bool? RetrieveActions { get; set; }
 
-    [CliFlag("--retrieve-results")]
+    /// <summary>
+    /// Specify if the operation should retrieve a list of the results com- puted by the Review Policies.
+    /// </summary>
+    [CliFlag("--retrieve-results", NegatedName = "--no-retrieve-results")]
     public bool? RetrieveResults { get; set; }
 
     /// <summary>
@@ -55,5 +98,21 @@ public record AwsMturkListReviewPolicyResultsForHitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

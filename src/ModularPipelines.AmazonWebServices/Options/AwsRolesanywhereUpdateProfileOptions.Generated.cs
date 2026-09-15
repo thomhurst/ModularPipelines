@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "update-profile")]
-public record AwsRolesanywhereUpdateProfileOptions : AwsOptions
+public record AwsRolesanywhereUpdateProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a profile , a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    public AwsRolesanywhereUpdateProfileOptions(
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    private AwsRolesanywhereUpdateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywhereUpdateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywhereUpdateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
     /// <summary>
     /// The name of the profile. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
@@ -54,7 +91,10 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CliFlag("--accept-role-session-name")]
+    /// <summary>
+    /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+    /// </summary>
+    [CliFlag("--accept-role-session-name", NegatedName = "--no-accept-role-session-name")]
     public bool? AcceptRoleSessionName { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -62,5 +102,21 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

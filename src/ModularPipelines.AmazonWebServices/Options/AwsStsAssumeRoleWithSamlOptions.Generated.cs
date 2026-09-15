@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "assume-role-with-saml")]
-public record AwsStsAssumeRoleWithSamlOptions : AwsOptions
+public record AwsStsAssumeRoleWithSamlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a set of temporary security credentials for users who have been authenticated via a SAML authentication response. This operation pro- vides a mechanism for tying an enterprise identity store or directory to role-based Amazon Web Services access without user-specific creden- tials or configuration. For a comparison of AssumeRoleWithSAML with the other API operations that produce temporary credentials, see Requesting Temporary Security Credentials and Compare STS credentials in the IAM Use...
+    /// </summary>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role that the caller is assum- ing. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+</param>
+    /// <param name="PrincipalArn">The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+</param>
+    /// <param name="SamlAssertion">The base64 encoded SAML authentication response provided by the IdP. For more information, see Configuring a Relying Party and Adding Claims in the IAM User Guide . Constraints: o min: 4 o max: 100000</param>
+    public AwsStsAssumeRoleWithSamlOptions(
+        string RoleArn,
+        string PrincipalArn,
+        string SamlAssertion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalArn);
+        this.PrincipalArn = PrincipalArn;
+        global::System.ArgumentNullException.ThrowIfNull(SamlAssertion);
+        this.SamlAssertion = SamlAssertion;
+    }
+
+    private AwsStsAssumeRoleWithSamlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsAssumeRoleWithSamlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsAssumeRoleWithSamlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role that the caller is assum- ing. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that de- scribes the IdP. Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+
+    /// </summary>
     [CliOption("--principal-arn")]
-    public string? PrincipalArn { get; set; }
+    public string? PrincipalArn { get; private init; }
 
+    /// <summary>
+    /// The base64 encoded SAML authentication response provided by the IdP. For more information, see Configuring a Relying Party and Adding Claims in the IAM User Guide . Constraints: o min: 4 o max: 100000
+    /// </summary>
     [CliOption("--saml-assertion")]
-    public string? SamlAssertion { get; set; }
+    public string? SamlAssertion { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and man- aged session policies can't exceed 2,048 characters. For more infor- mation about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence. NOTE: An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other re- quirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary creden- tials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Ser- vices API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide . (structure) A reference to the IAM managed policy that is passed as a ses- sion policy for a role session or a federated user session. arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services Gen- eral Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string ... JSON Syntax: [ { "arn": "string" } ... ]
@@ -48,10 +100,30 @@ public record AwsStsAssumeRoleWithSamlOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
+    [SecretValue]
+    [CliOption("--minimum-session-token-size")]
+    public int? MinimumSessionTokenSize { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

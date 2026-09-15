@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-authentication-profile")]
-public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions
+public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authentication-profile-id")]
-    public string? AuthenticationProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Updates the selected authentication profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthenticationProfileId">A unique identifier for the authentication profile. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateAuthenticationProfileOptions(
+        string AuthenticationProfileId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationProfileId);
+        this.AuthenticationProfileId = AuthenticationProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateAuthenticationProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateAuthenticationProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateAuthenticationProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the authentication profile. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--authentication-profile-id")]
+    public string? AuthenticationProfileId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The name for the authentication profile. Constraints: o min: 1 o max: 128
@@ -63,7 +107,10 @@ public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions
     [CliOption("--session-inactivity-duration")]
     public int? SessionInactivityDuration { get; set; }
 
-    [CliFlag("--session-inactivity-handling-enabled")]
+    /// <summary>
+    /// dling-enabled (boolean) Determines if automatic logout on user inactivity is enabled.
+    /// </summary>
+    [CliFlag("--session-inactivity-handling-enabled", NegatedName = "--no-session-inactivity-handling-enabled")]
     public bool? SessionInactivityHandlingEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -71,5 +118,21 @@ public record AwsConnectUpdateAuthenticationProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

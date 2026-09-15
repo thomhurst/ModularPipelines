@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "update-related-items")]
-public record AwsSsmIncidentsUpdateRelatedItemsOptions : AwsOptions
+public record AwsSsmIncidentsUpdateRelatedItemsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Add or remove related items from the related items tab of an incident record. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident record that contains the related items that you update. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="RelatedItemsUpdate">Details about the item that you are add to, or delete from, an inci- dent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: itemToAdd, itemToRemove. itemToAdd -&gt; (structure) Details about the related item you're adding. generatedId -&gt; (string) A unique ID for a RelatedItem . WARNING: Don't specify this parameter when you add a RelatedItem by using the UpdateRelatedItems API action. Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ identifier -&gt; (structure) [required] Details about the related item. type -&gt; (string) [required] The type of related item. Possible values: o ANALYSIS o INCIDENT o METRIC o PARENT o ATTACHMENT o OTHER o AUTOMATION o INVOLVED_RESOURCE o TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: arn, metricDefini- tion, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: o min: 0 o max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty inci- dent when you resolve the associated Incident Man- ager incident. id -&gt; (string) [required] The ID of the incident associated with the Pager- Duty service for the response plan. Constraints: o min: 1 o max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Ser- vices resource. Constraints: o min: 0 o max: 1000 title -&gt; (string) The title of the related item. Constraints: o min: 0 o max: 200 itemToRemove -&gt; (structure) Details about the related item you're deleting. type -&gt; (string) [required] The type of related item. Possible values: o ANALYSIS o INCIDENT o METRIC o PARENT o ATTACHMENT o OTHER o AUTOMATION o INVOLVED_RESOURCE o TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: arn, metricDefinition, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: o min: 0 o max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty incident when you resolve the associated Incident Manager inci- dent. id -&gt; (string) [required] The ID of the incident associated with the PagerDuty service for the response plan. Constraints: o min: 1 o max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager se- cret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Services resource. Constraints: o min: 0 o max: 1000 JSON Syntax: { "itemToAdd": { "generatedId": "string", "identifier": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } }, "title": "string" }, "itemToRemove": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } } }</param>
+    public AwsSsmIncidentsUpdateRelatedItemsOptions(
+        string IncidentRecordArn,
+        string RelatedItemsUpdate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncidentRecordArn);
+        this.IncidentRecordArn = IncidentRecordArn;
+        global::System.ArgumentNullException.ThrowIfNull(RelatedItemsUpdate);
+        this.RelatedItemsUpdate = RelatedItemsUpdate;
+    }
+
+    private AwsSsmIncidentsUpdateRelatedItemsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsUpdateRelatedItemsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsUpdateRelatedItemsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the incident record that contains the related items that you update. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// </summary>
+    [CliOption("--incident-record-arn")]
+    public string? IncidentRecordArn { get; private init; }
+
+    /// <summary>
+    /// Details about the item that you are add to, or delete from, an inci- dent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: itemToAdd, itemToRemove. itemToAdd -&gt; (structure) Details about the related item you're adding. generatedId -&gt; (string) A unique ID for a RelatedItem . WARNING: Don't specify this parameter when you add a RelatedItem by using the UpdateRelatedItems API action. Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ identifier -&gt; (structure) [required] Details about the related item. type -&gt; (string) [required] The type of related item. Possible values: o ANALYSIS o INCIDENT o METRIC o PARENT o ATTACHMENT o OTHER o AUTOMATION o INVOLVED_RESOURCE o TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: arn, metricDefini- tion, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: o min: 0 o max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty inci- dent when you resolve the associated Incident Man- ager incident. id -&gt; (string) [required] The ID of the incident associated with the Pager- Duty service for the response plan. Constraints: o min: 1 o max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Ser- vices resource. Constraints: o min: 0 o max: 1000 title -&gt; (string) The title of the related item. Constraints: o min: 0 o max: 200 itemToRemove -&gt; (structure) Details about the related item you're deleting. type -&gt; (string) [required] The type of related item. Possible values: o ANALYSIS o INCIDENT o METRIC o PARENT o ATTACHMENT o OTHER o AUTOMATION o INVOLVED_RESOURCE o TASK value -&gt; (tagged union structure) [required] Details about the related item. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: arn, metricDefinition, pagerDutyIncidentDetail, url. arn -&gt; (string) The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ metricDefinition -&gt; (string) The metric definition, if the related item is a metric in Amazon CloudWatch. Constraints: o min: 0 o max: 4000 pagerDutyIncidentDetail -&gt; (structure) Details about an incident that is associated with a PagerDuty incident. autoResolve -&gt; (boolean) Indicates whether to resolve the PagerDuty incident when you resolve the associated Incident Manager inci- dent. id -&gt; (string) [required] The ID of the incident associated with the PagerDuty service for the response plan. Constraints: o min: 1 o max: 200 secretId -&gt; (string) The ID of the Amazon Web Services Secrets Manager se- cret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials. Constraints: o min: 1 o max: 512 url -&gt; (string) The URL, if the related item is a non-Amazon Web Services resource. Constraints: o min: 0 o max: 1000 JSON Syntax: { "itemToAdd": { "generatedId": "string", "identifier": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } }, "title": "string" }, "itemToRemove": { "type": "ANALYSIS"|"INCIDENT"|"METRIC"|"PARENT"|"ATTACHMENT"|"OTHER"|"AUTOMATION"|"INVOLVED_RESOURCE"|"TASK", "value": { "arn": "string", "metricDefinition": "string", "pagerDutyIncidentDetail": { "autoResolve": true|false, "id": "string", "secretId": "string" }, "url": "string" } } }
+    /// </summary>
+    [CliOption("--related-items-update")]
+    public string? RelatedItemsUpdate { get; private init; }
+
     /// <summary>
     /// A token that ensures that a client calls the operation only once with the specified details. Constraints: o min: 0 o max: 128
     /// </summary>
@@ -29,16 +79,26 @@ public record AwsSsmIncidentsUpdateRelatedItemsOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--incident-record-arn")]
-    public string? IncidentRecordArn { get; set; }
-
-    [CliOption("--related-items-update")]
-    public string? RelatedItemsUpdate { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

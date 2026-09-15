@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-local-gateway-route")]
-public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions
+public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: o LocalGatewayVirtualInterfaceGroupId o NetworkInterfaceId See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalGatewayRouteTableId">The ID of the local gateway route table.</param>
+    public AwsEc2CreateLocalGatewayRouteOptions(
+        string LocalGatewayRouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalGatewayRouteTableId);
+        this.LocalGatewayRouteTableId = LocalGatewayRouteTableId;
+    }
+
+    private AwsEc2CreateLocalGatewayRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateLocalGatewayRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateLocalGatewayRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the local gateway route table.
+    /// </summary>
+    [CliOption("--local-gateway-route-table-id")]
+    public string? LocalGatewayRouteTableId { get; private init; }
+
     /// <summary>
     /// The CIDR range used for destination matches. Routing decisions are based on the most specific match.
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
-
-    [CliOption("--local-gateway-route-table-id")]
-    public string? LocalGatewayRouteTableId { get; set; }
 
     /// <summary>
     /// The ID of the virtual interface group.
@@ -36,7 +73,10 @@ public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions
     [CliOption("--local-gateway-virtual-interface-group-id")]
     public string? LocalGatewayVirtualInterfaceGroupId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -56,5 +96,21 @@ public record AwsEc2CreateLocalGatewayRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

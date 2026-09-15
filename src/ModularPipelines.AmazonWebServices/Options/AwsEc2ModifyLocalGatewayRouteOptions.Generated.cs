@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-local-gateway-route")]
-public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions
+public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified local gateway route. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalGatewayRouteTableId">The ID of the local gateway route table.</param>
+    public AwsEc2ModifyLocalGatewayRouteOptions(
+        string LocalGatewayRouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalGatewayRouteTableId);
+        this.LocalGatewayRouteTableId = LocalGatewayRouteTableId;
+    }
+
+    private AwsEc2ModifyLocalGatewayRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyLocalGatewayRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyLocalGatewayRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the local gateway route table.
+    /// </summary>
+    [CliOption("--local-gateway-route-table-id")]
+    public string? LocalGatewayRouteTableId { get; private init; }
+
     /// <summary>
     /// The CIDR block used for destination matches. The value that you pro- vide must match the CIDR of an existing route in the table.
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
-
-    [CliOption("--local-gateway-route-table-id")]
-    public string? LocalGatewayRouteTableId { get; set; }
 
     /// <summary>
     /// The ID of the virtual interface group.
@@ -42,7 +79,10 @@ public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions
     [CliOption("--network-interface-id")]
     public string? NetworkInterfaceId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -56,5 +96,21 @@ public record AwsEc2ModifyLocalGatewayRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

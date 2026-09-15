@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "update-campaign-communication-time")]
-public record AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions : AwsOptions
+public record AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the communication time config for a campaign. This API is idem- potent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="CommunicationTimeConfig">Campaign communication time config localTimeZoneConfig -&gt; (structure) [required] Local time zone config defaultTimeZone -&gt; (string) Time Zone Id in the IANA format Constraints: o min: 0 o max: 50 o pattern: [a-zA-Z0-9_\-/]* localTimeZoneDetection -&gt; (list) Local TimeZone Detection method list (string) Local TimeZone Detection method. Possible values: o ZIP_CODE o AREA_CODE localTimeZoneDetectionScope -&gt; (string) Local TimeZone Detection scope. Possible values: o PRIMARY_ONLY o ALL_AVAILABLE telephony -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} sms -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} email -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} whatsApp -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} JSON Syntax: { "localTimeZoneConfig": { "defaultTimeZone": "string", "localTimeZoneDetection": ["ZIP_CODE"|"AREA_CODE", ...], "localTimeZoneDetectionScope": "PRIMARY_ONLY"|"ALL_AVAILABLE" }, "telephony": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "sms": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "email": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "whatsApp": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } } }</param>
+    public AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions(
+        string Id,
+        string CommunicationTimeConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(CommunicationTimeConfig);
+        this.CommunicationTimeConfig = CommunicationTimeConfig;
+    }
+
+    private AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2UpdateCampaignCommunicationTimeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Campaign communication time config localTimeZoneConfig -&gt; (structure) [required] Local time zone config defaultTimeZone -&gt; (string) Time Zone Id in the IANA format Constraints: o min: 0 o max: 50 o pattern: [a-zA-Z0-9_\-/]* localTimeZoneDetection -&gt; (list) Local TimeZone Detection method list (string) Local TimeZone Detection method. Possible values: o ZIP_CODE o AREA_CODE localTimeZoneDetectionScope -&gt; (string) Local TimeZone Detection scope. Possible values: o PRIMARY_ONLY o ALL_AVAILABLE telephony -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} sms -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} email -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} whatsApp -&gt; (structure) Time window config openHours -&gt; (tagged union structure) [required] Open Hours config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: dailyHours. dailyHours -&gt; (map) Daily Hours map key -&gt; (string) Day of week enum Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY value -&gt; (list) List of time range (structure) Time range in 24 hour format startTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} endTime -&gt; (string) [required] Time in ISO 8601 format, e.g. T23:11 Constraints: o pattern: T\d{2}:\d{2} restrictedPeriods -&gt; (tagged union structure) Restricted period config NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: restrictedPeriodList. restrictedPeriodList -&gt; (list) List of restricted period (structure) Restricted period name -&gt; (string) The name of a restricted period. Constraints: o min: 1 o max: 127 startDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} endDate -&gt; (string) [required] Date in ISO 8601 format, e.g. 2024-01-01 Constraints: o pattern: \d{4}-\d{2}-\d{2} JSON Syntax: { "localTimeZoneConfig": { "defaultTimeZone": "string", "localTimeZoneDetection": ["ZIP_CODE"|"AREA_CODE", ...], "localTimeZoneDetectionScope": "PRIMARY_ONLY"|"ALL_AVAILABLE" }, "telephony": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "sms": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "email": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } }, "whatsApp": { "openHours": { "dailyHours": {"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY": [ { "startTime": "string", "endTime": "string" } ... ] ...} }, "restrictedPeriods": { "restrictedPeriodList": [ { "name": "string", "startDate": "string", "endDate": "string" } ... ] } } }
+    /// </summary>
     [CliOption("--communication-time-config")]
-    public string? CommunicationTimeConfig { get; set; }
+    public string? CommunicationTimeConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafkaconnect", "update-connector")]
-public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions
+public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified connector. For request body, specify only one pa- rameter: either capacity or connectorConfiguration . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector that you want to up- date.</param>
+    /// <param name="CurrentVersion">The current version of the connector that you want to update.</param>
+    public AwsKafkaconnectUpdateConnectorOptions(
+        string ConnectorArn,
+        string CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorArn);
+        this.ConnectorArn = ConnectorArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsKafkaconnectUpdateConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaconnectUpdateConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaconnectUpdateConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the connector that you want to up- date.
+    /// </summary>
+    [CliOption("--connector-arn")]
+    public string? ConnectorArn { get; private init; }
+
+    /// <summary>
+    /// The current version of the connector that you want to update.
+    /// </summary>
+    [CliOption("--current-version")]
+    public string? CurrentVersion { get; private init; }
+
     /// <summary>
     /// The target capacity. autoScaling -&gt; (structure) The target auto scaling setting. maxWorkerCount -&gt; (integer) [required] The target maximum number of workers allocated to the connec- tor. mcuCount -&gt; (integer) [required] The target number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 minWorkerCount -&gt; (integer) [required] The target minimum number of workers allocated to the connec- tor. scaleInPolicy -&gt; (structure) [required] The target scale-in policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale in to be triggered. Constraints: o min: 1 o max: 100 scaleOutPolicy -&gt; (structure) [required] The target scale-out policy for the connector. cpuUtilizationPercentage -&gt; (integer) [required] The target CPU utilization percentage threshold at which you want connector scale out to be triggered. Constraints: o min: 1 o max: 100 maxAutoscalingTaskCount -&gt; (integer) The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorker- Count. provisionedCapacity -&gt; (structure) The target settings for provisioned capacity. mcuCount -&gt; (integer) [required] The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8. Constraints: o min: 1 o max: 8 workerCount -&gt; (integer) [required] The number of workers that are allocated to the connector. Shorthand Syntax: autoScaling={maxWorkerCount=integer,mcuCount=integer,minWorkerCount=integer,scaleInPolicy={cpuUtilizationPercentage=integer},scaleOutPolicy={cpuUtilizationPercentage=integer},maxAutoscalingTaskCount=integer},provisionedCapacity={mcuCount=integer,workerCount=integer} JSON Syntax: { "autoScaling": { "maxWorkerCount": integer, "mcuCount": integer, "minWorkerCount": integer, "scaleInPolicy": { "cpuUtilizationPercentage": integer }, "scaleOutPolicy": { "cpuUtilizationPercentage": integer }, "maxAutoscalingTaskCount": integer }, "provisionedCapacity": { "mcuCount": integer, "workerCount": integer } }
     /// </summary>
@@ -34,16 +84,26 @@ public record AwsKafkaconnectUpdateConnectorOptions : AwsOptions
     [CliOption("--connector-configuration", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ConnectorConfiguration { get; set; }
 
-    [CliOption("--connector-arn")]
-    public string? ConnectorArn { get; set; }
-
-    [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

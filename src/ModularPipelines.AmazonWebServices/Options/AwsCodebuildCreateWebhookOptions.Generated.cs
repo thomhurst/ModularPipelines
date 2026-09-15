@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "create-webhook")]
-public record AwsCodebuildCreateWebhookOptions : AwsOptions
+public record AwsCodebuildCreateWebhookOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start re- building the source code every time a code change is pushed to the repository. WARNING: If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build ba- si...
+    /// </summary>
+    /// <param name="ProjectName">The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}</param>
+    public AwsCodebuildCreateWebhookOptions(
+        string ProjectName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+    }
+
+    private AwsCodebuildCreateWebhookOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildCreateWebhookOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildCreateWebhookOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the CodeBuild project. Constraints: o min: 2 o max: 150 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{1,149}
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
 
     /// <summary>
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. NOTE: It is recommended that you use filterGroups instead of branch- Filter .
@@ -43,7 +80,10 @@ public record AwsCodebuildCreateWebhookOptions : AwsOptions
     [CliOption("--build-type")]
     public AwsCodebuildCreateWebhookBuildType? BuildType { get; set; }
 
-    [CliFlag("--manual-creation")]
+    /// <summary>
+    /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and secret values for the web- hook. The payloadUrl and secret values in the output can be used to manually create a webhook within GitHub. NOTE: manualCreation is only available for GitHub webhooks.
+    /// </summary>
+    [CliFlag("--manual-creation", NegatedName = "--no-manual-creation")]
     public bool? ManualCreation { get; set; }
 
     /// <summary>
@@ -63,5 +103,21 @@ public record AwsCodebuildCreateWebhookOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

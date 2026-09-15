@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-vpn-connection")]
-public record AwsEc2CreateVpnConnectionOptions : AwsOptions
+public record AwsEc2CreateVpnConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--customer-gateway-id")]
-    public string? CustomerGatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a VPN connection between an existing virtual private gateway or transit gateway and a customer gateway. The supported connection type is ipsec.1 . The response includes information that you need to give to your network administrator to configure your customer gateway. WARNING: We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway device. If you decide to shut down your V...
+    /// </summary>
+    /// <param name="CustomerGatewayId">The ID of the customer gateway.</param>
+    /// <param name="Type">The type of VPN connection (ipsec.1 ).</param>
+    public AwsEc2CreateVpnConnectionOptions(
+        string CustomerGatewayId,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomerGatewayId);
+        this.CustomerGatewayId = CustomerGatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsEc2CreateVpnConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateVpnConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateVpnConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the customer gateway.
+    /// </summary>
+    [CliOption("--customer-gateway-id")]
+    public string? CustomerGatewayId { get; private init; }
+
+    /// <summary>
+    /// The type of VPN connection (ipsec.1 ).
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The ID of the virtual private gateway. If you specify a virtual pri- vate gateway, you cannot specify a transit gateway.
@@ -57,7 +101,10 @@ public record AwsEc2CreateVpnConnectionOptions : AwsOptions
     [CliOption("--pre-shared-key-storage")]
     public string? PreSharedKeyStorage { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -71,5 +118,21 @@ public record AwsEc2CreateVpnConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

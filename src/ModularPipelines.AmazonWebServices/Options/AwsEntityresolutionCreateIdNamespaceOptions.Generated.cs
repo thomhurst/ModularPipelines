@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "create-id-namespace")]
-public record AwsEntityresolutionCreateIdNamespaceOptions : AwsOptions
+public record AwsEntityresolutionCreateIdNamespaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an ID namespace object which will help customers provide meta- data explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the Up- dateIdNamespace API. See also: AWS API Documentation create-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled ...
+    /// </summary>
+    /// <param name="IdNamespaceName">The name of the ID namespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="Type">The type of ID namespace. There are two types: SOURCE and TARGET . The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId to which all sour- ceIds will resolve to. Possible values: o SOURCE o TARGET</param>
+    public AwsEntityresolutionCreateIdNamespaceOptions(
+        string IdNamespaceName,
+        AwsEntityresolutionCreateIdNamespaceType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdNamespaceName);
+        this.IdNamespaceName = IdNamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsEntityresolutionCreateIdNamespaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionCreateIdNamespaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionCreateIdNamespaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the ID namespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// </summary>
     [CliOption("--id-namespace-name")]
-    public string? IdNamespaceName { get; set; }
+    public string? IdNamespaceName { get; private init; }
+
+    /// <summary>
+    /// The type of ID namespace. There are two types: SOURCE and TARGET . The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow. The TARGET contains a configuration of targetId to which all sour- ceIds will resolve to. Possible values: o SOURCE o TARGET
+    /// </summary>
+    [CliOption("--type")]
+    public AwsEntityresolutionCreateIdNamespaceType? Type { get; private init; }
 
     /// <summary>
     /// The description of the ID namespace. Constraints: o min: 0 o max: 255
@@ -43,9 +91,6 @@ public record AwsEntityresolutionCreateIdNamespaceOptions : AwsOptions
     [CliOption("--id-mapping-workflow-properties", GroupValues = true)]
     public IEnumerable<string>? IdMappingWorkflowProperties { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdName- space on your behalf as part of the workflow run. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
@@ -63,5 +108,21 @@ public record AwsEntityresolutionCreateIdNamespaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

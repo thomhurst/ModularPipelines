@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "search-jobs")]
-public record AwsBraketSearchJobsOptions : AwsOptions
+public record AwsBraketSearchJobsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for Amazon Braket hybrid jobs that match the specified filter values. See also: AWS API Documentation search-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: jobs
+    /// </summary>
+    /// <param name="Filters">Array of SearchJobsFilter objects to use when searching for hybrid jobs. Constraints: o min: 0 o max: 10 (structure) A filter used to search for Amazon Braket hybrid jobs. name -&gt; (string) [required] The name of the hybrid job parameter to filter based on. Fil- ter name can be either jobArn or createdAt . Constraints: o min: 1 o max: 64 values -&gt; (list) [required] The values used to filter hybrid jobs based on the filter name and operator. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 operator -&gt; (string) [required] An operator to use for the filter. Possible values: o LT o LTE o EQUAL o GT o GTE o BETWEEN o CONTAINS Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "operator": "LT"|"LTE"|"EQUAL"|"GT"|"GTE"|"BETWEEN"|"CONTAINS" } ... ]</param>
+    public AwsBraketSearchJobsOptions(
+        IEnumerable<string> Filters
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsBraketSearchJobsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketSearchJobsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketSearchJobsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Array of SearchJobsFilter objects to use when searching for hybrid jobs. Constraints: o min: 0 o max: 10 (structure) A filter used to search for Amazon Braket hybrid jobs. name -&gt; (string) [required] The name of the hybrid job parameter to filter based on. Fil- ter name can be either jobArn or createdAt . Constraints: o min: 1 o max: 64 values -&gt; (list) [required] The values used to filter hybrid jobs based on the filter name and operator. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 operator -&gt; (string) [required] An operator to use for the filter. Possible values: o LT o LTE o EQUAL o GT o GTE o BETWEEN o CONTAINS Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "operator": "LT"|"LTE"|"EQUAL"|"GT"|"GTE"|"BETWEEN"|"CONTAINS" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +97,21 @@ public record AwsBraketSearchJobsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

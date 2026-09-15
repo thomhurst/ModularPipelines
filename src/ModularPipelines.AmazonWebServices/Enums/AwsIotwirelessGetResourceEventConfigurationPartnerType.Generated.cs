@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --partnertype.
+/// Allowed values for --partner-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotwirelessGetResourceEventConfigurationPartnerType
 {
+    [EnumValue("o")]
+    O,
+
     [EnumValue("Sidewalk")]
-    Sidewalk = 1
+    Sidewalk
 }

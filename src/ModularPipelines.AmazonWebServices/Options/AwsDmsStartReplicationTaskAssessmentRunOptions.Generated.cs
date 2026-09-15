@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-replication-task-assessment-run")]
-public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions
+public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a new premigration assessment run for one or more individual as- sessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the as- sessment run and its individual assessments com...
+    /// </summary>
+    /// <param name="ReplicationTaskArn">Amazon Resource Name (ARN) of the migration task associated with the premigration assessment run that you want to start.</param>
+    /// <param name="ServiceAccessRoleArn">ARN of the service role needed to start the assessment run. The role must allow the iam:PassRole action.</param>
+    /// <param name="ResultLocationBucket">Amazon S3 bucket where you want DMS to store the results of this as- sessment run.</param>
+    /// <param name="AssessmentRunName">Unique name to identify the assessment run.</param>
+    public AwsDmsStartReplicationTaskAssessmentRunOptions(
+        string ReplicationTaskArn,
+        string ServiceAccessRoleArn,
+        string ResultLocationBucket,
+        string AssessmentRunName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskArn);
+        this.ReplicationTaskArn = ReplicationTaskArn;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccessRoleArn);
+        this.ServiceAccessRoleArn = ServiceAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResultLocationBucket);
+        this.ResultLocationBucket = ResultLocationBucket;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentRunName);
+        this.AssessmentRunName = AssessmentRunName;
+    }
+
+    private AwsDmsStartReplicationTaskAssessmentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartReplicationTaskAssessmentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartReplicationTaskAssessmentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the migration task associated with the premigration assessment run that you want to start.
+    /// </summary>
     [CliOption("--replication-task-arn")]
-    public string? ReplicationTaskArn { get; set; }
+    public string? ReplicationTaskArn { get; private init; }
 
+    /// <summary>
+    /// ARN of the service role needed to start the assessment run. The role must allow the iam:PassRole action.
+    /// </summary>
     [CliOption("--service-access-role-arn")]
-    public string? ServiceAccessRoleArn { get; set; }
+    public string? ServiceAccessRoleArn { get; private init; }
 
+    /// <summary>
+    /// Amazon S3 bucket where you want DMS to store the results of this as- sessment run.
+    /// </summary>
     [CliOption("--result-location-bucket")]
-    public string? ResultLocationBucket { get; set; }
+    public string? ResultLocationBucket { get; private init; }
+
+    /// <summary>
+    /// Unique name to identify the assessment run.
+    /// </summary>
+    [CliOption("--assessment-run-name")]
+    public string? AssessmentRunName { get; private init; }
 
     /// <summary>
     /// Folder within an Amazon S3 bucket where you want DMS to store the results of this assessment run.
@@ -47,9 +108,6 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions
     /// </summary>
     [CliOption("--result-kms-key-arn")]
     public string? ResultKmsKeyArn { get; set; }
-
-    [CliOption("--assessment-run-name")]
-    public string? AssessmentRunName { get; set; }
 
     /// <summary>
     /// Space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that DMS supports for the associated migra- tion task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for IncludeOnly if you also set a value for Exclude in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the De- scribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
@@ -74,5 +132,21 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

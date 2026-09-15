@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "describe-node-configuration-options")]
-public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions
+public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// </summary>
+    /// <param name="ActionType">The action type to evaluate for possible node configurations. Spec- ify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configura- tion recommendations based on an existing cluster or snapshot. Spec- ify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: o restore-cluster o recommend-node-config o resize-cluster</param>
+    public AwsRedshiftDescribeNodeConfigurationOptionsOptions(
+        AwsRedshiftDescribeNodeConfigurationOptionsActionType ActionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+    }
+
+    private AwsRedshiftDescribeNodeConfigurationOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDescribeNodeConfigurationOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDescribeNodeConfigurationOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The action type to evaluate for possible node configurations. Spec- ify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configura- tion recommendations based on an existing cluster or snapshot. Spec- ify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: o restore-cluster o recommend-node-config o resize-cluster
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsRedshiftDescribeNodeConfigurationOptionsActionType? ActionType { get; private init; }
 
     /// <summary>
     /// The identifier of the cluster to evaluate for possible node configu- rations. Constraints: o max: 2147483647
@@ -79,5 +117,21 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

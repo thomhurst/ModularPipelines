@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "list-action-executions")]
-public record AwsCodepipelineListActionExecutionsOptions : AwsOptions
+public record AwsCodepipelineListActionExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the action executions that have occurred in a pipeline. See also: AWS API Documentation list-action-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: actionExecutionDetails
+    /// </summary>
+    /// <param name="PipelineName">The name of the pipeline for which you want to list action execution history. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    public AwsCodepipelineListActionExecutionsOptions(
+        string PipelineName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineName);
+        this.PipelineName = PipelineName;
+    }
+
+    private AwsCodepipelineListActionExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelineListActionExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelineListActionExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the pipeline for which you want to list action execution history. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// </summary>
     [CliOption("--pipeline-name")]
-    public string? PipelineName { get; set; }
+    public string? PipelineName { get; private init; }
 
     /// <summary>
     /// Input information used to filter action execution history. pipelineExecutionId -&gt; (string) The pipeline execution ID used to filter action execution his- tory. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} latestInPipelineExecution -&gt; (structure) The latest execution in the pipeline. NOTE: Filtering on the latest execution is available for executions run on or after February 08, 2024. pipelineExecutionId -&gt; (string) [required] The execution ID for the latest execution in the pipeline. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} startTimeRange -&gt; (string) [required] The start time to filter on for the latest execution in the pipeline. Valid options: o All o Latest Possible values: o Latest o All Shorthand Syntax: pipelineExecutionId=string,latestInPipelineExecution={pipelineExecutionId=string,startTimeRange=string} JSON Syntax: { "pipelineExecutionId": "string", "latestInPipelineExecution": { "pipelineExecutionId": "string", "startTimeRange": "Latest"|"All" } }
@@ -55,5 +92,21 @@ public record AwsCodepipelineListActionExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

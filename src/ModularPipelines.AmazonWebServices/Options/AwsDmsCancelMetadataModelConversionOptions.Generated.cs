@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "cancel-metadata-model-conversion")]
-public record AwsDmsCancelMetadataModelConversionOptions : AwsOptions
+public record AwsDmsCancelMetadataModelConversionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--migration-project-identifier")]
-    public string? MigrationProjectIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion . Required permissions: dms:CancelMetadataModelConversion . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
+    /// <param name="RequestIdentifier">The identifier for the metadata model conversion operation to can- cel. This operation was initiated by StartMetadataModelConversion.</param>
+    public AwsDmsCancelMetadataModelConversionOptions(
+        string MigrationProjectIdentifier,
+        string RequestIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationProjectIdentifier);
+        this.MigrationProjectIdentifier = MigrationProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RequestIdentifier);
+        this.RequestIdentifier = RequestIdentifier;
+    }
+
+    private AwsDmsCancelMetadataModelConversionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCancelMetadataModelConversionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCancelMetadataModelConversionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// </summary>
+    [CliOption("--migration-project-identifier")]
+    public string? MigrationProjectIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier for the metadata model conversion operation to can- cel. This operation was initiated by StartMetadataModelConversion.
+    /// </summary>
     [CliOption("--request-identifier")]
-    public string? RequestIdentifier { get; set; }
+    public string? RequestIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

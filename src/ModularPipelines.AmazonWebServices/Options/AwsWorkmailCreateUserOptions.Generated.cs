@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-user")]
-public record AwsWorkmailCreateUserOptions : AwsOptions
+public record AwsWorkmailCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a user who can be used in WorkMail by calling the Register- ToWorkMail operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier of the organization for which the user is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name for the new user. WorkMail directory user names have a max- imum length of 64. All others have a maximum length of 20. Constraints: o min: 1 o max: 64 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?</param>
+    /// <param name="DisplayName">The display name for the new user. Constraints: o max: 256</param>
+    public AwsWorkmailCreateUserOptions(
+        string OrganizationId,
+        string Name,
+        string DisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+    }
+
+    private AwsWorkmailCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the organization for which the user is created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
 
+    /// <summary>
+    /// The name for the new user. WorkMail directory user names have a max- imum length of 64. All others have a maximum length of 20. Constraints: o min: 1 o max: 64 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The display name for the new user. Constraints: o max: 256
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
     /// <summary>
     /// The password for the new user. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+
@@ -57,7 +108,10 @@ public record AwsWorkmailCreateUserOptions : AwsOptions
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
-    [CliFlag("--hidden-from-global-address-list")]
+    /// <summary>
+    /// dress-list (boolean) If this parameter is enabled, the user will be hidden from the ad- dress book.
+    /// </summary>
+    [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 
     /// <summary>
@@ -71,5 +125,21 @@ public record AwsWorkmailCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

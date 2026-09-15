@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCustomerProfilesPutIntegrationScope
 {
-    [EnumValue("PROFILE")]
-    Profile = 1,
-
     [EnumValue("DOMAIN")]
-    Domain = 2
+    Domain,
+
+    [EnumValue("PROFILE")]
+    Profile
 }

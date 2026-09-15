@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "describe-engine-default-cluster-parameters")]
-public record AwsDocdbDescribeEngineDefaultClusterParametersOptions : AwsOptions
+public record AwsDocdbDescribeEngineDefaultClusterParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the default engine and system parameter information for the cluster database engine. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbParameterGroupFamily">The name of the cluster parameter group family to return the engine parameter information for.</param>
+    public AwsDocdbDescribeEngineDefaultClusterParametersOptions(
+        string DbParameterGroupFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupFamily);
+        this.DbParameterGroupFamily = DbParameterGroupFamily;
+    }
+
+    private AwsDocdbDescribeEngineDefaultClusterParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbDescribeEngineDefaultClusterParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbDescribeEngineDefaultClusterParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster parameter group family to return the engine parameter information for.
+    /// </summary>
     [CliOption("--db-parameter-group-family")]
-    public string? DbParameterGroupFamily { get; set; }
+    public string? DbParameterGroupFamily { get; private init; }
 
     /// <summary>
     /// This parameter is not currently supported. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -47,5 +84,21 @@ public record AwsDocdbDescribeEngineDefaultClusterParametersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

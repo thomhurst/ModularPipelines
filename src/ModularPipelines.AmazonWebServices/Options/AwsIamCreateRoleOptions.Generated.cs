@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "create-role")]
-public record AwsIamCreateRoleOptions : AwsOptions
+public record AwsIamCreateRoleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new role for your Amazon Web Services account. For more information about roles, see IAM roles in the IAM User Guide . For information about quotas for role names and the number of roles you can create, see IAM and STS quotas in the IAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RoleName">The name of the role to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you can- not create resources named both "MyResource" and "myresource". This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="AssumeRolePolicyDocument">The trust relationship policy document that grants an entity permis- sion to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Upon success, the response includes the same trust policy in JSON format. Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsIamCreateRoleOptions(
+        string RoleName,
+        string AssumeRolePolicyDocument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleName);
+        this.RoleName = RoleName;
+        global::System.ArgumentNullException.ThrowIfNull(AssumeRolePolicyDocument);
+        this.AssumeRolePolicyDocument = AssumeRolePolicyDocument;
+    }
+
+    private AwsIamCreateRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamCreateRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamCreateRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the role to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you can- not create resources named both "MyResource" and "myresource". This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--role-name")]
+    public string? RoleName { get; private init; }
+
+    /// <summary>
+    /// The trust relationship policy document that grants an entity permis- sion to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Upon success, the response includes the same trust policy in JSON format. Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
+    [CliOption("--assume-role-policy-document")]
+    public string? AssumeRolePolicyDocument { get; private init; }
+
     /// <summary>
     /// The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of char- acters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; set; }
-
-    [CliOption("--role-name")]
-    public string? RoleName { get; set; }
-
-    [CliOption("--assume-role-policy-document")]
-    public string? AssumeRolePolicyDocument { get; set; }
 
     /// <summary>
     /// A description of the role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
@@ -62,5 +106,21 @@ public record AwsIamCreateRoleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

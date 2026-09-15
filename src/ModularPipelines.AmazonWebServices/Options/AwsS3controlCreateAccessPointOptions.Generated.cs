@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-access-point")]
-public record AwsS3controlCreateAccessPointOptions : AwsOptions
+public record AwsS3controlCreateAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide . To create an access point and attach it to a volume on an Amazon FSx file system, see CreateAndAttachS3AccessPoint in the Amazon FSx API Reference . NOTE: S3 on Outposts only supports VPC-style access points. For more information, see Accessing Am...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID for the account that owns the specified access point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="Name">The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket loca- tion, followed by --xa-s3 . For more information, see Managing ac- cess to shared datasets in directory buckets with access points in the Amazon S3 User Guide . Constraints: o min: 3 o max: 255</param>
+    /// <param name="Bucket">The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255</param>
+    public AwsS3controlCreateAccessPointOptions(
+        string AccountId,
+        string Name,
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3controlCreateAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID for the account that owns the specified access point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket loca- tion, followed by --xa-s3 . For more information, see Managing ac- cess to shared datasets in directory buckets with access points in the Amazon S3 User Guide . Constraints: o min: 3 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
     /// <summary>
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). NOTE: This is required for creating an access point for Amazon S3 on Outposts buckets. VpcId -&gt; (string) [required] If this field is specified, this access point will only allow connections from the specified VPC ID. Constraints: o min: 1 o max: 1024 Shorthand Syntax: VpcId=string JSON Syntax: { "VpcId": "string" }
@@ -65,5 +116,21 @@ public record AwsS3controlCreateAccessPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

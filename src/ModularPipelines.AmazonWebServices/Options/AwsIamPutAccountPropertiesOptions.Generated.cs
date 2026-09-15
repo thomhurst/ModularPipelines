@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "put-account-properties")]
-public record AwsIamPutAccountPropertiesOptions : AwsOptions
+public record AwsIamPutAccountPropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets account-level properties for the caller's Amazon Web Services ac- count. Account properties are configuration settings that control ac- count-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Properties">A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must con- tain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's ex- pected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's ex- pected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsIamPutAccountPropertiesOptions(
+        IReadOnlyList<KeyValue> Properties
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Properties);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Properties));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Properties));
+            }
+
+            Properties = materialized;
+        }
+        this.Properties = Properties;
+    }
+
+    private AwsIamPutAccountPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamPutAccountPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamPutAccountPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName . The key must con- tain exactly one / separating the namespace from the property name, and cannot start or end with / . The service validates each value based on the property key's ex- pected type. For example, boolean properties expect true or false . key -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: ^[A-Za-z][A-Za-z0-9/_-]*$ value -&gt; (string) String representation of the property value. The service will validate and coerce the value based on the property key's ex- pected type. For example, integer properties expect numeric strings, and boolean properties expect "true" or "false". Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--properties", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Properties { get; set; }
+    public IReadOnlyList<KeyValue>? Properties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

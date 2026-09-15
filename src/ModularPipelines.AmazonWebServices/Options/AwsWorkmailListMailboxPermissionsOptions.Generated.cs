@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "list-mailbox-permissions")]
-public record AwsWorkmailListMailboxPermissionsOptions : AwsOptions
+public record AwsWorkmailListMailboxPermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the mailbox permissions associated with a user, group, or re- source mailbox. See also: AWS API Documentation list-mailbox-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Permission...
+    /// </summary>
+    /// <param name="OrganizationId">The identifier of the organization under which the user, group, or resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier of the user, or resource for which to list mailbox permissions. The entity ID can accept UserId or ResourceId , Username or Re- sourcename , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    public AwsWorkmailListMailboxPermissionsOptions(
+        string OrganizationId,
+        string EntityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(EntityId);
+        this.EntityId = EntityId;
+    }
+
+    private AwsWorkmailListMailboxPermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailListMailboxPermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailListMailboxPermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the organization under which the user, group, or resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the user, or resource for which to list mailbox permissions. The entity ID can accept UserId or ResourceId , Username or Re- sourcename , or email . o Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--entity-id")]
-    public string? EntityId { get; set; }
+    public string? EntityId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsWorkmailListMailboxPermissionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

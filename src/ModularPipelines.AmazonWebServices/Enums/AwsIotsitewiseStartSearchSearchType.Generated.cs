@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --searchtype.
+/// Allowed values for --search-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseStartSearchSearchType
 {
     [EnumValue("DEEP")]
-    Deep = 1,
+    Deep,
 
     [EnumValue("QUICK")]
-    Quick = 2
+    Quick
 }

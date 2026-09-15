@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-service-linked-configuration-recorder")]
-public record AwsConfigservicePutServiceLinkedConfigurationRecorderOptions : AwsOptions
+public record AwsConfigservicePutServiceLinkedConfigurationRecorderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name , recordingGroup , recordingMode , and recordingScope is set by the service that is linked to the configu- ration recorder. For more information and a list of supported services/service princi- pals, see ` Working with the Configuration Recorder https://docs.aws.amazon.com/config/latest/developerguide/stop-start-reco...
+    /// </summary>
+    /// <param name="ServicePrincipal">The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    public AwsConfigservicePutServiceLinkedConfigurationRecorderOptions(
+        string ServicePrincipal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServicePrincipal);
+        this.ServicePrincipal = ServicePrincipal;
+    }
+
+    private AwsConfigservicePutServiceLinkedConfigurationRecorderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutServiceLinkedConfigurationRecorderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutServiceLinkedConfigurationRecorderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--service-principal")]
-    public string? ServicePrincipal { get; set; }
+    public string? ServicePrincipal { get; private init; }
 
     /// <summary>
     /// The tags for a service-linked configuration recorder. Each tag con- sists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsConfigservicePutServiceLinkedConfigurationRecorderOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

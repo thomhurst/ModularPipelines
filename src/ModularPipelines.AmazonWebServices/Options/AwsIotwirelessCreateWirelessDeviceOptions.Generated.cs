@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "create-wireless-device")]
-public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions
+public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions a wireless device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The wireless device type. Possible values: o Sidewalk o LoRaWAN</param>
+    /// <param name="DestinationName">The name of the destination to assign to the new wireless device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    public AwsIotwirelessCreateWirelessDeviceOptions(
+        AwsIotwirelessCreateWirelessDeviceType Type,
+        string DestinationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationName);
+        this.DestinationName = DestinationName;
+    }
+
+    private AwsIotwirelessCreateWirelessDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessCreateWirelessDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessCreateWirelessDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The wireless device type. Possible values: o Sidewalk o LoRaWAN
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsIotwirelessCreateWirelessDeviceType? Type { get; private init; }
+
+    /// <summary>
+    /// The name of the destination to assign to the new wireless device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
+    [CliOption("--destination-name")]
+    public string? DestinationName { get; private init; }
 
     /// <summary>
     /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
@@ -37,9 +84,6 @@ public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--destination-name")]
-    public string? DestinationName { get; set; }
 
     /// <summary>
     /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -77,5 +121,21 @@ public record AwsIotwirelessCreateWirelessDeviceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

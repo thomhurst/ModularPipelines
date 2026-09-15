@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "check-access-not-granted")]
-public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions
+public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Checks whether the specified access isn't allowed by a policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyDocument">The JSON policy document to use as the content for the policy.</param>
+    /// <param name="Access">An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the ac- tions on any resource in the policy. If only resources are speci- fied, then IAM Access Analyzer checks for access to perform any ac- tion on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: o min: 0 o max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: o min: 0 o max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]</param>
+    /// <param name="PolicyType">The type of policy. Identity policies grant permissions to IAM prin- cipals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY</param>
+    public AwsAccessanalyzerCheckAccessNotGrantedOptions(
+        string PolicyDocument,
+        IEnumerable<string> Access,
+        AwsAccessanalyzerCheckAccessNotGrantedPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Access);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Access));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Access));
+            }
+
+            Access = materialized;
+        }
+        this.Access = Access;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsAccessanalyzerCheckAccessNotGrantedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerCheckAccessNotGrantedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerCheckAccessNotGrantedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON policy document to use as the content for the policy.
+    /// </summary>
     [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
+    public string? PolicyDocument { get; private init; }
 
+    /// <summary>
+    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the ac- tions on any resource in the policy. If only resources are speci- fied, then IAM Access Analyzer checks for access to perform any ac- tion on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: o min: 0 o max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: o min: 0 o max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--access", GroupValues = true)]
-    public IEnumerable<string>? Access { get; set; }
+    public IEnumerable<string>? Access { get; private init; }
 
+    /// <summary>
+    /// The type of policy. Identity policies grant permissions to IAM prin- cipals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY
+    /// </summary>
     [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
+    public AwsAccessanalyzerCheckAccessNotGrantedPolicyType? PolicyType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

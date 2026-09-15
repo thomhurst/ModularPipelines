@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --resourceowner.
+/// Allowed values for --resource-owner.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockDataAutomationListBlueprintsResourceOwner
 {
-    [EnumValue("SERVICE")]
-    Service = 1,
-
     [EnumValue("ACCOUNT")]
-    Account = 2
+    Account,
+
+    [EnumValue("SERVICE")]
+    Service
 }

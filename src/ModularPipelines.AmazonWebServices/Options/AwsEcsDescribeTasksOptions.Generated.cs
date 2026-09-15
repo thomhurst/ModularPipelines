@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "describe-tasks")]
-public record AwsEcsDescribeTasksOptions : AwsOptions
+public record AwsEcsDescribeTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Tasks">A list of up to 100 task IDs or full ARN entries. (string) Syntax: "string" "string" ...</param>
+    public AwsEcsDescribeTasksOptions(
+        IEnumerable<string> Tasks
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tasks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tasks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tasks));
+            }
+
+            Tasks = materialized;
+        }
+        this.Tasks = Tasks;
+    }
+
+    private AwsEcsDescribeTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDescribeTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDescribeTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of up to 100 task IDs or full ARN entries. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--tasks", GroupValues = true)]
+    public IEnumerable<string>? Tasks { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
-
-    [CliOption("--tasks", GroupValues = true)]
-    public IEnumerable<string>? Tasks { get; set; }
 
     /// <summary>
     /// Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
@@ -41,5 +89,21 @@ public record AwsEcsDescribeTasksOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

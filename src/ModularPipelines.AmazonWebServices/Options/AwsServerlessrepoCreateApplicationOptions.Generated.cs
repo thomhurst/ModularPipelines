@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("serverlessrepo", "create-application")]
-public record AwsServerlessrepoCreateApplicationOptions : AwsOptions
+public record AwsServerlessrepoCreateApplicationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--author")]
-    public string? Author { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an application, optionally including an AWS SAM file to create the first application version in the same call. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Author">The name of the author publishing the app. Minimum length=1. Maximum length=127. Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";</param>
+    /// <param name="Description">The description of the application. Minimum length=1. Maximum length=256</param>
+    /// <param name="Name">The name of the application that you want to publish. Minimum length=1. Maximum length=140 Pattern: "[a-zA-Z0-9\-]+";</param>
+    public AwsServerlessrepoCreateApplicationOptions(
+        string Author,
+        string Description,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Author);
+        this.Author = Author;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsServerlessrepoCreateApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServerlessrepoCreateApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServerlessrepoCreateApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the author publishing the app. Minimum length=1. Maximum length=127. Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+    /// </summary>
+    [CliOption("--author")]
+    public string? Author { get; private init; }
+
+    /// <summary>
+    /// The description of the application. Minimum length=1. Maximum length=256
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The name of the application that you want to publish. Minimum length=1. Maximum length=140 Pattern: "[a-zA-Z0-9\-]+";
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A URL with more information about the application, for example the location of your GitHub repository for the application.
@@ -50,9 +104,6 @@ public record AwsServerlessrepoCreateApplicationOptions : AwsOptions
     /// </summary>
     [CliOption("--license-url")]
     public string? LicenseUrl { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// A local text readme file in Markdown language that contains a more detailed description of the application and how it works. The file has the format file://&lt;path&gt;/&lt;filename&gt;. Maximum size 5 MB You can specify only one of readmeBody and readmeUrl; otherwise, an error results.
@@ -107,5 +158,21 @@ public record AwsServerlessrepoCreateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

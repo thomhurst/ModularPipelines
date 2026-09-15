@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "batch-update-cluster")]
-public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions
+public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Apply the service update to a list of clusters supplied. For more in- formation on service updates and applying them, see Applying the ser- vice updates . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterNames">The cluster names to apply the updates. Constraints: o max: 20 (string) Syntax: "string" "string" ...</param>
+    public AwsMemorydbBatchUpdateClusterOptions(
+        IEnumerable<string> ClusterNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ClusterNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ClusterNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ClusterNames));
+            }
+
+            ClusterNames = materialized;
+        }
+        this.ClusterNames = ClusterNames;
+    }
+
+    private AwsMemorydbBatchUpdateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbBatchUpdateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbBatchUpdateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster names to apply the updates. Constraints: o max: 20 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--cluster-names", GroupValues = true)]
-    public IEnumerable<string>? ClusterNames { get; set; }
+    public IEnumerable<string>? ClusterNames { get; private init; }
 
     /// <summary>
     /// The unique ID of the service update ServiceUpdateNameToApply -&gt; (string) The unique ID of the service update Shorthand Syntax: ServiceUpdateNameToApply=string JSON Syntax: { "ServiceUpdateNameToApply": "string" }
@@ -35,5 +83,21 @@ public record AwsMemorydbBatchUpdateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

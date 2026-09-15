@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "start-analysis-report")]
-public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions
+public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalysisType">The type of traffic that will be used to generate a report. Possible values: o TLS_SNI o HTTP_HOST</param>
+    public AwsNetworkFirewallStartAnalysisReportOptions(
+        AwsNetworkFirewallStartAnalysisReportAnalysisType AnalysisType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisType);
+        this.AnalysisType = AnalysisType;
+    }
+
+    private AwsNetworkFirewallStartAnalysisReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallStartAnalysisReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallStartAnalysisReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of traffic that will be used to generate a report. Possible values: o TLS_SNI o HTTP_HOST
+    /// </summary>
+    [CliOption("--analysis-type")]
+    public AwsNetworkFirewallStartAnalysisReportAnalysisType? AnalysisType { get; private init; }
+
     /// <summary>
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
@@ -33,13 +74,26 @@ public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
-    [CliOption("--analysis-type")]
-    public string? AnalysisType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

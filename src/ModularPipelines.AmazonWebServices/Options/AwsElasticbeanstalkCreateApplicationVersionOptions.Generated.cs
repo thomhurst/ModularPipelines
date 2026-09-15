@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "create-application-version")]
-public record AwsElasticbeanstalkCreateApplicationVersionOptions : AwsOptions
+public record AwsElasticbeanstalkCreateApplicationVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a com- mit in AWS CodeCommit, or the output of an AWS CodeBuild build as fol- lows: Specify a commit in an AWS CodeCommit repository with SourceBuildInfor- mation . Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration . Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the de...
+    /// </summary>
+    /// <param name="ApplicationName">The name of the application. If no application is found with this name, and AutoCreateApplication is false , returns an InvalidParame- terValue error. Constraints: o min: 1 o max: 100</param>
+    /// <param name="VersionLabel">A label identifying this version. Constraint: Must be unique per application. If an application ver- sion already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
+    public AwsElasticbeanstalkCreateApplicationVersionOptions(
+        string ApplicationName,
+        string VersionLabel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+        global::System.ArgumentNullException.ThrowIfNull(VersionLabel);
+        this.VersionLabel = VersionLabel;
+    }
+
+    private AwsElasticbeanstalkCreateApplicationVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkCreateApplicationVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkCreateApplicationVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the application. If no application is found with this name, and AutoCreateApplication is false , returns an InvalidParame- terValue error. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--application-name")]
+    public string? ApplicationName { get; private init; }
+
+    /// <summary>
+    /// A label identifying this version. Constraint: Must be unique per application. If an application ver- sion already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--version-label")]
-    public string? VersionLabel { get; set; }
+    public string? VersionLabel { get; private init; }
 
     /// <summary>
     /// A description of this application version. Constraints: o max: 200
@@ -51,10 +95,16 @@ public record AwsElasticbeanstalkCreateApplicationVersionOptions : AwsOptions
     [CliOption("--build-configuration")]
     public string? BuildConfiguration { get; set; }
 
-    [CliFlag("--auto-create-application")]
+    /// <summary>
+    /// Set to true to create an application with the specified name if it doesn't already exist.
+    /// </summary>
+    [CliFlag("--auto-create-application", NegatedName = "--no-auto-create-application")]
     public bool? AutoCreateApplication { get; set; }
 
-    [CliFlag("--process")]
+    /// <summary>
+    /// Pre-processes and validates the environment manifest (env.yaml ) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify is- sues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. NOTE: The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+    /// </summary>
+    [CliFlag("--process", NegatedName = "--no-process")]
     public bool? Process { get; set; }
 
     /// <summary>
@@ -68,5 +118,21 @@ public record AwsElasticbeanstalkCreateApplicationVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

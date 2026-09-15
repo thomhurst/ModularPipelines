@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "describe-engine-default-cluster-parameters")]
-public record AwsRdsDescribeEngineDefaultClusterParametersOptions : AwsOptions
+public record AwsRdsDescribeEngineDefaultClusterParametersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide . See also: AWS API Documentation describe-engine-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument ...
+    /// </summary>
+    /// <param name="DbParameterGroupFamily">The name of the DB cluster parameter group family to return engine parameter information for.</param>
+    public AwsRdsDescribeEngineDefaultClusterParametersOptions(
+        string DbParameterGroupFamily
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbParameterGroupFamily);
+        this.DbParameterGroupFamily = DbParameterGroupFamily;
+    }
+
+    private AwsRdsDescribeEngineDefaultClusterParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDescribeEngineDefaultClusterParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDescribeEngineDefaultClusterParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster parameter group family to return engine parameter information for.
+    /// </summary>
     [CliOption("--db-parameter-group-family")]
-    public string? DbParameterGroupFamily { get; set; }
+    public string? DbParameterGroupFamily { get; private init; }
 
     /// <summary>
     /// This parameter isn't currently supported. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -55,5 +92,21 @@ public record AwsRdsDescribeEngineDefaultClusterParametersOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

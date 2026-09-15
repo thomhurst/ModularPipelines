@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "create-members")]
-public record AwsGuarddutyCreateMembersOptions : AwsOptions
+public record AwsGuarddutyCreateMembersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by in- vitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a membe...
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AccountDetails">A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: o min: 1 o max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: o min: 12 o max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: o The email address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following charac- ters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; o The local name can't begin with a dot (.). o The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). o The domain name can't begin or end with a dot (.) or hyphen (-). o The domain name must contain at least one dot. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
+    public AwsGuarddutyCreateMembersOptions(
+        string DetectorId,
+        IEnumerable<string> AccountDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountDetails);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountDetails));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountDetails));
+            }
+
+            AccountDetails = materialized;
+        }
+        this.AccountDetails = AccountDetails;
+    }
+
+    private AwsGuarddutyCreateMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyCreateMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyCreateMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: o min: 1 o max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: o min: 12 o max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: o The email address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following charac- ters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; o The local name can't begin with a dot (.). o The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). o The domain name can't begin or end with a dot (.) or hyphen (-). o The domain name must contain at least one dot. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
+    /// </summary>
     [CliOption("--account-details", GroupValues = true)]
-    public IEnumerable<string>? AccountDetails { get; set; }
+    public IEnumerable<string>? AccountDetails { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

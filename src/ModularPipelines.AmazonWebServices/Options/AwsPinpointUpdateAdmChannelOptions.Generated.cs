@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "update-adm-channel")]
-public record AwsPinpointUpdateAdmChannelOptions : AwsOptions
+public record AwsPinpointUpdateAdmChannelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--adm-channel-request")]
-    public string? AdmChannelRequest { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdmChannelRequest">Specifies the status and settings of the ADM (Amazon Device Messag- ing) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    public AwsPinpointUpdateAdmChannelOptions(
+        string AdmChannelRequest,
+        string ApplicationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdmChannelRequest);
+        this.AdmChannelRequest = AdmChannelRequest;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+    }
+
+    private AwsPinpointUpdateAdmChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointUpdateAdmChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointUpdateAdmChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the status and settings of the ADM (Amazon Device Messag- ing) channel for an application. ClientId -&gt; (string) [required] The Client ID that you received from Amazon to send messages by using ADM. ClientSecret -&gt; (string) [required] The Client Secret that you received from Amazon to send messages by using ADM. Enabled -&gt; (boolean) Specifies whether to enable the ADM channel for the application. Shorthand Syntax: ClientId=string,ClientSecret=string,Enabled=boolean JSON Syntax: { "ClientId": "string", "ClientSecret": "string", "Enabled": true|false }
+    /// </summary>
+    [CliOption("--adm-channel-request")]
+    public string? AdmChannelRequest { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

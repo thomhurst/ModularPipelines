@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "register-type")]
-public record AwsCloudformationRegisterTypeOptions : AwsOptions
+public record AwsCloudformationRegisterTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: o Validating the extension schema. o Determining which handlers, if any, have been specified for the ex- tension. o Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CL...
+    /// </summary>
+    /// <param name="TypeName">The name of the extension being registered. We suggest that extension names adhere to the following patterns: o For resource types, company_or_organization::service::type . o For modules, company_or_organization::service::type::MODULE . o For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: o Alexa o AMZN o Amazon o AWS o Custom o Dev Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}</param>
+    /// <param name="SchemaHandlerPackage">A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to reg- ister. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Ama- zon S3 in the Identity and Access Management User Guide . Constraints: o min: 1 o max: 4096</param>
+    public AwsCloudformationRegisterTypeOptions(
+        string TypeName,
+        string SchemaHandlerPackage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaHandlerPackage);
+        this.SchemaHandlerPackage = SchemaHandlerPackage;
+    }
+
+    private AwsCloudformationRegisterTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationRegisterTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationRegisterTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the extension being registered. We suggest that extension names adhere to the following patterns: o For resource types, company_or_organization::service::type . o For modules, company_or_organization::service::type::MODULE . o For Hooks, MyCompany::Testing::MyTestHook . NOTE: The following organization namespaces are reserved and can't be used in your extension names: o Alexa o AMZN o Amazon o AWS o Custom o Dev Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// </summary>
+    [CliOption("--type-name")]
+    public string? TypeName { get; private init; }
+
+    /// <summary>
+    /// A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to reg- ister. For information about generating a schema handler package for the extension you want to register, see submit in the CloudFormation Command Line Interface (CLI) User Guide . NOTE: The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Ama- zon S3 in the Identity and Access Management User Guide . Constraints: o min: 1 o max: 4096
+    /// </summary>
+    [CliOption("--schema-handler-package")]
+    public string? SchemaHandlerPackage { get; private init; }
+
     /// <summary>
     /// The kind of extension. Possible values: o RESOURCE o MODULE o HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationRegisterTypeType? Type { get; set; }
-
-    [CliOption("--type-name")]
-    public string? TypeName { get; set; }
-
-    [CliOption("--schema-handler-package")]
-    public string? SchemaHandlerPackage { get; set; }
 
     /// <summary>
     /// Specifies logging configuration information for an extension. LogRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that CloudFormation should assume when sending log entries to CloudWatch Logs. Constraints: o min: 1 o max: 256 o pattern: arn:.+:iam::[0-9]{12}:role/.+ LogGroupName -&gt; (string) [required] The Amazon CloudWatch Logs group to which CloudFormation sends error logging information when invoking the extension's han- dlers. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: LogRoleArn=string,LogGroupName=string JSON Syntax: { "LogRoleArn": "string", "LogGroupName": "string" }
@@ -59,5 +103,21 @@ public record AwsCloudformationRegisterTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

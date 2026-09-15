@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "create-storage-virtual-machine")]
-public record AwsFsxCreateStorageVirtualMachineOptions : AwsOptions
+public record AwsFsxCreateStorageVirtualMachineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="Name">The name of the SVM. Constraints: o min: 1 o max: 47 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,47}$</param>
+    public AwsFsxCreateStorageVirtualMachineOptions(
+        string FileSystemId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsFsxCreateStorageVirtualMachineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCreateStorageVirtualMachineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCreateStorageVirtualMachineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// The name of the SVM. Constraints: o min: 1 o max: 47 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,47}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// Describes the self-managed Microsoft Active Directory to which you want to join the SVM. Joining an Active Directory provides user au- thentication and access control for SMB clients, including Microsoft Windows and macOS clients accessing the file system. NetBiosName -&gt; (string) [required] The NetBIOS name of the Active Directory computer object that will be created for your SVM. Constraints: o min: 1 o max: 15 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,255}$ SelfManagedActiveDirectoryConfiguration -&gt; (structure) The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual ma- chine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see Using Amazon FSx for Windows with your self-managed Microsoft Active Directory or Managing FSx for ONTAP SVMs . DomainName -&gt; (string) [required] The fully qualified domain name of the self-managed AD direc- tory, such as corp.example.com . Constraints: o min: 1 o max: 255 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,255}$ OrganizationalUnitDistinguishedName -&gt; (string) (Optional) The fully qualified distinguished name of the or- ganizational unit within your self-managed AD directory. Ama- zon FSx only accepts OU as the direct parent of the file sys- tem. An example is OU=FSx,DC=yourdomain,DC=corp,DC=com . To learn more, see RFC 2253 . If none is provided, the FSx file system is created in the default location of your self-man- aged AD directory. WARNING: Only Organizational Unit (OU) objects can be the direct parent of the file system that you're creating. Constraints: o min: 1 o max: 2000 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,2000}$ FileSystemAdministratorsGroup -&gt; (string) (Optional) The name of the domain group whose members are granted administrative privileges for the file system. Admin- istrative privileges include taking ownership of files and folders, setting audit controls (audit ACLs) on files and folders, and administering the file system remotely by using the FSx Remote PowerShell. The group that you specify must already exist in your domain. If you don't provide one, your AD domain's Domain Admins group is used. Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ UserName -&gt; (string) The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in Organiza- tionalUnitDistinguishedName , or in the default location of your AD domain. Constraints: o min: 1 o max: 256 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,256}$ Password -&gt; (string) The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. Constraints: o min: 1 o max: 256 o pattern: ^.{1,256}$ DnsIps -&gt; (list) [required] A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory. Constraints: o min: 1 o max: 3 (string) Constraints: o min: 1 o max: 45 o pattern: (^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$) DomainJoinServiceAccountSecret -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret containing the self-managed Active Di- rectory domain join service account credentials. When pro- vided, Amazon FSx uses the credentials stored in this secret to join the file system to your self-managed Active Directory domain. The secret must contain two key-value pairs: o CUSTOMER_MANAGED_ACTIVE_DIRECTORY_USERNAME - The username for the service account o CUSTOMER_MANAGED_ACTIVE_DIRECTORY_PASSWORD - The password for the service account For more information, see Using Amazon FSx for Windows with your self-managed Microsoft Active Directory or Using Amazon FSx for ONTAP with your self-managed Microsoft Active Direc- tory . Constraints: o min: 64 o max: 1024 o pattern: ^arn:[^:]{1,63}:secretsman- ager:[a-z0-9-]+:[0-9]{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$ Shorthand Syntax: NetBiosName=string,SelfManagedActiveDirectoryConfiguration={DomainName=string,OrganizationalUnitDistinguishedName=string,FileSystemAdministratorsGroup=string,UserName=string,Password=string,DnsIps=[string,string],DomainJoinServiceAccountSecret=string} JSON Syntax: { "NetBiosName": "string", "SelfManagedActiveDirectoryConfiguration": { "DomainName": "string", "OrganizationalUnitDistinguishedName": "string", "FileSystemAdministratorsGroup": "string", "UserName": "string", "Password": "string", "DnsIps": ["string", ...], "DomainJoinServiceAccountSecret": "string" } }
     /// </summary>
@@ -35,12 +85,6 @@ public record AwsFsxCreateStorageVirtualMachineOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The password to use when managing the SVM using the NetApp ONTAP CLI or REST API. If you do not specify a password, you can still use the file system's fsxadmin user to manage the SVM. Constraints: o min: 8 o max: 50 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{8,50}$
@@ -66,5 +110,21 @@ public record AwsFsxCreateStorageVirtualMachineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

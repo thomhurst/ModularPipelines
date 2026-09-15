@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "create-explainability-export")]
-public record AwsForecastCreateExplainabilityExportOptions : AwsOptions
+public record AwsForecastCreateExplainabilityExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exports an Explainability resource created by the CreateExplainability operation. Exported files are exported to an Amazon Simple Storage Ser- vice (Amazon S3) bucket. You must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more informa- tion, see aws-forecast-iam-roles . NOTE: The Status of the export job must be ACTIVE before you can access the export in your...
+    /// </summary>
+    /// <param name="ExplainabilityExportName">A unique name for the Explainability export. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="ExplainabilityArn">The Amazon Resource Name (ARN) of the Explainability to export. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="Destination">The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to ac- cess the location, and an Key Management Service (KMS) key (op- tional). S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }</param>
+    public AwsForecastCreateExplainabilityExportOptions(
+        string ExplainabilityExportName,
+        string ExplainabilityArn,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExplainabilityExportName);
+        this.ExplainabilityExportName = ExplainabilityExportName;
+        global::System.ArgumentNullException.ThrowIfNull(ExplainabilityArn);
+        this.ExplainabilityArn = ExplainabilityArn;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    private AwsForecastCreateExplainabilityExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastCreateExplainabilityExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastCreateExplainabilityExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for the Explainability export. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// </summary>
     [CliOption("--explainability-export-name")]
-    public string? ExplainabilityExportName { get; set; }
+    public string? ExplainabilityExportName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Explainability to export. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
     [CliOption("--explainability-arn")]
-    public string? ExplainabilityArn { get; set; }
+    public string? ExplainabilityArn { get; private init; }
 
+    /// <summary>
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to ac- cess the location, and an Key Management Service (KMS) key (op- tional). S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public string? Destination { get; private init; }
 
     /// <summary>
     /// Optional metadata to help you categorize and organize your re- sources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags: o For each resource, each tag key must be unique and each tag key must have one value. o Maximum number of tags per resource: 50. o Maximum key length: 128 Unicode characters in UTF-8. o Maximum value length: 256 Unicode characters in UTF-8. o Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply. o Key prefixes cannot include any upper or lowercase combination of aws: or AWS: . Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per re- source limit. You cannot edit or delete tag keys with this prefix. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -47,5 +98,21 @@ public record AwsForecastCreateExplainabilityExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

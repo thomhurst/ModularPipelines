@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "create-environment")]
-public record AwsEvsCreateEnvironmentOptions : AwsOptions
+public record AwsEvsCreateEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. NOTE: When you specify SELF_DEPLOYED for vcfVersion , Amazon EVS provi- sions only the VLAN subnets; no hosts are added and no VCF installa- tion is performed. After the environment is created, you can add hosts with CreateEnvironmentHost and install VCF yourself. The li- censeInfo , hosts , vcfHostnames , siteId , and connectivityInfo pa- rameters are not supported in this mode. When...
+    /// </summary>
+    /// <param name="VpcId">A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Avail- ability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with do- main name, at least two DNS servers, and an NTP server. These set- tings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Ama- zon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services net- working options for NSX overlay connectivity: cross-Region VPC peer- ing, Amazon S3 gateway endpoints, or Amazon Web Services Direct Con- nect virtual private gateway associations. NOTE: Ensure that you specify a VPC that is adequately sized to accom- modate the Amazon EVS subnets. Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8}([a-f0-9]{9})?</param>
+    /// <param name="ServiceAccessSubnetId">The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. The Amazon EVS control plane uses this subnet to interface with your environment. This includes validating DNS records and enabling Amazon EVS Connectors. Constraints: o min: 15 o max: 24 o pattern: subnet-[a-f0-9]{8}([a-f0-9]{9})?</param>
+    /// <param name="VcfVersion">The VCF version to use for the environment. o SELF_DEPLOYED : You install VCF yourself. The licenseInfo , hosts , vcfHostnames , siteId , and connectivityInfo parameters are not supported. o Any other valid value: Amazon EVS installs and configures VCF for you in the version you specify. Possible values: o VCF-5.2.1 o VCF-5.2.2 o SELF_DEPLOYED</param>
+    /// <param name="TermsAccepted">Confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.</param>
+    /// <param name="InitialVlans">The initial VLAN subnets for the Amazon EVS environment. NOTE: For each Amazon EVS VLAN subnet, you must specify a non-overlap- ping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. vmkManagement -&gt; (structure) [required] The host VMkernel management VLAN subnet. This VLAN subnet car- ries traffic for managing ESX hosts and communicating with VMware vCenter Server. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vmManagement -&gt; (structure) [required] The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vMotion -&gt; (structure) [required] The vMotion VLAN subnet. This VLAN subnet carries traffic for vSphere vMotion. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vSan -&gt; (structure) [required] The vSAN VLAN subnet. This VLAN subnet carries the communication between ESX hosts to implement a vSAN shared storage pool. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vTep -&gt; (structure) [required] The VTEP VLAN subnet. This VLAN subnet handles internal network traffic between virtual machines within a VCF instance. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) edgeVTep -&gt; (structure) [required] The edge VTEP VLAN subnet. This VLAN subnet manages traffic flowing between the internal network and external networks, in- cluding internet access and other site connections. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) nsxUplink -&gt; (structure) [required] The NSX uplink VLAN subnet. This VLAN subnet allows connectivity to the NSX overlay network. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) hcx -&gt; (structure) [required] The HCX VLAN subnet. This VLAN subnet allows the HCX Inter- connnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following re- quirements must be met: o Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration. o The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block. o Must have at least two Elastic IP addresses to be allocated from the public IPAM pool for HCX components. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) expansionVlan1 -&gt; (structure) [required] An additional VLAN subnet that can be used to extend VCF capa- bilities once configured. For example, you can configure an ex- pansion VLAN subnet to use NSX Federation for centralized man- agement and synchronization of multiple NSX deployments across different locations. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) expansionVlan2 -&gt; (structure) [required] An additional VLAN subnet that can be used to extend VCF capa- bilities once configured. For example, you can configure an ex- pansion VLAN subnet to use NSX Federation for centralized man- agement and synchronization of multiple NSX deployments across different locations. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) isHcxPublic -&gt; (boolean) Determines if the HCX VLAN that Amazon EVS provisions is public or private. hcxNetworkAclId -&gt; (string) A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true . Constraints: o min: 4 o max: 21 o pattern: acl-[a-zA-Z0-9_-]+ Shorthand Syntax: vmkManagement={cidr=string},vmManagement={cidr=string},vMotion={cidr=string},vSan={cidr=string},vTep={cidr=string},edgeVTep={cidr=string},nsxUplink={cidr=string},hcx={cidr=string},expansionVlan1={cidr=string},expansionVlan2={cidr=string},isHcxPublic=boolean,hcxNetworkAclId=string JSON Syntax: { "vmkManagement": { "cidr": "string" }, "vmManagement": { "cidr": "string" }, "vMotion": { "cidr": "string" }, "vSan": { "cidr": "string" }, "vTep": { "cidr": "string" }, "edgeVTep": { "cidr": "string" }, "nsxUplink": { "cidr": "string" }, "hcx": { "cidr": "string" }, "expansionVlan1": { "cidr": "string" }, "expansionVlan2": { "cidr": "string" }, "isHcxPublic": true|false, "hcxNetworkAclId": "string" }</param>
+    public AwsEvsCreateEnvironmentOptions(
+        string VpcId,
+        string ServiceAccessSubnetId,
+        string VcfVersion,
+        bool TermsAccepted,
+        string InitialVlans
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccessSubnetId);
+        this.ServiceAccessSubnetId = ServiceAccessSubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(VcfVersion);
+        this.VcfVersion = VcfVersion;
+        this.TermsAccepted = TermsAccepted;
+        global::System.ArgumentNullException.ThrowIfNull(InitialVlans);
+        this.InitialVlans = InitialVlans;
+    }
+
+    private AwsEvsCreateEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsCreateEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsCreateEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Avail- ability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with do- main name, at least two DNS servers, and an NTP server. These set- tings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Ama- zon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services net- working options for NSX overlay connectivity: cross-Region VPC peer- ing, Amazon S3 gateway endpoints, or Amazon Web Services Direct Con- nect virtual private gateway associations. NOTE: Ensure that you specify a VPC that is adequately sized to accom- modate the Amazon EVS subnets. Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8}([a-f0-9]{9})?
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. The Amazon EVS control plane uses this subnet to interface with your environment. This includes validating DNS records and enabling Amazon EVS Connectors. Constraints: o min: 15 o max: 24 o pattern: subnet-[a-f0-9]{8}([a-f0-9]{9})?
+    /// </summary>
+    [CliOption("--service-access-subnet-id")]
+    public string? ServiceAccessSubnetId { get; private init; }
+
+    /// <summary>
+    /// The VCF version to use for the environment. o SELF_DEPLOYED : You install VCF yourself. The licenseInfo , hosts , vcfHostnames , siteId , and connectivityInfo parameters are not supported. o Any other valid value: Amazon EVS installs and configures VCF for you in the version you specify. Possible values: o VCF-5.2.1 o VCF-5.2.2 o SELF_DEPLOYED
+    /// </summary>
+    [CliOption("--vcf-version")]
+    public string? VcfVersion { get; private init; }
+
+    /// <summary>
+    /// Confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
+    /// </summary>
+    [CliFlag("--terms-accepted", NegatedName = "--no-terms-accepted")]
+    public bool? TermsAccepted { get; private init; }
+
+    /// <summary>
+    /// The initial VLAN subnets for the Amazon EVS environment. NOTE: For each Amazon EVS VLAN subnet, you must specify a non-overlap- ping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. vmkManagement -&gt; (structure) [required] The host VMkernel management VLAN subnet. This VLAN subnet car- ries traffic for managing ESX hosts and communicating with VMware vCenter Server. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vmManagement -&gt; (structure) [required] The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vMotion -&gt; (structure) [required] The vMotion VLAN subnet. This VLAN subnet carries traffic for vSphere vMotion. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vSan -&gt; (structure) [required] The vSAN VLAN subnet. This VLAN subnet carries the communication between ESX hosts to implement a vSAN shared storage pool. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) vTep -&gt; (structure) [required] The VTEP VLAN subnet. This VLAN subnet handles internal network traffic between virtual machines within a VCF instance. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) edgeVTep -&gt; (structure) [required] The edge VTEP VLAN subnet. This VLAN subnet manages traffic flowing between the internal network and external networks, in- cluding internet access and other site connections. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) nsxUplink -&gt; (structure) [required] The NSX uplink VLAN subnet. This VLAN subnet allows connectivity to the NSX overlay network. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) hcx -&gt; (structure) [required] The HCX VLAN subnet. This VLAN subnet allows the HCX Inter- connnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following re- quirements must be met: o Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration. o The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block. o Must have at least two Elastic IP addresses to be allocated from the public IPAM pool for HCX components. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) expansionVlan1 -&gt; (structure) [required] An additional VLAN subnet that can be used to extend VCF capa- bilities once configured. For example, you can configure an ex- pansion VLAN subnet to use NSX Federation for centralized man- agement and synchronization of multiple NSX deployments across different locations. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) expansionVlan2 -&gt; (structure) [required] An additional VLAN subnet that can be used to extend VCF capa- bilities once configured. For example, you can configure an ex- pansion VLAN subnet to use NSX Federation for centralized man- agement and synchronization of multiple NSX deployments across different locations. cidr -&gt; (string) [required] The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC. Constraints: o pattern: ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[1-2][0-9]|[0-9]) isHcxPublic -&gt; (boolean) Determines if the HCX VLAN that Amazon EVS provisions is public or private. hcxNetworkAclId -&gt; (string) A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true . Constraints: o min: 4 o max: 21 o pattern: acl-[a-zA-Z0-9_-]+ Shorthand Syntax: vmkManagement={cidr=string},vmManagement={cidr=string},vMotion={cidr=string},vSan={cidr=string},vTep={cidr=string},edgeVTep={cidr=string},nsxUplink={cidr=string},hcx={cidr=string},expansionVlan1={cidr=string},expansionVlan2={cidr=string},isHcxPublic=boolean,hcxNetworkAclId=string JSON Syntax: { "vmkManagement": { "cidr": "string" }, "vmManagement": { "cidr": "string" }, "vMotion": { "cidr": "string" }, "vSan": { "cidr": "string" }, "vTep": { "cidr": "string" }, "edgeVTep": { "cidr": "string" }, "nsxUplink": { "cidr": "string" }, "hcx": { "cidr": "string" }, "expansionVlan1": { "cidr": "string" }, "expansionVlan2": { "cidr": "string" }, "isHcxPublic": true|false, "hcxNetworkAclId": "string" }
+    /// </summary>
+    [CliOption("--initial-vlans")]
+    public string? InitialVlans { get; private init; }
+
     /// <summary>
     /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not spec- ify a client token, a randomly generated token is used for the re- quest to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
     /// </summary>
@@ -53,21 +132,6 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
     /// </summary>
     [CliOption("--service-access-security-groups")]
     public string? ServiceAccessSecurityGroups { get; set; }
-
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliOption("--service-access-subnet-id")]
-    public string? ServiceAccessSubnetId { get; set; }
-
-    [CliOption("--vcf-version")]
-    public string? VcfVersion { get; set; }
-
-    [CliFlag("--terms-accepted")]
-    public bool? TermsAccepted { get; set; }
-
-    [CliOption("--initial-vlans")]
-    public string? InitialVlans { get; set; }
 
     /// <summary>
     /// The connectivity configuration for the environment. Amazon EVS re- quires that you specify two route server peer IDs. During environ- ment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks. NOTE: Not supported when vcfVersion is SELF_DEPLOYED . privateRouteServerPeerings -&gt; (list) [required] The unique IDs for private route server peers. Constraints: o min: 2 o max: 2 (string) Constraints: o min: 3 o max: 21 Shorthand Syntax: privateRouteServerPeerings=string,string JSON Syntax: { "privateRouteServerPeerings": ["string", ...] }
@@ -104,5 +168,21 @@ public record AwsEvsCreateEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

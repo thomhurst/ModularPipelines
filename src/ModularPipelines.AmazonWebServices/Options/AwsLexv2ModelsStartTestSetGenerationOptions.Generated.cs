@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "start-test-set-generation")]
-public record AwsLexv2ModelsStartTestSetGenerationOptions : AwsOptions
+public record AwsLexv2ModelsStartTestSetGenerationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The action to start the generation of test set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestSetName">The test set name for the test set generation request. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="StorageLocation">The Amazon S3 storage location for the test set generation. s3BucketName -&gt; (string) [required] The name of the Amazon S3 bucket in which the test set is stored. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ s3Path -&gt; (string) [required] The path inside the Amazon S3 bucket where the test set is stored. Constraints: o min: 1 o max: 1024 o pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]*$ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting the test set. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ Shorthand Syntax: s3BucketName=string,s3Path=string,kmsKeyArn=string JSON Syntax: { "s3BucketName": "string", "s3Path": "string", "kmsKeyArn": "string" }</param>
+    /// <param name="GenerationDataSource">The data source for the test set generation. conversationLogsDataSource -&gt; (structure) Contains information about the bot from which the conversation logs are sourced. botId -&gt; (string) [required] The bot Id from the conversation logs. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id from the conversation logs. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the conversation log. filter -&gt; (structure) [required] The filter for the data source of the conversation log. startTime -&gt; (timestamp) [required] The start time for the conversation log. endTime -&gt; (timestamp) [required] The end time for the conversation log. inputMode -&gt; (string) [required] The selection to filter by input mode for the conversa- tion logs. Possible values: o Speech o Text Shorthand Syntax: conversationLogsDataSource={botId=string,botAliasId=string,localeId=string,filter={startTime=timestamp,endTime=timestamp,inputMode=string}} JSON Syntax: { "conversationLogsDataSource": { "botId": "string", "botAliasId": "string", "localeId": "string", "filter": { "startTime": timestamp, "endTime": timestamp, "inputMode": "Speech"|"Text" } } }</param>
+    /// <param name="RoleArn">The roleARN used for any operation in the test set to access re- sources in the Amazon Web Services account. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$</param>
+    public AwsLexv2ModelsStartTestSetGenerationOptions(
+        string TestSetName,
+        string StorageLocation,
+        string GenerationDataSource,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestSetName);
+        this.TestSetName = TestSetName;
+        global::System.ArgumentNullException.ThrowIfNull(StorageLocation);
+        this.StorageLocation = StorageLocation;
+        global::System.ArgumentNullException.ThrowIfNull(GenerationDataSource);
+        this.GenerationDataSource = GenerationDataSource;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsLexv2ModelsStartTestSetGenerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStartTestSetGenerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStartTestSetGenerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The test set name for the test set generation request. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// </summary>
     [CliOption("--test-set-name")]
-    public string? TestSetName { get; set; }
+    public string? TestSetName { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 storage location for the test set generation. s3BucketName -&gt; (string) [required] The name of the Amazon S3 bucket in which the test set is stored. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ s3Path -&gt; (string) [required] The path inside the Amazon S3 bucket where the test set is stored. Constraints: o min: 1 o max: 1024 o pattern: [\.\-\!\*\_\'\(\)a-zA-Z0-9][\.\-\!\*\_\'\(\)\/a-zA-Z0-9]*$ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting the test set. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ Shorthand Syntax: s3BucketName=string,s3Path=string,kmsKeyArn=string JSON Syntax: { "s3BucketName": "string", "s3Path": "string", "kmsKeyArn": "string" }
+    /// </summary>
+    [CliOption("--storage-location")]
+    public string? StorageLocation { get; private init; }
+
+    /// <summary>
+    /// The data source for the test set generation. conversationLogsDataSource -&gt; (structure) Contains information about the bot from which the conversation logs are sourced. botId -&gt; (string) [required] The bot Id from the conversation logs. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id from the conversation logs. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the conversation log. filter -&gt; (structure) [required] The filter for the data source of the conversation log. startTime -&gt; (timestamp) [required] The start time for the conversation log. endTime -&gt; (timestamp) [required] The end time for the conversation log. inputMode -&gt; (string) [required] The selection to filter by input mode for the conversa- tion logs. Possible values: o Speech o Text Shorthand Syntax: conversationLogsDataSource={botId=string,botAliasId=string,localeId=string,filter={startTime=timestamp,endTime=timestamp,inputMode=string}} JSON Syntax: { "conversationLogsDataSource": { "botId": "string", "botAliasId": "string", "localeId": "string", "filter": { "startTime": timestamp, "endTime": timestamp, "inputMode": "Speech"|"Text" } } }
+    /// </summary>
+    [CliOption("--generation-data-source")]
+    public string? GenerationDataSource { get; private init; }
+
+    /// <summary>
+    /// The roleARN used for any operation in the test set to access re- sources in the Amazon Web Services account. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The test set description for the test set generation request. Constraints: o min: 0 o max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--storage-location")]
-    public string? StorageLocation { get; set; }
-
-    [CliOption("--generation-data-source")]
-    public string? GenerationDataSource { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource opera- tion. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +109,21 @@ public record AwsLexv2ModelsStartTestSetGenerationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

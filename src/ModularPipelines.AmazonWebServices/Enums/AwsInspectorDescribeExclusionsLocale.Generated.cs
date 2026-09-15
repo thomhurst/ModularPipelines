@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsInspectorDescribeExclusionsLocale
 {
     [EnumValue("EN_US")]
-    EnUs = 1
+    EnUs,
+
+    [EnumValue("o")]
+    O
 }

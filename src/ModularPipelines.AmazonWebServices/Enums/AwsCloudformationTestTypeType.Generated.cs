@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCloudformationTestTypeType
 {
-    [EnumValue("RESOURCE")]
-    Resource = 1,
+    [EnumValue("HOOK")]
+    Hook,
 
     [EnumValue("MODULE")]
-    Module = 2,
+    Module,
 
-    [EnumValue("HOOK")]
-    Hook = 3
+    [EnumValue("RESOURCE")]
+    Resource
 }

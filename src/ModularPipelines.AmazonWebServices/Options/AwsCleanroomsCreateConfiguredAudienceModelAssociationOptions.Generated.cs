@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-configured-audience-model-association")]
-public record AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions : AwsOptions
+public record AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides the details necessary to create a configured audience model association. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipIdentifier">A unique identifier for one of your memberships for a collaboration. The configured audience model is associated to the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConfiguredAudienceModelArn">A unique identifier for the configured audience model that you want to associate. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredAudienceModelAssociationName">The name of the configured audience model association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="ManageResourcePolicies">When TRUE , indicates that the resource policy for the configured audience model resource being associated is configured for Clean Rooms to manage permissions related to the given collaboration. When FALSE , indicates that the configured audience model resource owner will manage permissions related to the given collaboration. Setting this to TRUE requires you to have permissions to create, up- date, and delete the resource policy for the cleanrooms-ml resource when you call the DeleteConfiguredAudienceModelAssociation re- source. In addition, if you are the collaboration creator and spec- ify TRUE , you must have the same permissions when you call the DeleteMember and DeleteCollaboration APIs.</param>
+    public AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions(
+        string MembershipIdentifier,
+        string ConfiguredAudienceModelArn,
+        string ConfiguredAudienceModelAssociationName,
+        bool ManageResourcePolicies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredAudienceModelArn);
+        this.ConfiguredAudienceModelArn = ConfiguredAudienceModelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredAudienceModelAssociationName);
+        this.ConfiguredAudienceModelAssociationName = ConfiguredAudienceModelAssociationName;
+        this.ManageResourcePolicies = ManageResourcePolicies;
+    }
+
+    private AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for one of your memberships for a collaboration. The configured audience model is associated to the collaboration that this membership belongs to. Accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the configured audience model that you want to associate. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
     [CliOption("--configured-audience-model-arn")]
-    public string? ConfiguredAudienceModelArn { get; set; }
+    public string? ConfiguredAudienceModelArn { get; private init; }
 
+    /// <summary>
+    /// The name of the configured audience model association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--configured-audience-model-association-name")]
-    public string? ConfiguredAudienceModelAssociationName { get; set; }
+    public string? ConfiguredAudienceModelAssociationName { get; private init; }
 
-    [CliFlag("--manage-resource-policies")]
-    public bool? ManageResourcePolicies { get; set; }
+    /// <summary>
+    /// When TRUE , indicates that the resource policy for the configured audience model resource being associated is configured for Clean Rooms to manage permissions related to the given collaboration. When FALSE , indicates that the configured audience model resource owner will manage permissions related to the given collaboration. Setting this to TRUE requires you to have permissions to create, up- date, and delete the resource policy for the cleanrooms-ml resource when you call the DeleteConfiguredAudienceModelAssociation re- source. In addition, if you are the collaboration creator and spec- ify TRUE , you must have the same permissions when you call the DeleteMember and DeleteCollaboration APIs.
+    /// </summary>
+    [CliFlag("--manage-resource-policies", NegatedName = "--no-manage-resource-policies")]
+    public bool? ManageResourcePolicies { get; private init; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +108,21 @@ public record AwsCleanroomsCreateConfiguredAudienceModelAssociationOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

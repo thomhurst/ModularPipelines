@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "stop-workflow-run")]
-public record AwsMwaaServerlessStopWorkflowRunOptions : AwsOptions
+public record AwsMwaaServerlessStopWorkflowRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Stops a running workflow execution. This operation terminates all run- ning tasks and prevents new tasks from starting. Amazon Managed Work- flows for Apache Airflow Serverless gracefully shuts down the workflow execution by stopping task scheduling and terminating active ECS worker containers. The operation transitions the workflow run to a STOPPING state and then to STOPPED once all cleanup is complete. In-flight tasks may complete or be terminated depending on their current execution state. S...
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="RunId">The unique identifier of the workflow run to stop. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    public AwsMwaaServerlessStopWorkflowRunOptions(
+        string WorkflowArn,
+        string RunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+        global::System.ArgumentNullException.ThrowIfNull(RunId);
+        this.RunId = RunId;
+    }
+
+    private AwsMwaaServerlessStopWorkflowRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessStopWorkflowRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessStopWorkflowRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow that contains the run you want to stop. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--workflow-arn")]
+    public string? WorkflowArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the workflow run to stop. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// </summary>
     [CliOption("--run-id")]
-    public string? RunId { get; set; }
+    public string? RunId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "describe-instance-attribute")]
-public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions
+public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="AttributeType">The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
+    public AwsConnectDescribeInstanceAttributeOptions(
+        string InstanceId,
+        AwsConnectDescribeInstanceAttributeAttributeType AttributeType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeType);
+        this.AttributeType = AttributeType;
+    }
+
+    private AwsConnectDescribeInstanceAttributeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDescribeInstanceAttributeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDescribeInstanceAttributeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
+    /// </summary>
     [CliOption("--attribute-type")]
-    public string? AttributeType { get; set; }
+    public AwsConnectDescribeInstanceAttributeAttributeType? AttributeType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

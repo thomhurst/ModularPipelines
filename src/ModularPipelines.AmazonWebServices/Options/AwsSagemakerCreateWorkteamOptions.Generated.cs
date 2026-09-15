@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-workteam")]
-public record AwsSagemakerCreateWorkteamOptions : AwsOptions
+public record AwsSagemakerCreateWorkteamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkteamName">The name of the work team. Use this name to identify the work team. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="MemberDefinitions">A list of MemberDefinition objects that contains objects that iden- tify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition . For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition . Do not provide input for both of these parameters in a single request. For workforces created using Amazon Cognito, private work teams cor- respond to Amazon Cognito user groups within the user pool used to create a workforce. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and User- Pool values. To add a Amazon Cognito user group to an existing worker pool, see Adding groups to a User Pool . For more information about user pools, see `Amazon Cognito User Pools . For workforces created using your own OIDC IdP, specify the user groups that you want to include in your private work team in Oid- cMemberDefinition by listing those groups in Groups . Constraints: o min: 1 o max: 10 (structure) Defines an Amazon Cognito or your own OIDC IdP user group that is part of a work team. CognitoMemberDefinition -&gt; (structure) The Amazon Cognito user group that is part of the work team. UserPool -&gt; (string) [required] An identifier for a user pool. The user pool must be in the same region as the service that you are calling. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+ UserGroup -&gt; (string) [required] An identifier for a user group. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ ClientId -&gt; (string) [required] An identifier for an application client. You must create the app client ID using Amazon Cognito. Constraints: o min: 1 o max: 1024 o pattern: [ -~]+ OidcMemberDefinition -&gt; (structure) A list user groups that exist in your OIDC Identity Provider (IdP). One to ten groups can be used to create a single pri- vate work team. When you add a user group to the list of Groups , you can add that user group to one or more private work teams. If you add a user group to a private work team, all workers in that user group are added to the work team. Groups -&gt; (list) A list of comma seperated strings that identifies user groups in your OIDC IdP. Each user group is made up of a group of private workers. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 63 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Shorthand Syntax: CognitoMemberDefinition={UserPool=string,UserGroup=string,ClientId=string},OidcMemberDefinition={Groups=[string,string]} ... JSON Syntax: [ { "CognitoMemberDefinition": { "UserPool": "string", "UserGroup": "string", "ClientId": "string" }, "OidcMemberDefinition": { "Groups": ["string", ...] } } ... ]</param>
+    /// <param name="Description">A description of the work team. Constraints: o min: 1 o max: 200 o pattern: .+</param>
+    public AwsSagemakerCreateWorkteamOptions(
+        string WorkteamName,
+        IEnumerable<string> MemberDefinitions,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkteamName);
+        this.WorkteamName = WorkteamName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MemberDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MemberDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MemberDefinitions));
+            }
+
+            MemberDefinitions = materialized;
+        }
+        this.MemberDefinitions = MemberDefinitions;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsSagemakerCreateWorkteamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateWorkteamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateWorkteamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the work team. Use this name to identify the work team. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--workteam-name")]
-    public string? WorkteamName { get; set; }
+    public string? WorkteamName { get; private init; }
+
+    /// <summary>
+    /// A list of MemberDefinition objects that contains objects that iden- tify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition . For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition . Do not provide input for both of these parameters in a single request. For workforces created using Amazon Cognito, private work teams cor- respond to Amazon Cognito user groups within the user pool used to create a workforce. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and User- Pool values. To add a Amazon Cognito user group to an existing worker pool, see Adding groups to a User Pool . For more information about user pools, see `Amazon Cognito User Pools . For workforces created using your own OIDC IdP, specify the user groups that you want to include in your private work team in Oid- cMemberDefinition by listing those groups in Groups . Constraints: o min: 1 o max: 10 (structure) Defines an Amazon Cognito or your own OIDC IdP user group that is part of a work team. CognitoMemberDefinition -&gt; (structure) The Amazon Cognito user group that is part of the work team. UserPool -&gt; (string) [required] An identifier for a user pool. The user pool must be in the same region as the service that you are calling. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+ UserGroup -&gt; (string) [required] An identifier for a user group. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ ClientId -&gt; (string) [required] An identifier for an application client. You must create the app client ID using Amazon Cognito. Constraints: o min: 1 o max: 1024 o pattern: [ -~]+ OidcMemberDefinition -&gt; (structure) A list user groups that exist in your OIDC Identity Provider (IdP). One to ten groups can be used to create a single pri- vate work team. When you add a user group to the list of Groups , you can add that user group to one or more private work teams. If you add a user group to a private work team, all workers in that user group are added to the work team. Groups -&gt; (list) A list of comma seperated strings that identifies user groups in your OIDC IdP. Each user group is made up of a group of private workers. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 63 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ Shorthand Syntax: CognitoMemberDefinition={UserPool=string,UserGroup=string,ClientId=string},OidcMemberDefinition={Groups=[string,string]} ... JSON Syntax: [ { "CognitoMemberDefinition": { "UserPool": "string", "UserGroup": "string", "ClientId": "string" }, "OidcMemberDefinition": { "Groups": ["string", ...] } } ... ]
+    /// </summary>
+    [CliOption("--member-definitions", GroupValues = true)]
+    public IEnumerable<string>? MemberDefinitions { get; private init; }
+
+    /// <summary>
+    /// A description of the work team. Constraints: o min: 1 o max: 200 o pattern: .+
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
 
     /// <summary>
     /// The name of the workforce. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
     /// </summary>
     [CliOption("--workforce-name")]
     public string? WorkforceName { get; set; }
-
-    [CliOption("--member-definitions", GroupValues = true)]
-    public IEnumerable<string>? MemberDefinitions { get; set; }
-
-    [CliOption("--description")]
-    public string? Description { get; set; }
 
     /// <summary>
     /// Configures notification of workers regarding available or expiring work items. NotificationTopicArn -&gt; (string) The ARN for the Amazon SNS topic to which notifications should be published. Constraints: o pattern: arn:aws[a-z\-]*:sns:[a-z0-9\-]*:[0-9]{12}:[a-zA-Z0-9_.-]* Shorthand Syntax: NotificationTopicArn=string JSON Syntax: { "NotificationTopicArn": "string" }
@@ -59,5 +121,21 @@ public record AwsSagemakerCreateWorkteamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

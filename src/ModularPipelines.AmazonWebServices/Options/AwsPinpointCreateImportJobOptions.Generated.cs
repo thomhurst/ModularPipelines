@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint", "create-import-job")]
-public record AwsPinpointCreateImportJobOptions : AwsOptions
+public record AwsPinpointCreateImportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an import job for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ImportJobRequest">Specifies the settings for a job that imports endpoint definitions from an Amazon Simple Storage Service (Amazon S3) bucket. DefineSegment -&gt; (boolean) Specifies whether to create a segment that contains the end- points, when the endpoint definitions are imported. ExternalId -&gt; (string) (Deprecated) Your AWS account ID, which you assigned to an ex- ternal ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint. Format -&gt; (string) [required] The format of the files that contain the endpoint definitions to import. Valid values are: CSV, for comma-separated values for- mat; and, JSON, for newline-delimited JSON format. If the Amazon S3 location stores multiple files that use different formats, Amazon Pinpoint imports data only from the files that use the specified format. Possible values: o CSV o JSON RegisterEndpoints -&gt; (boolean) Specifies whether to register the endpoints with Amazon Pin- point, when the endpoint definitions are imported. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location to import endpoint definitions from. S3Url -&gt; (string) [required] The URL of the Amazon Simple Storage Service (Amazon S3) bucket that contains the endpoint definitions to import. This location can be a folder or a single file. If the location is a folder, Amazon Pinpoint imports endpoint definitions from the files in this location, including any subfolders that the folder con- tains. The URL should be in the following format: s3://bucket-name/folder-name/file-name. The location can end with the key for an individual object or a prefix that qualifies multiple objects. SegmentId -&gt; (string) The identifier for the segment to update or add the imported endpoint definitions to, if the import job is meant to update an existing segment. SegmentName -&gt; (string) A custom name for the segment that's created by the import job, if the value of the DefineSegment property is true. Shorthand Syntax: DefineSegment=boolean,ExternalId=string,Format=string,RegisterEndpoints=boolean,RoleArn=string,S3Url=string,SegmentId=string,SegmentName=string JSON Syntax: { "DefineSegment": true|false, "ExternalId": "string", "Format": "CSV"|"JSON", "RegisterEndpoints": true|false, "RoleArn": "string", "S3Url": "string", "SegmentId": "string", "SegmentName": "string" }</param>
+    public AwsPinpointCreateImportJobOptions(
+        string ApplicationId,
+        string ImportJobRequest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ImportJobRequest);
+        this.ImportJobRequest = ImportJobRequest;
+    }
+
+    private AwsPinpointCreateImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointCreateImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointCreateImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Specifies the settings for a job that imports endpoint definitions from an Amazon Simple Storage Service (Amazon S3) bucket. DefineSegment -&gt; (boolean) Specifies whether to create a segment that contains the end- points, when the endpoint definitions are imported. ExternalId -&gt; (string) (Deprecated) Your AWS account ID, which you assigned to an ex- ternal ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint. Format -&gt; (string) [required] The format of the files that contain the endpoint definitions to import. Valid values are: CSV, for comma-separated values for- mat; and, JSON, for newline-delimited JSON format. If the Amazon S3 location stores multiple files that use different formats, Amazon Pinpoint imports data only from the files that use the specified format. Possible values: o CSV o JSON RegisterEndpoints -&gt; (boolean) Specifies whether to register the endpoints with Amazon Pin- point, when the endpoint definitions are imported. RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location to import endpoint definitions from. S3Url -&gt; (string) [required] The URL of the Amazon Simple Storage Service (Amazon S3) bucket that contains the endpoint definitions to import. This location can be a folder or a single file. If the location is a folder, Amazon Pinpoint imports endpoint definitions from the files in this location, including any subfolders that the folder con- tains. The URL should be in the following format: s3://bucket-name/folder-name/file-name. The location can end with the key for an individual object or a prefix that qualifies multiple objects. SegmentId -&gt; (string) The identifier for the segment to update or add the imported endpoint definitions to, if the import job is meant to update an existing segment. SegmentName -&gt; (string) A custom name for the segment that's created by the import job, if the value of the DefineSegment property is true. Shorthand Syntax: DefineSegment=boolean,ExternalId=string,Format=string,RegisterEndpoints=boolean,RoleArn=string,S3Url=string,SegmentId=string,SegmentName=string JSON Syntax: { "DefineSegment": true|false, "ExternalId": "string", "Format": "CSV"|"JSON", "RegisterEndpoints": true|false, "RoleArn": "string", "S3Url": "string", "SegmentId": "string", "SegmentName": "string" }
+    /// </summary>
     [CliOption("--import-job-request")]
-    public string? ImportJobRequest { get; set; }
+    public string? ImportJobRequest { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

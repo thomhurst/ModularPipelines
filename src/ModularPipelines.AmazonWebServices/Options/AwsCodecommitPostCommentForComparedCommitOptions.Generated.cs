@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "post-comment-for-compared-commit")]
-public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions
+public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Posts a comment on the comparison between two commits. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you want to post a comment on the comparison between commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="AfterCommitId">To establish the directionality of the comparison, the full commit ID of the after commit.</param>
+    /// <param name="Content">The content of the comment you want to make.</param>
+    public AwsCodecommitPostCommentForComparedCommitOptions(
+        string RepositoryName,
+        string AfterCommitId,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(AfterCommitId);
+        this.AfterCommitId = AfterCommitId;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsCodecommitPostCommentForComparedCommitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitPostCommentForComparedCommitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitPostCommentForComparedCommitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you want to post a comment on the comparison between commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// To establish the directionality of the comparison, the full commit ID of the after commit.
+    /// </summary>
+    [CliOption("--after-commit-id")]
+    public string? AfterCommitId { get; private init; }
+
+    /// <summary>
+    /// The content of the comment you want to make.
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// To establish the directionality of the comparison, the full commit ID of the before commit. Required for commenting on any commit un- less that commit is the initial commit.
@@ -31,17 +88,11 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions
     [CliOption("--before-commit-id")]
     public string? BeforeCommitId { get; set; }
 
-    [CliOption("--after-commit-id")]
-    public string? AfterCommitId { get; set; }
-
     /// <summary>
     /// The location of the comparison where you want to comment. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number for- mat. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: o BEFORE o AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
@@ -55,5 +106,21 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

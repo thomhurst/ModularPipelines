@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("notifications", "list-managed-notification-child-events")]
-public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOptions
+public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of ManagedNotificationChildEvents for a specified aggre- gate ManagedNotificationEvent , ordered by creation time in reverse chronological order (newest first). See also: AWS API Documentation list-managed-notification-child-events is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated re...
+    /// </summary>
+    /// <param name="AggregateManagedNotificationEventArn">The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}</param>
+    public AwsNotificationsListManagedNotificationChildEventsOptions(
+        string AggregateManagedNotificationEventArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AggregateManagedNotificationEventArn);
+        this.AggregateManagedNotificationEventArn = AggregateManagedNotificationEventArn;
+    }
+
+    private AwsNotificationsListManagedNotificationChildEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNotificationsListManagedNotificationChildEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNotificationsListManagedNotificationChildEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent . Constraints: o pattern: arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-no- tification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}/event/[a-z0-9]{27}
+    /// </summary>
     [CliOption("--aggregate-managed-notification-event-arn")]
-    public string? AggregateManagedNotificationEventArn { get; set; }
+    public string? AggregateManagedNotificationEventArn { get; private init; }
 
     /// <summary>
     /// The earliest time of events to return from this call.
@@ -41,7 +79,7 @@ public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOpt
     /// The locale code of the language used for the retrieved Notification- Event . The default locale is English.``en_US`` . Possible values: o de_DE o en_CA o en_US o en_UK o es_ES o fr_CA o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o tr_TR o zh_CN o zh_TW
     /// </summary>
     [CliOption("--locale")]
-    public string? Locale { get; set; }
+    public AwsNotificationsListManagedNotificationChildEventsLocale? Locale { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account ID associated with the Managed Noti- fication Child Events. Constraints: o pattern: \d{12}
@@ -79,5 +117,21 @@ public record AwsNotificationsListManagedNotificationChildEventsOptions : AwsOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

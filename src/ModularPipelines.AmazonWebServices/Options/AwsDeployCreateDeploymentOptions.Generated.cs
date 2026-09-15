@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "create-deployment")]
-public record AwsDeployCreateDeploymentOptions : AwsOptions
+public record AwsDeployCreateDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deploys an application revision through the specified deployment group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployCreateDeploymentOptions(
+        string ApplicationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationName);
+        this.ApplicationName = ApplicationName;
+    }
+
+    private AwsDeployCreateDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployCreateDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployCreateDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--application-name")]
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; private init; }
 
     /// <summary>
     /// The name of the deployment group. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
@@ -49,7 +86,10 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--ignore-application-stop-failures")]
+    /// <summary>
+    /// ures (boolean) If true, then if an ApplicationStop , BeforeBlockTraffic , or Af- terBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment contin- ues with DownloadBundle . If BeforeBlockTraffic fails, the deploy- ment continues with BlockTraffic . If AfterBlockTraffic fails, the deployment continues with ApplicationStop . If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted. During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop , BeforeBlockTraffic , and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run success- fully, the deployment can fail. If the cause of the failure is a script from the last successful de- ployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the Applica- tionStop , BeforeBlockTraffic , and AfterBlockTraffic failures should be ignored.
+    /// </summary>
+    [CliFlag("--ignore-application-stop-failures", NegatedName = "--no-ignore-application-stop-failures")]
     public bool? IgnoreApplicationStopFailures { get; set; }
 
     /// <summary>
@@ -64,7 +104,10 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
     [CliOption("--auto-rollback-configuration")]
     public string? AutoRollbackConfiguration { get; set; }
 
-    [CliFlag("--update-outdated-instances-only")]
+    /// <summary>
+    /// Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
+    /// </summary>
+    [CliFlag("--update-outdated-instances-only", NegatedName = "--no-update-outdated-instances-only")]
     public bool? UpdateOutdatedInstancesOnly { get; set; }
 
     /// <summary>
@@ -73,8 +116,11 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
     [CliOption("--file-exists-behavior")]
     public AwsDeployCreateDeploymentFileExistsBehavior? FileExistsBehavior { get; set; }
 
+    /// <summary>
+    /// The type of deployment to create. Valid values are: o STANDARD : Deploys the specified revision. This is the default be- havior if deploymentMode is not specified. o RESTART : Restarts the application on the target instances using the revision from the deployment group's last successful deploy- ment, without downloading a new revision. RESTART is supported only for EC2/On-premises in-place deployments. When deploymentMode is RESTART , the following apply: o The call is rejected for Amazon ECS and Lambda deployments. o The revision parameter (including its s3Location and gitHubLoca- tion ) must not be specified, and is rejected if provided. The revision is resolved by the service from the deployment group's last successful deployment. o The updateOutdatedInstancesOnly parameter must not be set to true , and is rejected if provided. Possible values: o STANDARD o RESTART
+    /// </summary>
     [CliOption("--deployment-mode")]
-    public string? DeploymentMode { get; set; }
+    public AwsDeployCreateDeploymentDeploymentMode? DeploymentMode { get; set; }
 
     /// <summary>
     /// Allows you to specify information about alarms associated with a de- ployment. The alarm configuration that you specify here will over- ride the alarm configuration at the deployment group level. Consider overriding the alarm configuration if you have set up alarms at the deployment group level that are causing deployment failures. In this case, you would call CreateDeployment to create a new deployment that uses a previous application revision that is known to work, and set its alarm configuration to turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds without being blocked by the alarm that was generated by the previous, failed, de- ployment. NOTE: If you specify an overrideAlarmConfiguration , you need the Up- dateDeploymentGroup IAM permission when calling CreateDeployment . enabled -&gt; (boolean) Indicates whether the alarm configuration is enabled. ignorePollAlarmFailure -&gt; (boolean) Indicates whether a deployment should continue if information about the current state of alarms cannot be retrieved from Ama- zon CloudWatch. The default value is false. o true : The deployment proceeds even if alarm status informa- tion can't be retrieved from Amazon CloudWatch. o false : The deployment stops if alarm status information can't be retrieved from Amazon CloudWatch. alarms -&gt; (list) A list of alarms configured for the deployment or deployment group. A maximum of 10 alarms can be added. (structure) Information about an alarm. name -&gt; (string) The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms. Shorthand Syntax: enabled=boolean,ignorePollAlarmFailure=boolean,alarms=[{name=string},{name=string}] JSON Syntax: { "enabled": true|false, "ignorePollAlarmFailure": true|false, "alarms": [ { "name": "string" } ... ] }
@@ -93,5 +139,21 @@ public record AwsDeployCreateDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "create-db-cluster")]
-public record AwsDocdbCreateDbClusterOptions : AwsOptions
+public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon DocumentDB cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster</param>
+    /// <param name="Engine">The name of the database engine to be used for this cluster. Valid values: docdb</param>
+    public AwsDocdbCreateDbClusterOptions(
+        string DbClusterIdentifier,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsDocdbCreateDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCreateDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCreateDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the database engine to be used for this cluster. Valid values: docdb
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
     /// <summary>
     /// A list of Amazon EC2 Availability Zones that instances in the clus- ter can be created in. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -33,9 +83,6 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
-
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
 
     /// <summary>
     /// The name of the cluster parameter group to associate with this clus- ter.
@@ -54,9 +101,6 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The version number of the database engine to use. The --engine-ver- sion will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
@@ -101,7 +145,10 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--storage-encrypted")]
+    /// <summary>
+    /// Specifies whether the cluster is encrypted.
+    /// </summary>
+    [CliFlag("--storage-encrypted", NegatedName = "--no-storage-encrypted")]
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
@@ -122,7 +169,10 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -143,13 +193,15 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. Constraint: You can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user pass- word is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
@@ -170,5 +222,21 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

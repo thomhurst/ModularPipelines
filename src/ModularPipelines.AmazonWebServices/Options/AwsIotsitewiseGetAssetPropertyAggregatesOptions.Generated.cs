@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "get-asset-property-aggregates")]
-public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions
+public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . See also: AWS API Documentation get-asset-property-aggregates is a paginated op...
+    /// </summary>
+    /// <param name="AggregateTypes">The data aggregating function. Constraints: o min: 1 (string) Possible values: o AVERAGE o COUNT o MAXIMUM o MINIMUM o SUM o STANDARD_DEVIATION Syntax: "string" "string" ...</param>
+    /// <param name="Resolution">The time interval over which to aggregate data. Constraints: o min: 2 o max: 3 o pattern: 1m|15m|1h|1d</param>
+    /// <param name="StartDate">The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.</param>
+    /// <param name="EndDate">The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.</param>
+    public AwsIotsitewiseGetAssetPropertyAggregatesOptions(
+        IEnumerable<string> AggregateTypes,
+        string Resolution,
+        string StartDate,
+        string EndDate
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AggregateTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AggregateTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AggregateTypes));
+            }
+
+            AggregateTypes = materialized;
+        }
+        this.AggregateTypes = AggregateTypes;
+        global::System.ArgumentNullException.ThrowIfNull(Resolution);
+        this.Resolution = Resolution;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+    }
+
+    private AwsIotsitewiseGetAssetPropertyAggregatesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseGetAssetPropertyAggregatesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseGetAssetPropertyAggregatesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data aggregating function. Constraints: o min: 1 (string) Possible values: o AVERAGE o COUNT o MAXIMUM o MINIMUM o SUM o STANDARD_DEVIATION Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--aggregate-types", GroupValues = true)]
+    public IEnumerable<string>? AggregateTypes { get; private init; }
+
+    /// <summary>
+    /// The time interval over which to aggregate data. Constraints: o min: 2 o max: 3 o pattern: 1m|15m|1h|1d
+    /// </summary>
+    [CliOption("--resolution")]
+    public string? Resolution { get; private init; }
+
+    /// <summary>
+    /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
+    /// </summary>
+    [CliOption("--start-date")]
+    public string? StartDate { get; private init; }
+
+    /// <summary>
+    /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
+    /// </summary>
+    [CliOption("--end-date")]
+    public string? EndDate { get; private init; }
+
     /// <summary>
     /// The ID of the asset, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
@@ -41,23 +122,11 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
-    [CliOption("--aggregate-types", GroupValues = true)]
-    public IEnumerable<string>? AggregateTypes { get; set; }
-
-    [CliOption("--resolution")]
-    public string? Resolution { get; set; }
-
     /// <summary>
     /// The quality by which to filter asset data. Constraints: o min: 1 o max: 1 (string) Possible values: o GOOD o BAD o UNCERTAIN Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--qualities", GroupValues = true)]
     public IEnumerable<string>? Qualities { get; set; }
-
-    [CliOption("--start-date")]
-    public string? StartDate { get; set; }
-
-    [CliOption("--end-date")]
-    public string? EndDate { get; set; }
 
     /// <summary>
     /// The chronological sorting order of the requested information. Default: ASCENDING Possible values: o ASCENDING o DESCENDING
@@ -89,5 +158,21 @@ public record AwsIotsitewiseGetAssetPropertyAggregatesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "list-entitled-applications")]
-public record AwsAppstreamListEntitledApplicationsOptions : AwsOptions
+public record AwsAppstreamListEntitledApplicationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves a list of entitled applications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="EntitlementName">The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    public AwsAppstreamListEntitledApplicationsOptions(
+        string StackName,
+        string EntitlementName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+        global::System.ArgumentNullException.ThrowIfNull(EntitlementName);
+        this.EntitlementName = EntitlementName;
+    }
+
+    private AwsAppstreamListEntitledApplicationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamListEntitledApplicationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamListEntitledApplicationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the stack with which the entitlement is associated. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
+    [CliOption("--stack-name")]
+    public string? StackName { get; private init; }
+
+    /// <summary>
+    /// The name of the entitlement. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
     [CliOption("--entitlement-name")]
-    public string? EntitlementName { get; set; }
+    public string? EntitlementName { get; private init; }
 
     /// <summary>
     /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1
@@ -46,5 +90,21 @@ public record AwsAppstreamListEntitledApplicationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

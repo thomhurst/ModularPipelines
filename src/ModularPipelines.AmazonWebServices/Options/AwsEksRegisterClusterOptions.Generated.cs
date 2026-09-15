@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "register-cluster")]
-public record AwsEksRegisterClusterOptions : AwsOptions
+public record AwsEksRegisterClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a ` RegisterCluster- Request https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html`__ to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kuber...
+    /// </summary>
+    /// <param name="Name">A unique name for this cluster in your Amazon Web Services Region. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="ConnectorConfig">The configuration settings required to connect the Kubernetes clus- ter to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: o EKS_ANYWHERE o ANTHOS o GKE o AKS o OPENSHIFT o TANZU o RANCHER o EC2 o OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }</param>
+    public AwsEksRegisterClusterOptions(
+        string Name,
+        string ConnectorConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorConfig);
+        this.ConnectorConfig = ConnectorConfig;
+    }
+
+    private AwsEksRegisterClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksRegisterClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksRegisterClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for this cluster in your Amazon Web Services Region. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration settings required to connect the Kubernetes clus- ter to the Amazon EKS control plane. roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration. provider -&gt; (string) [required] The cloud provider for the target cluster to connect. Possible values: o EKS_ANYWHERE o ANTHOS o GKE o AKS o OPENSHIFT o TANZU o RANCHER o EC2 o OTHER Shorthand Syntax: roleArn=string,provider=string JSON Syntax: { "roleArn": "string", "provider": "EKS_ANYWHERE"|"ANTHOS"|"GKE"|"AKS"|"OPENSHIFT"|"TANZU"|"RANCHER"|"EC2"|"OTHER" }
+    /// </summary>
     [CliOption("--connector-config")]
-    public string? ConnectorConfig { get; set; }
+    public string? ConnectorConfig { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -47,5 +91,21 @@ public record AwsEksRegisterClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

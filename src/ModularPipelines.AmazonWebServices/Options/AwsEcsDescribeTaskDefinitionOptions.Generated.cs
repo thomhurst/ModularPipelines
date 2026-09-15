@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "describe-task-definition")]
-public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions
+public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. NOTE: You can only describe INACTIVE task definitions while an active task or service references them. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TaskDefinition">The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.</param>
+    public AwsEcsDescribeTaskDefinitionOptions(
+        string TaskDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskDefinition);
+        this.TaskDefinition = TaskDefinition;
+    }
+
+    private AwsEcsDescribeTaskDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDescribeTaskDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDescribeTaskDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
+    /// </summary>
     [CliOption("--task-definition")]
-    public string? TaskDefinition { get; set; }
+    public string? TaskDefinition { get; private init; }
 
     /// <summary>
     /// Determines whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

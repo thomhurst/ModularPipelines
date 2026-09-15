@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "test-dns-answer")]
-public record AwsRoute53TestDnsAnswerOptions : AwsOptions
+public record AwsRoute53TestDnsAnswerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the value that Amazon Route 53 returns in response to a DNS re- quest for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. NOTE: The TestDnsAnswer returns information similar to what you would ex- pect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name serve...
+    /// </summary>
+    /// <param name="HostedZoneId">The ID of the hosted zone that you want Amazon Route 53 to simulate a query for. Constraints: o max: 32</param>
+    /// <param name="RecordName">The name of the resource record set that you want Amazon Route 53 to simulate a query for. Constraints: o max: 1024</param>
+    /// <param name="RecordType">The type of the resource record set. Possible values: o SOA o A o TXT o NS o CNAME o MX o NAPTR o PTR o SRV o SPF o AAAA o CAA o DS o TLSA o SSHFP o SVCB o HTTPS</param>
+    public AwsRoute53TestDnsAnswerOptions(
+        string HostedZoneId,
+        string RecordName,
+        AwsRoute53TestDnsAnswerRecordType RecordType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostedZoneId);
+        this.HostedZoneId = HostedZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(RecordName);
+        this.RecordName = RecordName;
+        global::System.ArgumentNullException.ThrowIfNull(RecordType);
+        this.RecordType = RecordType;
+    }
+
+    private AwsRoute53TestDnsAnswerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53TestDnsAnswerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53TestDnsAnswerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the hosted zone that you want Amazon Route 53 to simulate a query for. Constraints: o max: 32
+    /// </summary>
     [CliOption("--hosted-zone-id")]
-    public string? HostedZoneId { get; set; }
+    public string? HostedZoneId { get; private init; }
 
+    /// <summary>
+    /// The name of the resource record set that you want Amazon Route 53 to simulate a query for. Constraints: o max: 1024
+    /// </summary>
     [CliOption("--record-name")]
-    public string? RecordName { get; set; }
+    public string? RecordName { get; private init; }
 
+    /// <summary>
+    /// The type of the resource record set. Possible values: o SOA o A o TXT o NS o CNAME o MX o NAPTR o PTR o SRV o SPF o AAAA o CAA o DS o TLSA o SSHFP o SVCB o HTTPS
+    /// </summary>
     [CliOption("--record-type")]
-    public string? RecordType { get; set; }
+    public AwsRoute53TestDnsAnswerRecordType? RecordType { get; private init; }
 
     /// <summary>
     /// If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the Amazon Web Services US East (N. Virginia) Region (us-east-1 ). Constraints: o max: 45 o pattern: (^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)
@@ -53,5 +105,21 @@ public record AwsRoute53TestDnsAnswerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-finding-aggregator")]
-public record AwsSecurityhubCreateFindingAggregatorOptions : AwsOptions
+public record AwsSecurityhubCreateFindingAggregatorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The aggregation Region is now called the home Region . Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub CSPM in the Se- curity Hub CSPM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegionLinkingMode">Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to auto- matically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows: o ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Secu- rity Hub CSPM also automatically aggregates findings from new Re- gions as Security Hub CSPM supports them and you opt into them. o ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Se- curity Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them. o SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not auto- matically aggregate findings from new Regions. o NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubCreateFindingAggregatorOptions(
+        string RegionLinkingMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegionLinkingMode);
+        this.RegionLinkingMode = RegionLinkingMode;
+    }
+
+    private AwsSecurityhubCreateFindingAggregatorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateFindingAggregatorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateFindingAggregatorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to auto- matically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows: o ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Secu- rity Hub CSPM also automatically aggregates findings from new Re- gions as Security Hub CSPM supports them and you opt into them. o ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Se- curity Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them. o SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not auto- matically aggregate findings from new Regions. o NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--region-linking-mode")]
-    public string? RegionLinkingMode { get; set; }
+    public string? RegionLinkingMode { get; private init; }
 
     /// <summary>
     /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED , then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS , then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS . (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsSecurityhubCreateFindingAggregatorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "get-members")]
-public record AwsDetectiveGetMembersOptions : AwsOptions
+public record AwsDetectiveGetMembersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the membership details for specified member accounts for a be- havior graph. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph for which to request the member de- tails. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="AccountIds">The list of Amazon Web Services account identifiers for the member account for which to return member details. You can request details for up to 50 member accounts at a time. You cannot use GetMembers to retrieve information about member ac- counts that were removed from the behavior graph. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
+    public AwsDetectiveGetMembersOptions(
+        string GraphArn,
+        IEnumerable<string> AccountIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountIds));
+            }
+
+            AccountIds = materialized;
+        }
+        this.AccountIds = AccountIds;
+    }
+
+    private AwsDetectiveGetMembersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveGetMembersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveGetMembersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph for which to request the member de- tails. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
+    [CliOption("--graph-arn")]
+    public string? GraphArn { get; private init; }
+
+    /// <summary>
+    /// The list of Amazon Web Services account identifiers for the member account for which to return member details. You can request details for up to 50 member accounts at a time. You cannot use GetMembers to retrieve information about member ac- counts that were removed from the behavior graph. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
-    public IEnumerable<string>? AccountIds { get; set; }
+    public IEnumerable<string>? AccountIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

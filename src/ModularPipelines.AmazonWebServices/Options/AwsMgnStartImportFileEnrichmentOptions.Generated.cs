@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "start-import-file-enrichment")]
-public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions
+public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an import file enrichment job to process and enrich network mi- gration import files with additional metadata and IP assignment strate- gies. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3BucketSource">The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
+    /// <param name="S3BucketTarget">The S3 configuration specifying the target location where the en- riched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
+    public AwsMgnStartImportFileEnrichmentOptions(
+        string S3BucketSource,
+        string S3BucketTarget
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketSource);
+        this.S3BucketSource = S3BucketSource;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketTarget);
+        this.S3BucketTarget = S3BucketTarget;
+    }
+
+    private AwsMgnStartImportFileEnrichmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnStartImportFileEnrichmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnStartImportFileEnrichmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
+    /// </summary>
+    [CliOption("--s3-bucket-source")]
+    public string? S3BucketSource { get; private init; }
+
+    /// <summary>
+    /// The S3 configuration specifying the target location where the en- riched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
+    /// </summary>
+    [CliOption("--s3-bucket-target")]
+    public string? S3BucketTarget { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 0 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--s3-bucket-source")]
-    public string? S3BucketSource { get; set; }
-
-    [CliOption("--s3-bucket-target")]
-    public string? S3BucketTarget { get; set; }
 
     /// <summary>
     /// The IP assignment strategy to use when enriching the import file. Can be STATIC or DYNAMIC. Possible values: o STATIC o DYNAMIC
@@ -47,5 +91,21 @@ public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

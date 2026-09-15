@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "update-health-check")]
-public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
+public record AwsRoute53UpdateHealthCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing health check. Note that some values can't be up- dated. For more information about updating health checks, see Creating, Updat- ing, and Deleting Health Checks in the Amazon Route 53 Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HealthCheckId">The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. Constraints: o max: 64</param>
+    public AwsRoute53UpdateHealthCheckOptions(
+        string HealthCheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthCheckId);
+        this.HealthCheckId = HealthCheckId;
+    }
+
+    private AwsRoute53UpdateHealthCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53UpdateHealthCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53UpdateHealthCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. Constraints: o max: 64
+    /// </summary>
     [CliOption("--health-check-id")]
-    public string? HealthCheckId { get; set; }
+    public string? HealthCheckId { get; private init; }
 
     /// <summary>
     /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your Update- HealthCheck request. This prevents Route 53 from overwriting an in- tervening update: o If the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Route 53 updates the health check with the new settings. o If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error. Constraints: o min: 1
@@ -67,10 +104,16 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     [CliOption("--failure-threshold")]
     public int? FailureThreshold { get; set; }
 
-    [CliFlag("--inverted")]
+    /// <summary>
+    /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
+    /// </summary>
+    [CliFlag("--inverted", NegatedName = "--no-inverted")]
     public bool? Inverted { get; set; }
 
-    [CliFlag("--disabled")]
+    /// <summary>
+    /// Stops Route 53 from performing health checks. When you disable a health check, here's what happens: o Health checks that check the health of endpoints: Route 53 stops submitting requests to your application, server, or other re- source. o Calculated health checks: Route 53 stops aggregating the status of the referenced health checks. o Health checks that monitor CloudWatch alarms: Route 53 stops moni- toring the corresponding CloudWatch metrics. After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. Additionally, in disabled state, you can also invert the status of the health check to route traffic differently. For more information, see Inverted . Charges for a health check still apply when the health check is dis- abled. For more information, see Amazon Route 53 Pricing .
+    /// </summary>
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
@@ -85,7 +128,10 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
     [CliOption("--child-health-checks", GroupValues = true)]
     public IEnumerable<string>? ChildHealthChecks { get; set; }
 
-    [CliFlag("--enable-sni")]
+    /// <summary>
+    /// Specify whether you want Amazon Route 53 to send the value of Ful- lyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure . A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Al- ternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName . If the endpoint responds to the client_hello message with a cer- tificate that does not include the domain name that you specified in FullyQualifiedDomainName , a health checker will retry the hand- shake. In the second attempt, the health checker will omit Ful- lyQualifiedDomainName from the client_hello message.
+    /// </summary>
+    [CliFlag("--enable-sni", NegatedName = "--no-enable-sni")]
     public bool? EnableSni { get; set; }
 
     /// <summary>
@@ -117,5 +163,21 @@ public record AwsRoute53UpdateHealthCheckOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

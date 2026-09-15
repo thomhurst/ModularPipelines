@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "update-subscriber")]
-public record AwsSecuritylakeUpdateSubscriberOptions : AwsOptions
+public record AwsSecuritylakeUpdateSubscriberOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing subscription for the given Amazon Security Lake ac- count ID. You can update a subscriber by changing the sources that the subscriber consumes data from. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriberId">A value created by Security Lake that uniquely identifies your sub- scription. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    public AwsSecuritylakeUpdateSubscriberOptions(
+        string SubscriberId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriberId);
+        this.SubscriberId = SubscriberId;
+    }
+
+    private AwsSecuritylakeUpdateSubscriberOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeUpdateSubscriberOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeUpdateSubscriberOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A value created by Security Lake that uniquely identifies your sub- scription. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
+    [CliOption("--subscriber-id")]
+    public string? SubscriberId { get; private init; }
+
     /// <summary>
     /// The supported Amazon Web Services services from which logs and events are collected. For the list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . (tagged union structure) The supported source types from which logs and events are col- lected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsLogSource, customLogSource. awsLogSource -&gt; (structure) Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more in- formation, see the Amazon Security Lake User Guide . sourceName -&gt; (string) The name for a Amazon Web Services source. This must be a Regionally unique value. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. This must be a Regionally unique value. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ customLogSource -&gt; (structure) Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide . attributes -&gt; (structure) The attributes of a third-party custom source. crawlerArn -&gt; (string) The ARN of the Glue crawler. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ databaseArn -&gt; (string) The ARN of the Glue database where results are writ- ten, such as: arn:aws:daylight:us-east-1::data- base/sometable/* . Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ tableArn -&gt; (string) The ARN of the Glue table. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ provider -&gt; (structure) The details of the log provider for a third-party custom source. location -&gt; (string) The location of the partition in the Amazon S3 bucket for Security Lake. Constraints: o min: 0 o max: 1024 o pattern: ^s3[an]?://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^/].*)+$ roleArn -&gt; (string) The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Secu- rity Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sourceName -&gt; (string) The name for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$ sourceVersion -&gt; (string) The version for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$ Shorthand Syntax: awsLogSource={sourceName=string,sourceVersion=string},customLogSource={attributes={crawlerArn=string,databaseArn=string,tableArn=string},provider={location=string,roleArn=string},sourceName=string,sourceVersion=string} ... JSON Syntax: [ { "awsLogSource": { "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" }, "customLogSource": { "attributes": { "crawlerArn": "string", "databaseArn": "string", "tableArn": "string" }, "provider": { "location": "string", "roleArn": "string" }, "sourceName": "string", "sourceVersion": "string" } } ... ]
     /// </summary>
@@ -32,9 +72,6 @@ public record AwsSecuritylakeUpdateSubscriberOptions : AwsOptions
     /// </summary>
     [CliOption("--subscriber-description")]
     public string? SubscriberDescription { get; set; }
-
-    [CliOption("--subscriber-id")]
-    public string? SubscriberId { get; set; }
 
     /// <summary>
     /// The Amazon Web Services identity used to access your data. externalId -&gt; (string) [required] The external ID used to establish trust relationship with the Amazon Web Services identity. Constraints: o min: 2 o max: 1224 o pattern: ^[\w+=,.@:\/-]*$ principal -&gt; (string) [required] The Amazon Web Services identity principal. Constraints: o pattern: ^([0-9]{12}|[a-z0-9\.\-]*\.(amazonaws|amazon)\.com)$ Shorthand Syntax: externalId=string,principal=string JSON Syntax: { "externalId": "string", "principal": "string" }
@@ -53,5 +90,21 @@ public record AwsSecuritylakeUpdateSubscriberOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

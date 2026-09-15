@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "reboot-autonomous-database")]
-public record AwsOdbRebootAutonomousDatabaseOptions : AwsOptions
+public record AwsOdbRebootAutonomousDatabaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--autonomous-database-id")]
-    public string? AutonomousDatabaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--is-online-reboot")]
+    /// <summary>
+    /// Reboots the specified Autonomous Database. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to reboot. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbRebootAutonomousDatabaseOptions(
+        string AutonomousDatabaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabaseId);
+        this.AutonomousDatabaseId = AutonomousDatabaseId;
+    }
+
+    private AwsOdbRebootAutonomousDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbRebootAutonomousDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbRebootAutonomousDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Autonomous Database to reboot. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
+    [CliOption("--autonomous-database-id")]
+    public string? AutonomousDatabaseId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to perform an online reboot of the Autonomous Database without interrupting active connections.
+    /// </summary>
+    [CliFlag("--is-online-reboot", NegatedName = "--no-is-online-reboot")]
     public bool? IsOnlineReboot { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsOdbRebootAutonomousDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

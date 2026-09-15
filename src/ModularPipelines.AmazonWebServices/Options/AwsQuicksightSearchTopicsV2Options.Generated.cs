@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-topics-v2")]
-public record AwsQuicksightSearchTopicsV2Options : AwsOptions
+public record AwsQuicksightSearchTopicsV2Options : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for any Q topic that exists in an Amazon Web Services account. See also: AWS API Documentation search-topics-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TopicSummaryList
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the topic that you want to search. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The filters that you want to use to search for the topic. Constraints: o min: 1 o max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: o StringEquals o StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: o QUICKSIGHT_USER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]</param>
+    public AwsQuicksightSearchTopicsV2Options(
+        string AwsAccountId,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchTopicsV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchTopicsV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchTopicsV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the topic that you want to search. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The filters that you want to use to search for the topic. Constraints: o min: 1 o max: 1 (structure) The filter that is used to search for a topic. Operator -&gt; (string) [required] The operator like equals or like. Possible values: o StringEquals o StringLike Name -&gt; (string) [required] The name of the topic search filter. Possible values: o QUICKSIGHT_USER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o TOPIC_NAME Value -&gt; (string) [required] The value of the topic search filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StringEquals"|"StringLike", "Name": "QUICKSIGHT_USER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"TOPIC_NAME", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +107,21 @@ public record AwsQuicksightSearchTopicsV2Options : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

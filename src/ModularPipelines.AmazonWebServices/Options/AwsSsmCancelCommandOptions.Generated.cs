@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "cancel-command")]
-public record AwsSsmCancelCommandOptions : AwsOptions
+public record AwsSsmCancelCommandOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CommandId">The ID of the command you want to cancel. Constraints: o min: 36 o max: 36</param>
+    public AwsSsmCancelCommandOptions(
+        string CommandId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommandId);
+        this.CommandId = CommandId;
+    }
+
+    private AwsSsmCancelCommandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCancelCommandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCancelCommandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the command you want to cancel. Constraints: o min: 36 o max: 36
+    /// </summary>
     [CliOption("--command-id")]
-    public string? CommandId { get; set; }
+    public string? CommandId { get; private init; }
 
     /// <summary>
     /// (Optional) A list of managed node IDs on which you want to cancel the command. If not provided, the command is canceled on every node on which it was requested. Constraints: o min: 0 o max: 50 (string) Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$) Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsSsmCancelCommandOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "update-conditional-forwarder")]
-public record AwsDsUpdateConditionalForwarderOptions : AwsOptions
+public record AwsDsUpdateConditionalForwarderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RemoteDomainName">The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
+    public AwsDsUpdateConditionalForwarderOptions(
+        string DirectoryId,
+        string RemoteDomainName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(RemoteDomainName);
+        this.RemoteDomainName = RemoteDomainName;
+    }
+
+    private AwsDsUpdateConditionalForwarderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUpdateConditionalForwarderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUpdateConditionalForwarderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// </summary>
     [CliOption("--remote-domain-name")]
-    public string? RemoteDomainName { get; set; }
+    public string? RemoteDomainName { get; private init; }
 
     /// <summary>
     /// The updated IP addresses of the remote DNS server associated with the conditional forwarder. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
@@ -44,5 +88,21 @@ public record AwsDsUpdateConditionalForwarderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

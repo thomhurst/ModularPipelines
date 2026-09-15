@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "generate-recommended-policy-v2")]
-public record AwsSecurityhubGenerateRecommendedPolicyV2Options : AwsOptions
+public record AwsSecurityhubGenerateRecommendedPolicyV2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Begins the recommended policy generation to remediate a Security Hub finding. GenerateRecommendedPolicyV2 only supports findings for unused permissions. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetadataUid">The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubGenerateRecommendedPolicyV2Options(
+        string MetadataUid
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetadataUid);
+        this.MetadataUid = MetadataUid;
+    }
+
+    private AwsSecurityhubGenerateRecommendedPolicyV2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubGenerateRecommendedPolicyV2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubGenerateRecommendedPolicyV2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--metadata-uid")]
-    public string? MetadataUid { get; set; }
+    public string? MetadataUid { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-agent")]
-public record AwsQuicksightCreateAgentOptions : AwsOptions
+public record AwsQuicksightCreateAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an agent in Amazon QuickSight. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AgentId">A unique identifier for the agent. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+</param>
+    /// <param name="Name">The name of the agent. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$).+</param>
+    public AwsQuicksightCreateAgentOptions(
+        string AwsAccountId,
+        string AgentId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AgentId);
+        this.AgentId = AgentId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsQuicksightCreateAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the agent. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the agent. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_.+]+
+    /// </summary>
+    [CliOption("--agent-id")]
+    public string? AgentId { get; private init; }
+
+    /// <summary>
+    /// The name of the agent. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$).+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
@@ -33,15 +93,6 @@ public record AwsQuicksightCreateAgentOptions : AwsOptions
     /// </summary>
     [CliOption("--action-connectors", GroupValues = true)]
     public IEnumerable<string>? ActionConnectors { get; set; }
-
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
-
-    [CliOption("--agent-id")]
-    public string? AgentId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// A description of the agent. Constraints: o min: 0 o max: 1000 o pattern: \P{C}*
@@ -84,5 +135,21 @@ public record AwsQuicksightCreateAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

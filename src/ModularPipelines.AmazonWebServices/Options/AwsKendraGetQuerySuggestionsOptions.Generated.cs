@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "get-query-suggestions")]
-public record AwsKendraGetQuerySuggestionsOptions : AwsOptions
+public record AwsKendraGetQuerySuggestionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Fetches the queries that are suggested to your users. GetQuerySuggestions is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index you want to get query suggestions from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="QueryText">The text of a user's query to generate query suggestions. A query is suggested if the query prefix matches what a user starts to type as their query. Amazon Kendra does not show any suggestions if a user types fewer than two characters or more than 60 characters. A query must also have at least one search result and contain at least one word of more than four characters. Constraints: o pattern: ^\P{C}*$</param>
+    public AwsKendraGetQuerySuggestionsOptions(
+        string IndexId,
+        string QueryText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(QueryText);
+        this.QueryText = QueryText;
+    }
+
+    private AwsKendraGetQuerySuggestionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraGetQuerySuggestionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraGetQuerySuggestionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index you want to get query suggestions from. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The text of a user's query to generate query suggestions. A query is suggested if the query prefix matches what a user starts to type as their query. Amazon Kendra does not show any suggestions if a user types fewer than two characters or more than 60 characters. A query must also have at least one search result and contain at least one word of more than four characters. Constraints: o pattern: ^\P{C}*$
+    /// </summary>
     [CliOption("--query-text")]
-    public string? QueryText { get; set; }
+    public string? QueryText { get; private init; }
 
     /// <summary>
     /// The maximum number of query suggestions you want to show to your users.
@@ -50,5 +94,21 @@ public record AwsKendraGetQuerySuggestionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

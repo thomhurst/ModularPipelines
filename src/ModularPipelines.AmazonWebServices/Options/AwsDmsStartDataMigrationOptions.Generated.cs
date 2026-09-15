@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "start-data-migration")]
-public record AwsDmsStartDataMigrationOptions : AwsOptions
+public record AwsDmsStartDataMigrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-migration-identifier")]
-    public string? DataMigrationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts the specified data migration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataMigrationIdentifier">The identifier (name or ARN) of the data migration to start.</param>
+    /// <param name="StartType">Specifies the start type for the data migration. Valid values in- clude start-replication , reload-target , and resume-processing . Possible values: o reload-target o resume-processing o start-replication</param>
+    public AwsDmsStartDataMigrationOptions(
+        string DataMigrationIdentifier,
+        AwsDmsStartDataMigrationStartType StartType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataMigrationIdentifier);
+        this.DataMigrationIdentifier = DataMigrationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(StartType);
+        this.StartType = StartType;
+    }
+
+    private AwsDmsStartDataMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsStartDataMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsStartDataMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier (name or ARN) of the data migration to start.
+    /// </summary>
+    [CliOption("--data-migration-identifier")]
+    public string? DataMigrationIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the start type for the data migration. Valid values in- clude start-replication , reload-target , and resume-processing . Possible values: o reload-target o resume-processing o start-replication
+    /// </summary>
     [CliOption("--start-type")]
-    public string? StartType { get; set; }
+    public AwsDmsStartDataMigrationStartType? StartType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

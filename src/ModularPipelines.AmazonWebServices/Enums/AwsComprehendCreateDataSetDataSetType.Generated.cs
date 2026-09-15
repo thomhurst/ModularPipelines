@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datasettype.
+/// Allowed values for --dataset-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsComprehendCreateDataSetDataSetType
 {
-    [EnumValue("TRAIN")]
-    Train = 1,
-
     [EnumValue("TEST")]
-    Test = 2
+    Test,
+
+    [EnumValue("TRAIN")]
+    Train
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "request-sender-id")]
-public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sender-id")]
-    public string? SenderId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Request a new sender ID that doesn't require registration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SenderId">The sender ID string to request. The sender ID can be 1-11 alphanu- meric characters including letters (A-Z, a-z), numbers (0-9), or hy- phens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
+    public AwsPinpointSmsVoiceV2RequestSenderIdOptions(
+        string SenderId,
+        string IsoCountryCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SenderId);
+        this.SenderId = SenderId;
+        global::System.ArgumentNullException.ThrowIfNull(IsoCountryCode);
+        this.IsoCountryCode = IsoCountryCode;
+    }
+
+    private AwsPinpointSmsVoiceV2RequestSenderIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2RequestSenderIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2RequestSenderIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sender ID string to request. The sender ID can be 1-11 alphanu- meric characters including letters (A-Z, a-z), numbers (0-9), or hy- phens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+
+    /// </summary>
+    [CliOption("--sender-id")]
+    public string? SenderId { get; private init; }
+
+    /// <summary>
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// </summary>
     [CliOption("--iso-country-code")]
-    public string? IsoCountryCode { get; set; }
+    public string? IsoCountryCode { get; private init; }
 
     /// <summary>
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Constraints: o min: 0 o max: 2 (string) Possible values: o TRANSACTIONAL o PROMOTIONAL Syntax: "string" "string" ...
@@ -34,7 +78,10 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
     [CliOption("--message-types", GroupValues = true)]
     public IEnumerable<string>? MessageTypes { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// By default this is set to false. When set to true the sender ID can't be deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -55,5 +102,21 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

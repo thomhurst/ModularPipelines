@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "list-sessions")]
-public record AwsAthenaListSessionsOptions : AwsOptions
+public record AwsAthenaListSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the sessions in a workgroup that are in an active state like CRE- ATING , CREATED , IDLE , or BUSY . Newer sessions are listed first; older sessions are listed later. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkGroup">The workgroup to which the session belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    public AwsAthenaListSessionsOptions(
+        string WorkGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkGroup);
+        this.WorkGroup = WorkGroup;
+    }
+
+    private AwsAthenaListSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaListSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaListSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The workgroup to which the session belongs. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// </summary>
     [CliOption("--work-group")]
-    public string? WorkGroup { get; set; }
+    public string? WorkGroup { get; private init; }
 
     /// <summary>
     /// A filter for a specific session state. A description of each state follows. CREATING - The session is being started, including acquiring re- sources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer run- ning. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running. Possible values: o CREATING o CREATED o IDLE o BUSY o TERMINATING o TERMINATED o DEGRADED o FAILED
@@ -50,5 +87,21 @@ public record AwsAthenaListSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

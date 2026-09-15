@@ -11,29 +11,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --httpmethod.
+/// Allowed values for --http-method.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEventsUpdateApiDestinationHttpMethod
 {
-    [EnumValue("POST")]
-    Post = 1,
+    [EnumValue("DELETE")]
+    Delete,
 
     [EnumValue("GET")]
-    Get = 2,
+    Get,
 
     [EnumValue("HEAD")]
-    Head = 3,
+    Head,
 
     [EnumValue("OPTIONS")]
-    Options = 4,
-
-    [EnumValue("PUT")]
-    Put = 5,
+    Options,
 
     [EnumValue("PATCH")]
-    Patch = 6,
+    Patch,
 
-    [EnumValue("DELETE")]
-    Delete = 7
+    [EnumValue("POST")]
+    Post,
+
+    [EnumValue("PUT")]
+    Put
 }

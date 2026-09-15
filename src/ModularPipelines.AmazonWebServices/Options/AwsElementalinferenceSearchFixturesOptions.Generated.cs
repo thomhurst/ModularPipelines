@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elementalinference", "search-fixtures")]
-public record AwsElementalinferenceSearchFixturesOptions : AwsOptions
+public record AwsElementalinferenceSearchFixturesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--sport")]
-    public string? Sport { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping out- put of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request. See also: AWS API Document...
+    /// </summary>
+    /// <param name="Sport">The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for ameri- can-football fixtures). Possible values: o basketball o american-football</param>
+    /// <param name="StartDate">The first day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: o pattern: \d{4}-\d{2}-\d{2}</param>
+    public AwsElementalinferenceSearchFixturesOptions(
+        string Sport,
+        string StartDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sport);
+        this.Sport = Sport;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+    }
+
+    private AwsElementalinferenceSearchFixturesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElementalinferenceSearchFixturesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElementalinferenceSearchFixturesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for ameri- can-football fixtures). Possible values: o basketball o american-football
+    /// </summary>
+    [CliOption("--sport")]
+    public string? Sport { get; private init; }
+
+    /// <summary>
+    /// The first day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . For example, 2026-03-14. Constraints: o pattern: \d{4}-\d{2}-\d{2}
+    /// </summary>
     [CliOption("--start-date")]
-    public string? StartDate { get; set; }
+    public string? StartDate { get; private init; }
 
     /// <summary>
     /// The last day of the search window, in UTC. The search includes fix- tures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD . If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days. Constraints: o pattern: \d{4}-\d{2}-\d{2}
@@ -64,5 +108,21 @@ public record AwsElementalinferenceSearchFixturesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

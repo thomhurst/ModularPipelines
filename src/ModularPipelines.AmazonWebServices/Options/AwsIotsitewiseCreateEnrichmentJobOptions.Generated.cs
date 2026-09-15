@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-enrichment-job")]
-public record AwsIotsitewiseCreateEnrichmentJobOptions : AwsOptions
+public record AwsIotsitewiseCreateEnrichmentJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns immediately with job details while process- ing continues in the background. Idempotency Include a clientToken to make the operation idempotent. If you submit the same request with the same token within the idempotency window, you receive the original job details without creating a duplicate. Prerequisites Before creating a job, ensure: o The workspace is in ACTIVE state (not being deleted) o You hav...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace containing the video data to analyze. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="JobConfiguration">Configuration defining the type of enrichment analysis to perform and which video data to analyze. Currently supports eventDetection for generating embeddings from video data for semantic search. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eventDetection. eventDetection -&gt; (structure) Event detection configuration that generates embeddings from video time-series data enabling natural language similarity search on events. The service processes video data and creates embeddings stored in IoT SiteWise for semantic querying. datasetId -&gt; (string) [required] &lt;p&gt;The IoT SiteWise dataset ID containing the video time-se- ries data to analyze. Query IoT SiteWise to discover avail- able datasets in your workspace.&lt;/p&gt; Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) &lt;p&gt;Unique system identifier for the video time series to ana- lyze. Specify either timeSeriesId or propertyAlias, but not both. Use this when you have the system-generated time series identifier from IoT SiteWise.&lt;/p&gt; Constraints: o min: 36 o max: 73 propertyAlias -&gt; (string) &lt;p&gt;Human-readable alias for the video time series to analyze (e.g., /camera/warehouse/zone-a). Specify either prop- ertyAlias or timeSeriesId, but not both. Use this when you have configured friendly aliases in IoT SiteWise for better readability.&lt;/p&gt; Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ trimSettings -&gt; (structure) [required] &lt;p&gt;Time range settings defining which portion of the video time-series data to process. Required to ensure predictable processing time and prevent analyzing unbounded datasets. Start and end times must be within the dataset's time bounds.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;Start time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format). Data segments at or after this time are included in the en- richment. Must be within the dataset's time bounds.&lt;/p&gt; &lt;p&gt;Example (JavaScript): Date.parse('2024-01-01T00:00:00Z') * 1000000 Example (Python): int(datetime.timestamp() * 1e9)&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;End time for the video analysis time range in nanosec- onds since Unix epoch (TimeInNanos format). Data segments at or before this time are included in the enrichment. Must be greater than startTime and within the dataset's time bounds.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 JSON Syntax: { "eventDetection": { "datasetId": "string", "timeSeriesId": "string", "propertyAlias": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } } } }</param>
+    public AwsIotsitewiseCreateEnrichmentJobOptions(
+        string WorkspaceName,
+        string JobConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(JobConfiguration);
+        this.JobConfiguration = JobConfiguration;
+    }
+
+    private AwsIotsitewiseCreateEnrichmentJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateEnrichmentJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateEnrichmentJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IoT SiteWise workspace containing the video data to analyze. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// Configuration defining the type of enrichment analysis to perform and which video data to analyze. Currently supports eventDetection for generating embeddings from video data for semantic search. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eventDetection. eventDetection -&gt; (structure) Event detection configuration that generates embeddings from video time-series data enabling natural language similarity search on events. The service processes video data and creates embeddings stored in IoT SiteWise for semantic querying. datasetId -&gt; (string) [required] &lt;p&gt;The IoT SiteWise dataset ID containing the video time-se- ries data to analyze. Query IoT SiteWise to discover avail- able datasets in your workspace.&lt;/p&gt; Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ timeSeriesId -&gt; (string) &lt;p&gt;Unique system identifier for the video time series to ana- lyze. Specify either timeSeriesId or propertyAlias, but not both. Use this when you have the system-generated time series identifier from IoT SiteWise.&lt;/p&gt; Constraints: o min: 36 o max: 73 propertyAlias -&gt; (string) &lt;p&gt;Human-readable alias for the video time series to analyze (e.g., /camera/warehouse/zone-a). Specify either prop- ertyAlias or timeSeriesId, but not both. Use this when you have configured friendly aliases in IoT SiteWise for better readability.&lt;/p&gt; Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ trimSettings -&gt; (structure) [required] &lt;p&gt;Time range settings defining which portion of the video time-series data to process. Required to ensure predictable processing time and prevent analyzing unbounded datasets. Start and end times must be within the dataset's time bounds.&lt;/p&gt; startTime -&gt; (structure) [required] &lt;p&gt;Start time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format). Data segments at or after this time are included in the en- richment. Must be within the dataset's time bounds.&lt;/p&gt; &lt;p&gt;Example (JavaScript): Date.parse('2024-01-01T00:00:00Z') * 1000000 Example (Python): int(datetime.timestamp() * 1e9)&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 endTime -&gt; (structure) [required] &lt;p&gt;End time for the video analysis time range in nanosec- onds since Unix epoch (TimeInNanos format). Data segments at or before this time are included in the enrichment. Must be greater than startTime and within the dataset's time bounds.&lt;/p&gt; timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch for- mat. Fractional nanosecond data is provided by off- setInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 JSON Syntax: { "eventDetection": { "datasetId": "string", "timeSeriesId": "string", "propertyAlias": "string", "trimSettings": { "startTime": { "timeInSeconds": long, "offsetInNanos": integer }, "endTime": { "timeInSeconds": long, "offsetInNanos": integer } } } }
+    /// </summary>
     [CliOption("--job-configuration")]
-    public string? JobConfiguration { get; set; }
+    public string? JobConfiguration { get; private init; }
 
     /// <summary>
     /// Optional unique token that makes the operation idempotent. If you submit the same request with the same token within the idempotency window, the service returns the original job without creating a du- plicate. Use a UUID or timestamp-based token for each unique re- quest. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -40,5 +84,21 @@ public record AwsIotsitewiseCreateEnrichmentJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "list-image-referrers")]
-public record AwsEcrListImageReferrersOptions : AwsOptions
+public record AwsEcrListImageReferrersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the artifacts associated with a specified subject image. NOTE: The IAM principal invoking this operation must have the ecr:BatchGe- tImage permission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository that contains the subject image. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="SubjectId">An object containing the image digest of the subject image for which to retrieve associated artifacts. imageDigest -&gt; (string) [required] The digest of the image. Shorthand Syntax: imageDigest=string JSON Syntax: { "imageDigest": "string" }</param>
+    public AwsEcrListImageReferrersOptions(
+        string RepositoryName,
+        string SubjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(SubjectId);
+        this.SubjectId = SubjectId;
+    }
+
+    private AwsEcrListImageReferrersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrListImageReferrersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrListImageReferrersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository that contains the subject image. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; private init; }
+
+    /// <summary>
+    /// An object containing the image digest of the subject image for which to retrieve associated artifacts. imageDigest -&gt; (string) [required] The digest of the image. Shorthand Syntax: imageDigest=string JSON Syntax: { "imageDigest": "string" }
+    /// </summary>
+    [CliOption("--subject-id")]
+    public string? SubjectId { get; private init; }
+
     /// <summary>
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
-
-    [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
-
-    [CliOption("--subject-id")]
-    public string? SubjectId { get; set; }
 
     /// <summary>
     /// The filter key and value with which to filter your ListImageRefer- rers results. If no filter is specified, only artifacts with ACTIVE status are returned. artifactTypes -&gt; (list) The artifact types with which to filter your ListImageReferrers results. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 255 artifactStatus -&gt; (string) The artifact status with which to filter your ListImageRefer- rers results. Valid values are ACTIVE , ARCHIVED , ACTIVATING , or ANY . If not specified, only artifacts with ACTIVE status are returned. Possible values: o ACTIVE o ARCHIVED o ACTIVATING o ANY Shorthand Syntax: artifactTypes=string,string,artifactStatus=string JSON Syntax: { "artifactTypes": ["string", ...], "artifactStatus": "ACTIVE"|"ARCHIVED"|"ACTIVATING"|"ANY" }
@@ -58,5 +102,21 @@ public record AwsEcrListImageReferrersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

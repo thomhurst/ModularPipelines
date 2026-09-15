@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sortorder.
+/// Allowed values for --sort-order.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWafv2GetRevenueStatisticsSortOrder
 {
     [EnumValue("ASC")]
-    Asc = 1,
+    Asc,
 
     [EnumValue("DESC")]
-    Desc = 2
+    Desc
 }

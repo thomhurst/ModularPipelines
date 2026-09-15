@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "update-identity-provider")]
-public record AwsCognitoIdpUpdateIdentityProviderOptions : AwsOptions
+public record AwsCognitoIdpUpdateIdentityProviderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the configuration and trust relationship between a third-party identity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC re- lying-party libraries. For more information, see Third-party IdP sign-in . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant your...
+    /// </summary>
+    /// <param name="UserPoolId">The Id of the user pool where you want to update your IdP. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ProviderName">The name of the IdP that you want to update. You can pass the iden- tity provider name in the identity_provider query parameter of re- quests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+</param>
+    public AwsCognitoIdpUpdateIdentityProviderOptions(
+        string UserPoolId,
+        string ProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderName);
+        this.ProviderName = ProviderName;
+    }
+
+    private AwsCognitoIdpUpdateIdentityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpUpdateIdentityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpUpdateIdentityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Id of the user pool where you want to update your IdP. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The name of the IdP that you want to update. You can pass the iden- tity provider name in the identity_provider query parameter of re- quests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+
+    /// </summary>
     [CliOption("--provider-name")]
-    public string? ProviderName { get; set; }
+    public string? ProviderName { get; private init; }
 
     /// <summary>
     /// The scopes, URLs, and identifiers for your external identity provider. The following examples describe the provider detail keys for each IdP type. These values and their schema are subject to change. Social IdP authorize_scopes values must match the values listed here. OpenID Connect (OIDC) Amazon Cognito accepts the following elements when it can't discover endpoint URLs from oidc_issuer : attributes_url , authorize_url , jwks_uri , token_url . Create or update request: "ProviderDetails": { "attributes_re- quest_method": "GET", "attributes_url": "https://auth.exam- ple.com/userInfo", "authorize_scopes": "openid profile email", "au- thorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://ex- ample.com/token" } Describe response: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "at- tributes_url_add_attributes": "false", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/autho- rize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.exam- ple.com/.well-known/jwks.json", "oidc_issuer": "https://auth.exam- ple.com", "token_url": "https://example.com/token" } SAML Create or update request with Metadata URL: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256" } Create or update request with Metadata file: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256" } The value of MetadataFile must be the plaintext metadata document with all quote (") characters escaped by backslashes. Describe response: "ProviderDetails": { "IDPInit": "true", "IDPSig- nout": "true", "EncryptedResponses" : "true", "ActiveEncryptionCer- tificate": "[certificate]", "MetadataURL": "https://auth.exam- ple.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256", "SLORedirectBindingURI": "https://auth.example.com/slo/saml", "SSORedirectBindingURI": "https://auth.example.com/sso/saml" } LoginWithAmazon Create or update request: "ProviderDetails": { "authorize_scopes": "profile postal_code", "client_id": "amzn1.applica- tion-oa2-client.1example23456789", "client_secret": "provider-app-client-secret" Describe response: "ProviderDetails": { "attributes_url": "https://api.amazon.com/user/profile", "attributes_url_add_attrib- utes": "false", "authorize_scopes": "profile postal_code", "autho- rize_url": "https://www.amazon.com/ap/oa", "client_id": "amzn1.ap- plication-oa2-client.1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "POST", "to- ken_url": "https://api.amazon.com/auth/o2/token" } Google Create or update request: "ProviderDetails": { "authorize_scopes": "email profile openid", "client_id": "1exam- ple23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "attributes_url": "https://people.googleapis.com/v1/people/me?personFields=", "attrib- utes_url_add_attributes": "true", "authorize_scopes": "email profile openid", "authorize_url": "https://ac- counts.google.com/o/oauth2/v2/auth", "client_id": "1exam- ple23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret", "oidc_issuer": "https://ac- counts.google.com", "token_request_method": "POST", "token_url": "https://www.googleapis.com/oauth2/v4/token" } SignInWithApple Create or update request: "ProviderDetails": { "authorize_scopes": "email name", "client_id": "com.example.cognito", "private_key": "1EXAMPLE", "key_id": "2EXAMPLE", "team_id": "3EXAMPLE" } Describe response: "ProviderDetails": { "attributes_url_add_attrib- utes": "false", "authorize_scopes": "email name", "authorize_url": "https://appleid.apple.com/auth/authorize", "client_id": "com.exam- ple.cognito", "key_id": "1EXAMPLE", "oidc_issuer": "https://ap- pleid.apple.com", "team_id": "2EXAMPLE", "token_request_method": "POST", "token_url": "https://appleid.apple.com/auth/token" } Facebook Create or update request: "ProviderDetails": { "api_version": "v17.0", "authorize_scopes": "public_profile, email", "client_id": "1example23456789", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "api_version": "v17.0", "at- tributes_url": "https://graph.facebook.com/v17.0/me?fields=", "at- tributes_url_add_attributes": "true", "authorize_scopes": "pub- lic_profile, email", "authorize_url": "https://www.face- book.com/v17.0/dialog/oauth", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "token_re- quest_method": "GET", "token_url": "https://graph.face- book.com/v17.0/oauth/access_token" } key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +95,21 @@ public record AwsCognitoIdpUpdateIdentityProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

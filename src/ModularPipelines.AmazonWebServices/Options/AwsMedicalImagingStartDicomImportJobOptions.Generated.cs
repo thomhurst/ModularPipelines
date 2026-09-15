@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("medical-imaging", "start-dicom-import-job")]
-public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions
+public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start importing bulk data into an ACTIVE data store. The import job im- ports DICOM P10 files or enhances existing DICOM files with JSON meta- data. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permis- sion to access medical imaging resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="InputS3Uri">The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
+    /// <param name="OutputS3Uri">The output prefix of the S3 bucket to upload the results of the DI- COM import job. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
+    public AwsMedicalImagingStartDicomImportJobOptions(
+        string DataAccessRoleArn,
+        string DatastoreId,
+        string InputS3Uri,
+        string OutputS3Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(DatastoreId);
+        this.DatastoreId = DatastoreId;
+        global::System.ArgumentNullException.ThrowIfNull(InputS3Uri);
+        this.InputS3Uri = InputS3Uri;
+        global::System.ArgumentNullException.ThrowIfNull(OutputS3Uri);
+        this.OutputS3Uri = OutputS3Uri;
+    }
+
+    private AwsMedicalImagingStartDicomImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMedicalImagingStartDicomImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMedicalImagingStartDicomImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants permis- sion to access medical imaging resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--data-access-role-arn")]
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// </summary>
+    [CliOption("--datastore-id")]
+    public string? DatastoreId { get; private init; }
+
+    /// <summary>
+    /// The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// </summary>
+    [CliOption("--input-s3-uri")]
+    public string? InputS3Uri { get; private init; }
+
+    /// <summary>
+    /// The output prefix of the S3 bucket to upload the results of the DI- COM import job. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// </summary>
+    [CliOption("--output-s3-uri")]
+    public string? OutputS3Uri { get; private init; }
+
     /// <summary>
     /// The import job name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._/#-]+
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
-
-    [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
     /// A unique identifier for API idempotency. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._-]+
@@ -37,15 +104,6 @@ public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--datastore-id")]
-    public string? DatastoreId { get; set; }
-
-    [CliOption("--input-s3-uri")]
-    public string? InputS3Uri { get; set; }
-
-    [CliOption("--output-s3-uri")]
-    public string? OutputS3Uri { get; set; }
 
     /// <summary>
     /// The account ID of the source S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: \d+
@@ -64,5 +122,21 @@ public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

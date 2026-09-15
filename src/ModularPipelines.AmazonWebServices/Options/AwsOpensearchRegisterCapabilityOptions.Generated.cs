@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "register-capability")]
-public record AwsOpensearchRegisterCapabilityOptions : AwsOptions
+public record AwsOpensearchRegisterCapabilityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a capability for an OpenSearch UI application. Use this oper- ation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI fea- tures, see Agentic AI for OpenSearch UI . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the OpenSearch UI application to register the capability for. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="CapabilityName">The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the appli- cation. For registering AI Assistant capability, use ai-capability Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="CapabilityConfig">The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: aiConfig. aiConfig -&gt; (structure) Configuration settings for AI-powered capabilities. Shorthand Syntax: aiConfig={} JSON Syntax: { "aiConfig": { } }</param>
+    public AwsOpensearchRegisterCapabilityOptions(
+        string ApplicationId,
+        string CapabilityName,
+        string CapabilityConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityName);
+        this.CapabilityName = CapabilityName;
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityConfig);
+        this.CapabilityConfig = CapabilityConfig;
+    }
+
+    private AwsOpensearchRegisterCapabilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchRegisterCapabilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchRegisterCapabilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the OpenSearch UI application to register the capability for. Constraints: o pattern: [a-z0-9]{3,30}
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the appli- cation. For registering AI Assistant capability, use ai-capability Constraints: o min: 3 o max: 30 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--capability-name")]
-    public string? CapabilityName { get; set; }
+    public string? CapabilityName { get; private init; }
 
+    /// <summary>
+    /// The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: aiConfig. aiConfig -&gt; (structure) Configuration settings for AI-powered capabilities. Shorthand Syntax: aiConfig={} JSON Syntax: { "aiConfig": { } }
+    /// </summary>
     [CliOption("--capability-config")]
-    public string? CapabilityConfig { get; set; }
+    public string? CapabilityConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

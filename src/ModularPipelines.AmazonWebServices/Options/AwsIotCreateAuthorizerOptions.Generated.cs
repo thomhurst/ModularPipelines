@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,18 +23,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-authorizer")]
-public record AwsIotCreateAuthorizerOptions : AwsOptions
+public record AwsIotCreateAuthorizerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authorizer-name")]
-    public string? AuthorizerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an authorizer. Requires permission to access the CreateAuthorizer action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthorizerName">The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="AuthorizerFunctionArn">The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*</param>
+    public AwsIotCreateAuthorizerOptions(
+        string AuthorizerName,
+        string AuthorizerFunctionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerName);
+        this.AuthorizerName = AuthorizerName;
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerFunctionArn);
+        this.AuthorizerFunctionArn = AuthorizerFunctionArn;
+    }
+
+    private AwsIotCreateAuthorizerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateAuthorizerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateAuthorizerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// </summary>
+    [CliOption("--authorizer-name")]
+    public string? AuthorizerName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--authorizer-function-arn")]
-    public string? AuthorizerFunctionArn { get; set; }
+    public string? AuthorizerFunctionArn { get; private init; }
 
     /// <summary>
     /// The name of the token key used to extract the token from the HTTP headers. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
     /// </summary>
-    [SecretValue]
     [CliOption("--token-key-name")]
     public string? TokenKeyName { get; set; }
 
@@ -56,10 +99,16 @@ public record AwsIotCreateAuthorizerOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--signing-disabled")]
+    /// <summary>
+    /// Specifies whether IoT validates the token signature in an authoriza- tion request.
+    /// </summary>
+    [CliFlag("--signing-disabled", NegatedName = "--no-signing-disabled")]
     public bool? SigningDisabled { get; set; }
 
-    [CliFlag("--enable-caching-for-http")]
+    /// <summary>
+    /// When true , the result from the authorizers Lambda function is cached for clients that use persistent HTTP connections. The results are cached for the time specified by the Lambda function in refre- shAfterInSeconds . This value does not affect authorization of clients that use MQTT connections. The default value is false .
+    /// </summary>
+    [CliFlag("--enable-caching-for-http", NegatedName = "--no-enable-caching-for-http")]
     public bool? EnableCachingForHttp { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +116,21 @@ public record AwsIotCreateAuthorizerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

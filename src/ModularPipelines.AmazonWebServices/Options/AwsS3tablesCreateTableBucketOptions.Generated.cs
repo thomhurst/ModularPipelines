@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "create-table-bucket")]
-public record AwsS3tablesCreateTableBucketOptions : AwsOptions
+public record AwsS3tablesCreateTableBucketOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:CreateTableBucket permission to use this operation. o If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permis- sion. o If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass p...
+    /// </summary>
+    /// <param name="Name">The name for the table bucket. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z-]*</param>
+    public AwsS3tablesCreateTableBucketOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsS3tablesCreateTableBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesCreateTableBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesCreateTableBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the table bucket. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z-]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The encryption configuration to use for the table bucket. This con- figuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use. sseAlgorithm -&gt; (string) [required] The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Possible values: o AES256 o aws:kms kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseAlgorithm=string,kmsKeyArn=string JSON Syntax: { "sseAlgorithm": "AES256"|"aws:kms", "kmsKeyArn": "string" }
@@ -48,5 +85,21 @@ public record AwsS3tablesCreateTableBucketOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

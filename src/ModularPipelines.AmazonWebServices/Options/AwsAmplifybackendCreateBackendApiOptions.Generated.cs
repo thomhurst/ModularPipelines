@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifybackend", "create-backend-api")]
-public record AwsAmplifybackendCreateBackendApiOptions : AwsOptions
+public record AwsAmplifybackendCreateBackendApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new backend API resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The app ID.</param>
+    /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
+    /// <param name="ResourceConfig">The resource configuration for this request. AdditionalAuthTypes -&gt; (list) Additional authentication methods used to interact with your data models. (structure) Describes the auth types for your configured data models. Mode -&gt; (string) Describes the authentication mode. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT Settings -&gt; (structure) Describes settings for the authentication mode. CognitoUserPoolId -&gt; (string) The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models. Description -&gt; (string) The API key description for API_KEY, if it was used as an authentication mechanism to access your data mod- els. ExpirationTime -&gt; (double) The API key expiration time for API_KEY, if it was used as an authentication mechanism to access your data models. OpenIDAuthTTL -&gt; (string) The expiry time for the OpenID authentication mecha- nism. OpenIDClientId -&gt; (string) The clientID for openID, if openID was used as an au- thentication setting to access your data models. OpenIDIatTTL -&gt; (string) The expiry time for the OpenID authentication mecha- nism. OpenIDIssueURL -&gt; (string) The openID issuer URL, if openID was used as an au- thentication setting to access your data models. OpenIDProviderName -&gt; (string) The OpenID provider name, if OpenID was used as an au- thentication mechanism to access your data models. ApiName -&gt; (string) The API name used to interact with the data model, configured as a part of your Amplify project. ConflictResolution -&gt; (structure) The conflict resolution strategy for your data stored in the data models. ResolutionStrategy -&gt; (string) The strategy for conflict resolution. Possible values: o OPTIMISTIC_CONCURRENCY o LAMBDA o AUTOMERGE o NONE DefaultAuthType -&gt; (structure) The default authentication type for interacting with the config- ured data models in your Amplify project. Mode -&gt; (string) Describes the authentication mode. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT Settings -&gt; (structure) Describes settings for the authentication mode. CognitoUserPoolId -&gt; (string) The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models. Description -&gt; (string) The API key description for API_KEY, if it was used as an authentication mechanism to access your data models. ExpirationTime -&gt; (double) The API key expiration time for API_KEY, if it was used as an authentication mechanism to access your data mod- els. OpenIDAuthTTL -&gt; (string) The expiry time for the OpenID authentication mechanism. OpenIDClientId -&gt; (string) The clientID for openID, if openID was used as an authen- tication setting to access your data models. OpenIDIatTTL -&gt; (string) The expiry time for the OpenID authentication mechanism. OpenIDIssueURL -&gt; (string) The openID issuer URL, if openID was used as an authenti- cation setting to access your data models. OpenIDProviderName -&gt; (string) The OpenID provider name, if OpenID was used as an au- thentication mechanism to access your data models. Service -&gt; (string) The service used to provision and interact with the data model. TransformSchema -&gt; (string) The definition of the data model in the annotated transform of the GraphQL schema. JSON Syntax: { "AdditionalAuthTypes": [ { "Mode": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT", "Settings": { "CognitoUserPoolId": "string", "Description": "string", "ExpirationTime": double, "OpenIDAuthTTL": "string", "OpenIDClientId": "string", "OpenIDIatTTL": "string", "OpenIDIssueURL": "string", "OpenIDProviderName": "string" } } ... ], "ApiName": "string", "ConflictResolution": { "ResolutionStrategy": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE" }, "DefaultAuthType": { "Mode": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT", "Settings": { "CognitoUserPoolId": "string", "Description": "string", "ExpirationTime": double, "OpenIDAuthTTL": "string", "OpenIDClientId": "string", "OpenIDIatTTL": "string", "OpenIDIssueURL": "string", "OpenIDProviderName": "string" } }, "Service": "string", "TransformSchema": "string" }</param>
+    /// <param name="ResourceName">The name of this resource.</param>
+    public AwsAmplifybackendCreateBackendApiOptions(
+        string AppId,
+        string BackendEnvironmentName,
+        string ResourceConfig,
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BackendEnvironmentName);
+        this.BackendEnvironmentName = BackendEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceConfig);
+        this.ResourceConfig = ResourceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    private AwsAmplifybackendCreateBackendApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifybackendCreateBackendApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifybackendCreateBackendApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The app ID.
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The name of the backend environment.
+    /// </summary>
     [CliOption("--backend-environment-name")]
-    public string? BackendEnvironmentName { get; set; }
+    public string? BackendEnvironmentName { get; private init; }
 
+    /// <summary>
+    /// The resource configuration for this request. AdditionalAuthTypes -&gt; (list) Additional authentication methods used to interact with your data models. (structure) Describes the auth types for your configured data models. Mode -&gt; (string) Describes the authentication mode. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT Settings -&gt; (structure) Describes settings for the authentication mode. CognitoUserPoolId -&gt; (string) The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models. Description -&gt; (string) The API key description for API_KEY, if it was used as an authentication mechanism to access your data mod- els. ExpirationTime -&gt; (double) The API key expiration time for API_KEY, if it was used as an authentication mechanism to access your data models. OpenIDAuthTTL -&gt; (string) The expiry time for the OpenID authentication mecha- nism. OpenIDClientId -&gt; (string) The clientID for openID, if openID was used as an au- thentication setting to access your data models. OpenIDIatTTL -&gt; (string) The expiry time for the OpenID authentication mecha- nism. OpenIDIssueURL -&gt; (string) The openID issuer URL, if openID was used as an au- thentication setting to access your data models. OpenIDProviderName -&gt; (string) The OpenID provider name, if OpenID was used as an au- thentication mechanism to access your data models. ApiName -&gt; (string) The API name used to interact with the data model, configured as a part of your Amplify project. ConflictResolution -&gt; (structure) The conflict resolution strategy for your data stored in the data models. ResolutionStrategy -&gt; (string) The strategy for conflict resolution. Possible values: o OPTIMISTIC_CONCURRENCY o LAMBDA o AUTOMERGE o NONE DefaultAuthType -&gt; (structure) The default authentication type for interacting with the config- ured data models in your Amplify project. Mode -&gt; (string) Describes the authentication mode. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT Settings -&gt; (structure) Describes settings for the authentication mode. CognitoUserPoolId -&gt; (string) The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models. Description -&gt; (string) The API key description for API_KEY, if it was used as an authentication mechanism to access your data models. ExpirationTime -&gt; (double) The API key expiration time for API_KEY, if it was used as an authentication mechanism to access your data mod- els. OpenIDAuthTTL -&gt; (string) The expiry time for the OpenID authentication mechanism. OpenIDClientId -&gt; (string) The clientID for openID, if openID was used as an authen- tication setting to access your data models. OpenIDIatTTL -&gt; (string) The expiry time for the OpenID authentication mechanism. OpenIDIssueURL -&gt; (string) The openID issuer URL, if openID was used as an authenti- cation setting to access your data models. OpenIDProviderName -&gt; (string) The OpenID provider name, if OpenID was used as an au- thentication mechanism to access your data models. Service -&gt; (string) The service used to provision and interact with the data model. TransformSchema -&gt; (string) The definition of the data model in the annotated transform of the GraphQL schema. JSON Syntax: { "AdditionalAuthTypes": [ { "Mode": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT", "Settings": { "CognitoUserPoolId": "string", "Description": "string", "ExpirationTime": double, "OpenIDAuthTTL": "string", "OpenIDClientId": "string", "OpenIDIatTTL": "string", "OpenIDIssueURL": "string", "OpenIDProviderName": "string" } } ... ], "ApiName": "string", "ConflictResolution": { "ResolutionStrategy": "OPTIMISTIC_CONCURRENCY"|"LAMBDA"|"AUTOMERGE"|"NONE" }, "DefaultAuthType": { "Mode": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT", "Settings": { "CognitoUserPoolId": "string", "Description": "string", "ExpirationTime": double, "OpenIDAuthTTL": "string", "OpenIDClientId": "string", "OpenIDIatTTL": "string", "OpenIDIssueURL": "string", "OpenIDProviderName": "string" } }, "Service": "string", "TransformSchema": "string" }
+    /// </summary>
     [CliOption("--resource-config")]
-    public string? ResourceConfig { get; set; }
+    public string? ResourceConfig { get; private init; }
 
+    /// <summary>
+    /// The name of this resource.
+    /// </summary>
     [CliOption("--resource-name")]
-    public string? ResourceName { get; set; }
+    public string? ResourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

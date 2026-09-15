@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "reset-resource-log-level")]
-public record AwsIotwirelessResetResourceLogLevelOptions : AwsOptions
+public record AwsIotwirelessResetResourceLogLevelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gate- way, or a FUOTA task. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256</param>
+    /// <param name="ResourceType">The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .</param>
+    public AwsIotwirelessResetResourceLogLevelOptions(
+        string ResourceIdentifier,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsIotwirelessResetResourceLogLevelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessResetResourceLogLevelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessResetResourceLogLevelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string? ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

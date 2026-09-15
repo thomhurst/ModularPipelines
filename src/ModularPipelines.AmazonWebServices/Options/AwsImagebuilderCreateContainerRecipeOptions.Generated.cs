@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,22 +23,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "create-container-recipe")]
-public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
+public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-type")]
-    public string? ContainerType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerType">The type of container to create. Possible values: o DOCKER</param>
+    /// <param name="Name">The name of the container recipe. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the container recipe. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
+    /// <param name="ParentImage">The base image for the container recipe. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="TargetRepository">The destination repository for the container image. service -&gt; (string) [required] Specifies the service in which this image was registered. Possible values: o ECR repositoryName -&gt; (string) [required] The name of the container repository where the output container image is stored. This name is prefixed by the repository loca- tion. For example, &lt;repository location url&gt;/repository_name . Constraints: o min: 1 o max: 1024 Shorthand Syntax: service=string,repositoryName=string JSON Syntax: { "service": "ECR", "repositoryName": "string" }</param>
+    public AwsImagebuilderCreateContainerRecipeOptions(
+        AwsImagebuilderCreateContainerRecipeContainerType ContainerType,
+        string Name,
+        string SemanticVersion,
+        string ParentImage,
+        string TargetRepository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerType);
+        this.ContainerType = ContainerType;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SemanticVersion);
+        this.SemanticVersion = SemanticVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ParentImage);
+        this.ParentImage = ParentImage;
+        global::System.ArgumentNullException.ThrowIfNull(TargetRepository);
+        this.TargetRepository = TargetRepository;
+    }
+
+    private AwsImagebuilderCreateContainerRecipeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCreateContainerRecipeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCreateContainerRecipeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of container to create. Possible values: o DOCKER
+    /// </summary>
+    [CliOption("--container-type")]
+    public AwsImagebuilderCreateContainerRecipeContainerType? ContainerType { get; private init; }
+
+    /// <summary>
+    /// The name of the container recipe. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The semantic version of the container recipe. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// </summary>
+    [CliOption("--semantic-version")]
+    public string? SemanticVersion { get; private init; }
+
+    /// <summary>
+    /// The base image for the container recipe. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--parent-image")]
+    public string? ParentImage { get; private init; }
+
+    /// <summary>
+    /// The destination repository for the container image. service -&gt; (string) [required] Specifies the service in which this image was registered. Possible values: o ECR repositoryName -&gt; (string) [required] The name of the container repository where the output container image is stored. This name is prefixed by the repository loca- tion. For example, &lt;repository location url&gt;/repository_name . Constraints: o min: 1 o max: 1024 Shorthand Syntax: service=string,repositoryName=string JSON Syntax: { "service": "ECR", "repositoryName": "string" }
+    /// </summary>
+    [CliOption("--target-repository")]
+    public string? TargetRepository { get; private init; }
 
     /// <summary>
     /// The description of the container recipe. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--semantic-version")]
-    public string? SemanticVersion { get; set; }
 
     /// <summary>
     /// The components included in the container recipe. Constraints: o min: 1 (structure) Configuration details of the component. componentArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the component. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$ parameters -&gt; (list) A group of parameter settings that Image Builder uses to con- figure the component for a specific recipe. Constraints: o min: 1 (structure) Contains a key/value pair that sets the named component parameter. name -&gt; (string) [required] The name of the component parameter to set. Constraints: o min: 1 o max: 256 o pattern: [^\x00]+ value -&gt; (list) [required] Sets the value for the named component parameter. (string) Constraints: o min: 0 o pattern: [^\x00]* JSON Syntax: [ { "componentArn": "string", "parameters": [ { "name": "string", "value": ["string", ...] } ... ] } ... ]
@@ -46,7 +117,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     public IEnumerable<string>? Components { get; set; }
 
     /// <summary>
-    /// A group of options that can be used to configure an instance for building and testing container images. image -&gt; (string) The base image for a container build and test instance. This can contain an AMI ID or it can specify an Amazon Web Services Sys- tems Manager (SSM) Parameter Store Parameter, prefixed by ssm: , followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-opti- mized AMI as a base image. Constraints: o min: 1 o max: 1024 blockDeviceMappings -&gt; (list) Defines the block devices to attach for building an instance from this Image Builder AMI. (structure) Defines block device mappings for the instance used to con- figure your image. deviceName -&gt; (string) The device to which these mappings apply. Constraints: o min: 1 o max: 1024 ebs -&gt; (structure) Use to manage Amazon EBS-specific configuration for this mapping. encrypted -&gt; (boolean) Use to configure device encryption. deleteOnTermination -&gt; (boolean) Use to configure delete on termination of the associ- ated device. iops -&gt; (integer) Use to configure device IOPS. Constraints: o min: 100 o max: 64000 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identi- fies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024 snapshotId -&gt; (string) The snapshot that defines the device contents. Constraints: o min: 1 o max: 1024 volumeSize -&gt; (integer) Use to override the device's volume size. Constraints: o min: 1 o max: 16000 volumeType -&gt; (string) Use to override the device's volume type. Possible values: o standard o io1 o io2 o gp2 o gp3 o sc1 o st1 throughput -&gt; (integer) For GP3 volumes only The throughput in MiB/s that the volume supports. Constraints: o min: 125 o max: 1000 virtualName -&gt; (string) Use to manage instance ephemeral devices. Constraints: o min: 1 o max: 1024 noDevice -&gt; (string) Use to remove a mapping from the base image. Constraints: o min: 0 o max: 0 JSON Syntax: { "image": "string", "blockDeviceMappings": [ { "deviceName": "string", "ebs": { "encrypted": true|false, "deleteOnTermination": true|false, "iops": integer, "kmsKeyId": "string", "snapshotId": "string", "volumeSize": integer, "volumeType": "standard"|"io1"|"io2"|"gp2"|"gp3"|"sc1"|"st1", "throughput": integer }, "virtualName": "string", "noDevice": "string" } ... ] }
+    /// A group of options that can be used to configure an instance for building and testing container images. image -&gt; (string) The base image for a container build and test instance. This can contain an AMI ID or it can specify an Amazon Web Services Sys- tems Manager (SSM) Parameter Store Parameter, prefixed by ssm: , followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-opti- mized AMI as a base image. Constraints: o min: 1 o max: 1024 blockDeviceMappings -&gt; (list) Defines the block devices to attach for building an instance from this Image Builder AMI. (structure) Defines block device mappings for the instance used to con- figure your image. deviceName -&gt; (string) The device to which these mappings apply. Constraints: o min: 1 o max: 1024 ebs -&gt; (structure) The Amazon EBS-specific configuration for this mapping. encrypted -&gt; (boolean) Specifies whether to encrypt the device. deleteOnTermination -&gt; (boolean) Specifies whether to delete the associated device on termination. iops -&gt; (integer) The IOPS value for the device. Required only when vol- umeType is io1 or io2. Constraints: o min: 100 o max: 64000 kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) that uniquely identi- fies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024 snapshotId -&gt; (string) The snapshot that defines the device contents. Constraints: o min: 1 o max: 1024 volumeSize -&gt; (integer) Overrides the volume size for the device. Constraints: o min: 1 o max: 16000 volumeType -&gt; (string) Overrides the volume type for the device. Possible values: o standard o io1 o io2 o gp2 o gp3 o sc1 o st1 throughput -&gt; (integer) For GP3 volumes only The throughput in MiB/s that the volume supports. Constraints: o min: 125 o max: 1000 virtualName -&gt; (string) The virtual device name for instance ephemeral devices. Constraints: o min: 1 o max: 1024 noDevice -&gt; (string) Specifies a mapping to remove from the base image. Constraints: o min: 0 o max: 0 JSON Syntax: { "image": "string", "blockDeviceMappings": [ { "deviceName": "string", "ebs": { "encrypted": true|false, "deleteOnTermination": true|false, "iops": integer, "kmsKeyId": "string", "snapshotId": "string", "volumeSize": integer, "volumeType": "standard"|"io1"|"io2"|"gp2"|"gp3"|"sc1"|"st1", "throughput": integer }, "virtualName": "string", "noDevice": "string" } ... ] }
     /// </summary>
     [CliOption("--instance-configuration")]
     public string? InstanceConfiguration { get; set; }
@@ -58,7 +129,7 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     public string? DockerfileTemplateData { get; set; }
 
     /// <summary>
-    /// The Amazon S3 URI for the Dockerfile that will be used to build your container image.
+    /// The Amazon S3 URI for the Dockerfile that is used to build your con- tainer image.
     /// </summary>
     [CliOption("--dockerfile-template-uri")]
     public string? DockerfileTemplateUri { get; set; }
@@ -75,9 +146,6 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     [CliOption("--image-os-version-override")]
     public string? ImageOsVersionOverride { get; set; }
 
-    [CliOption("--parent-image")]
-    public string? ParentImage { get; set; }
-
     /// <summary>
     /// Tags that are attached to the container recipe. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -90,9 +158,6 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     [CliOption("--working-directory")]
     public string? WorkingDirectory { get; set; }
 
-    [CliOption("--target-repository")]
-    public string? TargetRepository { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the Dockerfile template. This can be either the Key ARN or the Alias ARN. For more information, see Key identi- fiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024
     /// </summary>
@@ -100,16 +165,38 @@ public record AwsImagebuilderCreateContainerRecipeOptions : AwsOptions
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
+
+    /// <summary>
+    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

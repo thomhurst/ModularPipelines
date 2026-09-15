@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "put-method-response")]
-public record AwsApigatewayPutMethodResponseOptions : AwsOptions
+public record AwsApigatewayPutMethodResponseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a MethodResponse to an existing Method resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="ResourceId">The Resource identifier for the Method resource.</param>
+    /// <param name="HttpMethod">The HTTP verb of the Method resource.</param>
+    /// <param name="StatusCode">The method response's status code. Constraints: o pattern: [1-5]\d\d</param>
+    public AwsApigatewayPutMethodResponseOptions(
+        string RestApiId,
+        string ResourceId,
+        string HttpMethod,
+        string StatusCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
+        this.HttpMethod = HttpMethod;
+        global::System.ArgumentNullException.ThrowIfNull(StatusCode);
+        this.StatusCode = StatusCode;
+    }
+
+    private AwsApigatewayPutMethodResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayPutMethodResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayPutMethodResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// The Resource identifier for the Method resource.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The HTTP verb of the Method resource.
+    /// </summary>
     [CliOption("--http-method")]
-    public string? HttpMethod { get; set; }
+    public string? HttpMethod { get; private init; }
 
+    /// <summary>
+    /// The method response's status code. Constraints: o pattern: [1-5]\d\d
+    /// </summary>
     [CliOption("--status-code")]
-    public string? StatusCode { get; set; }
+    public string? StatusCode { get; private init; }
 
     /// <summary>
     /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag in- dicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration re- sponse header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'appli- cation/json' ), or a JSON expression from the back-end response pay- load in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ pre- fix.) key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
@@ -51,5 +109,21 @@ public record AwsApigatewayPutMethodResponseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workdocs", "abort-document-version-upload")]
-public record AwsWorkdocsAbortDocumentVersionUploadOptions : AwsOptions
+public record AwsWorkdocsAbortDocumentVersionUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload . The client should make this call only when it no longer intends to upload the document ver- sion, or fails to do so. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="VersionId">The ID of the version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    public AwsWorkdocsAbortDocumentVersionUploadOptions(
+        string DocumentId,
+        string VersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentId);
+        this.DocumentId = DocumentId;
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+    }
+
+    private AwsWorkdocsAbortDocumentVersionUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkdocsAbortDocumentVersionUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkdocsAbortDocumentVersionUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--document-id")]
+    public string? DocumentId { get; private init; }
+
+    /// <summary>
+    /// The ID of the version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// </summary>
+    [CliOption("--version-id")]
+    public string? VersionId { get; private init; }
+
     /// <summary>
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
     /// </summary>
@@ -29,16 +79,26 @@ public record AwsWorkdocsAbortDocumentVersionUploadOptions : AwsOptions
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CliOption("--document-id")]
-    public string? DocumentId { get; set; }
-
-    [CliOption("--version-id")]
-    public string? VersionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

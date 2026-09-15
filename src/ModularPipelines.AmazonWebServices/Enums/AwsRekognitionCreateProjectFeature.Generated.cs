@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsRekognitionCreateProjectFeature
 {
     [EnumValue("CONTENT_MODERATION")]
-    ContentModeration = 1,
+    ContentModeration,
 
     [EnumValue("CUSTOM_LABELS")]
-    CustomLabels = 2
+    CustomLabels
 }

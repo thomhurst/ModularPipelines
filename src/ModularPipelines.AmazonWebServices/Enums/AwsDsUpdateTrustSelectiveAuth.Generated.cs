@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --selectiveauth.
+/// Allowed values for --selective-auth.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDsUpdateTrustSelectiveAuth
 {
-    [EnumValue("Enabled")]
-    Enabled = 1,
-
     [EnumValue("Disabled")]
-    Disabled = 2
+    Disabled,
+
+    [EnumValue("Enabled")]
+    Enabled
 }

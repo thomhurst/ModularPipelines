@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-materialized-view-refresh-task-run")]
-public record AwsGlueGetMaterializedViewRefreshTaskRunOptions : AwsOptions
+public record AwsGlueGetMaterializedViewRefreshTaskRunOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog-id")]
-    public string? CatalogId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Get the associated metadata/information for a task run, given a task run ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CatalogId">The ID of the Data Catalog where the table resides. If none is sup- plied, the account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="MaterializedViewRefreshTaskRunId">The identifier for the particular materialized view refresh task run. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    public AwsGlueGetMaterializedViewRefreshTaskRunOptions(
+        string CatalogId,
+        string MaterializedViewRefreshTaskRunId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogId);
+        this.CatalogId = CatalogId;
+        global::System.ArgumentNullException.ThrowIfNull(MaterializedViewRefreshTaskRunId);
+        this.MaterializedViewRefreshTaskRunId = MaterializedViewRefreshTaskRunId;
+    }
+
+    private AwsGlueGetMaterializedViewRefreshTaskRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetMaterializedViewRefreshTaskRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetMaterializedViewRefreshTaskRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Data Catalog where the table resides. If none is sup- plied, the account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--catalog-id")]
+    public string? CatalogId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the particular materialized view refresh task run. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--materialized-view-refresh-task-run-id")]
-    public string? MaterializedViewRefreshTaskRunId { get; set; }
+    public string? MaterializedViewRefreshTaskRunId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

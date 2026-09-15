@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "delete-experiment-definition")]
-public record AwsAppConfigDeleteExperimentDefinitionOptions : AwsOptions
+public record AwsAppConfigDeleteExperimentDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigDeleteExperimentDefinitionOptions(
+        string ApplicationIdentifier,
+        string ExperimentDefinitionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentDefinitionIdentifier);
+        this.ExperimentDefinitionIdentifier = ExperimentDefinitionIdentifier;
+    }
+
+    private AwsAppConfigDeleteExperimentDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigDeleteExperimentDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigDeleteExperimentDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--application-identifier")]
+    public string? ApplicationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--experiment-definition-identifier")]
-    public string? ExperimentDefinitionIdentifier { get; set; }
+    public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
     /// The type of deletion to perform. Valid values include archive (hide but preserve) and permanent (delete permanently). Possible values: o ARCHIVE o DESTROY
@@ -39,5 +83,21 @@ public record AwsAppConfigDeleteExperimentDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

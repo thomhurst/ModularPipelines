@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "wait", "services-inactive")]
-public record AwsEcsWaitServicesInactiveOptions : AwsOptions
+public record AwsEcsWaitServicesInactiveOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Wait until JMESPath query services[].status returns INACTIVE for any element when polling with describe-services. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 40 failed checks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Services">A list of services to describe. You may specify up to 10 services to describe in a single operation. (string) Syntax: "string" "string" ...</param>
+    public AwsEcsWaitServicesInactiveOptions(
+        IEnumerable<string> Services
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Services);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Services));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Services));
+            }
+
+            Services = materialized;
+        }
+        this.Services = Services;
+    }
+
+    private AwsEcsWaitServicesInactiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsWaitServicesInactiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsWaitServicesInactiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of services to describe. You may specify up to 10 services to describe in a single operation. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--services", GroupValues = true)]
+    public IEnumerable<string>? Services { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the ser- vice or services you are describing were launched in any cluster other than the default cluster.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
-
-    [CliOption("--services", GroupValues = true)]
-    public IEnumerable<string>? Services { get; set; }
 
     /// <summary>
     /// Determines whether you want to see the resource tags for the ser- vice. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
@@ -41,5 +89,21 @@ public record AwsEcsWaitServicesInactiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

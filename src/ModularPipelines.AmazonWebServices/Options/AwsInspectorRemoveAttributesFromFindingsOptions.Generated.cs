@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "remove-attributes-from-findings")]
-public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions
+public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--finding-arns", GroupValues = true)]
-    public IEnumerable<string>? FindingArns { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes entire attributes (key and value pairs) from the findings that are specified by the ARNs of the findings where an attribute with the specified key exists. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FindingArns">The ARNs that specify the findings that you want to remove attrib- utes from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="AttributeKeys">The array of attribute keys that you want to remove from specified findings. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    public AwsInspectorRemoveAttributesFromFindingsOptions(
+        IEnumerable<string> FindingArns,
+        IEnumerable<string> AttributeKeys
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FindingArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FindingArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FindingArns));
+            }
+
+            FindingArns = materialized;
+        }
+        this.FindingArns = FindingArns;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttributeKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeKeys));
+            }
+
+            AttributeKeys = materialized;
+        }
+        this.AttributeKeys = AttributeKeys;
+    }
+
+    private AwsInspectorRemoveAttributesFromFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorRemoveAttributesFromFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorRemoveAttributesFromFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARNs that specify the findings that you want to remove attrib- utes from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--finding-arns", GroupValues = true)]
+    public IEnumerable<string>? FindingArns { get; private init; }
+
+    /// <summary>
+    /// The array of attribute keys that you want to remove from specified findings. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--attribute-keys", GroupValues = true)]
-    public IEnumerable<string>? AttributeKeys { get; set; }
+    public IEnumerable<string>? AttributeKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

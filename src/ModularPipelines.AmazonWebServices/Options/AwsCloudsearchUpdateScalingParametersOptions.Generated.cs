@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudsearch", "update-scaling-parameters")]
-public record AwsCloudsearchUpdateScalingParametersOptions : AwsOptions
+public record AwsCloudsearchUpdateScalingParametersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Configures scaling parameters for a domain. A domain's scaling parame- ters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the Amazon CloudSearch Developer Guide ...
+    /// </summary>
+    /// <param name="DomainName">A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="ScalingParameters">The desired instance type and desired number of replicas of each in- dex partition. DesiredInstanceType -&gt; (string) The instance type that you want to preconfigure for your domain. For example, search.m1.small . Possible values: o search.m1.small o search.m1.large o search.m2.xlarge o search.m2.2xlarge o search.m3.medium o search.m3.large o search.m3.xlarge o search.m3.2xlarge o search.small o search.medium o search.large o search.xlarge o search.2xlarge o search.previousgeneration.small o search.previousgeneration.large o search.previousgeneration.xlarge o search.previousgeneration.2xlarge DesiredReplicationCount -&gt; (integer) The number of replicas you want to preconfigure for each index partition. Constraints: o min: 0 DesiredPartitionCount -&gt; (integer) The number of partitions you want to preconfigure for your do- main. Only valid when you select m2.2xlarge as the desired in- stance type. Constraints: o min: 0 Shorthand Syntax: DesiredInstanceType=string,DesiredReplicationCount=integer,DesiredPartitionCount=integer JSON Syntax: { "DesiredInstanceType": "search.m1.small"|"search.m1.large"|"search.m2.xlarge"|"search.m2.2xlarge"|"search.m3.medium"|"search.m3.large"|"search.m3.xlarge"|"search.m3.2xlarge"|"search.small"|"search.medium"|"search.large"|"search.xlarge"|"search.2xlarge"|"search.previousgeneration.small"|"search.previousgeneration.large"|"search.previousgeneration.xlarge"|"search.previousgeneration.2xlarge", "DesiredReplicationCount": integer, "DesiredPartitionCount": integer }</param>
+    public AwsCloudsearchUpdateScalingParametersOptions(
+        string DomainName,
+        string ScalingParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ScalingParameters);
+        this.ScalingParameters = ScalingParameters;
+    }
+
+    private AwsCloudsearchUpdateScalingParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudsearchUpdateScalingParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudsearchUpdateScalingParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the fol- lowing characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The desired instance type and desired number of replicas of each in- dex partition. DesiredInstanceType -&gt; (string) The instance type that you want to preconfigure for your domain. For example, search.m1.small . Possible values: o search.m1.small o search.m1.large o search.m2.xlarge o search.m2.2xlarge o search.m3.medium o search.m3.large o search.m3.xlarge o search.m3.2xlarge o search.small o search.medium o search.large o search.xlarge o search.2xlarge o search.previousgeneration.small o search.previousgeneration.large o search.previousgeneration.xlarge o search.previousgeneration.2xlarge DesiredReplicationCount -&gt; (integer) The number of replicas you want to preconfigure for each index partition. Constraints: o min: 0 DesiredPartitionCount -&gt; (integer) The number of partitions you want to preconfigure for your do- main. Only valid when you select m2.2xlarge as the desired in- stance type. Constraints: o min: 0 Shorthand Syntax: DesiredInstanceType=string,DesiredReplicationCount=integer,DesiredPartitionCount=integer JSON Syntax: { "DesiredInstanceType": "search.m1.small"|"search.m1.large"|"search.m2.xlarge"|"search.m2.2xlarge"|"search.m3.medium"|"search.m3.large"|"search.m3.xlarge"|"search.m3.2xlarge"|"search.small"|"search.medium"|"search.large"|"search.xlarge"|"search.2xlarge"|"search.previousgeneration.small"|"search.previousgeneration.large"|"search.previousgeneration.xlarge"|"search.previousgeneration.2xlarge", "DesiredReplicationCount": integer, "DesiredPartitionCount": integer }
+    /// </summary>
     [CliOption("--scaling-parameters")]
-    public string? ScalingParameters { get; set; }
+    public string? ScalingParameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

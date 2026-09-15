@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "verify-software-token")]
-public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions
+public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers the current user's time-based one-time password (TOTP) au- thenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's soft- ware token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to ...
+    /// </summary>
+    /// <param name="UserCode">A TOTP that the user generated in their configured authenticator app. Constraints: o min: 6 o max: 6 o pattern: [0-9]+</param>
+    public AwsCognitoIdpVerifySoftwareTokenOptions(
+        string UserCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserCode);
+        this.UserCode = UserCode;
+    }
+
+    private AwsCognitoIdpVerifySoftwareTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpVerifySoftwareTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpVerifySoftwareTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A TOTP that the user generated in their configured authenticator app. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
+    /// </summary>
+    [CliOption("--user-code")]
+    public string? UserCode { get; private init; }
+
     /// <summary>
     /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
     /// </summary>
@@ -35,9 +75,6 @@ public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions
     [CliOption("--session")]
     public string? Session { get; set; }
 
-    [CliOption("--user-code")]
-    public string? UserCode { get; set; }
-
     /// <summary>
     /// A friendly name for the device that's running the TOTP authentica- tor. Constraints: o min: 0 o max: 131072
     /// </summary>
@@ -49,5 +86,21 @@ public record AwsCognitoIdpVerifySoftwareTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

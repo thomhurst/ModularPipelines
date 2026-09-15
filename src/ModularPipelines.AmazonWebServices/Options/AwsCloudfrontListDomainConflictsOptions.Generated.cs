@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "list-domain-conflicts")]
-public record AwsCloudfrontListDomainConflictsOptions : AwsOptions
+public record AwsCloudfrontListDomainConflictsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distribu- tions and distribution tenants. ListConflictingAliases performs sim- ilar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Doma...
+    /// </summary>
+    /// <param name="Domain">The domain to check for conflicts.</param>
+    /// <param name="DomainControlValidationResource">The distribution resource identifier. This can be the standard dis- tribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
+    public AwsCloudfrontListDomainConflictsOptions(
+        string Domain,
+        string DomainControlValidationResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(DomainControlValidationResource);
+        this.DomainControlValidationResource = DomainControlValidationResource;
+    }
+
+    private AwsCloudfrontListDomainConflictsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontListDomainConflictsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontListDomainConflictsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain to check for conflicts.
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The distribution resource identifier. This can be the standard dis- tribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
+    /// </summary>
     [CliOption("--domain-control-validation-resource")]
-    public string? DomainControlValidationResource { get; set; }
+    public string? DomainControlValidationResource { get; private init; }
 
     /// <summary>
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -52,5 +96,21 @@ public record AwsCloudfrontListDomainConflictsOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("forecast", "update-dataset-group")]
-public record AwsForecastUpdateDataSetGroupOptions : AwsOptions
+public record AwsForecastUpdateDataSetGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dataset-group-arn")]
-    public string? DataSetGroupArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces the datasets in a dataset group with the specified datasets. NOTE: The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the DescribeDatasetGroup operation to get the status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetGroupArn">The ARN of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetArns">An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...</param>
+    public AwsForecastUpdateDataSetGroupOptions(
+        string DataSetGroupArn,
+        IEnumerable<string> DataSetArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetGroupArn);
+        this.DataSetGroupArn = DataSetGroupArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DataSetArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DataSetArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DataSetArns));
+            }
+
+            DataSetArns = materialized;
+        }
+        this.DataSetArns = DataSetArns;
+    }
+
+    private AwsForecastUpdateDataSetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsForecastUpdateDataSetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsForecastUpdateDataSetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the dataset group. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// </summary>
+    [CliOption("--dataset-group-arn")]
+    public string? DataSetGroupArn { get; private init; }
+
+    /// <summary>
+    /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group. (string) Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--dataset-arns", GroupValues = true)]
-    public IEnumerable<string>? DataSetArns { get; set; }
+    public IEnumerable<string>? DataSetArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "create-route-calculator")]
-public record AwsLocationCreateRouteCalculatorOptions : AwsOptions
+public record AwsLocationCreateRouteCalculatorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--calculator-name")]
-    public string? CalculatorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o CreateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// </summary>
+    /// <param name="CalculatorName">The name of the route calculator resource. Requirements: o Can use alphanumeric characters (AZ, az, 09) , hyphens (-), peri- ods (.), and underscores (_). o Must be a unique Route calculator resource name. o No spaces allowed. For example, ExampleRouteCalculator . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DataSource">Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traf- fic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. o Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Loca- tion Service Developer Guide .</param>
+    public AwsLocationCreateRouteCalculatorOptions(
+        string CalculatorName,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CalculatorName);
+        this.CalculatorName = CalculatorName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsLocationCreateRouteCalculatorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCreateRouteCalculatorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCreateRouteCalculatorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the route calculator resource. Requirements: o Can use alphanumeric characters (AZ, az, 09) , hyphens (-), peri- ods (.), and underscores (_). o Must be a unique Route calculator resource name. o No spaces allowed. For example, ExampleRouteCalculator . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--calculator-name")]
+    public string? CalculatorName { get; private init; }
+
+    /// <summary>
+    /// Specifies the data provider of traffic and road network data. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on street networks and traf- fic coverage . Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. o Grab Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE car routing coverage and HERE truck routing coverage . For additional information , see Data providers on the Amazon Loca- tion Service Developer Guide .
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public string? DataSource { get; private init; }
 
     /// <summary>
     /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
@@ -52,5 +96,21 @@ public record AwsLocationCreateRouteCalculatorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

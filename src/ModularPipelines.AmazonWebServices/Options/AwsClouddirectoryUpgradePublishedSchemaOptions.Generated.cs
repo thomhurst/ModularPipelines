@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "upgrade-published-schema")]
-public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions
+public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DevelopmentSchemaArn">The ARN of the development schema with the changes used for the up- grade.</param>
+    /// <param name="PublishedSchemaArn">The ARN of the published schema to be upgraded.</param>
+    /// <param name="MinorVersion">Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    public AwsClouddirectoryUpgradePublishedSchemaOptions(
+        string DevelopmentSchemaArn,
+        string PublishedSchemaArn,
+        string MinorVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DevelopmentSchemaArn);
+        this.DevelopmentSchemaArn = DevelopmentSchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(PublishedSchemaArn);
+        this.PublishedSchemaArn = PublishedSchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(MinorVersion);
+        this.MinorVersion = MinorVersion;
+    }
+
+    private AwsClouddirectoryUpgradePublishedSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryUpgradePublishedSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryUpgradePublishedSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the development schema with the changes used for the up- grade.
+    /// </summary>
     [CliOption("--development-schema-arn")]
-    public string? DevelopmentSchemaArn { get; set; }
+    public string? DevelopmentSchemaArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the published schema to be upgraded.
+    /// </summary>
     [CliOption("--published-schema-arn")]
-    public string? PublishedSchemaArn { get; set; }
+    public string? PublishedSchemaArn { get; private init; }
 
+    /// <summary>
+    /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--minor-version")]
-    public string? MinorVersion { get; set; }
+    public string? MinorVersion { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Used for testing whether the Development schema provided is back- wards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is op- tional and defaults to false.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +92,21 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

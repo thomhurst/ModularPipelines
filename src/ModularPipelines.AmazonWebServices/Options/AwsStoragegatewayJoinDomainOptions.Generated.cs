@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "join-domain")]
-public record AwsStoragegatewayJoinDomainOptions : AwsOptions
+public record AwsStoragegatewayJoinDomainOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-arn")]
-    public string? GatewayArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a file gateway to an Active Directory domain. This operation is only supported for file gateways that support the SMB file protocol. NOTE: Joining a domain creates an Active Directory computer account in the default organizational unit, using the gateway's Gateway ID as the account name (for example, SGW-1234ADE). If your Active Directory environment requires that you pre-stage accounts to facilitate the join domain process, you will need to create this account ahead of time. To create the ...
+    /// </summary>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="DomainName">The name of the domain that you want the gateway to join. Constraints: o min: 1 o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="UserName">Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be en- abled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permis- sions to join computers to the domain. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$</param>
+    /// <param name="Password">Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$</param>
+    public AwsStoragegatewayJoinDomainOptions(
+        string GatewayArn,
+        string DomainName,
+        string UserName,
+        string Password
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayArn);
+        this.GatewayArn = GatewayArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+    }
+
+    private AwsStoragegatewayJoinDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayJoinDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayJoinDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// </summary>
+    [CliOption("--gateway-arn")]
+    public string? GatewayArn { get; private init; }
+
+    /// <summary>
+    /// The name of the domain that you want the gateway to join. Constraints: o min: 1 o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be en- abled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permis- sions to join computers to the domain. Constraints: o min: 1 o max: 1024 o pattern: ^\w[\w\.\- ]*$
+    /// </summary>
+    [CliOption("--user-name")]
+    public string? UserName { get; private init; }
+
+    /// <summary>
+    /// Sets the password of the user who has permission to add the gateway to the Active Directory domain. Constraints: o min: 1 o max: 1024 o pattern: ^[ -~]+$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
 
     /// <summary>
     /// The organizational unit (OU) is a container in an Active Directory that can hold users, groups, computers, and other OUs and this para- meter specifies the OU that the gateway will join within the AD do- main. Constraints: o min: 1 o max: 1024
@@ -46,17 +111,26 @@ public record AwsStoragegatewayJoinDomainOptions : AwsOptions
     [CliOption("--timeout-in-seconds")]
     public int? TimeoutInSeconds { get; set; }
 
-    [CliOption("--user-name")]
-    public string? UserName { get; set; }
-
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

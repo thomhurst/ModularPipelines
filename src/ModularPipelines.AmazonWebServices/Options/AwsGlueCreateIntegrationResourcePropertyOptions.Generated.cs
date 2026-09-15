@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-integration-resource-property")]
-public record AwsGlueCreateIntegrationResourcePropertyOptions : AwsOptions
+public record AwsGlueCreateIntegrationResourcePropertyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or data- base. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcess- ingProperties and the Glue database ARN as ResourceArn with TargetPro- cessingProperties respectively. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512</param>
+    public AwsGlueCreateIntegrationResourcePropertyOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsGlueCreateIntegrationResourcePropertyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateIntegrationResourcePropertyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateIntegrationResourcePropertyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// The resource properties associated with the integration source. RoleArn -&gt; (string) The IAM role to access the Glue connection. Constraints: o min: 1 o max: 128 Shorthand Syntax: RoleArn=string JSON Syntax: { "RoleArn": "string" }
@@ -47,5 +84,21 @@ public record AwsGlueCreateIntegrationResourcePropertyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

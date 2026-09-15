@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "update-resource")]
-public record AwsLakeformationUpdateResourceOptions : AwsOptions
+public record AwsLakeformationUpdateResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the data access role used for vending access to the given (reg- istered) resource in Lake Formation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RoleArn">The new role to use for the given resource registered in Lake Forma- tion. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*</param>
+    /// <param name="ResourceArn">The resource ARN.</param>
+    public AwsLakeformationUpdateResourceOptions(
+        string RoleArn,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsLakeformationUpdateResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationUpdateResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationUpdateResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The new role to use for the given resource registered in Lake Forma- tion. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The resource ARN.
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
-    [CliFlag("--with-federation")]
+    /// <summary>
+    /// Whether or not the resource is a federated resource.
+    /// </summary>
+    [CliFlag("--with-federation", NegatedName = "--no-with-federation")]
     public bool? WithFederation { get; set; }
 
-    [CliFlag("--hybrid-access-enabled")]
+    /// <summary>
+    /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+    /// </summary>
+    [CliFlag("--hybrid-access-enabled", NegatedName = "--no-hybrid-access-enabled")]
     public bool? HybridAccessEnabled { get; set; }
 
     /// <summary>
@@ -44,5 +94,21 @@ public record AwsLakeformationUpdateResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

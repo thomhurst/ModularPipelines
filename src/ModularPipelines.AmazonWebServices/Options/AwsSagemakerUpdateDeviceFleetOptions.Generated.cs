@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-device-fleet")]
-public record AwsSagemakerUpdateDeviceFleetOptions : AwsOptions
+public record AwsSagemakerUpdateDeviceFleetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a fleet of devices. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeviceFleetName">The name of the fleet. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="OutputConfig">Output configuration for storing sample data collected by the fleet. S3OutputLocation -&gt; (string) [required] The Amazon Simple Storage (S3) bucker URI. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (Amazon Web Ser- vices KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* PresetDeploymentType -&gt; (string) The deployment type SageMaker Edge Manager will create. Cur- rently only supports Amazon Web Services IoT Greengrass Version 2 components. Possible values: o GreengrassV2Component PresetDeploymentConfig -&gt; (string) The configuration used to create deployment artifacts. Specify configuration options with a JSON string. The available configu- ration options for each type are: o ComponentName (optional) - Name of the GreenGrass V2 compo- nent. If not specified, the default name generated consists of "SagemakerEdgeManager" and the name of your SageMaker Edge Manager packaging job. o ComponentDescription (optional) - Description of the compo- nent. o ComponentVersion (optional) - The version of the component. NOTE: Amazon Web Services IoT Greengrass uses semantic versions for components. Semantic versions follow a*major.minor.patch* number system. For example, version 1.0.0 represents the first major release for a component. For more information, see the semantic version specification . o PlatformOS (optional) - The name of the operating system for the platform. Supported platforms include Windows and Linux. o PlatformArchitecture (optional) - The processor architecture for the platform. Supported architectures Windows include: Windows32_x86, Windows64_x64. Supported architectures for Linux include: Linux x86_64, Linux ARMV8. Shorthand Syntax: S3OutputLocation=string,KmsKeyId=string,PresetDeploymentType=string,PresetDeploymentConfig=string JSON Syntax: { "S3OutputLocation": "string", "KmsKeyId": "string", "PresetDeploymentType": "GreengrassV2Component", "PresetDeploymentConfig": "string" }</param>
+    public AwsSagemakerUpdateDeviceFleetOptions(
+        string DeviceFleetName,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeviceFleetName);
+        this.DeviceFleetName = DeviceFleetName;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsSagemakerUpdateDeviceFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateDeviceFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateDeviceFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the fleet. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--device-fleet-name")]
-    public string? DeviceFleetName { get; set; }
+    public string? DeviceFleetName { get; private init; }
+
+    /// <summary>
+    /// Output configuration for storing sample data collected by the fleet. S3OutputLocation -&gt; (string) [required] The Amazon Simple Storage (S3) bucker URI. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Web Services Key Management Service (Amazon Web Ser- vices KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* PresetDeploymentType -&gt; (string) The deployment type SageMaker Edge Manager will create. Cur- rently only supports Amazon Web Services IoT Greengrass Version 2 components. Possible values: o GreengrassV2Component PresetDeploymentConfig -&gt; (string) The configuration used to create deployment artifacts. Specify configuration options with a JSON string. The available configu- ration options for each type are: o ComponentName (optional) - Name of the GreenGrass V2 compo- nent. If not specified, the default name generated consists of "SagemakerEdgeManager" and the name of your SageMaker Edge Manager packaging job. o ComponentDescription (optional) - Description of the compo- nent. o ComponentVersion (optional) - The version of the component. NOTE: Amazon Web Services IoT Greengrass uses semantic versions for components. Semantic versions follow a*major.minor.patch* number system. For example, version 1.0.0 represents the first major release for a component. For more information, see the semantic version specification . o PlatformOS (optional) - The name of the operating system for the platform. Supported platforms include Windows and Linux. o PlatformArchitecture (optional) - The processor architecture for the platform. Supported architectures Windows include: Windows32_x86, Windows64_x64. Supported architectures for Linux include: Linux x86_64, Linux ARMV8. Shorthand Syntax: S3OutputLocation=string,KmsKeyId=string,PresetDeploymentType=string,PresetDeploymentConfig=string JSON Syntax: { "S3OutputLocation": "string", "KmsKeyId": "string", "PresetDeploymentType": "GreengrassV2Component", "PresetDeploymentConfig": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the device. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
@@ -36,10 +83,10 @@ public record AwsSagemakerUpdateDeviceFleetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
-    [CliFlag("--enable-iot-role-alias")]
+    /// <summary>
+    /// Whether to create an Amazon Web Services IoT Role Alias during de- vice fleet creation. The name of the role alias generated will match this pattern: "SageMakerEdge-{DeviceFleetName}". For example, if your device fleet is called "demo-fleet", the name of the role alias will be "SageMakerEdge-demo-fleet".
+    /// </summary>
+    [CliFlag("--enable-iot-role-alias", NegatedName = "--no-enable-iot-role-alias")]
     public bool? EnableIotRoleAlias { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +94,21 @@ public record AwsSagemakerUpdateDeviceFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

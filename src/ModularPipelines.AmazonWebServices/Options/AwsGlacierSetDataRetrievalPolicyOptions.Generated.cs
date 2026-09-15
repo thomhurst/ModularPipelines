@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glacier", "set-data-retrieval-policy")]
-public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions
+public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation sets and then enacts a data retrieval policy in the re- gion specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.</param>
+    public AwsGlacierSetDataRetrievalPolicyOptions(
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsGlacierSetDataRetrievalPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlacierSetDataRetrievalPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlacierSetDataRetrievalPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     /// <summary>
     /// The data retrieval policy in JSON format. Rules -&gt; (list) The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and op- tionally a BytesPerHour field. (structure) Data retrieval policy rule. Strategy -&gt; (string) The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None BytesPerHour -&gt; (long) The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour . Your PUT operation will be re- jected if the Strategy field is not set to BytesPerHour and you set this field. Shorthand Syntax: Rules=[{Strategy=string,BytesPerHour=long},{Strategy=string,BytesPerHour=long}] JSON Syntax: { "Rules": [ { "Strategy": "string", "BytesPerHour": long } ... ] }
@@ -35,5 +72,21 @@ public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

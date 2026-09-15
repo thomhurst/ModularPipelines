@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "start-document-analysis")]
-public record AwsTextractStartDocumentAnalysisOptions : AwsOptions
+public record AwsTextractStartDocumentAnalysisOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--document-location")]
-    public string? DocumentLocation { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Ama- zon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId ) that you use to get the results of the operation. When text analy...
+    /// </summary>
+    /// <param name="DocumentLocation">The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="FeatureTypes">A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...</param>
+    public AwsTextractStartDocumentAnalysisOptions(
+        string DocumentLocation,
+        IEnumerable<string> FeatureTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DocumentLocation);
+        this.DocumentLocation = DocumentLocation;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FeatureTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FeatureTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FeatureTypes));
+            }
+
+            FeatureTypes = materialized;
+        }
+        this.FeatureTypes = FeatureTypes;
+    }
+
+    private AwsTextractStartDocumentAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractStartDocumentAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractStartDocumentAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
+    [CliOption("--document-location")]
+    public string? DocumentLocation { get; private init; }
+
+    /// <summary>
+    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--feature-types", GroupValues = true)]
-    public IEnumerable<string>? FeatureTypes { get; set; }
+    public IEnumerable<string>? FeatureTypes { get; private init; }
 
     /// <summary>
     /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -76,5 +131,21 @@ public record AwsTextractStartDocumentAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

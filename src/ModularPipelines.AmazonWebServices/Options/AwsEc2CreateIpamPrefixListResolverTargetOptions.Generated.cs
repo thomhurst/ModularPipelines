@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,28 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-ipam-prefix-list-resolver-target")]
-public record AwsEc2CreateIpamPrefixListResolverTargetOptions : AwsOptions
+public record AwsEc2CreateIpamPrefixListResolverTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an IPAM prefix list resolver target. An IPAM prefix list resolver target is an association between a spe- cific customer-managed prefix list and an IPAM prefix list resolver. The target enables the resolver to synchronize CIDRs selected by its rules into the specified prefix list, which can then be referenced in Amazon Web Services resources. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AW...
+    /// </summary>
+    /// <param name="IpamPrefixListResolverId">The ID of the IPAM prefix list resolver that will manage the syn- chronization of CIDRs to the target prefix list.</param>
+    /// <param name="PrefixListId">The ID of the managed prefix list that will be synchronized with CIDRs selected by the IPAM prefix list resolver. This prefix list becomes an IPAM managed prefix list. An IPAM-managed prefix list is a customer-managed prefix list that has been associated with an IPAM prefix list resolver target. When a prefix list becomes IPAM managed, its CIDRs are automatically syn- chronized based on the IPAM prefix list resolver's CIDR selection rules, and direct CIDR modifications are restricted.</param>
+    /// <param name="PrefixListRegion">The Amazon Web Services Region where the prefix list is located. This is required when referencing a prefix list in a different Re- gion.</param>
+    /// <param name="TrackLatestVersion">Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will al- ways synchronize with the most current version of the prefix list. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual interven- tion.</param>
+    public AwsEc2CreateIpamPrefixListResolverTargetOptions(
+        string IpamPrefixListResolverId,
+        string PrefixListId,
+        string PrefixListRegion,
+        bool TrackLatestVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPrefixListResolverId);
+        this.IpamPrefixListResolverId = IpamPrefixListResolverId;
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListId);
+        this.PrefixListId = PrefixListId;
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListRegion);
+        this.PrefixListRegion = PrefixListRegion;
+        this.TrackLatestVersion = TrackLatestVersion;
+    }
+
+    private AwsEc2CreateIpamPrefixListResolverTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateIpamPrefixListResolverTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateIpamPrefixListResolverTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM prefix list resolver that will manage the syn- chronization of CIDRs to the target prefix list.
+    /// </summary>
     [CliOption("--ipam-prefix-list-resolver-id")]
-    public string? IpamPrefixListResolverId { get; set; }
+    public string? IpamPrefixListResolverId { get; private init; }
 
+    /// <summary>
+    /// The ID of the managed prefix list that will be synchronized with CIDRs selected by the IPAM prefix list resolver. This prefix list becomes an IPAM managed prefix list. An IPAM-managed prefix list is a customer-managed prefix list that has been associated with an IPAM prefix list resolver target. When a prefix list becomes IPAM managed, its CIDRs are automatically syn- chronized based on the IPAM prefix list resolver's CIDR selection rules, and direct CIDR modifications are restricted.
+    /// </summary>
     [CliOption("--prefix-list-id")]
-    public string? PrefixListId { get; set; }
+    public string? PrefixListId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region where the prefix list is located. This is required when referencing a prefix list in a different Re- gion.
+    /// </summary>
     [CliOption("--prefix-list-region")]
-    public string? PrefixListRegion { get; set; }
+    public string? PrefixListRegion { get; private init; }
+
+    /// <summary>
+    /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will al- ways synchronize with the most current version of the prefix list. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual interven- tion.
+    /// </summary>
+    [CliFlag("--track-latest-version", NegatedName = "--no-track-latest-version")]
+    public bool? TrackLatestVersion { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The specific version of the prefix list to target. If not specified, the resolver will target the latest version.
     /// </summary>
     [CliOption("--desired-version")]
     public int? DesiredVersion { get; set; }
-
-    [CliFlag("--track-latest-version")]
-    public bool? TrackLatestVersion { get; set; }
 
     /// <summary>
     /// The tags to apply to the IPAM prefix list resolver target during creation. Tags help you organize and manage your Amazon Web Services resources. (structure) The tags to apply to a resource when the resource is being cre- ated. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. NOTE: The Valid Values lists all the resource types that can be tagged. However, the action you're using might not support tagging all of these resource types. If you try to tag a re- source type that is unsupported for the action you're using, you'll get an error. ResourceType -&gt; (string) The type of resource to tag on creation. Possible values: o capacity-reservation o client-vpn-endpoint o customer-gateway o carrier-gateway o coip-pool o declarative-policies-report o dedicated-host o dhcp-options o egress-only-internet-gateway o elastic-ip o elastic-gpu o export-image-task o export-instance-task o fleet o fpga-image o host-reservation o image o image-usage-report o import-image-task o import-snapshot-task o instance o instance-event-window o internet-gateway o ipam o ipam-pool o ipam-scope o ipv4pool-ec2 o ipv6pool-ec2 o key-pair o launch-template o local-gateway o local-gateway-route-table o local-gateway-virtual-interface o local-gateway-virtual-interface-group o local-gateway-route-table-vpc-association o local-gateway-route-table-virtual-interface-group-associa- tion o natgateway o network-acl o network-interface o network-insights-analysis o network-insights-path o network-insights-access-scope o network-insights-access-scope-analysis o outpost-lag o placement-group o prefix-list o replace-root-volume-task o reserved-instances o route-table o security-group o security-group-rule o service-link-virtual-interface o snapshot o spot-fleet-request o spot-instances-request o subnet o subnet-cidr-reservation o traffic-mirror-filter o traffic-mirror-session o traffic-mirror-target o transit-gateway o transit-gateway-attachment o transit-gateway-connect-peer o transit-gateway-multicast-domain o transit-gateway-policy-table o transit-gateway-metering-policy o transit-gateway-route-table o transit-gateway-route-table-announcement o volume o vpc o vpc-endpoint o vpc-endpoint-connection o vpc-endpoint-service o vpc-endpoint-service-permission o vpc-peering-connection o vpn-connection o vpn-gateway o vpc-flow-log o capacity-reservation-fleet o traffic-mirror-filter-rule o vpc-endpoint-connection-device-type o verified-access-instance o verified-access-group o verified-access-endpoint o verified-access-policy o verified-access-trust-provider o vpn-connection-device-type o vpc-block-public-access-exclusion o vpc-encryption-control o route-server o route-server-endpoint o route-server-peer o ipam-resource-discovery o ipam-resource-discovery-association o instance-connect-endpoint o verified-access-endpoint-target o ipam-external-resource-verification-token o capacity-block o mac-modification-task o ipam-prefix-list-resolver o ipam-policy o ipam-prefix-list-resolver-target o ipam-internet-registry-association o secondary-interface o secondary-network o secondary-subnet o capacity-manager-data-export o vpn-concentrator o ipam-pool-allocation o capacity-reservation-cancellation-quote o application-status-check Tags -&gt; (list) The tags to apply to the resource. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "capacity-reservation"|"client-vpn-endpoint"|"customer-gateway"|"carrier-gateway"|"coip-pool"|"declarative-policies-report"|"dedicated-host"|"dhcp-options"|"egress-only-internet-gateway"|"elastic-ip"|"elastic-gpu"|"export-image-task"|"export-instance-task"|"fleet"|"fpga-image"|"host-reservation"|"image"|"image-usage-report"|"import-image-task"|"import-snapshot-task"|"instance"|"instance-event-window"|"internet-gateway"|"ipam"|"ipam-pool"|"ipam-scope"|"ipv4pool-ec2"|"ipv6pool-ec2"|"key-pair"|"launch-template"|"local-gateway"|"local-gateway-route-table"|"local-gateway-virtual-interface"|"local-gateway-virtual-interface-group"|"local-gateway-route-table-vpc-association"|"local-gateway-route-table-virtual-interface-group-association"|"natgateway"|"network-acl"|"network-interface"|"network-insights-analysis"|"network-insights-path"|"network-insights-access-scope"|"network-insights-access-scope-analysis"|"outpost-lag"|"placement-group"|"prefix-list"|"replace-root-volume-task"|"reserved-instances"|"route-table"|"security-group"|"security-group-rule"|"service-link-virtual-interface"|"snapshot"|"spot-fleet-request"|"spot-instances-request"|"subnet"|"subnet-cidr-reservation"|"traffic-mirror-filter"|"traffic-mirror-session"|"traffic-mirror-target"|"transit-gateway"|"transit-gateway-attachment"|"transit-gateway-connect-peer"|"transit-gateway-multicast-domain"|"transit-gateway-policy-table"|"transit-gateway-metering-policy"|"transit-gateway-route-table"|"transit-gateway-route-table-announcement"|"volume"|"vpc"|"vpc-endpoint"|"vpc-endpoint-connection"|"vpc-endpoint-service"|"vpc-endpoint-service-permission"|"vpc-peering-connection"|"vpn-connection"|"vpn-gateway"|"vpc-flow-log"|"capacity-reservation-fleet"|"traffic-mirror-filter-rule"|"vpc-endpoint-connection-device-type"|"verified-access-instance"|"verified-access-group"|"verified-access-endpoint"|"verified-access-policy"|"verified-access-trust-provider"|"vpn-connection-device-type"|"vpc-block-public-access-exclusion"|"vpc-encryption-control"|"route-server"|"route-server-endpoint"|"route-server-peer"|"ipam-resource-discovery"|"ipam-resource-discovery-association"|"instance-connect-endpoint"|"verified-access-endpoint-target"|"ipam-external-resource-verification-token"|"capacity-block"|"mac-modification-task"|"ipam-prefix-list-resolver"|"ipam-policy"|"ipam-prefix-list-resolver-target"|"ipam-internet-registry-association"|"secondary-interface"|"secondary-network"|"secondary-subnet"|"capacity-manager-data-export"|"vpn-concentrator"|"ipam-pool-allocation"|"capacity-reservation-cancellation-quote"|"application-status-check", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
@@ -61,5 +121,21 @@ public record AwsEc2CreateIpamPrefixListResolverTargetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

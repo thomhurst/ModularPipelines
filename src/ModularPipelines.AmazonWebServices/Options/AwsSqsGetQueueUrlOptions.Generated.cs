@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sqs", "get-queue-url")]
-public record AwsSqsGetQueueUrlOptions : AwsOptions
+public record AwsSqsGetQueueUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The GetQueueUrl API returns the URL of an existing Amazon SQS queue. This is useful when you know the queue's name but need to retrieve its URL for further operations. To access a queue owned by another Amazon Web Services account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. Note that the queue owner must grant you the necessary permissions to access the queue. For more information about accessing shared queues, see the `` AddPermission `` API or Allo...
+    /// </summary>
+    /// <param name="QueueName">(Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include al- phanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.</param>
+    public AwsSqsGetQueueUrlOptions(
+        string QueueName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueueName);
+        this.QueueName = QueueName;
+    }
+
+    private AwsSqsGetQueueUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSqsGetQueueUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSqsGetQueueUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// (Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include al- phanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
+    /// </summary>
     [CliOption("--queue-name")]
-    public string? QueueName { get; set; }
+    public string? QueueName { get; private init; }
 
     /// <summary>
     /// (Optional) The Amazon Web Services account ID of the account that created the queue. This is only required when you are attempting to access a queue owned by another Amazon Web Services account.
@@ -35,5 +72,21 @@ public record AwsSqsGetQueueUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "test-alarm")]
-public record AwsLightsailTestAlarmOptions : AwsOptions
+public record AwsLightsailTestAlarmOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--alarm-name")]
-    public string? AlarmName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS ) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon...
+    /// </summary>
+    /// <param name="AlarmName">The name of the alarm to test. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="State">The alarm state to test. An alarm has the following possible states that can be tested: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. Possible values: o OK o ALARM o INSUFFICIENT_DATA</param>
+    public AwsLightsailTestAlarmOptions(
+        string AlarmName,
+        AwsLightsailTestAlarmState State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmName);
+        this.AlarmName = AlarmName;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    private AwsLightsailTestAlarmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailTestAlarmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailTestAlarmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alarm to test. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--alarm-name")]
+    public string? AlarmName { get; private init; }
+
+    /// <summary>
+    /// The alarm state to test. An alarm has the following possible states that can be tested: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. Possible values: o OK o ALARM o INSUFFICIENT_DATA
+    /// </summary>
     [CliOption("--state")]
-    public string? State { get; set; }
+    public AwsLightsailTestAlarmState? State { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

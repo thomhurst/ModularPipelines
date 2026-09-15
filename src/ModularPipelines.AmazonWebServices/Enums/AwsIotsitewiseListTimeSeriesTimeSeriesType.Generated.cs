@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --timeseriestype.
+/// Allowed values for --time-series-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseListTimeSeriesTimeSeriesType
 {
     [EnumValue("ASSOCIATED")]
-    Associated = 1,
+    Associated,
 
     [EnumValue("DISASSOCIATED")]
-    Disassociated = 2
+    Disassociated
 }

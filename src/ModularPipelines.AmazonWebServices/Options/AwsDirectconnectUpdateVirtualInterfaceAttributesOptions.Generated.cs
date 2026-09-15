@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "update-virtual-interface-attributes")]
-public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptions
+public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified attributes of the specified virtual private in- terface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connec- tivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections . To check whether your virtual interf...
+    /// </summary>
+    /// <param name="VirtualInterfaceId">The ID of the virtual private interface.</param>
+    public AwsDirectconnectUpdateVirtualInterfaceAttributesOptions(
+        string VirtualInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VirtualInterfaceId);
+        this.VirtualInterfaceId = VirtualInterfaceId;
+    }
+
+    private AwsDirectconnectUpdateVirtualInterfaceAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectUpdateVirtualInterfaceAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectUpdateVirtualInterfaceAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the virtual private interface.
+    /// </summary>
     [CliOption("--virtual-interface-id")]
-    public string? VirtualInterfaceId { get; set; }
+    public string? VirtualInterfaceId { get; private init; }
 
     /// <summary>
     /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
@@ -30,7 +67,10 @@ public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptio
     [CliOption("--mtu")]
     public int? Mtu { get; set; }
 
-    [CliFlag("--enable-site-link")]
+    /// <summary>
+    /// Indicates whether to enable or disable SiteLink.
+    /// </summary>
+    [CliFlag("--enable-site-link", NegatedName = "--no-enable-site-link")]
     public bool? EnableSiteLink { get; set; }
 
     /// <summary>
@@ -62,5 +102,21 @@ public record AwsDirectconnectUpdateVirtualInterfaceAttributesOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

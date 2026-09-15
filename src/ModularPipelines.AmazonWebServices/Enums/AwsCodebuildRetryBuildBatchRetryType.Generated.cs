@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --retrytype.
+/// Allowed values for --retry-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodebuildRetryBuildBatchRetryType
 {
     [EnumValue("RETRY_ALL_BUILDS")]
-    RetryAllBuilds = 1,
+    RetryAllBuilds,
 
     [EnumValue("RETRY_FAILED_BUILDS")]
-    RetryFailedBuilds = 2
+    RetryFailedBuilds
 }

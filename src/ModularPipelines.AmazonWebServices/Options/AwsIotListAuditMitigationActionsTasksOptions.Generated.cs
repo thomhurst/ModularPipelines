@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "list-audit-mitigation-actions-tasks")]
-public record AwsIotListAuditMitigationActionsTasksOptions : AwsOptions
+public record AwsIotListAuditMitigationActionsTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks ac- tion. See also: AWS API Documentation list-audit-mitigation-actions-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argume...
+    /// </summary>
+    /// <param name="StartTime">Specify this filter to limit results to tasks that began on or after a specific date and time.</param>
+    /// <param name="EndTime">Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.</param>
+    public AwsIotListAuditMitigationActionsTasksOptions(
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsIotListAuditMitigationActionsTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotListAuditMitigationActionsTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotListAuditMitigationActionsTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify this filter to limit results to tasks that began on or after a specific date and time.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
+
+    /// <summary>
+    /// Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
+    /// </summary>
+    [CliOption("--end-time")]
+    public string? EndTime { get; private init; }
+
     /// <summary>
     /// Specify this filter to limit results to tasks that were applied to results for a specific audit. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9\-]+
     /// </summary>
@@ -40,12 +90,6 @@ public record AwsIotListAuditMitigationActionsTasksOptions : AwsOptions
     /// </summary>
     [CliOption("--task-status")]
     public AwsIotListAuditMitigationActionsTasksTaskStatus? TaskStatus { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
-
-    [CliOption("--end-time")]
-    public string? EndTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -71,5 +115,21 @@ public record AwsIotListAuditMitigationActionsTasksOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

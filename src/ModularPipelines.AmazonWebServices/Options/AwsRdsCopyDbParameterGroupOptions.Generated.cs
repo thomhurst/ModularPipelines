@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "copy-db-parameter-group")]
-public record AwsRdsCopyDbParameterGroupOptions : AwsOptions
+public record AwsRdsCopyDbParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the specified DB parameter group. NOTE: You can't copy a default DB parameter group. Instead, create a new custom DB parameter group, which copies the default parameters and values for the specified DB parameter group family. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDbParameterGroupIdentifier">The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: o Must specify a valid DB parameter group.</param>
+    /// <param name="TargetDbParameterGroupIdentifier">The identifier for the copied DB parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group</param>
+    /// <param name="TargetDbParameterGroupDescription">A description for the copied DB parameter group.</param>
+    public AwsRdsCopyDbParameterGroupOptions(
+        string SourceDbParameterGroupIdentifier,
+        string TargetDbParameterGroupIdentifier,
+        string TargetDbParameterGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbParameterGroupIdentifier);
+        this.SourceDbParameterGroupIdentifier = SourceDbParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbParameterGroupIdentifier);
+        this.TargetDbParameterGroupIdentifier = TargetDbParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbParameterGroupDescription);
+        this.TargetDbParameterGroupDescription = TargetDbParameterGroupDescription;
+    }
+
+    private AwsRdsCopyDbParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCopyDbParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCopyDbParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier or ARN for the source DB parameter group. For infor- mation about creating an ARN, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide . Constraints: o Must specify a valid DB parameter group.
+    /// </summary>
     [CliOption("--source-db-parameter-group-identifier")]
-    public string? SourceDbParameterGroupIdentifier { get; set; }
+    public string? SourceDbParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for the copied DB parameter group. Constraints: o Can't be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-db-parameter-group
+    /// </summary>
     [CliOption("--target-db-parameter-group-identifier")]
-    public string? TargetDbParameterGroupIdentifier { get; set; }
+    public string? TargetDbParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// A description for the copied DB parameter group.
+    /// </summary>
     [CliOption("--target-db-parameter-group-description")]
-    public string? TargetDbParameterGroupDescription { get; set; }
+    public string? TargetDbParameterGroupDescription { get; private init; }
 
     /// <summary>
     /// A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsRdsCopyDbParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "list-workers-with-qualification-type")]
-public record AwsMturkListWorkersWithQualificationTypeOptions : AwsOptions
+public record AwsMturkListWorkersWithQualificationTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The ListWorkersWithQualificationType operation returns all of the Work- ers that have been associated with a given Qualification type. See also: AWS API Documentation list-workers-with-qualification-type is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
+    /// </summary>
+    /// <param name="QualificationTypeId">The ID of the Qualification type of the Qualifications to return. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkListWorkersWithQualificationTypeOptions(
+        string QualificationTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeId);
+        this.QualificationTypeId = QualificationTypeId;
+    }
+
+    private AwsMturkListWorkersWithQualificationTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkListWorkersWithQualificationTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkListWorkersWithQualificationTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification type of the Qualifications to return. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--qualification-type-id")]
-    public string? QualificationTypeId { get; set; }
+    public string? QualificationTypeId { get; private init; }
 
     /// <summary>
     /// The status of the Qualifications to return. Can be Granted | Revoked . Possible values: o Granted o Revoked
@@ -56,5 +93,21 @@ public record AwsMturkListWorkersWithQualificationTypeOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

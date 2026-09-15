@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "put-environment-blueprint-configuration")]
-public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOptions
+public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Writes the configuration for the specified environment blueprint in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentBlueprintIdentifier">The identifier of the environment blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnabledRegions">Specifies the enabled Amazon Web Services Regions. Constraints: o min: 0 (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...</param>
+    public AwsDatazonePutEnvironmentBlueprintConfigurationOptions(
+        string DomainIdentifier,
+        string EnvironmentBlueprintIdentifier,
+        IEnumerable<string> EnabledRegions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentBlueprintIdentifier);
+        this.EnvironmentBlueprintIdentifier = EnvironmentBlueprintIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EnabledRegions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EnabledRegions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EnabledRegions));
+            }
+
+            EnabledRegions = materialized;
+        }
+        this.EnabledRegions = EnabledRegions;
+    }
+
+    private AwsDatazonePutEnvironmentBlueprintConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazonePutEnvironmentBlueprintConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazonePutEnvironmentBlueprintConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the environment blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--environment-blueprint-identifier")]
-    public string? EnvironmentBlueprintIdentifier { get; set; }
+    public string? EnvironmentBlueprintIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the enabled Amazon Web Services Regions. Constraints: o min: 0 (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--enabled-regions", GroupValues = true)]
+    public IEnumerable<string>? EnabledRegions { get; private init; }
 
     /// <summary>
     /// The ARN of the provisioning role. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
@@ -46,9 +111,6 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     [CliOption("--environment-role-permission-boundary")]
     public string? EnvironmentRolePermissionBoundary { get; set; }
 
-    [CliOption("--enabled-regions", GroupValues = true)]
-    public IEnumerable<string>? EnabledRegions { get; set; }
-
     /// <summary>
     /// The regional parameters in the environment blueprint. key -&gt; (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
@@ -61,7 +123,10 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     [CliOption("--resource-configurations", GroupValues = true)]
     public IEnumerable<string>? ResourceConfigurations { get; set; }
 
-    [CliFlag("--allow-user-provided-configurations")]
+    /// <summary>
+    /// urations (boolean) Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    /// </summary>
+    [CliFlag("--allow-user-provided-configurations", NegatedName = "--no-allow-user-provided-configurations")]
     public bool? AllowUserProvidedConfigurations { get; set; }
 
     /// <summary>
@@ -81,5 +146,21 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identitystore", "is-member-in-groups")]
-public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions
+public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MemberId">An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) An object containing the identifiers of resources that can be members. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }</param>
+    /// <param name="GroupIds">A list of identifiers for groups in the identity store. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsIdentitystoreIsMemberInGroupsOptions(
+        string IdentityStoreId,
+        string MemberId,
+        IEnumerable<string> GroupIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityStoreId);
+        this.IdentityStoreId = IdentityStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(MemberId);
+        this.MemberId = MemberId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GroupIds));
+            }
+
+            GroupIds = materialized;
+        }
+        this.GroupIds = GroupIds;
+    }
+
+    private AwsIdentitystoreIsMemberInGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIdentitystoreIsMemberInGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIdentitystoreIsMemberInGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--identity-store-id")]
-    public string? IdentityStoreId { get; set; }
+    public string? IdentityStoreId { get; private init; }
 
+    /// <summary>
+    /// An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) An object containing the identifiers of resources that can be members. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
+    /// </summary>
     [CliOption("--member-id")]
-    public string? MemberId { get; set; }
+    public string? MemberId { get; private init; }
 
+    /// <summary>
+    /// A list of identifiers for groups in the identity store. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--group-ids", GroupValues = true)]
-    public IEnumerable<string>? GroupIds { get; set; }
+    public IEnumerable<string>? GroupIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

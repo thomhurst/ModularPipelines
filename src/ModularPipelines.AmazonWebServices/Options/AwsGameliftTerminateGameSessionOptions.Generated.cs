@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "terminate-game-session")]
-public record AwsGameliftTerminateGameSessionOptions : AwsOptions
+public record AwsGameliftTerminateGameSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Ends a game session that's currently in progress. Use this action to terminate any game session that isn't in ERROR status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending prop- erly. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift Servers fleet compute, including comp...
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to be terminated. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="TerminationMode">The method to use to terminate the game session. Available methods include: o TRIGGER_ON_PROCESS_TERMINATE Prompts the Amazon GameLift Servers service to send an OnProcessTerminate() callback to the server process and initiate the normal game session shutdown sequence. The OnProcessTerminate method, which is implemented in the game server code, must include a call to the server SDK action ProcessEnding() , which is how the server process signals to Ama- zon GameLift Servers that a game session is ending. If the server process doesn't call ProcessEnding() , the game session termina- tion won't conclude successfully. o FORCE_TERMINATE Prompts the Amazon GameLift Servers service to stop the server process immediately. Amazon GameLift Servers takes action (depending on the type of fleet) to shut down the server process without the normal game session shutdown sequence. NOTE: This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Servers Agent. In this scenario, a force terminate re- quest results in an invalid or bad request exception. Possible values: o TRIGGER_ON_PROCESS_TERMINATE o FORCE_TERMINATE</param>
+    public AwsGameliftTerminateGameSessionOptions(
+        string GameSessionId,
+        AwsGameliftTerminateGameSessionTerminationMode TerminationMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+        global::System.ArgumentNullException.ThrowIfNull(TerminationMode);
+        this.TerminationMode = TerminationMode;
+    }
+
+    private AwsGameliftTerminateGameSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftTerminateGameSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftTerminateGameSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions to be terminated. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
+    [CliOption("--game-session-id")]
+    public string? GameSessionId { get; private init; }
+
+    /// <summary>
+    /// The method to use to terminate the game session. Available methods include: o TRIGGER_ON_PROCESS_TERMINATE Prompts the Amazon GameLift Servers service to send an OnProcessTerminate() callback to the server process and initiate the normal game session shutdown sequence. The OnProcessTerminate method, which is implemented in the game server code, must include a call to the server SDK action ProcessEnding() , which is how the server process signals to Ama- zon GameLift Servers that a game session is ending. If the server process doesn't call ProcessEnding() , the game session termina- tion won't conclude successfully. o FORCE_TERMINATE Prompts the Amazon GameLift Servers service to stop the server process immediately. Amazon GameLift Servers takes action (depending on the type of fleet) to shut down the server process without the normal game session shutdown sequence. NOTE: This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Servers Agent. In this scenario, a force terminate re- quest results in an invalid or bad request exception. Possible values: o TRIGGER_ON_PROCESS_TERMINATE o FORCE_TERMINATE
+    /// </summary>
     [CliOption("--termination-mode")]
-    public string? TerminationMode { get; set; }
+    public AwsGameliftTerminateGameSessionTerminationMode? TerminationMode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

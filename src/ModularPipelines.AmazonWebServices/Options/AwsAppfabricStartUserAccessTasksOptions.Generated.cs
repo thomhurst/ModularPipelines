@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "start-user-access-tasks")]
-public record AwsAppfabricStartUserAccessTasksOptions : AwsOptions
+public record AwsAppfabricStartUserAccessTasksOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts the tasks to search user access status for a specific email ad- dress. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Email">The email address of the target user. Constraints: o min: 0 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*</param>
+    public AwsAppfabricStartUserAccessTasksOptions(
+        string AppBundleIdentifier,
+        string Email
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+    }
+
+    private AwsAppfabricStartUserAccessTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricStartUserAccessTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricStartUserAccessTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--app-bundle-identifier")]
+    public string? AppBundleIdentifier { get; private init; }
+
+    /// <summary>
+    /// The email address of the target user. Constraints: o min: 0 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*
+    /// </summary>
     [CliOption("--email")]
-    public string? Email { get; set; }
+    public string? Email { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

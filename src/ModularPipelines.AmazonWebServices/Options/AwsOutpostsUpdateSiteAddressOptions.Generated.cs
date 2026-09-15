@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "update-site-address")]
-public record AwsOutpostsUpdateSiteAddressOptions : AwsOptions
+public record AwsOutpostsUpdateSiteAddressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deacti- vated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    /// <param name="AddressType">The type of the address. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS</param>
+    /// <param name="Address">The address for the site. ContactName -&gt; (string) [required] The name of the contact. Constraints: o min: 1 o max: 255 o pattern: ^\S[\S ]*$ ContactPhoneNumber -&gt; (string) [required] The phone number of the contact, including the country code (for example, +12065550100 ). Constraints: o min: 1 o max: 20 o pattern: \+[1-9][0-9]{1,18} AddressLine1 -&gt; (string) [required] The first line of the address. Constraints: o min: 1 o max: 180 o pattern: ^\S[\S ]*$ AddressLine2 -&gt; (string) The second line of the address. Constraints: o min: 0 o max: 60 o pattern: ^\S[\S ]*$ AddressLine3 -&gt; (string) The third line of the address. Constraints: o min: 0 o max: 60 o pattern: ^\S[\S ]*$ City -&gt; (string) [required] The city for the address. Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ StateOrRegion -&gt; (string) [required] The state for the address. Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ DistrictOrCounty -&gt; (string) The district or county for the address. Constraints: o min: 1 o max: 60 o pattern: ^\S[\S ]* PostalCode -&gt; (string) [required] The postal code for the address. Constraints: o min: 1 o max: 20 o pattern: ^[a-zA-Z0-9 -]+$ CountryCode -&gt; (string) [required] The ISO-3166 two-letter country code for the address. Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$ Municipality -&gt; (string) The municipality for the address. Constraints: o min: 0 o max: 180 o pattern: ^\S[\S ]*$ Shorthand Syntax: ContactName=string,ContactPhoneNumber=string,AddressLine1=string,AddressLine2=string,AddressLine3=string,City=string,StateOrRegion=string,DistrictOrCounty=string,PostalCode=string,CountryCode=string,Municipality=string JSON Syntax: { "ContactName": "string", "ContactPhoneNumber": "string", "AddressLine1": "string", "AddressLine2": "string", "AddressLine3": "string", "City": "string", "StateOrRegion": "string", "DistrictOrCounty": "string", "PostalCode": "string", "CountryCode": "string", "Municipality": "string" }</param>
+    public AwsOutpostsUpdateSiteAddressOptions(
+        string SiteId,
+        AwsOutpostsUpdateSiteAddressAddressType AddressType,
+        string Address
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SiteId);
+        this.SiteId = SiteId;
+        global::System.ArgumentNullException.ThrowIfNull(AddressType);
+        this.AddressType = AddressType;
+        global::System.ArgumentNullException.ThrowIfNull(Address);
+        this.Address = Address;
+    }
+
+    private AwsOutpostsUpdateSiteAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsUpdateSiteAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsUpdateSiteAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// </summary>
     [CliOption("--site-id")]
-    public string? SiteId { get; set; }
+    public string? SiteId { get; private init; }
 
+    /// <summary>
+    /// The type of the address. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS
+    /// </summary>
     [CliOption("--address-type")]
-    public string? AddressType { get; set; }
+    public AwsOutpostsUpdateSiteAddressAddressType? AddressType { get; private init; }
 
+    /// <summary>
+    /// The address for the site. ContactName -&gt; (string) [required] The name of the contact. Constraints: o min: 1 o max: 255 o pattern: ^\S[\S ]*$ ContactPhoneNumber -&gt; (string) [required] The phone number of the contact, including the country code (for example, +12065550100 ). Constraints: o min: 1 o max: 20 o pattern: \+[1-9][0-9]{1,18} AddressLine1 -&gt; (string) [required] The first line of the address. Constraints: o min: 1 o max: 180 o pattern: ^\S[\S ]*$ AddressLine2 -&gt; (string) The second line of the address. Constraints: o min: 0 o max: 60 o pattern: ^\S[\S ]*$ AddressLine3 -&gt; (string) The third line of the address. Constraints: o min: 0 o max: 60 o pattern: ^\S[\S ]*$ City -&gt; (string) [required] The city for the address. Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ StateOrRegion -&gt; (string) [required] The state for the address. Constraints: o min: 1 o max: 50 o pattern: ^\S[\S ]*$ DistrictOrCounty -&gt; (string) The district or county for the address. Constraints: o min: 1 o max: 60 o pattern: ^\S[\S ]* PostalCode -&gt; (string) [required] The postal code for the address. Constraints: o min: 1 o max: 20 o pattern: ^[a-zA-Z0-9 -]+$ CountryCode -&gt; (string) [required] The ISO-3166 two-letter country code for the address. Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$ Municipality -&gt; (string) The municipality for the address. Constraints: o min: 0 o max: 180 o pattern: ^\S[\S ]*$ Shorthand Syntax: ContactName=string,ContactPhoneNumber=string,AddressLine1=string,AddressLine2=string,AddressLine3=string,City=string,StateOrRegion=string,DistrictOrCounty=string,PostalCode=string,CountryCode=string,Municipality=string JSON Syntax: { "ContactName": "string", "ContactPhoneNumber": "string", "AddressLine1": "string", "AddressLine2": "string", "AddressLine3": "string", "City": "string", "StateOrRegion": "string", "DistrictOrCounty": "string", "PostalCode": "string", "CountryCode": "string", "Municipality": "string" }
+    /// </summary>
     [CliOption("--address")]
-    public string? Address { get; set; }
+    public string? Address { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

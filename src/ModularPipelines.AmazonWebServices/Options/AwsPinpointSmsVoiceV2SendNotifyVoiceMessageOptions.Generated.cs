@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "send-notify-voice-message")]
-public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--notify-configuration-id")]
-    public string? NotifyConfigurationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a templated voice message through a notify configuration to a re- cipient's phone number. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NotifyConfigurationId">The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="TemplateVariables">A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions(
+        string NotifyConfigurationId,
+        string DestinationPhoneNumber,
+        IReadOnlyList<KeyValue> TemplateVariables
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotifyConfigurationId);
+        this.NotifyConfigurationId = NotifyConfigurationId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPhoneNumber);
+        this.DestinationPhoneNumber = DestinationPhoneNumber;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TemplateVariables);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(TemplateVariables));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TemplateVariables));
+            }
+
+            TemplateVariables = materialized;
+        }
+        this.TemplateVariables = TemplateVariables;
+    }
+
+    private AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or Notify- ConfigurationArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--notify-configuration-id")]
+    public string? NotifyConfigurationId { get; private init; }
+
+    /// <summary>
+    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// </summary>
     [CliOption("--destination-phone-number")]
-    public string? DestinationPhoneNumber { get; set; }
+    public string? DestinationPhoneNumber { get; private init; }
+
+    /// <summary>
+    /// A map of template variable names and their values. All variable val- ues are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false" . Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--template-variables", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? TemplateVariables { get; private init; }
 
     /// <summary>
     /// The unique identifier of the template to use for the message. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; set; }
-
-    [CliOption("--template-variables", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? TemplateVariables { get; set; }
 
     /// <summary>
     /// The voice ID to use for the voice message. Possible values: o AMY o ASTRID o BIANCA o BRIAN o CAMILA o CARLA o CARMEN o CELINE o CHANTAL o CONCHITA o CRISTIANO o DORA o EMMA o ENRIQUE o EWA o FILIZ o GERAINT o GIORGIO o GWYNETH o HANS o INES o IVY o JACEK o JAN o JOANNA o JOEY o JUSTIN o KARL o KENDRA o KIMBERLY o LEA o LIV o LOTTE o LUCIA o LUPE o MADS o MAJA o MARLENE o MATHIEU o MATTHEW o MAXIM o MIA o MIGUEL o MIZUKI o NAJA o NICOLE o PENELOPE o RAVEENA o RICARDO o RUBEN o RUSSELL o SALLI o SEOYEON o TAKUMI o TATYANA o VICKI o VITORIA o ZEINA o ZHIYU
@@ -61,10 +123,16 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--message-feedback-enabled")]
+    /// <summary>
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback .
+    /// </summary>
+    [CliFlag("--message-feedback-enabled", NegatedName = "--no-message-feedback-enabled")]
     public bool? MessageFeedbackEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -72,5 +140,21 @@ public record AwsPinpointSmsVoiceV2SendNotifyVoiceMessageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

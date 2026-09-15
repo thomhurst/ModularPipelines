@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "create-workspace")]
-public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions
+public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a workspace in IoT SiteWise. A workspace isolates its re- sources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling lim- its. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE , or FAILED if provisioning doesn't complete. See also:...
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace to create. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="EncryptionConfiguration">The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_EN- CRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITE- WISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: o min: 1 o max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }</param>
+    public AwsIotsitewiseCreateWorkspaceOptions(
+        string WorkspaceName,
+        string EncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(EncryptionConfiguration);
+        this.EncryptionConfiguration = EncryptionConfiguration;
+    }
+
+    private AwsIotsitewiseCreateWorkspaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseCreateWorkspaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseCreateWorkspaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace to create. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
     [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The encryption configuration for the workspace. encryptionType -&gt; (string) [required] The encryption scheme for the workspace. SITEWISE_DEFAULT_EN- CRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId . Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION kmsKeyId -&gt; (string) The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION . Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION ; must be omitted for SITE- WISE_DEFAULT_ENCRYPTION . After a workspace's customer managed key configuration becomes active, the key can't be changed. Constraints: o min: 1 o max: 2048 Shorthand Syntax: encryptionType=string,kmsKeyId=string JSON Syntax: { "encryptionType": "SITEWISE_DEFAULT_ENCRYPTION"|"KMS_BASED_ENCRYPTION", "kmsKeyId": "string" }
+    /// </summary>
+    [CliOption("--encryption-configuration")]
+    public string? EncryptionConfiguration { get; private init; }
 
     /// <summary>
     /// A description for the workspace. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--workspace-description")]
     public string? WorkspaceDescription { get; set; }
-
-    [CliOption("--encryption-configuration")]
-    public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
     /// A list of key-value pairs that contain metadata for the workspace. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +97,21 @@ public record AwsIotsitewiseCreateWorkspaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

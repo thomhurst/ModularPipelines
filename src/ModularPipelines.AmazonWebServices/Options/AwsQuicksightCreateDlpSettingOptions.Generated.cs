@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +21,105 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-dlp-setting")]
-public record AwsQuicksightCreateDlpSettingOptions : AwsOptions
+public record AwsQuicksightCreateDlpSettingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a data loss prevention (DLP) setting configuration for an Ama- zon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting ap- plies to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account in which to create the DLP setting. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="DlpSettingId">A unique identifier for the DLP setting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Name">A human-readable display name for the DLP setting. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- &amp;]*[A-Za-z0-9])?</param>
+    /// <param name="ProviderType">The type of external DLP provider to use for sensitivity label clas- sification. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: o MICROSOFT_PURVIEW</param>
+    /// <param name="ProviderConfig">The provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[\w]+)*:secretsman- ager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to en- forcement actions. Constraints: o min: 0 o max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an en- forcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitiv- ity label or whose label is not mapped. Valid values are AL- LOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }</param>
+    /// <param name="ProviderOutageAction">The behavior to apply when the DLP provider is unreachable. Valid values are ALLOW , WARN , and BLOCK . Possible values: o ALLOW o WARN o BLOCK</param>
+    /// <param name="Enabled">Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it at time of set- ting creation.</param>
+    public AwsQuicksightCreateDlpSettingOptions(
+        string AwsAccountId,
+        string DlpSettingId,
+        string Name,
+        AwsQuicksightCreateDlpSettingProviderType ProviderType,
+        string ProviderConfig,
+        AwsQuicksightCreateDlpSettingProviderOutageAction ProviderOutageAction,
+        bool Enabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DlpSettingId);
+        this.DlpSettingId = DlpSettingId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderType);
+        this.ProviderType = ProviderType;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderConfig);
+        this.ProviderConfig = ProviderConfig;
+        global::System.ArgumentNullException.ThrowIfNull(ProviderOutageAction);
+        this.ProviderOutageAction = ProviderOutageAction;
+        this.Enabled = Enabled;
+    }
+
+    private AwsQuicksightCreateDlpSettingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateDlpSettingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateDlpSettingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account in which to create the DLP setting. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the DLP setting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--dlp-setting-id")]
-    public string? DlpSettingId { get; set; }
+    public string? DlpSettingId { get; private init; }
 
+    /// <summary>
+    /// A human-readable display name for the DLP setting. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9](?:[\w- &amp;]*[A-Za-z0-9])?
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of external DLP provider to use for sensitivity label clas- sification. Currently, the only supported value is MICROSOFT_PURVIEW . Possible values: o MICROSOFT_PURVIEW
+    /// </summary>
     [CliOption("--provider-type")]
-    public string? ProviderType { get; set; }
+    public AwsQuicksightCreateDlpSettingProviderType? ProviderType { get; private init; }
 
+    /// <summary>
+    /// The provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MicrosoftPurview. MicrosoftPurview -&gt; (structure) The configuration for a Microsoft Purview DLP integration. Credentials -&gt; (structure) [required] The credentials used to authenticate with Microsoft Purview. SecretArn -&gt; (string) [required] The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[\w]+)*:secretsman- ager:[a-z0-9\-]+:\d{12}:secret:.+ LabelActionMappings -&gt; (list) [required] The mappings from Microsoft Purview sensitivity labels to en- forcement actions. Constraints: o min: 0 o max: 100 (structure) Maps a sensitivity label from Microsoft Purview to an en- forcement action. LabelId -&gt; (string) [required] The identifier of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 LabelName -&gt; (string) [required] The display name of the sensitivity label from the DLP provider. Constraints: o min: 1 o max: 512 Action -&gt; (string) [required] The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK UnmappedAction -&gt; (string) [required] The default action to apply to content that has no sensitiv- ity label or whose label is not mapped. Valid values are AL- LOW , BLOCK , and WARN . Possible values: o ALLOW o WARN o BLOCK JSON Syntax: { "MicrosoftPurview": { "Credentials": { "SecretArn": "string" }, "LabelActionMappings": [ { "LabelId": "string", "LabelName": "string", "Action": "ALLOW"|"WARN"|"BLOCK" } ... ], "UnmappedAction": "ALLOW"|"WARN"|"BLOCK" } }
+    /// </summary>
     [CliOption("--provider-config")]
-    public string? ProviderConfig { get; set; }
+    public string? ProviderConfig { get; private init; }
 
+    /// <summary>
+    /// The behavior to apply when the DLP provider is unreachable. Valid values are ALLOW , WARN , and BLOCK . Possible values: o ALLOW o WARN o BLOCK
+    /// </summary>
     [CliOption("--provider-outage-action")]
-    public string? ProviderOutageAction { get; set; }
+    public AwsQuicksightCreateDlpSettingProviderOutageAction? ProviderOutageAction { get; private init; }
 
-    [CliFlag("--enabled")]
-    public bool? Enabled { get; set; }
+    /// <summary>
+    /// Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it at time of set- ting creation.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
+    public bool? Enabled { get; private init; }
 
     /// <summary>
     /// A list of resource tags to apply to the DLP setting. You can use tags to manage access to your Amazon Web Services resources. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -53,5 +132,21 @@ public record AwsQuicksightCreateDlpSettingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

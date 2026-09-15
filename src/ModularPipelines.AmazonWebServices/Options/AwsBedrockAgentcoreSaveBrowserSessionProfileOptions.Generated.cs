@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "save-browser-session-profile")]
-public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions
+public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identi- fier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession oper...
+    /// </summary>
+    /// <param name="ProfileIdentifier">The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanu- meric suffix. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="BrowserIdentifier">The unique identifier of the browser associated with the session from which to save the profile.</param>
+    /// <param name="SessionId">The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    public AwsBedrockAgentcoreSaveBrowserSessionProfileOptions(
+        string ProfileIdentifier,
+        string BrowserIdentifier,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileIdentifier);
+        this.ProfileIdentifier = ProfileIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(BrowserIdentifier);
+        this.BrowserIdentifier = BrowserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsBedrockAgentcoreSaveBrowserSessionProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreSaveBrowserSessionProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreSaveBrowserSessionProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanu- meric suffix. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--profile-identifier")]
+    public string? ProfileIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the browser associated with the session from which to save the profile.
+    /// </summary>
+    [CliOption("--browser-identifier")]
+    public string? BrowserIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
+    [CliOption("--session-id")]
+    public string? SessionId { get; private init; }
+
     /// <summary>
     /// The trace identifier for request tracking. Constraints: o min: 0 o max: 1024
     /// </summary>
@@ -33,15 +93,6 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions
     /// </summary>
     [CliOption("--trace-parent")]
     public string? TraceParent { get; set; }
-
-    [CliOption("--profile-identifier")]
-    public string? ProfileIdentifier { get; set; }
-
-    [CliOption("--browser-identifier")]
-    public string? BrowserIdentifier { get; set; }
-
-    [CliOption("--session-id")]
-    public string? SessionId { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -55,5 +106,21 @@ public record AwsBedrockAgentcoreSaveBrowserSessionProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

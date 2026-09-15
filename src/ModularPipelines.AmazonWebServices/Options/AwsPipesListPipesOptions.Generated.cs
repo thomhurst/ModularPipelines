@@ -39,7 +39,7 @@ public record AwsPipesListPipesOptions : AwsOptions
     /// The state the pipe is in. Possible values: o RUNNING o STOPPED o CREATING o UPDATING o DELETING o STARTING o STOPPING o CREATE_FAILED o UPDATE_FAILED o START_FAILED o STOP_FAILED o DELETE_FAILED o CREATE_ROLLBACK_FAILED o DELETE_ROLLBACK_FAILED o UPDATE_ROLLBACK_FAILED
     /// </summary>
     [CliOption("--current-state")]
-    public string? CurrentState { get; set; }
+    public AwsPipesListPipesCurrentState? CurrentState { get; set; }
 
     /// <summary>
     /// The prefix matching the pipe source. Constraints: o min: 1 o max: 1600

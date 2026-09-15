@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "create-service-linked-role")]
-public record AwsIamCreateServiceLinkedRoleOptions : AwsOptions
+public record AwsIamCreateServiceLinkedRoleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to con- trol the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using se...
+    /// </summary>
+    /// <param name="AwsServiceName">The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Ser- vices services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    public AwsIamCreateServiceLinkedRoleOptions(
+        string AwsServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsServiceName);
+        this.AwsServiceName = AwsServiceName;
+    }
+
+    private AwsIamCreateServiceLinkedRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamCreateServiceLinkedRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamCreateServiceLinkedRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com . Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Ser- vices services that work with IAM in the IAM User Guide . Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--aws-service-name")]
-    public string? AwsServiceName { get; set; }
+    public string? AwsServiceName { get; private init; }
 
     /// <summary>
     /// The description of the role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
@@ -41,5 +78,21 @@ public record AwsIamCreateServiceLinkedRoleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "start-test-execution")]
-public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions
+public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The action to start test set execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestSetId">The test set Id for the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="Target">The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test exe- cution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execu- tion. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execu- tion. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
+    /// <param name="ApiMode">Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and Recognize- Text Amazon Lex Runtime API are used. Possible values: o Streaming o NonStreaming</param>
+    public AwsLexv2ModelsStartTestExecutionOptions(
+        string TestSetId,
+        string Target,
+        AwsLexv2ModelsStartTestExecutionApiMode ApiMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestSetId);
+        this.TestSetId = TestSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(ApiMode);
+        this.ApiMode = ApiMode;
+    }
+
+    private AwsLexv2ModelsStartTestExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStartTestExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStartTestExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The test set Id for the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--test-set-id")]
-    public string? TestSetId { get; set; }
+    public string? TestSetId { get; private init; }
 
+    /// <summary>
+    /// The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test exe- cution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execu- tion. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execu- tion. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
+    /// <summary>
+    /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and Recognize- Text Amazon Lex Runtime API are used. Possible values: o Streaming o NonStreaming
+    /// </summary>
     [CliOption("--api-mode")]
-    public string? ApiMode { get; set; }
+    public AwsLexv2ModelsStartTestExecutionApiMode? ApiMode { get; private init; }
 
     /// <summary>
     /// Indicates whether audio or text is used. Possible values: o Text o Audio
@@ -42,5 +93,21 @@ public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

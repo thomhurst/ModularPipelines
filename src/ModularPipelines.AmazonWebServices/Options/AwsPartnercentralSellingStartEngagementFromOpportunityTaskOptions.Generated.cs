@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "start-engagement-from-opportunity-task")]
-public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions : AwsOptions
+public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API opera- tions into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of opera- tions including GetOpportunity , CreateEngagement (if it doesn't ex- ist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEn- gagementIn...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="AwsSubmission">Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: o For Visibility Only o Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typ- ically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confiden- tiality needs. Possible values: o Full o Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }</param>
+    public AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions(
+        string Catalog,
+        string Identifier,
+        string AwsSubmission
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(AwsSubmission);
+        this.AwsSubmission = AwsSubmission;
+    }
+
+    private AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support. InvolvementType -&gt; (string) [required] Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation. Possible values: o For Visibility Only o Co-Sell Visibility -&gt; (string) Determines who can view AWS involvement in the opportunity. Typ- ically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confiden- tiality needs. Possible values: o Full o Limited Shorthand Syntax: InvolvementType=string,Visibility=string JSON Syntax: { "InvolvementType": "For Visibility Only"|"Co-Sell", "Visibility": "Full"|"Limited" }
+    /// </summary>
+    [CliOption("--aws-submission")]
+    public string? AwsSubmission { get; private init; }
 
     /// <summary>
     /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times. Constraints: o pattern: .{1,255}
@@ -31,12 +88,6 @@ public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions 
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
-    [CliOption("--aws-submission")]
-    public string? AwsSubmission { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -49,5 +100,21 @@ public record AwsPartnercentralSellingStartEngagementFromOpportunityTaskOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

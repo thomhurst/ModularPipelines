@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-db-cluster-endpoint")]
-public record AwsRdsCreateDbClusterEndpointOptions : AwsOptions
+public record AwsRdsCreateDbClusterEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster. NOTE: This action applies only to Aurora DB clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier of the DB cluster associated with the end- point. This parameter is stored as a lowercase string.</param>
+    /// <param name="DbClusterEndpointIdentifier">The identifier to use for the new endpoint. This parameter is stored as a lowercase string.</param>
+    /// <param name="EndpointType">The type of the endpoint, one of: READER , WRITER , ANY .</param>
+    public AwsRdsCreateDbClusterEndpointOptions(
+        string DbClusterIdentifier,
+        string DbClusterEndpointIdentifier,
+        string EndpointType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterEndpointIdentifier);
+        this.DbClusterEndpointIdentifier = DbClusterEndpointIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
+        this.EndpointType = EndpointType;
+    }
+
+    private AwsRdsCreateDbClusterEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateDbClusterEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateDbClusterEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB cluster identifier of the DB cluster associated with the end- point. This parameter is stored as a lowercase string.
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
+    /// </summary>
     [CliOption("--db-cluster-endpoint-identifier")]
-    public string? DbClusterEndpointIdentifier { get; set; }
+    public string? DbClusterEndpointIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the endpoint, one of: READER , WRITER , ANY .
+    /// </summary>
     [CliOption("--endpoint-type")]
-    public string? EndpointType { get; set; }
+    public string? EndpointType { get; private init; }
 
     /// <summary>
     /// List of DB instance identifiers that are part of the custom endpoint group. (string) Syntax: "string" "string" ...
@@ -53,5 +104,21 @@ public record AwsRdsCreateDbClusterEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "put-application-assignment-configuration")]
-public record AwsSsoAdminPutApplicationAssignmentConfigurationOptions : AwsOptions
+public record AwsSsoAdminPutApplicationAssignmentConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-arn")]
-    public string? ApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--assignment-required")]
-    public bool? AssignmentRequired { get; set; }
+    /// <summary>
+    /// Configure how users gain access to an application. If AssignmentsRe- quired is true (default value), users dont have access to the applica- tion unless an assignment is created using the CreateApplicationAssignment API . If false , all users have access to the application. If an assignment is created using CreateApplicationAssignment ., the user retains access if Assign- mentsRequired is set to true . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationArn">Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="AssignmentRequired">If AssignmentsRequired is true (default value), users dont have ac- cess to the application unless an assignment is created using the CreateApplicationAssignment API . If false , all users have access to the application.</param>
+    public AwsSsoAdminPutApplicationAssignmentConfigurationOptions(
+        string ApplicationArn,
+        bool AssignmentRequired
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationArn);
+        this.ApplicationArn = ApplicationArn;
+        this.AssignmentRequired = AssignmentRequired;
+    }
+
+    private AwsSsoAdminPutApplicationAssignmentConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminPutApplicationAssignmentConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminPutApplicationAssignmentConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Ser- vice Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// </summary>
+    [CliOption("--application-arn")]
+    public string? ApplicationArn { get; private init; }
+
+    /// <summary>
+    /// If AssignmentsRequired is true (default value), users dont have ac- cess to the application unless an assignment is created using the CreateApplicationAssignment API . If false , all users have access to the application.
+    /// </summary>
+    [CliFlag("--assignment-required", NegatedName = "--no-assignment-required")]
+    public bool? AssignmentRequired { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

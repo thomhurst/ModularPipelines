@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "update-farm")]
-public record AwsDeadlineUpdateFarmOptions : AwsOptions
+public record AwsDeadlineUpdateFarmOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a farm. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FarmId">The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    public AwsDeadlineUpdateFarmOptions(
+        string FarmId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+    }
+
+    private AwsDeadlineUpdateFarmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineUpdateFarmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineUpdateFarmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
     /// <summary>
     /// The display name of the farm to update. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
@@ -47,5 +84,21 @@ public record AwsDeadlineUpdateFarmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

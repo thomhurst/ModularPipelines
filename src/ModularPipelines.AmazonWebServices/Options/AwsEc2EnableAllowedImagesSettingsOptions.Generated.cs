@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-allowed-images-settings")]
-public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions
+public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--allowed-images-settings-state")]
-    public string? AllowedImagesSettingsState { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Enables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. Two values are accepted: o enabled : The image criteria in your Allowed AMIs settings are ap- plied. As a result, only AMIs matching these criteria are discover- able and can be used by your account to launch instances. o audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any p...
+    /// </summary>
+    /// <param name="AllowedImagesSettingsState">Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: o enabled o audit-mode</param>
+    public AwsEc2EnableAllowedImagesSettingsOptions(
+        AwsEc2EnableAllowedImagesSettingsAllowedImagesSettingsState AllowedImagesSettingsState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AllowedImagesSettingsState);
+        this.AllowedImagesSettingsState = AllowedImagesSettingsState;
+    }
+
+    private AwsEc2EnableAllowedImagesSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableAllowedImagesSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableAllowedImagesSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: o enabled o audit-mode
+    /// </summary>
+    [CliOption("--allowed-images-settings-state")]
+    public AwsEc2EnableAllowedImagesSettingsAllowedImagesSettingsState? AllowedImagesSettingsState { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +73,21 @@ public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

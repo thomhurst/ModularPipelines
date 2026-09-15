@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,31 +22,102 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-channel", "create-relationship")]
-public record AwsPartnercentralChannelCreateRelationshipOptions : AwsOptions
+public record AwsPartnercentralChannelCreateRelationshipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new partner relationship between accounts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
+    /// <param name="AssociationType">The type of association for the relationship (e.g., reseller, dis- tributor). Possible values: o DOWNSTREAM_SELLER o END_CUSTOMER o INTERNAL</param>
+    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account for this relation- ship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
+    /// <param name="AssociatedAccountId">The AWS account ID to associate in this relationship. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
+    /// <param name="DisplayName">A human-readable name for the relationship. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*</param>
+    /// <param name="Sector">The business sector for the relationship. Possible values: o COMMERCIAL o GOVERNMENT o GOVERNMENT_EXCEPTION</param>
+    public AwsPartnercentralChannelCreateRelationshipOptions(
+        string Catalog,
+        AwsPartnercentralChannelCreateRelationshipAssociationType AssociationType,
+        string ProgramManagementAccountIdentifier,
+        string AssociatedAccountId,
+        string DisplayName,
+        AwsPartnercentralChannelCreateRelationshipSector Sector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationType);
+        this.AssociationType = AssociationType;
+        global::System.ArgumentNullException.ThrowIfNull(ProgramManagementAccountIdentifier);
+        this.ProgramManagementAccountIdentifier = ProgramManagementAccountIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedAccountId);
+        this.AssociatedAccountId = AssociatedAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Sector);
+        this.Sector = Sector;
+    }
+
+    private AwsPartnercentralChannelCreateRelationshipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralChannelCreateRelationshipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralChannelCreateRelationshipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The type of association for the relationship (e.g., reseller, dis- tributor). Possible values: o DOWNSTREAM_SELLER o END_CUSTOMER o INTERNAL
+    /// </summary>
     [CliOption("--association-type")]
-    public string? AssociationType { get; set; }
+    public AwsPartnercentralChannelCreateRelationshipAssociationType? AssociationType { get; private init; }
 
+    /// <summary>
+    /// The identifier of the program management account for this relation- ship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--program-management-account-identifier")]
-    public string? ProgramManagementAccountIdentifier { get; set; }
+    public string? ProgramManagementAccountIdentifier { get; private init; }
 
+    /// <summary>
+    /// The AWS account ID to associate in this relationship. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// </summary>
     [CliOption("--associated-account-id")]
-    public string? AssociatedAccountId { get; set; }
+    public string? AssociatedAccountId { get; private init; }
 
+    /// <summary>
+    /// A human-readable name for the relationship. Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The business sector for the relationship. Possible values: o COMMERCIAL o GOVERNMENT o GOVERNMENT_EXCEPTION
+    /// </summary>
+    [CliOption("--sector")]
+    public AwsPartnercentralChannelCreateRelationshipSector? Sector { get; private init; }
 
     /// <summary>
     /// The resale account model for the relationship. Possible values: o DISTRIBUTOR o END_CUSTOMER o SOLUTION_PROVIDER
     /// </summary>
     [CliOption("--resale-account-model")]
     public AwsPartnercentralChannelCreateRelationshipResaleAccountModel? ResaleAccountModel { get; set; }
-
-    [CliOption("--sector")]
-    public string? Sector { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [!-~]*
@@ -71,5 +143,21 @@ public record AwsPartnercentralChannelCreateRelationshipOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

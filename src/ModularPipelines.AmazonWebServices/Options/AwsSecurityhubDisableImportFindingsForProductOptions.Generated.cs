@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "disable-import-findings-for-product")]
-public record AwsSecurityhubDisableImportFindingsForProductOptions : AwsOptions
+public record AwsSecurityhubDisableImportFindingsForProductOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disables the integration of the specified product with Security Hub CSPM. After the integration is disabled, findings from that product are no longer sent to Security Hub CSPM. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductSubscriptionArn">The ARN of the integrated product to disable the integration for. Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubDisableImportFindingsForProductOptions(
+        string ProductSubscriptionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductSubscriptionArn);
+        this.ProductSubscriptionArn = ProductSubscriptionArn;
+    }
+
+    private AwsSecurityhubDisableImportFindingsForProductOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubDisableImportFindingsForProductOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubDisableImportFindingsForProductOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the integrated product to disable the integration for. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--product-subscription-arn")]
-    public string? ProductSubscriptionArn { get; set; }
+    public string? ProductSubscriptionArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

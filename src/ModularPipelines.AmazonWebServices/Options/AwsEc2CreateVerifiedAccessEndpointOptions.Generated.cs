@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-verified-access-endpoint")]
-public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions
+public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedAccessGroupId">The ID of the Verified Access group to associate the endpoint with.</param>
+    /// <param name="EndpointType">The type of Verified Access endpoint to create. Possible values: o load-balancer o network-interface o rds o cidr</param>
+    /// <param name="AttachmentType">The type of attachment. Possible values: o vpc</param>
+    public AwsEc2CreateVerifiedAccessEndpointOptions(
+        string VerifiedAccessGroupId,
+        AwsEc2CreateVerifiedAccessEndpointEndpointType EndpointType,
+        AwsEc2CreateVerifiedAccessEndpointAttachmentType AttachmentType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedAccessGroupId);
+        this.VerifiedAccessGroupId = VerifiedAccessGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointType);
+        this.EndpointType = EndpointType;
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentType);
+        this.AttachmentType = AttachmentType;
+    }
+
+    private AwsEc2CreateVerifiedAccessEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateVerifiedAccessEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateVerifiedAccessEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Verified Access group to associate the endpoint with.
+    /// </summary>
     [CliOption("--verified-access-group-id")]
-    public string? VerifiedAccessGroupId { get; set; }
+    public string? VerifiedAccessGroupId { get; private init; }
 
+    /// <summary>
+    /// The type of Verified Access endpoint to create. Possible values: o load-balancer o network-interface o rds o cidr
+    /// </summary>
     [CliOption("--endpoint-type")]
-    public string? EndpointType { get; set; }
+    public AwsEc2CreateVerifiedAccessEndpointEndpointType? EndpointType { get; private init; }
 
+    /// <summary>
+    /// The type of attachment. Possible values: o vpc
+    /// </summary>
     [CliOption("--attachment-type")]
-    public string? AttachmentType { get; set; }
+    public AwsEc2CreateVerifiedAccessEndpointAttachmentType? AttachmentType { get; private init; }
 
     /// <summary>
     /// The ARN of the public TLS/SSL certificate in Amazon Web Services Certificate Manager to associate with the endpoint. The CN in the certificate must match the DNS name your end users will use to reach your application.
@@ -92,7 +144,10 @@ public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -118,5 +173,21 @@ public record AwsEc2CreateVerifiedAccessEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

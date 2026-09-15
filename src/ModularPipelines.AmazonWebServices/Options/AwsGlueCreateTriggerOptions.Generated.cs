@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-trigger")]
-public record AwsGlueCreateTriggerOptions : AwsOptions
+public record AwsGlueCreateTriggerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as argu- ments. Retrieve secrets from a Glue Connection, Amazon Web Services Se- crets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the trigger. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Type">The type of the new trigger. Possible values: o SCHEDULED o CONDITIONAL o ON_DEMAND o EVENT</param>
+    /// <param name="Actions">The actions initiated by this trigger when it fires. (structure) Defines an action to be initiated by a trigger. JobName -&gt; (string) The name of a job to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Arguments -&gt; (map) The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job defin- ition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself con- sumes. For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide. key -&gt; (string) value -&gt; (string) Timeout -&gt; (integer) The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 min- utes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 min- utes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days. Constraints: o min: 1 SecurityConfiguration -&gt; (string) The name of the SecurityConfiguration structure to be used with this action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* NotificationProperty -&gt; (structure) Specifies configuration properties of a job run notification. NotifyDelayAfter -&gt; (integer) After a job run starts, the number of minutes to wait be- fore sending a job run delay notification. Constraints: o min: 1 CrawlerName -&gt; (string) The name of the crawler to be used with this action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: JobName=string,Arguments={KeyName1=string,KeyName2=string},Timeout=integer,SecurityConfiguration=string,NotificationProperty={NotifyDelayAfter=integer},CrawlerName=string ... JSON Syntax: [ { "JobName": "string", "Arguments": {"string": "string" ...}, "Timeout": integer, "SecurityConfiguration": "string", "NotificationProperty": { "NotifyDelayAfter": integer }, "CrawlerName": "string" } ... ]</param>
+    public AwsGlueCreateTriggerOptions(
+        string Name,
+        AwsGlueCreateTriggerType Type,
+        IEnumerable<string> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsGlueCreateTriggerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateTriggerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateTriggerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the trigger. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of the new trigger. Possible values: o SCHEDULED o CONDITIONAL o ON_DEMAND o EVENT
+    /// </summary>
+    [CliOption("--type")]
+    public AwsGlueCreateTriggerType? Type { get; private init; }
+
+    /// <summary>
+    /// The actions initiated by this trigger when it fires. (structure) Defines an action to be initiated by a trigger. JobName -&gt; (string) The name of a job to be run. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Arguments -&gt; (map) The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job defin- ition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself con- sumes. For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide. key -&gt; (string) value -&gt; (string) Timeout -&gt; (integer) The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 min- utes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 min- utes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days. Constraints: o min: 1 SecurityConfiguration -&gt; (string) The name of the SecurityConfiguration structure to be used with this action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* NotificationProperty -&gt; (structure) Specifies configuration properties of a job run notification. NotifyDelayAfter -&gt; (integer) After a job run starts, the number of minutes to wait be- fore sending a job run delay notification. Constraints: o min: 1 CrawlerName -&gt; (string) The name of the crawler to be used with this action. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: JobName=string,Arguments={KeyName1=string,KeyName2=string},Timeout=integer,SecurityConfiguration=string,NotificationProperty={NotifyDelayAfter=integer},CrawlerName=string ... JSON Syntax: [ { "JobName": "string", "Arguments": {"string": "string" ...}, "Timeout": integer, "SecurityConfiguration": "string", "NotificationProperty": { "NotifyDelayAfter": integer }, "CrawlerName": "string" } ... ]
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
     /// The name of the workflow associated with the trigger. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers . For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *) . This field is required when the trigger type is SCHEDULED.
@@ -46,16 +112,16 @@ public record AwsGlueCreateTriggerOptions : AwsOptions
     [CliOption("--predicate")]
     public string? Predicate { get; set; }
 
-    [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
-
     /// <summary>
     /// A description of the new trigger. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--start-on-creation")]
+    /// <summary>
+    /// Set to true to start SCHEDULED and CONDITIONAL triggers when cre- ated. True is not supported for ON_DEMAND triggers.
+    /// </summary>
+    [CliFlag("--start-on-creation", NegatedName = "--no-start-on-creation")]
     public bool? StartOnCreation { get; set; }
 
     /// <summary>
@@ -75,5 +141,21 @@ public record AwsGlueCreateTriggerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

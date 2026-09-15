@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-readiness", "create-readiness-check")]
-public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions : AwsOptions
+public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--readiness-check-name")]
-    public string? ReadinessCheckName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora in- stances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReadinessCheckName">The name of the readiness check to create.</param>
+    /// <param name="ResourceSetName">The name of the resource set to check.</param>
+    public AwsRoute53RecoveryReadinessCreateReadinessCheckOptions(
+        string ReadinessCheckName,
+        string ResourceSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReadinessCheckName);
+        this.ReadinessCheckName = ReadinessCheckName;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceSetName);
+        this.ResourceSetName = ResourceSetName;
+    }
+
+    private AwsRoute53RecoveryReadinessCreateReadinessCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateReadinessCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryReadinessCreateReadinessCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the readiness check to create.
+    /// </summary>
+    [CliOption("--readiness-check-name")]
+    public string? ReadinessCheckName { get; private init; }
+
+    /// <summary>
+    /// The name of the resource set to check.
+    /// </summary>
     [CliOption("--resource-set-name")]
-    public string? ResourceSetName { get; set; }
+    public string? ResourceSetName { get; private init; }
 
     /// <summary>
     /// A collection of tags associated with a resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,21 @@ public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

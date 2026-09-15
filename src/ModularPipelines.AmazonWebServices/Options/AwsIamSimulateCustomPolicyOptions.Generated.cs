@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "simulate-custom-policy")]
-public record AwsIamSimulateCustomPolicyOptions : AwsOptions
+public record AwsIamSimulateCustomPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Simulate how a set of IAM policies and optionally a resource-based pol- icy works with a list of API operations and Amazon Web Services re- sources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your ac- count. If you want to simulate existing policies that ...
+    /// </summary>
+    /// <param name="PolicyInputList">A list of policy documents to include in the simulation. Each docu- ment is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" poli- cies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...</param>
+    /// <param name="ActionNames">A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser . This operation does not support using wildcards (*) in an action name. (string) Constraints: o min: 3 o max: 128 Syntax: "string" "string" ...</param>
+    public AwsIamSimulateCustomPolicyOptions(
+        IEnumerable<string> PolicyInputList,
+        IEnumerable<string> ActionNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PolicyInputList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyInputList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PolicyInputList));
+            }
+
+            PolicyInputList = materialized;
+        }
+        this.PolicyInputList = PolicyInputList;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ActionNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ActionNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ActionNames));
+            }
+
+            ActionNames = materialized;
+        }
+        this.ActionNames = ActionNames;
+    }
+
+    private AwsIamSimulateCustomPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamSimulateCustomPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamSimulateCustomPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of policy documents to include in the simulation. Each docu- ment is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" poli- cies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--policy-input-list", GroupValues = true)]
-    public IEnumerable<string>? PolicyInputList { get; set; }
+    public IEnumerable<string>? PolicyInputList { get; private init; }
+
+    /// <summary>
+    /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser . This operation does not support using wildcards (*) in an action name. (string) Constraints: o min: 3 o max: 128 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--action-names", GroupValues = true)]
+    public IEnumerable<string>? ActionNames { get; private init; }
 
     /// <summary>
     /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions bound- aries, see Permissions boundaries for IAM entities in the IAM User Guide . The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maxi- mum character counts of a managed policy with no whitespaces, see IAM and STS character quotas . The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) (string) Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Syntax: "string" "string" ...
@@ -36,9 +105,6 @@ public record AwsIamSimulateCustomPolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--ordered-organization-policy-input-list", GroupValues = true)]
     public IEnumerable<string>? OrderedOrganizationPolicyInputList { get; set; }
-
-    [CliOption("--action-names", GroupValues = true)]
-    public IEnumerable<string>? ActionNames { get; set; }
 
     /// <summary>
     /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value de- faults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation deter- mines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the Re- sourcePolicy parameter. If you include a ResourcePolicy , then it must be applicable to all of the resources included in the simulation or you receive an in- valid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . NOTE: Simulation of resource-based policies isn't supported for IAM roles. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
@@ -100,5 +166,21 @@ public record AwsIamSimulateCustomPolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

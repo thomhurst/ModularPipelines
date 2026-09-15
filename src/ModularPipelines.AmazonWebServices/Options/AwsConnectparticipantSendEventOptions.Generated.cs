@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "send-event")]
-public record AwsConnectparticipantSendEventOptions : AwsOptions
+public record AwsConnectparticipantSendEventOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a con- flict exception. For security recommendations, see...
+    /// </summary>
+    /// <param name="ContentType">The content type of the request. Supported types are: o application/vnd.amazonaws.connect.event.typing o application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) o application/vnd.amazonaws.connect.event.message.delivered o application/vnd.amazonaws.connect.event.message.read Constraints: o min: 1 o max: 100</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantSendEventOptions(
+        string ContentType,
+        string ConnectionToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionToken);
+        this.ConnectionToken = ConnectionToken;
+    }
+
+    private AwsConnectparticipantSendEventOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantSendEventOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantSendEventOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The content type of the request. Supported types are: o application/vnd.amazonaws.connect.event.typing o application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024) o application/vnd.amazonaws.connect.event.message.delivered o application/vnd.amazonaws.connect.event.message.read Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--content-type")]
-    public string? ContentType { get; set; }
+    public string? ContentType { get; private init; }
+
+    /// <summary>
+    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [SecretValue]
+    [CliOption("--connection-token")]
+    public string? ConnectionToken { get; private init; }
 
     /// <summary>
     /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{"messageId":"11111111-aaaa-bbbb-cccc-EXAM- PLE01234"}" Constraints: o min: 1 o max: 16384
@@ -38,14 +86,26 @@ public record AwsConnectparticipantSendEventOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [SecretValue]
-    [CliOption("--connection-token")]
-    public string? ConnectionToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

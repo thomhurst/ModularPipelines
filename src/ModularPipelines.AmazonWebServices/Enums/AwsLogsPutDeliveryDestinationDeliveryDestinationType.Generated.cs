@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deliverydestinationtype.
+/// Allowed values for --delivery-destination-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsPutDeliveryDestinationDeliveryDestinationType
 {
-    [EnumValue("S3")]
-    S3 = 1,
-
     [EnumValue("CWL")]
-    Cwl = 2,
+    Cwl,
 
     [EnumValue("FH")]
-    Fh = 3,
+    Fh,
+
+    [EnumValue("S3")]
+    S3,
 
     [EnumValue("XRAY")]
-    Xray = 4
+    Xray
 }

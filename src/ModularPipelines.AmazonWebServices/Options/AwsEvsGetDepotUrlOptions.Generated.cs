@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "get-depot-url")]
-public record AwsEvsGetDepotUrlOptions : AwsOptions
+public record AwsEvsGetDepotUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--rotate")]
+    /// <summary>
+    /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    public AwsEvsGetDepotUrlOptions(
+        string EnvironmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+    }
+
+    private AwsEvsGetDepotUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsGetDepotUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsGetDepotUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// Revokes the current authentication token and returns a new depot URL with a new token. Previously issued depot URLs will stop working within 5 minutes of rotation.
+    /// </summary>
+    [CliFlag("--rotate", NegatedName = "--no-rotate")]
     public bool? Rotate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsEvsGetDepotUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

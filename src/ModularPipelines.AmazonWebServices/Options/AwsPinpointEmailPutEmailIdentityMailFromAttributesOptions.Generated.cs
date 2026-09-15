@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "put-email-identity-mail-from-attributes")]
-public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions : AwsOptions
+public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to enable or disable the custom Mail-From domain configuration for an email identity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EmailIdentity">The verified email identity that you want to set up the custom MAIL FROM domain for.</param>
+    public AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions(
+        string EmailIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+    }
+
+    private AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The verified email identity that you want to set up the custom MAIL FROM domain for.
+    /// </summary>
     [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    public string? EmailIdentity { get; private init; }
 
     /// <summary>
     /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria: o It has to be a subdomain of the verified identity. o It can't be used to receive email. o It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
@@ -42,5 +79,21 @@ public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

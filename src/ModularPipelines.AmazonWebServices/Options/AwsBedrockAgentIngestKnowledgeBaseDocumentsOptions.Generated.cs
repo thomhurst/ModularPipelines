@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent", "ingest-knowledge-base-documents")]
-public record AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions : AwsOptions
+public record AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowl- edge base in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base to ingest the documents into. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source connected to the knowledge base that you're adding documents to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="Documents">A list of objects, each of which contains information about the doc- uments to add. Constraints: o min: 1 o max: 10 (structure) Contains information about a document to ingest into a knowledge base and metadata to associate with it. metadata -&gt; (structure) Contains the metadata to associate with the document. type -&gt; (string) [required] The type of the source source from which to add metadata. Possible values: o IN_LINE_ATTRIBUTE o S3_LOCATION inlineAttributes -&gt; (list) An array of objects, each of which defines a metadata at- tribute to associate with the content to ingest. You de- fine the attributes inline. Constraints: o min: 1 o max: 50 (structure) Contains information about a metadata attribute. key -&gt; (string) [required] The key of the metadata attribute. Constraints: o min: 1 o max: 200 value -&gt; (structure) [required] Contains the value of the metadata attribute. type -&gt; (string) [required] The type of the metadata attribute. Possible values: o BOOLEAN o NUMBER o STRING o STRING_LIST numberValue -&gt; (double) The value of the numeric metadata attribute. booleanValue -&gt; (boolean) The value of the Boolean metadata attribute. stringValue -&gt; (string) The value of the string metadata attribute. Constraints: o min: 1 o max: 2048 stringListValue -&gt; (list) An array of strings that define the value of the metadata attribute. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 s3Location -&gt; (structure) The Amazon S3 location of the file containing metadata to associate with the content to ingest. uri -&gt; (string) [required] The S3 URI of the file containing the content to in- gest. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024} bucketOwnerAccountId -&gt; (string) The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} accessControlList -&gt; (list) Access control list for the document. Used when metadata type is IN_LINE_ATTRIBUTE. Constraints: o min: 1 (structure) An access control entry specifying a principal and their access level. name -&gt; (string) [required] The user identifier. Constraints: o min: 1 o max: 256 type -&gt; (string) [required] The type of principal. Possible values: o USER access -&gt; (string) [required] Whether to allow or deny access. Possible values: o ALLOW o DENY content -&gt; (structure) [required] Contains the content of the document. dataSourceType -&gt; (string) [required] The type of data source that is connected to the knowl- edge base to which to ingest this document. Possible values: o CUSTOM o S3 custom -&gt; (structure) Contains information about the content to ingest into a knowledge base connected to a custom data source. customDocumentIdentifier -&gt; (structure) [required] A unique identifier for the document. id -&gt; (string) [required] The identifier of the document to ingest into a custom data source. Constraints: o min: 1 o max: 2048 sourceType -&gt; (string) [required] The source of the data to ingest. Possible values: o IN_LINE o S3_LOCATION s3Location -&gt; (structure) Contains information about the Amazon S3 location of the file from which to ingest data. uri -&gt; (string) [required] The S3 URI of the file containing the content to ingest. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024} bucketOwnerAccountId -&gt; (string) The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} inlineContent -&gt; (structure) Contains information about content defined inline to ingest into a knowledge base. type -&gt; (string) [required] The type of inline content to define. Possible values: o BYTE o TEXT byteContent -&gt; (structure) Contains information about content defined inline in bytes. mimeType -&gt; (string) [required] The MIME type of the content. For a list of MIME types, see Media Types . The following MIME types are supported: o text/plain o text/html o text/csv o text/vtt o message/rfc822 o application/xhtml+xml o application/pdf o application/msword o application/vnd.ms-word.document.macroen- abled.12 o application/vnd.ms-word.template.macroen- abled.12 o application/vnd.ms-excel o application/vnd.ms-excel.addin.macroen- abled.12 o application/vnd.ms-excel.sheet.macroen- abled.12 o application/vnd.ms-excel.template.macroen- abled.12 o application/vnd.ms-excel.sheet.bi- nary.macroenabled.12 o application/vnd.ms-spreadsheetml o application/vnd.openxmlformats-officedocu- ment.spreadsheetml.sheet o application/vnd.openxmlformats-officedocu- ment.spreadsheetml.template o application/vnd.openxmlformats-officedocu- ment.wordprocessingml.document o application/vnd.openxmlformats-officedocu- ment.wordprocessingml.template Constraints: o pattern: .*[a-z]{1,20}/.{1,20}.* data -&gt; (blob) [required] The base64-encoded string of the content. Constraints: o min: 1 o max: 5242880 textContent -&gt; (structure) Contains information about content defined inline in text. data -&gt; (string) [required] The text of the content. Constraints: o min: 1 o max: 5242880 s3 -&gt; (structure) Contains information about the content to ingest into a knowledge base connected to an Amazon S3 data source s3Location -&gt; (structure) [required] The S3 location of the file containing the content to ingest. uri -&gt; (string) [required] The location's URI. For example, s3://my-bucket/chunk-processor/ . Constraints: o min: 1 o max: 2048 o pattern: s3://.{1,128} JSON Syntax: [ { "metadata": { "type": "IN_LINE_ATTRIBUTE"|"S3_LOCATION", "inlineAttributes": [ { "key": "string", "value": { "type": "BOOLEAN"|"NUMBER"|"STRING"|"STRING_LIST", "numberValue": double, "booleanValue": true|false, "stringValue": "string", "stringListValue": ["string", ...] } } ... ], "s3Location": { "uri": "string", "bucketOwnerAccountId": "string" }, "accessControlList": [ { "name": "string", "type": "USER", "access": "ALLOW"|"DENY" } ... ] }, "content": { "dataSourceType": "CUSTOM"|"S3", "custom": { "customDocumentIdentifier": { "id": "string" }, "sourceType": "IN_LINE"|"S3_LOCATION", "s3Location": { "uri": "string", "bucketOwnerAccountId": "string" }, "inlineContent": { "type": "BYTE"|"TEXT", "byteContent": { "mimeType": "string", "data": blob }, "textContent": { "data": "string" } } }, "s3": { "s3Location": { "uri": "string" } } } } ... ]</param>
+    public AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions(
+        string KnowledgeBaseId,
+        string DataSourceId,
+        IEnumerable<string> Documents
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Documents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Documents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Documents));
+            }
+
+            Documents = materialized;
+        }
+        this.Documents = Documents;
+    }
+
+    private AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the knowledge base to ingest the documents into. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
+    [CliOption("--knowledge-base-id")]
+    public string? KnowledgeBaseId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the data source connected to the knowledge base that you're adding documents to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// A list of objects, each of which contains information about the doc- uments to add. Constraints: o min: 1 o max: 10 (structure) Contains information about a document to ingest into a knowledge base and metadata to associate with it. metadata -&gt; (structure) Contains the metadata to associate with the document. type -&gt; (string) [required] The type of the source source from which to add metadata. Possible values: o IN_LINE_ATTRIBUTE o S3_LOCATION inlineAttributes -&gt; (list) An array of objects, each of which defines a metadata at- tribute to associate with the content to ingest. You de- fine the attributes inline. Constraints: o min: 1 o max: 50 (structure) Contains information about a metadata attribute. key -&gt; (string) [required] The key of the metadata attribute. Constraints: o min: 1 o max: 200 value -&gt; (structure) [required] Contains the value of the metadata attribute. type -&gt; (string) [required] The type of the metadata attribute. Possible values: o BOOLEAN o NUMBER o STRING o STRING_LIST numberValue -&gt; (double) The value of the numeric metadata attribute. booleanValue -&gt; (boolean) The value of the Boolean metadata attribute. stringValue -&gt; (string) The value of the string metadata attribute. Constraints: o min: 1 o max: 2048 stringListValue -&gt; (list) An array of strings that define the value of the metadata attribute. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 s3Location -&gt; (structure) The Amazon S3 location of the file containing metadata to associate with the content to ingest. uri -&gt; (string) [required] The S3 URI of the file containing the content to in- gest. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024} bucketOwnerAccountId -&gt; (string) The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} accessControlList -&gt; (list) Access control list for the document. Used when metadata type is IN_LINE_ATTRIBUTE. Constraints: o min: 1 (structure) An access control entry specifying a principal and their access level. name -&gt; (string) [required] The user identifier. Constraints: o min: 1 o max: 256 type -&gt; (string) [required] The type of principal. Possible values: o USER access -&gt; (string) [required] Whether to allow or deny access. Possible values: o ALLOW o DENY content -&gt; (structure) [required] Contains the content of the document. dataSourceType -&gt; (string) [required] The type of data source that is connected to the knowl- edge base to which to ingest this document. Possible values: o CUSTOM o S3 custom -&gt; (structure) Contains information about the content to ingest into a knowledge base connected to a custom data source. customDocumentIdentifier -&gt; (structure) [required] A unique identifier for the document. id -&gt; (string) [required] The identifier of the document to ingest into a custom data source. Constraints: o min: 1 o max: 2048 sourceType -&gt; (string) [required] The source of the data to ingest. Possible values: o IN_LINE o S3_LOCATION s3Location -&gt; (structure) Contains information about the Amazon S3 location of the file from which to ingest data. uri -&gt; (string) [required] The S3 URI of the file containing the content to ingest. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024} bucketOwnerAccountId -&gt; (string) The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} inlineContent -&gt; (structure) Contains information about content defined inline to ingest into a knowledge base. type -&gt; (string) [required] The type of inline content to define. Possible values: o BYTE o TEXT byteContent -&gt; (structure) Contains information about content defined inline in bytes. mimeType -&gt; (string) [required] The MIME type of the content. For a list of MIME types, see Media Types . The following MIME types are supported: o text/plain o text/html o text/csv o text/vtt o message/rfc822 o application/xhtml+xml o application/pdf o application/msword o application/vnd.ms-word.document.macroen- abled.12 o application/vnd.ms-word.template.macroen- abled.12 o application/vnd.ms-excel o application/vnd.ms-excel.addin.macroen- abled.12 o application/vnd.ms-excel.sheet.macroen- abled.12 o application/vnd.ms-excel.template.macroen- abled.12 o application/vnd.ms-excel.sheet.bi- nary.macroenabled.12 o application/vnd.ms-spreadsheetml o application/vnd.openxmlformats-officedocu- ment.spreadsheetml.sheet o application/vnd.openxmlformats-officedocu- ment.spreadsheetml.template o application/vnd.openxmlformats-officedocu- ment.wordprocessingml.document o application/vnd.openxmlformats-officedocu- ment.wordprocessingml.template Constraints: o pattern: .*[a-z]{1,20}/.{1,20}.* data -&gt; (blob) [required] The base64-encoded string of the content. Constraints: o min: 1 o max: 5242880 textContent -&gt; (structure) Contains information about content defined inline in text. data -&gt; (string) [required] The text of the content. Constraints: o min: 1 o max: 5242880 s3 -&gt; (structure) Contains information about the content to ingest into a knowledge base connected to an Amazon S3 data source s3Location -&gt; (structure) [required] The S3 location of the file containing the content to ingest. uri -&gt; (string) [required] The location's URI. For example, s3://my-bucket/chunk-processor/ . Constraints: o min: 1 o max: 2048 o pattern: s3://.{1,128} JSON Syntax: [ { "metadata": { "type": "IN_LINE_ATTRIBUTE"|"S3_LOCATION", "inlineAttributes": [ { "key": "string", "value": { "type": "BOOLEAN"|"NUMBER"|"STRING"|"STRING_LIST", "numberValue": double, "booleanValue": true|false, "stringValue": "string", "stringListValue": ["string", ...] } } ... ], "s3Location": { "uri": "string", "bucketOwnerAccountId": "string" }, "accessControlList": [ { "name": "string", "type": "USER", "access": "ALLOW"|"DENY" } ... ] }, "content": { "dataSourceType": "CUSTOM"|"S3", "custom": { "customDocumentIdentifier": { "id": "string" }, "sourceType": "IN_LINE"|"S3_LOCATION", "s3Location": { "uri": "string", "bucketOwnerAccountId": "string" }, "inlineContent": { "type": "BYTE"|"TEXT", "byteContent": { "mimeType": "string", "data": blob }, "textContent": { "data": "string" } } }, "s3": { "s3Location": { "uri": "string" } } } } ... ]
+    /// </summary>
+    [CliOption("--documents", GroupValues = true)]
+    public IEnumerable<string>? Documents { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -35,13 +100,26 @@ public record AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--documents", GroupValues = true)]
-    public IEnumerable<string>? Documents { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

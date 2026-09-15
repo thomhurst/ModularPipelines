@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-security")]
-public record AwsKafkaUpdateSecurityOptions : AwsOptions
+public record AwsKafkaUpdateSecurityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the security settings for the cluster. You can use this opera- tion to specify encryption and authentication on existing clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="CurrentVersion">The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.</param>
+    public AwsKafkaUpdateSecurityOptions(
+        string ClusterArn,
+        string CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsKafkaUpdateSecurityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateSecurityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateSecurityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
+    [CliOption("--cluster-arn")]
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
+    /// </summary>
+    [CliOption("--current-version")]
+    public string? CurrentVersion { get; private init; }
+
     /// <summary>
     /// Includes all client authentication related information. Sasl -&gt; (structure) Details for ClientAuthentication using SASL. Scram -&gt; (structure) Details for SASL/SCRAM client authentication. Enabled -&gt; (boolean) SASL/SCRAM authentication is enabled or not. Iam -&gt; (structure) Indicates whether IAM access control is enabled. Enabled -&gt; (boolean) Indicates whether IAM access control is enabled. Tls -&gt; (structure) Details for ClientAuthentication using TLS. CertificateAuthorityArnList -&gt; (list) List of ACM Certificate Authority ARNs. (string) Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off TLS authen- tication. Unauthenticated -&gt; (structure) Contains information about unauthenticated traffic to the clus- ter. Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off unauthenti- cated traffic to your cluster. Shorthand Syntax: Sasl={Scram={Enabled=boolean},Iam={Enabled=boolean}},Tls={CertificateAuthorityArnList=[string,string],Enabled=boolean},Unauthenticated={Enabled=boolean} JSON Syntax: { "Sasl": { "Scram": { "Enabled": true|false }, "Iam": { "Enabled": true|false } }, "Tls": { "CertificateAuthorityArnList": ["string", ...], "Enabled": true|false }, "Unauthenticated": { "Enabled": true|false } }
     /// </summary>
     [CliOption("--client-authentication")]
     public string? ClientAuthentication { get; set; }
-
-    [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
-
-    [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
 
     /// <summary>
     /// Includes all encryption-related information. EncryptionAtRest -&gt; (structure) The data-volume encryption details. DataVolumeKMSKeyId -&gt; (string) [required] The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it. EncryptionInTransit -&gt; (structure) The details for encryption in transit. ClientBroker -&gt; (string) Indicates the encryption setting for data in transit between clients and brokers. The following are the possible values. TLS means that client-broker communication is enabled with TLS only. TLS_PLAINTEXT means that client-broker communication is en- abled for both TLS-encrypted, as well as plaintext data. PLAINTEXT means that client-broker communication is enabled in plaintext only. The default value is TLS_PLAINTEXT. Possible values: o TLS o TLS_PLAINTEXT o PLAINTEXT InCluster -&gt; (boolean) When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plaintext. The default value is true. Shorthand Syntax: EncryptionAtRest={DataVolumeKMSKeyId=string},EncryptionInTransit={ClientBroker=string,InCluster=boolean} JSON Syntax: { "EncryptionAtRest": { "DataVolumeKMSKeyId": "string" }, "EncryptionInTransit": { "ClientBroker": "TLS"|"TLS_PLAINTEXT"|"PLAINTEXT", "InCluster": true|false } }
@@ -44,5 +88,21 @@ public record AwsKafkaUpdateSecurityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

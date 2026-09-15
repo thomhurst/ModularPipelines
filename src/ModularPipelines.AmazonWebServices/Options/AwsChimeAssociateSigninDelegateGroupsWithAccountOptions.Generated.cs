@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "associate-signin-delegate-groups-with-account")]
-public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptions
+public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates the specified sign-in delegate groups with the specified Amazon Chime account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="SigninDelegateGroups">The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permis- sion to act as delegates. GroupName -&gt; (string) The group name. Constraints: o pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]</param>
+    public AwsChimeAssociateSigninDelegateGroupsWithAccountOptions(
+        string AccountId,
+        IEnumerable<string> SigninDelegateGroups
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SigninDelegateGroups);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SigninDelegateGroups));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SigninDelegateGroups));
+            }
+
+            SigninDelegateGroups = materialized;
+        }
+        this.SigninDelegateGroups = SigninDelegateGroups;
+    }
+
+    private AwsChimeAssociateSigninDelegateGroupsWithAccountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeAssociateSigninDelegateGroupsWithAccountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeAssociateSigninDelegateGroupsWithAccountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permis- sion to act as delegates. GroupName -&gt; (string) The group name. Constraints: o pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]
+    /// </summary>
     [CliOption("--signin-delegate-groups", GroupValues = true)]
-    public IEnumerable<string>? SigninDelegateGroups { get; set; }
+    public IEnumerable<string>? SigninDelegateGroups { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

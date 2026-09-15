@@ -10,24 +10,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a deleted event data store specified by EventDataStore , which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Restores a deleted event data store specified by EventDataStore , which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an e...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "restore-event-data-store")]
-public record AwsCloudtrailRestoreEventDataStoreOptions : AwsOptions
+public record AwsCloudtrailRestoreEventDataStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Restores a deleted event data store specified by EventDataStore , which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an e...
+    /// </summary>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailRestoreEventDataStoreOptions(
+        string EventDataStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventDataStore);
+        this.EventDataStore = EventDataStore;
+    }
+
+    private AwsCloudtrailRestoreEventDataStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailRestoreEventDataStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailRestoreEventDataStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--event-data-store")]
-    public string? EventDataStore { get; set; }
+    public string? EventDataStore { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

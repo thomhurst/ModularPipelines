@@ -22,6 +22,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOptions
 {
     /// <summary>
+    /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter . For limits, see Kinesis Video Streams Limits . WARNING: If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the re- sponse body, it incl...
+    /// </summary>
+    /// <param name="Fragments">A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions(
+        IEnumerable<string> Fragments,
+        string Outfile
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fragments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fragments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fragments));
+            }
+
+            Fragments = materialized;
+        }
+        this.Fragments = Fragments;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Fragments, out string Outfile)
+    {
+        Fragments = this.Fragments;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments . Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Syntax: "string" "string" ... outfile (string) [required] Filename where the content will be saved
+    /// </summary>
+    [CliOption("--fragments", GroupValues = true)]
+    public IEnumerable<string> Fragments { get; private init; }
+
+    /// <summary>
     /// The name of the stream from which to retrieve fragment media. Spec- ify either this parameter or the StreamARN parameter. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
@@ -33,7 +72,10 @@ public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions : AwsOp
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CliOption("--fragments", GroupValues = true)]
-    public IEnumerable<string>? Fragments { get; set; }
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

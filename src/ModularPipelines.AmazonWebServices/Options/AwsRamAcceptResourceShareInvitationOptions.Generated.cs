@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "accept-resource-share-invitation")]
-public record AwsRamAcceptResourceShareInvitationOptions : AwsOptions
+public record AwsRamAcceptResourceShareInvitationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts an invitation to a resource share from another Amazon Web Ser- vices account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceShareInvitationArn">The Amazon Resource Name (ARN) of the invitation that you want to accept.</param>
+    public AwsRamAcceptResourceShareInvitationOptions(
+        string ResourceShareInvitationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareInvitationArn);
+        this.ResourceShareInvitationArn = ResourceShareInvitationArn;
+    }
+
+    private AwsRamAcceptResourceShareInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamAcceptResourceShareInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamAcceptResourceShareInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the invitation that you want to accept.
+    /// </summary>
     [CliOption("--resource-share-invitation-arn")]
-    public string? ResourceShareInvitationArn { get; set; }
+    public string? ResourceShareInvitationArn { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -37,5 +74,21 @@ public record AwsRamAcceptResourceShareInvitationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

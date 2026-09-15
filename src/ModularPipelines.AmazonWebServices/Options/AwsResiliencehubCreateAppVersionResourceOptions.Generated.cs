@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,103 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "create-app-version-resource")]
-public record AwsResiliencehubCreateAppVersionResourceOptions : AwsOptions
+public record AwsResiliencehubCreateAppVersionResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Com- ponent, Resilience Hub will automatically create the Application Compo- nent. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update appli...
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppComponents">List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="LogicalResourceId">Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and name- space this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" for- mat. Constraints: o min: 1 o max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: o min: 1 o max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: o min: 1 o max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }</param>
+    /// <param name="PhysicalResourceId">Physical identifier of the resource. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ResourceType">Type of resource. Constraints: o min: 1 o max: 255</param>
+    public AwsResiliencehubCreateAppVersionResourceOptions(
+        string AppArn,
+        IEnumerable<string> AppComponents,
+        string LogicalResourceId,
+        string PhysicalResourceId,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AppComponents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AppComponents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AppComponents));
+            }
+
+            AppComponents = materialized;
+        }
+        this.AppComponents = AppComponents;
+        global::System.ArgumentNullException.ThrowIfNull(LogicalResourceId);
+        this.LogicalResourceId = LogicalResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(PhysicalResourceId);
+        this.PhysicalResourceId = PhysicalResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsResiliencehubCreateAppVersionResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubCreateAppVersionResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubCreateAppVersionResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--app-components", GroupValues = true)]
+    public IEnumerable<string>? AppComponents { get; private init; }
+
+    /// <summary>
+    /// Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and name- space this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" for- mat. Constraints: o min: 1 o max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: o min: 1 o max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: o min: 1 o max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }
+    /// </summary>
+    [CliOption("--logical-resource-id")]
+    public string? LogicalResourceId { get; private init; }
+
+    /// <summary>
+    /// Physical identifier of the resource. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--physical-resource-id")]
+    public string? PhysicalResourceId { get; private init; }
+
+    /// <summary>
+    /// Type of resource. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; private init; }
+
     /// <summary>
     /// Currently, there is no supported additional information for re- sources. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
-
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
-
-    [CliOption("--app-components", GroupValues = true)]
-    public IEnumerable<string>? AppComponents { get; set; }
 
     /// <summary>
     /// Amazon Web Services account that owns the physical resource. Constraints: o pattern: ^[0-9]{12}$
@@ -54,25 +139,32 @@ public record AwsResiliencehubCreateAppVersionResourceOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--logical-resource-id")]
-    public string? LogicalResourceId { get; set; }
-
-    [CliOption("--physical-resource-id")]
-    public string? PhysicalResourceId { get; set; }
-
     /// <summary>
     /// Name of the resource. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

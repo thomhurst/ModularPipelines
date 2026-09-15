@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appflow", "describe-flow-execution-records")]
-public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions
+public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Fetches the execution history of the flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    public AwsAppflowDescribeFlowExecutionRecordsOptions(
+        string FlowName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowName);
+        this.FlowName = FlowName;
+    }
+
+    private AwsAppflowDescribeFlowExecutionRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppflowDescribeFlowExecutionRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppflowDescribeFlowExecutionRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// </summary>
     [CliOption("--flow-name")]
-    public string? FlowName { get; set; }
+    public string? FlowName { get; private init; }
 
     /// <summary>
     /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: o min: 1 o max: 100
@@ -43,5 +80,21 @@ public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

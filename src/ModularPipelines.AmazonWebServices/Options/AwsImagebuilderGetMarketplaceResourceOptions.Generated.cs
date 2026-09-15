@@ -10,22 +10,67 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Verify the subscription and perform resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Ser- vices Marketplace components, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
+/// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to down- load the components and their artifacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "get-marketplace-resource")]
-public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions
+public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to down- load the components and their artifacts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceType">Specifies which type of Amazon Web Services Marketplace resource Im- age Builder retrieves. Possible values: o COMPONENT_DATA o COMPONENT_ARTIFACT</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    public AwsImagebuilderGetMarketplaceResourceOptions(
+        AwsImagebuilderGetMarketplaceResourceResourceType ResourceType,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsImagebuilderGetMarketplaceResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderGetMarketplaceResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderGetMarketplaceResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies which type of Amazon Web Services Marketplace resource Im- age Builder retrieves. Possible values: o COMPONENT_DATA o COMPONENT_ARTIFACT
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsImagebuilderGetMarketplaceResourceResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// The bucket path that you can specify to download the resource from Amazon S3. Constraints: o max: 1024 o pattern: ^s3://[^/]+/.+[^/]$
@@ -38,5 +83,21 @@ public record AwsImagebuilderGetMarketplaceResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

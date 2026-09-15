@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "list-code-interpreter-sessions")]
-public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions
+public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of code interpreter sessions in Amazon Bedrock Agent- Core that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of s...
+    /// </summary>
+    /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter to list sessions for. If specified, only sessions for this code interpreter are returned. If not specified, sessions for all code interpreters are returned.</param>
+    public AwsBedrockAgentcoreListCodeInterpreterSessionsOptions(
+        string CodeInterpreterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeInterpreterIdentifier);
+        this.CodeInterpreterIdentifier = CodeInterpreterIdentifier;
+    }
+
+    private AwsBedrockAgentcoreListCodeInterpreterSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreListCodeInterpreterSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreListCodeInterpreterSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the code interpreter to list sessions for. If specified, only sessions for this code interpreter are returned. If not specified, sessions for all code interpreters are returned.
+    /// </summary>
     [CliOption("--code-interpreter-identifier")]
-    public string? CodeInterpreterIdentifier { get; set; }
+    public string? CodeInterpreterIdentifier { get; private init; }
 
     /// <summary>
     /// The maximum number of results to return in a single call. The de- fault value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 1 o max: 100
@@ -50,5 +87,21 @@ public record AwsBedrockAgentcoreListCodeInterpreterSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

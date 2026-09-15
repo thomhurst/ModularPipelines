@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "delete-tape-archive")]
-public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions
+public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tape-arn")]
-    public string? TapeArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TapeArn">The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
+    public AwsStoragegatewayDeleteTapeArchiveOptions(
+        string TapeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TapeArn);
+        this.TapeArn = TapeArn;
+    }
+
+    private AwsStoragegatewayDeleteTapeArchiveOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayDeleteTapeArchiveOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayDeleteTapeArchiveOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS). Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
+    /// </summary>
+    [CliOption("--tape-arn")]
+    public string? TapeArn { get; private init; }
+
+    /// <summary>
+    /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape re- tention lock set to compliance can't be deleted.
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsStoragegatewayDeleteTapeArchiveOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

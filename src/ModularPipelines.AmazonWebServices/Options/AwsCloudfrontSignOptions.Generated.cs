@@ -22,18 +22,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudfront", "sign")]
 public record AwsCloudfrontSignOptions : AwsOptions
 {
+    /// <summary>
+    /// Sign a given url.
+    /// </summary>
+    /// <param name="Url"></param>
+    /// <param name="KeyPairId"></param>
+    /// <param name="PrivateKey"></param>
+    /// <param name="DateLessThan"></param>
+    public AwsCloudfrontSignOptions(
+        string Url,
+        string KeyPairId,
+        string PrivateKey,
+        string DateLessThan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairId);
+        this.KeyPairId = KeyPairId;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateKey);
+        this.PrivateKey = PrivateKey;
+        global::System.ArgumentNullException.ThrowIfNull(DateLessThan);
+        this.DateLessThan = DateLessThan;
+    }
+
+    public void Deconstruct(out string Url, out string KeyPairId, out string PrivateKey, out string DateLessThan)
+    {
+        Url = this.Url;
+        KeyPairId = this.KeyPairId;
+        PrivateKey = this.PrivateKey;
+        DateLessThan = this.DateLessThan;
+    }
+
     [CliOption("--url")]
-    public string? Url { get; set; }
+    public string Url { get; private init; }
 
     [CliOption("--key-pair-id")]
-    public string? KeyPairId { get; set; }
+    public string KeyPairId { get; private init; }
 
     [SecretValue]
     [CliOption("--private-key")]
-    public string? PrivateKey { get; set; }
+    public string PrivateKey { get; private init; }
 
     [CliOption("--date-less-than")]
-    public string? DateLessThan { get; set; }
+    public string DateLessThan { get; private init; }
 
     [CliOption("--date-greater-than")]
     public string? DateGreaterThan { get; set; }

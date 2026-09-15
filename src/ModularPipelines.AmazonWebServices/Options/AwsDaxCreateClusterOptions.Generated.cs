@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dax", "create-cluster")]
-public record AwsDaxCreateClusterOptions : AwsOptions
+public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a DAX cluster. All nodes in the cluster run the same DAX caching software. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The cluster identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 20 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.</param>
+    /// <param name="NodeType">The compute and memory capacity of the nodes in the cluster.</param>
+    /// <param name="ReplicationFactor">The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor . NOTE: Amazon Web Services recommends that you have at least two read replicas per cluster.</param>
+    /// <param name="IamRoleArn">A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.</param>
+    public AwsDaxCreateClusterOptions(
+        string ClusterName,
+        string NodeType,
+        int ReplicationFactor,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+        this.ReplicationFactor = ReplicationFactor;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsDaxCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDaxCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDaxCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 20 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The compute and memory capacity of the nodes in the cluster.
+    /// </summary>
     [CliOption("--node-type")]
-    public string? NodeType { get; set; }
+    public string? NodeType { get; private init; }
+
+    /// <summary>
+    /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor . NOTE: Amazon Web Services recommends that you have at least two read replicas per cluster.
+    /// </summary>
+    [CliOption("--replication-factor")]
+    public int? ReplicationFactor { get; private init; }
+
+    /// <summary>
+    /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
+    /// </summary>
+    [CliOption("--iam-role-arn")]
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// A description of the cluster.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--replication-factor")]
-    public int? ReplicationFactor { get; set; }
 
     /// <summary>
     /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availabil- ity Zones for the highest availability. (string) Syntax: "string" "string" ...
@@ -66,9 +126,6 @@ public record AwsDaxCreateClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
-
-    [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
 
     /// <summary>
     /// The parameter group to be associated with the DAX cluster.
@@ -105,5 +162,21 @@ public record AwsDaxCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

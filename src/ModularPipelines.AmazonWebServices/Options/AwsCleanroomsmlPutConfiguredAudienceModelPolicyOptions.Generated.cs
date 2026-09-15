@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "put-configured-audience-model-policy")]
-public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOptions
+public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--configured-audience-model-arn")]
-    public string? ConfiguredAudienceModelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create or update the resource policy for a configured audience model. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredAudienceModelPolicy">The IAM resource policy. Constraints: o min: 1 o max: 20480</param>
+    public AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions(
+        string ConfiguredAudienceModelArn,
+        string ConfiguredAudienceModelPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredAudienceModelArn);
+        this.ConfiguredAudienceModelArn = ConfiguredAudienceModelArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfiguredAudienceModelPolicy);
+        this.ConfiguredAudienceModelPolicy = ConfiguredAudienceModelPolicy;
+    }
+
+    private AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// </summary>
+    [CliOption("--configured-audience-model-arn")]
+    public string? ConfiguredAudienceModelArn { get; private init; }
+
+    /// <summary>
+    /// The IAM resource policy. Constraints: o min: 1 o max: 20480
+    /// </summary>
     [CliOption("--configured-audience-model-policy")]
-    public string? ConfiguredAudienceModelPolicy { get; set; }
+    public string? ConfiguredAudienceModelPolicy { get; private init; }
 
     /// <summary>
     /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy. Constraints: o min: 64 o max: 128 o pattern: [0-9a-f]+
@@ -45,5 +89,21 @@ public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

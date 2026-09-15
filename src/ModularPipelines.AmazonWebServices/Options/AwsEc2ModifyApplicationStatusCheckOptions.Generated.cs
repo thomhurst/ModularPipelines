@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-application-status-check")]
-public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions
+public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing application status check. You can update the pro- tocol, port, path, thresholds, and other configuration settings. The following rules apply: o The application status check must exist and belong to your account. o Changes take effect on the next health check interval. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationStatusCheckId">The ID of the application status check to modify.</param>
+    public AwsEc2ModifyApplicationStatusCheckOptions(
+        string ApplicationStatusCheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationStatusCheckId);
+        this.ApplicationStatusCheckId = ApplicationStatusCheckId;
+    }
+
+    private AwsEc2ModifyApplicationStatusCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyApplicationStatusCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyApplicationStatusCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application status check to modify.
+    /// </summary>
     [CliOption("--application-status-check-id")]
-    public string? ApplicationStatusCheckId { get; set; }
+    public string? ApplicationStatusCheckId { get; private init; }
 
     /// <summary>
     /// The aggregation setting for the application status check. When set to included , the result of this check contributes to the in- stance-level application status reported by DescribeApplicationSta- tus . When set to excluded , the check runs independently and does not affect the instance-level status. Valid values: included | ex- cluded . Possible values: o included o excluded
@@ -66,7 +102,7 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions
     /// The IP version to use for the health check. Valid values: ipv4 and ipv6 . Possible values: o ipv4 o ipv6
     /// </summary>
     [CliOption("--ip-version")]
-    public AwsEc2ModifyApplicationStatusCheckIpVersion? IpVersion { get; set; }
+    public string? IpVersion { get; set; }
 
     /// <summary>
     /// The IP scope to use for the health check. Valid value: private . Possible values: o private
@@ -117,7 +153,10 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -125,5 +164,21 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

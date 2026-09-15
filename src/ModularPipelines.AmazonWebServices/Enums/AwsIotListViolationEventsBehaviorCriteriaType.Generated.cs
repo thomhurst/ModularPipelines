@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --behaviorcriteriatype.
+/// Allowed values for --behavior-criteria-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListViolationEventsBehaviorCriteriaType
 {
+    [EnumValue("MACHINE_LEARNING")]
+    MachineLearning,
+
     [EnumValue("STATIC")]
-    Static = 1,
+    Static,
 
     [EnumValue("STATISTICAL")]
-    Statistical = 2,
-
-    [EnumValue("MACHINE_LEARNING")]
-    MachineLearning = 3
+    Statistical
 }

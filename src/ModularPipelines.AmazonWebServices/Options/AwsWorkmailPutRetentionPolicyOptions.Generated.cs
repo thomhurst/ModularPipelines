@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "put-retention-policy")]
-public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions
+public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Puts a retention policy to the specified organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The retention policy name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="FolderConfigurations">The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: o INBOX o DELETED_ITEMS o SENT_ITEMS o DRAFTS o JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: o NONE o DELETE o PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: o min: 1 o max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]</param>
+    public AwsWorkmailPutRetentionPolicyOptions(
+        string OrganizationId,
+        string Name,
+        IEnumerable<string> FolderConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FolderConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FolderConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FolderConfigurations));
+            }
+
+            FolderConfigurations = materialized;
+        }
+        this.FolderConfigurations = FolderConfigurations;
+    }
+
+    private AwsWorkmailPutRetentionPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailPutRetentionPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailPutRetentionPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The retention policy name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The retention policy folder configurations. (structure) The configuration applied to an organization's folders by its retention policy. Name -&gt; (string) [required] The folder name. Possible values: o INBOX o DELETED_ITEMS o SENT_ITEMS o DRAFTS o JUNK_EMAIL Action -&gt; (string) [required] The action to take on the folder contents at the end of the folder configuration period. Possible values: o NONE o DELETE o PERMANENTLY_DELETE Period -&gt; (integer) The number of days for which the folder-configuration action applies. Constraints: o min: 1 o max: 730 Shorthand Syntax: Name=string,Action=string,Period=integer ... JSON Syntax: [ { "Name": "INBOX"|"DELETED_ITEMS"|"SENT_ITEMS"|"DRAFTS"|"JUNK_EMAIL", "Action": "NONE"|"DELETE"|"PERMANENTLY_DELETE", "Period": integer } ... ]
+    /// </summary>
+    [CliOption("--folder-configurations", GroupValues = true)]
+    public IEnumerable<string>? FolderConfigurations { get; private init; }
 
     /// <summary>
     /// The retention policy ID. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
@@ -30,22 +98,32 @@ public record AwsWorkmailPutRetentionPolicyOptions : AwsOptions
     [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// The retention policy description. Constraints: o max: 256 o pattern: [\w\d\s\S\-!?=,.;:'_]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--folder-configurations", GroupValues = true)]
-    public IEnumerable<string>? FolderConfigurations { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

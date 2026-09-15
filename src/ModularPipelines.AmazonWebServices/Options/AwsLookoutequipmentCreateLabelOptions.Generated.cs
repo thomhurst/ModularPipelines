@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "create-label")]
-public record AwsLookoutequipmentCreateLabelOptions : AwsOptions
+public record AwsLookoutequipmentCreateLabelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a label for an event. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LabelGroupName">The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="StartTime">The start time of the labeled event.</param>
+    /// <param name="EndTime">The end time of the labeled event.</param>
+    /// <param name="Rating">Indicates whether a labeled event represents an anomaly. Possible values: o ANOMALY o NO_ANOMALY o NEUTRAL</param>
+    public AwsLookoutequipmentCreateLabelOptions(
+        string LabelGroupName,
+        string StartTime,
+        string EndTime,
+        AwsLookoutequipmentCreateLabelRating Rating
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LabelGroupName);
+        this.LabelGroupName = LabelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(Rating);
+        this.Rating = Rating;
+    }
+
+    private AwsLookoutequipmentCreateLabelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentCreateLabelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentCreateLabelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
     [CliOption("--label-group-name")]
-    public string? LabelGroupName { get; set; }
+    public string? LabelGroupName { get; private init; }
 
+    /// <summary>
+    /// The start time of the labeled event.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The end time of the labeled event.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
+    /// <summary>
+    /// Indicates whether a labeled event represents an anomaly. Possible values: o ANOMALY o NO_ANOMALY o NEUTRAL
+    /// </summary>
     [CliOption("--rating")]
-    public string? Rating { get; set; }
+    public AwsLookoutequipmentCreateLabelRating? Rating { get; private init; }
 
     /// <summary>
     /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100}
@@ -64,5 +123,21 @@ public record AwsLookoutequipmentCreateLabelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

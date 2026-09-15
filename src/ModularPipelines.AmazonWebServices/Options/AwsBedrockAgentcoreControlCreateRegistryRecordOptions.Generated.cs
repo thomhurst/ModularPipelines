@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-registry-record")]
-public record AwsBedrockAgentcoreControlCreateRegistryRecordOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateRegistryRecordOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new registry record within the specified registry. A registry record represents an individual AI resource's metadata in the registry. This could be an MCP server (and associated tools), A2A agent, agent skill, or a custom resource with a custom schema. The record is processed asynchronously and returns HTTP 202 Accepted. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry where the record will be created. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="Name">The name of the registry record. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*</param>
+    /// <param name="DescriptorType">The descriptor type of the registry record. o MCP - Model Context Protocol descriptor for MCP-compatible servers and tools. o A2A - Agent-to-Agent protocol descriptor. o CUSTOM - Custom descriptor type for resources such as APIs, Lambda functions, or servers not conforming to a standard protocol. o AGENT_SKILLS - Agent skills descriptor for defining agent skill definitions. Possible values: o MCP o A2A o CUSTOM o AGENT_SKILLS</param>
+    public AwsBedrockAgentcoreControlCreateRegistryRecordOptions(
+        string RegistryId,
+        string Name,
+        AwsBedrockAgentcoreControlCreateRegistryRecordDescriptorType DescriptorType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DescriptorType);
+        this.DescriptorType = DescriptorType;
+    }
+
+    private AwsBedrockAgentcoreControlCreateRegistryRecordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateRegistryRecordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateRegistryRecordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry where the record will be created. You can specify either the Amazon Resource Name (ARN) or the ID of the registry. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
+    [CliOption("--registry-id")]
+    public string? RegistryId { get; private init; }
+
+    /// <summary>
+    /// The name of the registry record. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9_\-\.\/]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The descriptor type of the registry record. o MCP - Model Context Protocol descriptor for MCP-compatible servers and tools. o A2A - Agent-to-Agent protocol descriptor. o CUSTOM - Custom descriptor type for resources such as APIs, Lambda functions, or servers not conforming to a standard protocol. o AGENT_SKILLS - Agent skills descriptor for defining agent skill definitions. Possible values: o MCP o A2A o CUSTOM o AGENT_SKILLS
+    /// </summary>
+    [CliOption("--descriptor-type")]
+    public AwsBedrockAgentcoreControlCreateRegistryRecordDescriptorType? DescriptorType { get; private init; }
 
     /// <summary>
     /// A description of the registry record. Constraints: o min: 1 o max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--descriptor-type")]
-    public string? DescriptorType { get; set; }
 
     /// <summary>
     /// The descriptor-type-specific configuration containing the resource schema and metadata. The structure of this field depends on the de- scriptorType you specify. mcp -&gt; (structure) The Model Context Protocol (MCP) descriptor configuration. Use this when the descriptorType is MCP . server -&gt; (structure) The MCP server definition, containing the server configura- tion and schema as defined by the MCP protocol specification. schemaVersion -&gt; (string) The schema version of the server definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the MCP server definition, conforming to the MCP protocol specification. Constraints: o min: 1 o max: 102400 tools -&gt; (structure) The MCP tools definition, containing the tools available on the MCP server as defined by the MCP protocol specification. protocolVersion -&gt; (string) The protocol version of the tools definition based on the MCP protocol specification. If not specified, the version is auto-detected from the content. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the MCP tools definition, conforming to the MCP protocol specification. Constraints: o min: 1 o max: 102400 a2a -&gt; (structure) The Agent-to-Agent (A2A) protocol descriptor configuration. Use this when the descriptorType is A2A . agentCard -&gt; (structure) The agent card definition for the A2A agent, as defined by the A2A protocol specification. schemaVersion -&gt; (string) The schema version of the agent card based on the A2A protocol specification. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the A2A agent card defini- tion, conforming to the A2A protocol specification. Constraints: o min: 1 o max: 102400 custom -&gt; (structure) The custom descriptor configuration. Use this when the descrip- torType is CUSTOM . inlineContent -&gt; (string) The custom descriptor content as a valid JSON document. You can define any custom schema that describes your resource. Constraints: o min: 1 o max: 102400 agentSkills -&gt; (structure) The agent skills descriptor configuration. Use this when the de- scriptorType is AGENT_SKILLS . skillMd -&gt; (structure) The optional skill markdown definition describing the agent's skills in a human-readable format. inlineContent -&gt; (string) The markdown content describing the agent's skills in a human-readable format. Constraints: o min: 1 o max: 102400 skillDefinition -&gt; (structure) The structured skill definition with schema version and con- tent. schemaVersion -&gt; (string) The version of the skill definition schema. Constraints: o min: 1 o max: 255 inlineContent -&gt; (string) The JSON content containing the structured skill defini- tion. Constraints: o min: 1 o max: 102400 Shorthand Syntax: mcp={server={schemaVersion=string,inlineContent=string},tools={protocolVersion=string,inlineContent=string}},a2a={agentCard={schemaVersion=string,inlineContent=string}},custom={inlineContent=string},agentSkills={skillMd={inlineContent=string},skillDefinition={schemaVersion=string,inlineContent=string}} JSON Syntax: { "mcp": { "server": { "schemaVersion": "string", "inlineContent": "string" }, "tools": { "protocolVersion": "string", "inlineContent": "string" } }, "a2a": { "agentCard": { "schemaVersion": "string", "inlineContent": "string" } }, "custom": { "inlineContent": "string" }, "agentSkills": { "skillMd": { "inlineContent": "string" }, "skillDefinition": { "schemaVersion": "string", "inlineContent": "string" } } }
@@ -74,5 +125,21 @@ public record AwsBedrockAgentcoreControlCreateRegistryRecordOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

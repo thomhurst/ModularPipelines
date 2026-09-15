@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "add-permission")]
-public record AwsLambdaAddPermissionOptions : AwsOptions
+public record AwsLambdaAddPermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants a principal permission to use a function. You can apply the pol- icy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in O...
+    /// </summary>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)</param>
+    /// <param name="Action">The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: o min: 0 o max: 10000 o pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])</param>
+    /// <param name="Principal">The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a ser- vice, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: o min: 0 o max: 2048 o pattern: [^\s]+</param>
+    public AwsLambdaAddPermissionOptions(
+        string FunctionName,
+        string StatementId,
+        string Action,
+        string Principal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionName);
+        this.FunctionName = FunctionName;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+        global::System.ArgumentNullException.ThrowIfNull(Principal);
+        this.Principal = Principal;
+    }
+
+    private AwsLambdaAddPermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaAddPermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaAddPermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionName { get; set; }
+    public string? FunctionName { get; private init; }
 
+    /// <summary>
+    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z0-9-_]+)
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
+    /// <summary>
+    /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction . Constraints: o min: 0 o max: 10000 o pattern: (lambda:[*]|lambda:[a-zA-Z]+|[*])
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public string? Action { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a ser- vice, use SourceArn or SourceAccount to limit who can invoke the function through that service. Constraints: o min: 0 o max: 2048 o pattern: [^\s]+
+    /// </summary>
     [CliOption("--principal")]
-    public string? Principal { get; set; }
+    public string? Principal { get; private init; }
 
     /// <summary>
     /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike op- erator. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*)
@@ -47,7 +105,10 @@ public record AwsLambdaAddPermissionOptions : AwsOptions
     [CliOption("--function-url-auth-type")]
     public AwsLambdaAddPermissionFunctionUrlAuthType? FunctionUrlAuthType { get; set; }
 
-    [CliFlag("--invoked-via-function-url")]
+    /// <summary>
+    /// Indicates whether the permission applies when the function is in- voked through a function URL.
+    /// </summary>
+    [CliFlag("--invoked-via-function-url", NegatedName = "--no-invoked-via-function-url")]
     public bool? InvokedViaFunctionUrl { get; set; }
 
     /// <summary>
@@ -86,5 +147,21 @@ public record AwsLambdaAddPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

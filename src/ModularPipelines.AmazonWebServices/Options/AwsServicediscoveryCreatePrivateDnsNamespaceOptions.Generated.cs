@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "create-private-dns-namespace")]
-public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions
+public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is back- end.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances re- quest or using DNS. For the current quota on the number of namespaces that you can...
+    /// </summary>
+    /// <param name="Name">The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the name- space. Constraints: o max: 253 o pattern: ^(?!arn:)[!-~]{1,253}$</param>
+    /// <param name="Vpc">The ID of the Amazon VPC that you want to associate the namespace with. Constraints: o max: 64</param>
+    public AwsServicediscoveryCreatePrivateDnsNamespaceOptions(
+        string Name,
+        string Vpc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Vpc);
+        this.Vpc = Vpc;
+    }
+
+    private AwsServicediscoveryCreatePrivateDnsNamespaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryCreatePrivateDnsNamespaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryCreatePrivateDnsNamespaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that you want to assign to this namespace. When you create a private DNS namespace, Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the name- space. Constraints: o max: 253 o pattern: ^(?!arn:)[!-~]{1,253}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon VPC that you want to associate the namespace with. Constraints: o max: 64
+    /// </summary>
+    [CliOption("--vpc")]
+    public string? Vpc { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
@@ -35,9 +82,6 @@ public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--vpc")]
-    public string? Vpc { get; set; }
 
     /// <summary>
     /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 charac- ters in length, and tag values can be up to 256 characters in length. Constraints: o min: 0 o max: 200 (structure) A custom key-value pair that's associated with a resource. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -56,5 +100,21 @@ public record AwsServicediscoveryCreatePrivateDnsNamespaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

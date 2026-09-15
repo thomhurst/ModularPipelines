@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "get-protocols-list")]
-public record AwsFmsGetProtocolsListOptions : AwsOptions
+public record AwsFmsGetProtocolsListOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--list-id")]
-    public string? ListId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--default-list")]
+    /// <summary>
+    /// Returns information about the specified Firewall Manager protocols list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ListId">The ID of the Firewall Manager protocols list that you want the de- tails for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    public AwsFmsGetProtocolsListOptions(
+        string ListId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ListId);
+        this.ListId = ListId;
+    }
+
+    private AwsFmsGetProtocolsListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsGetProtocolsListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsGetProtocolsListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Firewall Manager protocols list that you want the de- tails for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// </summary>
+    [CliOption("--list-id")]
+    public string? ListId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
+    /// </summary>
+    [CliFlag("--default-list", NegatedName = "--no-default-list")]
     public bool? DefaultList { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsFmsGetProtocolsListOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

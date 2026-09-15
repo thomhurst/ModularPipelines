@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-route-server-routing-database")]
-public record AwsEc2GetRouteServerRoutingDatabaseOptions : AwsOptions
+public record AwsEc2GetRouteServerRoutingDatabaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the routing database for the specified route server. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions. Amazon VPC R...
+    /// </summary>
+    /// <param name="RouteServerId">The ID of the route server for which to get the routing database.</param>
+    public AwsEc2GetRouteServerRoutingDatabaseOptions(
+        string RouteServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerId);
+        this.RouteServerId = RouteServerId;
+    }
+
+    private AwsEc2GetRouteServerRoutingDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetRouteServerRoutingDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetRouteServerRoutingDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server for which to get the routing database.
+    /// </summary>
     [CliOption("--route-server-id")]
-    public string? RouteServerId { get; set; }
+    public string? RouteServerId { get; private init; }
 
     /// <summary>
     /// The token for the next page of results.
@@ -38,7 +75,10 @@ public record AwsEc2GetRouteServerRoutingDatabaseOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -52,5 +92,21 @@ public record AwsEc2GetRouteServerRoutingDatabaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

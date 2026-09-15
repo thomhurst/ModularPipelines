@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --dbstoragetype.
+/// Allowed values for --db-storage-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsTimestreamInfluxdbCreateDbClusterDbStorageType
 {
     [EnumValue("InfluxIOIncludedT1")]
-    InfluxIoIncludedT1 = 1,
+    InfluxIoIncludedT1,
 
     [EnumValue("InfluxIOIncludedT2")]
-    InfluxIoIncludedT2 = 2,
+    InfluxIoIncludedT2,
 
     [EnumValue("InfluxIOIncludedT3")]
-    InfluxIoIncludedT3 = 3
+    InfluxIoIncludedT3
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "tag-resource")]
-public record AwsApplicationInsightsTagResourceOptions : AwsOptions
+public record AwsApplicationInsightsTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an appli- cation. Tags can help you categorize and manage application in differ- ent ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the application that you want to add one or more tags to. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$</param>
+    /// <param name="Tags">A list of tags that to add to the application. A tag consists of a required tag key (Key ) and an associated tag value (Value ). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. Constraints: o min: 0 o max: 200 (structure) An object that defines the tags associated with an application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage re- sources in different ways, such as by purpose, owner, environ- ment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by Amazon Web Services; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this pa- rameter. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsApplicationInsightsTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsApplicationInsightsTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to. Constraints: o min: 1 o max: 1011 o pattern: ^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// A list of tags that to add to the application. A tag consists of a required tag key (Key ) and an associated tag value (Value ). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters. Constraints: o min: 0 o max: 200 (structure) An object that defines the tags associated with an application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage re- sources in different ways, such as by purpose, owner, environ- ment, or other criteria. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by Amazon Web Services; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this pa- rameter. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

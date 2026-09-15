@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-thing-type")]
-public record AwsIotCreateThingTypeOptions : AwsOptions
+public record AwsIotCreateThingTypeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new thing type. If this call is made multiple times using the same thing type name and configuration, the call will succeed. If this call is made with the same thing type name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateThingType action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ThingTypeName">The name of the thing type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    public AwsIotCreateThingTypeOptions(
+        string ThingTypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingTypeName);
+        this.ThingTypeName = ThingTypeName;
+    }
+
+    private AwsIotCreateThingTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateThingTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateThingTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the thing type. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--thing-type-name")]
-    public string? ThingTypeName { get; set; }
+    public string? ThingTypeName { get; private init; }
 
     /// <summary>
     /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names. thingTypeDescription -&gt; (string) The description of the thing type. Constraints: o max: 2028 o pattern: [\p{Graph}\x20]* searchableAttributes -&gt; (list) A list of searchable thing attribute names. (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ mqtt5Configuration -&gt; (structure) The configuration to add user-defined properties to enrich MQTT 5 messages. propagatingAttributes -&gt; (list) An object that represents the propagating thing attributes and the connection attributes. (structure) An object that represents the connection attribute, thing attribute, and the user property key. userPropertyKey -&gt; (string) The key of the user property key-value pair. Constraints: o max: 128 o pattern: [a-zA-Z0-9:$.]+ thingAttribute -&gt; (string) The user-defined thing attribute that is propagating for MQTT 5 message enrichment. Constraints: o max: 128 o pattern: [a-zA-Z0-9_.,@/:#-]+ connectionAttribute -&gt; (string) The attribute associated with the connection between a device and Amazon Web Services IoT Core. Constraints: o max: 128 o pattern: [a-zA-Z0-9:.]+ JSON Syntax: { "thingTypeDescription": "string", "searchableAttributes": ["string", ...], "mqtt5Configuration": { "propagatingAttributes": [ { "userPropertyKey": "string", "thingAttribute": "string", "connectionAttribute": "string" } ... ] } }
@@ -41,5 +78,21 @@ public record AwsIotCreateThingTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

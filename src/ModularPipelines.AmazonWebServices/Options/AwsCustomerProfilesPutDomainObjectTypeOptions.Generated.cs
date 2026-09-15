@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "put-domain-object-type")]
-public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions
+public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create/Update a DomainObjectType in a Customer Profiles domain. To cre- ate a new DomainObjectType, Data Store needs to be enabled on the Do- main. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="Fields">A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: o min: 1 o max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: o STRING o NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}</param>
+    public AwsCustomerProfilesPutDomainObjectTypeOptions(
+        string DomainName,
+        string ObjectTypeName,
+        IReadOnlyList<KeyValue> Fields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectTypeName);
+        this.ObjectTypeName = ObjectTypeName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsCustomerProfilesPutDomainObjectTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesPutDomainObjectTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesPutDomainObjectTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// </summary>
     [CliOption("--object-type-name")]
-    public string? ObjectTypeName { get; set; }
+    public string? ObjectTypeName { get; private init; }
+
+    /// <summary>
+    /// A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: o min: 1 o max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: o STRING o NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}
+    /// </summary>
+    [CliOption("--fields", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
     /// <summary>
     /// The description of the domain object type. Constraints: o min: 1 o max: 10000
@@ -40,9 +105,6 @@ public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CliOption("--fields", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Fields { get; set; }
-
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -54,5 +116,21 @@ public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

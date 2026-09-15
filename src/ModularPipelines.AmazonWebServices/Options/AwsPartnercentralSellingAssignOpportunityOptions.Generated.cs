@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "assign-opportunity")]
-public record AwsPartnercentralSellingAssignOpportunityOptions : AwsOptions
+public record AwsPartnercentralSellingAssignOpportunityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportu- nity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each op- portunity is handled by the right person. By default, the opportunity owner is the one...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Requires the Opportunity 's unique identifier when you want to as- sign it to another user. Provide the correct identifier so the in- tended opportunity is reassigned. Constraints: o pattern: O[0-9]{1,19}</param>
+    /// <param name="Assignee">Specifies the user or team member responsible for managing the as- signed opportunity. This field identifies the Assignee based on the partner's internal team structure. Ensure that the email address is associated with a registered user in your Partner Central account. Email -&gt; (string) [required] Provides the email address of the assignee. This email is used for communications and notifications related to the opportunity. Constraints: o pattern: (?=.{0,80}$)[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) [required] Specifies the first name of the assignee managing the opportu- nity. The system automatically retrieves this value from the user profile by referencing the associated email address. Constraints: o pattern: (?s).{0,80} LastName -&gt; (string) [required] Specifies the last name of the assignee managing the opportu- nity. The system automatically retrieves this value from the user profile by referencing the associated email address. Constraints: o pattern: (?s).{0,80} Phone -&gt; (string) Specifies the contact phone number of the assignee responsible for the opportunity or engagement. This field enables direct communication for time-sensitive matters and facilitates coordi- nation between AWS and partner teams. Constraints: o pattern: \+[1-9]\d{1,14} BusinessTitle -&gt; (string) [required] Specifies the business title of the assignee managing the oppor- tunity. This helps clarify the individual's role and responsi- bilities within the organization. Use the value PartnerAccount- Manager to update details of the opportunity owner. Constraints: o pattern: (?s).{0,80} Shorthand Syntax: Email=string,FirstName=string,LastName=string,Phone=string,BusinessTitle=string JSON Syntax: { "Email": "string", "FirstName": "string", "LastName": "string", "Phone": "string", "BusinessTitle": "string" }</param>
+    public AwsPartnercentralSellingAssignOpportunityOptions(
+        string Catalog,
+        string Identifier,
+        string Assignee
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(Assignee);
+        this.Assignee = Assignee;
+    }
+
+    private AwsPartnercentralSellingAssignOpportunityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingAssignOpportunityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingAssignOpportunityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// Requires the Opportunity 's unique identifier when you want to as- sign it to another user. Provide the correct identifier so the in- tended opportunity is reassigned. Constraints: o pattern: O[0-9]{1,19}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// Specifies the user or team member responsible for managing the as- signed opportunity. This field identifies the Assignee based on the partner's internal team structure. Ensure that the email address is associated with a registered user in your Partner Central account. Email -&gt; (string) [required] Provides the email address of the assignee. This email is used for communications and notifications related to the opportunity. Constraints: o pattern: (?=.{0,80}$)[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) [required] Specifies the first name of the assignee managing the opportu- nity. The system automatically retrieves this value from the user profile by referencing the associated email address. Constraints: o pattern: (?s).{0,80} LastName -&gt; (string) [required] Specifies the last name of the assignee managing the opportu- nity. The system automatically retrieves this value from the user profile by referencing the associated email address. Constraints: o pattern: (?s).{0,80} Phone -&gt; (string) Specifies the contact phone number of the assignee responsible for the opportunity or engagement. This field enables direct communication for time-sensitive matters and facilitates coordi- nation between AWS and partner teams. Constraints: o pattern: \+[1-9]\d{1,14} BusinessTitle -&gt; (string) [required] Specifies the business title of the assignee managing the oppor- tunity. This helps clarify the individual's role and responsi- bilities within the organization. Use the value PartnerAccount- Manager to update details of the opportunity owner. Constraints: o pattern: (?s).{0,80} Shorthand Syntax: Email=string,FirstName=string,LastName=string,Phone=string,BusinessTitle=string JSON Syntax: { "Email": "string", "FirstName": "string", "LastName": "string", "Phone": "string", "BusinessTitle": "string" }
+    /// </summary>
     [CliOption("--assignee")]
-    public string? Assignee { get; set; }
+    public string? Assignee { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

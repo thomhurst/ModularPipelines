@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "list-subscriptions-by-topic")]
-public record AwsSnsListSubscriptionsByTopicOptions : AwsOptions
+public record AwsSnsListSubscriptionsByTopicOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the subscriptions to a specific topic. Each call re- turns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parame- ter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS). See also: AWS API Documentation list-subscriptions-by-topic is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
+    /// </summary>
+    /// <param name="TopicArn">The ARN of the topic for which you wish to find subscriptions.</param>
+    public AwsSnsListSubscriptionsByTopicOptions(
+        string TopicArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TopicArn);
+        this.TopicArn = TopicArn;
+    }
+
+    private AwsSnsListSubscriptionsByTopicOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsListSubscriptionsByTopicOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsListSubscriptionsByTopicOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the topic for which you wish to find subscriptions.
+    /// </summary>
     [CliOption("--topic-arn")]
-    public string? TopicArn { get; set; }
+    public string? TopicArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,21 @@ public record AwsSnsListSubscriptionsByTopicOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

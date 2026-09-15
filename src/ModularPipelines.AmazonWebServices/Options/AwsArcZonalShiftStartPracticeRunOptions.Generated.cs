@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-zonal-shift", "start-practice-run")]
-public record AwsArcZonalShiftStartPracticeRunOptions : AwsOptions
+public record AwsArcZonalShiftStartPracticeRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start an on-demand practice run zonal shift in Amazon Application Re- covery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal au- toshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024</param>
+    /// <param name="AwayFrom">The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: o min: 0 o max: 20</param>
+    /// <param name="Comment">The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Re- covery Controller Developer Guide. Constraints: o min: 0 o max: 128</param>
+    public AwsArcZonalShiftStartPracticeRunOptions(
+        string ResourceIdentifier,
+        string AwayFrom,
+        string Comment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AwayFrom);
+        this.AwayFrom = AwayFrom;
+        global::System.ArgumentNullException.ThrowIfNull(Comment);
+        this.Comment = Comment;
+    }
+
+    private AwsArcZonalShiftStartPracticeRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcZonalShiftStartPracticeRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcZonalShiftStartPracticeRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: o min: 0 o max: 20
+    /// </summary>
     [CliOption("--away-from")]
-    public string? AwayFrom { get; set; }
+    public string? AwayFrom { get; private init; }
 
+    /// <summary>
+    /// The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Re- covery Controller Developer Guide. Constraints: o min: 0 o max: 128
+    /// </summary>
     [CliOption("--comment")]
-    public string? Comment { get; set; }
+    public string? Comment { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

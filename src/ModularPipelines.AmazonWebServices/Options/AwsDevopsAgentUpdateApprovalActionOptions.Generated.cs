@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "update-approval-action")]
-public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions
+public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an approval request with the terminal decision (APPROVED or RE- JECTED). A single operation handles both verbs via the action enum. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentSpaceId">The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ApprovalId">Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
+    /// <param name="Action">The action to take on the approval request APPROVED or REJECTED. Possible values: o APPROVED o REJECTED</param>
+    public AwsDevopsAgentUpdateApprovalActionOptions(
+        string AgentSpaceId,
+        string ApprovalId,
+        AwsDevopsAgentUpdateApprovalActionAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalId);
+        this.ApprovalId = ApprovalId;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsDevopsAgentUpdateApprovalActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentUpdateApprovalActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentUpdateApprovalActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The agent space identifier multi-tenant workspace scope. Bound from the request URI. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    public string? AgentSpaceId { get; private init; }
 
+    /// <summary>
+    /// Identifier of the approval request being resolved. A UUID. Bound from the request URI. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--approval-id")]
-    public string? ApprovalId { get; set; }
+    public string? ApprovalId { get; private init; }
 
+    /// <summary>
+    /// The action to take on the approval request APPROVED or REJECTED. Possible values: o APPROVED o REJECTED
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsDevopsAgentUpdateApprovalActionAction? Action { get; private init; }
 
     /// <summary>
     /// The finalized pattern (tool + argumentPins) that scopes the ap- proval. Required when action is APPROVED; must be absent when action is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is en- forced by service-side validation. tool -&gt; (string) [required] Identifier of the tool the pattern applies to (e.g. use_aws for AWS actions, or a third-party tool name). Constraints: o min: 1 o max: 256 argumentPins -&gt; (map) [required] Argument constraints that narrow which tool invocations the pat- tern matches. For AWS tools, the map must include operation (the IAM action, e.g. ec2:AuthorizeSecurityGroupIngress) and re- source_arn (the resource ARN or ARN glob); additional narrowing arguments go in further pin keys. The same {tool, argumentPins} shape is used uniformly for AWS and third-party tools, with tool-specific keys for third-party tools. Requests whose argu- ment pins are collectively too large are rejected with a Valida- tionException. Constraints: o min: 0 o max: 20 key -&gt; (string) Argument pin key in an ApprovalPattern (e.g. operation, re- source_arn). Constraints: o min: 1 o max: 128 value -&gt; (string) Argument pin value in an ApprovalPattern. Constraints: o min: 1 o max: 131072 Shorthand Syntax: tool=string,argumentPins={KeyName1=string,KeyName2=string} JSON Syntax: { "tool": "string", "argumentPins": {"string": "string" ...} }
@@ -48,7 +100,10 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions
     [CliOption("--ttl-seconds")]
     public int? TtlSeconds { get; set; }
 
-    [CliFlag("--single-use")]
+    /// <summary>
+    /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when action is APPROVED; must be absent when action is REJECTED. When true, ttlSec- onds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse win- dow. Cross-field invariants are enforced by service-side validation.
+    /// </summary>
+    [CliFlag("--single-use", NegatedName = "--no-single-use")]
     public bool? SingleUse { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +111,21 @@ public record AwsDevopsAgentUpdateApprovalActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

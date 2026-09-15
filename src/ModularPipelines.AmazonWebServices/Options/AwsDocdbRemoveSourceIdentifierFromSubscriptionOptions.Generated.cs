@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "remove-source-identifier-from-subscription")]
-public record AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions : AwsOptions
+public record AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--subscription-name")]
-    public string? SubscriptionName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a source identifier from an existing Amazon DocumentDB event notification subscription. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriptionName">The name of the Amazon DocumentDB event notification subscription that you want to remove a source identifier from.</param>
+    /// <param name="SourceIdentifier">The source identifier to be removed from the subscription, such as the instance identifier for an instance, or the name of a security group.</param>
+    public AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions(
+        string SubscriptionName,
+        string SourceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionName);
+        this.SubscriptionName = SubscriptionName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceIdentifier);
+        this.SourceIdentifier = SourceIdentifier;
+    }
+
+    private AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbRemoveSourceIdentifierFromSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon DocumentDB event notification subscription that you want to remove a source identifier from.
+    /// </summary>
+    [CliOption("--subscription-name")]
+    public string? SubscriptionName { get; private init; }
+
+    /// <summary>
+    /// The source identifier to be removed from the subscription, such as the instance identifier for an instance, or the name of a security group.
+    /// </summary>
     [CliOption("--source-identifier")]
-    public string? SourceIdentifier { get; set; }
+    public string? SourceIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

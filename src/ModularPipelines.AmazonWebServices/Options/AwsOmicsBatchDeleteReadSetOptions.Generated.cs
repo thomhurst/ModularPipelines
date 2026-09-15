@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "batch-delete-read-set")]
-public record AwsOmicsBatchDeleteReadSetOptions : AwsOptions
+public record AwsOmicsBatchDeleteReadSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ids", GroupValues = true)]
-    public IEnumerable<string>? Ids { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes one or more read sets. If the operation is successful, it re- turns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Ids">The read sets' IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="SequenceStoreId">The read sets' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    public AwsOmicsBatchDeleteReadSetOptions(
+        IEnumerable<string> Ids,
+        string SequenceStoreId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Ids);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Ids));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Ids));
+            }
+
+            Ids = materialized;
+        }
+        this.Ids = Ids;
+        global::System.ArgumentNullException.ThrowIfNull(SequenceStoreId);
+        this.SequenceStoreId = SequenceStoreId;
+    }
+
+    private AwsOmicsBatchDeleteReadSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsBatchDeleteReadSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsBatchDeleteReadSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The read sets' IDs. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; private init; }
+
+    /// <summary>
+    /// The read sets' sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--sequence-store-id")]
-    public string? SequenceStoreId { get; set; }
+    public string? SequenceStoreId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

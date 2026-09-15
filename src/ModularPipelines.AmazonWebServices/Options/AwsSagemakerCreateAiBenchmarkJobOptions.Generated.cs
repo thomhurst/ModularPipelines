@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-ai-benchmark-job")]
-public record AwsSagemakerCreateAiBenchmarkJobOptions : AwsOptions
+public record AwsSagemakerCreateAiBenchmarkJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a benchmark job that runs performance benchmarks against infer- ence infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AiBenchmarkJobName">The name of the AI benchmark job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="BenchmarkTarget">The target endpoint to benchmark. Specify a SageMaker endpoint by providing its name or Amazon Resource Name (ARN). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Endpoint. Endpoint -&gt; (structure) The SageMaker endpoint to benchmark. Identifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the SageMaker end- point to benchmark. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) TargetContainerHostname -&gt; (string) The hostname of the specific container to target within a multi-container endpoint. InferenceComponents -&gt; (list) The list of inference components to benchmark on the end- point. (structure) An inference component to benchmark. Identifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the infer- ence component. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) JSON Syntax: { "Endpoint": { "Identifier": "string", "TargetContainerHostname": "string", "InferenceComponents": [ { "Identifier": "string" } ... ] } }</param>
+    /// <param name="OutputConfig">The output configuration for the benchmark job, including the Amazon S3 location where benchmark results are stored. S3OutputLocation -&gt; (string) [required] The Amazon S3 URI where benchmark results are stored. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) MlflowConfig -&gt; (structure) The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled. MlflowResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-(app|tracking-server)/.* MlflowExperimentName -&gt; (string) The MLflow experiment name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ MlflowRunName -&gt; (string) The MLflow run name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ Shorthand Syntax: S3OutputLocation=string,MlflowConfig={MlflowResourceArn=string,MlflowExperimentName=string,MlflowRunName=string} JSON Syntax: { "S3OutputLocation": "string", "MlflowConfig": { "MlflowResourceArn": "string", "MlflowExperimentName": "string", "MlflowRunName": "string" } }</param>
+    /// <param name="AiWorkloadConfigIdentifier">The name or Amazon Resource Name (ARN) of the AI workload configura- tion to use for this benchmark job. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-)</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateAiBenchmarkJobOptions(
+        string AiBenchmarkJobName,
+        string BenchmarkTarget,
+        string OutputConfig,
+        string AiWorkloadConfigIdentifier,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AiBenchmarkJobName);
+        this.AiBenchmarkJobName = AiBenchmarkJobName;
+        global::System.ArgumentNullException.ThrowIfNull(BenchmarkTarget);
+        this.BenchmarkTarget = BenchmarkTarget;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(AiWorkloadConfigIdentifier);
+        this.AiWorkloadConfigIdentifier = AiWorkloadConfigIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateAiBenchmarkJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateAiBenchmarkJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateAiBenchmarkJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the AI benchmark job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--ai-benchmark-job-name")]
-    public string? AiBenchmarkJobName { get; set; }
+    public string? AiBenchmarkJobName { get; private init; }
 
+    /// <summary>
+    /// The target endpoint to benchmark. Specify a SageMaker endpoint by providing its name or Amazon Resource Name (ARN). NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Endpoint. Endpoint -&gt; (structure) The SageMaker endpoint to benchmark. Identifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the SageMaker end- point to benchmark. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) TargetContainerHostname -&gt; (string) The hostname of the specific container to target within a multi-container endpoint. InferenceComponents -&gt; (list) The list of inference components to benchmark on the end- point. (structure) An inference component to benchmark. Identifier -&gt; (string) [required] The name or Amazon Resource Name (ARN) of the infer- ence component. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-) JSON Syntax: { "Endpoint": { "Identifier": "string", "TargetContainerHostname": "string", "InferenceComponents": [ { "Identifier": "string" } ... ] } }
+    /// </summary>
     [CliOption("--benchmark-target")]
-    public string? BenchmarkTarget { get; set; }
+    public string? BenchmarkTarget { get; private init; }
 
+    /// <summary>
+    /// The output configuration for the benchmark job, including the Amazon S3 location where benchmark results are stored. S3OutputLocation -&gt; (string) [required] The Amazon S3 URI where benchmark results are stored. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) MlflowConfig -&gt; (structure) The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled. MlflowResourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:mlflow-(app|tracking-server)/.* MlflowExperimentName -&gt; (string) The MLflow experiment name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ MlflowRunName -&gt; (string) The MLflow run name used for tracking. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\-_./]+ Shorthand Syntax: S3OutputLocation=string,MlflowConfig={MlflowResourceArn=string,MlflowExperimentName=string,MlflowRunName=string} JSON Syntax: { "S3OutputLocation": "string", "MlflowConfig": { "MlflowResourceArn": "string", "MlflowExperimentName": "string", "MlflowRunName": "string" } }
+    /// </summary>
     [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
+    public string? OutputConfig { get; private init; }
 
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the AI workload configura- tion to use for this benchmark job. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*/)?([a-zA-Z0-9]([a-zA-Z0-9\-]){0,62})(?&lt;!-)
+    /// </summary>
     [CliOption("--ai-workload-config-identifier")]
-    public string? AiWorkloadConfigIdentifier { get; set; }
+    public string? AiWorkloadConfigIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The network configuration for the benchmark job, including VPC set- tings. VpcConfig -&gt; (structure) The VPC configuration, including security group IDs and subnet IDs. SecurityGroupIds -&gt; (list) [required] The VPC security group IDs, in the form sg-xxxxxxxx . Specify the security groups for the VPC that is specified in the Sub- nets field. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ Subnets -&gt; (list) [required] The ID of the subnets in the VPC to which you want to connect your training job or model. For information about the avail- ability of specific instance types, see Supported Instance Types and Availability Zones . Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: VpcConfig={SecurityGroupIds=[string,string],Subnets=[string,string]} JSON Syntax: { "VpcConfig": { "SecurityGroupIds": ["string", ...], "Subnets": ["string", ...] } }
@@ -53,5 +118,21 @@ public record AwsSagemakerCreateAiBenchmarkJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

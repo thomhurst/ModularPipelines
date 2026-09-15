@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "list-network-migration-code-generations")]
-public record AwsMgnListNetworkMigrationCodeGenerationsOptions : AwsOptions
+public record AwsMgnListNetworkMigrationCodeGenerationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-migration-execution-id")]
-    public string? NetworkMigrationExecutionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates. See also: AWS API Documentation list-network-migration-code-generations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the resul...
+    /// </summary>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    public AwsMgnListNetworkMigrationCodeGenerationsOptions(
+        string NetworkMigrationExecutionId,
+        string NetworkMigrationDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationExecutionId);
+        this.NetworkMigrationExecutionId = NetworkMigrationExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+    }
+
+    private AwsMgnListNetworkMigrationCodeGenerationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnListNetworkMigrationCodeGenerationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnListNetworkMigrationCodeGenerationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--network-migration-execution-id")]
+    public string? NetworkMigrationExecutionId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
     /// Filters to apply when listing code generation jobs. jobIDs -&gt; (list) A list of job IDs to filter by. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Shorthand Syntax: jobIDs=string,string JSON Syntax: { "jobIDs": ["string", ...] }
@@ -58,5 +102,21 @@ public record AwsMgnListNetworkMigrationCodeGenerationsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

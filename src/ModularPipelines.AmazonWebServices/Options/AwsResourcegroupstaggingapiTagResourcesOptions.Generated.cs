@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcegroupstaggingapi", "tag-resources")]
-public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions
+public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn-list", GroupValues = true)]
-    public IEnumerable<string>? ResourceArnList { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Applies one or more tags to the specified resources. Note the follow- ing: o Not all resources can have tags. For a list of services with re- sources that support tagging using this operation, see Services that support the Resource Groups Tagging API . If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the doc- umentation for that service. o Each resource can have up to 50 tags. For other l...
+    /// </summary>
+    /// <param name="ResourceArnList">Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    /// <param name="Tags">Specifies a list of tags that you want to add to the specified re- sources. A tag consists of a key and a value that you define. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsResourcegroupstaggingapiTagResourcesOptions(
+        IEnumerable<string> ResourceArnList,
+        IReadOnlyList<KeyValue> Tags
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceArnList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceArnList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceArnList));
+            }
+
+            ResourceArnList = materialized;
+        }
+        this.ResourceArnList = ResourceArnList;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsResourcegroupstaggingapiTagResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourcegroupstaggingapiTagResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourcegroupstaggingapiTagResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--resource-arn-list", GroupValues = true)]
+    public IEnumerable<string>? ResourceArnList { get; private init; }
+
+    /// <summary>
+    /// Specifies a list of tags that you want to add to the specified re- sources. A tag consists of a key and a value that you define. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

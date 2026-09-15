@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "get-certificate-signing-request")]
-public record AwsPaymentCryptographyGetCertificateSigningRequestOptions : AwsOptions
+public record AwsPaymentCryptographyGetCertificateSigningRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a certificate signing request (CSR) from a key pair. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyIdentifier">Asymmetric key used for generating the certificate signing request Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="SigningAlgorithm">The cryptographic algorithm used to sign your CSR. Possible values: o SHA224 o SHA256 o SHA384 o SHA512</param>
+    /// <param name="CertificateSubject">The metadata used to create the CSR. CommonName -&gt; (string) [required] The name you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ OrganizationUnit -&gt; (string) The organization unit you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ Organization -&gt; (string) The organization you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ City -&gt; (string) The city you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [^\[;\]&lt;&gt;]+ Country -&gt; (string) The country you provide to create the certificate signing re- quest. Constraints: o min: 2 o max: 2 o pattern: [A-Za-z]+ StateOrProvince -&gt; (string) The state or province you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [^\[;\]&lt;&gt;]+ EmailAddress -&gt; (string) The email address you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9.!#$%&amp;*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* Shorthand Syntax: CommonName=string,OrganizationUnit=string,Organization=string,City=string,Country=string,StateOrProvince=string,EmailAddress=string JSON Syntax: { "CommonName": "string", "OrganizationUnit": "string", "Organization": "string", "City": "string", "Country": "string", "StateOrProvince": "string", "EmailAddress": "string" }</param>
+    public AwsPaymentCryptographyGetCertificateSigningRequestOptions(
+        string KeyIdentifier,
+        AwsPaymentCryptographyGetCertificateSigningRequestSigningAlgorithm SigningAlgorithm,
+        string CertificateSubject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
+        this.KeyIdentifier = KeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SigningAlgorithm);
+        this.SigningAlgorithm = SigningAlgorithm;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateSubject);
+        this.CertificateSubject = CertificateSubject;
+    }
+
+    private AwsPaymentCryptographyGetCertificateSigningRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyGetCertificateSigningRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyGetCertificateSigningRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Asymmetric key used for generating the certificate signing request Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--key-identifier")]
-    public string? KeyIdentifier { get; set; }
+    public string? KeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The cryptographic algorithm used to sign your CSR. Possible values: o SHA224 o SHA256 o SHA384 o SHA512
+    /// </summary>
     [CliOption("--signing-algorithm")]
-    public string? SigningAlgorithm { get; set; }
+    public AwsPaymentCryptographyGetCertificateSigningRequestSigningAlgorithm? SigningAlgorithm { get; private init; }
 
+    /// <summary>
+    /// The metadata used to create the CSR. CommonName -&gt; (string) [required] The name you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ OrganizationUnit -&gt; (string) The organization unit you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ Organization -&gt; (string) The organization you provide to create the certificate signing request. Constraints: o min: 1 o max: 64 o pattern: [^\[;\]&lt;&gt;]+ City -&gt; (string) The city you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [^\[;\]&lt;&gt;]+ Country -&gt; (string) The country you provide to create the certificate signing re- quest. Constraints: o min: 2 o max: 2 o pattern: [A-Za-z]+ StateOrProvince -&gt; (string) The state or province you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [^\[;\]&lt;&gt;]+ EmailAddress -&gt; (string) The email address you provide to create the certificate signing request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9.!#$%&amp;*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* Shorthand Syntax: CommonName=string,OrganizationUnit=string,Organization=string,City=string,Country=string,StateOrProvince=string,EmailAddress=string JSON Syntax: { "CommonName": "string", "OrganizationUnit": "string", "Organization": "string", "City": "string", "Country": "string", "StateOrProvince": "string", "EmailAddress": "string" }
+    /// </summary>
     [CliOption("--certificate-subject")]
-    public string? CertificateSubject { get; set; }
+    public string? CertificateSubject { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "update-pull-request-approval-state")]
-public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions
+public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request.</param>
+    /// <param name="RevisionId">The system-generated ID of the revision.</param>
+    /// <param name="ApprovalState">The approval state to associate with the user on the pull request. Possible values: o APPROVE o REVOKE</param>
+    public AwsCodecommitUpdatePullRequestApprovalStateOptions(
+        string PullRequestId,
+        string RevisionId,
+        AwsCodecommitUpdatePullRequestApprovalStateApprovalState ApprovalState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(ApprovalState);
+        this.ApprovalState = ApprovalState;
+    }
+
+    private AwsCodecommitUpdatePullRequestApprovalStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitUpdatePullRequestApprovalStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitUpdatePullRequestApprovalStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request.
+    /// </summary>
     [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    public string? PullRequestId { get; private init; }
 
+    /// <summary>
+    /// The system-generated ID of the revision.
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
+    /// <summary>
+    /// The approval state to associate with the user on the pull request. Possible values: o APPROVE o REVOKE
+    /// </summary>
     [CliOption("--approval-state")]
-    public string? ApprovalState { get; set; }
+    public AwsCodecommitUpdatePullRequestApprovalStateApprovalState? ApprovalState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

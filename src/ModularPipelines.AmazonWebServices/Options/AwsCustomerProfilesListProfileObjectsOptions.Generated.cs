@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "list-profile-objects")]
-public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions
+public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="ProfileId">The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}</param>
+    public AwsCustomerProfilesListProfileObjectsOptions(
+        string DomainName,
+        string ObjectTypeName,
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectTypeName);
+        this.ObjectTypeName = ObjectTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    private AwsCustomerProfilesListProfileObjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesListProfileObjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesListProfileObjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The name of the profile object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// </summary>
+    [CliOption("--object-type-name")]
+    public string? ObjectTypeName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of a customer profile. Constraints: o pattern: [a-f0-9]{32}
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
+
     /// <summary>
     /// The pagination token from the previous call to ListProfileObjects. Constraints: o min: 1 o max: 1024
     /// </summary>
@@ -35,15 +95,6 @@ public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
-
-    [CliOption("--object-type-name")]
-    public string? ObjectTypeName { get; set; }
-
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
-
     /// <summary>
     /// Applies a filter to the response to include profile objects with the specified index values. KeyName -&gt; (string) [required] A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId , _assetName , and _serialNumber . The predefined keys you can use to search for _case include: _caseId . The predefined keys you can use to search for _order include: _orderId . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName=string,Values=string,string JSON Syntax: { "KeyName": "string", "Values": ["string", ...] }
     /// </summary>
@@ -55,5 +106,21 @@ public record AwsCustomerProfilesListProfileObjectsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

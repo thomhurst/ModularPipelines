@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pi", "list-performance-analysis-reports")]
-public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions
+public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-type")]
-    public string? ServiceType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
+    public AwsPiListPerformanceAnalysisReportsOptions(
+        AwsPiListPerformanceAnalysisReportsServiceType ServiceType,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceType);
+        this.ServiceType = ServiceType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPiListPerformanceAnalysisReportsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPiListPerformanceAnalysisReportsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPiListPerformanceAnalysisReportsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// </summary>
+    [CliOption("--service-type")]
+    public AwsPiListPerformanceAnalysisReportsServiceType? ServiceType { get; private init; }
+
+    /// <summary>
+    /// An immutable identifier for a data source that is unique for an Ama- zon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as Resour- ceID . When you call DescribeDBInstances , the identifier is re- turned as DbiResourceId . To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults . Constraints: o min: 1 o max: 8192 o pattern: ^[a-zA-Z0-9_=-]+$
@@ -41,7 +86,10 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--list-tags")]
+    /// <summary>
+    /// Specifies whether or not to include the list of tags in the re- sponse.
+    /// </summary>
+    [CliFlag("--list-tags", NegatedName = "--no-list-tags")]
     public bool? ListTags { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -49,5 +97,21 @@ public record AwsPiListPerformanceAnalysisReportsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

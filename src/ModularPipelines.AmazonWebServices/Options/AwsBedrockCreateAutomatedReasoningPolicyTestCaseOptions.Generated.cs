@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-automated-reasoning-policy-test-case")]
-public record AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions : AwsOptions
+public record AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to pro- duction. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="GuardContent">The output content that's validated by the Automated Reasoning pol- icy. This represents the foundation model response that will be checked for accuracy. Constraints: o min: 0 o max: 2048</param>
+    /// <param name="ExpectedAggregatedFindingsResult">The expected result of the Automated Reasoning check. Valid values include: , TOO_COMPLEX, and NO_TRANSLATIONS. o VALID - The claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false. In other words, there are no alternative answers that are true that contradict the claims. o INVALID - The claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exists different claims that are consistent with the premises and Auto- mated Reasoning policy. o SATISFIABLE - The claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true. o IMPOSSIBLE - Automated Reasoning cant make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself. o TRANSLATION_AMBIGUOUS - Detected an ambiguity in the translation meant it would be unsound to continue with validity checking. Ad- ditional context or follow-up questions might be needed to get translation to succeed. o TOO_COMPLEX - The input contains too much information for Auto- mated Reasoning to process within its latency limits. o NO_TRANSLATIONS - Identifies that some or all of the input prompt wasn't translated into logic. This can happen if the input isn't relevant to the Automated Reasoning policy, or if the policy doesn't have variables to model relevant input. If Automated Rea- soning can't translate anything, you get a single NO_TRANSLATIONS finding. You might also see a NO_TRANSLATIONS (along with other findings) if some part of the validation isn't translated. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION</param>
+    public AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions(
+        string PolicyArn,
+        string GuardContent,
+        AwsBedrockCreateAutomatedReasoningPolicyTestCaseExpectedAggregatedFindingsResult ExpectedAggregatedFindingsResult
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(GuardContent);
+        this.GuardContent = GuardContent;
+        global::System.ArgumentNullException.ThrowIfNull(ExpectedAggregatedFindingsResult);
+        this.ExpectedAggregatedFindingsResult = ExpectedAggregatedFindingsResult;
+    }
+
+    private AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
+    /// <summary>
+    /// The output content that's validated by the Automated Reasoning pol- icy. This represents the foundation model response that will be checked for accuracy. Constraints: o min: 0 o max: 2048
+    /// </summary>
     [CliOption("--guard-content")]
-    public string? GuardContent { get; set; }
+    public string? GuardContent { get; private init; }
+
+    /// <summary>
+    /// The expected result of the Automated Reasoning check. Valid values include: , TOO_COMPLEX, and NO_TRANSLATIONS. o VALID - The claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false. In other words, there are no alternative answers that are true that contradict the claims. o INVALID - The claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exists different claims that are consistent with the premises and Auto- mated Reasoning policy. o SATISFIABLE - The claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true. o IMPOSSIBLE - Automated Reasoning cant make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself. o TRANSLATION_AMBIGUOUS - Detected an ambiguity in the translation meant it would be unsound to continue with validity checking. Ad- ditional context or follow-up questions might be needed to get translation to succeed. o TOO_COMPLEX - The input contains too much information for Auto- mated Reasoning to process within its latency limits. o NO_TRANSLATIONS - Identifies that some or all of the input prompt wasn't translated into logic. This can happen if the input isn't relevant to the Automated Reasoning policy, or if the policy doesn't have variables to model relevant input. If Automated Rea- soning can't translate anything, you get a single NO_TRANSLATIONS finding. You might also see a NO_TRANSLATIONS (along with other findings) if some part of the validation isn't translated. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION
+    /// </summary>
+    [CliOption("--expected-aggregated-findings-result")]
+    public AwsBedrockCreateAutomatedReasoningPolicyTestCaseExpectedAggregatedFindingsResult? ExpectedAggregatedFindingsResult { get; private init; }
 
     /// <summary>
     /// The input query or prompt that generated the content. This provides context for the validation. Constraints: o min: 0 o max: 1024
     /// </summary>
     [CliOption("--query-content")]
     public string? QueryContent { get; set; }
-
-    [CliOption("--expected-aggregated-findings-result")]
-    public string? ExpectedAggregatedFindingsResult { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
@@ -55,5 +107,21 @@ public record AwsBedrockCreateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

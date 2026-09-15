@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-outbound-voice-contact")]
-public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions
+public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTime- outInSeconds parameter. If not specified, the ...
+    /// </summary>
+    /// <param name="DestinationPhoneNumber">The phone number of the customer, in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$</param>
+    /// <param name="ContactFlowId">The identifier of the flow for the outbound call. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow infor- mation . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectStartOutboundVoiceContactOptions(
+        string DestinationPhoneNumber,
+        string ContactFlowId,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPhoneNumber);
+        this.DestinationPhoneNumber = DestinationPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(ContactFlowId);
+        this.ContactFlowId = ContactFlowId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectStartOutboundVoiceContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartOutboundVoiceContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartOutboundVoiceContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number of the customer, in E.164 format. Constraints: o pattern: \\+[1-9]\\d{1,14}$
+    /// </summary>
+    [CliOption("--destination-phone-number")]
+    public string? DestinationPhoneNumber { get; private init; }
+
+    /// <summary>
+    /// The identifier of the flow for the outbound call. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Contact Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow infor- mation . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// </summary>
+    [CliOption("--contact-flow-id")]
+    public string? ContactFlowId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
     /// <summary>
     /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 1024
     /// </summary>
@@ -47,15 +107,6 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
-
-    [CliOption("--destination-phone-number")]
-    public string? DestinationPhoneNumber { get; set; }
-
-    [CliOption("--contact-flow-id")]
-    public string? ContactFlowId { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . The token is valid for 7 days after creation. If a contact is already started, the con- tact ID is returned. Constraints: o max: 500
@@ -117,5 +168,21 @@ public record AwsConnectStartOutboundVoiceContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

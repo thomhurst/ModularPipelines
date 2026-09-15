@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snowball", "update-job-shipment-state")]
-public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions
+public record AwsSnowballUpdateJobShipmentStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the state when a shipment state changes to a different state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ShipmentState">The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Ser- vices. Possible values: o RECEIVED o RETURNED</param>
+    public AwsSnowballUpdateJobShipmentStateOptions(
+        string JobId,
+        AwsSnowballUpdateJobShipmentStateShipmentState ShipmentState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(ShipmentState);
+        this.ShipmentState = ShipmentState;
+    }
+
+    private AwsSnowballUpdateJobShipmentStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowballUpdateJobShipmentStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowballUpdateJobShipmentStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000 . Constraints: o min: 39 o max: 39 o pattern: (M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// The state of a device when it is being shipped. Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Ser- vices. Possible values: o RECEIVED o RETURNED
+    /// </summary>
     [CliOption("--shipment-state")]
-    public string? ShipmentState { get; set; }
+    public AwsSnowballUpdateJobShipmentStateShipmentState? ShipmentState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

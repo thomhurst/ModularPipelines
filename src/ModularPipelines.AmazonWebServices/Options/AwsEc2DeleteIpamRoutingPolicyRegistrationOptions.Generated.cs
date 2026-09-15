@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,18 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-ipam-routing-policy-registration")]
-public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions
+public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a routing policy registration for a specified CIDR prefix. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association.</param>
+    /// <param name="Cidr">The IP address prefix in CIDR notation identifying the routing pol- icy registration to delete.</param>
+    public AwsEc2DeleteIpamRoutingPolicyRegistrationOptions(
+        string IpamInternetRegistryAssociationId,
+        string Cidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamInternetRegistryAssociationId);
+        this.IpamInternetRegistryAssociationId = IpamInternetRegistryAssociationId;
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+    }
+
+    private AwsEc2DeleteIpamRoutingPolicyRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteIpamRoutingPolicyRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteIpamRoutingPolicyRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM internet registry association.
+    /// </summary>
+    [CliOption("--ipam-internet-registry-association-id")]
+    public string? IpamInternetRegistryAssociationId { get; private init; }
+
+    /// <summary>
+    /// The IP address prefix in CIDR notation identifying the routing pol- icy registration to delete.
+    /// </summary>
+    [CliOption("--cidr")]
+    public string? Cidr { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--ipam-internet-registry-association-id")]
-    public string? IpamInternetRegistryAssociationId { get; set; }
-
-    [CliOption("--cidr")]
-    public string? Cidr { get; set; }
-
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces the deletion even if it conflicts with an announced route. Default: false .
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -46,5 +96,21 @@ public record AwsEc2DeleteIpamRoutingPolicyRegistrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

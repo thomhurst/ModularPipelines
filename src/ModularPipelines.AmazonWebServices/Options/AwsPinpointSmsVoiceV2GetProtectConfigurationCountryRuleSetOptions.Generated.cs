@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "get-protect-configuration-country-rule-set")]
-public record AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--protect-configuration-id")]
-    public string? ProtectConfigurationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="NumberCapability">The capability type to return the CountryRuleSet for. Valid values are SMS , VOICE , or MMS . Possible values: o SMS o VOICE o MMS o RCS</param>
+    public AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions(
+        string ProtectConfigurationId,
+        AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetNumberCapability NumberCapability
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectConfigurationId);
+        this.ProtectConfigurationId = ProtectConfigurationId;
+        global::System.ArgumentNullException.ThrowIfNull(NumberCapability);
+        this.NumberCapability = NumberCapability;
+    }
+
+    private AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--protect-configuration-id")]
+    public string? ProtectConfigurationId { get; private init; }
+
+    /// <summary>
+    /// The capability type to return the CountryRuleSet for. Valid values are SMS , VOICE , or MMS . Possible values: o SMS o VOICE o MMS o RCS
+    /// </summary>
     [CliOption("--number-capability")]
-    public string? NumberCapability { get; set; }
+    public AwsPinpointSmsVoiceV2GetProtectConfigurationCountryRuleSetNumberCapability? NumberCapability { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

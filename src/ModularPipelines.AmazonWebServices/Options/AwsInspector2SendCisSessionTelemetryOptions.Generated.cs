@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "send-cis-session-telemetry")]
-public record AwsInspector2SendCisSessionTelemetryOptions : AwsOptions
+public record AwsInspector2SendCisSessionTelemetryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scan-job-id")]
-    public string? ScanJobId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanJobId">A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="SessionToken">The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Messages">The CIS session telemetry messages. Constraints: o min: 1 o max: 150 (structure) The CIS session message. ruleId -&gt; (string) [required] The rule ID for the CIS session message. Constraints: o min: 1 o max: 500 status -&gt; (string) [required] The status of the CIS session message. Possible values: o FAILED o PASSED o NOT_EVALUATED o INFORMATIONAL o UNKNOWN o NOT_APPLICABLE o ERROR cisRuleDetails -&gt; (blob) [required] The CIS rule details for the CIS session message. Constraints: o min: 0 o max: 1000 Shorthand Syntax: ruleId=string,status=string,cisRuleDetails=blob ... JSON Syntax: [ { "ruleId": "string", "status": "FAILED"|"PASSED"|"NOT_EVALUATED"|"INFORMATIONAL"|"UNKNOWN"|"NOT_APPLICABLE"|"ERROR", "cisRuleDetails": blob } ... ]</param>
+    public AwsInspector2SendCisSessionTelemetryOptions(
+        string ScanJobId,
+        string SessionToken,
+        IEnumerable<string> Messages
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanJobId);
+        this.ScanJobId = ScanJobId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionToken);
+        this.SessionToken = SessionToken;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Messages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Messages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Messages));
+            }
+
+            Messages = materialized;
+        }
+        this.Messages = Messages;
+    }
+
+    private AwsInspector2SendCisSessionTelemetryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2SendCisSessionTelemetryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2SendCisSessionTelemetryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the scan job. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--scan-job-id")]
+    public string? ScanJobId { get; private init; }
+
+    /// <summary>
+    /// The unique token that identifies the CIS session. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [SecretValue]
     [CliOption("--session-token")]
-    public string? SessionToken { get; set; }
+    public string? SessionToken { get; private init; }
 
+    /// <summary>
+    /// The CIS session telemetry messages. Constraints: o min: 1 o max: 150 (structure) The CIS session message. ruleId -&gt; (string) [required] The rule ID for the CIS session message. Constraints: o min: 1 o max: 500 status -&gt; (string) [required] The status of the CIS session message. Possible values: o FAILED o PASSED o NOT_EVALUATED o INFORMATIONAL o UNKNOWN o NOT_APPLICABLE o ERROR cisRuleDetails -&gt; (blob) [required] The CIS rule details for the CIS session message. Constraints: o min: 0 o max: 1000 Shorthand Syntax: ruleId=string,status=string,cisRuleDetails=blob ... JSON Syntax: [ { "ruleId": "string", "status": "FAILED"|"PASSED"|"NOT_EVALUATED"|"INFORMATIONAL"|"UNKNOWN"|"NOT_APPLICABLE"|"ERROR", "cisRuleDetails": blob } ... ]
+    /// </summary>
     [CliOption("--messages", GroupValues = true)]
-    public IEnumerable<string>? Messages { get; set; }
+    public IEnumerable<string>? Messages { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

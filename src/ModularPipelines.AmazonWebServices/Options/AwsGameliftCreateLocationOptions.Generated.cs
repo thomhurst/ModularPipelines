@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-location")]
-public record AwsGameliftCreateLocationOptions : AwsOptions
+public record AwsGameliftCreateLocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: Anywhere Creates a custom location for use in an Anywhere fleet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocationName">A descriptive name for the custom location. Constraints: o min: 8 o max: 64 o pattern: ^custom-[A-Za-z0-9\-]+$</param>
+    public AwsGameliftCreateLocationOptions(
+        string LocationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocationName);
+        this.LocationName = LocationName;
+    }
+
+    private AwsGameliftCreateLocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateLocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateLocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A descriptive name for the custom location. Constraints: o min: 8 o max: 64 o pattern: ^custom-[A-Za-z0-9\-]+$
+    /// </summary>
     [CliOption("--location-name")]
-    public string? LocationName { get; set; }
+    public string? LocationName { get; private init; }
 
     /// <summary>
     /// A list of labels to assign to the new resource. Tags are devel- oper-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management, and cost al- location. For more information, see Tagging Amazon Web Services Re- sources in the Amazon Web Services General Rareference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsGameliftCreateLocationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "associate-resource-share-permission")]
-public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions
+public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permis- sion only if there are currently no resources of that resource type currently in the resource share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceShareArn">Specifies the Amazon Resource Name (ARN) of the resource share to which you want to add or replace permissions.</param>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.</param>
+    public AwsRamAssociateResourceSharePermissionOptions(
+        string ResourceShareArn,
+        string PermissionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceShareArn);
+        this.ResourceShareArn = ResourceShareArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionArn);
+        this.PermissionArn = PermissionArn;
+    }
+
+    private AwsRamAssociateResourceSharePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamAssociateResourceSharePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamAssociateResourceSharePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the resource share to which you want to add or replace permissions.
+    /// </summary>
     [CliOption("--resource-share-arn")]
-    public string? ResourceShareArn { get; set; }
+    public string? ResourceShareArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the per- mission. The ARN is displayed on the detail page.
+    /// </summary>
     [CliOption("--permission-arn")]
-    public string? PermissionArn { get; set; }
+    public string? PermissionArn { get; private init; }
 
-    [CliFlag("--replace")]
+    /// <summary>
+    /// Specifies whether the specified permission should replace the exist- ing permission associated with the resource share. Use true to re- place the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false . NOTE: A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the opera- tion returns an error. This helps prevent accidental overwriting of a permission.
+    /// </summary>
+    [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
 
     /// <summary>
@@ -49,5 +96,21 @@ public record AwsRamAssociateResourceSharePermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

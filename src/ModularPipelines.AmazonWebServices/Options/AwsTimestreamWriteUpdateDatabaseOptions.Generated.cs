@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-write", "update-database")]
-public record AwsTimestreamWriteUpdateDatabaseOptions : AwsOptions
+public record AwsTimestreamWriteUpdateDatabaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the KMS key for an existing database. While updating the data- base, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateData- base requests, first writer wins. See code sample for details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the database.</param>
+    /// <param name="KmsKeyId">The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently regis- tered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: o min: 1 o max: 2048</param>
+    public AwsTimestreamWriteUpdateDatabaseOptions(
+        string DatabaseName,
+        string KmsKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyId);
+        this.KmsKeyId = KmsKeyId;
+    }
+
+    private AwsTimestreamWriteUpdateDatabaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamWriteUpdateDatabaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamWriteUpdateDatabaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database.
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The identifier of the new KMS key (KmsKeyId ) to be used to encrypt the data stored in the database. If the KmsKeyId currently regis- tered with the database is the same as the KmsKeyId in the request, there will not be any update. You can specify the KmsKeyId using any of the following: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--kms-key-id")]
-    public string? KmsKeyId { get; set; }
+    public string? KmsKeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

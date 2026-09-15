@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --performancemode.
+/// Allowed values for --performance-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEfsCreateFileSystemPerformanceMode
 {
     [EnumValue("generalPurpose")]
-    GeneralPurpose = 1,
+    GeneralPurpose,
 
     [EnumValue("maxIO")]
-    MaxIo = 2
+    MaxIo
 }

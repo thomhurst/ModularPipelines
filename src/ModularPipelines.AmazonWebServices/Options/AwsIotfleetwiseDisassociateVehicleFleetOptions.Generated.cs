@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotfleetwise", "disassociate-vehicle-fleet")]
-public record AwsIotfleetwiseDisassociateVehicleFleetOptions : AwsOptions
+public record AwsIotfleetwiseDisassociateVehicleFleetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vehicle-name")]
-    public string? VehicleName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a ve- hicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VehicleName">The unique ID of the vehicle to disassociate from the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="FleetId">The unique ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    public AwsIotfleetwiseDisassociateVehicleFleetOptions(
+        string VehicleName,
+        string FleetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VehicleName);
+        this.VehicleName = VehicleName;
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+    }
+
+    private AwsIotfleetwiseDisassociateVehicleFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotfleetwiseDisassociateVehicleFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotfleetwiseDisassociateVehicleFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the vehicle to disassociate from the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// </summary>
+    [CliOption("--vehicle-name")]
+    public string? VehicleName { get; private init; }
+
+    /// <summary>
+    /// The unique ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

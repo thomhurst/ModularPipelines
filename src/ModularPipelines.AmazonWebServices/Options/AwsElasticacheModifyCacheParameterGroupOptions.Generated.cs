@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-cache-parameter-group")]
-public record AwsElasticacheModifyCacheParameterGroupOptions : AwsOptions
+public record AwsElasticacheModifyCacheParameterGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cache-parameter-group-name")]
-    public string? CacheParameterGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CacheParameterGroupName">The name of the cache parameter group to modify.</param>
+    /// <param name="ParameterNameValues">An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent argu- ments are optional. A maximum of 20 parameters may be modified per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter. ParameterValue -&gt; (string) The value of the parameter. Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]</param>
+    public AwsElasticacheModifyCacheParameterGroupOptions(
+        string CacheParameterGroupName,
+        IEnumerable<string> ParameterNameValues
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupName);
+        this.CacheParameterGroupName = CacheParameterGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ParameterNameValues);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ParameterNameValues));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ParameterNameValues));
+            }
+
+            ParameterNameValues = materialized;
+        }
+        this.ParameterNameValues = ParameterNameValues;
+    }
+
+    private AwsElasticacheModifyCacheParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyCacheParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyCacheParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cache parameter group to modify.
+    /// </summary>
+    [CliOption("--cache-parameter-group-name")]
+    public string? CacheParameterGroupName { get; private init; }
+
+    /// <summary>
+    /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent argu- ments are optional. A maximum of 20 parameters may be modified per request. (structure) Describes a name-value pair that is used to update the value of a parameter. ParameterName -&gt; (string) The name of the parameter. ParameterValue -&gt; (string) The value of the parameter. Shorthand Syntax: ParameterName=string,ParameterValue=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string" } ... ]
+    /// </summary>
     [CliOption("--parameter-name-values", GroupValues = true)]
-    public IEnumerable<string>? ParameterNameValues { get; set; }
+    public IEnumerable<string>? ParameterNameValues { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

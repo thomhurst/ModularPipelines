@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "accept-agreement-request")]
-public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions
+public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts an agreement request to finalize the agreement. The acceptor can optionally provide purchase orders to associate with the agreement charges. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgreementRequestId">The unique identifier of the agreement request. Constraints: o min: 1 o max: 64 o pattern: ar-[A-Za-z0-9]+</param>
+    public AwsMarketplaceAgreementAcceptAgreementRequestOptions(
+        string AgreementRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementRequestId);
+        this.AgreementRequestId = AgreementRequestId;
+    }
+
+    private AwsMarketplaceAgreementAcceptAgreementRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementAcceptAgreementRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementAcceptAgreementRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agreement request. Constraints: o min: 1 o max: 64 o pattern: ar-[A-Za-z0-9]+
+    /// </summary>
     [CliOption("--agreement-request-id")]
-    public string? AgreementRequestId { get; set; }
+    public string? AgreementRequestId { get; private init; }
 
     /// <summary>
     /// A list of purchase orders associated with accepting a marketplace agreement request. Constraints: o min: 1 o max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: o min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: o min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsMarketplaceAgreementAcceptAgreementRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager-user-subscriptions", "delete-license-server-endpoint")]
-public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions : AwsOptions
+public record AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--license-server-endpoint-arn")]
-    public string? LicenseServerEndpointArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a LicenseServerEndpoint resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LicenseServerEndpointArn">The Amazon Resource Name (ARN) that identifies the LicenseServerEnd- point resource to delete. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}</param>
+    /// <param name="ServerType">The type of License Server that the delete request refers to. Possible values: o RDS_SAL</param>
+    public AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions(
+        string LicenseServerEndpointArn,
+        AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointServerType ServerType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LicenseServerEndpointArn);
+        this.LicenseServerEndpointArn = LicenseServerEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(ServerType);
+        this.ServerType = ServerType;
+    }
+
+    private AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that identifies the LicenseServerEnd- point resource to delete. Constraints: o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-zA-Z0-9-\.]{1,510}/[a-zA-Z0-9-\.]{1,510}
+    /// </summary>
+    [CliOption("--license-server-endpoint-arn")]
+    public string? LicenseServerEndpointArn { get; private init; }
+
+    /// <summary>
+    /// The type of License Server that the delete request refers to. Possible values: o RDS_SAL
+    /// </summary>
     [CliOption("--server-type")]
-    public string? ServerType { get; set; }
+    public AwsLicenseManagerUserSubscriptionsDeleteLicenseServerEndpointServerType? ServerType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

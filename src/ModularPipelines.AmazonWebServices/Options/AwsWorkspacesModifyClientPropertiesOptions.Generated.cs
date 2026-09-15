@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-client-properties")]
-public record AwsWorkspacesModifyClientPropertiesOptions : AwsOptions
+public record AwsWorkspacesModifyClientPropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the properties of the specified Amazon WorkSpaces clients. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The resource identifiers, in the form of directory IDs. Constraints: o min: 1</param>
+    /// <param name="ClientProperties">Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Ama- zon WorkSpaces client. When enabled, users can choose to recon- nect to their WorkSpaces without re-entering their credentials. Possible values: o ENABLED o DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Ama- zon WorkSpaces client directly to WorkSpaces to troubleshoot is- sues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be ap- plied to all users in the specified directory. Possible values: o ENABLED o DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client expe- rience the user sees. Administrators can set this policy to con- trol the client experience for users in a directory. Valid val- ues include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: o max: 64 o pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }</param>
+    public AwsWorkspacesModifyClientPropertiesOptions(
+        string ResourceId,
+        string ClientProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientProperties);
+        this.ClientProperties = ClientProperties;
+    }
+
+    private AwsWorkspacesModifyClientPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifyClientPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifyClientPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The resource identifiers, in the form of directory IDs. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// Information about the Amazon WorkSpaces client. ReconnectEnabled -&gt; (string) Specifies whether users can cache their credentials on the Ama- zon WorkSpaces client. When enabled, users can choose to recon- nect to their WorkSpaces without re-entering their credentials. Possible values: o ENABLED o DISABLED LogUploadEnabled -&gt; (string) Specifies whether users can upload diagnostic log files of Ama- zon WorkSpaces client directly to WorkSpaces to troubleshoot is- sues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be ap- plied to all users in the specified directory. Possible values: o ENABLED o DISABLED ClientExperiencePolicy -&gt; (string) The client experience policy that determines which client expe- rience the user sees. Administrators can set this policy to con- trol the client experience for users in a directory. Valid val- ues include FORCE_CLASSIC , FORCE_UI_2026 , and USER_CHOICE . Constraints: o max: 64 o pattern: ^[A-Z_0-9]+$ Shorthand Syntax: ReconnectEnabled=string,LogUploadEnabled=string,ClientExperiencePolicy=string JSON Syntax: { "ReconnectEnabled": "ENABLED"|"DISABLED", "LogUploadEnabled": "ENABLED"|"DISABLED", "ClientExperiencePolicy": "string" }
+    /// </summary>
     [CliOption("--client-properties")]
-    public string? ClientProperties { get; set; }
+    public string? ClientProperties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

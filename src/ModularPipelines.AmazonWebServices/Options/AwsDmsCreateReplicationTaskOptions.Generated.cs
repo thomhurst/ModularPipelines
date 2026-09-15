@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "create-replication-task")]
-public record AwsDmsCreateReplicationTaskOptions : AwsOptions
+public record AwsDmsCreateReplicationTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a replication task using the specified parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationTaskIdentifier">An identifier for the replication task. Constraints: o Must contain 1-255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.</param>
+    /// <param name="SourceEndpointArn">An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.</param>
+    /// <param name="TargetEndpointArn">An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.</param>
+    /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of a replication instance.</param>
+    /// <param name="MigrationType">The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: o full-load o cdc o full-load-and-cdc</param>
+    /// <param name="TableMappings">The table mappings for the task, in JSON format. For more informa- tion, see Using Table Mapping to Specify Task Settings in the Data- base Migration Service User Guide.</param>
+    public AwsDmsCreateReplicationTaskOptions(
+        string ReplicationTaskIdentifier,
+        string SourceEndpointArn,
+        string TargetEndpointArn,
+        string ReplicationInstanceArn,
+        string MigrationType,
+        string TableMappings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationTaskIdentifier);
+        this.ReplicationTaskIdentifier = ReplicationTaskIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceEndpointArn);
+        this.SourceEndpointArn = SourceEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetEndpointArn);
+        this.TargetEndpointArn = TargetEndpointArn;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationInstanceArn);
+        this.ReplicationInstanceArn = ReplicationInstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationType);
+        this.MigrationType = MigrationType;
+        global::System.ArgumentNullException.ThrowIfNull(TableMappings);
+        this.TableMappings = TableMappings;
+    }
+
+    private AwsDmsCreateReplicationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsCreateReplicationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsCreateReplicationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the replication task. Constraints: o Must contain 1-255 alphanumeric characters or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
+    /// </summary>
     [CliOption("--replication-task-identifier")]
-    public string? ReplicationTaskIdentifier { get; set; }
+    public string? ReplicationTaskIdentifier { get; private init; }
 
+    /// <summary>
+    /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
+    /// </summary>
     [CliOption("--source-endpoint-arn")]
-    public string? SourceEndpointArn { get; set; }
+    public string? SourceEndpointArn { get; private init; }
 
+    /// <summary>
+    /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
+    /// </summary>
     [CliOption("--target-endpoint-arn")]
-    public string? TargetEndpointArn { get; set; }
+    public string? TargetEndpointArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a replication instance.
+    /// </summary>
     [CliOption("--replication-instance-arn")]
-    public string? ReplicationInstanceArn { get; set; }
+    public string? ReplicationInstanceArn { get; private init; }
 
+    /// <summary>
+    /// The migration type. Valid values: full-load | cdc | full-load-and-cdc Possible values: o full-load o cdc o full-load-and-cdc
+    /// </summary>
     [CliOption("--migration-type")]
-    public string? MigrationType { get; set; }
+    public string? MigrationType { get; private init; }
 
+    /// <summary>
+    /// The table mappings for the task, in JSON format. For more informa- tion, see Using Table Mapping to Specify Task Settings in the Data- base Migration Service User Guide.
+    /// </summary>
     [CliOption("--table-mappings")]
-    public string? TableMappings { get; set; }
+    public string? TableMappings { get; private init; }
 
     /// <summary>
     /// Overall settings for the task, in JSON format. For more information, see Specifying Task Settings for Database Migration Service Tasks in the Database Migration Service User Guide.
@@ -86,5 +158,21 @@ public record AwsDmsCreateReplicationTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

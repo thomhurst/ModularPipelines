@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "start-content-moderation")]
-public record AwsRekognitionStartContentModerationOptions : AwsOptions
+public record AwsRekognitionStartContentModerationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see Using the image and video moderation APIs . Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify the bucket name and the file- name of the video. StartContentModeration returns a job identifier (Jo- bId ) which you use to get the results of the analysis. When content analysis is finishe...
+    /// </summary>
+    /// <param name="Video">The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    public AwsRekognitionStartContentModerationOptions(
+        string Video
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Video);
+        this.Video = Video;
+    }
+
+    private AwsRekognitionStartContentModerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionStartContentModerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionStartContentModerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The video in which you want to detect inappropriate, unwanted, or offensive content. The video must be stored in an Amazon S3 bucket. S3Object -&gt; (structure) The Amazon S3 bucket name and file name for the video. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
     [CliOption("--video")]
-    public string? Video { get; set; }
+    public string? Video { get; private init; }
 
     /// <summary>
     /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is cor- rectly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value. If you don't specify MinConfidence , GetContentModeration returns la- bels with confidence values greater than or equal to 50 percent. Constraints: o min: 0 o max: 100
@@ -55,5 +92,21 @@ public record AwsRekognitionStartContentModerationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

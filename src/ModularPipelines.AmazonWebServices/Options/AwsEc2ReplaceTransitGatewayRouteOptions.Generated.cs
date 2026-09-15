@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "replace-transit-gateway-route")]
-public record AwsEc2ReplaceTransitGatewayRouteOptions : AwsOptions
+public record AwsEc2ReplaceTransitGatewayRouteOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--destination-cidr-block")]
-    public string? DestinationCidrBlock { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces the specified route in the specified transit gateway route ta- ble. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationCidrBlock">The CIDR range used for the destination match. Routing decisions are based on the most specific match.</param>
+    /// <param name="TransitGatewayRouteTableId">The ID of the route table.</param>
+    public AwsEc2ReplaceTransitGatewayRouteOptions(
+        string DestinationCidrBlock,
+        string TransitGatewayRouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCidrBlock);
+        this.DestinationCidrBlock = DestinationCidrBlock;
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableId);
+        this.TransitGatewayRouteTableId = TransitGatewayRouteTableId;
+    }
+
+    private AwsEc2ReplaceTransitGatewayRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ReplaceTransitGatewayRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ReplaceTransitGatewayRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The CIDR range used for the destination match. Routing decisions are based on the most specific match.
+    /// </summary>
+    [CliOption("--destination-cidr-block")]
+    public string? DestinationCidrBlock { get; private init; }
+
+    /// <summary>
+    /// The ID of the route table.
+    /// </summary>
     [CliOption("--transit-gateway-route-table-id")]
-    public string? TransitGatewayRouteTableId { get; set; }
+    public string? TransitGatewayRouteTableId { get; private init; }
 
     /// <summary>
     /// The ID of the attachment.
@@ -33,10 +77,16 @@ public record AwsEc2ReplaceTransitGatewayRouteOptions : AwsOptions
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; set; }
 
-    [CliFlag("--blackhole")]
+    /// <summary>
+    /// Indicates whether traffic matching this route is to be dropped.
+    /// </summary>
+    [CliFlag("--blackhole", NegatedName = "--no-blackhole")]
     public bool? Blackhole { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +94,21 @@ public record AwsEc2ReplaceTransitGatewayRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

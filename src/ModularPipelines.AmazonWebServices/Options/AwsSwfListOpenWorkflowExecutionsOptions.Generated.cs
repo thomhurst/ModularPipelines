@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "list-open-workflow-executions")]
-public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions
+public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of open workflow executions in the specified domain that meet the filtering criteria. The results may be split into multiple pages. To retrieve subsequent pages, make the call again using the nextPageToken returned by the initial call. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Re...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the workflow executions to list. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StartTimeFilter">Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }</param>
+    public AwsSwfListOpenWorkflowExecutionsOptions(
+        string Domain,
+        string StartTimeFilter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(StartTimeFilter);
+        this.StartTimeFilter = StartTimeFilter;
+    }
+
+    private AwsSwfListOpenWorkflowExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfListOpenWorkflowExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfListOpenWorkflowExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the workflow executions to list. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. oldestDate -&gt; (timestamp) [required] Specifies the oldest start or close date and time to return. latestDate -&gt; (timestamp) Specifies the latest start or close date and time to return. Shorthand Syntax: oldestDate=timestamp,latestDate=timestamp JSON Syntax: { "oldestDate": timestamp, "latestDate": timestamp }
+    /// </summary>
     [CliOption("--start-time-filter")]
-    public string? StartTimeFilter { get; set; }
+    public string? StartTimeFilter { get; private init; }
 
     /// <summary>
     /// If specified, only executions of the type specified in the filter are returned. NOTE: executionFilter , typeFilter and tagFilter are mutually exclu- sive. You can specify at most one of these in a request. name -&gt; (string) [required] Name of the workflow type. Constraints: o min: 1 o max: 256 version -&gt; (string) Version of the workflow type. Constraints: o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
@@ -40,7 +84,10 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions
     [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
@@ -73,5 +120,21 @@ public record AwsSwfListOpenWorkflowExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

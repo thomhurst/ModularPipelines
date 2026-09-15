@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "purchase-reserved-elasticsearch-instance-offering")]
-public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOptions
+public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--reserved-elasticsearch-instance-offering-id")]
-    public string? ReservedElasticsearchInstanceOfferingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to purchase reserved Elasticsearch instances. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedElasticsearchInstanceOfferingId">The ID of the reserved Elasticsearch instance offering to purchase. Constraints: o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64</param>
+    public AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions(
+        string ReservedElasticsearchInstanceOfferingId,
+        string ReservationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedElasticsearchInstanceOfferingId);
+        this.ReservedElasticsearchInstanceOfferingId = ReservedElasticsearchInstanceOfferingId;
+        global::System.ArgumentNullException.ThrowIfNull(ReservationName);
+        this.ReservationName = ReservationName;
+    }
+
+    private AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the reserved Elasticsearch instance offering to purchase. Constraints: o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// </summary>
+    [CliOption("--reserved-elasticsearch-instance-offering-id")]
+    public string? ReservedElasticsearchInstanceOfferingId { get; private init; }
+
+    /// <summary>
+    /// A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64
+    /// </summary>
     [CliOption("--reservation-name")]
-    public string? ReservationName { get; set; }
+    public string? ReservationName { get; private init; }
 
     /// <summary>
     /// The number of Elasticsearch instances to reserve. Constraints: o min: 1
@@ -38,5 +82,21 @@ public record AwsEsPurchaseReservedElasticsearchInstanceOfferingOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "list-event-integration-associations")]
-public record AwsAppintegrationsListEventIntegrationAssociationsOptions : AwsOptions
+public record AwsAppintegrationsListEventIntegrationAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a paginated list of event integration associations in the ac- count. See also: AWS API Documentation list-event-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Even...
+    /// </summary>
+    /// <param name="EventIntegrationName">The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$</param>
+    public AwsAppintegrationsListEventIntegrationAssociationsOptions(
+        string EventIntegrationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventIntegrationName);
+        this.EventIntegrationName = EventIntegrationName;
+    }
+
+    private AwsAppintegrationsListEventIntegrationAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsListEventIntegrationAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsListEventIntegrationAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the event integration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// </summary>
     [CliOption("--event-integration-name")]
-    public string? EventIntegrationName { get; set; }
+    public string? EventIntegrationName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsAppintegrationsListEventIntegrationAssociationsOptions : AwsOpt
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

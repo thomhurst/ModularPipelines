@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns metadata about a query, including query run time in millisec- onds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also pro- vides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias . Specifying the QueryAlias parameter returns information about the last query run for the alias. You can provide RefreshId along with QueryAlias to view the query results of a dashboard query for the spe...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns metadata about a query, including query run time in millisec- onds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also pro- vides th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

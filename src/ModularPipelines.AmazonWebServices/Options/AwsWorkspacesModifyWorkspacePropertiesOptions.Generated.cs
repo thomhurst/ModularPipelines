@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-workspace-properties")]
-public record AwsWorkspacesModifyWorkspacePropertiesOptions : AwsOptions
+public record AwsWorkspacesModifyWorkspacePropertiesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace . NOTE: The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
+    public AwsWorkspacesModifyWorkspacePropertiesOptions(
+        string WorkspaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsWorkspacesModifyWorkspacePropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifyWorkspacePropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifyWorkspacePropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     /// <summary>
     /// The properties of the WorkSpace. RunningMode -&gt; (string) The running mode. For more information, see Manage the WorkSpace Running Mode . NOTE: The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core . Review your running mode to ensure you are using one that is op- timal for your needs and budget. For more information on switch- ing running modes, see Can I switch between hourly and monthly billing? Possible values: o AUTO_STOP o ALWAYS_ON o MANUAL RunningModeAutoStopTimeoutInMinutes -&gt; (integer) The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals. RootVolumeSizeGib -&gt; (integer) The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace . UserVolumeSizeGib -&gt; (integer) The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace . ComputeTypeName -&gt; (string) The compute type. For more information, see Amazon WorkSpaces Bundles . Possible values: o VALUE o STANDARD o PERFORMANCE o POWER o GRAPHICS o POWERPRO o GENERALPURPOSE_4XLARGE o GENERALPURPOSE_8XLARGE o GRAPHICSPRO o GRAPHICS_G4DN o GRAPHICSPRO_G4DN o GRAPHICS_G6_XLARGE o GRAPHICS_G6_2XLARGE o GRAPHICS_G6_4XLARGE o GRAPHICS_G6_8XLARGE o GRAPHICS_G6_16XLARGE o GRAPHICS_GR6_4XLARGE o GRAPHICS_GR6_8XLARGE o GRAPHICS_G6F_LARGE o GRAPHICS_G6F_XLARGE o GRAPHICS_G6F_2XLARGE o GRAPHICS_G6F_4XLARGE o GRAPHICS_GR6F_4XLARGE Protocols -&gt; (list) The protocol. For more information, see Protocols for Amazon WorkSpaces . NOTE: o Only available for WorkSpaces created with PCoIP bundles. o The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP). o Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6). (string) Possible values: o PCOIP o WSP OperatingSystemName -&gt; (string) The name of the operating system. Possible values: o AMAZON_LINUX_2 o UBUNTU_18_04 o UBUNTU_20_04 o UBUNTU_22_04 o UNKNOWN o WINDOWS_10 o WINDOWS_11 o WINDOWS_7 o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o RHEL_8 o ROCKY_8 GlobalAccelerator -&gt; (structure) Indicates the Global Accelerator properties. Mode -&gt; (string) [required] Indicates if Global Accelerator for WorkSpaces is enabled, disabled, or the same mode as the associated directory. Possible values: o ENABLED_AUTO o DISABLED o INHERITED PreferredProtocol -&gt; (string) Indicates the preferred protocol for Global Accelerator. Possible values: o TCP o NONE o INHERITED NestedVirtualizationEnabled -&gt; (boolean) Specifies whether nested virtualization is enabled for the Work- Space. For more information, see Nested virtualization for Amazon Work- Spaces . Shorthand Syntax: RunningMode=string,RunningModeAutoStopTimeoutInMinutes=integer,RootVolumeSizeGib=integer,UserVolumeSizeGib=integer,ComputeTypeName=string,Protocols=string,string,OperatingSystemName=string,GlobalAccelerator={Mode=string,PreferredProtocol=string},NestedVirtualizationEnabled=boolean JSON Syntax: { "RunningMode": "AUTO_STOP"|"ALWAYS_ON"|"MANUAL", "RunningModeAutoStopTimeoutInMinutes": integer, "RootVolumeSizeGib": integer, "UserVolumeSizeGib": integer, "ComputeTypeName": "VALUE"|"STANDARD"|"PERFORMANCE"|"POWER"|"GRAPHICS"|"POWERPRO"|"GENERALPURPOSE_4XLARGE"|"GENERALPURPOSE_8XLARGE"|"GRAPHICSPRO"|"GRAPHICS_G4DN"|"GRAPHICSPRO_G4DN"|"GRAPHICS_G6_XLARGE"|"GRAPHICS_G6_2XLARGE"|"GRAPHICS_G6_4XLARGE"|"GRAPHICS_G6_8XLARGE"|"GRAPHICS_G6_16XLARGE"|"GRAPHICS_GR6_4XLARGE"|"GRAPHICS_GR6_8XLARGE"|"GRAPHICS_G6F_LARGE"|"GRAPHICS_G6F_XLARGE"|"GRAPHICS_G6F_2XLARGE"|"GRAPHICS_G6F_4XLARGE"|"GRAPHICS_GR6F_4XLARGE", "Protocols": ["PCOIP"|"WSP", ...], "OperatingSystemName": "AMAZON_LINUX_2"|"UBUNTU_18_04"|"UBUNTU_20_04"|"UBUNTU_22_04"|"UNKNOWN"|"WINDOWS_10"|"WINDOWS_11"|"WINDOWS_7"|"WINDOWS_SERVER_2016"|"WINDOWS_SERVER_2019"|"WINDOWS_SERVER_2022"|"WINDOWS_SERVER_2025"|"RHEL_8"|"ROCKY_8", "GlobalAccelerator": { "Mode": "ENABLED_AUTO"|"DISABLED"|"INHERITED", "PreferredProtocol": "TCP"|"NONE"|"INHERITED" }, "NestedVirtualizationEnabled": true|false }
@@ -42,5 +79,21 @@ public record AwsWorkspacesModifyWorkspacePropertiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

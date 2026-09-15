@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "create-tape-pool")]
-public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions
+public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pool-name")]
-    public string? PoolName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new custom tape pool. You can use custom tape pool to enable tape retention lock on tapes that are archived in the custom pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolName">The name of the new custom tape pool. Constraints: o min: 1 o max: 100 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
+    /// <param name="StorageClass">The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: o DEEP_ARCHIVE o GLACIER</param>
+    public AwsStoragegatewayCreateTapePoolOptions(
+        string PoolName,
+        AwsStoragegatewayCreateTapePoolStorageClass StorageClass
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(StorageClass);
+        this.StorageClass = StorageClass;
+    }
+
+    private AwsStoragegatewayCreateTapePoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayCreateTapePoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayCreateTapePoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new custom tape pool. Constraints: o min: 1 o max: 100 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
+    /// </summary>
+    [CliOption("--pool-name")]
+    public string? PoolName { get; private init; }
+
+    /// <summary>
+    /// The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: o DEEP_ARCHIVE o GLACIER
+    /// </summary>
     [CliOption("--storage-class")]
-    public string? StorageClass { get; set; }
+    public AwsStoragegatewayCreateTapePoolStorageClass? StorageClass { get; private init; }
 
     /// <summary>
     /// Tape retention lock can be configured in two modes. When configured in governance mode, Amazon Web Services accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root Amazon Web Services account. Possible values: o COMPLIANCE o GOVERNANCE o NONE
@@ -51,5 +95,21 @@ public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

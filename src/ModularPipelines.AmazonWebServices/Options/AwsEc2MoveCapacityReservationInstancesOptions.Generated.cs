@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,70 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "move-capacity-reservation-instances")]
-public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions
+public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Move available capacity from a source Capacity Reservation to a desti- nation Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: o Instance type o Platform o Availability Zone o Tenancy o Placement group o Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceCapacityReservationId">The ID of the Capacity Reservation from which you want to move ca- pacity.</param>
+    /// <param name="DestinationCapacityReservationId">The ID of the Capacity Reservation that you want to move capacity into.</param>
+    /// <param name="InstanceCount">The number of instances that you want to move from the source Capac- ity Reservation.</param>
+    public AwsEc2MoveCapacityReservationInstancesOptions(
+        string SourceCapacityReservationId,
+        string DestinationCapacityReservationId,
+        int InstanceCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceCapacityReservationId);
+        this.SourceCapacityReservationId = SourceCapacityReservationId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCapacityReservationId);
+        this.DestinationCapacityReservationId = DestinationCapacityReservationId;
+        this.InstanceCount = InstanceCount;
+    }
+
+    private AwsEc2MoveCapacityReservationInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2MoveCapacityReservationInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2MoveCapacityReservationInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Capacity Reservation from which you want to move ca- pacity.
+    /// </summary>
+    [CliOption("--source-capacity-reservation-id")]
+    public string? SourceCapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Capacity Reservation that you want to move capacity into.
+    /// </summary>
+    [CliOption("--destination-capacity-reservation-id")]
+    public string? DestinationCapacityReservationId { get; private init; }
+
+    /// <summary>
+    /// The number of instances that you want to move from the source Capac- ity Reservation.
+    /// </summary>
+    [CliOption("--instance-count")]
+    public int? InstanceCount { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -32,19 +94,26 @@ public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--source-capacity-reservation-id")]
-    public string? SourceCapacityReservationId { get; set; }
-
-    [CliOption("--destination-capacity-reservation-id")]
-    public string? DestinationCapacityReservationId { get; set; }
-
-    [CliOption("--instance-count")]
-    public int? InstanceCount { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

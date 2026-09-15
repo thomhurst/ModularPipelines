@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "unassign-ipv6-addresses")]
-public record AwsEc2UnassignIpv6AddressesOptions : AwsOptions
+public record AwsEc2UnassignIpv6AddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network interface. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
+    public AwsEc2UnassignIpv6AddressesOptions(
+        string NetworkInterfaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+    }
+
+    private AwsEc2UnassignIpv6AddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2UnassignIpv6AddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2UnassignIpv6AddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the network interface.
+    /// </summary>
+    [CliOption("--network-interface-id")]
+    public string? NetworkInterfaceId { get; private init; }
+
     /// <summary>
     /// The IPv6 prefixes to unassign from the network interface. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ipv6-prefixes", GroupValues = true)]
     public IEnumerable<string>? Ipv6Prefixes { get; set; }
-
-    [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
 
     /// <summary>
     /// The IPv6 addresses to unassign from the network interface. (string) Syntax: "string" "string" ...
@@ -41,5 +78,21 @@ public record AwsEc2UnassignIpv6AddressesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

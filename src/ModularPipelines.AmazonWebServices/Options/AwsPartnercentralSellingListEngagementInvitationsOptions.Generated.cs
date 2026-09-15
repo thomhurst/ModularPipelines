@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "list-engagement-invitations")]
-public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOptions
+public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="ParticipantType">Specifies the type of participant for which to list engagement invi- tations. Identifies the role of the participant. Possible values: o SENDER o RECEIVER</param>
+    public AwsPartnercentralSellingListEngagementInvitationsOptions(
+        string Catalog,
+        AwsPartnercentralSellingListEngagementInvitationsParticipantType ParticipantType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantType);
+        this.ParticipantType = ParticipantType;
+    }
+
+    private AwsPartnercentralSellingListEngagementInvitationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingListEngagementInvitationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingListEngagementInvitationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environ- ments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of participant for which to list engagement invi- tations. Identifies the role of the participant. Possible values: o SENDER o RECEIVER
+    /// </summary>
+    [CliOption("--participant-type")]
+    public AwsPartnercentralSellingListEngagementInvitationsParticipantType? ParticipantType { get; private init; }
 
     /// <summary>
     /// Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order. SortOrder -&gt; (string) [required] Defines the order in which the Engagement Invitations are sorted. The values can be ASC (ascending) or DESC (descending). Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the Engagement Invitations are sorted. Common values include InvitationDate and Status . Possible values: o InvitationDate Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "InvitationDate" }
@@ -36,9 +84,6 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     /// </summary>
     [CliOption("--payload-type", GroupValues = true)]
     public IEnumerable<string>? PayloadType { get; set; }
-
-    [CliOption("--participant-type")]
-    public string? ParticipantType { get; set; }
 
     /// <summary>
     /// Status values to filter the invitations. Constraints: o min: 1 o max: 10 (string) Possible values: o ACCEPTED o PENDING o REJECTED o EXPIRED Syntax: "string" "string" ...
@@ -82,5 +127,21 @@ public record AwsPartnercentralSellingListEngagementInvitationsOptions : AwsOpti
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

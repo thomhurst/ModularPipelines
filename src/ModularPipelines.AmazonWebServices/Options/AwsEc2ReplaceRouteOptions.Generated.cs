@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "replace-route")]
-public record AwsEc2ReplaceRouteOptions : AwsOptions
+public record AwsEc2ReplaceRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list, or reset the local route to its default target. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RouteTableId">The ID of the route table.</param>
+    public AwsEc2ReplaceRouteOptions(
+        string RouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableId);
+        this.RouteTableId = RouteTableId;
+    }
+
+    private AwsEc2ReplaceRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ReplaceRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ReplaceRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route table.
+    /// </summary>
+    [CliOption("--route-table-id")]
+    public string? RouteTableId { get; private init; }
+
     /// <summary>
     /// The ID of the prefix list for the route.
     /// </summary>
@@ -33,7 +73,10 @@ public record AwsEc2ReplaceRouteOptions : AwsOptions
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
-    [CliFlag("--local-target")]
+    /// <summary>
+    /// Specifies whether to reset the local route to its default target (local ).
+    /// </summary>
+    [CliFlag("--local-target", NegatedName = "--no-local-target")]
     public bool? LocalTarget { get; set; }
 
     /// <summary>
@@ -66,11 +109,11 @@ public record AwsEc2ReplaceRouteOptions : AwsOptions
     [CliOption("--odb-network-arn")]
     public string? OdbNetworkArn { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--route-table-id")]
-    public string? RouteTableId { get; set; }
 
     /// <summary>
     /// The IPv4 CIDR address block used for the destination match. The value that you provide must match the CIDR of an existing route in the table.
@@ -125,5 +168,21 @@ public record AwsEc2ReplaceRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

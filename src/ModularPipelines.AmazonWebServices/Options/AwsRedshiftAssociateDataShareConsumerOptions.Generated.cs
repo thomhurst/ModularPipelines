@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "associate-data-share-consumer")]
-public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions
+public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-share-arn")]
-    public string? DataShareArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--associate-entire-account")]
+    /// <summary>
+    /// From a datashare consumer account, associates a datashare with the ac- count (AssociateEntireAccount) or the specified namespace (Consumer- Arn). If you make this association, the consumer can consume the datashare. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataShareArn">The Amazon Resource Name (ARN) of the datashare that the consumer is to use. Constraints: o max: 2147483647</param>
+    public AwsRedshiftAssociateDataShareConsumerOptions(
+        string DataShareArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataShareArn);
+        this.DataShareArn = DataShareArn;
+    }
+
+    private AwsRedshiftAssociateDataShareConsumerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftAssociateDataShareConsumerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftAssociateDataShareConsumerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--data-share-arn")]
+    public string? DataShareArn { get; private init; }
+
+    /// <summary>
+    /// A value that specifies whether the datashare is associated with the entire account.
+    /// </summary>
+    [CliFlag("--associate-entire-account", NegatedName = "--no-associate-entire-account")]
     public bool? AssociateEntireAccount { get; set; }
 
     /// <summary>
@@ -39,7 +79,10 @@ public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions
     [CliOption("--consumer-region")]
     public string? ConsumerRegion { get; set; }
 
-    [CliFlag("--allow-writes")]
+    /// <summary>
+    /// If set to true, allows write operations for a datashare.
+    /// </summary>
+    [CliFlag("--allow-writes", NegatedName = "--no-allow-writes")]
     public bool? AllowWrites { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +90,21 @@ public record AwsRedshiftAssociateDataShareConsumerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

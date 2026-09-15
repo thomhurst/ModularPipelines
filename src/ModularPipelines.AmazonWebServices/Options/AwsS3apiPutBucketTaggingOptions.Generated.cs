@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-tagging")]
-public record AwsS3apiPutBucketTaggingOptions : AwsOptions
+public record AwsS3apiPutBucketTaggingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill...
+    /// </summary>
+    /// <param name="Bucket">The bucket name.</param>
+    /// <param name="Tagging">Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }</param>
+    public AwsS3apiPutBucketTaggingOptions(
+        string Bucket,
+        string Tagging
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Tagging);
+        this.Tagging = Tagging;
+    }
+
+    private AwsS3apiPutBucketTaggingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketTaggingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketTaggingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for the TagSet and Tag elements. TagSet -&gt; (list) [required] A collection for a set of tags (structure) A container of a key value name pair. Key -&gt; (string) [required] Name of the object key. Constraints: o min: 1 Value -&gt; (string) [required] Value of the tag. Shorthand Syntax: TagSet=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "TagSet": [ { "Key": "string", "Value": "string" } ... ] }
+    /// </summary>
+    [CliOption("--tagging")]
+    public string? Tagging { get; private init; }
 
     /// <summary>
     /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -37,9 +84,6 @@ public record AwsS3apiPutBucketTaggingOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketTaggingChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--tagging")]
-    public string? Tagging { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiPutBucketTaggingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

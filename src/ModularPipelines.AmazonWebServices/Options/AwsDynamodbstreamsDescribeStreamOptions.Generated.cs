@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodbstreams", "describe-stream")]
-public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions
+public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. NOTE: You can call DescribeStream at a maximum rate of 10 times per sec- ond. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no End- ingSequenceNumber , then the shard is still open (able to receive more stream records). If both Starti...
+    /// </summary>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024</param>
+    public AwsDynamodbstreamsDescribeStreamOptions(
+        string StreamArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+    }
+
+    private AwsDynamodbstreamsDescribeStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbstreamsDescribeStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbstreamsDescribeStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
 
     /// <summary>
     /// The maximum number of shard objects to return. The upper limit is 100. Constraints: o min: 1
@@ -47,5 +84,21 @@ public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

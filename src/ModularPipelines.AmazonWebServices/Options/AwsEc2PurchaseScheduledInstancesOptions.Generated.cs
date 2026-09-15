@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "purchase-scheduled-instances")]
-public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions
+public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: You can no longer purchase Scheduled Instances. Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After y...
+    /// </summary>
+    /// <param name="PurchaseRequests">The purchase requests. Constraints: o min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]</param>
+    public AwsEc2PurchaseScheduledInstancesOptions(
+        IEnumerable<string> PurchaseRequests
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PurchaseRequests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PurchaseRequests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PurchaseRequests));
+            }
+
+            PurchaseRequests = materialized;
+        }
+        this.PurchaseRequests = PurchaseRequests;
+    }
+
+    private AwsEc2PurchaseScheduledInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2PurchaseScheduledInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2PurchaseScheduledInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The purchase requests. Constraints: o min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]
+    /// </summary>
+    [CliOption("--purchase-requests", GroupValues = true)]
+    public IEnumerable<string>? PurchaseRequests { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency .
     /// </summary>
@@ -29,16 +80,32 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliOption("--purchase-requests", GroupValues = true)]
-    public IEnumerable<string>? PurchaseRequests { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

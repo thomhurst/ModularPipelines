@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "create-presigned-url")]
-public record AwsQappsCreatePresignedUrlOptions : AwsOptions
+public record AwsQappsCreatePresignedUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope para- meter determines how the file will be used, either at the app defini- tion level or the app session level. NOTE: The IAM permissions are derived from the qapps:ImportDocument ac- tion. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps...
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="CardId">The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="AppId">The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="FileContentsSha256">The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: o pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}</param>
+    /// <param name="FileName">The name of the file to be uploaded. Constraints: o min: 0 o max: 100</param>
+    /// <param name="Scope">Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION</param>
+    public AwsQappsCreatePresignedUrlOptions(
+        string InstanceId,
+        string CardId,
+        string AppId,
+        string FileContentsSha256,
+        string FileName,
+        AwsQappsCreatePresignedUrlScope Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(CardId);
+        this.CardId = CardId;
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(FileContentsSha256);
+        this.FileContentsSha256 = FileContentsSha256;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsQappsCreatePresignedUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsCreatePresignedUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsCreatePresignedUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--card-id")]
-    public string? CardId { get; set; }
+    public string? CardId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The Base64-encoded SHA-256 digest of the contents of the file to be uploaded. Constraints: o pattern: [A-Za-z0-9+/]{43}=$|^[A-Za-z0-9+/]{42}==$|^[A-Za-z0-9+/]{44}
+    /// </summary>
     [CliOption("--file-contents-sha256")]
-    public string? FileContentsSha256 { get; set; }
+    public string? FileContentsSha256 { get; private init; }
 
+    /// <summary>
+    /// The name of the file to be uploaded. Constraints: o min: 0 o max: 100
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string? FileName { get; private init; }
 
+    /// <summary>
+    /// Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsQappsCreatePresignedUrlScope? Scope { get; private init; }
 
     /// <summary>
     /// The unique identifier of the Q App session the file is associated with, if applicable. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
@@ -50,5 +123,21 @@ public record AwsQappsCreatePresignedUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

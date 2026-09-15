@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "list-test-grid-session-artifacts")]
-public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions
+public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of artifacts created during the session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionArn">The ARN of a TestGridSession . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    public AwsDevicefarmListTestGridSessionArtifactsOptions(
+        string SessionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionArn);
+        this.SessionArn = SessionArn;
+    }
+
+    private AwsDevicefarmListTestGridSessionArtifactsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmListTestGridSessionArtifactsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmListTestGridSessionArtifactsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of a TestGridSession . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
     [CliOption("--session-arn")]
-    public string? SessionArn { get; set; }
+    public string? SessionArn { get; private init; }
 
     /// <summary>
     /// Limit results to a specified type of artifact. Possible values: o VIDEO o LOG
@@ -50,5 +87,21 @@ public record AwsDevicefarmListTestGridSessionArtifactsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

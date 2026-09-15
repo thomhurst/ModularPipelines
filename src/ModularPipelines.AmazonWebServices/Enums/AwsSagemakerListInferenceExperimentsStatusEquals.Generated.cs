@@ -11,32 +11,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --statusequals.
+/// Allowed values for --status-equals.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSagemakerListInferenceExperimentsStatusEquals
 {
-    [EnumValue("Creating")]
-    Creating = 1,
-
-    [EnumValue("Created")]
-    Created = 2,
-
-    [EnumValue("Updating")]
-    Updating = 3,
-
-    [EnumValue("Running")]
-    Running = 4,
-
-    [EnumValue("Starting")]
-    Starting = 5,
-
-    [EnumValue("Stopping")]
-    Stopping = 6,
+    [EnumValue("Cancelled")]
+    Cancelled,
 
     [EnumValue("Completed")]
-    Completed = 7,
+    Completed,
 
-    [EnumValue("Cancelled")]
-    Cancelled = 8
+    [EnumValue("Created")]
+    Created,
+
+    [EnumValue("Creating")]
+    Creating,
+
+    [EnumValue("Running")]
+    Running,
+
+    [EnumValue("Starting")]
+    Starting,
+
+    [EnumValue("Stopping")]
+    Stopping,
+
+    [EnumValue("Updating")]
+    Updating
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-replace-root-volume-task")]
-public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
+public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, that is restored from an AMI that has the same key characteris- tics as that of the instance, or that is replaced by a specified vol- ume. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance for which to replace the root volume.</param>
+    public AwsEc2CreateReplaceRootVolumeTaskOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2CreateReplaceRootVolumeTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateReplaceRootVolumeTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateReplaceRootVolumeTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance for which to replace the root volume.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The ID of the snapshot from which to restore the replacement root volume. The specified snapshot must be a snapshot that you previ- ously created from the original root volume. If you want to restore the replacement root volume to the initial launch state, if you want to restore the replacement root volume from an AMI, or if you want to replace the root volume with a speci- fied volume, omit this parameter.
@@ -38,7 +75,10 @@ public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -53,7 +93,10 @@ public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
     [CliOption("--image-id")]
     public string? ImageId { get; set; }
 
-    [CliFlag("--delete-replaced-root-volume")]
+    /// <summary>
+    /// Indicates whether to automatically delete the original root volume after the root volume replacement task completes. To delete the original root volume, specify true . If you choose to keep the orig- inal root volume after the replacement task completes, you must man- ually delete it when you no longer need it.
+    /// </summary>
+    [CliFlag("--delete-replaced-root-volume", NegatedName = "--no-delete-replaced-root-volume")]
     public bool? DeleteReplacedRootVolume { get; set; }
 
     /// <summary>
@@ -73,5 +116,21 @@ public record AwsEc2CreateReplaceRootVolumeTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

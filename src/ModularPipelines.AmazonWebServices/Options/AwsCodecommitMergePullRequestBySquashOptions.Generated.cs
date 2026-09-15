@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "merge-pull-request-by-squash")]
-public record AwsCodecommitMergePullRequestBySquashOptions : AwsOptions
+public record AwsCodecommitMergePullRequestBySquashOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
+    /// <param name="RepositoryName">The name of the repository where the pull request was created. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    public AwsCodecommitMergePullRequestBySquashOptions(
+        string PullRequestId,
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    private AwsCodecommitMergePullRequestBySquashOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitMergePullRequestBySquashOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitMergePullRequestBySquashOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The system-generated ID of the pull request. To get this ID, use ListPullRequests .
+    /// </summary>
+    [CliOption("--pull-request-id")]
+    public string? PullRequestId { get; private init; }
+
+    /// <summary>
+    /// The name of the repository where the pull request was created. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
     /// <summary>
     /// The full commit ID of the original or updated commit in the pull re- quest source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
@@ -64,7 +108,10 @@ public record AwsCodecommitMergePullRequestBySquashOptions : AwsOptions
     [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CliFlag("--keep-empty-folders")]
+    /// <summary>
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .git- keep file is created for empty folders. The default is false.
+    /// </summary>
+    [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
@@ -78,5 +125,21 @@ public record AwsCodecommitMergePullRequestBySquashOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

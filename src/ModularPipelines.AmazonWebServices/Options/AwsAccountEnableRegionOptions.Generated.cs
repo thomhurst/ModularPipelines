@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "enable-region")]
-public record AwsAccountEnableRegionOptions : AwsOptions
+public record AwsAccountEnableRegionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables (opts-in) a particular Region for an account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegionName">Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot dis- able the Region until the enabling process is fully completed. Constraints: o min: 1 o max: 50</param>
+    public AwsAccountEnableRegionOptions(
+        string RegionName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegionName);
+        this.RegionName = RegionName;
+    }
+
+    private AwsAccountEnableRegionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccountEnableRegionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccountEnableRegionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the Region-code for a given Region name (for example, af-south-1 ). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot dis- able the Region until the enabling process is fully completed. Constraints: o min: 1 o max: 50
+    /// </summary>
+    [CliOption("--region-name")]
+    public string? RegionName { get; private init; }
+
     /// <summary>
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Ser- vices account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The speci- fied account ID must be a member account in the same organization. The organization must have all features enabled , and the organiza- tion must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. NOTE: The management account can't specify its own AccountId . It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, don't specify this parameter. Instead, call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CliOption("--region-name")]
-    public string? RegionName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

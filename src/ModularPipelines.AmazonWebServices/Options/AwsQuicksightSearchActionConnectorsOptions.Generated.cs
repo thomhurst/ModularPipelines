@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-action-connectors")]
-public record AwsQuicksightSearchActionConnectorsOptions : AwsOptions
+public record AwsQuicksightSearchActionConnectorsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Searches for action connectors in the specified Amazon Web Services ac- count using filters. You can search by connector name, type, or user permissions. See also: AWS API Documentation search-action-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
+    /// </summary>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID in which to search for action connectors. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Filters">The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported. Constraints: o min: 0 o max: 1 (structure) A filter used to search for action connectors based on specific criteria. Name -&gt; (string) [required] The name of the filter attribute (e.g., ACTION_CONNEC- TOR_NAME, ACTION_CONNECTOR_TYPE, QUICKSIGHT_VIEWER_OR_OWNER). Possible values: o ACTION_CONNECTOR_NAME o ACTION_CONNECTOR_TYPE o QUICKSIGHT_OWNER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER Constraints: o min: 1 Operator -&gt; (string) [required] The comparison operator to use for the filter (e.g., StringE- quals, StringLike). Possible values: o StringEquals o StringLike Value -&gt; (string) [required] The value to compare against using the specified operator. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "ACTION_CONNECTOR_NAME"|"ACTION_CONNECTOR_TYPE"|"QUICKSIGHT_OWNER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]</param>
+    public AwsQuicksightSearchActionConnectorsOptions(
+        string AwsAccountId,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchActionConnectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchActionConnectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchActionConnectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID in which to search for action connectors. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported. Constraints: o min: 0 o max: 1 (structure) A filter used to search for action connectors based on specific criteria. Name -&gt; (string) [required] The name of the filter attribute (e.g., ACTION_CONNEC- TOR_NAME, ACTION_CONNECTOR_TYPE, QUICKSIGHT_VIEWER_OR_OWNER). Possible values: o ACTION_CONNECTOR_NAME o ACTION_CONNECTOR_TYPE o QUICKSIGHT_OWNER o QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER Constraints: o min: 1 Operator -&gt; (string) [required] The comparison operator to use for the filter (e.g., StringE- quals, StringLike). Possible values: o StringEquals o StringLike Value -&gt; (string) [required] The value to compare against using the specified operator. Shorthand Syntax: Name=string,Operator=string,Value=string ... JSON Syntax: [ { "Name": "ACTION_CONNECTOR_NAME"|"ACTION_CONNECTOR_TYPE"|"QUICKSIGHT_OWNER"|"QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER", "Operator": "StringEquals"|"StringLike", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +107,21 @@ public record AwsQuicksightSearchActionConnectorsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

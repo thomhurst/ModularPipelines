@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "get-contact-channel")]
-public record AwsSsmContactsGetContactChannelOptions : AwsOptions
+public record AwsSsmContactsGetContactChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List details about a specific contact channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactChannelId">The Amazon Resource Name (ARN) of the contact channel you want in- formation about. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    public AwsSsmContactsGetContactChannelOptions(
+        string ContactChannelId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactChannelId);
+        this.ContactChannelId = ContactChannelId;
+    }
+
+    private AwsSsmContactsGetContactChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsGetContactChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsGetContactChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the contact channel you want in- formation about. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// </summary>
     [CliOption("--contact-channel-id")]
-    public string? ContactChannelId { get; set; }
+    public string? ContactChannelId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

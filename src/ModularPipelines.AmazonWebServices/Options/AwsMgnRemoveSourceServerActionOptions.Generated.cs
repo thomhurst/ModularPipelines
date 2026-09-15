@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "remove-source-server-action")]
-public record AwsMgnRemoveSourceServerActionOptions : AwsOptions
+public record AwsMgnRemoveSourceServerActionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Remove source server post migration custom action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">Source server ID of the post migration custom action to remove. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="ActionId">Source server post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]</param>
+    public AwsMgnRemoveSourceServerActionOptions(
+        string SourceServerId,
+        string ActionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+        global::System.ArgumentNullException.ThrowIfNull(ActionId);
+        this.ActionId = ActionId;
+    }
+
+    private AwsMgnRemoveSourceServerActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnRemoveSourceServerActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnRemoveSourceServerActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Source server ID of the post migration custom action to remove. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
+    [CliOption("--source-server-id")]
+    public string? SourceServerId { get; private init; }
+
+    /// <summary>
+    /// Source server post migration custom action ID to remove. Constraints: o min: 1 o max: 64 o pattern: .*[0-9a-zA-Z]
+    /// </summary>
     [CliOption("--action-id")]
-    public string? ActionId { get; set; }
+    public string? ActionId { get; private init; }
 
     /// <summary>
     /// Source server post migration account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
@@ -38,5 +82,21 @@ public record AwsMgnRemoveSourceServerActionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

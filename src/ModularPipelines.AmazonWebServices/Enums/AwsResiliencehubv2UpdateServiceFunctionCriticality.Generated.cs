@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsResiliencehubv2UpdateServiceFunctionCriticality
 {
     [EnumValue("PRIMARY")]
-    Primary = 1,
+    Primary,
 
     [EnumValue("SUPPLEMENTAL")]
-    Supplemental = 2
+    Supplemental
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "create-dataset-export-job")]
-public record AwsPersonalizeCreateDataSetExportJobOptions : AwsOptions
+public record AwsPersonalizeCreateDataSetExportJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon Personalize to export the training data, you must specify an service-linked IAM role that gives Amazon Personalize PutObject permissions for your Amazon S3 bucket. For information, see Exporting a dataset in the Amazon Personalize developer guide. Status A dataset export job can be in one of the following states: o CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED To get the status of the expo...
+    /// </summary>
+    /// <param name="JobName">The name for the dataset export job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset that contains the data to export. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM service role that has per- missions to add data to your output Amazon S3 bucket. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="JobOutput">The path to the Amazon S3 bucket where the job's output is stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
+    public AwsPersonalizeCreateDataSetExportJobOptions(
+        string JobName,
+        string DataSetArn,
+        string RoleArn,
+        string JobOutput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(JobOutput);
+        this.JobOutput = JobOutput;
+    }
+
+    private AwsPersonalizeCreateDataSetExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeCreateDataSetExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeCreateDataSetExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the dataset export job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// </summary>
+    [CliOption("--job-name")]
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the dataset that contains the data to export. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    public string? DataSetArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM service role that has per- missions to add data to your output Amazon S3 bucket. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// The path to the Amazon S3 bucket where the job's output is stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
+    /// </summary>
+    [CliOption("--job-output")]
+    public string? JobOutput { get; private init; }
 
     /// <summary>
     /// The data to export, based on how you imported the data. You can choose to export only BULK data that you imported using a dataset import job, only PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL for both types. The default value is PUT . Possible values: o BULK o PUT o ALL
     /// </summary>
     [CliOption("--ingestion-mode")]
     public AwsPersonalizeCreateDataSetExportJobIngestionMode? IngestionMode { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--job-output")]
-    public string? JobOutput { get; set; }
 
     /// <summary>
     /// A list of tags to apply to the dataset export job. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
@@ -51,5 +109,21 @@ public record AwsPersonalizeCreateDataSetExportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

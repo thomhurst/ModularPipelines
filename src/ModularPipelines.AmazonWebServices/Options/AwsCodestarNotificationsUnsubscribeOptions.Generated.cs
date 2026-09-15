@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-notifications", "unsubscribe")]
-public record AwsCodestarNotificationsUnsubscribeOptions : AwsOptions
+public record AwsCodestarNotificationsUnsubscribeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes an association between a notification rule and an Amazon Q De- veloper in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
+    /// <param name="TargetAddress">The ARN of the Amazon Q Developer in chat applications topic to un- subscribe from the notification rule. Constraints: o min: 1 o max: 320</param>
+    public AwsCodestarNotificationsUnsubscribeOptions(
+        string Arn,
+        string TargetAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetAddress);
+        this.TargetAddress = TargetAddress;
+    }
+
+    private AwsCodestarNotificationsUnsubscribeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarNotificationsUnsubscribeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarNotificationsUnsubscribeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Amazon Q Developer in chat applications topic to un- subscribe from the notification rule. Constraints: o min: 1 o max: 320
+    /// </summary>
     [CliOption("--target-address")]
-    public string? TargetAddress { get; set; }
+    public string? TargetAddress { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

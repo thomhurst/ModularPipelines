@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "update-anomaly")]
-public record AwsLogsUpdateAnomalyOptions : AwsOptions
+public record AwsLogsUpdateAnomalyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use this operation to suppress anomaly detection for a specified anom- aly or pattern. If you suppress an anomaly, CloudWatch Logs won't re- port new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId , but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a pa...
+    /// </summary>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that this operation is to act on. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    public AwsLogsUpdateAnomalyOptions(
+        string AnomalyDetectorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyDetectorArn);
+        this.AnomalyDetectorArn = AnomalyDetectorArn;
+    }
+
+    private AwsLogsUpdateAnomalyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsUpdateAnomalyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsUpdateAnomalyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the anomaly detector that this operation is to act on. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
+    [CliOption("--anomaly-detector-arn")]
+    public string? AnomalyDetectorArn { get; private init; }
+
     /// <summary>
     /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation. Constraints: o min: 36 o max: 36
     /// </summary>
@@ -33,9 +73,6 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions
     /// </summary>
     [CliOption("--pattern-id")]
     public string? PatternId { get; set; }
-
-    [CliOption("--anomaly-detector-arn")]
-    public string? AnomalyDetectorArn { get; set; }
 
     /// <summary>
     /// Use this to specify whether the suppression to be temporary or infi- nite. If you specify LIMITED , you must also specify a suppression- Period . If you specify INFINITE , any value for suppressionPeriod is ignored. Possible values: o LIMITED o INFINITE
@@ -49,7 +86,10 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions
     [CliOption("--suppression-period")]
     public string? SuppressionPeriod { get; set; }
 
-    [CliFlag("--baseline")]
+    /// <summary>
+    /// Set this to true to prevent CloudWatch Logs from displaying this be- havior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
+    /// </summary>
+    [CliFlag("--baseline", NegatedName = "--no-baseline")]
     public bool? Baseline { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -57,5 +97,21 @@ public record AwsLogsUpdateAnomalyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

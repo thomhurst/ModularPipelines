@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "associate-identity-provider-config")]
-public record AwsEksAssociateIdentityProviderConfigOptions : AwsOptions
+public record AwsEksAssociateIdentityProviderConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can cre- ate Kubernetes Role and ClusterRole objects, assign permissions to them, and then bind them to the identities using Kubernetes RoleBinding and ClusterRoleBinding objects. For more information see Using RBAC Au- thorization in t...
+    /// </summary>
+    /// <param name="ClusterName">The name of your cluster.</param>
+    /// <param name="Oidc">An object representing an OpenID Connect (OIDC) identity provider configuration. identityProviderConfigName -&gt; (string) [required] The name of the OIDC provider configuration. issuerUrl -&gt; (string) [required] The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens. The URL must begin with https:// and should correspond to the iss claim in the provider's OIDC ID tokens. Based on the OIDC standard, path components are allowed but query parameters are not. Typi- cally the URL consists of only a hostname, like https://server.example.org or https://example.com . This URL should point to the level below .well-known/openid-configuration and must be publicly accessible over the internet. clientId -&gt; (string) [required] This is also known as audience . The ID for the client applica- tion that makes authentication requests to the OIDC identity provider. usernameClaim -&gt; (string) The JSON Web Token (JWT) claim to use as the username. The de- fault is sub , which is expected to be a unique identifier of the end user. You can choose other claims, such as email or name , depending on the OIDC identity provider. Claims other than email are prefixed with the issuer URL to prevent naming clashes with other plug-ins. usernamePrefix -&gt; (string) The prefix that is prepended to username claims to prevent clashes with existing names. If you do not provide this field, and username is a value other than email , the prefix defaults to issuerurl# . You can use the value - to disable all prefix- ing. groupsClaim -&gt; (string) The JWT claim that the provider uses to return your groups. groupsPrefix -&gt; (string) The prefix that is prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value``oidc:`` will create group names like oidc:engineering and oidc:infra . requiredClaims -&gt; (map) The key value pairs that describe required claims in the iden- tity token. If set, each claim is verified to be present in the token with a matching value. For the maximum number of claims that you can require, see Amazon EKS service quotas in the Ama- zon EKS User Guide . key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 253 Shorthand Syntax: identityProviderConfigName=string,issuerUrl=string,clientId=string,usernameClaim=string,usernamePrefix=string,groupsClaim=string,groupsPrefix=string,requiredClaims={KeyName1=string,KeyName2=string} JSON Syntax: { "identityProviderConfigName": "string", "issuerUrl": "string", "clientId": "string", "usernameClaim": "string", "usernamePrefix": "string", "groupsClaim": "string", "groupsPrefix": "string", "requiredClaims": {"string": "string" ...} }</param>
+    public AwsEksAssociateIdentityProviderConfigOptions(
+        string ClusterName,
+        string Oidc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Oidc);
+        this.Oidc = Oidc;
+    }
+
+    private AwsEksAssociateIdentityProviderConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksAssociateIdentityProviderConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksAssociateIdentityProviderConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your cluster.
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// An object representing an OpenID Connect (OIDC) identity provider configuration. identityProviderConfigName -&gt; (string) [required] The name of the OIDC provider configuration. issuerUrl -&gt; (string) [required] The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens. The URL must begin with https:// and should correspond to the iss claim in the provider's OIDC ID tokens. Based on the OIDC standard, path components are allowed but query parameters are not. Typi- cally the URL consists of only a hostname, like https://server.example.org or https://example.com . This URL should point to the level below .well-known/openid-configuration and must be publicly accessible over the internet. clientId -&gt; (string) [required] This is also known as audience . The ID for the client applica- tion that makes authentication requests to the OIDC identity provider. usernameClaim -&gt; (string) The JSON Web Token (JWT) claim to use as the username. The de- fault is sub , which is expected to be a unique identifier of the end user. You can choose other claims, such as email or name , depending on the OIDC identity provider. Claims other than email are prefixed with the issuer URL to prevent naming clashes with other plug-ins. usernamePrefix -&gt; (string) The prefix that is prepended to username claims to prevent clashes with existing names. If you do not provide this field, and username is a value other than email , the prefix defaults to issuerurl# . You can use the value - to disable all prefix- ing. groupsClaim -&gt; (string) The JWT claim that the provider uses to return your groups. groupsPrefix -&gt; (string) The prefix that is prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value``oidc:`` will create group names like oidc:engineering and oidc:infra . requiredClaims -&gt; (map) The key value pairs that describe required claims in the iden- tity token. If set, each claim is verified to be present in the token with a matching value. For the maximum number of claims that you can require, see Amazon EKS service quotas in the Ama- zon EKS User Guide . key -&gt; (string) Constraints: o min: 1 o max: 63 value -&gt; (string) Constraints: o min: 1 o max: 253 Shorthand Syntax: identityProviderConfigName=string,issuerUrl=string,clientId=string,usernameClaim=string,usernamePrefix=string,groupsClaim=string,groupsPrefix=string,requiredClaims={KeyName1=string,KeyName2=string} JSON Syntax: { "identityProviderConfigName": "string", "issuerUrl": "string", "clientId": "string", "usernameClaim": "string", "usernamePrefix": "string", "groupsClaim": "string", "groupsPrefix": "string", "requiredClaims": {"string": "string" ...} }
+    /// </summary>
     [CliOption("--oidc")]
-    public string? Oidc { get; set; }
+    public string? Oidc { get; private init; }
 
     /// <summary>
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -47,5 +91,21 @@ public record AwsEksAssociateIdentityProviderConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

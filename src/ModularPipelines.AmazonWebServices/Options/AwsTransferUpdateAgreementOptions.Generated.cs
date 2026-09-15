@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "update-agreement")]
-public record AwsTransferUpdateAgreementOptions : AwsOptions
+public record AwsTransferUpdateAgreementOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agreement-id")]
-    public string? AgreementId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. NOTE: Specify either BaseDirectory or CustomDirectories , but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom di- rectories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, ...
+    /// </summary>
+    /// <param name="AgreementId">A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    public AwsTransferUpdateAgreementOptions(
+        string AgreementId,
+        string ServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgreementId);
+        this.AgreementId = AgreementId;
+        global::System.ArgumentNullException.ThrowIfNull(ServerId);
+        this.ServerId = ServerId;
+    }
+
+    private AwsTransferUpdateAgreementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferUpdateAgreementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferUpdateAgreementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})
+    /// </summary>
+    [CliOption("--agreement-id")]
+    public string? AgreementId { get; private init; }
+
+    /// <summary>
+    /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--server-id")]
-    public string? ServerId { get; set; }
+    public string? ServerId { get; private init; }
 
     /// <summary>
     /// To replace the existing description, provide a short description for the agreement. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
@@ -87,5 +131,21 @@ public record AwsTransferUpdateAgreementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

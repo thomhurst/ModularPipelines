@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-code-interpreter-session")]
-public record AwsBedrockAgentcoreGetCodeInterpreterSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreGetCodeInterpreterSessionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--code-interpreter-identifier")]
-    public string? CodeInterpreterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves detailed information about a specific code interpreter ses- sion in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. The response includes informa- tion about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : o StartCodeInterpreterSession o ListCodeIn...
+    /// </summary>
+    /// <param name="CodeInterpreterIdentifier">The unique identifier of the code interpreter associated with the session.</param>
+    /// <param name="SessionId">The unique identifier of the code interpreter session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    public AwsBedrockAgentcoreGetCodeInterpreterSessionOptions(
+        string CodeInterpreterIdentifier,
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeInterpreterIdentifier);
+        this.CodeInterpreterIdentifier = CodeInterpreterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsBedrockAgentcoreGetCodeInterpreterSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetCodeInterpreterSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetCodeInterpreterSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the code interpreter associated with the session.
+    /// </summary>
+    [CliOption("--code-interpreter-identifier")]
+    public string? CodeInterpreterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the code interpreter session to retrieve. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "delete-contact-data")]
-public record AwsConnectDeleteContactDataOptions : AwsOptions
+public record AwsConnectDeleteContactDataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified fields containing personally identifiable infor- mation (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this op- eration permanently deletes the specified PII. There is no retention period; ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. You can delete PII only from a con- tact that has been disconnected (is in a terminated state). Constraints: o min: 1 o max: 256</param>
+    /// <param name="ContactFields">The categories of PII to redact from the contact. Specify one or more of the following values: o CUSTOMER_ENDPOINT The customer's contact endpoint. o ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). o EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: o CUSTOMER_ENDPOINT o ADDITIONAL_EMAIL_RECIPIENTS o EMAIL_SUBJECT Syntax: "string" "string" ...</param>
+    public AwsConnectDeleteContactDataOptions(
+        string InstanceId,
+        string ContactId,
+        IEnumerable<string> ContactFields
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContactFields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContactFields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContactFields));
+            }
+
+            ContactFields = materialized;
+        }
+        this.ContactFields = ContactFields;
+    }
+
+    private AwsConnectDeleteContactDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDeleteContactDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDeleteContactDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact. You can delete PII only from a con- tact that has been disconnected (is in a terminated state). Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The categories of PII to redact from the contact. Specify one or more of the following values: o CUSTOMER_ENDPOINT The customer's contact endpoint. o ADDITIONAL_EMAIL_RECIPIENTS Additional recipients on an email contact (email channel only). o EMAIL_SUBJECT The subject line of an email contact (email channel only). (string) Possible values: o CUSTOMER_ENDPOINT o ADDITIONAL_EMAIL_RECIPIENTS o EMAIL_SUBJECT Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--contact-fields", GroupValues = true)]
-    public IEnumerable<string>? ContactFields { get; set; }
+    public IEnumerable<string>? ContactFields { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "put-external-evaluation")]
-public record AwsConfigservicePutExternalEvaluationOptions : AwsOptions
+public record AwsConfigservicePutExternalEvaluationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--config-rule-name")]
-    public string? ConfigRuleName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is pro- vided. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConfigRuleName">The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ExternalEvaluation">An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: o min: 1 o max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: o min: 1 o max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: o min: 1 o max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }</param>
+    public AwsConfigservicePutExternalEvaluationOptions(
+        string ConfigRuleName,
+        string ExternalEvaluation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigRuleName);
+        this.ConfigRuleName = ConfigRuleName;
+        global::System.ArgumentNullException.ThrowIfNull(ExternalEvaluation);
+        this.ExternalEvaluation = ExternalEvaluation;
+    }
+
+    private AwsConfigservicePutExternalEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigservicePutExternalEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigservicePutExternalEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--config-rule-name")]
+    public string? ConfigRuleName { get; private init; }
+
+    /// <summary>
+    /// An ExternalEvaluation object that provides details about compliance. ComplianceResourceType -&gt; (string) [required] The evaluated compliance resource type. Config accepts AWS::::Account resource type. Constraints: o min: 1 o max: 256 ComplianceResourceId -&gt; (string) [required] The evaluated compliance resource ID. Config accepts only Amazon Web Services account ID. Constraints: o min: 1 o max: 768 ComplianceType -&gt; (string) [required] The compliance of the Amazon Web Services resource. The valid values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE . Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Annotation -&gt; (string) Supplementary information about the reason of compliance. For example, this task was completed on a specific date. Constraints: o min: 1 o max: 256 OrderingTimestamp -&gt; (timestamp) [required] The time when the compliance was recorded. Shorthand Syntax: ComplianceResourceType=string,ComplianceResourceId=string,ComplianceType=string,Annotation=string,OrderingTimestamp=timestamp JSON Syntax: { "ComplianceResourceType": "string", "ComplianceResourceId": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "Annotation": "string", "OrderingTimestamp": timestamp }
+    /// </summary>
     [CliOption("--external-evaluation")]
-    public string? ExternalEvaluation { get; set; }
+    public string? ExternalEvaluation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "describe-configuration-aggregator-sources-status")]
-public record AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions : AwsOptions
+public record AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message. See also: AWS API Documentation describe-configuration-aggregator-sources-status is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    public AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions(
+        string ConfigurationAggregatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+    }
+
+    private AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
     /// Filters the status type. o Valid value FAILED indicates errors while moving data. o Valid value SUCCEEDED indicates the data was successfully moved. o Valid value OUTDATED indicates the data is not the most recent. Constraints: o min: 1 (string) Possible values: o FAILED o SUCCEEDED o OUTDATED Syntax: "string" "string" ...
@@ -55,5 +92,21 @@ public record AwsConfigserviceDescribeConfigurationAggregatorSourcesStatusOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

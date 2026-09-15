@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "delete-conformance-pack")]
-public record AwsConfigserviceDeleteConformancePackOptions : AwsOptions
+public record AwsConfigserviceDeleteConformancePackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified conformance pack and all the Config rules, reme- diation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a conformance pack while it is in this state. NOTE: Recommendation: Consider excluding the ``AWS::Config::Resource- Compliance`` resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Con- fig::...
+    /// </summary>
+    /// <param name="ConformancePackName">Name of the conformance pack you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    public AwsConfigserviceDeleteConformancePackOptions(
+        string ConformancePackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConformancePackName);
+        this.ConformancePackName = ConformancePackName;
+    }
+
+    private AwsConfigserviceDeleteConformancePackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDeleteConformancePackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDeleteConformancePackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the conformance pack you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--conformance-pack-name")]
-    public string? ConformancePackName { get; set; }
+    public string? ConformancePackName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

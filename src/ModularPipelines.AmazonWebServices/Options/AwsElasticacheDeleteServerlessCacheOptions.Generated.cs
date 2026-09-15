@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "delete-serverless-cache")]
-public record AwsElasticacheDeleteServerlessCacheOptions : AwsOptions
+public record AwsElasticacheDeleteServerlessCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a specified existing serverless cache. NOTE: CreateServerlessCacheSnapshot permission is required to create a fi- nal snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServerlessCacheName">The identifier of the serverless cache to be deleted.</param>
+    public AwsElasticacheDeleteServerlessCacheOptions(
+        string ServerlessCacheName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerlessCacheName);
+        this.ServerlessCacheName = ServerlessCacheName;
+    }
+
+    private AwsElasticacheDeleteServerlessCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDeleteServerlessCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDeleteServerlessCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the serverless cache to be deleted.
+    /// </summary>
     [CliOption("--serverless-cache-name")]
-    public string? ServerlessCacheName { get; set; }
+    public string? ServerlessCacheName { get; private init; }
 
     /// <summary>
     /// Name of the final snapshot to be taken before the serverless cache is deleted. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL, i.e. a final snapshot is not taken.
@@ -35,5 +72,21 @@ public record AwsElasticacheDeleteServerlessCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "add-facet-to-object")]
-public record AwsClouddirectoryAddFacetToObjectOptions : AwsOptions
+public record AwsClouddirectoryAddFacetToObjectOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a new Facet to an object. An object can have more than one facet applied on it. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides. For more information, see arns .</param>
+    /// <param name="SchemaFacet">Identifiers for the facet that you are adding to the object. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }</param>
+    /// <param name="ObjectReference">A reference to the object you are adding the specified facet to. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    public AwsClouddirectoryAddFacetToObjectOptions(
+        string DirectoryArn,
+        string SchemaFacet,
+        string ObjectReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaFacet);
+        this.SchemaFacet = SchemaFacet;
+        global::System.ArgumentNullException.ThrowIfNull(ObjectReference);
+        this.ObjectReference = ObjectReference;
+    }
+
+    private AwsClouddirectoryAddFacetToObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryAddFacetToObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryAddFacetToObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides. For more information, see arns .
+    /// </summary>
+    [CliOption("--directory-arn")]
+    public string? DirectoryArn { get; private init; }
+
+    /// <summary>
+    /// Identifiers for the facet that you are adding to the object. See SchemaFacet for details. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor com- ponent. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string JSON Syntax: { "SchemaArn": "string", "FacetName": "string" }
+    /// </summary>
     [CliOption("--schema-facet")]
-    public string? SchemaFacet { get; set; }
+    public string? SchemaFacet { get; private init; }
+
+    /// <summary>
+    /// A reference to the object you are adding the specified facet to. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// </summary>
+    [CliOption("--object-reference")]
+    public string? ObjectReference { get; private init; }
 
     /// <summary>
     /// Attributes on the facet that you are adding to the object. (structure) The combination of an attribute key and an attribute value. Key -&gt; (structure) [required] The key of the attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: Key={SchemaArn=string,FacetName=string,Name=string},Value={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp} ... JSON Syntax: [ { "Key": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ]
@@ -33,13 +87,26 @@ public record AwsClouddirectoryAddFacetToObjectOptions : AwsOptions
     [CliOption("--object-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ObjectAttributeList { get; set; }
 
-    [CliOption("--object-reference")]
-    public string? ObjectReference { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

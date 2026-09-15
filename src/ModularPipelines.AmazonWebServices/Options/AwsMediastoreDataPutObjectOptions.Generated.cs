@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore-data", "put-object")]
-public record AwsMediastoreDataPutObjectOptions : AwsOptions
+public record AwsMediastoreDataPutObjectOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--body")]
-    public string? Body { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Body">The bytes to be stored. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
+    /// <param name="Path">The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path pre- mium\canada in the container movies , enter the path pre- mium/canada/mlaw.avi . Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada , the service creates a canada subfolder in the premium folder. You then have two subfold- ers, usa and canada , in the premium folder. There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a con- tainer, see the AWS Elemental MediaStore User Guide . The file name is the name that is assigned to the file that you up- load. The file can have the same name inside and outside of AWS Ele- mental MediaStore, or it can have the same name. The file name can include or omit an extension. Constraints: o min: 1 o max: 900 o pattern: (?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+</param>
+    public AwsMediastoreDataPutObjectOptions(
+        string Body,
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Body);
+        this.Body = Body;
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    private AwsMediastoreDataPutObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastoreDataPutObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastoreDataPutObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bytes to be stored. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
+    /// </summary>
+    [CliOption("--body")]
+    public string? Body { get; private init; }
+
+    /// <summary>
+    /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path pre- mium\canada in the container movies , enter the path pre- mium/canada/mlaw.avi . Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada , the service creates a canada subfolder in the premium folder. You then have two subfold- ers, usa and canada , in the premium folder. There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a con- tainer, see the AWS Elemental MediaStore User Guide . The file name is the name that is assigned to the file that you up- load. The file can have the same name inside and outside of AWS Ele- mental MediaStore, or it can have the same name. The file name can include or omit an extension. Constraints: o min: 1 o max: 900 o pattern: (?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+
+    /// </summary>
     [CliOption("--path")]
-    public string? Path { get; set; }
+    public string? Path { get; private init; }
 
     /// <summary>
     /// The content type of the object. Constraints: o pattern: ^[\w\-\/\.\+]{1,255}$
@@ -57,5 +101,21 @@ public record AwsMediastoreDataPutObjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

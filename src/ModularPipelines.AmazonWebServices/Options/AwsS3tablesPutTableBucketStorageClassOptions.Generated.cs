@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3tables", "put-table-bucket-storage-class")]
-public record AwsS3tablesPutTableBucketStorageClassOptions : AwsOptions
+public record AwsS3tablesPutTableBucketStorageClassOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-bucket-arn")]
-    public string? TableBucketArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new ta- bles created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="StorageClassConfiguration">The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: o STANDARD o INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }</param>
+    public AwsS3tablesPutTableBucketStorageClassOptions(
+        string TableBucketArn,
+        string StorageClassConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableBucketArn);
+        this.TableBucketArn = TableBucketArn;
+        global::System.ArgumentNullException.ThrowIfNull(StorageClassConfiguration);
+        this.StorageClassConfiguration = StorageClassConfiguration;
+    }
+
+    private AwsS3tablesPutTableBucketStorageClassOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3tablesPutTableBucketStorageClassOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3tablesPutTableBucketStorageClassOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// </summary>
+    [CliOption("--table-bucket-arn")]
+    public string? TableBucketArn { get; private init; }
+
+    /// <summary>
+    /// The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: o STANDARD o INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }
+    /// </summary>
     [CliOption("--storage-class-configuration")]
-    public string? StorageClassConfiguration { get; set; }
+    public string? StorageClassConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

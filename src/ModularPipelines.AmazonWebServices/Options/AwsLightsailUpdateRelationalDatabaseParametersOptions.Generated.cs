@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "update-relational-database-parameters")]
-public record AwsLightsailUpdateRelationalDatabaseParametersOptions : AwsOptions
+public record AwsLightsailUpdateRelationalDatabaseParametersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot . Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only af- ter the database is rebooted using the reboot relational databas...
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of your database for which to update parameters. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="Parameters">The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modi- fied. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]</param>
+    public AwsLightsailUpdateRelationalDatabaseParametersOptions(
+        string RelationalDatabaseName,
+        IEnumerable<string> Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Parameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parameters));
+            }
+
+            Parameters = materialized;
+        }
+        this.Parameters = Parameters;
+    }
+
+    private AwsLightsailUpdateRelationalDatabaseParametersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailUpdateRelationalDatabaseParametersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailUpdateRelationalDatabaseParametersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your database for which to update parameters. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--relational-database-name")]
+    public string? RelationalDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The database parameters to update. (structure) Describes the parameters of a database. allowedValues -&gt; (string) Specifies the valid range of values for the parameter. applyMethod -&gt; (string) Indicates when parameter updates are applied. Can be immediate or pending-reboot . applyType -&gt; (string) Specifies the engine-specific parameter type. dataType -&gt; (string) Specifies the valid data type for the parameter. description -&gt; (string) Provides a description of the parameter. isModifiable -&gt; (boolean) A Boolean value indicating whether the parameter can be modi- fied. parameterName -&gt; (string) Specifies the name of the parameter. parameterValue -&gt; (string) Specifies the value of the parameter. Shorthand Syntax: allowedValues=string,applyMethod=string,applyType=string,dataType=string,description=string,isModifiable=boolean,parameterName=string,parameterValue=string ... JSON Syntax: [ { "allowedValues": "string", "applyMethod": "string", "applyType": "string", "dataType": "string", "description": "string", "isModifiable": true|false, "parameterName": "string", "parameterValue": "string" } ... ]
+    /// </summary>
     [CliOption("--parameters", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<string>? Parameters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

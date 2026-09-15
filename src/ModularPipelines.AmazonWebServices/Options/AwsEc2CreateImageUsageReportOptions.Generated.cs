@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-image-usage-report")]
-public record AwsEc2CreateImageUsageReportOptions : AwsOptions
+public record AwsEc2CreateImageUsageReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which ac- counts are using the specified image, and how many resources (EC2 in- stances or launch templates) are referencing it. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageId">The ID of the image to report on.</param>
+    /// <param name="ResourceTypes">The resource types to include in the report. (structure) A resource type to include in the report. Associated options can also be specified if the resource type is a launch template. ResourceType -&gt; (string) The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate ResourceTypeOptions -&gt; (list) The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate . (structure) The options that affect the scope of the report. OptionName -&gt; (string) The name of the option. Valid value: version-depth - The number of launch tem- plate versions to check. OptionValues -&gt; (list) A value for the specified option. Valid values: Integers between 1 and 10000 Default: 20 (string) JSON Syntax: [ { "ResourceType": "string", "ResourceTypeOptions": [ { "OptionName": "string", "OptionValues": ["string", ...] } ... ] } ... ]</param>
+    public AwsEc2CreateImageUsageReportOptions(
+        string ImageId,
+        IEnumerable<string> ResourceTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceTypes));
+            }
+
+            ResourceTypes = materialized;
+        }
+        this.ResourceTypes = ResourceTypes;
+    }
+
+    private AwsEc2CreateImageUsageReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateImageUsageReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateImageUsageReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the image to report on.
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
-
+    /// <summary>
+    /// The resource types to include in the report. (structure) A resource type to include in the report. Associated options can also be specified if the resource type is a launch template. ResourceType -&gt; (string) The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate ResourceTypeOptions -&gt; (list) The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate . (structure) The options that affect the scope of the report. OptionName -&gt; (string) The name of the option. Valid value: version-depth - The number of launch tem- plate versions to check. OptionValues -&gt; (list) A value for the specified option. Valid values: Integers between 1 and 10000 Default: 20 (string) JSON Syntax: [ { "ResourceType": "string", "ResourceTypeOptions": [ { "OptionName": "string", "OptionValues": ["string", ...] } ... ] } ... ]
+    /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
-    public IEnumerable<string>? ResourceTypes { get; set; }
+    public IEnumerable<string>? ResourceTypes { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account IDs to include in the report. To in- clude all accounts, omit this parameter. Constraints: o min: 0 o max: 200 (string) Syntax: "string" "string" ...
@@ -55,5 +113,21 @@ public record AwsEc2CreateImageUsageReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

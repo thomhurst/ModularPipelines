@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "update-resource-gateway")]
-public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions
+public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified resource gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGatewayIdentifier">The ID or ARN of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))</param>
+    public AwsVpcLatticeUpdateResourceGatewayOptions(
+        string ResourceGatewayIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGatewayIdentifier);
+        this.ResourceGatewayIdentifier = ResourceGatewayIdentifier;
+    }
+
+    private AwsVpcLatticeUpdateResourceGatewayOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeUpdateResourceGatewayOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeUpdateResourceGatewayOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the resource gateway. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
+    /// </summary>
     [CliOption("--resource-gateway-identifier")]
-    public string? ResourceGatewayIdentifier { get; set; }
+    public string? ResourceGatewayIdentifier { get; private init; }
 
     /// <summary>
     /// The IDs of the security groups associated with the resource gateway. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsVpcLatticeUpdateResourceGatewayOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

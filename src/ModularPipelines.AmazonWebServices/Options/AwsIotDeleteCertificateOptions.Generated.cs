@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "delete-certificate")]
-public record AwsIotDeleteCertificateOptions : AwsOptions
+public record AwsIotDeleteCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force-delete")]
+    /// <summary>
+    /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing at- tached to it or if its status is set to ACTIVE. To delete a certifi- cate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INAC- TIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    public AwsIotDeleteCertificateOptions(
+        string CertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+    }
+
+    private AwsIotDeleteCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDeleteCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDeleteCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// </summary>
+    [CliOption("--certificate-id")]
+    public string? CertificateId { get; private init; }
+
+    /// <summary>
+    /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
+    /// </summary>
+    [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +72,21 @@ public record AwsIotDeleteCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaignsv2", "put-instance-communication-limits")]
-public record AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions : AwsOptions
+public record AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Put the instance communication limits. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="CommunicationLimitsConfig">Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }</param>
+    public AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions(
+        string ConnectInstanceId,
+        string CommunicationLimitsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(CommunicationLimitsConfig);
+        this.CommunicationLimitsConfig = CommunicationLimitsConfig;
+    }
+
+    private AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsv2PutInstanceCommunicationLimitsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// </summary>
+    [CliOption("--connect-instance-id")]
+    public string? ConnectInstanceId { get; private init; }
+
+    /// <summary>
+    /// Instance Communication limits config allChannelSubtypes -&gt; (tagged union structure) Communication limits NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: communicationLimitsList. communicationLimitsList -&gt; (list) List of communication limit Constraints: o min: 0 o max: 2 (structure) Communication Limit maxCountPerRecipient -&gt; (integer) [required] Maximum number of contacts allowed for a given target within the given frequency. Constraints: o min: 1 frequency -&gt; (integer) [required] The number of days to consider with regards to this limit. Constraints: o min: 1 o max: 30 unit -&gt; (string) [required] The communication limit time unit. Possible values: o DAY JSON Syntax: { "allChannelSubtypes": { "communicationLimitsList": [ { "maxCountPerRecipient": integer, "frequency": integer, "unit": "DAY" } ... ] } }
+    /// </summary>
     [CliOption("--communication-limits-config")]
-    public string? CommunicationLimitsConfig { get; set; }
+    public string? CommunicationLimitsConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

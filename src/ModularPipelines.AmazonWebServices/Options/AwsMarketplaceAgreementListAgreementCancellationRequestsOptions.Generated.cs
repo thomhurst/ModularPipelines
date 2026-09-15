@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-agreement", "list-agreement-cancellation-requests")]
-public record AwsMarketplaceAgreementListAgreementCancellationRequestsOptions : AwsOptions
+public record AwsMarketplaceAgreementListAgreementCancellationRequestsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this op- eration to find cancellation requests by specifying their party type and applying optional filters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. See also: AWS API Documentation list-agreement-cancellation-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the ...
+    /// </summary>
+    /// <param name="PartyType">The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+</param>
+    public AwsMarketplaceAgreementListAgreementCancellationRequestsOptions(
+        string PartyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PartyType);
+        this.PartyType = PartyType;
+    }
+
+    private AwsMarketplaceAgreementListAgreementCancellationRequestsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceAgreementListAgreementCancellationRequestsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceAgreementListAgreementCancellationRequestsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z]+
+    /// </summary>
     [CliOption("--party-type")]
-    public string? PartyType { get; set; }
+    public string? PartyType { get; private init; }
 
     /// <summary>
     /// An optional parameter to filter cancellation requests for a specific agreement. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
@@ -74,5 +111,21 @@ public record AwsMarketplaceAgreementListAgreementCancellationRequestsOptions : 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

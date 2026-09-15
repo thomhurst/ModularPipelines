@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "delete-finding-aggregator")]
-public record AwsSecurityhubDeleteFindingAggregatorOptions : AwsOptions
+public record AwsSecurityhubDeleteFindingAggregatorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The aggregation Region is now called the home Region . Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer repli- cated and sent to the home Region. See also: ...
+    /// </summary>
+    /// <param name="FindingAggregatorArn">The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*</param>
+    public AwsSecurityhubDeleteFindingAggregatorOptions(
+        string FindingAggregatorArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingAggregatorArn);
+        this.FindingAggregatorArn = FindingAggregatorArn;
+    }
+
+    private AwsSecurityhubDeleteFindingAggregatorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubDeleteFindingAggregatorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubDeleteFindingAggregatorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators . Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--finding-aggregator-arn")]
-    public string? FindingAggregatorArn { get; set; }
+    public string? FindingAggregatorArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

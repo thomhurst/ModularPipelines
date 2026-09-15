@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "create-model-version")]
-public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions
+public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a version of the model using the specified model type and model id. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="TrainingDataSource">The training data source location in Amazon S3. Possible values: o EXTERNAL_EVENTS o INGESTED_EVENTS</param>
+    /// <param name="TrainingDataSchema">The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropri- ate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud De- tector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. o Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. o Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. o Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. o Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: o IGNORE o FRAUD o LEGIT o AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }</param>
+    public AwsFrauddetectorCreateModelVersionOptions(
+        string ModelId,
+        AwsFrauddetectorCreateModelVersionModelType ModelType,
+        AwsFrauddetectorCreateModelVersionTrainingDataSource TrainingDataSource,
+        string TrainingDataSchema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelId);
+        this.ModelId = ModelId;
+        global::System.ArgumentNullException.ThrowIfNull(ModelType);
+        this.ModelType = ModelType;
+        global::System.ArgumentNullException.ThrowIfNull(TrainingDataSource);
+        this.TrainingDataSource = TrainingDataSource;
+        global::System.ArgumentNullException.ThrowIfNull(TrainingDataSchema);
+        this.TrainingDataSchema = TrainingDataSchema;
+    }
+
+    private AwsFrauddetectorCreateModelVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorCreateModelVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorCreateModelVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// </summary>
     [CliOption("--model-id")]
-    public string? ModelId { get; set; }
+    public string? ModelId { get; private init; }
 
+    /// <summary>
+    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// </summary>
     [CliOption("--model-type")]
-    public string? ModelType { get; set; }
+    public AwsFrauddetectorCreateModelVersionModelType? ModelType { get; private init; }
 
+    /// <summary>
+    /// The training data source location in Amazon S3. Possible values: o EXTERNAL_EVENTS o INGESTED_EVENTS
+    /// </summary>
     [CliOption("--training-data-source")]
-    public string? TrainingDataSource { get; set; }
+    public AwsFrauddetectorCreateModelVersionTrainingDataSource? TrainingDataSource { get; private init; }
 
+    /// <summary>
+    /// The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropri- ate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud De- tector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. o Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. o Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. o Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. o Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: o IGNORE o FRAUD o LEGIT o AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }
+    /// </summary>
     [CliOption("--training-data-schema")]
-    public string? TrainingDataSchema { get; set; }
+    public string? TrainingDataSchema { get; private init; }
 
     /// <summary>
     /// Details of the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
@@ -56,5 +115,21 @@ public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

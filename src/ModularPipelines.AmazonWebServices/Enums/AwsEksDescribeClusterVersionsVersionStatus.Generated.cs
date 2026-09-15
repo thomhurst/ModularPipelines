@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --versionstatus.
+/// Allowed values for --version-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEksDescribeClusterVersionsVersionStatus
 {
-    [EnumValue("UNSUPPORTED")]
-    Unsupported = 1,
+    [EnumValue("EXTENDED_SUPPORT")]
+    ExtendedSupport,
 
     [EnumValue("STANDARD_SUPPORT")]
-    StandardSupport = 2,
+    StandardSupport,
 
-    [EnumValue("EXTENDED_SUPPORT")]
-    ExtendedSupport = 3
+    [EnumValue("UNSUPPORTED")]
+    Unsupported
 }

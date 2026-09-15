@@ -10,30 +10,100 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Ente...
+/// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Ser...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "add-attachments-to-set")]
-public record AwsSupportAddAttachmentsToSetOptions : AwsOptions
+public record AwsSupportAddAttachmentsToSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Ser...
+    /// </summary>
+    /// <param name="Attachments">One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the con- tents of the attachment file. In the previous request syntax, the value for data appear as blob , which is represented as a base64-en- coded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png . (structure) An attachment to a case communication. The attachment consists of the file name and the content of the file. Each attachment file size should not exceed 5 MB. File types that are supported include the following: pdf, jpeg,.doc, .log, .text fileName -&gt; (string) The name of the attachment file. data -&gt; (blob) The content of the attachment file. Shorthand Syntax: fileName=string,data=blob ... JSON Syntax: [ { "fileName": "string", "data": blob } ... ]</param>
+    public AwsSupportAddAttachmentsToSetOptions(
+        IEnumerable<string> Attachments
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attachments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attachments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attachments));
+            }
+
+            Attachments = materialized;
+        }
+        this.Attachments = Attachments;
+    }
+
+    private AwsSupportAddAttachmentsToSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportAddAttachmentsToSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportAddAttachmentsToSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the con- tents of the attachment file. In the previous request syntax, the value for data appear as blob , which is represented as a base64-en- coded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png . (structure) An attachment to a case communication. The attachment consists of the file name and the content of the file. Each attachment file size should not exceed 5 MB. File types that are supported include the following: pdf, jpeg,.doc, .log, .text fileName -&gt; (string) The name of the attachment file. data -&gt; (blob) The content of the attachment file. Shorthand Syntax: fileName=string,data=blob ... JSON Syntax: [ { "fileName": "string", "data": blob } ... ]
+    /// </summary>
+    [CliOption("--attachments", GroupValues = true)]
+    public IEnumerable<string>? Attachments { get; private init; }
+
     /// <summary>
     /// The ID of the attachment set. If an attachmentSetId is not speci- fied, a new attachment set is created, and the ID of the set is re- turned in the response. If an attachmentSetId is specified, the at- tachments are added to the specified set, if it exists.
     /// </summary>
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
 
-    [CliOption("--attachments", GroupValues = true)]
-    public IEnumerable<string>? Attachments { get; set; }
+    /// <summary>
+    /// Specifies whether to validate the request without actually adding the attachments. When set to true , the request is validated but no attachments are stored, and the operation returns a DryRunOpera- tionException . When omitted or set to false , the request runs nor- mally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

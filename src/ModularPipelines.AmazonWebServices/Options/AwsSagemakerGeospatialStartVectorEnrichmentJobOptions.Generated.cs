@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker-geospatial", "start-vector-enrichment-job")]
-public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
+public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
+    /// <param name="InputConfig">Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryp- tion. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: o CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }</param>
+    /// <param name="JobConfig">An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingCon- fig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an indi- vidual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }</param>
+    /// <param name="Name">The name of the Vector Enrichment job. Constraints: o min: 0 o max: 200</param>
+    public AwsSagemakerGeospatialStartVectorEnrichmentJobOptions(
+        string ExecutionRoleArn,
+        string InputConfig,
+        string JobConfig,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionRoleArn);
+        this.ExecutionRoleArn = ExecutionRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(InputConfig);
+        this.InputConfig = InputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(JobConfig);
+        this.JobConfig = JobConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSagemakerGeospatialStartVectorEnrichmentJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerGeospatialStartVectorEnrichmentJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerGeospatialStartVectorEnrichmentJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// </summary>
+    [CliOption("--execution-role-arn")]
+    public string? ExecutionRoleArn { get; private init; }
+
+    /// <summary>
+    /// Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryp- tion. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: o CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }
+    /// </summary>
+    [CliOption("--input-config")]
+    public string? InputConfig { get; private init; }
+
+    /// <summary>
+    /// An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingCon- fig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an indi- vidual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }
+    /// </summary>
+    [CliOption("--job-config")]
+    public string? JobConfig { get; private init; }
+
+    /// <summary>
+    /// The name of the Vector Enrichment job. Constraints: o min: 0 o max: 200
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 36 o max: 64
     /// </summary>
@@ -30,23 +100,11 @@ public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--execution-role-arn")]
-    public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--input-config")]
-    public string? InputConfig { get; set; }
-
-    [CliOption("--job-config")]
-    public string? JobConfig { get; set; }
-
     /// <summary>
     /// The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// Each tag consists of a key and a value. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -59,5 +117,21 @@ public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

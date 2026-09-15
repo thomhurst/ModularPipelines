@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "import-certificate")]
-public record AwsDmsImportCertificateOptions : AwsOptions
+public record AwsDmsImportCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads the specified certificate. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateIdentifier">A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hy- phens. They can't end with a hyphen or contain two consecutive hy- phens.</param>
+    public AwsDmsImportCertificateOptions(
+        string CertificateIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateIdentifier);
+        this.CertificateIdentifier = CertificateIdentifier;
+    }
+
+    private AwsDmsImportCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsImportCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsImportCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hy- phens. They can't end with a hyphen or contain two consecutive hy- phens.
+    /// </summary>
     [CliOption("--certificate-identifier")]
-    public string? CertificateIdentifier { get; set; }
+    public string? CertificateIdentifier { get; private init; }
 
     /// <summary>
     /// The contents of a .pem file, which contains an X.509 certificate.
@@ -53,5 +90,21 @@ public record AwsDmsImportCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

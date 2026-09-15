@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "start-opportunity-from-engagement-task")]
-public record AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions : AwsOptions
+public record AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting en- gagement contextual information into a structured opportunity record within the partner's account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog in which the opportunity creation task is exe- cuted. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">The unique identifier of the engagement from which the opportunity creation task is to be initiated. This helps ensure that the task is applied to the correct engagement. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})</param>
+    /// <param name="ContextIdentifier">The unique identifier of the engagement context from which to create the opportunity. This specifies the specific contextual information within the engagement that will be used for opportunity creation. Constraints: o pattern: [1-9][0-9]*</param>
+    public AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions(
+        string Catalog,
+        string Identifier,
+        string ContextIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(ContextIdentifier);
+        this.ContextIdentifier = ContextIdentifier;
+    }
+
+    private AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog in which the opportunity creation task is exe- cuted. Acceptable values include AWS for production and Sandbox for testing environments. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the engagement from which the opportunity creation task is to be initiated. This helps ensure that the task is applied to the correct engagement. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the engagement context from which to create the opportunity. This specifies the specific contextual information within the engagement that will be used for opportunity creation. Constraints: o pattern: [1-9][0-9]*
+    /// </summary>
+    [CliOption("--context-identifier")]
+    public string? ContextIdentifier { get; private init; }
 
     /// <summary>
     /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times. Constraints: o pattern: .{1,255}
@@ -31,12 +88,6 @@ public record AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions 
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
-
-    [CliOption("--context-identifier")]
-    public string? ContextIdentifier { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -49,5 +100,21 @@ public record AwsPartnercentralSellingStartOpportunityFromEngagementTaskOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

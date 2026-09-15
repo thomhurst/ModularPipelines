@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pcs", "update-queue")]
-public record AwsPcsUpdateQueueOptions : AwsOptions
+public record AwsPcsUpdateQueueOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="QueueIdentifier">The name or ID of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})</param>
+    public AwsPcsUpdateQueueOptions(
+        string ClusterIdentifier,
+        string QueueIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(QueueIdentifier);
+        this.QueueIdentifier = QueueIdentifier;
+    }
+
+    private AwsPcsUpdateQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcsUpdateQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcsUpdateQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ID of the cluster of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// </summary>
+    [CliOption("--cluster-identifier")]
+    public string? ClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name or ID of the queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})
+    /// </summary>
     [CliOption("--queue-identifier")]
-    public string? QueueIdentifier { get; set; }
+    public string? QueueIdentifier { get; private init; }
 
     /// <summary>
     /// The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups. (structure) The compute node group configuration for a queue. computeNodeGroupId -&gt; (string) The compute node group ID for the compute node group configu- ration. Shorthand Syntax: computeNodeGroupId=string ... JSON Syntax: [ { "computeNodeGroupId": "string" } ... ]
@@ -52,5 +96,21 @@ public record AwsPcsUpdateQueueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

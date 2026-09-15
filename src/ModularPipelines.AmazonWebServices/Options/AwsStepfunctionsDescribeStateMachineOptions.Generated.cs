@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "describe-state-machine")]
-public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions
+public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state ma- chine ARNs: o The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMa- chine . arn:partition...
+    /// </summary>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state ma- chine ARN and the version number separated by a colon (:). For exam- ple, stateMachineARN:1 . Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsDescribeStateMachineOptions(
+        string StateMachineArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StateMachineArn);
+        this.StateMachineArn = StateMachineArn;
+    }
+
+    private AwsStepfunctionsDescribeStateMachineOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsDescribeStateMachineOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsDescribeStateMachineOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state ma- chine ARN and the version number separated by a colon (:). For exam- ple, stateMachineARN:1 . Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--state-machine-arn")]
-    public string? StateMachineArn { get; set; }
+    public string? StateMachineArn { get; private init; }
 
     /// <summary>
     /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = META- DATA_ONLY to get a successful response without the encrypted defini- tion. NOTE: When calling a labelled ARN for an encrypted state machine, the includedData = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire state machine defini- tion to get the Distributed Map states definition. In this case, the API caller needs to have kms:Decrypt permission. Possible values: o ALL_DATA o METADATA_ONLY
@@ -36,5 +73,21 @@ public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

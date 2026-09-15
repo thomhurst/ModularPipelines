@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "create-task-set")]
-public record AwsEcsCreateTaskSetOptions : AwsOptions
+public record AwsEcsCreateTaskSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service")]
-    public string? Service { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a task set in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Con- tainer Service Developer Guide . NOTE: On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For information about the ma...
+    /// </summary>
+    /// <param name="Service">The short name or full Amazon Resource Name (ARN) of the service to create the task set in.</param>
+    /// <param name="Cluster">The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.</param>
+    /// <param name="TaskDefinition">The task definition for the tasks in the task set to use. If a revi- sion isn't specified, the latest ACTIVE revision is used.</param>
+    public AwsEcsCreateTaskSetOptions(
+        string Service,
+        string Cluster,
+        string TaskDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(TaskDefinition);
+        this.TaskDefinition = TaskDefinition;
+    }
+
+    private AwsEcsCreateTaskSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsCreateTaskSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsCreateTaskSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the service to create the task set in.
+    /// </summary>
+    [CliOption("--service")]
+    public string? Service { get; private init; }
+
+    /// <summary>
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.
+    /// </summary>
     [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    public string? Cluster { get; private init; }
+
+    /// <summary>
+    /// The task definition for the tasks in the task set to use. If a revi- sion isn't specified, the latest ACTIVE revision is used.
+    /// </summary>
+    [CliOption("--task-definition")]
+    public string? TaskDefinition { get; private init; }
 
     /// <summary>
     /// An optional non-unique tag that identifies this task set in external systems. If the task set is associated with a service discovery reg- istry, the tasks in this task set will have the ECS_TASK_SET_EXTER- NAL_ID Cloud Map attribute set to the provided value.
     /// </summary>
     [CliOption("--external-id")]
     public string? ExternalId { get; set; }
-
-    [CliOption("--task-definition")]
-    public string? TaskDefinition { get; set; }
 
     /// <summary>
     /// An object representing the network configuration for a task set. awsvpcConfiguration -&gt; (structure) The VPC subnets and security groups that are associated with a task. NOTE: All specified subnets and security groups must be from the same VPC. subnets -&gt; (list) [required] The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified. NOTE: All specified subnets must be from the same VPC. (string) securityGroups -&gt; (list) The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 se- curity groups that can be specified. NOTE: All specified security groups must be from the same VPC. (string) assignPublicIp -&gt; (string) Whether the task's elastic network interface receives a pub- lic IP address. Consider the following when you set this value: o When you use create-service or update-service , the default is DISABLED . o When the service deploymentController is ECS , the value must be DISABLED . Possible values: o ENABLED o DISABLED Shorthand Syntax: awsvpcConfiguration={subnets=[string,string],securityGroups=[string,string],assignPublicIp=string} JSON Syntax: { "awsvpcConfiguration": { "subnets": ["string", ...], "securityGroups": ["string", ...], "assignPublicIp": "ENABLED"|"DISABLED" } }
@@ -98,5 +149,21 @@ public record AwsEcsCreateTaskSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "enable-default-key-replication-regions")]
-public record AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions : AwsOptions
+public record AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables Multi-Region key replication settings for your Amazon Web Ser- vices account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simpli- fies key management for applications that operate across multiple re- gions. Existing keys are...
+    /// </summary>
+    /// <param name="ReplicationRegions">The list of Amazon Web Services Regions to enable as default repli- cation regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...</param>
+    public AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions(
+        IEnumerable<string> ReplicationRegions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicationRegions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicationRegions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicationRegions));
+            }
+
+            ReplicationRegions = materialized;
+        }
+        this.ReplicationRegions = ReplicationRegions;
+    }
+
+    private AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyEnableDefaultKeyReplicationRegionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of Amazon Web Services Regions to enable as default repli- cation regions for the Amazon Web Services account for Multi-Region key replication . New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation. (string) An Amazon Web Services Region identifier in the standard format (e.g., us-east-1 , eu-west-1 ). Used to specify regions for key replication operations. The re- gion must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. Constraints: o pattern: [a-z]{2}-[a-z]{1,16}-[0-9]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--replication-regions", GroupValues = true)]
-    public IEnumerable<string>? ReplicationRegions { get; set; }
+    public IEnumerable<string>? ReplicationRegions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

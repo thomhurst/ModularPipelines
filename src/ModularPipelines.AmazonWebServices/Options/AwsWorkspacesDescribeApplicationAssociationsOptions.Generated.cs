@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "describe-application-associations")]
-public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions
+public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the associations between the application and the specified associated resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The identifier of the specified application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$</param>
+    /// <param name="AssociatedResourceTypes">The resource type of the associated resources. (string) Possible values: o WORKSPACE o BUNDLE o IMAGE Syntax: "string" "string" ...</param>
+    public AwsWorkspacesDescribeApplicationAssociationsOptions(
+        string ApplicationId,
+        IEnumerable<string> AssociatedResourceTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AssociatedResourceTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AssociatedResourceTypes));
+            }
+
+            AssociatedResourceTypes = materialized;
+        }
+        this.AssociatedResourceTypes = AssociatedResourceTypes;
+    }
+
+    private AwsWorkspacesDescribeApplicationAssociationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesDescribeApplicationAssociationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesDescribeApplicationAssociationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the specified application. Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The resource type of the associated resources. (string) Possible values: o WORKSPACE o BUNDLE o IMAGE Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--associated-resource-types", GroupValues = true)]
+    public IEnumerable<string>? AssociatedResourceTypes { get; private init; }
+
     /// <summary>
     /// The maximum number of associations to return. Constraints: o min: 1 o max: 25
     /// </summary>
@@ -35,16 +96,26 @@ public record AwsWorkspacesDescribeApplicationAssociationsOptions : AwsOptions
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
-
-    [CliOption("--associated-resource-types", GroupValues = true)]
-    public IEnumerable<string>? AssociatedResourceTypes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

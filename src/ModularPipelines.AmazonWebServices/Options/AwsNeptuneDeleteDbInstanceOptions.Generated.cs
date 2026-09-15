@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "delete-db-instance")]
-public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions
+public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--db-instance-identifier")]
-    public string? DbInstanceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--skip-final-snapshot")]
+    /// <summary>
+    /// The DeleteDBInstance action deletes a previously provisioned DB in- stance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't b...
+    /// </summary>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.</param>
+    public AwsNeptuneDeleteDbInstanceOptions(
+        string DbInstanceIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbInstanceIdentifier);
+        this.DbInstanceIdentifier = DbInstanceIdentifier;
+    }
+
+    private AwsNeptuneDeleteDbInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneDeleteDbInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneDeleteDbInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.
+    /// </summary>
+    [CliOption("--db-instance-identifier")]
+    public string? DbInstanceIdentifier { get; private init; }
+
+    /// <summary>
+    /// Determines whether a final DB snapshot is created before the DB in- stance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB in- stance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica. NOTE: The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false . Default: false
+    /// </summary>
+    [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
@@ -38,5 +78,21 @@ public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

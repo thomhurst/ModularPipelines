@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "disassociate-link")]
-public record AwsNetworkmanagerDisassociateLinkOptions : AwsOptions
+public record AwsNetworkmanagerDisassociateLinkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates an existing device from a link. You must first disassoci- ate any customer gateways that are associated with the link. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="DeviceId">The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="LinkId">The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerDisassociateLinkOptions(
+        string GlobalNetworkId,
+        string DeviceId,
+        string LinkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalNetworkId);
+        this.GlobalNetworkId = GlobalNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(DeviceId);
+        this.DeviceId = DeviceId;
+        global::System.ArgumentNullException.ThrowIfNull(LinkId);
+        this.LinkId = LinkId;
+    }
+
+    private AwsNetworkmanagerDisassociateLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerDisassociateLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerDisassociateLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--global-network-id")]
-    public string? GlobalNetworkId { get; set; }
+    public string? GlobalNetworkId { get; private init; }
 
+    /// <summary>
+    /// The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--device-id")]
-    public string? DeviceId { get; set; }
+    public string? DeviceId { get; private init; }
 
+    /// <summary>
+    /// The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--link-id")]
-    public string? LinkId { get; set; }
+    public string? LinkId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

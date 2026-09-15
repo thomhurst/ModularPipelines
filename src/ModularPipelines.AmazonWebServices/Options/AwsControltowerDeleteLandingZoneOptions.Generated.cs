@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("controltower", "delete-landing-zone")]
-public record AwsControltowerDeleteLandingZoneOptions : AwsOptions
+public record AwsControltowerDeleteLandingZoneOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Decommissions a landing zone. This API call starts an asynchronous op- eration that deletes Amazon Web Services Control Tower resources de- ployed in accounts managed by Amazon Web Services Control Tower. Decommissioning a landing zone is a process with significant conse- quences, and it cannot be undone. We strongly recommend that you per- form this decommissioning process only if you intend to stop using your landing zone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LandingZoneIdentifier">The unique identifier of the landing zone.</param>
+    public AwsControltowerDeleteLandingZoneOptions(
+        string LandingZoneIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LandingZoneIdentifier);
+        this.LandingZoneIdentifier = LandingZoneIdentifier;
+    }
+
+    private AwsControltowerDeleteLandingZoneOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsControltowerDeleteLandingZoneOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsControltowerDeleteLandingZoneOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the landing zone.
+    /// </summary>
     [CliOption("--landing-zone-identifier")]
-    public string? LandingZoneIdentifier { get; set; }
+    public string? LandingZoneIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "get-type")]
-public record AwsKeyspacesGetTypeOptions : AwsOptions
+public record AwsKeyspacesGetTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--keyspace-name")]
-    public string? KeyspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType , the IAM principal needs Se- lect action permissions for the system keyspace. To configure the re- quired permissions, see Permissions to view a UDT in the Amazon Key- spaces Developer Guide . See also: AWS API Documenta...
+    /// </summary>
+    /// <param name="KeyspaceName">The name of the keyspace that contains this type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TypeName">The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: o min: 1 o max: 48</param>
+    public AwsKeyspacesGetTypeOptions(
+        string KeyspaceName,
+        string TypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+    }
+
+    private AwsKeyspacesGetTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesGetTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesGetTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the keyspace that contains this type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
+    [CliOption("--keyspace-name")]
+    public string? KeyspaceName { get; private init; }
+
+    /// <summary>
+    /// The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: o min: 1 o max: 48
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

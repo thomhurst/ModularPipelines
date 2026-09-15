@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog-appregistry", "create-attribute-group")]
-public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptions
+public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new attribute group as a container for user-defined attrib- utes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the attribute group. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+</param>
+    /// <param name="Attributes">A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: o min: 1 o max: 8000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsServicecatalogAppregistryCreateAttributeGroupOptions(
+        string Name,
+        string Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Attributes);
+        this.Attributes = Attributes;
+    }
+
+    private AwsServicecatalogAppregistryCreateAttributeGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogAppregistryCreateAttributeGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogAppregistryCreateAttributeGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the attribute group. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: o min: 1 o max: 8000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
+    [CliOption("--attributes")]
+    public string? Attributes { get; private init; }
 
     /// <summary>
     /// The description of the attribute group that the user provides. Constraints: o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--attributes")]
-    public string? Attributes { get; set; }
 
     /// <summary>
     /// Key-value pairs you can use to associate with the attribute group. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +97,21 @@ public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

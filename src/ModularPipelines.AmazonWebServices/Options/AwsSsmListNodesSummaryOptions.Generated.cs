@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "list-nodes-summary")]
-public record AwsSsmListNodesSummaryOptions : AwsOptions
+public record AwsSsmListNodesSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a summary of managed instance/node metadata based on the fil- ters and aggregators you specify. Results are grouped by the input ag- gregator you specify. See also: AWS API Documentation list-nodes-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
+    /// </summary>
+    /// <param name="Aggregators">Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system. Constraints: o min: 1 o max: 2 (structure) One or more aggregators for viewing counts of nodes using dif- ferent dimensions. AggregatorType -&gt; (string) [required] The aggregator type for limiting a node summary. Currently, only Count is supported. Possible values: o Count TypeName -&gt; (string) [required] The data type name to use for viewing counts of nodes. Cur- rently, only Instance is supported. Possible values: o Instance AttributeName -&gt; (string) [required] The name of a node attribute on which to limit the count of nodes. Possible values: o AgentVersion o PlatformName o PlatformType o PlatformVersion o Region o ResourceType o SourceType o AvailabilityZone Aggregators -&gt; (list) Information about aggregators used to refine a node summary. Constraints: o min: 1 o max: 2 (structure) One or more aggregators for viewing counts of nodes using different dimensions. AggregatorType -&gt; (string) [required] The aggregator type for limiting a node summary. Cur- rently, only Count is supported. Possible values: o Count TypeName -&gt; (string) [required] The data type name to use for viewing counts of nodes. Currently, only Instance is supported. Possible values: o Instance AttributeName -&gt; (string) [required] The name of a node attribute on which to limit the count of nodes. Possible values: o AgentVersion o PlatformName o PlatformType o PlatformVersion o Region o ResourceType o SourceType o AvailabilityZone Shorthand Syntax: AggregatorType=string,TypeName=string,AttributeName=string,Aggregators=[{AggregatorType=string,TypeName=string,AttributeName=string,( ... recursive ... )},{AggregatorType=string,TypeName=string,AttributeName=string,( ... recursive ... )}] ... JSON Syntax: [ { "AggregatorType": "Count", "TypeName": "Instance", "AttributeName": "AgentVersion"|"PlatformName"|"PlatformType"|"PlatformVersion"|"Region"|"ResourceType"|"SourceType"|"AvailabilityZone", "Aggregators": [ { "AggregatorType": "Count", "TypeName": "Instance", "AttributeName": "AgentVersion"|"PlatformName"|"PlatformType"|"PlatformVersion"|"Region"|"ResourceType"|"SourceType"|"AvailabilityZone", "Aggregators": } ... ] } ... ]</param>
+    public AwsSsmListNodesSummaryOptions(
+        IEnumerable<string> Aggregators
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Aggregators);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Aggregators));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Aggregators));
+            }
+
+            Aggregators = materialized;
+        }
+        this.Aggregators = Aggregators;
+    }
+
+    private AwsSsmListNodesSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmListNodesSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmListNodesSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system. Constraints: o min: 1 o max: 2 (structure) One or more aggregators for viewing counts of nodes using dif- ferent dimensions. AggregatorType -&gt; (string) [required] The aggregator type for limiting a node summary. Currently, only Count is supported. Possible values: o Count TypeName -&gt; (string) [required] The data type name to use for viewing counts of nodes. Cur- rently, only Instance is supported. Possible values: o Instance AttributeName -&gt; (string) [required] The name of a node attribute on which to limit the count of nodes. Possible values: o AgentVersion o PlatformName o PlatformType o PlatformVersion o Region o ResourceType o SourceType o AvailabilityZone Aggregators -&gt; (list) Information about aggregators used to refine a node summary. Constraints: o min: 1 o max: 2 (structure) One or more aggregators for viewing counts of nodes using different dimensions. AggregatorType -&gt; (string) [required] The aggregator type for limiting a node summary. Cur- rently, only Count is supported. Possible values: o Count TypeName -&gt; (string) [required] The data type name to use for viewing counts of nodes. Currently, only Instance is supported. Possible values: o Instance AttributeName -&gt; (string) [required] The name of a node attribute on which to limit the count of nodes. Possible values: o AgentVersion o PlatformName o PlatformType o PlatformVersion o Region o ResourceType o SourceType o AvailabilityZone Shorthand Syntax: AggregatorType=string,TypeName=string,AttributeName=string,Aggregators=[{AggregatorType=string,TypeName=string,AttributeName=string,( ... recursive ... )},{AggregatorType=string,TypeName=string,AttributeName=string,( ... recursive ... )}] ... JSON Syntax: [ { "AggregatorType": "Count", "TypeName": "Instance", "AttributeName": "AgentVersion"|"PlatformName"|"PlatformType"|"PlatformVersion"|"Region"|"ResourceType"|"SourceType"|"AvailabilityZone", "Aggregators": [ { "AggregatorType": "Count", "TypeName": "Instance", "AttributeName": "AgentVersion"|"PlatformName"|"PlatformType"|"PlatformVersion"|"Region"|"ResourceType"|"SourceType"|"AvailabilityZone", "Aggregators": } ... ] } ... ]
+    /// </summary>
+    [CliOption("--aggregators", GroupValues = true)]
+    public IEnumerable<string>? Aggregators { get; private init; }
+
     /// <summary>
     /// The name of the Amazon Web Services managed resource data sync to retrieve information about. For cross-account/cross-Region configurations, this parameter is re- quired, and the name of the supported resource data sync is AWS-QuickSetup-ManagedNode . For single account/single-Region configurations, the parameter is not required. Constraints: o min: 1 o max: 64
     /// </summary>
@@ -33,9 +84,6 @@ public record AwsSsmListNodesSummaryOptions : AwsOptions
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
-
-    [CliOption("--aggregators", GroupValues = true)]
-    public IEnumerable<string>? Aggregators { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +109,21 @@ public record AwsSsmListNodesSummaryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

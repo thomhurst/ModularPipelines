@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "put-routing-rule")]
-public record AwsApigatewayv2PutRoutingRuleOptions : AwsOptions
+public record AwsApigatewayv2PutRoutingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a routing rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Actions">The routing rule action. (structure) The routing rule action. InvokeApi -&gt; (structure) [required] Represents an InvokeApi action. ApiId -&gt; (string) [required] The identifier. Stage -&gt; (string) [required] A string with a length between [1-128]. StripBasePath -&gt; (boolean) The strip base path setting. Shorthand Syntax: InvokeApi={ApiId=string,Stage=string,StripBasePath=boolean} ... JSON Syntax: [ { "InvokeApi": { "ApiId": "string", "Stage": "string", "StripBasePath": true|false } } ... ]</param>
+    /// <param name="Conditions">The routing rule condition. (structure) Represents a routing rule condition. MatchBasePaths -&gt; (structure) The base path to be matched. AnyOf -&gt; (list) [required] The string of the case sensitive base path to be matched. (string) After evaluating a selection expression, the result is compared against one or more selection keys to find a matching key. See Selection Expressions for a list of expressions and each expression's associated selection key type. MatchHeaders -&gt; (structure) The headers to be matched. AnyOf -&gt; (list) [required] The header name and header value glob to be matched. The matchHeaders condition is matched if any of the header name and header value globs are matched. (structure) Represents a MatchHeaderValue. Header -&gt; (string) [required] After evaluating a selection expression, the re- sult is compared against one or more selection keys to find a matching key. See Selection Expres- sions for a list of expressions and each expres- sion's associated selection key type. ValueGlob -&gt; (string) [required] An expression used to extract information at run- time. See Selection Expressions for more informa- tion. JSON Syntax: [ { "MatchBasePaths": { "AnyOf": ["string", ...] }, "MatchHeaders": { "AnyOf": [ { "Header": "string", "ValueGlob": "string" } ... ] } } ... ]</param>
+    /// <param name="DomainName">The domain name.</param>
+    /// <param name="Priority">The routing rule priority. Constraints: o min: 1 o max: 1000000</param>
+    /// <param name="RoutingRuleId">The routing rule ID.</param>
+    public AwsApigatewayv2PutRoutingRuleOptions(
+        IEnumerable<string> Actions,
+        IEnumerable<string> Conditions,
+        string DomainName,
+        int Priority,
+        string RoutingRuleId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Conditions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Conditions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Conditions));
+            }
+
+            Conditions = materialized;
+        }
+        this.Conditions = Conditions;
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingRuleId);
+        this.RoutingRuleId = RoutingRuleId;
+    }
+
+    private AwsApigatewayv2PutRoutingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2PutRoutingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2PutRoutingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The routing rule action. (structure) The routing rule action. InvokeApi -&gt; (structure) [required] Represents an InvokeApi action. ApiId -&gt; (string) [required] The identifier. Stage -&gt; (string) [required] A string with a length between [1-128]. StripBasePath -&gt; (boolean) The strip base path setting. Shorthand Syntax: InvokeApi={ApiId=string,Stage=string,StripBasePath=boolean} ... JSON Syntax: [ { "InvokeApi": { "ApiId": "string", "Stage": "string", "StripBasePath": true|false } } ... ]
+    /// </summary>
     [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions { get; private init; }
 
+    /// <summary>
+    /// The routing rule condition. (structure) Represents a routing rule condition. MatchBasePaths -&gt; (structure) The base path to be matched. AnyOf -&gt; (list) [required] The string of the case sensitive base path to be matched. (string) After evaluating a selection expression, the result is compared against one or more selection keys to find a matching key. See Selection Expressions for a list of expressions and each expression's associated selection key type. MatchHeaders -&gt; (structure) The headers to be matched. AnyOf -&gt; (list) [required] The header name and header value glob to be matched. The matchHeaders condition is matched if any of the header name and header value globs are matched. (structure) Represents a MatchHeaderValue. Header -&gt; (string) [required] After evaluating a selection expression, the re- sult is compared against one or more selection keys to find a matching key. See Selection Expres- sions for a list of expressions and each expres- sion's associated selection key type. ValueGlob -&gt; (string) [required] An expression used to extract information at run- time. See Selection Expressions for more informa- tion. JSON Syntax: [ { "MatchBasePaths": { "AnyOf": ["string", ...] }, "MatchHeaders": { "AnyOf": [ { "Header": "string", "ValueGlob": "string" } ... ] } } ... ]
+    /// </summary>
     [CliOption("--conditions", GroupValues = true)]
-    public IEnumerable<string>? Conditions { get; set; }
+    public IEnumerable<string>? Conditions { get; private init; }
 
+    /// <summary>
+    /// The domain name.
+    /// </summary>
     [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The routing rule priority. Constraints: o min: 1 o max: 1000000
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// The routing rule ID.
+    /// </summary>
+    [CliOption("--routing-rule-id")]
+    public string? RoutingRuleId { get; private init; }
 
     /// <summary>
     /// The domain name ID.
@@ -36,16 +128,26 @@ public record AwsApigatewayv2PutRoutingRuleOptions : AwsOptions
     [CliOption("--domain-name-id")]
     public string? DomainNameId { get; set; }
 
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
-    [CliOption("--routing-rule-id")]
-    public string? RoutingRuleId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "delete-vpc-endpoint-association")]
-public record AwsNetworkFirewallDeleteVpcEndpointAssociationOptions : AwsOptions
+public record AwsNetworkFirewallDeleteVpcEndpointAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified VpcEndpointAssociation . You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping. You can retrieve the subnet mapping by calling De- scribeVpcEndpointAssociation . You define and update the route tables through Amazon VPC. As needed, update the route tables for the Avail- ability Zone to remove the firewall endpoint for the association. When the route tables no longer use the...
+    /// </summary>
+    /// <param name="VpcEndpointAssociationArn">The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    public AwsNetworkFirewallDeleteVpcEndpointAssociationOptions(
+        string VpcEndpointAssociationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcEndpointAssociationArn);
+        this.VpcEndpointAssociationArn = VpcEndpointAssociationArn;
+    }
+
+    private AwsNetworkFirewallDeleteVpcEndpointAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallDeleteVpcEndpointAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallDeleteVpcEndpointAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// </summary>
     [CliOption("--vpc-endpoint-association-arn")]
-    public string? VpcEndpointAssociationArn { get; set; }
+    public string? VpcEndpointAssociationArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

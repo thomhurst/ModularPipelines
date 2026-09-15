@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "batch-get-traces")]
-public record AwsXrayBatchGetTracesOptions : AwsOptions
+public record AwsXrayBatchGetTracesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: You cannot find traces through this API if Transaction Search is en- abled since trace is not indexed in X-Ray. Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use Get- TraceSummaries to get a list of trace IDs. See also: AWS API Documentation batch-get-traces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providin...
+    /// </summary>
+    /// <param name="TraceIds">Specify the trace IDs of requests for which to retrieve segments. (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...</param>
+    public AwsXrayBatchGetTracesOptions(
+        IEnumerable<string> TraceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TraceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TraceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TraceIds));
+            }
+
+            TraceIds = materialized;
+        }
+        this.TraceIds = TraceIds;
+    }
+
+    private AwsXrayBatchGetTracesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayBatchGetTracesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayBatchGetTracesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify the trace IDs of requests for which to retrieve segments. (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--trace-ids", GroupValues = true)]
-    public IEnumerable<string>? TraceIds { get; set; }
+    public IEnumerable<string>? TraceIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +91,21 @@ public record AwsXrayBatchGetTracesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

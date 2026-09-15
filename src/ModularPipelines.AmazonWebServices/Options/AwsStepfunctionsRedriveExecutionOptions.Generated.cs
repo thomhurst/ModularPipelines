@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "redrive-execution")]
-public record AwsStepfunctionsRedriveExecutionOptions : AwsOptions
+public record AwsStepfunctionsRedriveExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Restarts unsuccessful executions of Standard workflows that didn't com- plete successfully in the last 14 days. These include failed, aborted, or timed out executions. When you redrive an execution, it continues the failed execution from the unsuccessful step and uses the same in- put. Step Functions preserves the results and execution history of the successful steps, and doesn't rerun these steps when you redrive an ex- ecution. Redriven executions use the same state machine definition and exec...
+    /// </summary>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsRedriveExecutionOptions(
+        string ExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionArn);
+        this.ExecutionArn = ExecutionArn;
+    }
+
+    private AwsStepfunctionsRedriveExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsRedriveExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsRedriveExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the execution to be redriven. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--execution-arn")]
-    public string? ExecutionArn { get; set; }
+    public string? ExecutionArn { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you dont specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The API will return idempotent responses for the last 10 client tokens used to success- fully redrive the execution. These client tokens are valid for up to 15 minutes after they are first used. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -37,5 +74,21 @@ public record AwsStepfunctionsRedriveExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

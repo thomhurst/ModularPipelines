@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "disassociate-hours-of-operations")]
-public record AwsConnectDisassociateHoursOfOperationsOptions : AwsOptions
+public record AwsConnectDisassociateHoursOfOperationsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="HoursOfOperationId">The identifier of the child hours of operation.</param>
+    /// <param name="ParentHoursOfOperationIds">The Amazon Resource Names (ARNs) of the parent hours of operation resources to disassociate with the child hours of operation re- source. Constraints: o min: 1 o max: 3 (string) Syntax: "string" "string" ...</param>
+    public AwsConnectDisassociateHoursOfOperationsOptions(
+        string InstanceId,
+        string HoursOfOperationId,
+        IEnumerable<string> ParentHoursOfOperationIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(HoursOfOperationId);
+        this.HoursOfOperationId = HoursOfOperationId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ParentHoursOfOperationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ParentHoursOfOperationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ParentHoursOfOperationIds));
+            }
+
+            ParentHoursOfOperationIds = materialized;
+        }
+        this.ParentHoursOfOperationIds = ParentHoursOfOperationIds;
+    }
+
+    private AwsConnectDisassociateHoursOfOperationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectDisassociateHoursOfOperationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectDisassociateHoursOfOperationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the child hours of operation.
+    /// </summary>
     [CliOption("--hours-of-operation-id")]
-    public string? HoursOfOperationId { get; set; }
+    public string? HoursOfOperationId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the parent hours of operation resources to disassociate with the child hours of operation re- source. Constraints: o min: 1 o max: 3 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--parent-hours-of-operation-ids", GroupValues = true)]
-    public IEnumerable<string>? ParentHoursOfOperationIds { get; set; }
+    public IEnumerable<string>? ParentHoursOfOperationIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

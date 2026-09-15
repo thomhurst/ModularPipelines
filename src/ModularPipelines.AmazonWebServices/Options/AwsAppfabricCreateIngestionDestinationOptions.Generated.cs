@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "create-ingestion-destination")]
-public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions
+public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="IngestionIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ProcessingConfiguration">Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configura- tion. schema -&gt; (string) [required] The event schema in which the audit logs need to be format- ted. Possible values: o ocsf o raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: o json o parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }</param>
+    /// <param name="DestinationConfiguration">Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }</param>
+    public AwsAppfabricCreateIngestionDestinationOptions(
+        string AppBundleIdentifier,
+        string IngestionIdentifier,
+        string ProcessingConfiguration,
+        string DestinationConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionIdentifier);
+        this.IngestionIdentifier = IngestionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProcessingConfiguration);
+        this.ProcessingConfiguration = ProcessingConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationConfiguration);
+        this.DestinationConfiguration = DestinationConfiguration;
+    }
+
+    private AwsAppfabricCreateIngestionDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricCreateIngestionDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricCreateIngestionDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    public string? AppBundleIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--ingestion-identifier")]
-    public string? IngestionIdentifier { get; set; }
+    public string? IngestionIdentifier { get; private init; }
 
+    /// <summary>
+    /// Contains information about how ingested data is processed. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log processing configura- tion. schema -&gt; (string) [required] The event schema in which the audit logs need to be format- ted. Possible values: o ocsf o raw format -&gt; (string) [required] The format in which the audit logs need to be formatted. Possible values: o json o parquet Shorthand Syntax: auditLog={schema=string,format=string} JSON Syntax: { "auditLog": { "schema": "ocsf"|"raw", "format": "json"|"parquet" } }
+    /// </summary>
     [CliOption("--processing-configuration")]
-    public string? ProcessingConfiguration { get; set; }
+    public string? ProcessingConfiguration { get; private init; }
 
+    /// <summary>
+    /// Contains information about the destination of ingested data. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: auditLog. auditLog -&gt; (structure) Contains information about an audit log destination configura- tion. destination -&gt; (tagged union structure) [required] Contains information about an audit log destination. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: s3Bucket, firehoseStream. s3Bucket -&gt; (structure) Contains information about an Amazon S3 bucket. bucketName -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 prefix -&gt; (string) The object key to use. Constraints: o min: 1 o max: 120 firehoseStream -&gt; (structure) Contains information about an Amazon Kinesis Data Fire- hose delivery stream. streamName -&gt; (string) [required] The name of the Amazon Kinesis Data Firehose delivery stream. Constraints: o min: 3 o max: 64 JSON Syntax: { "auditLog": { "destination": { "s3Bucket": { "bucketName": "string", "prefix": "string" }, "firehoseStream": { "streamName": "string" } } } }
+    /// </summary>
     [CliOption("--destination-configuration")]
-    public string? DestinationConfiguration { get; set; }
+    public string? DestinationConfiguration { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -52,5 +110,21 @@ public record AwsAppfabricCreateIngestionDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

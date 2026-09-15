@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "start-resource-evaluation")]
-public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions
+public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the speci- fied proactive mode and resource type. NOTE: Ensure you have the cloudformation:DescribeType role setup to vali- date the resource type schema. Yo...
+    /// </summary>
+    /// <param name="ResourceDetails">Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: o min: 1 o max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: o min: 1 o max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource con- figuration schema type. Constraints: o min: 1 o max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RE- SOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: o CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }</param>
+    /// <param name="EvaluationMode">The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: o DETECTIVE o PROACTIVE</param>
+    public AwsConfigserviceStartResourceEvaluationOptions(
+        string ResourceDetails,
+        AwsConfigserviceStartResourceEvaluationEvaluationMode EvaluationMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceDetails);
+        this.ResourceDetails = ResourceDetails;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationMode);
+        this.EvaluationMode = EvaluationMode;
+    }
+
+    private AwsConfigserviceStartResourceEvaluationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceStartResourceEvaluationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceStartResourceEvaluationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Returns a ResourceDetails object. ResourceId -&gt; (string) [required] A unique resource ID for an evaluation. Constraints: o min: 1 o max: 768 ResourceType -&gt; (string) [required] The type of resource being evaluated. Constraints: o min: 1 o max: 256 ResourceConfiguration -&gt; (string) [required] The resource definition to be evaluated as per the resource con- figuration schema type. Constraints: o min: 1 o max: 51200 ResourceConfigurationSchemaType -&gt; (string) The schema type of the resource configuration. NOTE: You can find the Resource type schema , or CFN_RE- SOURCE_SCHEMA , in "Amazon Web Services public extensions " within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE . For more information, see Managing extensions through the CloudFormation registry and Amazon Web Services resource and property types reference in the CloudFormation User Guide. Possible values: o CFN_RESOURCE_SCHEMA Shorthand Syntax: ResourceId=string,ResourceType=string,ResourceConfiguration=string,ResourceConfigurationSchemaType=string JSON Syntax: { "ResourceId": "string", "ResourceType": "string", "ResourceConfiguration": "string", "ResourceConfigurationSchemaType": "CFN_RESOURCE_SCHEMA" }
+    /// </summary>
     [CliOption("--resource-details")]
-    public string? ResourceDetails { get; set; }
+    public string? ResourceDetails { get; private init; }
+
+    /// <summary>
+    /// The mode of an evaluation. NOTE: The only valid value for this API is PROACTIVE . Possible values: o DETECTIVE o PROACTIVE
+    /// </summary>
+    [CliOption("--evaluation-mode")]
+    public AwsConfigserviceStartResourceEvaluationEvaluationMode? EvaluationMode { get; private init; }
 
     /// <summary>
     /// Returns an EvaluationContext object. EvaluationContextIdentifier -&gt; (string) A unique EvaluationContextIdentifier ID for an EvaluationCon- text. Constraints: o min: 1 o max: 128 Shorthand Syntax: EvaluationContextIdentifier=string JSON Syntax: { "EvaluationContextIdentifier": "string" }
     /// </summary>
     [CliOption("--evaluation-context")]
     public string? EvaluationContext { get; set; }
-
-    [CliOption("--evaluation-mode")]
-    public string? EvaluationMode { get; set; }
 
     /// <summary>
     /// The timeout for an evaluation. The default is 900 seconds. You can- not specify a number greater than 3600. If you specify 0, Config uses the default. Constraints: o min: 0 o max: 3600
@@ -52,5 +97,21 @@ public record AwsConfigserviceStartResourceEvaluationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

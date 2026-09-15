@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-standby-workspaces")]
-public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions
+public record AwsWorkspacesCreateStandbyWorkspacesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--primary-region")]
-    public string? PrimaryRegion { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a standby WorkSpace in a secondary Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PrimaryRegion">The Region of the primary WorkSpace. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$</param>
+    /// <param name="StandbyWorkspaces">Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if en- abled, the type of data replication. Possible values: o NO_REPLICATION o PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]</param>
+    public AwsWorkspacesCreateStandbyWorkspacesOptions(
+        string PrimaryRegion,
+        IEnumerable<string> StandbyWorkspaces
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryRegion);
+        this.PrimaryRegion = PrimaryRegion;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StandbyWorkspaces);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StandbyWorkspaces));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StandbyWorkspaces));
+            }
+
+            StandbyWorkspaces = materialized;
+        }
+        this.StandbyWorkspaces = StandbyWorkspaces;
+    }
+
+    private AwsWorkspacesCreateStandbyWorkspacesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateStandbyWorkspacesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateStandbyWorkspacesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Region of the primary WorkSpace. Constraints: o min: 1 o max: 31 o pattern: ^[-0-9a-z]{1,31}$
+    /// </summary>
+    [CliOption("--primary-region")]
+    public string? PrimaryRegion { get; private init; }
+
+    /// <summary>
+    /// Information about the standby WorkSpace to be created. (structure) Describes a standby WorkSpace. PrimaryWorkspaceId -&gt; (string) [required] The identifier of the standby WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ VolumeEncryptionKey -&gt; (string) The volume encryption key of the standby WorkSpace. DirectoryId -&gt; (string) [required] The identifier of the directory for the standby WorkSpace. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$) Tags -&gt; (list) The tags associated with the standby WorkSpace. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 DataReplication -&gt; (string) Indicates whether data replication is enabled, and if en- abled, the type of data replication. Possible values: o NO_REPLICATION o PRIMARY_AS_SOURCE Shorthand Syntax: PrimaryWorkspaceId=string,VolumeEncryptionKey=string,DirectoryId=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}],DataReplication=string ... JSON Syntax: [ { "PrimaryWorkspaceId": "string", "VolumeEncryptionKey": "string", "DirectoryId": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ], "DataReplication": "NO_REPLICATION"|"PRIMARY_AS_SOURCE" } ... ]
+    /// </summary>
     [CliOption("--standby-workspaces", GroupValues = true)]
-    public IEnumerable<string>? StandbyWorkspaces { get; set; }
+    public IEnumerable<string>? StandbyWorkspaces { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

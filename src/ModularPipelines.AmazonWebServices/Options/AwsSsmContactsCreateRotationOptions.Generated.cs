@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "create-rotation")]
-public record AwsSsmContactsCreateRotationOptions : AwsOptions
+public record AwsSsmContactsCreateRotationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a rotation in an on-call schedule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the rotation. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-\s\.]*$</param>
+    /// <param name="ContactIds">The Amazon Resource Names (ARNs) of the contacts to add to the rota- tion. NOTE: Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this opera- tion. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the UpdateRotation operation. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...</param>
+    /// <param name="TimeZoneId">The time zone to base the rotations activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website. NOTE: Designators for time zones that dont support Daylight Savings Time rules, such as Pacific Standard Time (PST), are not sup- ported. Constraints: o min: 1 o max: 255 o pattern: ^[:a-zA-Z0-9_\-\s\.\\/]*$</param>
+    /// <param name="Recurrence">Information about the rule that specifies when a shift's team mem- bers rotate. MonthlySettings -&gt; (list) Information about on-call rotations that recur monthly. (structure) Information about on-call rotations that recur monthly. DayOfMonth -&gt; (integer) [required] The day of the month when monthly recurring on-call rota- tions begin. Constraints: o min: 1 o max: 31 HandOffTime -&gt; (structure) [required] The time of day when a monthly recurring on-call shift rotation begins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 WeeklySettings -&gt; (list) Information about on-call rotations that recur weekly. (structure) Information about rotations that recur weekly. DayOfWeek -&gt; (string) [required] The day of the week when weekly recurring on-call shift rotations begins. Possible values: o MON o TUE o WED o THU o FRI o SAT o SUN HandOffTime -&gt; (structure) [required] The time of day when a weekly recurring on-call shift ro- tation begins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 DailySettings -&gt; (list) Information about on-call rotations that recur daily. (structure) Details about when an on-call rotation shift begins or ends. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 NumberOfOnCalls -&gt; (integer) [required] The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule that contains ten contacts, a value of 2 designates that two of them are on call at any given time. Constraints: o min: 1 ShiftCoverages -&gt; (map) Information about the days of the week that the on-call rotation coverage includes. key -&gt; (string) Possible values: o MON o TUE o WED o THU o FRI o SAT o SUN value -&gt; (list) (structure) Information about when an on-call shift begins and ends. Start -&gt; (structure) Information about when the on-call rotation shift be- gins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 End -&gt; (structure) Information about when the on-call rotation shift ends. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 RecurrenceMultiplier -&gt; (integer) [required] The number of days, weeks, or months a single rotation lasts. Constraints: o min: 1 o max: 100 JSON Syntax: { "MonthlySettings": [ { "DayOfMonth": integer, "HandOffTime": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ], "WeeklySettings": [ { "DayOfWeek": "MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"|"SUN", "HandOffTime": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ], "DailySettings": [ { "HourOfDay": integer, "MinuteOfHour": integer } ... ], "NumberOfOnCalls": integer, "ShiftCoverages": {"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"|"SUN": [ { "Start": { "HourOfDay": integer, "MinuteOfHour": integer }, "End": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ] ...}, "RecurrenceMultiplier": integer }</param>
+    public AwsSsmContactsCreateRotationOptions(
+        string Name,
+        IEnumerable<string> ContactIds,
+        string TimeZoneId,
+        string Recurrence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ContactIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContactIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ContactIds));
+            }
+
+            ContactIds = materialized;
+        }
+        this.ContactIds = ContactIds;
+        global::System.ArgumentNullException.ThrowIfNull(TimeZoneId);
+        this.TimeZoneId = TimeZoneId;
+        global::System.ArgumentNullException.ThrowIfNull(Recurrence);
+        this.Recurrence = Recurrence;
+    }
+
+    private AwsSsmContactsCreateRotationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsCreateRotationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsCreateRotationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rotation. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-\s\.]*$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the contacts to add to the rota- tion. NOTE: Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this opera- tion. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the UpdateRotation operation. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--contact-ids", GroupValues = true)]
-    public IEnumerable<string>? ContactIds { get; set; }
+    public IEnumerable<string>? ContactIds { get; private init; }
+
+    /// <summary>
+    /// The time zone to base the rotations activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website. NOTE: Designators for time zones that dont support Daylight Savings Time rules, such as Pacific Standard Time (PST), are not sup- ported. Constraints: o min: 1 o max: 255 o pattern: ^[:a-zA-Z0-9_\-\s\.\\/]*$
+    /// </summary>
+    [CliOption("--time-zone-id")]
+    public string? TimeZoneId { get; private init; }
+
+    /// <summary>
+    /// Information about the rule that specifies when a shift's team mem- bers rotate. MonthlySettings -&gt; (list) Information about on-call rotations that recur monthly. (structure) Information about on-call rotations that recur monthly. DayOfMonth -&gt; (integer) [required] The day of the month when monthly recurring on-call rota- tions begin. Constraints: o min: 1 o max: 31 HandOffTime -&gt; (structure) [required] The time of day when a monthly recurring on-call shift rotation begins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 WeeklySettings -&gt; (list) Information about on-call rotations that recur weekly. (structure) Information about rotations that recur weekly. DayOfWeek -&gt; (string) [required] The day of the week when weekly recurring on-call shift rotations begins. Possible values: o MON o TUE o WED o THU o FRI o SAT o SUN HandOffTime -&gt; (structure) [required] The time of day when a weekly recurring on-call shift ro- tation begins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 DailySettings -&gt; (list) Information about on-call rotations that recur daily. (structure) Details about when an on-call rotation shift begins or ends. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 NumberOfOnCalls -&gt; (integer) [required] The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule that contains ten contacts, a value of 2 designates that two of them are on call at any given time. Constraints: o min: 1 ShiftCoverages -&gt; (map) Information about the days of the week that the on-call rotation coverage includes. key -&gt; (string) Possible values: o MON o TUE o WED o THU o FRI o SAT o SUN value -&gt; (list) (structure) Information about when an on-call shift begins and ends. Start -&gt; (structure) Information about when the on-call rotation shift be- gins. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 End -&gt; (structure) Information about when the on-call rotation shift ends. HourOfDay -&gt; (integer) [required] The hour when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 23 MinuteOfHour -&gt; (integer) [required] The minute when an on-call rotation shift begins or ends. Constraints: o min: 0 o max: 59 RecurrenceMultiplier -&gt; (integer) [required] The number of days, weeks, or months a single rotation lasts. Constraints: o min: 1 o max: 100 JSON Syntax: { "MonthlySettings": [ { "DayOfMonth": integer, "HandOffTime": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ], "WeeklySettings": [ { "DayOfWeek": "MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"|"SUN", "HandOffTime": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ], "DailySettings": [ { "HourOfDay": integer, "MinuteOfHour": integer } ... ], "NumberOfOnCalls": integer, "ShiftCoverages": {"MON"|"TUE"|"WED"|"THU"|"FRI"|"SAT"|"SUN": [ { "Start": { "HourOfDay": integer, "MinuteOfHour": integer }, "End": { "HourOfDay": integer, "MinuteOfHour": integer } } ... ] ...}, "RecurrenceMultiplier": integer }
+    /// </summary>
+    [CliOption("--recurrence")]
+    public string? Recurrence { get; private init; }
 
     /// <summary>
     /// The date and time that the rotation goes into effect.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
-
-    [CliOption("--time-zone-id")]
-    public string? TimeZoneId { get; set; }
-
-    [CliOption("--recurrence")]
-    public string? Recurrence { get; set; }
 
     /// <summary>
     /// Optional metadata to assign to the rotation. Tags enable you to cat- egorize a resource in different ways, such as by purpose, owner, or environment. For more information, see Tagging Incident Manager re- sources in the Incident Manager User Guide . Constraints: o min: 0 o max: 50 (structure) A container of a key-value name pair. Key -&gt; (string) Name of the object key. Constraints: o min: 1 o max: 128 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$ Value -&gt; (string) Value of the tag. Constraints: o min: 1 o max: 256 o pattern: ^[\p{L}\p{Z}\p{N}_.:\/=+\-@]*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -58,5 +127,21 @@ public record AwsSsmContactsCreateRotationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

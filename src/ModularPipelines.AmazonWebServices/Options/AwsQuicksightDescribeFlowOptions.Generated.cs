@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "describe-flow")]
-public record AwsQuicksightDescribeFlowOptions : AwsOptions
+public record AwsQuicksightDescribeFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the full details of a flow for the latest version of the re- quested publish state. See also: AWS API Documentation describe-flow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="PublishState">The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: o PUBLISHED o DRAFT o PENDING_APPROVAL</param>
+    public AwsQuicksightDescribeFlowOptions(
+        string AwsAccountId,
+        string FlowId,
+        AwsQuicksightDescribeFlowPublishState PublishState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(FlowId);
+        this.FlowId = FlowId;
+        global::System.ArgumentNullException.ThrowIfNull(PublishState);
+        this.PublishState = PublishState;
+    }
+
+    private AwsQuicksightDescribeFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDescribeFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDescribeFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the flow that you are describing. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the flow. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--flow-id")]
-    public string? FlowId { get; set; }
+    public string? FlowId { get; private init; }
 
+    /// <summary>
+    /// The publish state of the flow version to describe. Valid values are DRAFT , PUBLISHED , or PENDING_APPROVAL . Possible values: o PUBLISHED o DRAFT o PENDING_APPROVAL
+    /// </summary>
     [CliOption("--publish-state")]
-    public string? PublishState { get; set; }
+    public AwsQuicksightDescribeFlowPublishState? PublishState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

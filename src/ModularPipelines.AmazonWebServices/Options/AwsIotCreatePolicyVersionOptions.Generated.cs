@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-policy-version")]
-public record AwsIotCreatePolicyVersionOptions : AwsOptions
+public record AwsIotCreatePolicyVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five ver- sions. If the policy has five versions, you must use DeletePolicyVer- sion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default ver- sion. The default version is the operative version (that is, the ver- sion that is in effect for the certificates to which the policy is at- tached). Requi...
+    /// </summary>
+    /// <param name="PolicyName">The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyDocument">The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: o min: 0 o max: 404600 o pattern: [\s\S]*</param>
+    public AwsIotCreatePolicyVersionOptions(
+        string PolicyName,
+        string PolicyDocument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+    }
+
+    private AwsIotCreatePolicyVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreatePolicyVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreatePolicyVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The policy name. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
+    /// <summary>
+    /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace. Constraints: o min: 0 o max: 404600 o pattern: [\s\S]*
+    /// </summary>
     [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
+    public string? PolicyDocument { get; private init; }
 
-    [CliFlag("--set-as-default")]
+    /// <summary>
+    /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+    /// </summary>
+    [CliFlag("--set-as-default", NegatedName = "--no-set-as-default")]
     public bool? SetAsDefault { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsIotCreatePolicyVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-lakehouse-configuration")]
-public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions
+public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyLakehouseConfigurationOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsRedshiftModifyLakehouseConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyLakehouseConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyLakehouseConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the cluster whose lakehouse configuration you want to modify. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Dereg- ister . Possible values: o Register o Deregister
@@ -49,7 +86,10 @@ public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions
     [CliOption("--lakehouse-idc-application-arn")]
     public string? LakehouseIdcApplicationArn { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A boolean value that, if true , validates the request without actu- ally modifying the lakehouse configuration. Use this to check for errors before making changes.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -57,5 +97,21 @@ public record AwsRedshiftModifyLakehouseConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

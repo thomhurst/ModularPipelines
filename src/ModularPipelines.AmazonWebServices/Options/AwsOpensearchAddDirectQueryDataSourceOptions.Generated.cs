@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "add-direct-query-data-source")]
-public record AwsOpensearchAddDirectQueryDataSourceOptions : AwsOptions
+public record AwsOpensearchAddDirectQueryDataSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-source-name")]
-    public string? DataSourceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSourceName">A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DataSourceType">The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Work- space that is associated with the specified data source. Constraints: o pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:work- space\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }</param>
+    public AwsOpensearchAddDirectQueryDataSourceOptions(
+        string DataSourceName,
+        string DataSourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceName);
+        this.DataSourceName = DataSourceName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceType);
+        this.DataSourceType = DataSourceType;
+    }
+
+    private AwsOpensearchAddDirectQueryDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchAddDirectQueryDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchAddDirectQueryDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// </summary>
+    [CliOption("--data-source-name")]
+    public string? DataSourceName { get; private init; }
+
+    /// <summary>
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Work- space that is associated with the specified data source. Constraints: o pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:work- space\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }
+    /// </summary>
     [CliOption("--data-source-type")]
-    public string? DataSourceType { get; set; }
+    public string? DataSourceType { get; private init; }
 
     /// <summary>
     /// An optional text field for providing additional context and details about the data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
@@ -56,5 +100,21 @@ public record AwsOpensearchAddDirectQueryDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

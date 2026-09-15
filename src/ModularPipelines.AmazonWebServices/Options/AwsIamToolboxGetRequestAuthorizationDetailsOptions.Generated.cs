@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam-toolbox", "get-request-authorization-details")]
-public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions
+public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the authorization details for a specific access denied re- quest. The details include the request context, the evaluations per- formed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error mes- sage. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the de- nial. To use this operation, you must have t...
+    /// </summary>
+    /// <param name="AuthorizationId">The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: o pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+</param>
+    public AwsIamToolboxGetRequestAuthorizationDetailsOptions(
+        string AuthorizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizationId);
+        this.AuthorizationId = AuthorizationId;
+    }
+
+    private AwsIamToolboxGetRequestAuthorizationDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamToolboxGetRequestAuthorizationDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamToolboxGetRequestAuthorizationDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The authorization ID received in the access denied error message. This ID identifies the specific request to retrieve details for. Constraints: o pattern: [0123456789abcdefghijklmnopqrstuvwxyz]+
+    /// </summary>
     [CliOption("--authorization-id")]
-    public string? AuthorizationId { get; set; }
+    public string? AuthorizationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +80,21 @@ public record AwsIamToolboxGetRequestAuthorizationDetailsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

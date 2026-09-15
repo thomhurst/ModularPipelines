@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography-data", "generate-mac")]
-public record AwsPaymentCryptographyDataGenerateMacOptions : AwsOptions
+public record AwsPaymentCryptographyDataGenerateMacOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the send- ing and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorit...
+    /// </summary>
+    /// <param name="KeyIdentifier">The keyARN of the MAC generation encryption key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="MessageData">The data for which a MAC is under generation. This value must be hexBinary. Constraints: o min: 2 o max: 8192 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+</param>
+    /// <param name="GenerationAttributes">The attributes and data values to use for MAC generation within Ama- zon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Algorithm, EmvMac, DukptIso9797Algo- rithm1, DukptIso9797Algorithm3, DukptCmac. Algorithm -&gt; (string) The encryption algorithm for MAC generation or verification. Possible values: o ISO9797_ALGORITHM1 o ISO9797_ALGORITHM3 o CMAC o HMAC o HMAC_SHA224 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o AS2805_4_1 EmvMac -&gt; (structure) Parameters that are required for MAC generation or verification using EMV MAC algorithm. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for EMV MAC generation or verification. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN), a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Constraints: o min: 2 o max: 2 o pattern: [0-9]+ SessionKeyDerivationMode -&gt; (string) [required] The method of deriving a session key for EMV MAC generation or verification. Possible values: o EMV_COMMON_SESSION_KEY o EMV2000 o AMEX o MASTERCARD_SESSION_KEY o VISA o UNION_PAY SessionKeyDerivationValue -&gt; (tagged union structure) [required] Parameters that are required to generate session key for EMV generation and verification. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: ApplicationCryptogram, Ap- plicationTransactionCounter. ApplicationCryptogram -&gt; (string) The cryptogram provided by the terminal during transac- tion processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ ApplicationTransactionCounter -&gt; (string) The transaction counter that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ DukptIso9797Algorithm1 -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm1. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptIso9797Algorithm3 -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm3. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptCmac -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT CMAC algorithm. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 Shorthand Syntax: Algorithm=string,EmvMac={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,SessionKeyDerivationMode=string,SessionKeyDerivationValue={ApplicationCryptogram=string,ApplicationTransactionCounter=string}},DukptIso9797Algorithm1={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string},DukptIso9797Algorithm3={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string},DukptCmac={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string} JSON Syntax: { "Algorithm": "ISO9797_ALGORITHM1"|"ISO9797_ALGORITHM3"|"CMAC"|"HMAC"|"HMAC_SHA224"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"AS2805_4_1", "EmvMac": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "SessionKeyDerivationMode": "EMV_COMMON_SESSION_KEY"|"EMV2000"|"AMEX"|"MASTERCARD_SESSION_KEY"|"VISA"|"UNION_PAY", "SessionKeyDerivationValue": { "ApplicationCryptogram": "string", "ApplicationTransactionCounter": "string" } }, "DukptIso9797Algorithm1": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" }, "DukptIso9797Algorithm3": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" }, "DukptCmac": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" } }</param>
+    public AwsPaymentCryptographyDataGenerateMacOptions(
+        string KeyIdentifier,
+        string MessageData,
+        string GenerationAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyIdentifier);
+        this.KeyIdentifier = KeyIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(MessageData);
+        this.MessageData = MessageData;
+        global::System.ArgumentNullException.ThrowIfNull(GenerationAttributes);
+        this.GenerationAttributes = GenerationAttributes;
+    }
+
+    private AwsPaymentCryptographyDataGenerateMacOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyDataGenerateMacOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyDataGenerateMacOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The keyARN of the MAC generation encryption key. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// </summary>
     [CliOption("--key-identifier")]
-    public string? KeyIdentifier { get; set; }
+    public string? KeyIdentifier { get; private init; }
 
+    /// <summary>
+    /// The data for which a MAC is under generation. This value must be hexBinary. Constraints: o min: 2 o max: 8192 o pattern: (?:[0-9a-fA-F][0-9a-fA-F])+
+    /// </summary>
     [CliOption("--message-data")]
-    public string? MessageData { get; set; }
+    public string? MessageData { get; private init; }
 
+    /// <summary>
+    /// The attributes and data values to use for MAC generation within Ama- zon Web Services Payment Cryptography. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Algorithm, EmvMac, DukptIso9797Algo- rithm1, DukptIso9797Algorithm3, DukptCmac. Algorithm -&gt; (string) The encryption algorithm for MAC generation or verification. Possible values: o ISO9797_ALGORITHM1 o ISO9797_ALGORITHM3 o CMAC o HMAC o HMAC_SHA224 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o AS2805_4_1 EmvMac -&gt; (structure) Parameters that are required for MAC generation or verification using EMV MAC algorithm. MajorKeyDerivationMode -&gt; (string) [required] The method to use when deriving the master key for EMV MAC generation or verification. Possible values: o EMV_OPTION_A o EMV_OPTION_B PrimaryAccountNumber -&gt; (string) [required] The Primary Account Number (PAN), a unique identifier for a payment credit or debit card and associates the card to a specific account holder. Constraints: o min: 12 o max: 19 o pattern: [0-9]+ PanSequenceNumber -&gt; (string) [required] A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Constraints: o min: 2 o max: 2 o pattern: [0-9]+ SessionKeyDerivationMode -&gt; (string) [required] The method of deriving a session key for EMV MAC generation or verification. Possible values: o EMV_COMMON_SESSION_KEY o EMV2000 o AMEX o MASTERCARD_SESSION_KEY o VISA o UNION_PAY SessionKeyDerivationValue -&gt; (tagged union structure) [required] Parameters that are required to generate session key for EMV generation and verification. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: ApplicationCryptogram, Ap- plicationTransactionCounter. ApplicationCryptogram -&gt; (string) The cryptogram provided by the terminal during transac- tion processing. Constraints: o min: 16 o max: 16 o pattern: [0-9a-fA-F]+ ApplicationTransactionCounter -&gt; (string) The transaction counter that is provided by the terminal during transaction processing. Constraints: o min: 4 o max: 4 o pattern: [0-9a-fA-F]+ DukptIso9797Algorithm1 -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm1. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptIso9797Algorithm3 -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm3. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 DukptCmac -&gt; (structure) Parameters that are required for MAC generation or verification using DUKPT CMAC algorithm. KeySerialNumber -&gt; (string) [required] The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter. Constraints: o min: 16 o max: 24 o pattern: (?:[0-9a-fA-F]{16}|[0-9a-fA-F]{20}|[0-9a-fA-F]{24}) DukptKeyVariant -&gt; (string) [required] The type of use of DUKPT, which can be MAC generation, MAC verification, or both. Possible values: o BIDIRECTIONAL o REQUEST o RESPONSE DukptDerivationType -&gt; (string) The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY . Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 Shorthand Syntax: Algorithm=string,EmvMac={MajorKeyDerivationMode=string,PrimaryAccountNumber=string,PanSequenceNumber=string,SessionKeyDerivationMode=string,SessionKeyDerivationValue={ApplicationCryptogram=string,ApplicationTransactionCounter=string}},DukptIso9797Algorithm1={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string},DukptIso9797Algorithm3={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string},DukptCmac={KeySerialNumber=string,DukptKeyVariant=string,DukptDerivationType=string} JSON Syntax: { "Algorithm": "ISO9797_ALGORITHM1"|"ISO9797_ALGORITHM3"|"CMAC"|"HMAC"|"HMAC_SHA224"|"HMAC_SHA256"|"HMAC_SHA384"|"HMAC_SHA512"|"AS2805_4_1", "EmvMac": { "MajorKeyDerivationMode": "EMV_OPTION_A"|"EMV_OPTION_B", "PrimaryAccountNumber": "string", "PanSequenceNumber": "string", "SessionKeyDerivationMode": "EMV_COMMON_SESSION_KEY"|"EMV2000"|"AMEX"|"MASTERCARD_SESSION_KEY"|"VISA"|"UNION_PAY", "SessionKeyDerivationValue": { "ApplicationCryptogram": "string", "ApplicationTransactionCounter": "string" } }, "DukptIso9797Algorithm1": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" }, "DukptIso9797Algorithm3": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" }, "DukptCmac": { "KeySerialNumber": "string", "DukptKeyVariant": "BIDIRECTIONAL"|"REQUEST"|"RESPONSE", "DukptDerivationType": "TDES_2KEY"|"TDES_3KEY"|"AES_128"|"AES_192"|"AES_256" } }
+    /// </summary>
     [CliOption("--generation-attributes")]
-    public string? GenerationAttributes { get; set; }
+    public string? GenerationAttributes { get; private init; }
 
     /// <summary>
     /// The length of a MAC under generation. Constraints: o min: 4 o max: 32
@@ -41,5 +92,21 @@ public record AwsPaymentCryptographyDataGenerateMacOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

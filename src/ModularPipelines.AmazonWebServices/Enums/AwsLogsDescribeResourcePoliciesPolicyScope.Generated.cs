@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --policyscope.
+/// Allowed values for --policy-scope.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLogsDescribeResourcePoliciesPolicyScope
 {
     [EnumValue("ACCOUNT")]
-    Account = 1,
+    Account,
 
     [EnumValue("RESOURCE")]
-    Resource = 2
+    Resource
 }

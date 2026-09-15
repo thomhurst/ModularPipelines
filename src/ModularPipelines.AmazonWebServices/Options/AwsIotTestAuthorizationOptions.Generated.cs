@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "test-authorization")]
-public record AwsIotTestAuthorizationOptions : AwsOptions
+public record AwsIotTestAuthorizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestAuthorization action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthInfos">A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: o min: 1 o max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being autho- rized. Possible values: o PUBLISH o SUBSCRIBE o RECEIVE o CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: o max: 2048 o pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]</param>
+    public AwsIotTestAuthorizationOptions(
+        IEnumerable<string> AuthInfos
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AuthInfos);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AuthInfos));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AuthInfos));
+            }
+
+            AuthInfos = materialized;
+        }
+        this.AuthInfos = AuthInfos;
+    }
+
+    private AwsIotTestAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotTestAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotTestAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: o min: 1 o max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being autho- rized. Possible values: o PUBLISH o SUBSCRIBE o RECEIVE o CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: o max: 2048 o pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--auth-infos", GroupValues = true)]
+    public IEnumerable<string>? AuthInfos { get; private init; }
+
     /// <summary>
     /// The principal. Valid principals are CertificateArn (arn:aws:iot:re- gion :accountId :cert/certificateId ) and CognitoId (region :id ).
     /// </summary>
@@ -32,9 +83,6 @@ public record AwsIotTestAuthorizationOptions : AwsOptions
     /// </summary>
     [CliOption("--cognito-identity-pool-id")]
     public string? CognitoIdentityPoolId { get; set; }
-
-    [CliOption("--auth-infos", GroupValues = true)]
-    public IEnumerable<string>? AuthInfos { get; set; }
 
     /// <summary>
     /// The MQTT client ID.
@@ -59,5 +107,21 @@ public record AwsIotTestAuthorizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

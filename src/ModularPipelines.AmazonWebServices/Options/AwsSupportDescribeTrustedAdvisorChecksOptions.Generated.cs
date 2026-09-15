@@ -10,24 +10,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn...
+/// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "describe-trusted-advisor-checks")]
-public record AwsSupportDescribeTrustedAdvisorChecksOptions : AwsOptions
+public record AwsSupportDescribeTrustedAdvisorChecksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
+    /// </summary>
+    /// <param name="Language">The ISO 639-1 code for the language that you want your checks to ap- pear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es</param>
+    public AwsSupportDescribeTrustedAdvisorChecksOptions(
+        string Language
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+    }
+
+    private AwsSupportDescribeTrustedAdvisorChecksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorChecksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportDescribeTrustedAdvisorChecksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ISO 639-1 code for the language that you want your checks to ap- pear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor: o Chinese, Simplified - zh o Chinese, Traditional - zh_TW o English - en o French - fr o German - de o Indonesian - id o Italian - it o Japanese - ja o Korean - ko o Portuguese, Brazilian - pt_BR o Spanish - es
+    /// </summary>
     [CliOption("--language")]
-    public string? Language { get; set; }
+    public string? Language { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

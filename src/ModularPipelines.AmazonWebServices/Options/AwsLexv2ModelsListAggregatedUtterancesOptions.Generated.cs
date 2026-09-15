@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-aggregated-utterances")]
-public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions
+public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and acti- vated the associated intent. A missed utterance was not recognized by the bot and didn't activate an inte...
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot associated with this request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="LocaleId">The identifier of the language and locale where the utterances were collected. For more information, see Supported languages .</param>
+    /// <param name="AggregationDuration">The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: o Hours o Days o Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. o Hours - 1/3/6/12/24 o Days - 3 o Weeks - 1/2 Constraints: o min: 1 o max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }</param>
+    public AwsLexv2ModelsListAggregatedUtterancesOptions(
+        string BotId,
+        string LocaleId,
+        string AggregationDuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+        global::System.ArgumentNullException.ThrowIfNull(AggregationDuration);
+        this.AggregationDuration = AggregationDuration;
+    }
+
+    private AwsLexv2ModelsListAggregatedUtterancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListAggregatedUtterancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListAggregatedUtterancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot associated with this request. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the language and locale where the utterances were collected. For more information, see Supported languages .
+    /// </summary>
+    [CliOption("--locale-id")]
+    public string? LocaleId { get; private init; }
+
+    /// <summary>
+    /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks. relativeAggregationDuration -&gt; (structure) [required] The desired time window for aggregating utterances. timeDimension -&gt; (string) [required] The type of time period that the timeValue field represents. Possible values: o Hours o Days o Weeks timeValue -&gt; (integer) [required] The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field. o Hours - 1/3/6/12/24 o Days - 3 o Weeks - 1/2 Constraints: o min: 1 o max: 24 Shorthand Syntax: relativeAggregationDuration={timeDimension=string,timeValue=integer} JSON Syntax: { "relativeAggregationDuration": { "timeDimension": "Hours"|"Days"|"Weeks", "timeValue": integer } }
+    /// </summary>
+    [CliOption("--aggregation-duration")]
+    public string? AggregationDuration { get; private init; }
 
     /// <summary>
     /// The identifier of the bot alias associated with this request. If you specify the bot alias, you can't specify the bot version. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
@@ -36,12 +93,6 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
-
-    [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
-
-    [CliOption("--aggregation-duration")]
-    public string? AggregationDuration { get; set; }
 
     /// <summary>
     /// Specifies sorting parameters for the list of utterances. You can sort by the hit count, the missed count, or the number of distinct sessions the utterance appeared in. attribute -&gt; (string) [required] The utterance attribute to sort by. Possible values: o HitCount o MissedCount order -&gt; (string) [required] Specifies whether to sort the aggregated utterances in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "HitCount"|"MissedCount", "order": "Ascending"|"Descending" }
@@ -73,5 +124,21 @@ public record AwsLexv2ModelsListAggregatedUtterancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

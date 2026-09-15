@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "generate-query")]
-public record AwsBedrockAgentRuntimeGenerateQueryOptions : AwsOptions
+public record AwsBedrockAgentRuntimeGenerateQueryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--query-generation-input")]
-    public string? QueryGenerationInput { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Generates an SQL query from a natural language query. For more informa- tion, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="QueryGenerationInput">Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: o min: 1 o max: 20000 o pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }</param>
+    /// <param name="TransformationConfiguration">Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: o TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: o min: 0 o max: 128 o pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: o KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }</param>
+    public AwsBedrockAgentRuntimeGenerateQueryOptions(
+        string QueryGenerationInput,
+        string TransformationConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueryGenerationInput);
+        this.QueryGenerationInput = QueryGenerationInput;
+        global::System.ArgumentNullException.ThrowIfNull(TransformationConfiguration);
+        this.TransformationConfiguration = TransformationConfiguration;
+    }
+
+    private AwsBedrockAgentRuntimeGenerateQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeGenerateQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeGenerateQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: o min: 1 o max: 20000 o pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }
+    /// </summary>
+    [CliOption("--query-generation-input")]
+    public string? QueryGenerationInput { get; private init; }
+
+    /// <summary>
+    /// Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: o TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: o min: 0 o max: 128 o pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: o KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }
+    /// </summary>
     [CliOption("--transformation-configuration")]
-    public string? TransformationConfiguration { get; set; }
+    public string? TransformationConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

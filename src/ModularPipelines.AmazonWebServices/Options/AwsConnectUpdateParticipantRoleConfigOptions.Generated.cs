@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-participant-role-config")]
-public record AwsConnectUpdateParticipantRoleConfigOptions : AwsOptions
+public record AwsConnectUpdateParticipantRoleConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: o Customer idle timeout o Customer auto-disconnect timeout o Agent idle timeout o Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ChannelConfiguration">The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique com- bination of role and timer type. Duplicate entries error out the request with a 400. Constraints: o min: 1 o max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: o CUSTOMER o AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DIS- CONNECT_NONCUSTOMER indicates the timer applies to au- tomatically disconnecting a chat participant due to idleness. Possible values: o IDLE o DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Participant- TimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is al- lowed: Unset . It deletes a timer. Possible values: o Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: o min: 2 o max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }</param>
+    public AwsConnectUpdateParticipantRoleConfigOptions(
+        string InstanceId,
+        string ContactId,
+        string ChannelConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelConfiguration);
+        this.ChannelConfiguration = ChannelConfiguration;
+    }
+
+    private AwsConnectUpdateParticipantRoleConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateParticipantRoleConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateParticipantRoleConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique com- bination of role and timer type. Duplicate entries error out the request with a 400. Constraints: o min: 1 o max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: o CUSTOMER o AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DIS- CONNECT_NONCUSTOMER indicates the timer applies to au- tomatically disconnecting a chat participant due to idleness. Possible values: o IDLE o DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Participant- TimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is al- lowed: Unset . It deletes a timer. Possible values: o Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: o min: 2 o max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }
+    /// </summary>
     [CliOption("--channel-configuration")]
-    public string? ChannelConfiguration { get; set; }
+    public string? ChannelConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

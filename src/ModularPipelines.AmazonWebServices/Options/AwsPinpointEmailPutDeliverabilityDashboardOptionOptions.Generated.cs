@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "put-deliverability-dashboard-option")]
-public record AwsPinpointEmailPutDeliverabilityDashboardOptionOptions : AwsOptions
+public record AwsPinpointEmailPutDeliverabilityDashboardOptionOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dashboard-enabled")]
-    public bool? DashboardEnabled { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more inform...
+    /// </summary>
+    /// <param name="DashboardEnabled">Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true .</param>
+    public AwsPinpointEmailPutDeliverabilityDashboardOptionOptions(
+        bool DashboardEnabled
+    )
+    {
+        this.DashboardEnabled = DashboardEnabled;
+    }
+
+    private AwsPinpointEmailPutDeliverabilityDashboardOptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailPutDeliverabilityDashboardOptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailPutDeliverabilityDashboardOptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true .
+    /// </summary>
+    [CliFlag("--dashboard-enabled", NegatedName = "--no-dashboard-enabled")]
+    public bool? DashboardEnabled { get; private init; }
 
     /// <summary>
     /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for. (structure) An object that contains information about the Deliverability dashboard subscription for a verified domain that you use to send email and currently has an active Deliverability dashboard subscription. If a Deliverability dashboard subscription is ac- tive for a domain, you gain access to reputation, inbox place- ment, and other metrics for the domain. Domain -&gt; (string) A verified domain thats associated with your AWS account and currently has an active Deliverability dashboard subscrip- tion. SubscriptionStartDate -&gt; (timestamp) The date, in Unix time format, when you enabled the Deliver- ability dashboard for the domain. InboxPlacementTrackingOption -&gt; (structure) An object that contains information about the inbox placement data settings for the domain. Global -&gt; (boolean) Specifies whether inbox placement data is being tracked for the domain. TrackedIsps -&gt; (list) An array of strings, one for each major email provider that the inbox placement data applies to. (string) The name of an email provider. Shorthand Syntax: Domain=string,SubscriptionStartDate=timestamp,InboxPlacementTrackingOption={Global=boolean,TrackedIsps=[string,string]} ... JSON Syntax: [ { "Domain": "string", "SubscriptionStartDate": timestamp, "InboxPlacementTrackingOption": { "Global": true|false, "TrackedIsps": ["string", ...] } } ... ]
@@ -35,5 +71,21 @@ public record AwsPinpointEmailPutDeliverabilityDashboardOptionOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

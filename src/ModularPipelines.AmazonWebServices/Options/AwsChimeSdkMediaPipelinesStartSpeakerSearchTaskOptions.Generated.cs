@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-media-pipelines", "start-speaker-search-task")]
-public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOptions
+public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainArn">The ARN of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    public AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions(
+        string Identifier,
+        string VoiceProfileDomainArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(VoiceProfileDomainArn);
+        this.VoiceProfileDomainArn = VoiceProfileDomainArn;
+    }
+
+    private AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The ARN of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// </summary>
     [CliOption("--voice-profile-domain-arn")]
-    public string? VoiceProfileDomainArn { get; set; }
+    public string? VoiceProfileDomainArn { get; private init; }
 
     /// <summary>
     /// The task configuration for the Kinesis video stream source of the media insights pipeline. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ ChannelId -&gt; (integer) [required] The channel ID. Constraints: o min: 0 o max: 1 FragmentNumber -&gt; (string) The unique identifier of the fragment to begin processing. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Shorthand Syntax: StreamArn=string,ChannelId=integer,FragmentNumber=string JSON Syntax: { "StreamArn": "string", "ChannelId": integer, "FragmentNumber": "string" }
@@ -46,5 +90,21 @@ public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotwireless", "update-resource-event-configuration")]
-public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
+public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update the event configuration for a particular resource identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">Resource identifier to opt in for event messaging. Constraints: o max: 256</param>
+    /// <param name="IdentifierType">Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId</param>
+    public AwsIotwirelessUpdateResourceEventConfigurationOptions(
+        string Identifier,
+        AwsIotwirelessUpdateResourceEventConfigurationIdentifierType IdentifierType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(IdentifierType);
+        this.IdentifierType = IdentifierType;
+    }
+
+    private AwsIotwirelessUpdateResourceEventConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotwirelessUpdateResourceEventConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotwirelessUpdateResourceEventConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Resource identifier to opt in for event messaging. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId
+    /// </summary>
     [CliOption("--identifier-type")]
-    public string? IdentifierType { get; set; }
+    public AwsIotwirelessUpdateResourceEventConfigurationIdentifierType? IdentifierType { get; private init; }
 
     /// <summary>
     /// Partner type of the resource if the identifier type is PartnerAc- countId Possible values: o Sidewalk
@@ -69,5 +113,21 @@ public record AwsIotwirelessUpdateResourceEventConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

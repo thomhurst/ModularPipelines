@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "create-association")]
-public record AwsSsmCreateAssociationOptions : AwsOptions
+public record AwsSsmCreateAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reap- plied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web S...
+    /// </summary>
+    /// <param name="Name">The name of the SSM Command document or Automation runbook that con- tains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another Ama- zon Web Services account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format: `` arn:partition :ssm:region :account-id :document/document-name `` System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline literal start-string without end-string. For example: arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document . Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    public AwsSsmCreateAssociationOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSsmCreateAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmCreateAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmCreateAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the SSM Command document or Automation runbook that con- tains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another Ama- zon Web Services account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format: `` arn:partition :ssm:region :account-id :document/document-name `` System Message: WARNING/2 (&lt;string&gt;:, line 101) Inline literal start-string without end-string. For example: arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document . Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The document version you want to associate with the targets. Can be a specific version or the default version. WARNING: State Manager doesn't support running associations that use a new version of a document if that document is shared from an- other account. State Manager always runs the default version of a document if shared from another account, even though the Sys- tems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default . Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
@@ -98,7 +135,10 @@ public record AwsSsmCreateAssociationOptions : AwsOptions
     [CliOption("--sync-compliance")]
     public AwsSsmCreateAssociationSyncCompliance? SyncCompliance { get; set; }
 
-    [CliFlag("--apply-only-at-cron-interval")]
+    /// <summary>
+    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronInterval if you want the association to run only ac- cording to the schedule you specified. For more information, see Understanding when associations are ap- plied to resources and &gt;About target updates with Automation run- books in the Amazon Web Services Systems Manager User Guide . This parameter isn't supported for rate expressions.
+    /// </summary>
+    [CliFlag("--apply-only-at-cron-interval", NegatedName = "--no-apply-only-at-cron-interval")]
     public bool? ApplyOnlyAtCronInterval { get; set; }
 
     /// <summary>
@@ -154,5 +194,21 @@ public record AwsSsmCreateAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

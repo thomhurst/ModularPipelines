@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "create-data-source-from-redshift")]
-public record AwsMachinelearningCreateDataSourceFromRedshiftOptions : AwsOptions
+public record AwsMachinelearningCreateDataSourceFromRedshiftOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a DataSource from a database hosted on an Amazon Redshift clus- ter. A DataSource references data that can be used to perform either CreateMLModel , CreateEvaluation , or CreateBatchPrediction operations. CreateDataSourceFromRedshift is an asynchronous operation. In re- sponse to CreateDataSourceFromRedshift , Amazon Machine Learning (Amazon ML) immediately returns and sets the DataSource status to PENDING . After the DataSource is created and ready for use, Amazon ML sets the Status par...
+    /// </summary>
+    /// <param name="DataSourceId">A user-supplied ID that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSpec">The data specification of an Amazon Redshift DataSource : o DatabaseInformation - o DatabaseName - The name of the Amazon Redshift database. o ClusterIdentifier - The unique ID for the Amazon Redshift clus- ter. o DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift data- base. o SelectSqlQuery - The query that is used to retrieve the observa- tion data for the Datasource . o S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. o DataSchemaUri - The Amazon S3 location of the DataSchema . o DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified. o DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource . Sample - "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}" DatabaseInformation -&gt; (structure) [required] Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource . DatabaseName -&gt; (string) [required] The name of a database hosted on an Amazon Redshift cluster. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9]+ ClusterIdentifier -&gt; (string) [required] The ID of an Amazon Redshift cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9-]+ SelectSqlQuery -&gt; (string) [required] Describes the SQL Query to execute on an Amazon Redshift data- base for an Amazon Redshift DataSource . Constraints: o min: 1 o max: 16777216 DatabaseCredentials -&gt; (structure) [required] Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database. Username -&gt; (string) [required] A username to be used by Amazon Machine Learning (Amazon ML)to connect to a database on an Amazon Redshift cluster. The username should have sufficient permissions to execute the RedshiftSelectSqlQuery query. The username should be valid for an Amazon Redshift USER . Constraints: o min: 1 o max: 128 Password -&gt; (string) [required] A password to be used by Amazon ML to connect to a database on an Amazon Redshift cluster. The password should have suf- ficient permissions to execute a RedshiftSelectSqlQuery query. The password should be valid for an Amazon Redshift USER . Constraints: o min: 8 o max: 64 S3StagingLocation -&gt; (string) [required] Describes an Amazon S3 location to store the result set of the SelectSqlQuery query. Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? DataRearrangement -&gt; (string) A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource . If the DataRearrange- ment parameter is not provided, all of the input data is used to create the Datasource . There are multiple parameters that control what data is used to create a datasource: o ** percentBegin ** Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML in- cludes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 332) Inline strong start-string without end-string. o ** percentEnd ** Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML includes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 334) Inline strong start-string without end-string. o ** complement ** The complement parameter instructs Amazon ML to use the data that is not included in the range of percent- Begin to percentEnd to create a datasource. The complement pa- rameter is useful if you need to create complementary data- sources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and per- centEnd , along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"per- centBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "comple- ment":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 336) Inline strong start-string without end-string. o ** strategy ** To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential , meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evalua- tion: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"se- quential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd . Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are dis- tributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"ran- dom", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Data- source for training: {"splitting":{"percentBegin":70, "per- centEnd":100, "strategy":"random", "random- Seed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 338) Inline strong start-string without end-string. DataSchema -&gt; (string) A JSON string that represents the schema for an Amazon Redshift DataSource . The DataSchema defines the structure of the obser- vation data in the data file(s) referenced in the DataSource . A DataSchema is not required if you specify a DataSchemaUri . Define your DataSchema as a series of key-value pairs. attrib- utes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema . { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "field- Name": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "field- Type": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "field- Type": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] } Constraints: o max: 131071 DataSchemaUri -&gt; (string) Describes the schema location for an Amazon Redshift DataSource . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? Shorthand Syntax: DatabaseInformation={DatabaseName=string,ClusterIdentifier=string},SelectSqlQuery=string,DatabaseCredentials={Username=string,Password=string},S3StagingLocation=string,DataRearrangement=string,DataSchema=string,DataSchemaUri=string JSON Syntax: { "DatabaseInformation": { "DatabaseName": "string", "ClusterIdentifier": "string" }, "SelectSqlQuery": "string", "DatabaseCredentials": { "Username": "string", "Password": "string" }, "S3StagingLocation": "string", "DataRearrangement": "string", "DataSchema": "string", "DataSchemaUri": "string" }</param>
+    /// <param name="RoleArn">A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following: o A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster o An Amazon S3 bucket policy to grant Amazon ML read/write permis- sions on the S3StagingLocation Constraints: o min: 1 o max: 110</param>
+    public AwsMachinelearningCreateDataSourceFromRedshiftOptions(
+        string DataSourceId,
+        string DataSpec,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSpec);
+        this.DataSpec = DataSpec;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsMachinelearningCreateDataSourceFromRedshiftOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningCreateDataSourceFromRedshiftOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningCreateDataSourceFromRedshiftOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied ID that uniquely identifies the DataSource . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
+
+    /// <summary>
+    /// The data specification of an Amazon Redshift DataSource : o DatabaseInformation - o DatabaseName - The name of the Amazon Redshift database. o ClusterIdentifier - The unique ID for the Amazon Redshift clus- ter. o DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift data- base. o SelectSqlQuery - The query that is used to retrieve the observa- tion data for the Datasource . o S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. o DataSchemaUri - The Amazon S3 location of the DataSchema . o DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified. o DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource . Sample - "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}" DatabaseInformation -&gt; (structure) [required] Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource . DatabaseName -&gt; (string) [required] The name of a database hosted on an Amazon Redshift cluster. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9]+ ClusterIdentifier -&gt; (string) [required] The ID of an Amazon Redshift cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9-]+ SelectSqlQuery -&gt; (string) [required] Describes the SQL Query to execute on an Amazon Redshift data- base for an Amazon Redshift DataSource . Constraints: o min: 1 o max: 16777216 DatabaseCredentials -&gt; (structure) [required] Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database. Username -&gt; (string) [required] A username to be used by Amazon Machine Learning (Amazon ML)to connect to a database on an Amazon Redshift cluster. The username should have sufficient permissions to execute the RedshiftSelectSqlQuery query. The username should be valid for an Amazon Redshift USER . Constraints: o min: 1 o max: 128 Password -&gt; (string) [required] A password to be used by Amazon ML to connect to a database on an Amazon Redshift cluster. The password should have suf- ficient permissions to execute a RedshiftSelectSqlQuery query. The password should be valid for an Amazon Redshift USER . Constraints: o min: 8 o max: 64 S3StagingLocation -&gt; (string) [required] Describes an Amazon S3 location to store the result set of the SelectSqlQuery query. Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? DataRearrangement -&gt; (string) A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource . If the DataRearrange- ment parameter is not provided, all of the input data is used to create the Datasource . There are multiple parameters that control what data is used to create a datasource: o ** percentBegin ** Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML in- cludes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 332) Inline strong start-string without end-string. o ** percentEnd ** Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd , Amazon ML includes all of the data when creating the datasource. System Message: WARNING/2 (&lt;string&gt;:, line 334) Inline strong start-string without end-string. o ** complement ** The complement parameter instructs Amazon ML to use the data that is not included in the range of percent- Begin to percentEnd to create a datasource. The complement pa- rameter is useful if you need to create complementary data- sources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and per- centEnd , along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"per- centBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "comple- ment":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 336) Inline strong start-string without end-string. o ** strategy ** To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential , meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evalua- tion: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"se- quential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd . Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are dis- tributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"split- ting":{"percentBegin":70, "percentEnd":100, "strategy":"ran- dom", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Data- source for training: {"splitting":{"percentBegin":70, "per- centEnd":100, "strategy":"random", "random- Seed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}} System Message: WARNING/2 (&lt;string&gt;:, line 338) Inline strong start-string without end-string. DataSchema -&gt; (string) A JSON string that represents the schema for an Amazon Redshift DataSource . The DataSchema defines the structure of the obser- vation data in the data file(s) referenced in the DataSource . A DataSchema is not required if you specify a DataSchemaUri . Define your DataSchema as a series of key-value pairs. attrib- utes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema . { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "field- Name": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "field- Type": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "field- Type": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] } Constraints: o max: 131071 DataSchemaUri -&gt; (string) Describes the schema location for an Amazon Redshift DataSource . Constraints: o max: 2048 o pattern: s3://([^/]+)(/.*)? Shorthand Syntax: DatabaseInformation={DatabaseName=string,ClusterIdentifier=string},SelectSqlQuery=string,DatabaseCredentials={Username=string,Password=string},S3StagingLocation=string,DataRearrangement=string,DataSchema=string,DataSchemaUri=string JSON Syntax: { "DatabaseInformation": { "DatabaseName": "string", "ClusterIdentifier": "string" }, "SelectSqlQuery": "string", "DatabaseCredentials": { "Username": "string", "Password": "string" }, "S3StagingLocation": "string", "DataRearrangement": "string", "DataSchema": "string", "DataSchemaUri": "string" }
+    /// </summary>
+    [CliOption("--data-spec")]
+    public string? DataSpec { get; private init; }
+
+    /// <summary>
+    /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following: o A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster o An Amazon S3 bucket policy to grant Amazon ML read/write permis- sions on the S3StagingLocation Constraints: o min: 1 o max: 110
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A user-supplied name or description of the DataSource . Constraints: o max: 1024 o pattern: .*\S.*|^$
@@ -30,13 +87,10 @@ public record AwsMachinelearningCreateDataSourceFromRedshiftOptions : AwsOptions
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; set; }
 
-    [CliOption("--data-spec")]
-    public string? DataSpec { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliFlag("--compute-statistics")]
+    /// <summary>
+    /// The compute statistics for a DataSource . The statistics are gener- ated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This pa- rameter must be set to true if the DataSource needs to be used for MLModel training.
+    /// </summary>
+    [CliFlag("--compute-statistics", NegatedName = "--no-compute-statistics")]
     public bool? ComputeStatistics { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +98,21 @@ public record AwsMachinelearningCreateDataSourceFromRedshiftOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

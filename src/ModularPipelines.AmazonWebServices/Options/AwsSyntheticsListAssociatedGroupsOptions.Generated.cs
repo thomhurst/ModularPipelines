@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synthetics", "list-associated-groups")]
-public record AwsSyntheticsListAssociatedGroupsOptions : AwsOptions
+public record AwsSyntheticsListAssociatedGroupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the canary that you want to view groups for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}</param>
+    public AwsSyntheticsListAssociatedGroupsOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsSyntheticsListAssociatedGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSyntheticsListAssociatedGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSyntheticsListAssociatedGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the canary that you want to view groups for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:synthet- ics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\d{1}:\d{12}:ca- nary:[0-9a-z_\-]{1,255}
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
     /// <summary>
     /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 512 o pattern: ^.+$
     /// </summary>
@@ -35,13 +75,26 @@ public record AwsSyntheticsListAssociatedGroupsOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

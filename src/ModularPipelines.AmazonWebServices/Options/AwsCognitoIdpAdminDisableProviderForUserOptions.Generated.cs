@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "admin-disable-provider-for-user")]
-public record AwsCognitoIdpAdminDisableProviderForUserOptions : AwsOptions
+public record AwsCognitoIdpAdminDisableProviderForUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Prevents the user from signing in with the specified external (SAML or social) identity provider (IdP). If the user that you want to deacti- vate is a Amazon Cognito user pools native username + password user, they can't use their password to sign in. If the user to deactivate is a linked external IdP user, any link between that user and an existing user is removed. When the external user signs in again, and the user is no longer attached to the previously linked DestinationUser , the user must ...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to delete the user's linked identities. Constraints: o min: 0 o max: 131072</param>
+    /// <param name="User">The user profile that you want to delete a linked identity from. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }</param>
+    public AwsCognitoIdpAdminDisableProviderForUserOptions(
+        string UserPoolId,
+        string User
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(User);
+        this.User = User;
+    }
+
+    private AwsCognitoIdpAdminDisableProviderForUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAdminDisableProviderForUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAdminDisableProviderForUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to delete the user's linked identities. Constraints: o min: 0 o max: 131072
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The user profile that you want to delete a linked identity from. ProviderName -&gt; (string) The name of the provider, such as Facebook, Google, or Login with Amazon. Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\p{Z}]+ ProviderAttributeName -&gt; (string) The name of the provider attribute to link to, such as NameID . Constraints: o min: 0 o max: 131072 ProviderAttributeValue -&gt; (string) The value of the provider attribute to link to, such as xxxxx_account . Constraints: o min: 0 o max: 131072 Shorthand Syntax: ProviderName=string,ProviderAttributeName=string,ProviderAttributeValue=string JSON Syntax: { "ProviderName": "string", "ProviderAttributeName": "string", "ProviderAttributeValue": "string" }
+    /// </summary>
     [CliOption("--user")]
-    public string? User { get; set; }
+    public string? User { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

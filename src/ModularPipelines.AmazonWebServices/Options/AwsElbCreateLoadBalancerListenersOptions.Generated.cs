@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "create-load-balancer-listeners")]
-public record AwsElbCreateLoadBalancerListenersOptions : AwsOptions
+public record AwsElbCreateLoadBalancerListenersOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="Listeners">The listeners. (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Bal- ancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Clas- sic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end proto- col must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstancePro- tocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: o min: 1 o max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]</param>
+    public AwsElbCreateLoadBalancerListenersOptions(
+        string LoadBalancerName,
+        IEnumerable<string> Listeners
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Listeners);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Listeners));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Listeners));
+            }
+
+            Listeners = materialized;
+        }
+        this.Listeners = Listeners;
+    }
+
+    private AwsElbCreateLoadBalancerListenersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbCreateLoadBalancerListenersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbCreateLoadBalancerListenersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The listeners. (structure) Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Bal- ancer in the Classic Load Balancers Guide . Protocol -&gt; (string) [required] The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL. LoadBalancerPort -&gt; (integer) [required] The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Clas- sic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535. InstanceProtocol -&gt; (string) The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is TCP or SSL, the back-end proto- col must be TCP or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol must be HTTP or HTTPS. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstancePro- tocol must be HTTP or TCP. InstancePort -&gt; (integer) [required] The port on which the instance is listening. Constraints: o min: 1 o max: 65535 SSLCertificateId -&gt; (string) The Amazon Resource Name (ARN) of the server certificate. Shorthand Syntax: Protocol=string,LoadBalancerPort=integer,InstanceProtocol=string,InstancePort=integer,SSLCertificateId=string ... JSON Syntax: [ { "Protocol": "string", "LoadBalancerPort": integer, "InstanceProtocol": "string", "InstancePort": integer, "SSLCertificateId": "string" } ... ]
+    /// </summary>
     [CliOption("--listeners", GroupValues = true)]
-    public IEnumerable<string>? Listeners { get; set; }
+    public IEnumerable<string>? Listeners { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis-video-signaling", "send-alexa-offer-to-master")]
-public record AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions : AwsOptions
+public record AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API allows you to connect WebRTC-enabled devices with Alexa dis- play devices. When invoked, it sends the Alexa Session Description Pro- tocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelArn">The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+</param>
+    /// <param name="SenderClientId">The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="MessagePayload">The base64-encoded SDP offer content. Constraints: o min: 1 o max: 10000 o pattern: [a-zA-Z0-9+/=]+</param>
+    public AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions(
+        string ChannelArn,
+        string SenderClientId,
+        string MessagePayload
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelArn);
+        this.ChannelArn = ChannelArn;
+        global::System.ArgumentNullException.ThrowIfNull(SenderClientId);
+        this.SenderClientId = SenderClientId;
+        global::System.ArgumentNullException.ThrowIfNull(MessagePayload);
+        this.MessagePayload = MessagePayload;
+    }
+
+    private AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the signaling channel by which Alexa and the master peer communicate. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// </summary>
     [CliOption("--channel-arn")]
-    public string? ChannelArn { get; set; }
+    public string? ChannelArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--sender-client-id")]
-    public string? SenderClientId { get; set; }
+    public string? SenderClientId { get; private init; }
 
+    /// <summary>
+    /// The base64-encoded SDP offer content. Constraints: o min: 1 o max: 10000 o pattern: [a-zA-Z0-9+/=]+
+    /// </summary>
     [CliOption("--message-payload")]
-    public string? MessagePayload { get; set; }
+    public string? MessagePayload { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

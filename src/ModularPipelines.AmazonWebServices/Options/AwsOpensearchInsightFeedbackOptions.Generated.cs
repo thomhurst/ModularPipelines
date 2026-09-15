@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "insight-feedback")]
-public record AwsOpensearchInsightFeedbackOptions : AwsOptions
+public record AwsOpensearchInsightFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Ser- vice domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entity">The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: o DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }</param>
+    /// <param name="InsightId">The unique identifier of the insight for which to submit feedback. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="Thumbs">The thumbs up or thumbs down feedback for the insight. Possible val- ues are Up and Down . Possible values: o Up o Down</param>
+    public AwsOpensearchInsightFeedbackOptions(
+        string Entity,
+        string InsightId,
+        AwsOpensearchInsightFeedbackThumbs Thumbs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entity);
+        this.Entity = Entity;
+        global::System.ArgumentNullException.ThrowIfNull(InsightId);
+        this.InsightId = InsightId;
+        global::System.ArgumentNullException.ThrowIfNull(Thumbs);
+        this.Thumbs = Thumbs;
+    }
+
+    private AwsOpensearchInsightFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchInsightFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchInsightFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: o DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }
+    /// </summary>
     [CliOption("--entity")]
-    public string? Entity { get; set; }
+    public string? Entity { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the insight for which to submit feedback. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// </summary>
     [CliOption("--insight-id")]
-    public string? InsightId { get; set; }
+    public string? InsightId { get; private init; }
 
+    /// <summary>
+    /// The thumbs up or thumbs down feedback for the insight. Possible val- ues are Up and Down . Possible values: o Up o Down
+    /// </summary>
     [CliOption("--thumbs")]
-    public string? Thumbs { get; set; }
+    public AwsOpensearchInsightFeedbackThumbs? Thumbs { get; private init; }
 
     /// <summary>
     /// Optional text feedback providing additional details about the in- sight. Maximum length is 1000 characters. Constraints: o min: 0 o max: 1000
@@ -41,5 +93,21 @@ public record AwsOpensearchInsightFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

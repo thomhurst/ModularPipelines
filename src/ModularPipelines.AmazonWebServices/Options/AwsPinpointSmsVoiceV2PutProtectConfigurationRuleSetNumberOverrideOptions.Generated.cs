@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +22,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "put-protect-configuration-rule-set-number-override")]
-public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create or update a phone number rule override and associate it with a protect configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="DestinationPhoneNumber">The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}</param>
+    /// <param name="Action">The action for the rule to either block or allow messages to the destination phone number. Possible values: o ALLOW o BLOCK</param>
+    public AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions(
+        string ProtectConfigurationId,
+        string DestinationPhoneNumber,
+        AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtectConfigurationId);
+        this.ProtectConfigurationId = ProtectConfigurationId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationPhoneNumber);
+        this.DestinationPhoneNumber = DestinationPhoneNumber;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--protect-configuration-id")]
+    public string? ProtectConfigurationId { get; private init; }
+
+    /// <summary>
+    /// The destination phone number in E.164 format. Constraints: o min: 1 o max: 20 o pattern: \+?[1-9][0-9]{1,18}
+    /// </summary>
+    [CliOption("--destination-phone-number")]
+    public string? DestinationPhoneNumber { get; private init; }
+
+    /// <summary>
+    /// The action for the rule to either block or allow messages to the destination phone number. Possible values: o ALLOW o BLOCK
+    /// </summary>
+    [CliOption("--action")]
+    public AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideAction? Action { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--protect-configuration-id")]
-    public string? ProtectConfigurationId { get; set; }
-
-    [CliOption("--destination-phone-number")]
-    public string? DestinationPhoneNumber { get; set; }
-
-    [CliOption("--action")]
-    public string? Action { get; set; }
 
     /// <summary>
     /// The time the rule will expire at. If ExpirationTimestamp is not set then the rule does not expire.
@@ -49,5 +101,21 @@ public record AwsPinpointSmsVoiceV2PutProtectConfigurationRuleSetNumberOverrideO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

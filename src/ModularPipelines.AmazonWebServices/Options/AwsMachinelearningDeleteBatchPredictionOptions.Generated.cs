@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "delete-batch-prediction")]
-public record AwsMachinelearningDeleteBatchPredictionOptions : AwsOptions
+public record AwsMachinelearningDeleteBatchPredictionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns the DELETED status to a BatchPrediction , rendering it unus- able. After using the DeleteBatchPrediction operation, you can use the Get- BatchPrediction operation to verify that the status of the BatchPredic- tion changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irre- versible. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BatchPredictionId">A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsMachinelearningDeleteBatchPredictionOptions(
+        string BatchPredictionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BatchPredictionId);
+        this.BatchPredictionId = BatchPredictionId;
+    }
+
+    private AwsMachinelearningDeleteBatchPredictionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningDeleteBatchPredictionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningDeleteBatchPredictionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied ID that uniquely identifies the BatchPrediction . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--batch-prediction-id")]
-    public string? BatchPredictionId { get; set; }
+    public string? BatchPredictionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

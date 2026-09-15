@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-test-set-discrepancy-report")]
-public record AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions : AwsOptions
+public record AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--test-set-id")]
-    public string? TestSetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a report that describes the differences between the bot and the test set. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestSetId">The test set Id for the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="Target">The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
+    public AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions(
+        string TestSetId,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestSetId);
+        this.TestSetId = TestSetId;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateTestSetDiscrepancyReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The test set Id for the test set discrepancy report. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--test-set-id")]
+    public string? TestSetId { get; private init; }
+
+    /// <summary>
+    /// The target bot for the test set discrepancy report. botAliasTarget -&gt; (structure) Contains information about the bot alias used as the resource for the test set discrepancy report. botId -&gt; (string) [required] The unique identifier for the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The unique identifier for the bot associated with the bot alias. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The unique identifier of the locale associated with the bot alias. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

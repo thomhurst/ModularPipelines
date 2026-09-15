@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "put-data-quality-profile-annotation")]
-public record AwsGluePutDataQualityProfileAnnotationOptions : AwsOptions
+public record AwsGluePutDataQualityProfileAnnotationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Annotate all datapoints for a Profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The ID of the data quality monitoring profile to annotate. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="InclusionAnnotation">The inclusion annotation value to apply to the profile. Possible values: o INCLUDE o EXCLUDE</param>
+    public AwsGluePutDataQualityProfileAnnotationOptions(
+        string ProfileId,
+        AwsGluePutDataQualityProfileAnnotationInclusionAnnotation InclusionAnnotation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(InclusionAnnotation);
+        this.InclusionAnnotation = InclusionAnnotation;
+    }
+
+    private AwsGluePutDataQualityProfileAnnotationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGluePutDataQualityProfileAnnotationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGluePutDataQualityProfileAnnotationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the data quality monitoring profile to annotate. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
+
+    /// <summary>
+    /// The inclusion annotation value to apply to the profile. Possible values: o INCLUDE o EXCLUDE
+    /// </summary>
     [CliOption("--inclusion-annotation")]
-    public string? InclusionAnnotation { get; set; }
+    public AwsGluePutDataQualityProfileAnnotationInclusionAnnotation? InclusionAnnotation { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

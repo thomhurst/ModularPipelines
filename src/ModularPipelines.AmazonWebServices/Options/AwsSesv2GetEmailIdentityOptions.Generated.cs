@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "get-email-identity")]
-public record AwsSesv2GetEmailIdentityOptions : AwsOptions
+public record AwsSesv2GetEmailIdentityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides information about a specific identity, including the iden- tity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    public AwsSesv2GetEmailIdentityOptions(
+        string EmailIdentity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+    }
+
+    private AwsSesv2GetEmailIdentityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2GetEmailIdentityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2GetEmailIdentityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email identity. Constraints: o min: 1
+    /// </summary>
     [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    public string? EmailIdentity { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

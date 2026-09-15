@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "update-automated-reasoning-policy")]
-public record AwsBedrockUpdateAutomatedReasoningPolicyOptions : AwsOptions
+public record AwsBedrockUpdateAutomatedReasoningPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-arn")]
-    public string? PolicyArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing Automated Reasoning policy with new rules, vari- ables, or configuration. This creates a new version of the policy while preserving the previous version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy to update. This must be the ARN of a draft policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="PolicyDefinition">The updated policy definition containing the formal logic rules, variables, and types. version -&gt; (string) The version of the policy definition format. types -&gt; (list) The custom user-defined vairable types used in the policy. Types are enum-based variable types that provide additional context beyond the predefined variable types. Constraints: o min: 0 o max: 150 (structure) Represents a custom user-defined viarble type in an Automated Reasoning policy. Types are enum-based and provide additional context beyond predefined variable types. name -&gt; (string) [required] The name of the custom type. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) The description of what the custom type represents. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ values -&gt; (list) [required] The possible values for this enum-based type, each with its own description. Constraints: o min: 1 o max: 150 (structure) Represents a single value within a custom type defini- tion, including its identifier and description. value -&gt; (string) [required] The actual value or identifier for this type value. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) A human-readable description explaining what this type value represents and when it should be used. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ rules -&gt; (list) The formal logic rules extracted from the source document. Rules define the logical constraints that determine whether model re- sponses are valid, invalid, or satisfiable. Constraints: o min: 0 o max: 1500 (structure) Represents a formal logic rule in an Automated Reasoning pol- icy. For example, rules can be expressed as if-then state- ments that define logical constraints. id -&gt; (string) [required] The unique identifier of the rule within the policy. Constraints: o min: 12 o max: 12 o pattern: [A-Z][0-9A-Z]{11} expression -&gt; (string) [required] The formal logic expression of the rule. Constraints: o min: 0 o max: 2048 o pattern: [\s\S]+ alternateExpression -&gt; (string) The human-readable form of the rule expression, often in natural language or simplified notation. Constraints: o min: 0 o max: 2048 o pattern: [\s\S]+ variables -&gt; (list) The variables that represent concepts in the policy. Variables can have values assigned when translating natural language into formal logic. Their descriptions are crucial for accurate trans- lation. Constraints: o min: 0 o max: 600 (structure) Represents a variable in an Automated Reasoning policy. Vari- ables represent concepts that can have values assigned during natural language translation. name -&gt; (string) [required] The name of the variable. Use descriptive names that clearly indicate the concept being represented. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* type -&gt; (string) [required] The data type of the variable. Valid types include bool, int, real, enum, and custom types that you can provide. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) [required] The description of the variable that explains what it represents and how users might refer to it. Clear and comprehensive descriptions are essential for accurate natural language translation. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ JSON Syntax: { "version": "string", "types": [ { "name": "string", "description": "string", "values": [ { "value": "string", "description": "string" } ... ] } ... ], "rules": [ { "id": "string", "expression": "string", "alternateExpression": "string" } ... ], "variables": [ { "name": "string", "type": "string", "description": "string" } ... ] }</param>
+    public AwsBedrockUpdateAutomatedReasoningPolicyOptions(
+        string PolicyArn,
+        string PolicyDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyArn);
+        this.PolicyArn = PolicyArn;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDefinition);
+        this.PolicyDefinition = PolicyDefinition;
+    }
+
+    private AwsBedrockUpdateAutomatedReasoningPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockUpdateAutomatedReasoningPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockUpdateAutomatedReasoningPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to update. This must be the ARN of a draft policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// </summary>
+    [CliOption("--policy-arn")]
+    public string? PolicyArn { get; private init; }
+
+    /// <summary>
+    /// The updated policy definition containing the formal logic rules, variables, and types. version -&gt; (string) The version of the policy definition format. types -&gt; (list) The custom user-defined vairable types used in the policy. Types are enum-based variable types that provide additional context beyond the predefined variable types. Constraints: o min: 0 o max: 150 (structure) Represents a custom user-defined viarble type in an Automated Reasoning policy. Types are enum-based and provide additional context beyond predefined variable types. name -&gt; (string) [required] The name of the custom type. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) The description of what the custom type represents. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ values -&gt; (list) [required] The possible values for this enum-based type, each with its own description. Constraints: o min: 1 o max: 150 (structure) Represents a single value within a custom type defini- tion, including its identifier and description. value -&gt; (string) [required] The actual value or identifier for this type value. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) A human-readable description explaining what this type value represents and when it should be used. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ rules -&gt; (list) The formal logic rules extracted from the source document. Rules define the logical constraints that determine whether model re- sponses are valid, invalid, or satisfiable. Constraints: o min: 0 o max: 1500 (structure) Represents a formal logic rule in an Automated Reasoning pol- icy. For example, rules can be expressed as if-then state- ments that define logical constraints. id -&gt; (string) [required] The unique identifier of the rule within the policy. Constraints: o min: 12 o max: 12 o pattern: [A-Z][0-9A-Z]{11} expression -&gt; (string) [required] The formal logic expression of the rule. Constraints: o min: 0 o max: 2048 o pattern: [\s\S]+ alternateExpression -&gt; (string) The human-readable form of the rule expression, often in natural language or simplified notation. Constraints: o min: 0 o max: 2048 o pattern: [\s\S]+ variables -&gt; (list) The variables that represent concepts in the policy. Variables can have values assigned when translating natural language into formal logic. Their descriptions are crucial for accurate trans- lation. Constraints: o min: 0 o max: 600 (structure) Represents a variable in an Automated Reasoning policy. Vari- ables represent concepts that can have values assigned during natural language translation. name -&gt; (string) [required] The name of the variable. Use descriptive names that clearly indicate the concept being represented. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* type -&gt; (string) [required] The data type of the variable. Valid types include bool, int, real, enum, and custom types that you can provide. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_]* description -&gt; (string) [required] The description of the variable that explains what it represents and how users might refer to it. Clear and comprehensive descriptions are essential for accurate natural language translation. Constraints: o min: 0 o max: 1024 o pattern: [\s\S]+ JSON Syntax: { "version": "string", "types": [ { "name": "string", "description": "string", "values": [ { "value": "string", "description": "string" } ... ] } ... ], "rules": [ { "id": "string", "expression": "string", "alternateExpression": "string" } ... ], "variables": [ { "name": "string", "type": "string", "description": "string" } ... ] }
+    /// </summary>
     [CliOption("--policy-definition")]
-    public string? PolicyDefinition { get; set; }
+    public string? PolicyDefinition { get; private init; }
 
     /// <summary>
     /// The updated name for the Automated Reasoning policy. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_ ]+
@@ -44,5 +88,21 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

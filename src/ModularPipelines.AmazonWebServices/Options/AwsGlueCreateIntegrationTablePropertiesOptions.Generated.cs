@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-integration-table-properties")]
-public record AwsGlueCreateIntegrationTablePropertiesOptions : AwsOptions
+public record AwsGlueCreateIntegrationTablePropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include proper- ties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be in- voked with the Glue connection ARN as ResourceArn with SourceTableCon- fig , and the Glue database ARN as ResourceArn with TargetTableConfig respectively. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target table for which to cre- ate integration table properties. Currently, this API only supports creating integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512</param>
+    /// <param name="TableName">The name of the table to be replicated. Constraints: o min: 1 o max: 128</param>
+    public AwsGlueCreateIntegrationTablePropertiesOptions(
+        string ResourceArn,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsGlueCreateIntegrationTablePropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateIntegrationTablePropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateIntegrationTablePropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the target table for which to cre- ate integration table properties. Currently, this API only supports creating integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release. Constraints: o min: 1 o max: 512
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The name of the table to be replicated. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     /// <summary>
     /// A structure for the source table configuration. See the SourceTable- Config structure to see list of supported source properties. Fields -&gt; (list) A list of fields used for column-level filtering. Currently un- supported. (string) Constraints: o min: 1 o max: 128 FilterPredicate -&gt; (string) A condition clause used for row-level filtering. Currently un- supported. Constraints: o min: 1 o max: 128 PrimaryKey -&gt; (list) Provide the primary key set for this table. Currently supported specifically for SAP EntityOf entities upon request. Contact Amazon Web Services Support to make this feature available. (string) Constraints: o min: 1 o max: 128 RecordUpdateField -&gt; (string) Incremental pull timestamp-based field. Currently unsupported. Constraints: o min: 1 o max: 128 Shorthand Syntax: Fields=string,string,FilterPredicate=string,PrimaryKey=string,string,RecordUpdateField=string JSON Syntax: { "Fields": ["string", ...], "FilterPredicate": "string", "PrimaryKey": ["string", ...], "RecordUpdateField": "string" }
@@ -34,7 +78,7 @@ public record AwsGlueCreateIntegrationTablePropertiesOptions : AwsOptions
     public string? SourceTableConfig { get; set; }
 
     /// <summary>
-    /// A structure for the target table configuration. UnnestSpec -&gt; (string) Specifies how nested objects are flattened to top-level ele- ments. Valid values are: "TOPLEVEL", "FULL", or "NOUNNEST". Possible values: o TOPLEVEL o FULL o NOUNNEST PartitionSpec -&gt; (list) Determines the file layout on the target. (structure) A structure that describes how data is partitioned on the target. FieldName -&gt; (string) The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, LastModifiedTimestamp, SystemModTimeStamp) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues. Constraints: o min: 1 o max: 128 FunctionSpec -&gt; (string) Specifies the function used to partition data on the tar- get. The accepted values for this parameter are: o identity - Uses source values directly without trans- formation o year - Extracts the year from timestamp values (e.g., 2023) o month - Extracts the month from timestamp values (e.g., 2023-01) o day - Extracts the day from timestamp values (e.g., 2023-01-15) o hour - Extracts the hour from timestamp values (e.g., 2023-01-15-14) Constraints: o min: 1 o max: 128 ConversionSpec -&gt; (string) Specifies the timestamp format of the source data. Valid values are: o epoch_sec - Unix epoch timestamp in seconds o epoch_milli - Unix epoch timestamp in milliseconds o iso - ISO 8601 formatted timestamp NOTE: Only specify ConversionSpec when using timestamp-based partition functions (year, month, day, or hour). Glue Zero-ETL uses this parameter to correctly transform source data into timestamp format before partitioning. Do not use high-cardinality columns with the identity partition function. High-cardinality columns include: o Primary keys o Timestamp fields (such as LastModifiedTimestamp , CreatedDate ) o System-generated timestamps Using high-cardinality columns with identity parti- tioning creates many small partitions, which can sig- nificantly degrade ingestion performance. Constraints: o min: 1 o max: 128 TargetTableName -&gt; (string) The optional name of a target table. Constraints: o min: 1 o max: 128 Shorthand Syntax: UnnestSpec=string,PartitionSpec=[{FieldName=string,FunctionSpec=string,ConversionSpec=string},{FieldName=string,FunctionSpec=string,ConversionSpec=string}],TargetTableName=string JSON Syntax: { "UnnestSpec": "TOPLEVEL"|"FULL"|"NOUNNEST", "PartitionSpec": [ { "FieldName": "string", "FunctionSpec": "string", "ConversionSpec": "string" } ... ], "TargetTableName": "string" }
+    /// A structure for the target table configuration. UnnestSpec -&gt; (string) Specifies how nested objects are flattened to top-level ele- ments. Valid values are: "TOPLEVEL", "FULL", or "NOUNNEST". Possible values: o TOPLEVEL o FULL o NOUNNEST PartitionSpec -&gt; (list) Determines the file layout on the target. (structure) A structure that describes how data is partitioned on the target. FieldName -&gt; (string) The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, LastModifiedTimestamp, SystemModTimeStamp) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues. Constraints: o min: 1 o max: 128 FunctionSpec -&gt; (string) Specifies the function used to partition data on the tar- get. The accepted values for this parameter are: o identity - Uses source values directly without trans- formation o year - Extracts the year from timestamp values (e.g., 2023) o month - Extracts the month from timestamp values (e.g., 2023-01) o day - Extracts the day from timestamp values (e.g., 2023-01-15) o hour - Extracts the hour from timestamp values (e.g., 2023-01-15-14) Constraints: o min: 1 o max: 128 ConversionSpec -&gt; (string) Specifies the timestamp format of the source data. Valid values are: o epoch_sec - Unix epoch timestamp in seconds o epoch_milli - Unix epoch timestamp in milliseconds o iso - ISO 8601 formatted timestamp NOTE: Only specify ConversionSpec when using timestamp-based partition functions (year, month, day, or hour). Glue Zero-ETL uses this parameter to correctly transform source data into timestamp format before partitioning. Do not use high-cardinality columns with the identity partition function. High-cardinality columns include: o Primary keys o Timestamp fields (such as LastModifiedTimestamp , CreatedDate ) o System-generated timestamps Using high-cardinality columns with identity parti- tioning creates many small partitions, which can sig- nificantly degrade ingestion performance. Constraints: o min: 1 o max: 128 TargetTableName -&gt; (string) The optional name of a target table. Constraints: o min: 1 o max: 128 IntegrationArn -&gt; (string) The ARN of the integration that owns this target table configu- ration. Constraints: o min: 1 o max: 128 Shorthand Syntax: UnnestSpec=string,PartitionSpec=[{FieldName=string,FunctionSpec=string,ConversionSpec=string},{FieldName=string,FunctionSpec=string,ConversionSpec=string}],TargetTableName=string,IntegrationArn=string JSON Syntax: { "UnnestSpec": "TOPLEVEL"|"FULL"|"NOUNNEST", "PartitionSpec": [ { "FieldName": "string", "FunctionSpec": "string", "ConversionSpec": "string" } ... ], "TargetTableName": "string", "IntegrationArn": "string" }
     /// </summary>
     [CliOption("--target-table-config")]
     public string? TargetTableConfig { get; set; }
@@ -44,5 +88,21 @@ public record AwsGlueCreateIntegrationTablePropertiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

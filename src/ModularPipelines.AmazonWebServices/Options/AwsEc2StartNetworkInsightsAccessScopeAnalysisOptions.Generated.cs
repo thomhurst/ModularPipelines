@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "start-network-insights-access-scope-analysis")]
-public record AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions : AwsOptions
+public record AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-insights-access-scope-id")]
-    public string? NetworkInsightsAccessScopeId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Starts analyzing the specified Network Access Scope. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkInsightsAccessScopeId">The ID of the Network Access Scope.</param>
+    public AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions(
+        string NetworkInsightsAccessScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInsightsAccessScopeId);
+        this.NetworkInsightsAccessScopeId = NetworkInsightsAccessScopeId;
+    }
+
+    private AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Network Access Scope.
+    /// </summary>
+    [CliOption("--network-insights-access-scope-id")]
+    public string? NetworkInsightsAccessScopeId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -46,5 +86,21 @@ public record AwsEc2StartNetworkInsightsAccessScopeAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

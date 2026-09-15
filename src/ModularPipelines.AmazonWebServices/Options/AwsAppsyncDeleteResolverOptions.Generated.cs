@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "delete-resolver")]
-public record AwsAppsyncDeleteResolverOptions : AwsOptions
+public record AwsAppsyncDeleteResolverOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Resolver object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The API ID.</param>
+    /// <param name="TypeName">The name of the resolver type. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    /// <param name="FieldName">The resolver field name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*</param>
+    public AwsAppsyncDeleteResolverOptions(
+        string ApiId,
+        string TypeName,
+        string FieldName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+        global::System.ArgumentNullException.ThrowIfNull(FieldName);
+        this.FieldName = FieldName;
+    }
+
+    private AwsAppsyncDeleteResolverOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncDeleteResolverOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncDeleteResolverOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The API ID.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
 
+    /// <summary>
+    /// The name of the resolver type. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
     [CliOption("--type-name")]
-    public string? TypeName { get; set; }
+    public string? TypeName { get; private init; }
 
+    /// <summary>
+    /// The resolver field name. Constraints: o min: 1 o max: 65536 o pattern: [_A-Za-z][_0-9A-Za-z]*
+    /// </summary>
     [CliOption("--field-name")]
-    public string? FieldName { get; set; }
+    public string? FieldName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

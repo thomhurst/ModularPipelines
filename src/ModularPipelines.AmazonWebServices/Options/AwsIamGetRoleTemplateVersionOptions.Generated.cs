@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "get-role-template-version")]
-public record AwsIamGetRoleTemplateVersionOptions : AwsOptions
+public record AwsIamGetRoleTemplateVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configurationincluding role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationthat you use to create IAM roles with AcquireRole . If you do not specify a minor version, the service returns the tem- plate's default minor version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    public AwsIamGetRoleTemplateVersionOptions(
+        string TemplateArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateArn);
+        this.TemplateArn = TemplateArn;
+    }
+
+    private AwsIamGetRoleTemplateVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamGetRoleTemplateVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamGetRoleTemplateVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--template-arn")]
-    public string? TemplateArn { get; set; }
+    public string? TemplateArn { get; private init; }
 
     /// <summary>
     /// The minor version of the role template to retrieve. If you do not specify a minor version, the service returns the template's default minor version.
@@ -35,5 +72,21 @@ public record AwsIamGetRoleTemplateVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

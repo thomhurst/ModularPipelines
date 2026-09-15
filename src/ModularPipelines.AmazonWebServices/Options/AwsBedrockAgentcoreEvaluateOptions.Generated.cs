@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "evaluate")]
-public record AwsBedrockAgentcoreEvaluateOptions : AwsOptions
+public record AwsBedrockAgentcoreEvaluateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--evaluator-id")]
-    public string? EvaluatorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Performs on-demand evaluation of agent traces using a specified evalua- tor. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations. See also: AWS API Documentation evaluate uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as...
+    /// </summary>
+    /// <param name="EvaluatorId">The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness , Builtin.Correctness ) or a custom evaluator Id created through the control plane API. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10})</param>
+    /// <param name="EvaluationInput">The input data containing agent session spans to be evaluated. In- cludes a list of spans in OpenTelemetry format from supported frame- works like Strands (AgentCore Runtime) or LangGraph with OpenInfer- ence instrumentation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sessionSpans. sessionSpans -&gt; (list) The collection of spans representing agent execution traces within a session. Each span contains detailed information about tool calls, model interactions, and other agent activities that can be evaluated for quality and performance. Constraints: o min: 1 o max: 20000 (document) JSON Syntax: { "sessionSpans": [ {...} ... ] }</param>
+    public AwsBedrockAgentcoreEvaluateOptions(
+        string EvaluatorId,
+        string EvaluationInput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EvaluatorId);
+        this.EvaluatorId = EvaluatorId;
+        global::System.ArgumentNullException.ThrowIfNull(EvaluationInput);
+        this.EvaluationInput = EvaluationInput;
+    }
+
+    private AwsBedrockAgentcoreEvaluateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreEvaluateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreEvaluateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness , Builtin.Correctness ) or a custom evaluator Id created through the control plane API. Constraints: o min: 1 o max: 111 o pattern: (Builtin\.[a-zA-Z0-9._-]+|Third- Party\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--evaluator-id")]
+    public string? EvaluatorId { get; private init; }
+
+    /// <summary>
+    /// The input data containing agent session spans to be evaluated. In- cludes a list of spans in OpenTelemetry format from supported frame- works like Strands (AgentCore Runtime) or LangGraph with OpenInfer- ence instrumentation. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: sessionSpans. sessionSpans -&gt; (list) The collection of spans representing agent execution traces within a session. Each span contains detailed information about tool calls, model interactions, and other agent activities that can be evaluated for quality and performance. Constraints: o min: 1 o max: 20000 (document) JSON Syntax: { "sessionSpans": [ {...} ... ] }
+    /// </summary>
     [CliOption("--evaluation-input")]
-    public string? EvaluationInput { get; set; }
+    public string? EvaluationInput { get; private init; }
 
     /// <summary>
     /// The specific trace or span IDs to evaluate within the provided in- put. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: spanIds, traceIds. spanIds -&gt; (list) The list of specific span IDs to evaluate within the provided traces. Used to target evaluation at individual tool calls or specific operations within the agent's execution flow. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 16 o max: 16 traceIds -&gt; (list) The list of trace IDs to evaluate, representing complete re- quest-response interactions. Used to evaluate entire conversa- tion turns or specific agent interactions within a session. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 32 o max: 32 Shorthand Syntax: spanIds=string,string,traceIds=string,string JSON Syntax: { "spanIds": ["string", ...], "traceIds": ["string", ...] }
@@ -44,5 +88,21 @@ public record AwsBedrockAgentcoreEvaluateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

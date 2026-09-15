@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "rename-object")]
-public record AwsS3apiRenameObjectOptions : AwsOptions
+public record AwsS3apiRenameObjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Renames an existing object in a directory bucket that uses the S3 Ex- press One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match condi- tional header. o If-None-Match - Renames the object only if an object...
+    /// </summary>
+    /// <param name="Bucket">The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com . Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3 (for example, amzn-s3-demo-bucket--usw2-az1--x-s3 ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Key name of the object to rename. Constraints: o min: 1</param>
+    /// <param name="RenameSource">Specifies the source for the rename operation. The value must be URL encoded. Constraints: o pattern: \/?.+\/.+</param>
+    public AwsS3apiRenameObjectOptions(
+        string Bucket,
+        string Key,
+        string RenameSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(RenameSource);
+        this.RenameSource = RenameSource;
+    }
+
+    private AwsS3apiRenameObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiRenameObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiRenameObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com . Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3 (for example, amzn-s3-demo-bucket--usw2-az1--x-s3 ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide .
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
 
+    /// <summary>
+    /// Key name of the object to rename. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string? Key { get; private init; }
 
+    /// <summary>
+    /// Specifies the source for the rename operation. The value must be URL encoded. Constraints: o pattern: \/?.+\/.+
+    /// </summary>
     [CliOption("--rename-source")]
-    public string? RenameSource { get; set; }
+    public string? RenameSource { get; private init; }
 
     /// <summary>
     /// Renames the object only if the ETag (entity tag) value provided dur- ing the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
@@ -91,5 +142,21 @@ public record AwsS3apiRenameObjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

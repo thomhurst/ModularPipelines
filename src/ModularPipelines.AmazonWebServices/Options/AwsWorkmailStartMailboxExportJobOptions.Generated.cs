@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "start-mailbox-export-job")]
-public record AwsWorkmailStartMailboxExportJobOptions : AwsOptions
+public record AwsWorkmailStartMailboxExportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Sim- ple Storage Service (Amazon S3) bucket. For more information, see Exporting mailbox content in the WorkMail Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier associated with the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="EntityId">The identifier of the user or resource associated with the mailbox. The identifier can accept UserId or ResourceId , Username or Re- sourcename , or email . The following identity formats are avail- able: o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="RoleArn">The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="KmsKeyArn">The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    /// <param name="S3BucketName">The name of the S3 bucket. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9.-]+</param>
+    /// <param name="S3Prefix">The S3 bucket prefix. Constraints: o min: 1 o max: 1023 o pattern: [A-Za-z0-9!_.*'()/-]+</param>
+    public AwsWorkmailStartMailboxExportJobOptions(
+        string OrganizationId,
+        string EntityId,
+        string RoleArn,
+        string KmsKeyArn,
+        string S3BucketName,
+        string S3Prefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(EntityId);
+        this.EntityId = EntityId;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(KmsKeyArn);
+        this.KmsKeyArn = KmsKeyArn;
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketName);
+        this.S3BucketName = S3BucketName;
+        global::System.ArgumentNullException.ThrowIfNull(S3Prefix);
+        this.S3Prefix = S3Prefix;
+    }
+
+    private AwsWorkmailStartMailboxExportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailStartMailboxExportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailStartMailboxExportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier associated with the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the user or resource associated with the mailbox. The identifier can accept UserId or ResourceId , Username or Re- sourcename , or email . The following identity formats are avail- able: o Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity name: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
+    [CliOption("--entity-id")]
+    public string? EntityId { get; private init; }
+
+    /// <summary>
+    /// The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
+    [CliOption("--kms-key-arn")]
+    public string? KmsKeyArn { get; private init; }
+
+    /// <summary>
+    /// The name of the S3 bucket. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9.-]+
+    /// </summary>
+    [CliOption("--s3-bucket-name")]
+    public string? S3BucketName { get; private init; }
+
+    /// <summary>
+    /// The S3 bucket prefix. Constraints: o min: 1 o max: 1023 o pattern: [A-Za-z0-9!_.*'()/-]+
+    /// </summary>
+    [CliOption("--s3-prefix")]
+    public string? S3Prefix { get; private init; }
+
     /// <summary>
     /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
     /// </summary>
@@ -29,34 +119,32 @@ public record AwsWorkmailStartMailboxExportJobOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
-
-    [CliOption("--entity-id")]
-    public string? EntityId { get; set; }
-
     /// <summary>
     /// The mailbox export job description. Constraints: o min: 0 o max: 1023 o pattern: [\S\s]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--kms-key-arn")]
-    public string? KmsKeyArn { get; set; }
-
-    [CliOption("--s3-bucket-name")]
-    public string? S3BucketName { get; set; }
-
-    [CliOption("--s3-prefix")]
-    public string? S3Prefix { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

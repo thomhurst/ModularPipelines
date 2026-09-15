@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-backup-access-point")]
-public record AwsBackupCreateBackupAccessPointOptions : AwsOptions
+public record AwsBackupCreateBackupAccessPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a backup access point for an Amazon S3 recovery point. A backup access point provides on-demand, read-only access to the backup data in a recovery point through an Amazon S3 access point, without initiating a restore. While a backup access point is active for a recovery point, Backup pauses lifecycle transitions and blocks deletion of that recovery point. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your ac- count and Region and cannot conflict with an existing Amazon S3 ac- cess point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: o min: 3 o max: 50 o pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)</param>
+    /// <param name="RecoveryPointArn">The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: o pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+</param>
+    public AwsBackupCreateBackupAccessPointOptions(
+        string Name,
+        string RecoveryPointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
+        this.RecoveryPointArn = RecoveryPointArn;
+    }
+
+    private AwsBackupCreateBackupAccessPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateBackupAccessPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateBackupAccessPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your ac- count and Region and cannot conflict with an existing Amazon S3 ac- cess point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide . Constraints: o min: 3 o max: 50 o pattern: [\da-z]{1}[\da-z-]{1,48}[\da-z]{1}(?&lt;!-s3alias)(?&lt;!-ext-s3alias)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE , STOPPED , or COMPLETED state. Constraints: o pattern: (arn:aws[a-z-]*:[a-z-\d]+:[a-z-\d]+:).+
+    /// </summary>
+    [CliOption("--recovery-point-arn")]
+    public string? RecoveryPointArn { get; private init; }
+
     /// <summary>
     /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z ). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime . key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -34,12 +84,6 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions
     [CliOption("--access-point-policy")]
     public string? AccessPointPolicy { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--recovery-point-arn")]
-    public string? RecoveryPointArn { get; set; }
-
     /// <summary>
     /// The tags to assign to the backup access point. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsBackupCreateBackupAccessPointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

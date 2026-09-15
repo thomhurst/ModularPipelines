@@ -36,7 +36,7 @@ public record AwsResiliencehubv2WaitReportSucceededOptions : AwsOptions
     public AwsResiliencehubv2WaitReportSucceededReportType? ReportType { get; set; }
 
     /// <summary>
-    /// The unique identifier of a test run.
+    /// The unique identifier of a test run. Constraints: o min: 1
     /// </summary>
     [CliOption("--test-run-id")]
     public string? TestRunId { get; set; }

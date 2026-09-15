@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elementalinference", "disassociate-feed")]
-public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions
+public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the feed where you want to release the resource. Constraints: o pattern: [a-z0-9]{19}</param>
+    public AwsElementalinferenceDisassociateFeedOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsElementalinferenceDisassociateFeedOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElementalinferenceDisassociateFeedOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElementalinferenceDisassociateFeedOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the feed where you want to release the resource. Constraints: o pattern: [a-z0-9]{19}
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The name of the resource currently associated with the feed. Constraints: o min: 1 o max: 2048 o pattern: [\w \-\.',@:;/]*
@@ -30,7 +67,10 @@ public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions
     [CliOption("--associated-resource-name")]
     public string? AssociatedResourceName { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would suc- ceed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsElementalinferenceDisassociateFeedOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

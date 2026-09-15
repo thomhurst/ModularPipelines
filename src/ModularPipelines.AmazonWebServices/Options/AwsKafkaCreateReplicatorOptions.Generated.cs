@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +21,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "create-replicator")]
-public record AwsKafkaCreateReplicatorOptions : AwsOptions
+public record AwsKafkaCreateReplicatorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the replicator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KafkaClusters">Kafka Clusters to use in setting up sources / targets for replica- tion. (structure) Information about Kafka Cluster to be used as source / target for replication. AmazonMskCluster -&gt; (structure) Details of an Amazon MSK Cluster. MskClusterArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Amazon MSK cluster. ApacheKafkaCluster -&gt; (structure) Details of an Apache Kafka Cluster. ApacheKafkaClusterId -&gt; (string) [required] The ID of the Apache Kafka cluster. BootstrapBrokerString -&gt; (string) [required] The bootstrap broker string of the Apache Kafka cluster. VpcConfig -&gt; (structure) Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster. SecurityGroupIds -&gt; (list) The security groups to attach to the ENIs for the broker nodes. (string) SubnetIds -&gt; (list) [required] The list of subnets in the client VPC to connect to. (string) ClientAuthentication -&gt; (structure) Details of the client authentication used by the Apache Kafka cluster. SaslScram -&gt; (structure) Details for SASL/SCRAM client authentication. Mechanism -&gt; (string) [required] The SASL/SCRAM authentication mechanism. Possible values: o SHA256 o SHA512 SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager secret. MTLS -&gt; (structure) Details for mTLS client authentication. SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager secret. SaslOAuthBearer -&gt; (structure) Details for SASL/OAUTHBEARER client authentication. TokenEndpointUrl -&gt; (string) [required] The HTTPS URL of the OAuth token endpoint that vends OAuth Bearer tokens per RFC 6749. ClientCredentials -&gt; (structure) Details for SASL/OAUTHBEARER using standard client_credentials grant. TokenRequestSecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the OAuth client creden- tials. IamJwtBearer -&gt; (structure) Details for SASL/OAUTHBEARER using JWT Bearer asser- tion grant (RFC 7523). Audience -&gt; (string) [required] The audience for the JWT Bearer assertion. SigningAlgorithm -&gt; (string) [required] The signing algorithm for the JWT Bearer asser- tion. Possible values: o RS256 o ES384 TokenRequestSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the signing key. ClientCredentialsAssertion -&gt; (structure) Details for SASL/OAUTHBEARER using client credentials grant with JWT client assertion. Audience -&gt; (string) [required] The audience for the JWT client assertion. SigningAlgorithm -&gt; (string) [required] The signing algorithm for the JWT client asser- tion. Possible values: o RS256 o ES384 TokenRequestSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the signing key. TokenEndpointAuthenticationMethod -&gt; (string) [required] How client credentials are sent to the identity provider. Valid values are POST, BASIC, or NONE. Possible values: o POST o BASIC o NONE Scope -&gt; (string) OAuth scope to request. TokenEndpointTlsCertificateArn -&gt; (string) Secrets Manager ARN containing a custom CA certificate for the identity provider. EncryptionInTransit -&gt; (structure) Details of encryption in transit to the Apache Kafka cluster. EncryptionType -&gt; (string) [required] The type of encryption in transit to the Apache Kafka cluster. Possible values: o TLS RootCaCertificate -&gt; (string) The root CA certificate. JSON Syntax: [ { "AmazonMskCluster": { "MskClusterArn": "string" }, "ApacheKafkaCluster": { "ApacheKafkaClusterId": "string", "BootstrapBrokerString": "string" }, "VpcConfig": { "SecurityGroupIds": ["string", ...], "SubnetIds": ["string", ...] }, "ClientAuthentication": { "SaslScram": { "Mechanism": "SHA256"|"SHA512", "SecretArn": "string" }, "MTLS": { "SecretArn": "string" }, "SaslOAuthBearer": { "TokenEndpointUrl": "string", "ClientCredentials": { "TokenRequestSecretArn": "string" }, "IamJwtBearer": { "Audience": "string", "SigningAlgorithm": "RS256"|"ES384", "TokenRequestSecretArn": "string" }, "ClientCredentialsAssertion": { "Audience": "string", "SigningAlgorithm": "RS256"|"ES384", "TokenRequestSecretArn": "string" }, "TokenEndpointAuthenticationMethod": "POST"|"BASIC"|"NONE", "Scope": "string", "TokenEndpointTlsCertificateArn": "string" } }, "EncryptionInTransit": { "EncryptionType": "TLS", "RootCaCertificate": "string" } } ... ]</param>
+    /// <param name="ReplicationInfoList">A list of replication configurations, where each configuration tar- gets a given source cluster to target cluster replication flow. (structure) Specifies configuration for replication between a source and target Kafka cluster. ConsumerGroupReplication -&gt; (structure) [required] Configuration relating to consumer group replication. ConsumerGroupsToExclude -&gt; (list) List of regular expression patterns indicating the con- sumer groups that should not be replicated. (string) Constraints: o max: 256 ConsumerGroupsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the con- sumer groups to copy. (string) Constraints: o max: 256 DetectAndCopyNewConsumerGroups -&gt; (boolean) Enables synchronization of consumer groups to target cluster. SynchroniseConsumerGroupOffsets -&gt; (boolean) Enables synchronization of consumer group offsets to tar- get cluster. The translated offsets will be written to topic __consumer_offsets. ConsumerGroupOffsetSyncMode -&gt; (string) The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster. Possible values: o LEGACY o ENHANCED SourceKafkaClusterArn -&gt; (string) The ARN of the source Kafka cluster. SourceKafkaClusterId -&gt; (string) The ID of the source Kafka cluster. TargetCompressionType -&gt; (string) [required] The compression type to use when producing records to target cluster. Possible values: o NONE o GZIP o SNAPPY o LZ4 o ZSTD TargetKafkaClusterArn -&gt; (string) The ARN of the target Kafka cluster. TargetKafkaClusterId -&gt; (string) The ID of the target Kafka cluster. TopicReplication -&gt; (structure) [required] Configuration relating to topic replication. CopyAccessControlListsForTopics -&gt; (boolean) Whether to periodically configure remote topic ACLs to match their corresponding upstream topics. CopyTopicConfigurations -&gt; (boolean) Whether to periodically configure remote topics to match their corresponding upstream topics. DetectAndCopyNewTopics -&gt; (boolean) Whether to periodically check for new topics and parti- tions. StartingPosition -&gt; (structure) Configuration for specifying the position in the topics to start replicating from. Type -&gt; (string) The type of replication starting position. Possible values: o LATEST o EARLIEST TopicNameConfiguration -&gt; (structure) Configuration for specifying replicated topic names should be the same as their corresponding upstream topics or prefixed with source cluster alias. Type -&gt; (string) The type of replicated topic name. Possible values: o PREFIXED_WITH_SOURCE_CLUSTER_ALIAS o IDENTICAL TopicsToExclude -&gt; (list) List of regular expression patterns indicating the topics that should not be replicated. (string) Constraints: o max: 249 TopicsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the topics to copy. (string) Constraints: o max: 249 Shorthand Syntax: ConsumerGroupReplication={ConsumerGroupsToExclude=[string,string],ConsumerGroupsToReplicate=[string,string],DetectAndCopyNewConsumerGroups=boolean,SynchroniseConsumerGroupOffsets=boolean,ConsumerGroupOffsetSyncMode=string},SourceKafkaClusterArn=string,SourceKafkaClusterId=string,TargetCompressionType=string,TargetKafkaClusterArn=string,TargetKafkaClusterId=string,TopicReplication={CopyAccessControlListsForTopics=boolean,CopyTopicConfigurations=boolean,DetectAndCopyNewTopics=boolean,StartingPosition={Type=string},TopicNameConfiguration={Type=string},TopicsToExclude=[string,string],TopicsToReplicate=[string,string]} ... JSON Syntax: [ { "ConsumerGroupReplication": { "ConsumerGroupsToExclude": ["string", ...], "ConsumerGroupsToReplicate": ["string", ...], "DetectAndCopyNewConsumerGroups": true|false, "SynchroniseConsumerGroupOffsets": true|false, "ConsumerGroupOffsetSyncMode": "LEGACY"|"ENHANCED" }, "SourceKafkaClusterArn": "string", "SourceKafkaClusterId": "string", "TargetCompressionType": "NONE"|"GZIP"|"SNAPPY"|"LZ4"|"ZSTD", "TargetKafkaClusterArn": "string", "TargetKafkaClusterId": "string", "TopicReplication": { "CopyAccessControlListsForTopics": true|false, "CopyTopicConfigurations": true|false, "DetectAndCopyNewTopics": true|false, "StartingPosition": { "Type": "LATEST"|"EARLIEST" }, "TopicNameConfiguration": { "Type": "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"|"IDENTICAL" }, "TopicsToExclude": ["string", ...], "TopicsToReplicate": ["string", ...] } } ... ]</param>
+    /// <param name="ReplicatorName">The name of the replicator. Alpha-numeric characters with '-' are allowed. Constraints: o min: 1 o max: 128 o pattern: ^[0-9A-Za-z][0-9A-Za-z-]{0,}$</param>
+    /// <param name="ServiceExecutionRoleArn">The ARN of the IAM role used by the replicator to access resources in the customer's account (e.g source and target clusters)</param>
+    public AwsKafkaCreateReplicatorOptions(
+        IEnumerable<string> KafkaClusters,
+        IEnumerable<string> ReplicationInfoList,
+        string ReplicatorName,
+        string ServiceExecutionRoleArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(KafkaClusters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(KafkaClusters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(KafkaClusters));
+            }
+
+            KafkaClusters = materialized;
+        }
+        this.KafkaClusters = KafkaClusters;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicationInfoList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicationInfoList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicationInfoList));
+            }
+
+            ReplicationInfoList = materialized;
+        }
+        this.ReplicationInfoList = ReplicationInfoList;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicatorName);
+        this.ReplicatorName = ReplicatorName;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceExecutionRoleArn);
+        this.ServiceExecutionRoleArn = ServiceExecutionRoleArn;
+    }
+
+    private AwsKafkaCreateReplicatorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaCreateReplicatorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaCreateReplicatorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Kafka Clusters to use in setting up sources / targets for replica- tion. (structure) Information about Kafka Cluster to be used as source / target for replication. AmazonMskCluster -&gt; (structure) Details of an Amazon MSK Cluster. MskClusterArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Amazon MSK cluster. ApacheKafkaCluster -&gt; (structure) Details of an Apache Kafka Cluster. ApacheKafkaClusterId -&gt; (string) [required] The ID of the Apache Kafka cluster. BootstrapBrokerString -&gt; (string) [required] The bootstrap broker string of the Apache Kafka cluster. VpcConfig -&gt; (structure) Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster. SecurityGroupIds -&gt; (list) The security groups to attach to the ENIs for the broker nodes. (string) SubnetIds -&gt; (list) [required] The list of subnets in the client VPC to connect to. (string) ClientAuthentication -&gt; (structure) Details of the client authentication used by the Apache Kafka cluster. SaslScram -&gt; (structure) Details for SASL/SCRAM client authentication. Mechanism -&gt; (string) [required] The SASL/SCRAM authentication mechanism. Possible values: o SHA256 o SHA512 SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager secret. MTLS -&gt; (structure) Details for mTLS client authentication. SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager secret. SaslOAuthBearer -&gt; (structure) Details for SASL/OAUTHBEARER client authentication. TokenEndpointUrl -&gt; (string) [required] The HTTPS URL of the OAuth token endpoint that vends OAuth Bearer tokens per RFC 6749. ClientCredentials -&gt; (structure) Details for SASL/OAUTHBEARER using standard client_credentials grant. TokenRequestSecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the OAuth client creden- tials. IamJwtBearer -&gt; (structure) Details for SASL/OAUTHBEARER using JWT Bearer asser- tion grant (RFC 7523). Audience -&gt; (string) [required] The audience for the JWT Bearer assertion. SigningAlgorithm -&gt; (string) [required] The signing algorithm for the JWT Bearer asser- tion. Possible values: o RS256 o ES384 TokenRequestSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the signing key. ClientCredentialsAssertion -&gt; (structure) Details for SASL/OAUTHBEARER using client credentials grant with JWT client assertion. Audience -&gt; (string) [required] The audience for the JWT client assertion. SigningAlgorithm -&gt; (string) [required] The signing algorithm for the JWT client asser- tion. Possible values: o RS256 o ES384 TokenRequestSecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Secrets Man- ager secret containing the signing key. TokenEndpointAuthenticationMethod -&gt; (string) [required] How client credentials are sent to the identity provider. Valid values are POST, BASIC, or NONE. Possible values: o POST o BASIC o NONE Scope -&gt; (string) OAuth scope to request. TokenEndpointTlsCertificateArn -&gt; (string) Secrets Manager ARN containing a custom CA certificate for the identity provider. EncryptionInTransit -&gt; (structure) Details of encryption in transit to the Apache Kafka cluster. EncryptionType -&gt; (string) [required] The type of encryption in transit to the Apache Kafka cluster. Possible values: o TLS RootCaCertificate -&gt; (string) The root CA certificate. JSON Syntax: [ { "AmazonMskCluster": { "MskClusterArn": "string" }, "ApacheKafkaCluster": { "ApacheKafkaClusterId": "string", "BootstrapBrokerString": "string" }, "VpcConfig": { "SecurityGroupIds": ["string", ...], "SubnetIds": ["string", ...] }, "ClientAuthentication": { "SaslScram": { "Mechanism": "SHA256"|"SHA512", "SecretArn": "string" }, "MTLS": { "SecretArn": "string" }, "SaslOAuthBearer": { "TokenEndpointUrl": "string", "ClientCredentials": { "TokenRequestSecretArn": "string" }, "IamJwtBearer": { "Audience": "string", "SigningAlgorithm": "RS256"|"ES384", "TokenRequestSecretArn": "string" }, "ClientCredentialsAssertion": { "Audience": "string", "SigningAlgorithm": "RS256"|"ES384", "TokenRequestSecretArn": "string" }, "TokenEndpointAuthenticationMethod": "POST"|"BASIC"|"NONE", "Scope": "string", "TokenEndpointTlsCertificateArn": "string" } }, "EncryptionInTransit": { "EncryptionType": "TLS", "RootCaCertificate": "string" } } ... ]
+    /// </summary>
+    [CliOption("--kafka-clusters", GroupValues = true)]
+    public IEnumerable<string>? KafkaClusters { get; private init; }
+
+    /// <summary>
+    /// A list of replication configurations, where each configuration tar- gets a given source cluster to target cluster replication flow. (structure) Specifies configuration for replication between a source and target Kafka cluster. ConsumerGroupReplication -&gt; (structure) [required] Configuration relating to consumer group replication. ConsumerGroupsToExclude -&gt; (list) List of regular expression patterns indicating the con- sumer groups that should not be replicated. (string) Constraints: o max: 256 ConsumerGroupsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the con- sumer groups to copy. (string) Constraints: o max: 256 DetectAndCopyNewConsumerGroups -&gt; (boolean) Enables synchronization of consumer groups to target cluster. SynchroniseConsumerGroupOffsets -&gt; (boolean) Enables synchronization of consumer group offsets to tar- get cluster. The translated offsets will be written to topic __consumer_offsets. ConsumerGroupOffsetSyncMode -&gt; (string) The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster. Possible values: o LEGACY o ENHANCED SourceKafkaClusterArn -&gt; (string) The ARN of the source Kafka cluster. SourceKafkaClusterId -&gt; (string) The ID of the source Kafka cluster. TargetCompressionType -&gt; (string) [required] The compression type to use when producing records to target cluster. Possible values: o NONE o GZIP o SNAPPY o LZ4 o ZSTD TargetKafkaClusterArn -&gt; (string) The ARN of the target Kafka cluster. TargetKafkaClusterId -&gt; (string) The ID of the target Kafka cluster. TopicReplication -&gt; (structure) [required] Configuration relating to topic replication. CopyAccessControlListsForTopics -&gt; (boolean) Whether to periodically configure remote topic ACLs to match their corresponding upstream topics. CopyTopicConfigurations -&gt; (boolean) Whether to periodically configure remote topics to match their corresponding upstream topics. DetectAndCopyNewTopics -&gt; (boolean) Whether to periodically check for new topics and parti- tions. StartingPosition -&gt; (structure) Configuration for specifying the position in the topics to start replicating from. Type -&gt; (string) The type of replication starting position. Possible values: o LATEST o EARLIEST TopicNameConfiguration -&gt; (structure) Configuration for specifying replicated topic names should be the same as their corresponding upstream topics or prefixed with source cluster alias. Type -&gt; (string) The type of replicated topic name. Possible values: o PREFIXED_WITH_SOURCE_CLUSTER_ALIAS o IDENTICAL TopicsToExclude -&gt; (list) List of regular expression patterns indicating the topics that should not be replicated. (string) Constraints: o max: 249 TopicsToReplicate -&gt; (list) [required] List of regular expression patterns indicating the topics to copy. (string) Constraints: o max: 249 Shorthand Syntax: ConsumerGroupReplication={ConsumerGroupsToExclude=[string,string],ConsumerGroupsToReplicate=[string,string],DetectAndCopyNewConsumerGroups=boolean,SynchroniseConsumerGroupOffsets=boolean,ConsumerGroupOffsetSyncMode=string},SourceKafkaClusterArn=string,SourceKafkaClusterId=string,TargetCompressionType=string,TargetKafkaClusterArn=string,TargetKafkaClusterId=string,TopicReplication={CopyAccessControlListsForTopics=boolean,CopyTopicConfigurations=boolean,DetectAndCopyNewTopics=boolean,StartingPosition={Type=string},TopicNameConfiguration={Type=string},TopicsToExclude=[string,string],TopicsToReplicate=[string,string]} ... JSON Syntax: [ { "ConsumerGroupReplication": { "ConsumerGroupsToExclude": ["string", ...], "ConsumerGroupsToReplicate": ["string", ...], "DetectAndCopyNewConsumerGroups": true|false, "SynchroniseConsumerGroupOffsets": true|false, "ConsumerGroupOffsetSyncMode": "LEGACY"|"ENHANCED" }, "SourceKafkaClusterArn": "string", "SourceKafkaClusterId": "string", "TargetCompressionType": "NONE"|"GZIP"|"SNAPPY"|"LZ4"|"ZSTD", "TargetKafkaClusterArn": "string", "TargetKafkaClusterId": "string", "TopicReplication": { "CopyAccessControlListsForTopics": true|false, "CopyTopicConfigurations": true|false, "DetectAndCopyNewTopics": true|false, "StartingPosition": { "Type": "LATEST"|"EARLIEST" }, "TopicNameConfiguration": { "Type": "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"|"IDENTICAL" }, "TopicsToExclude": ["string", ...], "TopicsToReplicate": ["string", ...] } } ... ]
+    /// </summary>
+    [CliOption("--replication-info-list", GroupValues = true)]
+    public IEnumerable<string>? ReplicationInfoList { get; private init; }
+
+    /// <summary>
+    /// The name of the replicator. Alpha-numeric characters with '-' are allowed. Constraints: o min: 1 o max: 128 o pattern: ^[0-9A-Za-z][0-9A-Za-z-]{0,}$
+    /// </summary>
+    [CliOption("--replicator-name")]
+    public string? ReplicatorName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role used by the replicator to access resources in the customer's account (e.g source and target clusters)
+    /// </summary>
+    [CliOption("--service-execution-role-arn")]
+    public string? ServiceExecutionRoleArn { get; private init; }
+
     /// <summary>
     /// A summary description of the replicator. Constraints: o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--kafka-clusters", GroupValues = true)]
-    public IEnumerable<string>? KafkaClusters { get; set; }
-
-    [CliOption("--replication-info-list", GroupValues = true)]
-    public IEnumerable<string>? ReplicationInfoList { get; set; }
-
-    [CliOption("--replicator-name")]
-    public string? ReplicatorName { get; set; }
-
-    [CliOption("--service-execution-role-arn")]
-    public string? ServiceExecutionRoleArn { get; set; }
 
     /// <summary>
     /// List of tags to attach to created Replicator. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -57,5 +137,21 @@ public record AwsKafkaCreateReplicatorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

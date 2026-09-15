@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("globalaccelerator", "add-endpoints")]
-public record AwsGlobalacceleratorAddEndpointsOptions : AwsOptions
+public record AwsGlobalacceleratorAddEndpointsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--endpoint-configurations", GroupValues = true)]
-    public IEnumerable<string>? EndpointConfigurations { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the CreateEndpointGroup API) or when you update an endpoint group (with the UpdateEndpointGroup API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator: o It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than...
+    /// </summary>
+    /// <param name="EndpointConfigurations">The list of endpoint objects. Constraints: o min: 0 o max: 10 (structure) A complex type for endpoints. A resource must be valid and ac- tive when you add it as an endpoint. EndpointId -&gt; (string) An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an end- point. For cross-account endpoints, this must be the ARN of the re- source. Constraints: o max: 255 Weight -&gt; (integer) The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traf- fic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the sec- ond and third endpoints, and 6/20 is routed to the last end- point. For more information, see Endpoint weights in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Client IP address preservation is supported, in specific Ama- zon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Bal- ancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide . AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Weight=integer,ClientIPPreservationEnabled=boolean,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "Weight": integer, "ClientIPPreservationEnabled": true|false, "AttachmentArn": "string" } ... ]</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255</param>
+    public AwsGlobalacceleratorAddEndpointsOptions(
+        IEnumerable<string> EndpointConfigurations,
+        string EndpointGroupArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndpointConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndpointConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndpointConfigurations));
+            }
+
+            EndpointConfigurations = materialized;
+        }
+        this.EndpointConfigurations = EndpointConfigurations;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointGroupArn);
+        this.EndpointGroupArn = EndpointGroupArn;
+    }
+
+    private AwsGlobalacceleratorAddEndpointsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlobalacceleratorAddEndpointsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlobalacceleratorAddEndpointsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of endpoint objects. Constraints: o min: 0 o max: 10 (structure) A complex type for endpoints. A resource must be valid and ac- tive when you add it as an endpoint. EndpointId -&gt; (string) An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Re- source Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an end- point. For cross-account endpoints, this must be the ARN of the re- source. Constraints: o max: 255 Weight -&gt; (integer) The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traf- fic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the sec- ond and third endpoints, and 6/20 is routed to the last end- point. For more information, see Endpoint weights in the Global Accelerator Developer Guide . Constraints: o min: 0 o max: 255 ClientIPPreservationEnabled -&gt; (boolean) Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is pre- served in the X-Forwarded-For request header as traffic trav- els to applications on the endpoint fronted by the accelera- tor. Client IP address preservation is supported, in specific Ama- zon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Bal- ancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see Preserve client IP addresses in Global Accelerator in the Global Accelerator Developer Guide . AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Weight=integer,ClientIPPreservationEnabled=boolean,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "Weight": integer, "ClientIPPreservationEnabled": true|false, "AttachmentArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--endpoint-configurations", GroupValues = true)]
+    public IEnumerable<string>? EndpointConfigurations { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255
+    /// </summary>
     [CliOption("--endpoint-group-arn")]
-    public string? EndpointGroupArn { get; set; }
+    public string? EndpointGroupArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

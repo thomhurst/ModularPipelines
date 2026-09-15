@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore", "create-container")]
-public record AwsMediastoreCreateContainerOptions : AwsOptions
+public record AwsMediastoreCreateContainerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a storage container to hold objects. A container is similar to a bucket in the Amazon S3 service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContainerName">The name for the container. The name must be from 1 to 255 charac- ters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you dont have an existing con- tainer with that name. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    public AwsMediastoreCreateContainerOptions(
+        string ContainerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+    }
+
+    private AwsMediastoreCreateContainerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastoreCreateContainerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastoreCreateContainerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the container. The name must be from 1 to 255 charac- ters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you dont have an existing con- tainer with that name. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// </summary>
     [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    public string? ContainerName { get; private init; }
 
     /// <summary>
     /// An array of key:value pairs that you define. These values can be anything that you want. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "pro- duction"). You can add up to 50 tags to each container. For more in- formation about tagging, including naming and usage conventions, see Tagging Resources in MediaStore . Constraints: o min: 1 o max: 200 (structure) A collection of tags associated with a container. Each tag con- sists of a key:value pair, which can be anything you define. Typically, the tag key represents a category (such as "environ- ment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore . Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Value -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsMediastoreCreateContainerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "delete-adapter-version")]
-public record AwsTextractDeleteAdapterVersionOptions : AwsOptions
+public record AwsTextractDeleteAdapterVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--adapter-id")]
-    public string? AdapterId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter version that will be deleted. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="AdapterVersion">Specifies the adapter version to be deleted. Constraints: o min: 1 o max: 128</param>
+    public AwsTextractDeleteAdapterVersionOptions(
+        string AdapterId,
+        string AdapterVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdapterId);
+        this.AdapterId = AdapterId;
+        global::System.ArgumentNullException.ThrowIfNull(AdapterVersion);
+        this.AdapterVersion = AdapterVersion;
+    }
+
+    private AwsTextractDeleteAdapterVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractDeleteAdapterVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractDeleteAdapterVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string containing a unique ID for the adapter version that will be deleted. Constraints: o min: 12 o max: 1011
+    /// </summary>
+    [CliOption("--adapter-id")]
+    public string? AdapterId { get; private init; }
+
+    /// <summary>
+    /// Specifies the adapter version to be deleted. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--adapter-version")]
-    public string? AdapterVersion { get; set; }
+    public string? AdapterVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

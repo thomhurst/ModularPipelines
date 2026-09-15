@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "create-batch-inference-job")]
-public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions
+public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--job-name")]
-    public string? JobName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution ver- sion and an Amazon S3 URI for the input and output data. For user per- sonalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list ...
+    /// </summary>
+    /// <param name="JobName">The name of the batch inference job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="JobInput">The Amazon S3 path that leads to the input file to base your recom- mendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API end- point you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="JobOutput">The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="RoleArn">The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsPersonalizeCreateBatchInferenceJobOptions(
+        string JobName,
+        string SolutionVersionArn,
+        string JobInput,
+        string JobOutput,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+        global::System.ArgumentNullException.ThrowIfNull(SolutionVersionArn);
+        this.SolutionVersionArn = SolutionVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(JobInput);
+        this.JobInput = JobInput;
+        global::System.ArgumentNullException.ThrowIfNull(JobOutput);
+        this.JobOutput = JobOutput;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsPersonalizeCreateBatchInferenceJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeCreateBatchInferenceJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeCreateBatchInferenceJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the batch inference job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// </summary>
+    [CliOption("--job-name")]
+    public string? JobName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--solution-version-arn")]
-    public string? SolutionVersionArn { get; set; }
+    public string? SolutionVersionArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 path that leads to the input file to base your recom- mendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API end- point you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }
+    /// </summary>
+    [CliOption("--job-input")]
+    public string? JobInput { get; private init; }
+
+    /// <summary>
+    /// The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
+    /// </summary>
+    [CliOption("--job-output")]
+    public string? JobOutput { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering batch recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
@@ -39,15 +113,6 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions
     /// </summary>
     [CliOption("--num-results")]
     public int? NumResults { get; set; }
-
-    [CliOption("--job-input")]
-    public string? JobInput { get; set; }
-
-    [CliOption("--job-output")]
-    public string? JobOutput { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// The configuration details of a batch inference job. itemExplorationConfig -&gt; (map) A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explo- rationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See User-Personalization . Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 rankingInfluence -&gt; (map) A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the fi- nal recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence. key -&gt; (string) Possible values: o POPULARITY o FRESHNESS value -&gt; (double) Constraints: o min: 0 o max: 1 Shorthand Syntax: itemExplorationConfig={KeyName1=string,KeyName2=string},rankingInfluence={KeyName1=double,KeyName2=double} JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "rankingInfluence": {"POPULARITY"|"FRESHNESS": double ...} }
@@ -78,5 +143,21 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

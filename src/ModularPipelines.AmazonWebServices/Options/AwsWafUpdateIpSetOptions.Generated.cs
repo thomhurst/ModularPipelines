@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf", "update-ip-set")]
-public record AwsWafUpdateIpSetOptions : AwsOptions
+public record AwsWafUpdateIpSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--ip-set-id")]
-    public string? IpSetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes IPSetDescriptor objects in an IPSet . For each IPSetDescriptor object, you specify the following values: o Whether to insert or delete the object from the array. If you want to chang...
+    /// </summary>
+    /// <param name="IpSetId">The IPSetId of the IPSet that you want to update. IPSetId is re- turned by CreateIPSet and by ListIPSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Updates">An array of IPSetUpdate objects that you want to insert into or delete from an IPSet . For more information, see the applicable data types: o IPSetUpdate : Contains Action and IPSetDescriptor o IPSetDescriptor : Contains Type and Value You can insert a maximum of 1000 addresses in a single request. Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies the type of update to perform to an IPSet with Up- dateIPSet . Action -&gt; (string) [required] Specifies whether to insert or delete an IP address with Up- dateIPSet . Possible values: o INSERT o DELETE IPSetDescriptor -&gt; (structure) [required] The IP address type (IPV4 or IPV6 ) and the IP address range (in CIDR notation) that web requests originate from. Type -&gt; (string) [required] Specify IPV4 or IPV6 . Possible values: o IPV4 o IPV6 Value -&gt; (string) [required] Specify an IPv4 address by using CIDR notation. For exam- ple: o To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32 . o To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Specify an IPv6 address by using CIDR notation. For exam- ple: o To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . Constraints: o min: 1 o max: 50 o pattern: .*\S.* Shorthand Syntax: Action=string,IPSetDescriptor={Type=string,Value=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "IPSetDescriptor": { "Type": "IPV4"|"IPV6", "Value": "string" } } ... ]</param>
+    public AwsWafUpdateIpSetOptions(
+        string IpSetId,
+        string ChangeToken,
+        IEnumerable<string> Updates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpSetId);
+        this.IpSetId = IpSetId;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Updates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Updates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Updates));
+            }
+
+            Updates = materialized;
+        }
+        this.Updates = Updates;
+    }
+
+    private AwsWafUpdateIpSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafUpdateIpSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafUpdateIpSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IPSetId of the IPSet that you want to update. IPSetId is re- turned by CreateIPSet and by ListIPSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--ip-set-id")]
+    public string? IpSetId { get; private init; }
+
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
+    /// <summary>
+    /// An array of IPSetUpdate objects that you want to insert into or delete from an IPSet . For more information, see the applicable data types: o IPSetUpdate : Contains Action and IPSetDescriptor o IPSetDescriptor : Contains Type and Value You can insert a maximum of 1000 addresses in a single request. Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. Specifies the type of update to perform to an IPSet with Up- dateIPSet . Action -&gt; (string) [required] Specifies whether to insert or delete an IP address with Up- dateIPSet . Possible values: o INSERT o DELETE IPSetDescriptor -&gt; (structure) [required] The IP address type (IPV4 or IPV6 ) and the IP address range (in CIDR notation) that web requests originate from. Type -&gt; (string) [required] Specify IPV4 or IPV6 . Possible values: o IPV4 o IPV6 Value -&gt; (string) [required] Specify an IPv4 address by using CIDR notation. For exam- ple: o To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32 . o To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Specify an IPv6 address by using CIDR notation. For exam- ple: o To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . Constraints: o min: 1 o max: 50 o pattern: .*\S.* Shorthand Syntax: Action=string,IPSetDescriptor={Type=string,Value=string} ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "IPSetDescriptor": { "Type": "IPV4"|"IPV6", "Value": "string" } } ... ]
+    /// </summary>
     [CliOption("--updates", GroupValues = true)]
-    public IEnumerable<string>? Updates { get; set; }
+    public IEnumerable<string>? Updates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

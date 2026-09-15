@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "merge-branches-by-fast-forward")]
-public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions
+public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Merges two branches using the fast-forward merge strategy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryName">The name of the repository where you want to merge two branches. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
+    /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
+    public AwsCodecommitMergeBranchesByFastForwardOptions(
+        string RepositoryName,
+        string SourceCommitSpecifier,
+        string DestinationCommitSpecifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceCommitSpecifier);
+        this.SourceCommitSpecifier = SourceCommitSpecifier;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCommitSpecifier);
+        this.DestinationCommitSpecifier = DestinationCommitSpecifier;
+    }
+
+    private AwsCodecommitMergeBranchesByFastForwardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitMergeBranchesByFastForwardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitMergeBranchesByFastForwardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the repository where you want to merge two branches. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// </summary>
     [CliOption("--repository-name")]
-    public string? RepositoryName { get; set; }
+    public string? RepositoryName { get; private init; }
 
+    /// <summary>
+    /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
+    /// </summary>
     [CliOption("--source-commit-specifier")]
-    public string? SourceCommitSpecifier { get; set; }
+    public string? SourceCommitSpecifier { get; private init; }
 
+    /// <summary>
+    /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
+    /// </summary>
     [CliOption("--destination-commit-specifier")]
-    public string? DestinationCommitSpecifier { get; set; }
+    public string? DestinationCommitSpecifier { get; private init; }
 
     /// <summary>
     /// The branch where the merge is applied. Constraints: o min: 1 o max: 256
@@ -41,5 +92,21 @@ public record AwsCodecommitMergeBranchesByFastForwardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "failover-global-replication-group")]
-public record AwsElasticacheFailoverGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheFailoverGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to failover the primary region to a secondary region. The sec- ondary region will become primary, and all other clusters will become secondary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="PrimaryRegion">The Amazon region of the primary cluster of the Global datastore</param>
+    /// <param name="PrimaryReplicationGroupId">The name of the primary replication group</param>
+    public AwsElasticacheFailoverGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        string PrimaryRegion,
+        string PrimaryReplicationGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryRegion);
+        this.PrimaryRegion = PrimaryRegion;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryReplicationGroupId);
+        this.PrimaryReplicationGroupId = PrimaryReplicationGroupId;
+    }
+
+    private AwsElasticacheFailoverGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheFailoverGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheFailoverGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
     [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    public string? GlobalReplicationGroupId { get; private init; }
 
+    /// <summary>
+    /// The Amazon region of the primary cluster of the Global datastore
+    /// </summary>
     [CliOption("--primary-region")]
-    public string? PrimaryRegion { get; set; }
+    public string? PrimaryRegion { get; private init; }
 
+    /// <summary>
+    /// The name of the primary replication group
+    /// </summary>
     [CliOption("--primary-replication-group-id")]
-    public string? PrimaryReplicationGroupId { get; set; }
+    public string? PrimaryReplicationGroupId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

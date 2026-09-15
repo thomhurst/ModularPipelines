@@ -16,24 +16,24 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlListRegistriesStatus
 {
-    [EnumValue("CREATING")]
-    Creating = 1,
-
-    [EnumValue("READY")]
-    Ready = 2,
-
-    [EnumValue("UPDATING")]
-    Updating = 3,
-
     [EnumValue("CREATE_FAILED")]
-    CreateFailed = 4,
+    CreateFailed,
 
-    [EnumValue("UPDATE_FAILED")]
-    UpdateFailed = 5,
-
-    [EnumValue("DELETING")]
-    Deleting = 6,
+    [EnumValue("CREATING")]
+    Creating,
 
     [EnumValue("DELETE_FAILED")]
-    DeleteFailed = 7
+    DeleteFailed,
+
+    [EnumValue("DELETING")]
+    Deleting,
+
+    [EnumValue("READY")]
+    Ready,
+
+    [EnumValue("UPDATE_FAILED")]
+    UpdateFailed,
+
+    [EnumValue("UPDATING")]
+    Updating
 }

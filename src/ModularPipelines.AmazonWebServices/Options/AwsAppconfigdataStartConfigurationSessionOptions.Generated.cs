@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfigdata", "start-configuration-session")]
-public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions
+public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a configuration session used to retrieve a deployed configura- tion. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or the application name. Constraints: o min: 1 o max: 128</param>
+    /// <param name="EnvironmentIdentifier">The environment ID or the environment name. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or the configuration profile name. Constraints: o min: 1 o max: 128</param>
+    public AwsAppconfigdataStartConfigurationSessionOptions(
+        string ApplicationIdentifier,
+        string EnvironmentIdentifier,
+        string ConfigurationProfileIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentIdentifier);
+        this.EnvironmentIdentifier = EnvironmentIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationProfileIdentifier);
+        this.ConfigurationProfileIdentifier = ConfigurationProfileIdentifier;
+    }
+
+    private AwsAppconfigdataStartConfigurationSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppconfigdataStartConfigurationSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppconfigdataStartConfigurationSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or the application name. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The environment ID or the environment name. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--environment-identifier")]
-    public string? EnvironmentIdentifier { get; set; }
+    public string? EnvironmentIdentifier { get; private init; }
 
+    /// <summary>
+    /// The configuration profile ID or the configuration profile name. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--configuration-profile-identifier")]
-    public string? ConfigurationProfileIdentifier { get; set; }
+    public string? ConfigurationProfileIdentifier { get; private init; }
 
     /// <summary>
     /// Sets a constraint on a session. If you specify a value of, for exam- ple, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently than every 60 seconds. Constraints: o min: 15 o max: 86400
@@ -41,5 +92,21 @@ public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

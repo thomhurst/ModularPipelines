@@ -11,19 +11,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of failures for the specified import. See also: AWS API Documentation list-import-failures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Failures
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns a list of failures for the specified import. See also: AWS API Documentation list-import-failures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "list-import-failures")]
-public record AwsCloudtrailListImportFailuresOptions : AwsOptions
+public record AwsCloudtrailListImportFailuresOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns a list of failures for the specified import. See also: AWS API Documentation list-import-failures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results...
+    /// </summary>
+    /// <param name="ImportId">The ID of the import. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$</param>
+    public AwsCloudtrailListImportFailuresOptions(
+        string ImportId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportId);
+        this.ImportId = ImportId;
+    }
+
+    private AwsCloudtrailListImportFailuresOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailListImportFailuresOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailListImportFailuresOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the import. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$
+    /// </summary>
     [CliOption("--import-id")]
-    public string? ImportId { get; set; }
+    public string? ImportId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsCloudtrailListImportFailuresOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "delete-topic-rule")]
-public record AwsIotDeleteTopicRuleOptions : AwsOptions
+public record AwsIotDeleteTopicRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the rule. Requires permission to access the DeleteTopicRule action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleName">The name of the rule. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9_]+$</param>
+    public AwsIotDeleteTopicRuleOptions(
+        string RuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleName);
+        this.RuleName = RuleName;
+    }
+
+    private AwsIotDeleteTopicRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDeleteTopicRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDeleteTopicRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rule. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9_]+$
+    /// </summary>
     [CliOption("--rule-name")]
-    public string? RuleName { get; set; }
+    public string? RuleName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

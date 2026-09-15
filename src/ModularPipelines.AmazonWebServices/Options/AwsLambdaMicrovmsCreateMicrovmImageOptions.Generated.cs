@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda-microvms", "create-microvm-image")]
-public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
+public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a MicroVM image from the specified code artifact and base im- age. The build is asynchronous the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BaseImageArn">The ARN of the Lambda-managed base MicroVM image to build upon. Use ListManagedMicrovmImages to discover available base images. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="BuildRoleArn">The ARN of the IAM role assumed during the image build process. This role must have permissions to access the code artifact and any re- quired resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="CodeArtifact">The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }</param>
+    /// <param name="Name">The name of the MicroVM image. Must be unique within the AWS ac- count. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+</param>
+    public AwsLambdaMicrovmsCreateMicrovmImageOptions(
+        string BaseImageArn,
+        string BuildRoleArn,
+        string CodeArtifact,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BaseImageArn);
+        this.BaseImageArn = BaseImageArn;
+        global::System.ArgumentNullException.ThrowIfNull(BuildRoleArn);
+        this.BuildRoleArn = BuildRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(CodeArtifact);
+        this.CodeArtifact = CodeArtifact;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsLambdaMicrovmsCreateMicrovmImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaMicrovmsCreateMicrovmImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaMicrovmsCreateMicrovmImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Lambda-managed base MicroVM image to build upon. Use ListManagedMicrovmImages to discover available base images. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// </summary>
     [CliOption("--base-image-arn")]
-    public string? BaseImageArn { get; set; }
+    public string? BaseImageArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role assumed during the image build process. This role must have permissions to access the code artifact and any re- quired resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--build-role-arn")]
+    public string? BuildRoleArn { get; private init; }
+
+    /// <summary>
+    /// The code artifact containing the application code and metadata for the MicroVM image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: uri. uri -&gt; (string) The URI of the code artifact in Amazon S3. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+ Shorthand Syntax: uri=string JSON Syntax: { "uri": "string" }
+    /// </summary>
+    [CliOption("--code-artifact")]
+    public string? CodeArtifact { get; private init; }
+
+    /// <summary>
+    /// The name of the MicroVM image. Must be unique within the AWS ac- count. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The specific version of the base MicroVM image to use. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
@@ -32,17 +99,11 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
     [CliOption("--base-image-version")]
     public string? BaseImageVersion { get; set; }
 
-    [CliOption("--build-role-arn")]
-    public string? BuildRoleArn { get; set; }
-
     /// <summary>
     /// A description of the MicroVM image.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--code-artifact")]
-    public string? CodeArtifact { get; set; }
 
     /// <summary>
     /// The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: disabled, cloudWatch. disabled -&gt; (structure) Specifies that logging is disabled. cloudWatch -&gt; (structure) Configuration for sending logs to Amazon CloudWatch Logs. logGroup -&gt; (string) The name of the CloudWatch Logs log group to send logs to. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_\-/.#]+ logStream -&gt; (string) The name of the CloudWatch Logs log stream within the log group. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: disabled={},cloudWatch={logGroup=string,logStream=string} JSON Syntax: { "disabled": { }, "cloudWatch": { "logGroup": "string", "logStream": "string" } }
@@ -86,9 +147,6 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
     /// <summary>
     /// A set of key-value pairs that you can attach to the resource. Use tags to categorize resources for cost allocation, access control (ABAC), and organization. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -107,5 +165,21 @@ public record AwsLambdaMicrovmsCreateMicrovmImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

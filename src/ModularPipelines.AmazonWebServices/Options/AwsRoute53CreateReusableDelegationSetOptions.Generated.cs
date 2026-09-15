@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "create-reusable-delegation-set")]
-public record AwsRoute53CreateReusableDelegationSetOptions : AwsOptions
+public record AwsRoute53CreateReusableDelegationSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones that were created by the same Amazon Web Services account. You can also create a reusable delegation set that uses the four name servers that are associated with an existing hosted zone. Specify the hosted zone ID in the CreateReusableDelegationSet request. NOTE: You can't associate a reusable delegation set with a private hosted zone. For information about using a reusable delegation set to confi...
+    /// </summary>
+    /// <param name="CallerReference">A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerRefer- ence string every time you submit a CreateReusableDelegationSet re- quest. CallerReference can be any unique string, for example a date/time stamp. Constraints: o min: 1 o max: 128</param>
+    public AwsRoute53CreateReusableDelegationSetOptions(
+        string CallerReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CallerReference);
+        this.CallerReference = CallerReference;
+    }
+
+    private AwsRoute53CreateReusableDelegationSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53CreateReusableDelegationSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53CreateReusableDelegationSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerRefer- ence string every time you submit a CreateReusableDelegationSet re- quest. CallerReference can be any unique string, for example a date/time stamp. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--caller-reference")]
-    public string? CallerReference { get; set; }
+    public string? CallerReference { get; private init; }
 
     /// <summary>
     /// If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone. Constraints: o max: 32
@@ -35,5 +72,21 @@ public record AwsRoute53CreateReusableDelegationSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

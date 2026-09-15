@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datalocationconstraint.
+/// Allowed values for --data-location-constraint.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsResiliencehubUpdateResiliencyPolicyDataLocationConstraint
 {
     [EnumValue("AnyLocation")]
-    AnyLocation = 1,
+    AnyLocation,
 
     [EnumValue("SameContinent")]
-    SameContinent = 2,
+    SameContinent,
 
     [EnumValue("SameCountry")]
-    SameCountry = 3
+    SameCountry
 }

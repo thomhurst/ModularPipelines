@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-insights", "update-workload")]
-public record AwsApplicationInsightsUpdateWorkloadOptions : AwsOptions
+public record AwsApplicationInsightsUpdateWorkloadOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-group-name")]
-    public string? ResourceGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a workload to a component. Each component can have at most five workloads. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceGroupName">The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*</param>
+    /// <param name="ComponentName">The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)</param>
+    /// <param name="WorkloadConfiguration">The configuration settings of the workload. The value is the escaped JSON of the configuration. WorkloadName -&gt; (string) The name of the workload. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9\.\-_]* Tier -&gt; (string) The configuration of the workload tier. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50 Configuration -&gt; (string) The configuration settings of the workload. Constraints: o min: 1 o max: 10000 o pattern: [\S\s]+ Shorthand Syntax: WorkloadName=string,Tier=string,Configuration=string JSON Syntax: { "WorkloadName": "string", "Tier": "CUSTOM"|"DEFAULT"|"DOT_NET_CORE"|"DOT_NET_WORKER"|"DOT_NET_WEB_TIER"|"DOT_NET_WEB"|"SQL_SERVER"|"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"|"MYSQL"|"POSTGRESQL"|"JAVA_JMX"|"ORACLE"|"SAP_HANA_MULTI_NODE"|"SAP_HANA_SINGLE_NODE"|"SAP_HANA_HIGH_AVAILABILITY"|"SAP_ASE_SINGLE_NODE"|"SAP_ASE_HIGH_AVAILABILITY"|"SQL_SERVER_FAILOVER_CLUSTER_INSTANCE"|"SHAREPOINT"|"ACTIVE_DIRECTORY"|"SAP_NETWEAVER_STANDARD"|"SAP_NETWEAVER_DISTRIBUTED"|"SAP_NETWEAVER_HIGH_AVAILABILITY", "Configuration": "string" }</param>
+    public AwsApplicationInsightsUpdateWorkloadOptions(
+        string ResourceGroupName,
+        string ComponentName,
+        string WorkloadConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceGroupName);
+        this.ResourceGroupName = ResourceGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ComponentName);
+        this.ComponentName = ComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadConfiguration);
+        this.WorkloadConfiguration = WorkloadConfiguration;
+    }
+
+    private AwsApplicationInsightsUpdateWorkloadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationInsightsUpdateWorkloadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationInsightsUpdateWorkloadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\.\-_]*
+    /// </summary>
+    [CliOption("--resource-group-name")]
+    public string? ResourceGroupName { get; private init; }
+
+    /// <summary>
+    /// The name of the component. Constraints: o min: 1 o max: 1011 o pattern: (?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)
+    /// </summary>
     [CliOption("--component-name")]
-    public string? ComponentName { get; set; }
+    public string? ComponentName { get; private init; }
+
+    /// <summary>
+    /// The configuration settings of the workload. The value is the escaped JSON of the configuration. WorkloadName -&gt; (string) The name of the workload. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9\.\-_]* Tier -&gt; (string) The configuration of the workload tier. Possible values: o CUSTOM o DEFAULT o DOT_NET_CORE o DOT_NET_WORKER o DOT_NET_WEB_TIER o DOT_NET_WEB o SQL_SERVER o SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP o MYSQL o POSTGRESQL o JAVA_JMX o ORACLE o SAP_HANA_MULTI_NODE o SAP_HANA_SINGLE_NODE o SAP_HANA_HIGH_AVAILABILITY o SAP_ASE_SINGLE_NODE o SAP_ASE_HIGH_AVAILABILITY o SQL_SERVER_FAILOVER_CLUSTER_INSTANCE o SHAREPOINT o ACTIVE_DIRECTORY o SAP_NETWEAVER_STANDARD o SAP_NETWEAVER_DISTRIBUTED o SAP_NETWEAVER_HIGH_AVAILABILITY Constraints: o min: 1 o max: 50 Configuration -&gt; (string) The configuration settings of the workload. Constraints: o min: 1 o max: 10000 o pattern: [\S\s]+ Shorthand Syntax: WorkloadName=string,Tier=string,Configuration=string JSON Syntax: { "WorkloadName": "string", "Tier": "CUSTOM"|"DEFAULT"|"DOT_NET_CORE"|"DOT_NET_WORKER"|"DOT_NET_WEB_TIER"|"DOT_NET_WEB"|"SQL_SERVER"|"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"|"MYSQL"|"POSTGRESQL"|"JAVA_JMX"|"ORACLE"|"SAP_HANA_MULTI_NODE"|"SAP_HANA_SINGLE_NODE"|"SAP_HANA_HIGH_AVAILABILITY"|"SAP_ASE_SINGLE_NODE"|"SAP_ASE_HIGH_AVAILABILITY"|"SQL_SERVER_FAILOVER_CLUSTER_INSTANCE"|"SHAREPOINT"|"ACTIVE_DIRECTORY"|"SAP_NETWEAVER_STANDARD"|"SAP_NETWEAVER_DISTRIBUTED"|"SAP_NETWEAVER_HIGH_AVAILABILITY", "Configuration": "string" }
+    /// </summary>
+    [CliOption("--workload-configuration")]
+    public string? WorkloadConfiguration { get; private init; }
 
     /// <summary>
     /// The ID of the workload. Constraints: o min: 38 o max: 38 o pattern: w-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
@@ -33,13 +87,26 @@ public record AwsApplicationInsightsUpdateWorkloadOptions : AwsOptions
     [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
-    [CliOption("--workload-configuration")]
-    public string? WorkloadConfiguration { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

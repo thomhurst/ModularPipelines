@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "batch-delete-import-data")]
-public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions
+public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--import-task-ids", GroupValues = true)]
-    public IEnumerable<string>? ImportTaskIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--delete-history")]
+    /// <summary>
+    /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-ex- isting discovered server is updated. When you delete an import task that contains records that were used to match, the information ...
+    /// </summary>
+    /// <param name="ImportTaskIds">The IDs for the import tasks that you want to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 200 o pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...</param>
+    public AwsDiscoveryBatchDeleteImportDataOptions(
+        IEnumerable<string> ImportTaskIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImportTaskIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImportTaskIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImportTaskIds));
+            }
+
+            ImportTaskIds = materialized;
+        }
+        this.ImportTaskIds = ImportTaskIds;
+    }
+
+    private AwsDiscoveryBatchDeleteImportDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryBatchDeleteImportDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryBatchDeleteImportDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs for the import tasks that you want to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o max: 200 o pattern: ^import-task-[a-fA-F0-9]{32}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--import-task-ids", GroupValues = true)]
+    public IEnumerable<string>? ImportTaskIds { get; private init; }
+
+    /// <summary>
+    /// Set to true to remove the deleted import task from DescribeImport- Tasks .
+    /// </summary>
+    [CliFlag("--delete-history", NegatedName = "--no-delete-history")]
     public bool? DeleteHistory { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +83,21 @@ public record AwsDiscoveryBatchDeleteImportDataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

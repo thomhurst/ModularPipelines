@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "send-templated-email")]
-public record AwsSesSendTemplatedEmailOptions : AwsOptions
+public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source")]
-    public string? Source { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
+    /// </summary>
+    /// <param name="Source">The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about veri- fying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also spec- ify the SourceArn parameter. For more information about sending au- thorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Uni- code characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as de- scribed in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .</param>
+    /// <param name="Destination">The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields. ToAddresses -&gt; (list) The recipients to place on the To: line of the message. (string) CcAddresses -&gt; (list) The recipients to place on the CC: line of the message. (string) BccAddresses -&gt; (list) The recipients to place on the BCC: line of the message. (string) Shorthand Syntax: ToAddresses=string,string,CcAddresses=string,string,BccAddresses=string,string JSON Syntax: { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }</param>
+    /// <param name="Template">The template to use when sending this email.</param>
+    /// <param name="TemplateData">A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144</param>
+    public AwsSesSendTemplatedEmailOptions(
+        string Source,
+        string Destination,
+        string Template,
+        string TemplateData
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+        global::System.ArgumentNullException.ThrowIfNull(TemplateData);
+        this.TemplateData = TemplateData;
+    }
+
+    private AwsSesSendTemplatedEmailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSendTemplatedEmailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSendTemplatedEmailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about veri- fying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also spec- ify the SourceArn parameter. For more information about sending au- thorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Uni- code characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as de- scribed in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields. ToAddresses -&gt; (list) The recipients to place on the To: line of the message. (string) CcAddresses -&gt; (list) The recipients to place on the CC: line of the message. (string) BccAddresses -&gt; (list) The recipients to place on the BCC: line of the message. (string) Shorthand Syntax: ToAddresses=string,string,CcAddresses=string,string,BccAddresses=string,string JSON Syntax: { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }
+    /// </summary>
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public string? Destination { get; private init; }
+
+    /// <summary>
+    /// The template to use when sending this email.
+    /// </summary>
+    [CliOption("--template")]
+    public string? Template { get; private init; }
+
+    /// <summary>
+    /// A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144
+    /// </summary>
+    [CliOption("--template-data")]
+    public string? TemplateData { get; private init; }
 
     /// <summary>
     /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address receives the reply. (string) Syntax: "string" "string" ...
@@ -63,22 +127,32 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
 
-    [CliOption("--template")]
-    public string? Template { get; set; }
-
     /// <summary>
     /// The ARN of the template to use when sending this email.
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; set; }
 
-    [CliOption("--template-data")]
-    public string? TemplateData { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

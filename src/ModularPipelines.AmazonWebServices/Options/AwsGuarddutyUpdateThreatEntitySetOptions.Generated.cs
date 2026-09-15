@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "update-threat-entity-set")]
-public record AwsGuarddutyUpdateThreatEntitySetOptions : AwsOptions
+public record AwsGuarddutyUpdateThreatEntitySetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--detector-id")]
-    public string? DetectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the threat entity set associated with the specified threatEnti- tySetId . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DetectorId">The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="ThreatEntitySetId">The ID returned by GuardDuty after updating the threat entity set resource.</param>
+    public AwsGuarddutyUpdateThreatEntitySetOptions(
+        string DetectorId,
+        string ThreatEntitySetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DetectorId);
+        this.DetectorId = DetectorId;
+        global::System.ArgumentNullException.ThrowIfNull(ThreatEntitySetId);
+        this.ThreatEntitySetId = ThreatEntitySetId;
+    }
+
+    private AwsGuarddutyUpdateThreatEntitySetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyUpdateThreatEntitySetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyUpdateThreatEntitySetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--detector-id")]
+    public string? DetectorId { get; private init; }
+
+    /// <summary>
+    /// The ID returned by GuardDuty after updating the threat entity set resource.
+    /// </summary>
     [CliOption("--threat-entity-set-id")]
-    public string? ThreatEntitySetId { get; set; }
+    public string? ThreatEntitySetId { get; private init; }
 
     /// <summary>
     /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase let- ters, numbers, dash (-), and underscore (_). Constraints: o min: 1 o max: 300
@@ -45,7 +89,10 @@ public record AwsGuarddutyUpdateThreatEntitySetOptions : AwsOptions
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CliFlag("--activate")]
+    /// <summary>
+    /// A boolean value that indicates whether GuardDuty is to start using this updated threat entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+    /// </summary>
+    [CliFlag("--activate", NegatedName = "--no-activate")]
     public bool? Activate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +100,21 @@ public record AwsGuarddutyUpdateThreatEntitySetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

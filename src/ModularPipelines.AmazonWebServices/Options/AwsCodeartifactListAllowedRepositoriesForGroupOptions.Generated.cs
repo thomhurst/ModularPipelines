@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "list-allowed-repositories-for-group")]
-public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
+public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about re- striction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// </summary>
+    /// <param name="Domain">The name of the domain that contains the package group from which to list allowed repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group from which to list allowed reposi- tories. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="OriginRestrictionType">The origin configuration restriction type of which to list allowed repositories. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH</param>
+    public AwsCodeartifactListAllowedRepositoriesForGroupOptions(
+        string Domain,
+        string PackageGroup,
+        AwsCodeartifactListAllowedRepositoriesForGroupOriginRestrictionType OriginRestrictionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(PackageGroup);
+        this.PackageGroup = PackageGroup;
+        global::System.ArgumentNullException.ThrowIfNull(OriginRestrictionType);
+        this.OriginRestrictionType = OriginRestrictionType;
+    }
+
+    private AwsCodeartifactListAllowedRepositoriesForGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactListAllowedRepositoriesForGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactListAllowedRepositoriesForGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain that contains the package group from which to list allowed repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The pattern of the package group from which to list allowed reposi- tories. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// </summary>
+    [CliOption("--package-group")]
+    public string? PackageGroup { get; private init; }
+
+    /// <summary>
+    /// The origin configuration restriction type of which to list allowed repositories. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH
+    /// </summary>
+    [CliOption("--origin-restriction-type")]
+    public AwsCodeartifactListAllowedRepositoriesForGroupOriginRestrictionType? OriginRestrictionType { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
-
-    [CliOption("--package-group")]
-    public string? PackageGroup { get; set; }
-
-    [CliOption("--origin-restriction-type")]
-    public string? OriginRestrictionType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -61,5 +113,21 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

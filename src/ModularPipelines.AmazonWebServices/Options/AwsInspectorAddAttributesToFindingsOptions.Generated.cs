@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,99 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "add-attributes-to-findings")]
-public record AwsInspectorAddAttributesToFindingsOptions : AwsOptions
+public record AwsInspectorAddAttributesToFindingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--finding-arns", GroupValues = true)]
-    public IEnumerable<string>? FindingArns { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Assigns attributes (key and value pairs) to the findings that are spec- ified by the ARNs of the findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FindingArns">The ARNs that specify the findings that you want to assign attrib- utes to. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="Attributes">The array of attributes that you want to assign to specified find- ings. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsInspectorAddAttributesToFindingsOptions(
+        IEnumerable<string> FindingArns,
+        IEnumerable<string> Attributes
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FindingArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FindingArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FindingArns));
+            }
+
+            FindingArns = materialized;
+        }
+        this.FindingArns = FindingArns;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsInspectorAddAttributesToFindingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorAddAttributesToFindingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorAddAttributesToFindingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARNs that specify the findings that you want to assign attrib- utes to. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--finding-arns", GroupValues = true)]
+    public IEnumerable<string>? FindingArns { get; private init; }
+
+    /// <summary>
+    /// The array of attributes that you want to assign to specified find- ings. Constraints: o min: 0 o max: 10 (structure) This data type is used as a request parameter in the AddAttrib- utesToFindings and CreateAssessmentTemplate actions. key -&gt; (string) [required] The attribute key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to the attribute key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
+    public IEnumerable<string>? Attributes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

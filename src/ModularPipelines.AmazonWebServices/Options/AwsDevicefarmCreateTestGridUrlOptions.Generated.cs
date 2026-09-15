@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devicefarm", "create-test-grid-url")]
-public record AwsDevicefarmCreateTestGridUrlOptions : AwsOptions
+public record AwsDevicefarmCreateTestGridUrlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a signed, short-term URL that can be passed to a Selenium Re- moteWebDriver constructor. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">ARN (from CreateTestGridProject or ListTestGridProjects ) to asso- ciate with the short-term URL. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ExpiresInSeconds">Lifetime, in seconds, of the URL. Constraints: o min: 60 o max: 86400</param>
+    public AwsDevicefarmCreateTestGridUrlOptions(
+        string ProjectArn,
+        int ExpiresInSeconds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        this.ExpiresInSeconds = ExpiresInSeconds;
+    }
+
+    private AwsDevicefarmCreateTestGridUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevicefarmCreateTestGridUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevicefarmCreateTestGridUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ARN (from CreateTestGridProject or ListTestGridProjects ) to asso- ciate with the short-term URL. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
+    /// <summary>
+    /// Lifetime, in seconds, of the URL. Constraints: o min: 60 o max: 86400
+    /// </summary>
     [CliOption("--expires-in-seconds")]
-    public int? ExpiresInSeconds { get; set; }
+    public int? ExpiresInSeconds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

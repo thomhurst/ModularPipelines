@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lookoutequipment", "import-model-version")]
-public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions
+public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports a model that has been trained successfully. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceModelVersionArn">The Amazon Resource Name (ARN) of the model version to import. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-ver- sion\/[0-9]{1,}$</param>
+    /// <param name="DataSetName">The name of the dataset for the machine learning model being im- ported. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    public AwsLookoutequipmentImportModelVersionOptions(
+        string SourceModelVersionArn,
+        string DataSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceModelVersionArn);
+        this.SourceModelVersionArn = SourceModelVersionArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+    }
+
+    private AwsLookoutequipmentImportModelVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLookoutequipmentImportModelVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLookoutequipmentImportModelVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the model version to import. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-ver- sion\/[0-9]{1,}$
+    /// </summary>
     [CliOption("--source-model-version-arn")]
-    public string? SourceModelVersionArn { get; set; }
+    public string? SourceModelVersionArn { get; private init; }
+
+    /// <summary>
+    /// The name of the dataset for the machine learning model being im- ported. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// </summary>
+    [CliOption("--dataset-name")]
+    public string? DataSetName { get; private init; }
 
     /// <summary>
     /// The name for the machine learning model to be created. If the model already exists, Amazon Lookout for Equipment creates a new version. If you do not specify this field, it is filled with the name of the source model. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; set; }
-
-    [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
 
     /// <summary>
     /// Contains the configuration information for the S3 location being used to hold label data. S3InputConfiguration -&gt; (structure) Contains location information for the S3 location being used for label data. Bucket -&gt; (string) [required] The name of the S3 bucket holding the label data. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the label data. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) LabelGroupName -&gt; (string) The name of the label group to be used for label data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},LabelGroupName=string JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "LabelGroupName": "string" }
@@ -77,5 +121,21 @@ public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

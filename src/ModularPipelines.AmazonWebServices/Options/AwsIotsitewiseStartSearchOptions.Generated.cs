@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "start-search")]
-public record AwsIotsitewiseStartSearchOptions : AwsOptions
+public record AwsIotsitewiseStartSearchOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts an asynchronous search over the data in a workspace. The search runs in the background; the response returns immediately with a searchId and an initial status of QUEUED . Use DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the search reaches SUCCEEDED . The request is idempotent on clientToken : repeating a call with the same token returns the original search in- stead of starting a new one. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace whose data is searched. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="QueryStatement">The natural-language query describing the data to search for. Constraints: o min: 1 o max: 5000</param>
+    public AwsIotsitewiseStartSearchOptions(
+        string WorkspaceName,
+        string QueryStatement
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(QueryStatement);
+        this.QueryStatement = QueryStatement;
+    }
+
+    private AwsIotsitewiseStartSearchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseStartSearchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseStartSearchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace whose data is searched. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The natural-language query describing the data to search for. Constraints: o min: 1 o max: 5000
+    /// </summary>
     [CliOption("--query-statement")]
-    public string? QueryStatement { get; set; }
+    public string? QueryStatement { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier you provide to ensure the re- quest is idempotent. Repeating a StartSearch call with the same clientToken returns the original search rather than starting a new one. If omitted, the SDK autogenerates one. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
@@ -59,5 +103,21 @@ public record AwsIotsitewiseStartSearchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

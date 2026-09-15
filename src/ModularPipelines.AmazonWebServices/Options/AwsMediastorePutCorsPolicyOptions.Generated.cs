@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediastore", "put-cors-policy")]
-public record AwsMediastorePutCorsPolicyOptions : AwsOptions
+public record AwsMediastorePutCorsPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--container-name")]
-    public string? ContainerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the cross-origin resource sharing (CORS) configuration on a con- tainer so that the container can service cross-origin requests. For ex- ample, you might want to enable a request whose origin is http://www.example.com to access your AWS Elemental MediaStore con- tainer at my.example.container.com by using the browser's XMLHttpRe- quest capability. To enable CORS on a container, you attach a CORS policy to the con- tainer. In the CORS policy, you configure rules that identify origins and the...
+    /// </summary>
+    /// <param name="ContainerName">The name of the container that you want to assign the CORS policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="CorsPolicy">The CORS policy to apply to the container. Constraints: o min: 1 o max: 100 (structure) A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed. AllowedOrigins -&gt; (list) [required] One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigins element. The string value can include only one wildcard character (*), for example, http:// * .example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins. System Message: WARNING/2 (&lt;string&gt;:, line 129) Inline emphasis start-string without end-string. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ AllowedMethods -&gt; (list) Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethods and one AllowedOrigins element. Constraints: o min: 1 o max: 4 (string) Possible values: o PUT o GET o DELETE o HEAD AllowedHeaders -&gt; (list) [required] Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Re- quest-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back. This element can contain only one wildcard character (*). Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ MaxAgeSeconds -&gt; (integer) The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element. Constraints: o min: 0 o max: 2147483647 ExposeHeaders -&gt; (list) One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Shorthand Syntax: AllowedOrigins=string,string,AllowedMethods=string,string,AllowedHeaders=string,string,MaxAgeSeconds=integer,ExposeHeaders=string,string ... JSON Syntax: [ { "AllowedOrigins": ["string", ...], "AllowedMethods": ["PUT"|"GET"|"DELETE"|"HEAD", ...], "AllowedHeaders": ["string", ...], "MaxAgeSeconds": integer, "ExposeHeaders": ["string", ...] } ... ]</param>
+    public AwsMediastorePutCorsPolicyOptions(
+        string ContainerName,
+        IEnumerable<string> CorsPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerName);
+        this.ContainerName = ContainerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CorsPolicy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CorsPolicy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CorsPolicy));
+            }
+
+            CorsPolicy = materialized;
+        }
+        this.CorsPolicy = CorsPolicy;
+    }
+
+    private AwsMediastorePutCorsPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediastorePutCorsPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediastorePutCorsPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the container that you want to assign the CORS policy to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; private init; }
+
+    /// <summary>
+    /// The CORS policy to apply to the container. Constraints: o min: 1 o max: 100 (structure) A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed. AllowedOrigins -&gt; (list) [required] One or more response headers that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). Each CORS rule must have at least one AllowedOrigins element. The string value can include only one wildcard character (*), for example, http:// * .example.com. Additionally, you can specify only one wildcard character to allow cross-origin access for all origins. System Message: WARNING/2 (&lt;string&gt;:, line 129) Inline emphasis start-string without end-string. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ AllowedMethods -&gt; (list) Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethods and one AllowedOrigins element. Constraints: o min: 1 o max: 4 (string) Possible values: o PUT o GET o DELETE o HEAD AllowedHeaders -&gt; (list) [required] Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Re- quest-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back. This element can contain only one wildcard character (*). Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ MaxAgeSeconds -&gt; (integer) The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element. Constraints: o min: 0 o max: 2147483647 ExposeHeaders -&gt; (list) One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 8192 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+ Shorthand Syntax: AllowedOrigins=string,string,AllowedMethods=string,string,AllowedHeaders=string,string,MaxAgeSeconds=integer,ExposeHeaders=string,string ... JSON Syntax: [ { "AllowedOrigins": ["string", ...], "AllowedMethods": ["PUT"|"GET"|"DELETE"|"HEAD", ...], "AllowedHeaders": ["string", ...], "MaxAgeSeconds": integer, "ExposeHeaders": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--cors-policy", GroupValues = true)]
-    public IEnumerable<string>? CorsPolicy { get; set; }
+    public IEnumerable<string>? CorsPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

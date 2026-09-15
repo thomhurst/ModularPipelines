@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-project")]
-public record AwsSagemakerUpdateProjectOptions : AwsOptions
+public record AwsSagemakerUpdateProjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. NOTE: You must not update a project that is in use. If you update the Ser- viceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectName">The name of the project. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}</param>
+    public AwsSagemakerUpdateProjectOptions(
+        string ProjectName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+    }
+
+    private AwsSagemakerUpdateProjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateProjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateProjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the project. Constraints: o min: 1 o max: 32 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
 
     /// <summary>
     /// The description for the project. Constraints: o min: 0 o max: 1024 o pattern: [\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*
@@ -53,5 +90,21 @@ public record AwsSagemakerUpdateProjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

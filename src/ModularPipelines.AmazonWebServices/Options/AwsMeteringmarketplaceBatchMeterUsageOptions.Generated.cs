@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("meteringmarketplace", "batch-meter-usage")]
-public record AwsMeteringmarketplaceBatchMeterUsageOptions : AwsOptions
+public record AwsMeteringmarketplaceBatchMeterUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Amazon Web Services Marketplace is introducing Concurrent Agree- ments, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier ), LicenseArn (instead of ProductCode ) to support this feature. BatchMeterUsage does not support CustomerIdentifier for new integrations. Existing integrations continue to work. Review the new integration for Con- current Agreements here . ...
+    /// </summary>
+    /// <param name="UsageRecords">The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time. Constraints: o min: 0 o max: 25 (structure) A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges. Timestamp -&gt; (timestamp) [required] Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace pe- riod to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month. CustomerIdentifier -&gt; (string) The CustomerIdentifier is obtained through the ResolveCus- tomer operation and represents an individual buyer in your application. WARNING: CustomerIdentifier is not supported for new SaaS product integrations. Use CustomerAWSAccountId to identify the buyer. Constraints: o min: 0 o max: 255 o pattern: [\s\S]* Dimension -&gt; (string) [required] During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These repre- sent different units of value in your application. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+ Quantity -&gt; (integer) The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified. Constraints: o min: 0 o max: 2147483647 UsageAllocations -&gt; (list) The set of UsageAllocations to submit. The sum of all Us- ageAllocation quantities must equal the Quantity of the Us- ageRecord . Constraints: o min: 1 o max: 2500 (structure) Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags. AllocatedUsageQuantity -&gt; (integer) [required] The total quantity allocated to this bucket of usage. Constraints: o min: 0 o max: 2147483647 Tags -&gt; (list) The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out. Constraints: o min: 1 o max: 5 (structure) Metadata assigned to an allocation. Each tag is made up of a key and a value . Key -&gt; (string) [required] One part of a key-value pair that makes up a tag . A key is a label that acts like a cate- gory for the specific tag values. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Value -&gt; (string) [required] One part of a key-value pair that makes up a tag . A value acts as a descriptor within a tag category (key). The value can be empty or null. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ CustomerAWSAccountId -&gt; (string) The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer. WARNING: If you have an existing integration and need the Cus- tomerAWSAccountId that corresponds to a CustomerIdenti- fier , contact AWS Marketplace Seller Operations to ob- tain the mapping. Do not request the CustomerAWSAccountId directly from buyers. We cannot verify that a buyer-pro- vided account ID is authentic, which can result in incor- rect metering or billing. Constraints: o min: 1 o max: 255 o pattern: ^[0-9]+$ LicenseArn -&gt; (string) The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace. NOTE: To access your CustomerAWSAccountId and LicenseArn map- ping, visit Agreements Feeds . Constraints: o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ JSON Syntax: [ { "Timestamp": timestamp, "CustomerIdentifier": "string", "Dimension": "string", "Quantity": integer, "UsageAllocations": [ { "AllocatedUsageQuantity": integer, "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ], "CustomerAWSAccountId": "string", "LicenseArn": "string" } ... ]</param>
+    public AwsMeteringmarketplaceBatchMeterUsageOptions(
+        IEnumerable<string> UsageRecords
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UsageRecords);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UsageRecords));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UsageRecords));
+            }
+
+            UsageRecords = materialized;
+        }
+        this.UsageRecords = UsageRecords;
+    }
+
+    private AwsMeteringmarketplaceBatchMeterUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMeteringmarketplaceBatchMeterUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMeteringmarketplaceBatchMeterUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time. Constraints: o min: 0 o max: 25 (structure) A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges. Timestamp -&gt; (timestamp) [required] Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace pe- riod to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month. CustomerIdentifier -&gt; (string) The CustomerIdentifier is obtained through the ResolveCus- tomer operation and represents an individual buyer in your application. WARNING: CustomerIdentifier is not supported for new SaaS product integrations. Use CustomerAWSAccountId to identify the buyer. Constraints: o min: 0 o max: 255 o pattern: [\s\S]* Dimension -&gt; (string) [required] During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These repre- sent different units of value in your application. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+ Quantity -&gt; (integer) The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified. Constraints: o min: 0 o max: 2147483647 UsageAllocations -&gt; (list) The set of UsageAllocations to submit. The sum of all Us- ageAllocation quantities must equal the Quantity of the Us- ageRecord . Constraints: o min: 1 o max: 2500 (structure) Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags. AllocatedUsageQuantity -&gt; (integer) [required] The total quantity allocated to this bucket of usage. Constraints: o min: 0 o max: 2147483647 Tags -&gt; (list) The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out. Constraints: o min: 1 o max: 5 (structure) Metadata assigned to an allocation. Each tag is made up of a key and a value . Key -&gt; (string) [required] One part of a key-value pair that makes up a tag . A key is a label that acts like a cate- gory for the specific tag values. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Value -&gt; (string) [required] One part of a key-value pair that makes up a tag . A value acts as a descriptor within a tag category (key). The value can be empty or null. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ CustomerAWSAccountId -&gt; (string) The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer. WARNING: If you have an existing integration and need the Cus- tomerAWSAccountId that corresponds to a CustomerIdenti- fier , contact AWS Marketplace Seller Operations to ob- tain the mapping. Do not request the CustomerAWSAccountId directly from buyers. We cannot verify that a buyer-pro- vided account ID is authentic, which can result in incor- rect metering or billing. Constraints: o min: 1 o max: 255 o pattern: ^[0-9]+$ LicenseArn -&gt; (string) The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace. NOTE: To access your CustomerAWSAccountId and LicenseArn map- ping, visit Agreements Feeds . Constraints: o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ JSON Syntax: [ { "Timestamp": timestamp, "CustomerIdentifier": "string", "Dimension": "string", "Quantity": integer, "UsageAllocations": [ { "AllocatedUsageQuantity": integer, "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ], "CustomerAWSAccountId": "string", "LicenseArn": "string" } ... ]
+    /// </summary>
     [CliOption("--usage-records", GroupValues = true)]
-    public IEnumerable<string>? UsageRecords { get; set; }
+    public IEnumerable<string>? UsageRecords { get; private init; }
 
     /// <summary>
     /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. WARNING: ProductCode is required only for legacy integrations that use CustomerIdentifier . For new integrations using LicenseArn (Concurrent Agreements), do NOT include ProductCode at the request level. The LicenseArn in each UsageRecord identifies both the product and the specific agreement. Sending metering records with both ProductCode and LicenseArn for the same customer within the same hour will result in dupli- cate billing. If you are migrating from product-based metering to license-based metering, stop sending ProductCode before you start sending LicenseArn . Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$
@@ -35,5 +83,21 @@ public record AwsMeteringmarketplaceBatchMeterUsageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

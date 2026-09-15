@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "delete-domain")]
-public record AwsSagemakerDeleteDomainOptions : AwsOptions
+public record AwsSagemakerDeleteDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
+    public AwsSagemakerDeleteDomainOptions(
+        string DomainId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+    }
+
+    private AwsSagemakerDeleteDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDeleteDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDeleteDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
     /// <summary>
     /// The retention policy for this domain, which specifies whether re- sources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). HomeEfsFileSystem -&gt; (string) The default is Retain , which specifies to keep the data stored on the Amazon EFS volume. Specify Delete to delete the data stored on the Amazon EFS vol- ume. Possible values: o Retain o Delete Shorthand Syntax: HomeEfsFileSystem=string JSON Syntax: { "HomeEfsFileSystem": "Retain"|"Delete" }
@@ -35,5 +72,21 @@ public record AwsSagemakerDeleteDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

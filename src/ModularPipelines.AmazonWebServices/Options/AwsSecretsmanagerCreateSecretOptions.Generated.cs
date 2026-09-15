@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secretsmanager", "create-secret")]
-public record AwsSecretsmanagerCreateSecretOptions : AwsOptions
+public record AwsSecretsmanagerCreateSecretOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new secret. A secret can be a password, a set of credentials such as a user name and password, an OAuth token, or other secret in- formation that you store in an encrypted form in Secrets Manager. The secret also includes the connection information to access a database or other service, which Secrets Manager doesn't encrypt. A secret in Se- crets Manager consists of both the protected secret data and the impor- tant information needed to manage the secret. For secrets that use managed ...
+    /// </summary>
+    /// <param name="Name">The name of the new secret. The secret name can contain ASCII letters, numbers, and the follow- ing characters: /_+=.@- Do not end your secret name with a hyphen followed by six charac- ters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN. Constraints: o min: 1 o max: 512</param>
+    public AwsSecretsmanagerCreateSecretOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsSecretsmanagerCreateSecretOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecretsmanagerCreateSecretOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecretsmanagerCreateSecretOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the follow- ing characters: /_+=.@- Do not end your secret name with a hyphen followed by six charac- ters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN. Constraints: o min: 1 o max: 512
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// If you include SecretString or SecretBinary , then Secrets Manager creates an initial version for the secret, and this parameter speci- fies the unique identifier for the new version. NOTE: If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret. o If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created. o If a version with this value already exists and the version Se- cretString and SecretBinary values are the same as those in the request, then the request is ignored. o If a version with this value already exists and that version's Se- cretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an ex- isting version. Instead, use PutSecretValue to create a new ver- sion. This value becomes the VersionId of the new version. Constraints: o min: 32 o max: 64
@@ -70,7 +107,10 @@ public record AwsSecretsmanagerCreateSecretOptions : AwsOptions
     [CliOption("--add-replica-regions", GroupValues = true)]
     public IEnumerable<string>? AddReplicaRegions { get; set; }
 
-    [CliFlag("--force-overwrite-replica-secret")]
+    /// <summary>
+    /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
+    /// </summary>
+    [CliFlag("--force-overwrite-replica-secret", NegatedName = "--no-force-overwrite-replica-secret")]
     public bool? ForceOverwriteReplicaSecret { get; set; }
 
     /// <summary>
@@ -84,5 +124,21 @@ public record AwsSecretsmanagerCreateSecretOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

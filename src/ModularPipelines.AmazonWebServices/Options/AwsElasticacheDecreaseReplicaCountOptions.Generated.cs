@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "decrease-replica-count")]
-public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions
+public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationGroupId">The id of the replication group from which you want to remove replica nodes.</param>
+    /// <param name="ApplyImmediately">If True , the number of replica nodes is decreased immediately. Ap- plyImmediately=False is not currently supported.</param>
+    public AwsElasticacheDecreaseReplicaCountOptions(
+        string ReplicationGroupId,
+        bool ApplyImmediately
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+        this.ApplyImmediately = ApplyImmediately;
+    }
+
+    private AwsElasticacheDecreaseReplicaCountOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheDecreaseReplicaCountOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheDecreaseReplicaCountOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id of the replication group from which you want to remove replica nodes.
+    /// </summary>
     [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    public string? ReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// If True , the number of replica nodes is decreased immediately. Ap- plyImmediately=False is not currently supported.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
+    public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
     /// The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replica- tion groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replica- tion group's node groups. The minimum number of replicas in a shard or replication group is: o Valkey or Redis OSS (cluster mode disabled) o If Multi-AZ is enabled: 1 o If Multi-AZ is not enabled: 0 o Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
@@ -42,13 +88,26 @@ public record AwsElasticacheDecreaseReplicaCountOptions : AwsOptions
     [CliOption("--replicas-to-remove", GroupValues = true)]
     public IEnumerable<string>? ReplicasToRemove { get; set; }
 
-    [CliFlag("--apply-immediately")]
-    public bool? ApplyImmediately { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

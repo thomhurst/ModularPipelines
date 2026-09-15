@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-cluster-subnet-group")]
-public record AwsRedshiftModifyClusterSubnetGroupOptions : AwsOptions
+public record AwsRedshiftModifyClusterSubnetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:...
+    /// </summary>
+    /// <param name="ClusterSubnetGroupName">The name of the subnet group to be modified. Constraints: o max: 2147483647</param>
+    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    public AwsRedshiftModifyClusterSubnetGroupOptions(
+        string ClusterSubnetGroupName,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterSubnetGroupName);
+        this.ClusterSubnetGroupName = ClusterSubnetGroupName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsRedshiftModifyClusterSubnetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyClusterSubnetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyClusterSubnetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the subnet group to be modified. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-subnet-group-name")]
-    public string? ClusterSubnetGroupName { get; set; }
+    public string? ClusterSubnetGroupName { get; private init; }
+
+    /// <summary>
+    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// A text description of the subnet group to be modified. Constraints: o max: 2147483647
@@ -30,13 +88,26 @@ public record AwsRedshiftModifyClusterSubnetGroupOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

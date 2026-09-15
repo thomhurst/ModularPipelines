@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "associate-resolver-rule")]
-public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions
+public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: o min: 1 o max: 64</param>
+    /// <param name="VpcId">The ID of the VPC that you want to associate the Resolver rule with. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverAssociateResolverRuleOptions(
+        string ResolverRuleId,
+        string VpcId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverRuleId);
+        this.ResolverRuleId = ResolverRuleId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+    }
+
+    private AwsRoute53resolverAssociateResolverRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverAssociateResolverRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverAssociateResolverRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--resolver-rule-id")]
-    public string? ResolverRuleId { get; set; }
+    public string? ResolverRuleId { get; private init; }
+
+    /// <summary>
+    /// The ID of the VPC that you want to associate the Resolver rule with. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
 
     /// <summary>
     /// A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
@@ -30,13 +77,26 @@ public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions
     [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

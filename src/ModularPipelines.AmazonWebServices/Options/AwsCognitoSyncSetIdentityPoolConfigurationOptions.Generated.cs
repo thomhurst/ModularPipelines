@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-sync", "set-identity-pool-configuration")]
-public record AwsCognitoSyncSetIdentityPoolConfigurationOptions : AwsOptions
+public record AwsCognitoSyncSetIdentityPoolConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the necessary configuration for push sync. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Iden- tity. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    public AwsCognitoSyncSetIdentityPoolConfigurationOptions(
+        string IdentityPoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+    }
+
+    private AwsCognitoSyncSetIdentityPoolConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoSyncSetIdentityPoolConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoSyncSetIdentityPoolConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
     [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    public string? IdentityPoolId { get; private init; }
 
     /// <summary>
     /// Options to apply to this identity pool for push synchronization. ApplicationArns -&gt; (list) List of SNS platform application ARNs that could be used by clients. (string) Constraints: o pattern: arn:aws:sns:[-0-9a-z]+:\d+:app/[A-Z_]+/[a-zA-Z0-9_.-]+ RoleArn -&gt; (string) A role configured to allow Cognito to call SNS on behalf of the developer. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam::\d+:role/.* Shorthand Syntax: ApplicationArns=string,string,RoleArn=string JSON Syntax: { "ApplicationArns": ["string", ...], "RoleArn": "string" }
@@ -38,5 +75,21 @@ public record AwsCognitoSyncSetIdentityPoolConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

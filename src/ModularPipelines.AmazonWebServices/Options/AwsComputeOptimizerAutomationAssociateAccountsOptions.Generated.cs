@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "associate-accounts")]
-public record AwsComputeOptimizerAutomationAssociateAccountsOptions : AwsOptions
+public record AwsComputeOptimizerAutomationAssociateAccountsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates one or more member accounts with your organization's manage- ment account, enabling centralized implementation of optimization ac- tions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the man- agement account to create Automation rules that automatically apply ac- tions t...
+    /// </summary>
+    /// <param name="AccountIds">The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsComputeOptimizerAutomationAssociateAccountsOptions(
+        IEnumerable<string> AccountIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountIds));
+            }
+
+            AccountIds = materialized;
+        }
+        this.AccountIds = AccountIds;
+    }
+
+    private AwsComputeOptimizerAutomationAssociateAccountsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationAssociateAccountsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationAssociateAccountsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the member accounts to associate. You can specify up to 50 account IDs. (string) Constraints: o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
-    public IEnumerable<string>? AccountIds { get; set; }
+    public IEnumerable<string>? AccountIds { get; private init; }
 
     /// <summary>
     /// A unique identifier to ensure idempotency of the request. Valid for 24 hours after creation. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
@@ -37,5 +85,21 @@ public record AwsComputeOptimizerAutomationAssociateAccountsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

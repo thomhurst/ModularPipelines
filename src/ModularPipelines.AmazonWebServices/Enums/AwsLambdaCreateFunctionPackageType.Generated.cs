@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --packagetype.
+/// Allowed values for --package-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLambdaCreateFunctionPackageType
 {
-    [EnumValue("Zip")]
-    Zip = 1,
-
     [EnumValue("Image")]
-    Image = 2
+    Image,
+
+    [EnumValue("Zip")]
+    Zip
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "send-destination-number-verification-code")]
-public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--verified-destination-number-id")]
-    public string? VerifiedDestinationNumberId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Before you can send test messages to a verified destination phone num- ber you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use Ver- ifyDestinationNumber to opt-in the verified destination phone number to receive messages. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VerifiedDestinationNumberId">The unique identifier for the verified destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="VerificationChannel">Choose to send the verification code as an SMS or voice message. Possible values: o TEXT o VOICE</param>
+    public AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions(
+        string VerifiedDestinationNumberId,
+        AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeVerificationChannel VerificationChannel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VerifiedDestinationNumberId);
+        this.VerifiedDestinationNumberId = VerifiedDestinationNumberId;
+        global::System.ArgumentNullException.ThrowIfNull(VerificationChannel);
+        this.VerificationChannel = VerificationChannel;
+    }
+
+    private AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the verified destination phone number. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
+    [CliOption("--verified-destination-number-id")]
+    public string? VerifiedDestinationNumberId { get; private init; }
+
+    /// <summary>
+    /// Choose to send the verification code as an SMS or voice message. Possible values: o TEXT o VOICE
+    /// </summary>
     [CliOption("--verification-channel")]
-    public string? VerificationChannel { get; set; }
+    public AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeVerificationChannel? VerificationChannel { get; private init; }
 
     /// <summary>
     /// Choose the language to use for the message. Possible values: o DE_DE o EN_GB o EN_US o ES_419 o ES_ES o FR_CA o FR_FR o IT_IT o JA_JP o KO_KR o PT_BR o ZH_CN o ZH_TW
@@ -64,5 +108,21 @@ public record AwsPinpointSmsVoiceV2SendDestinationNumberVerificationCodeOptions 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

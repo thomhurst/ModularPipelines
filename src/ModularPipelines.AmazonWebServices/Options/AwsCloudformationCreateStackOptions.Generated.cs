@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-stack")]
-public record AwsCloudformationCreateStackOptions : AwsOptions
+public record AwsCloudformationCreateStackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack through the DescribeStacks operation. For more information about creating a stack and monitoring stack progress, see Managing Amazon Web Services resources as a single unit with CloudFormation stacks in the CloudFormation User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackName">The name that's associated with the stack. The name must be unique in the Region in which you are creating the stack. NOTE: A stack name can contain only alphanumeric characters (case sen- sitive) and hyphens. It must start with an alphabetical charac- ter and can't be longer than 128 characters.</param>
+    public AwsCloudformationCreateStackOptions(
+        string StackName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackName);
+        this.StackName = StackName;
+    }
+
+    private AwsCloudformationCreateStackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateStackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateStackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name that's associated with the stack. The name must be unique in the Region in which you are creating the stack. NOTE: A stack name can contain only alphanumeric characters (case sen- sitive) and hyphens. It must start with an alphabetical charac- ter and can't be longer than 128 characters.
+    /// </summary>
     [CliOption("--stack-name")]
-    public string? StackName { get; set; }
+    public string? StackName { get; private init; }
 
     /// <summary>
     /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either TemplateBody or TemplateURL , but not both. Constraints: o min: 1
@@ -44,7 +81,10 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
-    [CliFlag("--disable-rollback")]
+    /// <summary>
+    /// Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure , but not both. Default: false
+    /// </summary>
+    [CliFlag("--disable-rollback", NegatedName = "--no-disable-rollback")]
     public bool? DisableRollback { get; set; }
 
     /// <summary>
@@ -114,10 +154,16 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliFlag("--enable-termination-protection")]
+    /// <summary>
+    /// Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with termination protection en- abled, the operation fails and the stack remains unchanged. For more information, see Protect CloudFormation stacks from being deleted in the CloudFormation User Guide . Termination protection is deacti- vated on stacks by default. For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack.
+    /// </summary>
+    [CliFlag("--enable-termination-protection", NegatedName = "--no-enable-termination-protection")]
     public bool? EnableTerminationProtection { get; set; }
 
-    [CliFlag("--retain-except-on-create")]
+    /// <summary>
+    /// When set to true , newly created resources are deleted when the op- eration rolls back. This includes newly created resources marked with a deletion policy of Retain . Default: false
+    /// </summary>
+    [CliFlag("--retain-except-on-create", NegatedName = "--no-retain-except-on-create")]
     public bool? RetainExceptOnCreate { get; set; }
 
     /// <summary>
@@ -126,7 +172,10 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
     [CliOption("--deployment-config")]
     public string? DeploymentConfig { get; set; }
 
-    [CliFlag("--disable-validation")]
+    /// <summary>
+    /// Set to true to disable pre-deployment validations in changeset or stack operations. Default: false
+    /// </summary>
+    [CliFlag("--disable-validation", NegatedName = "--no-disable-validation")]
     public bool? DisableValidation { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -134,5 +183,21 @@ public record AwsCloudformationCreateStackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

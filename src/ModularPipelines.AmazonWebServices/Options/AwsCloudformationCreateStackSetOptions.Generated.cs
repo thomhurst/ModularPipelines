@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-stack-set")]
-public record AwsCloudformationCreateStackSetOptions : AwsOptions
+public record AwsCloudformationCreateStackSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a StackSet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackSetName">The name to associate with the StackSet. The name must be unique in the Region where you create your StackSet. NOTE: A stack name can contain only alphanumeric characters (case-sen- sitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.</param>
+    public AwsCloudformationCreateStackSetOptions(
+        string StackSetName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StackSetName);
+        this.StackSetName = StackSetName;
+    }
+
+    private AwsCloudformationCreateStackSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateStackSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateStackSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to associate with the StackSet. The name must be unique in the Region where you create your StackSet. NOTE: A stack name can contain only alphanumeric characters (case-sen- sitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
+    /// </summary>
     [CliOption("--stack-set-name")]
-    public string? StackSetName { get; set; }
+    public string? StackSetName { get; private init; }
 
     /// <summary>
     /// A description of the StackSet. You can use the description to iden- tify the StackSet's purpose or other important information. Constraints: o min: 1 o max: 1024
@@ -116,5 +153,21 @@ public record AwsCloudformationCreateStackSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "update-project-visibility")]
-public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions
+public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the public visibility for a project. The project's build re- sults, logs, and artifacts are available to the general public. For more information, see Public build projects in the CodeBuild User Guide . WARNING: The following should be kept in mind when making your projects pub- lic: o All of a project's build results, logs, and artifacts, including builds that were run when the project was private, are available to the general public. o All build logs and artifacts are available to the ...
+    /// </summary>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the build project. Constraints: o min: 1</param>
+    /// <param name="ProjectVisibility">Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: o PUBLIC_READ o PRIVATE</param>
+    public AwsCodebuildUpdateProjectVisibilityOptions(
+        string ProjectArn,
+        AwsCodebuildUpdateProjectVisibilityProjectVisibility ProjectVisibility
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectVisibility);
+        this.ProjectVisibility = ProjectVisibility;
+    }
+
+    private AwsCodebuildUpdateProjectVisibilityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildUpdateProjectVisibilityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildUpdateProjectVisibilityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the build project. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public. Possible values: o PUBLIC_READ o PRIVATE
+    /// </summary>
     [CliOption("--project-visibility")]
-    public string? ProjectVisibility { get; set; }
+    public AwsCodebuildUpdateProjectVisibilityProjectVisibility? ProjectVisibility { get; private init; }
 
     /// <summary>
     /// The ARN of the IAM role that enables CodeBuild to access the Cloud- Watch Logs and Amazon S3 artifacts for the project's builds. Constraints: o min: 1
@@ -38,5 +83,21 @@ public record AwsCodebuildUpdateProjectVisibilityOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

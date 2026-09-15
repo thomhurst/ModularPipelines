@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "get-case-attachment-upload-url")]
-public record AwsSecurityIrGetCaseAttachmentUploadUrlOptions : AwsOptions
+public record AwsSecurityIrGetCaseAttachmentUploadUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads an attachment to a case. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaseId">Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    /// <param name="FileName">Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="ContentLength">Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: o min: 1 o max: 104857600</param>
+    public AwsSecurityIrGetCaseAttachmentUploadUrlOptions(
+        string CaseId,
+        string FileName,
+        int ContentLength
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        this.ContentLength = ContentLength;
+    }
+
+    private AwsSecurityIrGetCaseAttachmentUploadUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrGetCaseAttachmentUploadUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrGetCaseAttachmentUploadUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9._-]+
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string? FileName { get; private init; }
 
+    /// <summary>
+    /// Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment. Constraints: o min: 1 o max: 104857600
+    /// </summary>
     [CliOption("--content-length")]
-    public int? ContentLength { get; set; }
+    public int? ContentLength { get; private init; }
 
     /// <summary>
     /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
@@ -43,5 +93,21 @@ public record AwsSecurityIrGetCaseAttachmentUploadUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

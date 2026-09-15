@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "associate-resolver-query-log-config")]
-public record AwsRoute53resolverAssociateResolverQueryLogConfigOptions : AwsOptions
+public record AwsRoute53resolverAssociateResolverQueryLogConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resolver-query-log-config-id")]
-    public string? ResolverQueryLogConfigId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one Associ- ateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuratio...
+    /// </summary>
+    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to associate a VPC with. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResourceId">The ID of an Amazon VPC that you want this query logging configura- tion to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverAssociateResolverQueryLogConfigOptions(
+        string ResolverQueryLogConfigId,
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverQueryLogConfigId);
+        this.ResolverQueryLogConfigId = ResolverQueryLogConfigId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsRoute53resolverAssociateResolverQueryLogConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverAssociateResolverQueryLogConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverAssociateResolverQueryLogConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the query logging configuration that you want to associate a VPC with. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--resolver-query-log-config-id")]
+    public string? ResolverQueryLogConfigId { get; private init; }
+
+    /// <summary>
+    /// The ID of an Amazon VPC that you want this query logging configura- tion to log queries for. NOTE: The VPCs and the query logging configuration must be in the same Region. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

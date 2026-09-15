@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "create-table")]
-public record AwsDynamodbCreateTableOptions : AwsOptions
+public record AwsDynamodbCreateTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The CreateTable operation adds a new table to your account. In an Ama- zon Web Services account, table names must be unique within each Re- gion. That is, you can have two tables with same name if you create the tables in different Regions. CreateTable is an asynchronous operation. Upon receiving a Cre- ateTable request, DynamoDB immediately returns a response with a Ta- bleStatus of CREATING . After the table is created, DynamoDB sets the TableStatus to ACTIVE . You can perform read and write o...
+    /// </summary>
+    /// <param name="TableName">The name of the table to create. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
+    public AwsDynamodbCreateTableOptions(
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsDynamodbCreateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbCreateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbCreateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the table to create. You can also provide the Amazon Re- source Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
     /// <summary>
     /// An array of attributes that describe the key schema for the table and indexes. (structure) Represents an attribute for describing the schema for the table and indexes. AttributeName -&gt; (string) [required] A name for the attribute. Constraints: o min: 1 o max: 255 AttributeType -&gt; (string) [required] The data type for the attribute, where: o S - the attribute is of type String o N - the attribute is of type Number o B - the attribute is of type Binary Possible values: o S o N o B Shorthand Syntax: AttributeName=string,AttributeType=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeType": "S"|"N"|"B" } ... ]
     /// </summary>
     [CliOption("--attribute-definitions", GroupValues = true)]
     public IEnumerable<string>? AttributeDefinitions { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
 
     /// <summary>
     /// Specifies the attributes that make up the primary key for a table or an index. The attributes in KeySchema must also be defined in the AttributeDefinitions array. For more information, see Data Model in the Amazon DynamoDB Developer Guide . Each KeySchemaElement in the array is composed of: o AttributeName - The name of this key attribute. o KeyType - The role that the key attribute will assume: o HASH - partition key o RANGE - sort key NOTE: The partition key of an item is also known as its hash attribute . The term "hash attribute" derives from the DynamoDB usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute . The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. For a simple primary key (partition key), you must provide exactly one element with a KeyType of HASH . For a composite primary key (partition key and sort key), you must provide exactly two elements, in this order: The first element must have a KeyType of HASH , and the second element must have a KeyType of RANGE . For more information, see Working with Tables in the Amazon DynamoDB Developer Guide . Constraints: o min: 1 (structure) Represents a single element of a key schema. A key schema speci- fies the attributes that make up the primary key of a table, or the key attributes of an index. A KeySchemaElement represents exactly one attribute of the pri- mary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key. A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map. AttributeName -&gt; (string) [required] The name of a key attribute. Constraints: o min: 1 o max: 255 KeyType -&gt; (string) [required] The role that this key attribute will assume: o HASH - partition key o RANGE - sort key NOTE: The partition key of an item is also known as its hash attribute . The term "hash attribute" derives from Dy- namoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range at- tribute . The term "range attribute" derives from the way DynamoDB stores items with the same partition key physi- cally close together, in sorted order by the sort key value. Possible values: o HASH o RANGE Shorthand Syntax: AttributeName=string,KeyType=string ... JSON Syntax: [ { "AttributeName": "string", "KeyType": "HASH"|"RANGE" } ... ]
@@ -85,7 +122,10 @@ public record AwsDynamodbCreateTableOptions : AwsOptions
     [CliOption("--table-class")]
     public AwsDynamodbCreateTableTableClass? TableClass { get; set; }
 
-    [CliFlag("--deletion-protection-enabled")]
+    /// <summary>
+    /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+    /// </summary>
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
@@ -129,5 +169,21 @@ public record AwsDynamodbCreateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

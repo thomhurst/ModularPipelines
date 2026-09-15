@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("discovery", "batch-delete-agents")]
-public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions
+public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeleteAgents">The list of agents to delete. Constraints: o min: 1 o max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: o min: 10 o max: 20 o pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collec- tor. It is needed to delete any agent in HEALTHY/UN- HEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]</param>
+    public AwsDiscoveryBatchDeleteAgentsOptions(
+        IEnumerable<string> DeleteAgents
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeleteAgents);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeleteAgents));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeleteAgents));
+            }
+
+            DeleteAgents = materialized;
+        }
+        this.DeleteAgents = DeleteAgents;
+    }
+
+    private AwsDiscoveryBatchDeleteAgentsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDiscoveryBatchDeleteAgentsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDiscoveryBatchDeleteAgentsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of agents to delete. Constraints: o min: 1 o max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: o min: 10 o max: 20 o pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collec- tor. It is needed to delete any agent in HEALTHY/UN- HEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]
+    /// </summary>
     [CliOption("--delete-agents", GroupValues = true)]
-    public IEnumerable<string>? DeleteAgents { get; set; }
+    public IEnumerable<string>? DeleteAgents { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "put-key-policy")]
-public record AwsKmsPutKeyPolicyOptions : AwsOptions
+public record AwsKmsPutKeyPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Attaches a key policy to the specified KMS key. For more information about key policies, see Key Policies in the Key Management Service Developer Guide . For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the * Iden- tity and Access Management User Guide * . For examples of adding a key policy in multiple programming languages, see Use PutKeyPolicy with an Amazon Web Services SDK or CLI in the Key Management Service Developer Guide . Cross-account use : ...
+    /// </summary>
+    /// <param name="KeyId">Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Policy">The key policy to attach to the KMS key. The key policy must meet the following criteria: o The key policy must allow the calling principal to make a subse- quent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, see Default key policy in the Key Management Service Developer Guide . (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.) o Each statement in the key policy must contain one or more princi- pals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal, you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see Changes that I make are not always immediately visible in the Amazon Web Services Identity and Access Management User Guide . NOTE: If either of the required Resource or Action elements are miss- ing from a key policy statement, the policy statement has no ef- fect. When a key policy statement is missing one of these ele- ments, the KMS console correctly reports an error, but the PutKeyPolicy API request succeeds, even though the policy state- ment is ineffective. For more information on required key policy elements, see Elements in a key policy in the Key Management Service Developer Guide . A key policy document can include only the following characters: o Printable ASCII characters from the space character (\u0020 ) through the end of the ASCII character range. o Printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ). o The tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) special characters NOTE: If the key policy exceeds the length constraint, KMS returns a LimitExceededException . For information about key policies, see Key policies in KMS in the Key Management Service Developer Guide .For help writing and format- ting a JSON policy document, see the IAM JSON Policy Reference in the * Identity and Access Management User Guide * . Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsKmsPutKeyPolicyOptions(
+        string KeyId,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsKmsPutKeyPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsPutKeyPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsPutKeyPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
+
+    /// <summary>
+    /// The key policy to attach to the KMS key. The key policy must meet the following criteria: o The key policy must allow the calling principal to make a subse- quent PutKeyPolicy request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, see Default key policy in the Key Management Service Developer Guide . (To omit this condition, set BypassPolicyLockoutSafetyCheck to true.) o Each statement in the key policy must contain one or more princi- pals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal, you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see Changes that I make are not always immediately visible in the Amazon Web Services Identity and Access Management User Guide . NOTE: If either of the required Resource or Action elements are miss- ing from a key policy statement, the policy statement has no ef- fect. When a key policy statement is missing one of these ele- ments, the KMS console correctly reports an error, but the PutKeyPolicy API request succeeds, even though the policy state- ment is ineffective. For more information on required key policy elements, see Elements in a key policy in the Key Management Service Developer Guide . A key policy document can include only the following characters: o Printable ASCII characters from the space character (\u0020 ) through the end of the ASCII character range. o Printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ). o The tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) special characters NOTE: If the key policy exceeds the length constraint, KMS returns a LimitExceededException . For information about key policies, see Key policies in KMS in the Key Management Service Developer Guide .For help writing and format- ting a JSON policy document, see the IAM JSON Policy Reference in the * Identity and Access Management User Guide * . Constraints: o min: 1 o max: 131072 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
+    [CliOption("--policy")]
+    public string? Policy { get; private init; }
 
     /// <summary>
     /// The name of the key policy. If no policy name is specified, the de- fault value is default . The only valid value is default . Constraints: o min: 1 o max: 128 o pattern: [\w]+
@@ -30,10 +77,10 @@ public record AwsKmsPutKeyPolicyOptions : AwsOptions
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CliOption("--policy")]
-    public string? Policy { get; set; }
-
-    [CliFlag("--bypass-policy-lockout-safety-check")]
+    /// <summary>
+    /// out-safety-check (boolean) Skips ("bypasses") the key policy lockout safety check. The default value is false. WARNING: Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscrimi- nately. For more information, see Default key policy in the Key Manage- ment Service Developer Guide . Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy re- quest on the KMS key.
+    /// </summary>
+    [CliFlag("--bypass-policy-lockout-safety-check", NegatedName = "--no-bypass-policy-lockout-safety-check")]
     public bool? BypassPolicyLockoutSafetyCheck { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsKmsPutKeyPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

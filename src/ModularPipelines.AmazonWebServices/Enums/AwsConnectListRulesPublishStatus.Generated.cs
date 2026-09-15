@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --publishstatus.
+/// Allowed values for --publish-status.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectListRulesPublishStatus
 {
     [EnumValue("DRAFT")]
-    Draft = 1,
+    Draft,
 
     [EnumValue("PUBLISHED")]
-    Published = 2
+    Published
 }

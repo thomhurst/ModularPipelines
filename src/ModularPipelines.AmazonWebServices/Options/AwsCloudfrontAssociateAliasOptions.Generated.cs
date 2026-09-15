@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "associate-alias")]
-public record AwsCloudfrontAssociateAliasOptions : AwsOptions
+public record AwsCloudfrontAssociateAliasOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-distribution-id")]
-    public string? TargetDistributionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: The AssociateAlias API operation only supports standard distribu- tions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribut...
+    /// </summary>
+    /// <param name="TargetDistributionId">The ID of the standard distribution that you're associating the alias with.</param>
+    /// <param name="Alias">The alias (also known as a CNAME) to add to the target standard dis- tribution.</param>
+    public AwsCloudfrontAssociateAliasOptions(
+        string TargetDistributionId,
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetDistributionId);
+        this.TargetDistributionId = TargetDistributionId;
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    private AwsCloudfrontAssociateAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontAssociateAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontAssociateAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the standard distribution that you're associating the alias with.
+    /// </summary>
+    [CliOption("--target-distribution-id")]
+    public string? TargetDistributionId { get; private init; }
+
+    /// <summary>
+    /// The alias (also known as a CNAME) to add to the target standard dis- tribution.
+    /// </summary>
     [CliOption("--alias")]
-    public string? Alias { get; set; }
+    public string? Alias { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

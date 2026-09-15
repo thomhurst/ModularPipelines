@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "query-graph")]
-public record AwsDatazoneQueryGraphOptions : AwsOptions
+public record AwsDatazoneQueryGraphOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Queries entities in the graph store. See also: AWS API Documentation query-graph is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// </summary>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Match">List of query match clauses. Constraints: o min: 2 o max: 2 (tagged union structure) A clause to match a query pattern NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relationPattern, entityPattern. relationPattern -&gt; (structure) The pattern describing the query's relational traversal. relationType -&gt; (string) [required] The type of relation to query. Possible values: o LINEAGE relationDirection -&gt; (string) [required] The direction to query. Possible values: o IN o OUT maxPathLength -&gt; (integer) The number of hops to query. Constraints: o min: 1 o max: 5 entityPattern -&gt; (structure) The pattern describing the entities for the query to tra- verse. entityType -&gt; (string) [required] The type of entity to be matched during the graph query. Possible values: o LINEAGE_NODE identifier -&gt; (string) [required] The identifier of the root entity to start traversal from during the graph query. Constraints: o min: 1 o max: 2086 filters -&gt; (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fil- ter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon Data- Zone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fil- ter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon Data- Zone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) JSON Syntax: [ { "relationPattern": { "relationType": "LINEAGE", "relationDirection": "IN"|"OUT", "maxPathLength": integer }, "entityPattern": { "entityType": "LINEAGE_NODE", "identifier": "string", "filters": { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ], "or": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ] } } } ... ]</param>
+    public AwsDatazoneQueryGraphOptions(
+        string DomainIdentifier,
+        IEnumerable<string> Match
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Match);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Match));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Match));
+            }
+
+            Match = materialized;
+        }
+        this.Match = Match;
+    }
+
+    private AwsDatazoneQueryGraphOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneQueryGraphOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneQueryGraphOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// List of query match clauses. Constraints: o min: 2 o max: 2 (tagged union structure) A clause to match a query pattern NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relationPattern, entityPattern. relationPattern -&gt; (structure) The pattern describing the query's relational traversal. relationType -&gt; (string) [required] The type of relation to query. Possible values: o LINEAGE relationDirection -&gt; (string) [required] The direction to query. Possible values: o IN o OUT maxPathLength -&gt; (integer) The number of hops to query. Constraints: o min: 1 o max: 5 entityPattern -&gt; (structure) The pattern describing the entities for the query to tra- verse. entityType -&gt; (string) [required] The type of entity to be matched during the graph query. Possible values: o LINEAGE_NODE identifier -&gt; (string) [required] The identifier of the root entity to start traversal from during the graph query. Constraints: o min: 1 o max: 2086 filters -&gt; (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: filter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon DataZone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fil- ter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon Data- Zone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon DataZone. Constraints: o min: 1 o max: 100 (tagged union structure) A search filter clause in Amazon DataZone. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: fil- ter, and, or. filter -&gt; (structure) A search filter in Amazon DataZone. attribute -&gt; (string) [required] A search filter attribute in Amazon Data- Zone. Constraints: o min: 1 o max: 128 value -&gt; (string) A search filter string value in Amazon DataZone. Constraints: o min: 0 o max: 128 intValue -&gt; (long) A search filter integer value in Amazon DataZone. operator -&gt; (string) Specifies the search filter operator. Possible values: o EQ o LE o LT o GE o GT o TEXT_SEARCH and -&gt; (list) The 'and' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) or -&gt; (list) The 'or' search filter clause in Amazon Data- Zone. Constraints: o min: 1 o max: 100 ( ... recursive ... ) JSON Syntax: [ { "relationPattern": { "relationType": "LINEAGE", "relationDirection": "IN"|"OUT", "maxPathLength": integer }, "entityPattern": { "entityType": "LINEAGE_NODE", "identifier": "string", "filters": { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ], "or": [ { "filter": { "attribute": "string", "value": "string", "intValue": long, "operator": "EQ"|"LE"|"LT"|"GE"|"GT"|"TEXT_SEARCH" }, "and": [ { ... recursive ... } ... ], "or": [ { ... recursive ... } ... ] } ... ] } } } ... ]
+    /// </summary>
     [CliOption("--match", GroupValues = true)]
-    public IEnumerable<string>? Match { get; set; }
+    public IEnumerable<string>? Match { get; private init; }
 
     /// <summary>
     /// Additional details on the queried entity that can be requested in the response. formNames -&gt; (list) Names of forms on the query entity that can be requested in the response. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* Shorthand Syntax: formNames=string,string JSON Syntax: { "formNames": ["string", ...] }
@@ -58,5 +113,21 @@ public record AwsDatazoneQueryGraphOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

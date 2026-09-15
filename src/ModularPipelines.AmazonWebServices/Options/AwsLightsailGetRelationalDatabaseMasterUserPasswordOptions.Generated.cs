@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-relational-database-master-user-password")]
-public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOptions
+public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the current, previous, or pending versions of the master user password for a Lightsail database. The GetRelationalDatabaseMasterUserPassword operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of your database for which to get the master user password. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions(
+        string RelationalDatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+    }
+
+    private AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your database for which to get the master user password. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
     /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous pass- words respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT . After the PENDING pass- word rotates to CURRENT , the PENDING password is no longer avail- able. Default: CURRENT Possible values: o CURRENT o PREVIOUS o PENDING
@@ -38,5 +75,21 @@ public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

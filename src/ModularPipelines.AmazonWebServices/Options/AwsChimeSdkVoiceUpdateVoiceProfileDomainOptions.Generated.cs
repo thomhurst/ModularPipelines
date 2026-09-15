@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "update-voice-profile-domain")]
-public record AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions : AwsOptions
+public record AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the settings for the specified voice profile domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceProfileDomainId">The domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*</param>
+    public AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions(
+        string VoiceProfileDomainId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceProfileDomainId);
+        this.VoiceProfileDomainId = VoiceProfileDomainId;
+    }
+
+    private AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--voice-profile-domain-id")]
-    public string? VoiceProfileDomainId { get; set; }
+    public string? VoiceProfileDomainId { get; private init; }
 
     /// <summary>
     /// The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
@@ -41,5 +78,21 @@ public record AwsChimeSdkVoiceUpdateVoiceProfileDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

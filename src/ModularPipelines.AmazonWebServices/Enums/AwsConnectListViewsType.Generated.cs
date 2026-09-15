@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectListViewsType
 {
-    [EnumValue("CUSTOMER_MANAGED")]
-    CustomerManaged = 1,
-
     [EnumValue("AWS_MANAGED")]
-    AwsManaged = 2
+    AwsManaged,
+
+    [EnumValue("CUSTOMER_MANAGED")]
+    CustomerManaged
 }

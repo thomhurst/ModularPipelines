@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "set-identity-headers-in-notifications-enabled")]
-public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions
+public record AwsSesSetIdentityHeadersInNotificationsEnabledOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notifica- tion Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identity">The identity for which to enable or disable headers in notifica- tions. Examples: user@example.com , example.com .</param>
+    /// <param name="NotificationType">The notification type for which to enable or disable headers in no- tifications. Possible values: o Bounce o Complaint o Delivery</param>
+    /// <param name="Enabled">Sets whether Amazon SES includes the original email headers in Ama- zon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.</param>
+    public AwsSesSetIdentityHeadersInNotificationsEnabledOptions(
+        string Identity,
+        AwsSesSetIdentityHeadersInNotificationsEnabledNotificationType NotificationType,
+        bool Enabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationType);
+        this.NotificationType = NotificationType;
+        this.Enabled = Enabled;
+    }
+
+    private AwsSesSetIdentityHeadersInNotificationsEnabledOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSetIdentityHeadersInNotificationsEnabledOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSetIdentityHeadersInNotificationsEnabledOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity for which to enable or disable headers in notifica- tions. Examples: user@example.com , example.com .
+    /// </summary>
     [CliOption("--identity")]
-    public string? Identity { get; set; }
+    public string? Identity { get; private init; }
 
+    /// <summary>
+    /// The notification type for which to enable or disable headers in no- tifications. Possible values: o Bounce o Complaint o Delivery
+    /// </summary>
     [CliOption("--notification-type")]
-    public string? NotificationType { get; set; }
+    public AwsSesSetIdentityHeadersInNotificationsEnabledNotificationType? NotificationType { get; private init; }
 
-    [CliFlag("--enabled")]
-    public bool? Enabled { get; set; }
+    /// <summary>
+    /// Sets whether Amazon SES includes the original email headers in Ama- zon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
+    public bool? Enabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

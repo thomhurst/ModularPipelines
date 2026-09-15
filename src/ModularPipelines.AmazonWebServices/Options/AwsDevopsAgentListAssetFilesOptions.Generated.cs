@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-agent", "list-asset-files")]
-public record AwsDevopsAgentListAssetFilesOptions : AwsOptions
+public record AwsDevopsAgentListAssetFilesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists files in an asset See also: AWS API Documentation list-asset-files uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-asset-files is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset whose files to list Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsDevopsAgentListAssetFilesOptions(
+        string AgentSpaceId,
+        string AssetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+    }
+
+    private AwsDevopsAgentListAssetFilesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsAgentListAssetFilesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsAgentListAssetFilesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--agent-space-id")]
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the asset whose files to list Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
+    public string? AssetId { get; private init; }
 
     /// <summary>
     /// The specific asset version to list files from. If omitted, files from the latest version are returned. Constraints: o min: 1
@@ -58,5 +102,21 @@ public record AwsDevopsAgentListAssetFilesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

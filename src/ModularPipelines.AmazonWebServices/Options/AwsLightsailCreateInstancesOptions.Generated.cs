@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-instances")]
-public record AwsLightsailCreateInstancesOptions : AwsOptions
+public record AwsLightsailCreateInstancesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-names", GroupValues = true)]
-    public IEnumerable<string>? InstanceNames { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceNames">The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstIn- stance","MySecondInstance"] (string) Syntax: "string" "string" ...</param>
+    /// <param name="AvailabilityZone">The Availability Zone in which to create your instance. Use the fol- lowing format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.</param>
+    /// <param name="BlueprintId">The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing in- stances and are not necessarily available to create new in- stances. Blueprints are marked inactive when they become out- dated due to operating system updates or new application re- leases. Constraints: o pattern: .*\S.*</param>
+    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: o pattern: .*\S.*</param>
+    public AwsLightsailCreateInstancesOptions(
+        IEnumerable<string> InstanceNames,
+        string AvailabilityZone,
+        string BlueprintId,
+        string BundleId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceNames));
+            }
+
+            InstanceNames = materialized;
+        }
+        this.InstanceNames = InstanceNames;
+        global::System.ArgumentNullException.ThrowIfNull(AvailabilityZone);
+        this.AvailabilityZone = AvailabilityZone;
+        global::System.ArgumentNullException.ThrowIfNull(BlueprintId);
+        this.BlueprintId = BlueprintId;
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+    }
+
+    private AwsLightsailCreateInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstIn- stance","MySecondInstance"] (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--instance-names", GroupValues = true)]
+    public IEnumerable<string>? InstanceNames { get; private init; }
+
+    /// <summary>
+    /// The Availability Zone in which to create your instance. Use the fol- lowing format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
+    /// </summary>
     [CliOption("--availability-zone")]
-    public string? AvailabilityZone { get; set; }
+    public string? AvailabilityZone { get; private init; }
+
+    /// <summary>
+    /// The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x ). Use the get blueprints operation to return a list of available images (or blueprints ). NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing in- stances and are not necessarily available to create new in- stances. Blueprints are marked inactive when they become out- dated due to operating system updates or new application re- leases. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--blueprint-id")]
+    public string? BlueprintId { get; private init; }
+
+    /// <summary>
+    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (medium_x_x ). Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--bundle-id")]
+    public string? BundleId { get; private init; }
 
     /// <summary>
     /// (Discontinued) The name for your custom image. NOTE: In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued. Constraints: o pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--custom-image-name")]
     public string? CustomImageName { get; set; }
-
-    [CliOption("--blueprint-id")]
-    public string? BlueprintId { get; set; }
-
-    [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
 
     /// <summary>
     /// A launch script you can create that configures a server with addi- tional user data. For example, you might want to run apt-get -y up- date . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
@@ -75,5 +144,21 @@ public record AwsLightsailCreateInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

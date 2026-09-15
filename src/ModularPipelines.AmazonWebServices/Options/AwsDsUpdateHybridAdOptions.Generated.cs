@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "update-hybrid-ad")]
-public record AwsDsUpdateHybridAdOptions : AwsOptions
+public record AwsDsUpdateHybridAdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of an existing hybrid directory. You can re- cover hybrid directory administrator account or modify self-managed in- stance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to mon- itor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with Cus- tomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input a...
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the hybrid directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsUpdateHybridAdOptions(
+        string DirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+    }
+
+    private AwsDsUpdateHybridAdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsUpdateHybridAdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsUpdateHybridAdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the hybrid directory to update. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
     /// <summary>
     /// We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need tem- porary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you dont need to use HybridAdministratorAccountUpdate , even if you have up- dated your self-managed AD administrator user. SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials for the AD administrator user, and enables hybrid domain controllers to join the managed AD domain. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customer- AdAdminDomainPassword":"ExamplePassword123!"}. Constraints: o pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$ Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
@@ -41,5 +78,21 @@ public record AwsDsUpdateHybridAdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

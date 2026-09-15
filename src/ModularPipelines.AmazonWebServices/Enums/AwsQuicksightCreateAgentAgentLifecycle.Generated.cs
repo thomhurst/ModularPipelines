@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --agentlifecycle.
+/// Allowed values for --agent-lifecycle.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsQuicksightCreateAgentAgentLifecycle
 {
     [EnumValue("PREVIEW")]
-    Preview = 1,
+    Preview,
 
     [EnumValue("PUBLISHED")]
-    Published = 2
+    Published
 }

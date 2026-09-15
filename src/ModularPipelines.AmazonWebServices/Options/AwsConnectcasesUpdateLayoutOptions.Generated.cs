@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "update-layout")]
-public record AwsConnectcasesUpdateLayoutOptions : AwsOptions
+public record AwsConnectcasesUpdateLayoutOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 re- sponse with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. NOTE: Title and Status fields cannot be part of layouts because they are not configurable. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="LayoutId">The unique identifier of the layout. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectcasesUpdateLayoutOptions(
+        string DomainId,
+        string LayoutId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(LayoutId);
+        this.LayoutId = LayoutId;
+    }
+
+    private AwsConnectcasesUpdateLayoutOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesUpdateLayoutOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesUpdateLayoutOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the layout. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--layout-id")]
-    public string? LayoutId { get; set; }
+    public string? LayoutId { get; private init; }
 
     /// <summary>
     /// The name of the layout. It must be unique per domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
@@ -44,5 +88,21 @@ public record AwsConnectcasesUpdateLayoutOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

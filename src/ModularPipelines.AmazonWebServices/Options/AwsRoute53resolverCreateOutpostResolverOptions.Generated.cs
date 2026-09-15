@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "create-outpost-resolver")]
-public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions
+public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--creator-request-id")]
-    public string? CreatorRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Route 53 Resolver on an Outpost. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o min: 1 o max: 255</param>
+    /// <param name="PreferredInstanceType">The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: o min: 1 o max: 255</param>
+    /// <param name="OutpostArn">The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$</param>
+    public AwsRoute53resolverCreateOutpostResolverOptions(
+        string CreatorRequestId,
+        string Name,
+        string PreferredInstanceType,
+        string OutpostArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CreatorRequestId);
+        this.CreatorRequestId = CreatorRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(PreferredInstanceType);
+        this.PreferredInstanceType = PreferredInstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(OutpostArn);
+        this.OutpostArn = OutpostArn;
+    }
+
+    private AwsRoute53resolverCreateOutpostResolverOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverCreateOutpostResolverOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverCreateOutpostResolverOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--creator-request-id")]
+    public string? CreatorRequestId { get; private init; }
+
+    /// <summary>
+    /// A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon EC2 instance type. If you specify this, you must also specify a value for the OutpostArn . Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--preferred-instance-type")]
+    public string? PreferredInstanceType { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--outpost-arn")]
+    public string? OutpostArn { get; private init; }
 
     /// <summary>
     /// Number of Amazon EC2 instances for the Resolver on Outpost. The de- fault and minimal value is 4.
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
-
-    [CliOption("--preferred-instance-type")]
-    public string? PreferredInstanceType { get; set; }
-
-    [CliOption("--outpost-arn")]
-    public string? OutpostArn { get; set; }
 
     /// <summary>
     /// A string that helps identify the Route 53 Resolvers on Outpost. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -50,5 +108,21 @@ public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

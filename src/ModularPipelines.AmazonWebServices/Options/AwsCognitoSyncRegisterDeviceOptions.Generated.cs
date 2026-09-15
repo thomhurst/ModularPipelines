@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-sync", "register-device")]
-public record AwsCognitoSyncRegisterDeviceOptions : AwsOptions
+public record AwsCognitoSyncRegisterDeviceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a device to receive push sync notifications. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityId">The unique ID for this identity. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="Platform">The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX). Possible values: o APNS o APNS_SANDBOX o GCM o ADM</param>
+    /// <param name="Token">The push token.</param>
+    public AwsCognitoSyncRegisterDeviceOptions(
+        string IdentityPoolId,
+        string IdentityId,
+        AwsCognitoSyncRegisterDevicePlatform Platform,
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolId);
+        this.IdentityPoolId = IdentityPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityId);
+        this.IdentityId = IdentityId;
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsCognitoSyncRegisterDeviceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoSyncRegisterDeviceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoSyncRegisterDeviceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
     [CliOption("--identity-pool-id")]
-    public string? IdentityPoolId { get; set; }
+    public string? IdentityPoolId { get; private init; }
 
+    /// <summary>
+    /// The unique ID for this identity. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// </summary>
     [CliOption("--identity-id")]
-    public string? IdentityId { get; set; }
+    public string? IdentityId { get; private init; }
 
+    /// <summary>
+    /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX). Possible values: o APNS o APNS_SANDBOX o GCM o ADM
+    /// </summary>
     [CliOption("--platform")]
-    public string? Platform { get; set; }
+    public AwsCognitoSyncRegisterDevicePlatform? Platform { get; private init; }
 
+    /// <summary>
+    /// The push token.
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

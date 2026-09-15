@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "update-endpoint")]
-public record AwsComprehendUpdateEndpointOptions : AwsOptions
+public record AwsComprehendUpdateEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates information about the specified endpoint. For information about endpoints, see Managing endpoints . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    public AwsComprehendUpdateEndpointOptions(
+        string EndpointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointArn);
+        this.EndpointArn = EndpointArn;
+    }
+
+    private AwsComprehendUpdateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendUpdateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendUpdateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the endpoint being updated. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier-endpoint|entity-recognizer-end- point)/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
     [CliOption("--endpoint-arn")]
-    public string? EndpointArn { get; set; }
+    public string? EndpointArn { get; private init; }
 
     /// <summary>
     /// The ARN of the new model to use when updating an existing endpoint. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
@@ -53,5 +90,21 @@ public record AwsComprehendUpdateEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

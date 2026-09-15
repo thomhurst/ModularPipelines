@@ -10,25 +10,62 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds additional customer communication to an Amazon Web Services Sup- port case. Use the caseId parameter to identify the case to which to add communication. You can list a set of email addresses to copy on the communication by using the ccEmailAddresses parameter. The communica- tionBody value contains the text of the communication. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services...
+/// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "add-communication-to-case")]
-public record AwsSupportAddCommunicationToCaseOptions : AwsOptions
+public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
     /// <summary>
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
+    /// </summary>
+    /// <param name="CommunicationBody">The body of an email communication to add to the support case. Constraints: o min: 1 o max: 8000</param>
+    public AwsSupportAddCommunicationToCaseOptions(
+        string CommunicationBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CommunicationBody);
+        this.CommunicationBody = CommunicationBody;
+    }
+
+    private AwsSupportAddCommunicationToCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportAddCommunicationToCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportAddCommunicationToCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The body of an email communication to add to the support case. Constraints: o min: 1 o max: 8000
+    /// </summary>
+    [CliOption("--communication-body")]
+    public string? CommunicationBody { get; private init; }
+
+    /// <summary>
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; set; }
-
-    [CliOption("--communication-body")]
-    public string? CommunicationBody { get; set; }
 
     /// <summary>
     /// The email addresses in the CC line of an email to be added to the support case. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
@@ -37,15 +74,43 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>
-    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
+    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet . Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds .
     /// </summary>
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
+
+    /// <summary>
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--upload-ids", GroupValues = true)]
+    public IEnumerable<string>? UploadIds { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually adding the communication to the case. When set to true , the request is validated but the communication isn't added, and the operation re- turns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

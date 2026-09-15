@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-persistent-contact-association")]
-public record AwsConnectCreatePersistentContactAssociationOptions : AwsOptions
+public record AwsConnectCreatePersistentContactAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InitialContactId">This is the contactId of the current contact that the CreatePersis- tentContactAssociation API is being called from. Constraints: o min: 1 o max: 256</param>
+    /// <param name="RehydrationType">The contactId chosen for rehydration depends on the type chosen. o ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat ses- sion. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat. o FROM_SEGMENT : Rehydrates a chat from the specified past chat con- tact provided in the sourceContactId field. The actual contactId used for rehydration is provided in the re- sponse of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1 . Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2 . At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3 . Af- ter the chat survey, the chat session ends. Later, the customer re- turns and wants to resume their past chat session. At this point, the customer can have following use cases: o Use Case 1 : The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration: o Configuration o SourceContactId = "C2" o RehydrationType = "FROM_SEGMENT" o Expected behavior o This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat ses- sion. o Use Case 2 : The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following config- uration: o Configuration o SourceContactId = "C1" o RehydrationType = "ENTIRE_PAST_SESSION" o Expected behavior o This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat ses- sion. Possible values: o ENTIRE_PAST_SESSION o FROM_SEGMENT</param>
+    /// <param name="SourceContactId">The contactId from which a persistent chat session must be started. Constraints: o min: 1 o max: 256</param>
+    public AwsConnectCreatePersistentContactAssociationOptions(
+        string InstanceId,
+        string InitialContactId,
+        AwsConnectCreatePersistentContactAssociationRehydrationType RehydrationType,
+        string SourceContactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(InitialContactId);
+        this.InitialContactId = InitialContactId;
+        global::System.ArgumentNullException.ThrowIfNull(RehydrationType);
+        this.RehydrationType = RehydrationType;
+        global::System.ArgumentNullException.ThrowIfNull(SourceContactId);
+        this.SourceContactId = SourceContactId;
+    }
+
+    private AwsConnectCreatePersistentContactAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreatePersistentContactAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreatePersistentContactAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// This is the contactId of the current contact that the CreatePersis- tentContactAssociation API is being called from. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--initial-contact-id")]
-    public string? InitialContactId { get; set; }
+    public string? InitialContactId { get; private init; }
 
+    /// <summary>
+    /// The contactId chosen for rehydration depends on the type chosen. o ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat ses- sion. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat. o FROM_SEGMENT : Rehydrates a chat from the specified past chat con- tact provided in the sourceContactId field. The actual contactId used for rehydration is provided in the re- sponse of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1 . Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2 . At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3 . Af- ter the chat survey, the chat session ends. Later, the customer re- turns and wants to resume their past chat session. At this point, the customer can have following use cases: o Use Case 1 : The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration: o Configuration o SourceContactId = "C2" o RehydrationType = "FROM_SEGMENT" o Expected behavior o This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat ses- sion. o Use Case 2 : The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following config- uration: o Configuration o SourceContactId = "C1" o RehydrationType = "ENTIRE_PAST_SESSION" o Expected behavior o This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat ses- sion. Possible values: o ENTIRE_PAST_SESSION o FROM_SEGMENT
+    /// </summary>
     [CliOption("--rehydration-type")]
-    public string? RehydrationType { get; set; }
+    public AwsConnectCreatePersistentContactAssociationRehydrationType? RehydrationType { get; private init; }
 
+    /// <summary>
+    /// The contactId from which a persistent chat session must be started. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--source-contact-id")]
-    public string? SourceContactId { get; set; }
+    public string? SourceContactId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -46,5 +105,21 @@ public record AwsConnectCreatePersistentContactAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

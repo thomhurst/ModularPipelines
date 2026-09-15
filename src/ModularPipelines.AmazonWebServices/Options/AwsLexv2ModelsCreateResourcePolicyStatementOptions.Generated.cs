@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "create-resource-policy-statement")]
-public record AwsLexv2ModelsCreateResourcePolicyStatementOptions : AwsOptions
+public record AwsLexv2ModelsCreateResourcePolicyStatementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a new resource policy statement to a bot or bot alias. If a re- source policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="StatementId">The name of the statement. The ID is the same as the Sid IAM prop- erty. The statement name must be unique within the policy. For more information, see IAM JSON policy elements: Sid . Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="Effect">Determines whether the statement allows or denies access to the re- source. Possible values: o Allow o Deny</param>
+    /// <param name="Principal">An IAM principal, such as an IAM user, IAM role, or Amazon Web Ser- vices services that is allowed or denied access to a resource. For more information, see Amazon Web Services JSON policy elements: Principal . (structure) The IAM principal that you allowing or denying access to an Ama- zon Lex action. You must provide a service or an arn , but not both in the same statement. For more information, see AWS JSON policy elements: Principal . service -&gt; (string) The name of the Amazon Web Services service that should al- lowed or denied access to an Amazon Lex action. Constraints: o min: 15 o max: 1024 o pattern: ^[0-9a-zA-Z_.]+$ arn -&gt; (string) The Amazon Resource Name (ARN) of the principal. Constraints: o min: 30 o max: 1024 o pattern: ^arn:aws:iam::[0-9]{12}:(root|(user|role)/.*)$ Shorthand Syntax: service=string,arn=string ... JSON Syntax: [ { "service": "string", "arn": "string" } ... ]</param>
+    /// <param name="Action">The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see Actions, resources, and condition keys for Amazon Lex V2 . (string) Constraints: o min: 5 o max: 50 o pattern: lex:[a-zA-Z*]+$ Syntax: "string" "string" ...</param>
+    public AwsLexv2ModelsCreateResourcePolicyStatementOptions(
+        string ResourceArn,
+        string StatementId,
+        AwsLexv2ModelsCreateResourcePolicyStatementEffect Effect,
+        IEnumerable<string> Principal,
+        IEnumerable<string> Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+        global::System.ArgumentNullException.ThrowIfNull(Effect);
+        this.Effect = Effect;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Principal);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Principal));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Principal));
+            }
+
+            Principal = materialized;
+        }
+        this.Principal = Principal;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Action);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Action));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Action));
+            }
+
+            Action = materialized;
+        }
+        this.Action = Action;
+    }
+
+    private AwsLexv2ModelsCreateResourcePolicyStatementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsCreateResourcePolicyStatementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsCreateResourcePolicyStatementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the bot or bot alias that the re- source policy is attached to. Constraints: o min: 1 o max: 1011
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
+    /// <summary>
+    /// The name of the statement. The ID is the same as the Sid IAM prop- erty. The statement name must be unique within the policy. For more information, see IAM JSON policy elements: Sid . Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
+    /// <summary>
+    /// Determines whether the statement allows or denies access to the re- source. Possible values: o Allow o Deny
+    /// </summary>
     [CliOption("--effect")]
-    public string? Effect { get; set; }
+    public AwsLexv2ModelsCreateResourcePolicyStatementEffect? Effect { get; private init; }
 
+    /// <summary>
+    /// An IAM principal, such as an IAM user, IAM role, or Amazon Web Ser- vices services that is allowed or denied access to a resource. For more information, see Amazon Web Services JSON policy elements: Principal . (structure) The IAM principal that you allowing or denying access to an Ama- zon Lex action. You must provide a service or an arn , but not both in the same statement. For more information, see AWS JSON policy elements: Principal . service -&gt; (string) The name of the Amazon Web Services service that should al- lowed or denied access to an Amazon Lex action. Constraints: o min: 15 o max: 1024 o pattern: ^[0-9a-zA-Z_.]+$ arn -&gt; (string) The Amazon Resource Name (ARN) of the principal. Constraints: o min: 30 o max: 1024 o pattern: ^arn:aws:iam::[0-9]{12}:(root|(user|role)/.*)$ Shorthand Syntax: service=string,arn=string ... JSON Syntax: [ { "service": "string", "arn": "string" } ... ]
+    /// </summary>
     [CliOption("--principal", GroupValues = true)]
-    public IEnumerable<string>? Principal { get; set; }
+    public IEnumerable<string>? Principal { get; private init; }
 
+    /// <summary>
+    /// The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see Actions, resources, and condition keys for Amazon Lex V2 . (string) Constraints: o min: 5 o max: 50 o pattern: lex:[a-zA-Z*]+$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--action", GroupValues = true)]
-    public IEnumerable<string>? Action { get; set; }
+    public IEnumerable<string>? Action { get; private init; }
 
     /// <summary>
     /// Specifies a condition when the policy is in effect. If the principal of the policy is a service principal, you must provide two condition blocks, one with a SourceAccount global condition key and one with a SourceArn global condition key. For more information, see IAM JSON policy elements: Condition . Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 value -&gt; (map) Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
@@ -54,5 +142,21 @@ public record AwsLexv2ModelsCreateResourcePolicyStatementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

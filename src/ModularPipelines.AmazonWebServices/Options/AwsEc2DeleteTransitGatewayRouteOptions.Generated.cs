@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-transit-gateway-route")]
-public record AwsEc2DeleteTransitGatewayRouteOptions : AwsOptions
+public record AwsEc2DeleteTransitGatewayRouteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified route from the specified transit gateway route table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayRouteTableId">The ID of the transit gateway route table.</param>
+    /// <param name="DestinationCidrBlock">The CIDR range for the route. This must match the CIDR for the route exactly.</param>
+    public AwsEc2DeleteTransitGatewayRouteOptions(
+        string TransitGatewayRouteTableId,
+        string DestinationCidrBlock
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableId);
+        this.TransitGatewayRouteTableId = TransitGatewayRouteTableId;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationCidrBlock);
+        this.DestinationCidrBlock = DestinationCidrBlock;
+    }
+
+    private AwsEc2DeleteTransitGatewayRouteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteTransitGatewayRouteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteTransitGatewayRouteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway route table.
+    /// </summary>
     [CliOption("--transit-gateway-route-table-id")]
-    public string? TransitGatewayRouteTableId { get; set; }
+    public string? TransitGatewayRouteTableId { get; private init; }
 
+    /// <summary>
+    /// The CIDR range for the route. This must match the CIDR for the route exactly.
+    /// </summary>
     [CliOption("--destination-cidr-block")]
-    public string? DestinationCidrBlock { get; set; }
+    public string? DestinationCidrBlock { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsEc2DeleteTransitGatewayRouteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("evs", "disassociate-eip-from-vlan")]
-public record AwsEvsDisassociateEipFromVlanOptions : AwsOptions
+public record AwsEvsDisassociateEipFromVlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates an Elastic IP address from a public HCX VLAN. This opera- tion is only allowed for public HCX VLANs at this time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique ID for the environment containing the VLAN that the Elastic IP address disassociates from. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="VlanName">The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: o min: 1 o max: 200</param>
+    /// <param name="AssociationId">A unique ID for the Elastic IP address association. Constraints: o min: 9 o max: 26 o pattern: eipassoc-[a-zA-Z0-9_-]+</param>
+    public AwsEvsDisassociateEipFromVlanOptions(
+        string EnvironmentId,
+        string VlanName,
+        string AssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(VlanName);
+        this.VlanName = VlanName;
+        global::System.ArgumentNullException.ThrowIfNull(AssociationId);
+        this.AssociationId = AssociationId;
+    }
+
+    private AwsEvsDisassociateEipFromVlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEvsDisassociateEipFromVlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEvsDisassociateEipFromVlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique ID for the environment containing the VLAN that the Elastic IP address disassociates from. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// The name of the VLAN. hcx is the only accepted VLAN name at this time. Constraints: o min: 1 o max: 200
+    /// </summary>
+    [CliOption("--vlan-name")]
+    public string? VlanName { get; private init; }
+
+    /// <summary>
+    /// A unique ID for the Elastic IP address association. Constraints: o min: 9 o max: 26 o pattern: eipassoc-[a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--association-id")]
+    public string? AssociationId { get; private init; }
+
     /// <summary>
     /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not spec- ify a client token, a randomly generated token is used for the re- quest to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
     /// </summary>
@@ -29,19 +89,26 @@ public record AwsEvsDisassociateEipFromVlanOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliOption("--vlan-name")]
-    public string? VlanName { get; set; }
-
-    [CliOption("--association-id")]
-    public string? AssociationId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "get-experiment-run")]
-public record AwsAppConfigGetExperimentRunOptions : AwsOptions
+public record AwsAppConfigGetExperimentRunOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about an experiment run, including its status, start time, and exposure settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Run">The run number to retrieve. Constraints: o min: 1</param>
+    public AwsAppConfigGetExperimentRunOptions(
+        string ApplicationIdentifier,
+        string ExperimentDefinitionIdentifier,
+        int Run
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentDefinitionIdentifier);
+        this.ExperimentDefinitionIdentifier = ExperimentDefinitionIdentifier;
+        this.Run = Run;
+    }
+
+    private AwsAppConfigGetExperimentRunOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigGetExperimentRunOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigGetExperimentRunOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--experiment-definition-identifier")]
-    public string? ExperimentDefinitionIdentifier { get; set; }
+    public string? ExperimentDefinitionIdentifier { get; private init; }
 
+    /// <summary>
+    /// The run number to retrieve. Constraints: o min: 1
+    /// </summary>
     [CliOption("--run")]
-    public int? Run { get; set; }
+    public int? Run { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

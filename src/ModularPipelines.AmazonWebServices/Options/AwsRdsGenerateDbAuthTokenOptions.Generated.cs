@@ -21,13 +21,39 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("rds", "generate-db-auth-token")]
 public record AwsRdsGenerateDbAuthTokenOptions : AwsOptions
 {
+    /// <summary>
+    /// Generates an auth token used to connect to a db with IAM credentials.
+    /// </summary>
+    /// <param name="Hostname"></param>
+    /// <param name="Port"></param>
+    /// <param name="Username"></param>
+    public AwsRdsGenerateDbAuthTokenOptions(
+        string Hostname,
+        int Port,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        this.Port = Port;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Hostname, out int Port, out string Username)
+    {
+        Hostname = this.Hostname;
+        Port = this.Port;
+        Username = this.Username;
+    }
+
     [CliOption("--hostname")]
-    public string? Hostname { get; set; }
+    public string Hostname { get; private init; }
 
     [CliOption("--port")]
-    public int? Port { get; set; }
+    public int Port { get; private init; }
 
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string Username { get; private init; }
 
 }

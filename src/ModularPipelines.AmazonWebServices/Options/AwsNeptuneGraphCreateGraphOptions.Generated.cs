@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune-graph", "create-graph")]
-public record AwsNeptuneGraphCreateGraphOptions : AwsOptions
+public record AwsNeptuneGraphCreateGraphOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Neptune Analytics graph. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="ProvisionedMemory">The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576</param>
+    public AwsNeptuneGraphCreateGraphOptions(
+        string GraphName,
+        int ProvisionedMemory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphName);
+        this.GraphName = GraphName;
+        this.ProvisionedMemory = ProvisionedMemory;
+    }
+
+    private AwsNeptuneGraphCreateGraphOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneGraphCreateGraphOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneGraphCreateGraphOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--graph-name")]
-    public string? GraphName { get; set; }
+    public string? GraphName { get; private init; }
+
+    /// <summary>
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576
+    /// </summary>
+    [CliOption("--provisioned-memory")]
+    public int? ProvisionedMemory { get; private init; }
 
     /// <summary>
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -31,7 +77,10 @@ public record AwsNeptuneGraphCreateGraphOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--public-connectivity")]
+    /// <summary>
+    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable.
+    /// </summary>
+    [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
 
     /// <summary>
@@ -52,16 +101,32 @@ public record AwsNeptuneGraphCreateGraphOptions : AwsOptions
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Indicates whether or not to enable deletion protection on the graph. The graph cant be deleted when deletion protection is enabled. (true or false ).
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    [CliOption("--provisioned-memory")]
-    public int? ProvisionedMemory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

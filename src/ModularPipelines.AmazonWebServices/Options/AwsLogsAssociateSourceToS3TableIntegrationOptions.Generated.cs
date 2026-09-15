@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "associate-source-to-s3-table-integration")]
-public record AwsLogsAssociateSourceToS3TableIntegrationOptions : AwsOptions
+public record AwsLogsAssociateSourceToS3TableIntegrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--integration-arn")]
-    public string? IntegrationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the S3 Table Integration to asso- ciate the data source with.</param>
+    /// <param name="DataSource">The data source to associate with the S3 Table Integration. Contains the name and type of the data source. name -&gt; (string) [required] The name of the data source. type -&gt; (string) The type of the data source. Shorthand Syntax: name=string,type=string JSON Syntax: { "name": "string", "type": "string" }</param>
+    public AwsLogsAssociateSourceToS3TableIntegrationOptions(
+        string IntegrationArn,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationArn);
+        this.IntegrationArn = IntegrationArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsLogsAssociateSourceToS3TableIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsAssociateSourceToS3TableIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsAssociateSourceToS3TableIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the S3 Table Integration to asso- ciate the data source with.
+    /// </summary>
+    [CliOption("--integration-arn")]
+    public string? IntegrationArn { get; private init; }
+
+    /// <summary>
+    /// The data source to associate with the S3 Table Integration. Contains the name and type of the data source. name -&gt; (string) [required] The name of the data source. type -&gt; (string) The type of the data source. Shorthand Syntax: name=string,type=string JSON Syntax: { "name": "string", "type": "string" }
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public string? DataSource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

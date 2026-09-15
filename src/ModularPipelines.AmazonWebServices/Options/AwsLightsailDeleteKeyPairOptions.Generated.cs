@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "delete-key-pair")]
-public record AwsLightsailDeleteKeyPairOptions : AwsOptions
+public record AwsLightsailDeleteKeyPairOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API. The delete key pair operation supports tag-based access control via re- source tags applied to the resource identified by key p...
+    /// </summary>
+    /// <param name="KeyPairName">The name of the key pair to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailDeleteKeyPairOptions(
+        string KeyPairName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyPairName);
+        this.KeyPairName = KeyPairName;
+    }
+
+    private AwsLightsailDeleteKeyPairOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailDeleteKeyPairOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailDeleteKeyPairOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the key pair to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--key-pair-name")]
-    public string? KeyPairName { get; set; }
+    public string? KeyPairName { get; private init; }
 
     /// <summary>
     /// The RSA fingerprint of the Lightsail default key pair to delete. NOTE: The expectedFingerprint parameter is required only when specify- ing to delete a Lightsail default key pair.
@@ -35,5 +72,21 @@ public record AwsLightsailDeleteKeyPairOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

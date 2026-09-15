@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "create-phone-number-order")]
-public record AwsChimeCreatePhoneNumberOrderOptions : AwsOptions
+public record AwsChimeCreatePhoneNumberOrderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--product-type")]
-    public string? ProductType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductType">The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn</param>
+    /// <param name="E164PhoneNumbers">List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...</param>
+    public AwsChimeCreatePhoneNumberOrderOptions(
+        AwsChimeCreatePhoneNumberOrderProductType ProductType,
+        IEnumerable<string> E164PhoneNumbers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductType);
+        this.ProductType = ProductType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(E164PhoneNumbers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(E164PhoneNumbers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(E164PhoneNumbers));
+            }
+
+            E164PhoneNumbers = materialized;
+        }
+        this.E164PhoneNumbers = E164PhoneNumbers;
+    }
+
+    private AwsChimeCreatePhoneNumberOrderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeCreatePhoneNumberOrderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeCreatePhoneNumberOrderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number product type. Possible values: o BusinessCalling o VoiceConnector o SipMediaApplicationDialIn
+    /// </summary>
+    [CliOption("--product-type")]
+    public AwsChimeCreatePhoneNumberOrderProductType? ProductType { get; private init; }
+
+    /// <summary>
+    /// List of phone numbers, in E.164 format. (string) Constraints: o pattern: ^\+?[1-9]\d{1,14}$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--e164-phone-numbers", GroupValues = true)]
-    public IEnumerable<string>? E164PhoneNumbers { get; set; }
+    public IEnumerable<string>? E164PhoneNumbers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "evaluate-code")]
-public record AwsAppsyncEvaluateCodeOptions : AwsOptions
+public record AwsAppsyncEvaluateCodeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request func- tion takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type. See also: A...
+    /// </summary>
+    /// <param name="Runtime">The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }</param>
+    /// <param name="Code">The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768</param>
+    /// <param name="Context">The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$</param>
+    public AwsAppsyncEvaluateCodeOptions(
+        string Runtime,
+        string Code,
+        string Context
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Runtime);
+        this.Runtime = Runtime;
+        global::System.ArgumentNullException.ThrowIfNull(Code);
+        this.Code = Code;
+        global::System.ArgumentNullException.ThrowIfNull(Context);
+        this.Context = Context;
+    }
+
+    private AwsAppsyncEvaluateCodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncEvaluateCodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncEvaluateCodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The runtime to be used when evaluating the code. Currently, only the APPSYNC_JS runtime is supported. name -&gt; (string) [required] The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS . Possible values: o APPSYNC_JS runtimeVersion -&gt; (string) [required] The version of the runtime to use. Currently, the only allowed version is 1.0.0 . Shorthand Syntax: name=string,runtimeVersion=string JSON Syntax: { "name": "APPSYNC_JS", "runtimeVersion": "string" }
+    /// </summary>
     [CliOption("--runtime")]
-    public string? Runtime { get; set; }
+    public string? Runtime { get; private init; }
 
+    /// <summary>
+    /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS . Constraints: o min: 1 o max: 32768
+    /// </summary>
     [CliOption("--code")]
-    public string? Code { get; set; }
+    public string? Code { get; private init; }
 
+    /// <summary>
+    /// The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$
+    /// </summary>
     [CliOption("--context")]
-    public string? Context { get; set; }
+    public string? Context { get; private init; }
 
     /// <summary>
     /// The function within the code to be evaluated. If provided, the valid values are request and response .
@@ -41,5 +92,21 @@ public record AwsAppsyncEvaluateCodeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

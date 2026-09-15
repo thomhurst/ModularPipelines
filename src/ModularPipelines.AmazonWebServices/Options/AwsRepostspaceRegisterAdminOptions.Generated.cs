@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repostspace", "register-admin")]
-public record AwsRepostspaceRegisterAdminOptions : AwsOptions
+public record AwsRepostspaceRegisterAdminOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--space-id")]
-    public string? SpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a user or group to the list of administrators of the private re:Post. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpaceId">The ID of the private re:Post.</param>
+    /// <param name="AdminId">The ID of the administrator.</param>
+    public AwsRepostspaceRegisterAdminOptions(
+        string SpaceId,
+        string AdminId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceId);
+        this.SpaceId = SpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(AdminId);
+        this.AdminId = AdminId;
+    }
+
+    private AwsRepostspaceRegisterAdminOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRepostspaceRegisterAdminOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRepostspaceRegisterAdminOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the private re:Post.
+    /// </summary>
+    [CliOption("--space-id")]
+    public string? SpaceId { get; private init; }
+
+    /// <summary>
+    /// The ID of the administrator.
+    /// </summary>
     [CliOption("--admin-id")]
-    public string? AdminId { get; set; }
+    public string? AdminId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

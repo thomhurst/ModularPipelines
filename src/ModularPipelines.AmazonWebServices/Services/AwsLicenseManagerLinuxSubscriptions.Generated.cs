@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -40,11 +40,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeregisterSubscriptionProviderAsync(
-        AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRegisteredSubscriptionProviderAsync(
-        AwsLicenseManagerLinuxSubscriptionsGetRegisteredSubscriptionProviderOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsGetRegisteredSubscriptionProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsGetRegisteredSubscriptionProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListRegisteredSubscriptionProvidersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListRegisteredSubscriptionProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsLicenseManagerLinuxSubscriptionsListTagsForResourceOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterSubscriptionProviderAsync(
-        AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsLicenseManagerLinuxSubscriptionsTagResourceOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsLicenseManagerLinuxSubscriptionsUntagResourceOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +190,11 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateServiceSettingsAsync(
-        AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions? options = null,
+        AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

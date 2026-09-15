@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "associate-queue-email-addresses")]
-public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions
+public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to in- bound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know o You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. o The email addresses must alre...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="QueueId">The identifier for the queue.</param>
+    /// <param name="EmailAddressesConfig">Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]</param>
+    public AwsConnectAssociateQueueEmailAddressesOptions(
+        string InstanceId,
+        string QueueId,
+        IEnumerable<string> EmailAddressesConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(QueueId);
+        this.QueueId = QueueId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EmailAddressesConfig);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EmailAddressesConfig));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EmailAddressesConfig));
+            }
+
+            EmailAddressesConfig = materialized;
+        }
+        this.EmailAddressesConfig = EmailAddressesConfig;
+    }
+
+    private AwsConnectAssociateQueueEmailAddressesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectAssociateQueueEmailAddressesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectAssociateQueueEmailAddressesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier for the queue.
+    /// </summary>
     [CliOption("--queue-id")]
-    public string? QueueId { get; set; }
+    public string? QueueId { get; private init; }
 
+    /// <summary>
+    /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes. Constraints: o min: 1 o max: 50 (structure) Configuration object that specifies an email address to be asso- ciated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts. EmailAddressId -&gt; (string) [required] The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue. Constraints: o min: 1 o max: 500 Shorthand Syntax: EmailAddressId=string ... JSON Syntax: [ { "EmailAddressId": "string" } ... ]
+    /// </summary>
     [CliOption("--email-addresses-config", GroupValues = true)]
-    public IEnumerable<string>? EmailAddressesConfig { get; set; }
+    public IEnumerable<string>? EmailAddressesConfig { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
@@ -43,5 +105,21 @@ public record AwsConnectAssociateQueueEmailAddressesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,64 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-replication-group-shard-configuration")]
-public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : AwsOptions
+public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReplicationGroupId">The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.</param>
+    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modifica- tion of the shard configuration.</param>
+    /// <param name="ApplyImmediately">Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true . Value: true</param>
+    public AwsElasticacheModifyReplicationGroupShardConfigurationOptions(
+        string ReplicationGroupId,
+        int NodeGroupCount,
+        bool ApplyImmediately
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationGroupId);
+        this.ReplicationGroupId = ReplicationGroupId;
+        this.NodeGroupCount = NodeGroupCount;
+        this.ApplyImmediately = ApplyImmediately;
+    }
+
+    private AwsElasticacheModifyReplicationGroupShardConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyReplicationGroupShardConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyReplicationGroupShardConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+    /// </summary>
     [CliOption("--replication-group-id")]
-    public string? ReplicationGroupId { get; set; }
+    public string? ReplicationGroupId { get; private init; }
 
+    /// <summary>
+    /// The number of node groups (shards) that results from the modifica- tion of the shard configuration.
+    /// </summary>
     [CliOption("--node-group-count")]
-    public int? NodeGroupCount { get; set; }
+    public int? NodeGroupCount { get; private init; }
 
-    [CliFlag("--apply-immediately")]
-    public bool? ApplyImmediately { get; set; }
+    /// <summary>
+    /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true . Value: true
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
+    public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
     /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the cur- rent number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards). (structure) A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) Shorthand Syntax: NodeGroupId=string,PreferredAvailabilityZones=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ]
@@ -53,5 +102,21 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

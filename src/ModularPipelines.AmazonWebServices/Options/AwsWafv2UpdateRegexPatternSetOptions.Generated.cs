@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "update-regex-pattern-set")]
-public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions
+public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified RegexPatternSet . NOTE: This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following: o Retrieve it by calling GetRegexPatternSet o Update its settings as needed o Provide the complete regex pattern set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the c...
+    /// </summary>
+    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="Id">A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="RegularExpressionList">(structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
+    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    public AwsWafv2UpdateRegexPatternSetOptions(
+        string Name,
+        AwsWafv2UpdateRegexPatternSetScope Scope,
+        string Id,
+        IEnumerable<string> RegularExpressionList,
+        string LockToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RegularExpressionList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RegularExpressionList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RegularExpressionList));
+            }
+
+            RegularExpressionList = materialized;
+        }
+        this.RegularExpressionList = RegularExpressionList;
+        global::System.ArgumentNullException.ThrowIfNull(LockToken);
+        this.LockToken = LockToken;
+    }
+
+    private AwsWafv2UpdateRegexPatternSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2UpdateRegexPatternSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2UpdateRegexPatternSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2UpdateRegexPatternSetScope? Scope { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
+    /// </summary>
+    [CliOption("--regular-expression-list", GroupValues = true)]
+    public IEnumerable<string>? RegularExpressionList { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--lock-token")]
+    public string? LockToken { get; private init; }
 
     /// <summary>
     /// A description of the set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
@@ -37,17 +121,26 @@ public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--regular-expression-list", GroupValues = true)]
-    public IEnumerable<string>? RegularExpressionList { get; set; }
-
-    [SecretValue]
-    [CliOption("--lock-token")]
-    public string? LockToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

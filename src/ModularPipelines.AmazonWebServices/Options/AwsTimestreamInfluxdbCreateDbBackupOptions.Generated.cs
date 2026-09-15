@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-influxdb", "create-db-backup")]
-public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions
+public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new on-demand backup of a Timestream for InfluxDB resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the backup. Must be unique within the account and re- gion. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="DbResourceId">The id of the DB instance or DB cluster to back up. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    public AwsTimestreamInfluxdbCreateDbBackupOptions(
+        string Name,
+        string DbResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DbResourceId);
+        this.DbResourceId = DbResourceId;
+    }
+
+    private AwsTimestreamInfluxdbCreateDbBackupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbBackupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbBackupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the backup. Must be unique within the account and re- gion. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The id of the DB instance or DB cluster to back up. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--db-resource-id")]
-    public string? DbResourceId { get; set; }
+    public string? DbResourceId { get; private init; }
 
     /// <summary>
     /// The number of days to retain the backup. Valid values are 1 to 3650. Constraints: o min: 1 o max: 3650
@@ -45,5 +89,21 @@ public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

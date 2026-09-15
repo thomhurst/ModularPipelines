@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,12 +21,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cost-optimization-hub", "update-enrollment-status")]
-public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions
+public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--status")]
-    public string? Status { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--include-member-accounts")]
+    /// <summary>
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimiza- tion Hub and to view its recommendations. When you opt in, Cost Opti- mization Hub automatically creates a service-linked role in your ac- count to access its data. See also: AWS API Documenta...
+    /// </summary>
+    /// <param name="Status">Sets the account status. Possible values: o Active o Inactive</param>
+    public AwsCostOptimizationHubUpdateEnrollmentStatusOptions(
+        AwsCostOptimizationHubUpdateEnrollmentStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsCostOptimizationHubUpdateEnrollmentStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCostOptimizationHubUpdateEnrollmentStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCostOptimizationHubUpdateEnrollmentStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Sets the account status. Possible values: o Active o Inactive
+    /// </summary>
+    [CliOption("--status")]
+    public AwsCostOptimizationHubUpdateEnrollmentStatusStatus? Status { get; private init; }
+
+    /// <summary>
+    /// Indicates whether to enroll member accounts of the organization if the account is the management account or delegated administrator.
+    /// </summary>
+    [CliFlag("--include-member-accounts", NegatedName = "--no-include-member-accounts")]
     public bool? IncludeMemberAccounts { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -32,5 +73,21 @@ public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

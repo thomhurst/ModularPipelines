@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --assetmodeltype.
+/// Allowed values for --asset-model-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotsitewiseCreateAssetModelAssetModelType
 {
     [EnumValue("ASSET_MODEL")]
-    AssetModel = 1,
+    AssetModel,
 
     [EnumValue("COMPONENT_MODEL")]
-    ComponentModel = 2,
+    ComponentModel,
 
     [EnumValue("INTERFACE")]
-    Interface = 3
+    Interface
 }

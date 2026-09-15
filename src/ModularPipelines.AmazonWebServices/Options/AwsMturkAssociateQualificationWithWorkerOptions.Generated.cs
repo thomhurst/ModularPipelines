@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "associate-qualification-with-worker")]
-public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions
+public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--qualification-type-id")]
-    public string? QualificationTypeId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The AssociateQualificationWithWorker operation gives a Worker a Quali- fication. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification di- rectly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). NOTE: Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assi...
+    /// </summary>
+    /// <param name="QualificationTypeId">The ID of the Qualification type to use for the assigned Qualifica- tion. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="WorkerId">The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualifi- cation requests. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    public AwsMturkAssociateQualificationWithWorkerOptions(
+        string QualificationTypeId,
+        string WorkerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QualificationTypeId);
+        this.QualificationTypeId = QualificationTypeId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkerId);
+        this.WorkerId = WorkerId;
+    }
+
+    private AwsMturkAssociateQualificationWithWorkerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkAssociateQualificationWithWorkerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkAssociateQualificationWithWorkerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Qualification type to use for the assigned Qualifica- tion. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--qualification-type-id")]
+    public string? QualificationTypeId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualifi- cation requests. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// </summary>
     [CliOption("--worker-id")]
-    public string? WorkerId { get; set; }
+    public string? WorkerId { get; private init; }
 
     /// <summary>
     /// The value of the Qualification to assign.
@@ -33,7 +77,10 @@ public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions
     [CliOption("--integer-value")]
     public int? IntegerValue { get; set; }
 
-    [CliFlag("--send-notification")]
+    /// <summary>
+    /// Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default.
+    /// </summary>
+    [CliFlag("--send-notification", NegatedName = "--no-send-notification")]
     public bool? SendNotification { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsMturkAssociateQualificationWithWorkerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

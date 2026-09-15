@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-glue-identity-center-configuration")]
-public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions
+public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authenti- cation and authorization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: o min: 10 o max: 1224</param>
+    public AwsGlueCreateGlueIdentityCenterConfigurationOptions(
+        string InstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+    }
+
+    private AwsGlueCreateGlueIdentityCenterConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateGlueIdentityCenterConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateGlueIdentityCenterConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration. Constraints: o min: 10 o max: 1224
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
     /// <summary>
     /// A list of Identity Center scopes that define the permissions and ac- cess levels for the Glue configuration. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 50 Syntax: "string" "string" ...
@@ -30,7 +67,10 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }
 
-    [CliFlag("--user-background-sessions-enabled")]
+    /// <summary>
+    /// abled (boolean) Specifies whether users can run background sessions when using Iden- tity Center authentication with Glue services.
+    /// </summary>
+    [CliFlag("--user-background-sessions-enabled", NegatedName = "--no-user-background-sessions-enabled")]
     public bool? UserBackgroundSessionsEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsGlueCreateGlueIdentityCenterConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

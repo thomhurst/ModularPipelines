@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "get-usage-plan-key")]
-public record AwsApigatewayGetUsagePlanKeyOptions : AwsOptions
+public record AwsApigatewayGetUsagePlanKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--usage-plan-id")]
-    public string? UsagePlanId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a usage plan key of a given key identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UsagePlanId">The Id of the UsagePlan resource representing the usage plan con- taining the to-be-retrieved UsagePlanKey resource representing a plan customer.</param>
+    /// <param name="KeyId">The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.</param>
+    public AwsApigatewayGetUsagePlanKeyOptions(
+        string UsagePlanId,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UsagePlanId);
+        this.UsagePlanId = UsagePlanId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    private AwsApigatewayGetUsagePlanKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayGetUsagePlanKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayGetUsagePlanKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Id of the UsagePlan resource representing the usage plan con- taining the to-be-retrieved UsagePlanKey resource representing a plan customer.
+    /// </summary>
+    [CliOption("--usage-plan-id")]
+    public string? UsagePlanId { get; private init; }
+
+    /// <summary>
+    /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

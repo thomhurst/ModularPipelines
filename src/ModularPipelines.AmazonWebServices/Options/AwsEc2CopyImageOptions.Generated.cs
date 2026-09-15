@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "copy-image")]
-public record AwsEc2CopyImageOptions : AwsOptions
+public record AwsEc2CopyImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies: o Region to Region o Region to Outpost o Parent Region to Local Zone o Local Zone to parent Region o Between Local Zones with the same parent Region (only supported for certain Local Zones) CopyImage does not support the following source to destination copie...
+    /// </summary>
+    /// <param name="Name">The name of the new AMI. Constraints: o min: 3 o max: 128</param>
+    /// <param name="SourceImageId">The ID of the AMI to copy.</param>
+    /// <param name="SourceRegion">The name of the Region that contains the AMI to copy.</param>
+    public AwsEc2CopyImageOptions(
+        string Name,
+        string SourceImageId,
+        string SourceRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(SourceImageId);
+        this.SourceImageId = SourceImageId;
+        global::System.ArgumentNullException.ThrowIfNull(SourceRegion);
+        this.SourceRegion = SourceRegion;
+    }
+
+    private AwsEc2CopyImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CopyImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CopyImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new AMI. Constraints: o min: 3 o max: 128
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the AMI to copy.
+    /// </summary>
+    [CliOption("--source-image-id")]
+    public string? SourceImageId { get; private init; }
+
+    /// <summary>
+    /// The name of the Region that contains the AMI to copy.
+    /// </summary>
+    [CliOption("--source-region")]
+    public string? SourceRegion { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference . Constraints: o min: 0 o max: 128
     /// </summary>
@@ -35,7 +95,10 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--encrypted")]
+    /// <summary>
+    /// Specifies whether to encrypt the snapshots of the copied image. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Man- agement Service (KMS) KMS key using KmsKeyId . For more information, see Use encryption with EBS-backed AMIs in the Amazon EC2 User Guide .
+    /// </summary>
+    [CliFlag("--encrypted", NegatedName = "--no-encrypted")]
     public bool? Encrypted { get; set; }
 
     /// <summary>
@@ -44,22 +107,16 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--source-image-id")]
-    public string? SourceImageId { get; set; }
-
-    [CliOption("--source-region")]
-    public string? SourceRegion { get; set; }
-
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Outpost for the new AMI. Only specify this parameter when copying an AMI from an Amazon Web Services Region to an Outpost. The AMI must be in the Region of the destination Outpost. You can't copy an AMI from an Outpost to a Re- gion, from one Outpost to another, or within the same Outpost. For more information, see Copy AMIs from an Amazon Web Services Re- gion to an Outpost in the Amazon EBS User Guide . Only one of DestinationAvailabilityZone , DestinationAvailability- ZoneId , or DestinationOutpostArn can be specified.
     /// </summary>
     [CliOption("--destination-outpost-arn")]
     public string? DestinationOutpostArn { get; set; }
 
-    [CliFlag("--copy-image-tags")]
+    /// <summary>
+    /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied: o System tags (prefixed with aws: ) o For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts Default: Your user-defined AMI tags are not copied.
+    /// </summary>
+    [CliFlag("--copy-image-tags", NegatedName = "--no-copy-image-tags")]
     public bool? CopyImageTags { get; set; }
 
     /// <summary>
@@ -86,7 +143,10 @@ public record AwsEc2CopyImageOptions : AwsOptions
     [CliOption("--destination-availability-zone-id")]
     public string? DestinationAvailabilityZoneId { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -94,5 +154,21 @@ public record AwsEc2CopyImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

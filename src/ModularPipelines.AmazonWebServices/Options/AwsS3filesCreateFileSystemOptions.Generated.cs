@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3files", "create-file-system")]
-public record AwsS3filesCreateFileSystemOptions : AwsOptions
+public record AwsS3filesCreateFileSystemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an S3 File System resource scoped to a bucket or prefix within a bucket, enabling file system access to S3 data. To create a file sys- tem, you need an S3 bucket and an IAM role that grants the service per- mission to access the bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Bucket">The Amazon Resource Name (ARN) of the S3 bucket that will be acces- sible through the file system. The bucket must exist and be in the same Amazon Web Services Region as the file system. Constraints: o pattern: (arn:aws[a-zA-Z0-9-]*:s3:::.+)</param>
+    /// <param name="RoleArn">The ARN of the IAM role that grants the S3 Files service permission to read and write data between the file system and the S3 bucket. This role must have the necessary permissions to access the speci- fied bucket and prefix. Constraints: o min: 0 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsS3filesCreateFileSystemOptions(
+        string Bucket,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsS3filesCreateFileSystemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3filesCreateFileSystemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3filesCreateFileSystemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the S3 bucket that will be acces- sible through the file system. The bucket must exist and be in the same Amazon Web Services Region as the file system. Constraints: o pattern: (arn:aws[a-zA-Z0-9-]*:s3:::.+)
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role that grants the S3 Files service permission to read and write data between the file system and the S3 bucket. This role must have the necessary permissions to access the speci- fied bucket and prefix. Constraints: o min: 0 o max: 2048 o pattern: arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// An optional prefix within the S3 bucket to scope the file system ac- cess. If specified, the file system provides access only to objects with keys that begin with this prefix. If not specified, the file system provides access to the entire bucket. Constraints: o min: 0 o max: 1024 o pattern: (|.*/)
@@ -44,16 +91,16 @@ public record AwsS3filesCreateFileSystemOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     /// <summary>
     /// An array of key-value pairs to apply as tags to the file system re- source. Each tag is a user-defined key-value pair. You can use tags to categorize and manage your file systems. Each key must be unique for the resource. Constraints: o min: 1 o max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliFlag("--accept-bucket-warning")]
+    /// <summary>
+    /// Set to true to acknowledge and accept any warnings about the bucket configuration. If not specified, the operation may fail if there are bucket configuration warnings.
+    /// </summary>
+    [CliFlag("--accept-bucket-warning", NegatedName = "--no-accept-bucket-warning")]
     public bool? AcceptBucketWarning { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -61,5 +108,21 @@ public record AwsS3filesCreateFileSystemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

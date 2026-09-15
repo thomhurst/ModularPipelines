@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repostspace", "update-channel")]
-public record AwsRepostspaceUpdateChannelOptions : AwsOptions
+public record AwsRepostspaceUpdateChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an existing channel. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpaceId">The unique ID of the private re:Post.</param>
+    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24</param>
+    /// <param name="ChannelName">The name for the channel. This must be unique per private re:Post. Constraints: o min: 1 o max: 64</param>
+    public AwsRepostspaceUpdateChannelOptions(
+        string SpaceId,
+        string ChannelId,
+        string ChannelName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceId);
+        this.SpaceId = SpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelId);
+        this.ChannelId = ChannelId;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+    }
+
+    private AwsRepostspaceUpdateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRepostspaceUpdateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRepostspaceUpdateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the private re:Post.
+    /// </summary>
     [CliOption("--space-id")]
-    public string? SpaceId { get; set; }
+    public string? SpaceId { get; private init; }
 
+    /// <summary>
+    /// The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24
+    /// </summary>
     [CliOption("--channel-id")]
-    public string? ChannelId { get; set; }
+    public string? ChannelId { get; private init; }
 
+    /// <summary>
+    /// The name for the channel. This must be unique per private re:Post. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
     /// <summary>
     /// A description for the channel. This is used only to help you iden- tify this channel. Constraints: o min: 1 o max: 255
@@ -41,5 +92,21 @@ public record AwsRepostspaceUpdateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

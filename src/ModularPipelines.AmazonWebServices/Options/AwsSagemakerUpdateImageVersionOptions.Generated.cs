@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-image-version")]
-public record AwsSagemakerUpdateImageVersionOptions : AwsOptions
+public record AwsSagemakerUpdateImageVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of a SageMaker AI image version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageName">The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateImageVersionOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    private AwsSagemakerUpdateImageVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateImageVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateImageVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--image-name")]
-    public string? ImageName { get; set; }
+    public string? ImageName { get; private init; }
 
     /// <summary>
     /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
@@ -73,7 +110,10 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions
     [CliOption("--processor")]
     public AwsSagemakerUpdateImageVersionProcessor? Processor { get; set; }
 
-    [CliFlag("--horovod")]
+    /// <summary>
+    /// Indicates Horovod compatibility.
+    /// </summary>
+    [CliFlag("--horovod", NegatedName = "--no-horovod")]
     public bool? Horovod { get; set; }
 
     /// <summary>
@@ -93,5 +133,21 @@ public record AwsSagemakerUpdateImageVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

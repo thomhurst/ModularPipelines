@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-website")]
-public record AwsS3apiPutBucketWebsiteOptions : AwsOptions
+public record AwsS3apiPutBucketWebsiteOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets the configuration of the website that is specified in the website subresource. To configure a bucket as a website, you can add this sub- resource on the bucket with website configuration information such as the file name of the index document and any redirect rules. For more information, see Hosting Websites on Amazon S3 . This PUT action requires the S3:PutBucketWebsite permission. By de- fault, only the bucket owner can configur...
+    /// </summary>
+    /// <param name="Bucket">The bucket name.</param>
+    /// <param name="WebsiteConfiguration">Container for the request. ErrorDocument -&gt; (structure) The name of the error document for the website. Key -&gt; (string) [required] The object key name to use when a 4XX class error occurs. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Constraints: o min: 1 IndexDocument -&gt; (structure) The name of the index document for the website. Suffix -&gt; (string) [required] A suffix that is appended to a request that is for a direc- tory on the website endpoint. (For example, if the suffix is index.html and you make a request to samplebucket/images/ , the data that is returned will be for the object with the key name images/index.html .) The suffix must not be empty and must not include a slash character. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . RedirectAllRequestsTo -&gt; (structure) The redirect behavior for every request to this bucket's website endpoint. WARNING: If you specify this property, you can't specify any other property. HostName -&gt; (string) [required] Name of the host where requests are redirected. Protocol -&gt; (string) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Possible values: o http o https RoutingRules -&gt; (list) Rules that define when a redirect is applied and the redirect behavior. (structure) Specifies the redirect behavior and when a redirect is ap- plied. For more information about routing rules, see Configuring advanced conditional redirects in the Amazon S3 User Guide . Condition -&gt; (structure) A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error. HttpErrorCodeReturnedEquals -&gt; (string) The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Re- quired when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied. KeyPrefixEquals -&gt; (string) The object key name prefix when the redirect is ap- plied. For example, to redirect requests for Exam- plePage.html , the key prefix will be ExamplePage.html . To redirect request for all pages with the prefix docs/ , the key prefix will be /docs , which identi- fies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Redirect -&gt; (structure) [required] Container for redirect information. You can redirect re- quests to another host, to another page, or with another protocol. In the event of an error, you can specify a different error code to return. HostName -&gt; (string) The host name to use in the redirect request. HttpRedirectCode -&gt; (string) The HTTP redirect code to use on the response. Not re- quired if one of the siblings is present. Protocol -&gt; (string) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Possible values: o http o https ReplaceKeyPrefixWith -&gt; (string) The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to docu- ments/ , you can set a condition block with KeyPrefix- Equals set to docs/ and in the Redirect set Re- placeKeyPrefixWith to /documents . Not required if one of the siblings is present. Can be present only if Re- placeKeyWith is not provided. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . ReplaceKeyWith -&gt; (string) The specific object key to use in the redirect re- quest. For example, redirect request to error.html . Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . JSON Syntax: { "ErrorDocument": { "Key": "string" }, "IndexDocument": { "Suffix": "string" }, "RedirectAllRequestsTo": { "HostName": "string", "Protocol": "http"|"https" }, "RoutingRules": [ { "Condition": { "HttpErrorCodeReturnedEquals": "string", "KeyPrefixEquals": "string" }, "Redirect": { "HostName": "string", "HttpRedirectCode": "string", "Protocol": "http"|"https", "ReplaceKeyPrefixWith": "string", "ReplaceKeyWith": "string" } } ... ] }</param>
+    public AwsS3apiPutBucketWebsiteOptions(
+        string Bucket,
+        string WebsiteConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(WebsiteConfiguration);
+        this.WebsiteConfiguration = WebsiteConfiguration;
+    }
+
+    private AwsS3apiPutBucketWebsiteOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketWebsiteOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketWebsiteOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for the request. ErrorDocument -&gt; (structure) The name of the error document for the website. Key -&gt; (string) [required] The object key name to use when a 4XX class error occurs. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Constraints: o min: 1 IndexDocument -&gt; (structure) The name of the index document for the website. Suffix -&gt; (string) [required] A suffix that is appended to a request that is for a direc- tory on the website endpoint. (For example, if the suffix is index.html and you make a request to samplebucket/images/ , the data that is returned will be for the object with the key name images/index.html .) The suffix must not be empty and must not include a slash character. WARNING: Replacement must be made for object keys containing spe- cial characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . RedirectAllRequestsTo -&gt; (structure) The redirect behavior for every request to this bucket's website endpoint. WARNING: If you specify this property, you can't specify any other property. HostName -&gt; (string) [required] Name of the host where requests are redirected. Protocol -&gt; (string) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Possible values: o http o https RoutingRules -&gt; (list) Rules that define when a redirect is applied and the redirect behavior. (structure) Specifies the redirect behavior and when a redirect is ap- plied. For more information about routing rules, see Configuring advanced conditional redirects in the Amazon S3 User Guide . Condition -&gt; (structure) A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error. HttpErrorCodeReturnedEquals -&gt; (string) The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Re- quired when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied. KeyPrefixEquals -&gt; (string) The object key name prefix when the redirect is ap- plied. For example, to redirect requests for Exam- plePage.html , the key prefix will be ExamplePage.html . To redirect request for all pages with the prefix docs/ , the key prefix will be /docs , which identi- fies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . Redirect -&gt; (structure) [required] Container for redirect information. You can redirect re- quests to another host, to another page, or with another protocol. In the event of an error, you can specify a different error code to return. HostName -&gt; (string) The host name to use in the redirect request. HttpRedirectCode -&gt; (string) The HTTP redirect code to use on the response. Not re- quired if one of the siblings is present. Protocol -&gt; (string) Protocol to use when redirecting requests. The default is the protocol that is used in the original request. Possible values: o http o https ReplaceKeyPrefixWith -&gt; (string) The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to docu- ments/ , you can set a condition block with KeyPrefix- Equals set to docs/ and in the Redirect set Re- placeKeyPrefixWith to /documents . Not required if one of the siblings is present. Can be present only if Re- placeKeyWith is not provided. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . ReplaceKeyWith -&gt; (string) The specific object key to use in the redirect re- quest. For example, redirect request to error.html . Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided. WARNING: Replacement must be made for object keys contain- ing special characters (such as carriage returns) when using XML requests. For more information, see XML related object key constraints . JSON Syntax: { "ErrorDocument": { "Key": "string" }, "IndexDocument": { "Suffix": "string" }, "RedirectAllRequestsTo": { "HostName": "string", "Protocol": "http"|"https" }, "RoutingRules": [ { "Condition": { "HttpErrorCodeReturnedEquals": "string", "KeyPrefixEquals": "string" }, "Redirect": { "HostName": "string", "HttpRedirectCode": "string", "Protocol": "http"|"https", "ReplaceKeyPrefixWith": "string", "ReplaceKeyWith": "string" } } ... ] }
+    /// </summary>
+    [CliOption("--website-configuration")]
+    public string? WebsiteConfiguration { get; private init; }
 
     /// <summary>
     /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864 . For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -37,9 +84,6 @@ public record AwsS3apiPutBucketWebsiteOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketWebsiteChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--website-configuration")]
-    public string? WebsiteConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiPutBucketWebsiteOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

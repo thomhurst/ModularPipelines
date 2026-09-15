@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "modify-db-cluster")]
-public record AwsDocdbModifyDbClusterOptions : AwsOptions
+public record AwsDocdbModifyDbClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parame- ters and the new values in the request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .</param>
+    public AwsDocdbModifyDbClusterOptions(
+        string DbClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+    }
+
+    private AwsDocdbModifyDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbModifyDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbModifyDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints: o Must match the identifier of an existing DBCluster .
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
     /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster2
@@ -31,7 +68,10 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
-    [CliFlag("--apply-immediately")]
+    /// <summary>
+    /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false , changes to the cluster are ap- plied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdenti- fier and MasterUserPassword values. If you set this parameter value to false , the changes to the NewDBClusterIdentifier and MasterUser- Password values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
@@ -89,10 +129,16 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliFlag("--allow-major-version-upgrade")]
+    /// <summary>
+    /// A value that indicates whether major version upgrades are allowed. Constraints: o You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version. o Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes. NOTE: Performing an MVU directly impacts the following parameters: o MasterUserPassword o NewDBClusterIdentifier o VpcSecurityGroupIds o Port
+    /// </summary>
+    [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
@@ -107,17 +153,22 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
-    [CliFlag("--manage-master-user-password")]
+    /// <summary>
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPass- word . If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, Ama- zon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword .
+    /// </summary>
+    [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if both of the following conditions are met: o The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the cluster already manages the mas- ter user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret. o You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUser- SecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
-    [SecretValue]
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
-    [CliFlag("--rotate-master-user-password")]
+    /// <summary>
+    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+    /// </summary>
+    [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
 
     /// <summary>
@@ -131,5 +182,21 @@ public record AwsDocdbModifyDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

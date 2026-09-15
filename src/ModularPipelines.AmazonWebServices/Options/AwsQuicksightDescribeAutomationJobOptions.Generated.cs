@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +20,109 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "describe-automation-job")]
-public record AwsQuicksightDescribeAutomationJobOptions : AwsOptions
+public record AwsQuicksightDescribeAutomationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the status and details of a specified automation job, includ- ing its status and outputs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the automa- tion job. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AutomationGroupId">The ID of the automation group that contains the automation. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    /// <param name="AutomationId">The ID of the automation that the job belongs to. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    /// <param name="JobId">The ID of the automation job to describe. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}</param>
+    public AwsQuicksightDescribeAutomationJobOptions(
+        string AwsAccountId,
+        string AutomationGroupId,
+        string AutomationId,
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AutomationGroupId);
+        this.AutomationGroupId = AutomationGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(AutomationId);
+        this.AutomationId = AutomationId;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsQuicksightDescribeAutomationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightDescribeAutomationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightDescribeAutomationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the automa- tion job. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The ID of the automation group that contains the automation. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--automation-group-id")]
-    public string? AutomationGroupId { get; set; }
+    public string? AutomationGroupId { get; private init; }
 
+    /// <summary>
+    /// The ID of the automation that the job belongs to. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--automation-id")]
-    public string? AutomationId { get; set; }
+    public string? AutomationId { get; private init; }
 
-    [CliFlag("--include-input-payload")]
+    /// <summary>
+    /// The ID of the automation job to describe. Constraints: o pattern: [0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}
+    /// </summary>
+    [CliOption("--job-id")]
+    public string? JobId { get; private init; }
+
+    /// <summary>
+    /// A Boolean value that indicates whether to include the input payload in the response. If set to true , the input payload will be in- cluded. If set to false , the input payload will be returned as null .
+    /// </summary>
+    [CliFlag("--include-input-payload", NegatedName = "--no-include-input-payload")]
     public bool? IncludeInputPayload { get; set; }
 
-    [CliFlag("--include-output-payload")]
+    /// <summary>
+    /// A Boolean value that indicates whether to include the output payload in the response. If set to true , the output payload will be in- cluded. If set to false , the output payload will be returned as null .
+    /// </summary>
+    [CliFlag("--include-output-payload", NegatedName = "--no-include-output-payload")]
     public bool? IncludeOutputPayload { get; set; }
-
-    [CliOption("--job-id")]
-    public string? JobId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

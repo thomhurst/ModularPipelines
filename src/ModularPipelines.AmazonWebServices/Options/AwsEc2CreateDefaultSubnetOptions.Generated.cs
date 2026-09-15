@@ -27,10 +27,16 @@ public record AwsEc2CreateDefaultSubnetOptions : AwsOptions
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliFlag("--ipv6-native")]
+    /// <summary>
+    /// Indicates whether to create an IPv6 only subnet. If you already have a default subnet for this Availability Zone, you must delete it be- fore you can create an IPv6 only subnet.
+    /// </summary>
+    [CliFlag("--ipv6-native", NegatedName = "--no-ipv6-native")]
     public bool? Ipv6Native { get; set; }
 
     /// <summary>

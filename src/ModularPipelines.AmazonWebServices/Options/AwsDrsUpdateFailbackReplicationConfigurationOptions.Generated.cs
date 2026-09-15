@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "update-failback-replication-configuration")]
-public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions
+public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows you to update the failback replication configuration of a Recov- ery Instance by ID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    public AwsDrsUpdateFailbackReplicationConfigurationOptions(
+        string RecoveryInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryInstanceId);
+        this.RecoveryInstanceId = RecoveryInstanceId;
+    }
+
+    private AwsDrsUpdateFailbackReplicationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsUpdateFailbackReplicationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsUpdateFailbackReplicationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Recovery Instance. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// </summary>
     [CliOption("--recovery-instance-id")]
-    public string? RecoveryInstanceId { get; set; }
+    public string? RecoveryInstanceId { get; private init; }
 
     /// <summary>
     /// The name of the Failback Replication Configuration. Constraints: o min: 0 o max: 256
@@ -37,7 +74,10 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions
     [CliOption("--bandwidth-throttling")]
     public int? BandwidthThrottling { get; set; }
 
-    [CliFlag("--use-private-ip")]
+    /// <summary>
+    /// Whether to use Private IP for the failback replication of the Recov- ery Instance.
+    /// </summary>
+    [CliFlag("--use-private-ip", NegatedName = "--no-use-private-ip")]
     public bool? UsePrivateIp { get; set; }
 
     /// <summary>
@@ -51,5 +91,21 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

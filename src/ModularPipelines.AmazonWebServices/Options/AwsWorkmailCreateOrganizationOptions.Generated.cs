@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "create-organization")]
-public record AwsWorkmailCreateOrganizationOptions : AwsOptions
+public record AwsWorkmailCreateOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new WorkMail organization. Optionally, you can choose to as- sociate an existing AWS Directory Service directory with your organiza- tion. If an AWS Directory Service directory ID is specified, the orga- nization alias must match the directory alias. If you choose not to as- sociate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an or- ganization in the WorkMail Administrator Guide . You can associate mult...
+    /// </summary>
+    /// <param name="Alias">The organization alias. Constraints: o min: 1 o max: 62 o pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*</param>
+    public AwsWorkmailCreateOrganizationOptions(
+        string Alias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Alias);
+        this.Alias = Alias;
+    }
+
+    private AwsWorkmailCreateOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailCreateOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailCreateOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The organization alias. Constraints: o min: 1 o max: 62 o pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*
+    /// </summary>
+    [CliOption("--alias")]
+    public string? Alias { get; private init; }
+
     /// <summary>
     /// The AWS Directory Service directory ID. Constraints: o min: 12 o max: 12 o pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
-
-    [CliOption("--alias")]
-    public string? Alias { get; set; }
 
     /// <summary>
     /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
@@ -50,7 +87,10 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CliFlag("--enable-interoperability")]
+    /// <summary>
+    /// When true , allows organization interoperability between WorkMail and Microsoft Exchange. If true , you must include a AD Connector directory ID in the request.
+    /// </summary>
+    [CliFlag("--enable-interoperability", NegatedName = "--no-enable-interoperability")]
     public bool? EnableInteroperability { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -58,5 +98,21 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

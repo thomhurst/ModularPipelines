@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "get-temporary-glue-partition-credentials")]
-public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsOptions
+public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--table-arn")]
-    public string? TableArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TableArn">The ARN of the partitions' table.</param>
+    /// <param name="Partition">A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: o min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }</param>
+    public AwsLakeformationGetTemporaryGluePartitionCredentialsOptions(
+        string TableArn,
+        string Partition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TableArn);
+        this.TableArn = TableArn;
+        global::System.ArgumentNullException.ThrowIfNull(Partition);
+        this.Partition = Partition;
+    }
+
+    private AwsLakeformationGetTemporaryGluePartitionCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationGetTemporaryGluePartitionCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationGetTemporaryGluePartitionCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the partitions' table.
+    /// </summary>
+    [CliOption("--table-arn")]
+    public string? TableArn { get; private init; }
+
+    /// <summary>
+    /// A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: o min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }
+    /// </summary>
     [CliOption("--partition")]
-    public string? Partition { get; set; }
+    public string? Partition { get; private init; }
 
     /// <summary>
     /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
@@ -56,5 +100,21 @@ public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

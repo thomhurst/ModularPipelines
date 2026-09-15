@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "describe-maintenance-windows-for-target")]
-public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions
+public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with. See also: AWS API Documentation describe-maintenance-windows-for-target is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of th...
+    /// </summary>
+    /// <param name="Targets">The managed node ID or key-value pair to retrieve information about. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]</param>
+    /// <param name="ResourceType">The type of resource you want to retrieve information about. For ex- ample, INSTANCE . Possible values: o INSTANCE o RESOURCE_GROUP</param>
+    public AwsSsmDescribeMaintenanceWindowsForTargetOptions(
+        IEnumerable<string> Targets,
+        AwsSsmDescribeMaintenanceWindowsForTargetResourceType ResourceType
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsSsmDescribeMaintenanceWindowsForTargetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmDescribeMaintenanceWindowsForTargetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmDescribeMaintenanceWindowsForTargetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The managed node ID or key-value pair to retrieve information about. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; private init; }
+
+    /// <summary>
+    /// The type of resource you want to retrieve information about. For ex- ample, INSTANCE . Possible values: o INSTANCE o RESOURCE_GROUP
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsSsmDescribeMaintenanceWindowsForTargetResourceType? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +108,21 @@ public record AwsSsmDescribeMaintenanceWindowsForTargetOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-subscription-request")]
-public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions
+public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a subscription request in Amazon DataZone. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the subscription re- quest is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="SubscribedPrincipals">The Amazon DataZone principals for whom the subscription request is created. Constraints: o min: 1 o max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a sub- scription grant. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: o min: 1 o max: 255 o pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]</param>
+    /// <param name="SubscribedListings">The published asset for which the subscription grant is to be cre- ated. Constraints: o min: 1 o max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscrip- tion grant is to be created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]</param>
+    /// <param name="RequestReason">The reason for the subscription request. Constraints: o min: 1 o max: 4096</param>
+    public AwsDatazoneCreateSubscriptionRequestOptions(
+        string DomainIdentifier,
+        IEnumerable<string> SubscribedPrincipals,
+        IEnumerable<string> SubscribedListings,
+        string RequestReason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubscribedPrincipals);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubscribedPrincipals));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubscribedPrincipals));
+            }
+
+            SubscribedPrincipals = materialized;
+        }
+        this.SubscribedPrincipals = SubscribedPrincipals;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubscribedListings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubscribedListings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubscribedListings));
+            }
+
+            SubscribedListings = materialized;
+        }
+        this.SubscribedListings = SubscribedListings;
+        global::System.ArgumentNullException.ThrowIfNull(RequestReason);
+        this.RequestReason = RequestReason;
+    }
+
+    private AwsDatazoneCreateSubscriptionRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateSubscriptionRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateSubscriptionRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain in which the subscription re- quest is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon DataZone principals for whom the subscription request is created. Constraints: o min: 1 o max: 1 (tagged union structure) The principal that is to be given a subscriptiong grant. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: project, user, group, iam. project -&gt; (structure) The project that is to be given a subscription grant. identifier -&gt; (string) The identifier of the project that is to be given a sub- scription grant. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} user -&gt; (structure) The subscribed user. identifier -&gt; (string) The ID of the subscribed user. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} group -&gt; (structure) The subscribed group. identifier -&gt; (string) The ID of the subscribed group. Constraints: o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} iam -&gt; (structure) The subscribed IAM principal. identifier -&gt; (string) The ARN of the subscribed IAM principal. Constraints: o min: 1 o max: 255 o pattern: arn:aws[^:]*:iam::\d{12}:(role|user)(/[\w+=,.@-]*)*/[\w+=,.@-]+ Shorthand Syntax: project={identifier=string},user={identifier=string},group={identifier=string},iam={identifier=string} ... JSON Syntax: [ { "project": { "identifier": "string" }, "user": { "identifier": "string" }, "group": { "identifier": "string" }, "iam": { "identifier": "string" } } ... ]
+    /// </summary>
     [CliOption("--subscribed-principals", GroupValues = true)]
-    public IEnumerable<string>? SubscribedPrincipals { get; set; }
+    public IEnumerable<string>? SubscribedPrincipals { get; private init; }
 
+    /// <summary>
+    /// The published asset for which the subscription grant is to be cre- ated. Constraints: o min: 1 o max: 1 (structure) The published asset for which the subscription grant is to be created. identifier -&gt; (string) [required] The identifier of the published asset for which the subscrip- tion grant is to be created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: identifier=string ... JSON Syntax: [ { "identifier": "string" } ... ]
+    /// </summary>
     [CliOption("--subscribed-listings", GroupValues = true)]
-    public IEnumerable<string>? SubscribedListings { get; set; }
+    public IEnumerable<string>? SubscribedListings { get; private init; }
 
+    /// <summary>
+    /// The reason for the subscription request. Constraints: o min: 1 o max: 4096
+    /// </summary>
     [CliOption("--request-reason")]
-    public string? RequestReason { get; set; }
+    public string? RequestReason { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -64,5 +144,21 @@ public record AwsDatazoneCreateSubscriptionRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

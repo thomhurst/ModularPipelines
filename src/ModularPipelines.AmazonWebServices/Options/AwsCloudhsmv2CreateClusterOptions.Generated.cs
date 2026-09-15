@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,79 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudhsmv2", "create-cluster")]
-public record AwsCloudhsmv2CreateClusterOptions : AwsOptions
+public record AwsCloudhsmv2CreateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new CloudHSM cluster. Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup ARN in the value of the SourceBackupId parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HsmType">The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: o max: 32 o pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)</param>
+    /// <param name="SubnetIds">The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multi- ple subnets, they must meet the following criteria: o All subnets must be in the same virtual private cloud (VPC). o You can specify only one subnet per Availability Zone. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...</param>
+    public AwsCloudhsmv2CreateClusterOptions(
+        string HsmType,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmType);
+        this.HsmType = HsmType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsCloudhsmv2CreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudhsmv2CreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudhsmv2CreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium . Constraints: o max: 32 o pattern: ((p|)hsm[0-9][a-z.]*\.[a-zA-Z]+)
+    /// </summary>
+    [CliOption("--hsm-type")]
+    public string? HsmType { get; private init; }
+
+    /// <summary>
+    /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multi- ple subnets, they must meet the following criteria: o All subnets must be in the same virtual private cloud (VPC). o You can specify only one subnet per Availability Zone. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: subnet-[0-9a-fA-F]{8,17} Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--subnet-ids", GroupValues = true)]
+    public IEnumerable<string>? SubnetIds { get; private init; }
+
     /// <summary>
     /// A policy that defines how the service retains backups. Type -&gt; (string) The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups. Possible values: o DAYS Value -&gt; (string) Use a value between 7 - 379. Constraints: o min: 1 o max: 3 o pattern: [0-9]+ Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DAYS", "Value": "string" }
     /// </summary>
     [CliOption("--backup-retention-policy")]
     public string? BackupRetentionPolicy { get; set; }
 
-    [CliOption("--hsm-type")]
-    public string? HsmType { get; set; }
-
     /// <summary>
     /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups . If using a backup in another account, the full ARN must be supplied. Constraints: o pattern: ^(arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|cen- tral){1,2}-[0-9]{1}):[0-9]{12}:backup/)?backup-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--source-backup-id")]
     public string? SourceBackupId { get; set; }
-
-    [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
     /// The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK . Possible values: o IPV4 o DUALSTACK
@@ -63,5 +118,21 @@ public record AwsCloudhsmv2CreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

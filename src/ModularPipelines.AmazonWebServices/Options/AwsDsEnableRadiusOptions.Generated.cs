@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "enable-radius")]
-public record AwsDsEnableRadiusOptions : AwsOptions
+public record AwsDsEnableRadiusOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Enables multi-factor authentication (MFA) with the Remote Authentica- tion Dial In User Service (RADIUS) server for an AD Connector or Mi- crosoft AD directory. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The identifier of the directory for which to enable MFA. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RadiusSettings">A RadiusSettings object that contains information about the RADIUS server. RadiusServers -&gt; (list) The fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RA- DIUS server load balancer. (string) Constraints: o min: 1 o max: 256 RadiusServersIpv6 -&gt; (list) The IPv6 addresses of the RADIUS server endpoints or RADIUS server load balancer. (string) Constraints: o min: 1 o max: 256 RadiusPort -&gt; (integer) The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers. Constraints: o min: 1025 o max: 65535 RadiusTimeout -&gt; (integer) The amount of time, in seconds, to wait for the RADIUS server to respond. Constraints: o min: 1 o max: 50 RadiusRetries -&gt; (integer) The maximum number of times that communication with the RADIUS server is retried after the initial attempt. Constraints: o min: 0 o max: 10 SharedSecret -&gt; (string) Required for enabling RADIUS on the directory. Constraints: o min: 8 o max: 512 o pattern: ^(\p{LD}|\p{Punct}| )+$ AuthenticationProtocol -&gt; (string) The protocol specified for your RADIUS endpoints. Possible values: o PAP o CHAP o MS-CHAPv1 o MS-CHAPv2 DisplayLabel -&gt; (string) Not currently used. Constraints: o min: 1 o max: 64 UseSameUsername -&gt; (boolean) Not currently used. Shorthand Syntax: RadiusServers=string,string,RadiusServersIpv6=string,string,RadiusPort=integer,RadiusTimeout=integer,RadiusRetries=integer,SharedSecret=string,AuthenticationProtocol=string,DisplayLabel=string,UseSameUsername=boolean JSON Syntax: { "RadiusServers": ["string", ...], "RadiusServersIpv6": ["string", ...], "RadiusPort": integer, "RadiusTimeout": integer, "RadiusRetries": integer, "SharedSecret": "string", "AuthenticationProtocol": "PAP"|"CHAP"|"MS-CHAPv1"|"MS-CHAPv2", "DisplayLabel": "string", "UseSameUsername": true|false }</param>
+    public AwsDsEnableRadiusOptions(
+        string DirectoryId,
+        string RadiusSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(RadiusSettings);
+        this.RadiusSettings = RadiusSettings;
+    }
+
+    private AwsDsEnableRadiusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsEnableRadiusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsEnableRadiusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory for which to enable MFA. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// A RadiusSettings object that contains information about the RADIUS server. RadiusServers -&gt; (list) The fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RA- DIUS server load balancer. (string) Constraints: o min: 1 o max: 256 RadiusServersIpv6 -&gt; (list) The IPv6 addresses of the RADIUS server endpoints or RADIUS server load balancer. (string) Constraints: o min: 1 o max: 256 RadiusPort -&gt; (integer) The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers. Constraints: o min: 1025 o max: 65535 RadiusTimeout -&gt; (integer) The amount of time, in seconds, to wait for the RADIUS server to respond. Constraints: o min: 1 o max: 50 RadiusRetries -&gt; (integer) The maximum number of times that communication with the RADIUS server is retried after the initial attempt. Constraints: o min: 0 o max: 10 SharedSecret -&gt; (string) Required for enabling RADIUS on the directory. Constraints: o min: 8 o max: 512 o pattern: ^(\p{LD}|\p{Punct}| )+$ AuthenticationProtocol -&gt; (string) The protocol specified for your RADIUS endpoints. Possible values: o PAP o CHAP o MS-CHAPv1 o MS-CHAPv2 DisplayLabel -&gt; (string) Not currently used. Constraints: o min: 1 o max: 64 UseSameUsername -&gt; (boolean) Not currently used. Shorthand Syntax: RadiusServers=string,string,RadiusServersIpv6=string,string,RadiusPort=integer,RadiusTimeout=integer,RadiusRetries=integer,SharedSecret=string,AuthenticationProtocol=string,DisplayLabel=string,UseSameUsername=boolean JSON Syntax: { "RadiusServers": ["string", ...], "RadiusServersIpv6": ["string", ...], "RadiusPort": integer, "RadiusTimeout": integer, "RadiusRetries": integer, "SharedSecret": "string", "AuthenticationProtocol": "PAP"|"CHAP"|"MS-CHAPv1"|"MS-CHAPv2", "DisplayLabel": "string", "UseSameUsername": true|false }
+    /// </summary>
     [CliOption("--radius-settings")]
-    public string? RadiusSettings { get; set; }
+    public string? RadiusSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

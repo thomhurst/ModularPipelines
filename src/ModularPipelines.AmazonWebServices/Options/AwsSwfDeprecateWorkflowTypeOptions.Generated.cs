@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "deprecate-workflow-type")]
-public record AwsSwfDeprecateWorkflowTypeOptions : AwsOptions
+public record AwsSwfDeprecateWorkflowTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deprecates the specified workflow type . After a workflow type has been deprecated, you cannot create new executions of that type. Executions that were started before the type was deprecated continues to run. A deprecated workflow type may still be used when calling visibility ac- tions. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazo...
+    /// </summary>
+    /// <param name="Domain">The name of the domain in which the workflow type is registered. Constraints: o min: 1 o max: 256</param>
+    /// <param name="WorkflowType">The workflow type to deprecate. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
+    public AwsSwfDeprecateWorkflowTypeOptions(
+        string Domain,
+        string WorkflowType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowType);
+        this.WorkflowType = WorkflowType;
+    }
+
+    private AwsSwfDeprecateWorkflowTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfDeprecateWorkflowTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfDeprecateWorkflowTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain in which the workflow type is registered. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The workflow type to deprecate. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// </summary>
     [CliOption("--workflow-type")]
-    public string? WorkflowType { get; set; }
+    public string? WorkflowType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

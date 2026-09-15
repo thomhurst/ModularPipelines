@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "list-contacts")]
-public record AwsSesv2ListContactsOptions : AwsOptions
+public record AwsSesv2ListContactsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the contacts present in a specific contact list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactListName">The name of the contact list.</param>
+    public AwsSesv2ListContactsOptions(
+        string ContactListName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactListName);
+        this.ContactListName = ContactListName;
+    }
+
+    private AwsSesv2ListContactsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2ListContactsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2ListContactsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the contact list.
+    /// </summary>
     [CliOption("--contact-list-name")]
-    public string? ContactListName { get; set; }
+    public string? ContactListName { get; private init; }
 
     /// <summary>
     /// A filter that can be applied to a list of contacts. FilteredStatus -&gt; (string) The status by which you are filtering: OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT TopicFilter -&gt; (structure) Used for filtering by a specific topic preference. TopicName -&gt; (string) The name of a topic on which you wish to apply the filter. UseDefaultIfPreferenceUnavailable -&gt; (boolean) Notes that the default subscription status should be applied to a contact because the contact has not noted their prefer- ence for subscribing to a topic. Shorthand Syntax: FilteredStatus=string,TopicFilter={TopicName=string,UseDefaultIfPreferenceUnavailable=boolean} JSON Syntax: { "FilteredStatus": "OPT_IN"|"OPT_OUT", "TopicFilter": { "TopicName": "string", "UseDefaultIfPreferenceUnavailable": true|false } }
@@ -49,5 +86,21 @@ public record AwsSesv2ListContactsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

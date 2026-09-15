@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "update-firewall-rule-group-association")]
-public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsOptions
+public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the association of a FirewallRuleGroup with a VPC. The associ- ation enables DNS filtering for the VPC. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallRuleGroupAssociationId">The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions(
+        string FirewallRuleGroupAssociationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupAssociationId);
+        this.FirewallRuleGroupAssociationId = FirewallRuleGroupAssociationId;
+    }
+
+    private AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--firewall-rule-group-association-id")]
-    public string? FirewallRuleGroupAssociationId { get; set; }
+    public string? FirewallRuleGroupAssociationId { get; private init; }
 
     /// <summary>
     /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it.
@@ -48,5 +85,21 @@ public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

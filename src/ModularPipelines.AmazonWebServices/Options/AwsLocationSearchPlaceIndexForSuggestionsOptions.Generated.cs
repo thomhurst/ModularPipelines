@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "search-place-index-for-suggestions")]
-public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions
+public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Suggest /location/latest/APIRef- erence/API_geoplaces_Suggest.html`__ or ` Autocomplete /loca- tion/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. o SearchPlaceIndexForSuggestions is part of a previous Amazon Loca- tion Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The vers...
+    /// </summary>
+    /// <param name="IndexName">The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="Text">The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: o min: 1 o max: 200</param>
+    public AwsLocationSearchPlaceIndexForSuggestionsOptions(
+        string IndexName,
+        string Text
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+        global::System.ArgumentNullException.ThrowIfNull(Text);
+        this.Text = Text;
+    }
+
+    private AwsLocationSearchPlaceIndexForSuggestionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationSearchPlaceIndexForSuggestionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationSearchPlaceIndexForSuggestionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the place index resource you want to use for the search. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--index-name")]
+    public string? IndexName { get; private init; }
+
+    /// <summary>
+    /// The free-form partial text to use to generate place suggestions. For example, eiffel tow . Constraints: o min: 1 o max: 200
+    /// </summary>
     [CliOption("--text")]
-    public string? Text { get; set; }
+    public string? Text { get; private init; }
 
     /// <summary>
     /// An optional parameter that indicates a preference for place sugges- tions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with lon- gitude -123.1174 and latitude 49.2847 . NOTE: BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error. Constraints: o min: 2 o max: 2 (double) Syntax: double double ...
@@ -74,5 +118,21 @@ public record AwsLocationSearchPlaceIndexForSuggestionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

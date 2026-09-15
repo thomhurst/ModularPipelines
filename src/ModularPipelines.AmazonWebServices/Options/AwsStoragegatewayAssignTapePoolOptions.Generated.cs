@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "assign-tape-pool")]
-public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions
+public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Assigns a tape to a tape pool for archiving. The tape assigned to a pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or S3 Glac- ier Deep Archive) that corresponds to the pool. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TapeArn">The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$</param>
+    /// <param name="PoolId">The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100</param>
+    public AwsStoragegatewayAssignTapePoolOptions(
+        string TapeArn,
+        string PoolId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TapeArn);
+        this.TapeArn = TapeArn;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+    }
+
+    private AwsStoragegatewayAssignTapePoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayAssignTapePoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayAssignTapePoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:tape\/[0-9A-Z]{5,16}$
+    /// </summary>
     [CliOption("--tape-arn")]
-    public string? TapeArn { get; set; }
+    public string? TapeArn { get; private init; }
 
+    /// <summary>
+    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--pool-id")]
-    public string? PoolId { get; set; }
+    public string? PoolId { get; private init; }
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Set permissions to bypass governance retention. If the lock type of the archived tape is Governance , the tape's archived age is not older than RetentionLockInDays , and the user does not already have BypassGovernanceRetention , setting this to TRUE enables the user to bypass the retention lock. This parameter is set to true by default for calls from the console. Valid values: TRUE | FALSE
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsStoragegatewayAssignTapePoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

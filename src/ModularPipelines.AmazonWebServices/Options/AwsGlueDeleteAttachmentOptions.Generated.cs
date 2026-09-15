@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "delete-attachment")]
-public record AwsGlueDeleteAttachmentOptions : AwsOptions
+public record AwsGlueDeleteAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a form attachment from an asset in Glue Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetIdentifier">The unique identifier of the asset from which to delete the attach- ment. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="AttachmentName">The name of the attachment to delete. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$</param>
+    public AwsGlueDeleteAttachmentOptions(
+        string AssetIdentifier,
+        string AttachmentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetIdentifier);
+        this.AssetIdentifier = AssetIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentName);
+        this.AttachmentName = AttachmentName;
+    }
+
+    private AwsGlueDeleteAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueDeleteAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueDeleteAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the asset from which to delete the attach- ment. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// </summary>
     [CliOption("--asset-identifier")]
-    public string? AssetIdentifier { get; set; }
+    public string? AssetIdentifier { get; private init; }
+
+    /// <summary>
+    /// The name of the attachment to delete. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+    /// </summary>
+    [CliOption("--attachment-name")]
+    public string? AttachmentName { get; private init; }
 
     /// <summary>
     /// The name of the iterable form. When specified along with itemIdenti- fier , the attachment is deleted from an item within the iterable form rather than from the asset itself. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
@@ -36,13 +83,26 @@ public record AwsGlueDeleteAttachmentOptions : AwsOptions
     [CliOption("--item-identifier")]
     public string? ItemIdentifier { get; set; }
 
-    [CliOption("--attachment-name")]
-    public string? AttachmentName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "start-archive-search")]
-public record AwsMailmanagerStartArchiveSearchOptions : AwsOptions
+public record AwsMailmanagerStartArchiveSearchOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a search across emails in the specified archive. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ArchiveId">The identifier of the archive to search emails in. Constraints: o min: 3 o max: 66 o pattern: a-[\w]{1,64}</param>
+    /// <param name="FromTimestamp">The start timestamp of the range to search emails from.</param>
+    /// <param name="ToTimestamp">The end timestamp of the range to search emails from.</param>
+    /// <param name="MaxResults">The maximum number of search results to return. Constraints: o min: 0 o max: 1000</param>
+    public AwsMailmanagerStartArchiveSearchOptions(
+        string ArchiveId,
+        string FromTimestamp,
+        string ToTimestamp,
+        int MaxResults
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ArchiveId);
+        this.ArchiveId = ArchiveId;
+        global::System.ArgumentNullException.ThrowIfNull(FromTimestamp);
+        this.FromTimestamp = FromTimestamp;
+        global::System.ArgumentNullException.ThrowIfNull(ToTimestamp);
+        this.ToTimestamp = ToTimestamp;
+        this.MaxResults = MaxResults;
+    }
+
+    private AwsMailmanagerStartArchiveSearchOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerStartArchiveSearchOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerStartArchiveSearchOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the archive to search emails in. Constraints: o min: 3 o max: 66 o pattern: a-[\w]{1,64}
+    /// </summary>
     [CliOption("--archive-id")]
-    public string? ArchiveId { get; set; }
+    public string? ArchiveId { get; private init; }
+
+    /// <summary>
+    /// The start timestamp of the range to search emails from.
+    /// </summary>
+    [CliOption("--from-timestamp")]
+    public string? FromTimestamp { get; private init; }
+
+    /// <summary>
+    /// The end timestamp of the range to search emails from.
+    /// </summary>
+    [CliOption("--to-timestamp")]
+    public string? ToTimestamp { get; private init; }
+
+    /// <summary>
+    /// The maximum number of search results to return. Constraints: o min: 0 o max: 1000
+    /// </summary>
+    [CliOption("--max-results")]
+    public int? MaxResults { get; private init; }
 
     /// <summary>
     /// Criteria to filter which emails are included in the search results. Include -&gt; (list) The filter conditions for emails to include. Constraints: o min: 0 o max: 10 (tagged union structure) A filter condition used to include or exclude emails when ex- porting from or searching an archive. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: StringExpression, Boolean- Expression. StringExpression -&gt; (structure) A string expression to evaluate against email attributes. Evaluate -&gt; (tagged union structure) [required] The attribute of the email to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Attribute. Attribute -&gt; (string) The name of the email attribute to evaluate. Possible values: o TO o FROM o CC o SUBJECT o ENVELOPE_TO o ENVELOPE_FROM Operator -&gt; (string) [required] The operator to use when evaluating the string values. Possible values: o CONTAINS Values -&gt; (list) [required] The list of string values to evaluate the email at- tribute against. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 BooleanExpression -&gt; (structure) A boolean expression to evaluate against email attrib- utes. Evaluate -&gt; (tagged union structure) [required] The email attribute value to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Attribute. Attribute -&gt; (string) The name of the email attribute to evaluate. Possible values: o HAS_ATTACHMENTS Operator -&gt; (string) [required] The boolean operator to use for evaluation. Possible values: o IS_TRUE o IS_FALSE Unless -&gt; (list) The filter conditions for emails to exclude. Constraints: o min: 0 o max: 10 (tagged union structure) A filter condition used to include or exclude emails when ex- porting from or searching an archive. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: StringExpression, Boolean- Expression. StringExpression -&gt; (structure) A string expression to evaluate against email attributes. Evaluate -&gt; (tagged union structure) [required] The attribute of the email to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Attribute. Attribute -&gt; (string) The name of the email attribute to evaluate. Possible values: o TO o FROM o CC o SUBJECT o ENVELOPE_TO o ENVELOPE_FROM Operator -&gt; (string) [required] The operator to use when evaluating the string values. Possible values: o CONTAINS Values -&gt; (list) [required] The list of string values to evaluate the email at- tribute against. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 BooleanExpression -&gt; (structure) A boolean expression to evaluate against email attrib- utes. Evaluate -&gt; (tagged union structure) [required] The email attribute value to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Attribute. Attribute -&gt; (string) The name of the email attribute to evaluate. Possible values: o HAS_ATTACHMENTS Operator -&gt; (string) [required] The boolean operator to use for evaluation. Possible values: o IS_TRUE o IS_FALSE JSON Syntax: { "Include": [ { "StringExpression": { "Evaluate": { "Attribute": "TO"|"FROM"|"CC"|"SUBJECT"|"ENVELOPE_TO"|"ENVELOPE_FROM" }, "Operator": "CONTAINS", "Values": ["string", ...] }, "BooleanExpression": { "Evaluate": { "Attribute": "HAS_ATTACHMENTS" }, "Operator": "IS_TRUE"|"IS_FALSE" } } ... ], "Unless": [ { "StringExpression": { "Evaluate": { "Attribute": "TO"|"FROM"|"CC"|"SUBJECT"|"ENVELOPE_TO"|"ENVELOPE_FROM" }, "Operator": "CONTAINS", "Values": ["string", ...] }, "BooleanExpression": { "Evaluate": { "Attribute": "HAS_ATTACHMENTS" }, "Operator": "IS_TRUE"|"IS_FALSE" } } ... ] }
@@ -30,19 +96,26 @@ public record AwsMailmanagerStartArchiveSearchOptions : AwsOptions
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CliOption("--from-timestamp")]
-    public string? FromTimestamp { get; set; }
-
-    [CliOption("--to-timestamp")]
-    public string? ToTimestamp { get; set; }
-
-    [CliOption("--max-results")]
-    public int? MaxResults { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

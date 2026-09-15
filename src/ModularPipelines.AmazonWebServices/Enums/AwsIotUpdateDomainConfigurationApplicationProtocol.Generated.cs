@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --applicationprotocol.
+/// Allowed values for --application-protocol.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotUpdateDomainConfigurationApplicationProtocol
 {
-    [EnumValue("SECURE_MQTT")]
-    SecureMqtt = 1,
-
-    [EnumValue("MQTT_WSS")]
-    MqttWss = 2,
+    [EnumValue("DEFAULT")]
+    Default,
 
     [EnumValue("HTTPS")]
-    Https = 3,
+    Https,
 
-    [EnumValue("DEFAULT")]
-    Default = 4
+    [EnumValue("MQTT_WSS")]
+    MqttWss,
+
+    [EnumValue("SECURE_MQTT")]
+    SecureMqtt
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "create-connector")]
-public record AwsSecurityhubCreateConnectorOptions : AwsOptions
+public record AwsSecurityhubCreateConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the connector. Must be unique within the account. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Provider">The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
+    public AwsSecurityhubCreateConnectorOptions(
+        string Name,
+        string Provider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+    }
+
+    private AwsSecurityhubCreateConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubCreateConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubCreateConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the connector. Must be unique within the account. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The configuration for the cloud provider to connect to. Currently supports Azure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Azure. Azure -&gt; (structure) The Azure provider configuration. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// </summary>
+    [CliOption("--provider")]
+    public string? Provider { get; private init; }
 
     /// <summary>
     /// The description of the connector. Constraints: o pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--provider")]
-    public string? Provider { get; set; }
 
     /// <summary>
     /// The tags to add to the connector resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +97,21 @@ public record AwsSecurityhubCreateConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "start-media-analysis-job")]
-public record AwsRekognitionStartMediaAnalysisJobOptions : AwsOptions
+public record AwsRekognitionStartMediaAnalysisJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a new media analysis job. Accepts a manifest file in an Ama- zon S3 bucket. The output is a manifest file and a summary of the mani- fest stored in the Amazon S3 bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OperationsConfig">Configuration options for the media analysis job to be created. DetectModerationLabels -&gt; (structure) Contains configuration options for a DetectModerationLabels job. MinConfidence -&gt; (float) Specifies the minimum confidence level for the moderation la- bels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. Constraints: o min: 0 o max: 100 ProjectVersion -&gt; (string) Specifies the custom moderation model to be used during the label detection job. If not provided the pre-trained model is used. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$) Shorthand Syntax: DetectModerationLabels={MinConfidence=float,ProjectVersion=string} JSON Syntax: { "DetectModerationLabels": { "MinConfidence": float, "ProjectVersion": "string" } }</param>
+    /// <param name="Input">Input data to be analyzed by the job. S3Object -&gt; (structure) [required] Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekogni- tion Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="OutputConfig">The Amazon S3 bucket location to store the results. S3Bucket -&gt; (string) [required] Specifies the Amazon S3 bucket to contain the output of the me- dia analysis job. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for storage. Constraints: o max: 800 o pattern: \S* Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
+    public AwsRekognitionStartMediaAnalysisJobOptions(
+        string OperationsConfig,
+        string Input,
+        string OutputConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationsConfig);
+        this.OperationsConfig = OperationsConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+    }
+
+    private AwsRekognitionStartMediaAnalysisJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionStartMediaAnalysisJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionStartMediaAnalysisJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Configuration options for the media analysis job to be created. DetectModerationLabels -&gt; (structure) Contains configuration options for a DetectModerationLabels job. MinConfidence -&gt; (float) Specifies the minimum confidence level for the moderation la- bels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. Constraints: o min: 0 o max: 100 ProjectVersion -&gt; (string) Specifies the custom moderation model to be used during the label detection job. If not provided the pre-trained model is used. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$) Shorthand Syntax: DetectModerationLabels={MinConfidence=float,ProjectVersion=string} JSON Syntax: { "DetectModerationLabels": { "MinConfidence": float, "ProjectVersion": "string" } }
+    /// </summary>
+    [CliOption("--operations-config")]
+    public string? OperationsConfig { get; private init; }
+
+    /// <summary>
+    /// Input data to be analyzed by the job. S3Object -&gt; (structure) [required] Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekogni- tion Developer Guide. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// </summary>
+    [CliOption("--input")]
+    public string? Input { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 bucket location to store the results. S3Bucket -&gt; (string) [required] Specifies the Amazon S3 bucket to contain the output of the me- dia analysis job. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for storage. Constraints: o max: 800 o pattern: \S* Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
+
     /// <summary>
     /// Idempotency token used to prevent the accidental creation of dupli- cate versions. If you use the same token with multiple StartMedia- AnalysisJobRequest requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
@@ -35,15 +95,6 @@ public record AwsRekognitionStartMediaAnalysisJobOptions : AwsOptions
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CliOption("--operations-config")]
-    public string? OperationsConfig { get; set; }
-
-    [CliOption("--input")]
-    public string? Input { get; set; }
-
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
     /// <summary>
     /// The identifier of customer managed AWS KMS key (name or ARN). The key is used to encrypt images copied into the service. The key is also used to encrypt results and manifest files written to the out- put Amazon S3 bucket. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
@@ -55,5 +106,21 @@ public record AwsRekognitionStartMediaAnalysisJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

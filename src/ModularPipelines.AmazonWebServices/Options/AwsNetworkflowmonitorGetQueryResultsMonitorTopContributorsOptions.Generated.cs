@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "get-query-results-monitor-top-contributors")]
-public record AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions : AwsOptions
+public record AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Return the data for a query with the Network Flow Monitor query inter- face. You specify the query that you want to return results for by pro- viding a query ID and a monitor name. This query returns the top con- tributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors . Use the scope ID that was returned for your account by CreateScope . Top contributors in Network Flow Monitor are network flows ...
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="QueryId">The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.</param>
+    public AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions(
+        string MonitorName,
+        string QueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        global::System.ArgumentNullException.ThrowIfNull(QueryId);
+        this.QueryId = QueryId;
+    }
+
+    private AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--monitor-name")]
+    public string? MonitorName { get; private init; }
+
+    /// <summary>
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
+    /// </summary>
     [CliOption("--query-id")]
-    public string? QueryId { get; set; }
+    public string? QueryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsNetworkflowmonitorGetQueryResultsMonitorTopContributorsOptions 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

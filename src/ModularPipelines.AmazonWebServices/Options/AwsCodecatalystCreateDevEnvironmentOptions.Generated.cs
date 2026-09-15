@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecatalyst", "create-dev-environment")]
-public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions
+public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--space-name")]
-    public string? SpaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based devel- opment environment that you can use to quickly work on the code stored in the source repositories of your project. NOTE: When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="ProjectName">The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="InstanceType">The Amazon EC2 instace type to use for the Dev Environment. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge</param>
+    /// <param name="PersistentStorage">Information about the amount of storage allocated to the Dev Envi- ronment. NOTE: By default, a Dev Environment is configured to have 16GB of per- sistent storage when created from the Amazon CodeCatalyst con- sole, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: o min: 0 o max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }</param>
+    public AwsCodecatalystCreateDevEnvironmentOptions(
+        string SpaceName,
+        string ProjectName,
+        AwsCodecatalystCreateDevEnvironmentInstanceType InstanceType,
+        string PersistentStorage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceName);
+        this.SpaceName = SpaceName;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectName);
+        this.ProjectName = ProjectName;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(PersistentStorage);
+        this.PersistentStorage = PersistentStorage;
+    }
+
+    private AwsCodecatalystCreateDevEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecatalystCreateDevEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecatalystCreateDevEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
+    [CliOption("--space-name")]
+    public string? SpaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the project in the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--project-name")]
-    public string? ProjectName { get; set; }
+    public string? ProjectName { get; private init; }
+
+    /// <summary>
+    /// The Amazon EC2 instace type to use for the Dev Environment. Possible values: o dev.standard1.small o dev.standard1.medium o dev.standard1.large o dev.standard1.xlarge
+    /// </summary>
+    [CliOption("--instance-type")]
+    public AwsCodecatalystCreateDevEnvironmentInstanceType? InstanceType { get; private init; }
+
+    /// <summary>
+    /// Information about the amount of storage allocated to the Dev Envi- ronment. NOTE: By default, a Dev Environment is configured to have 16GB of per- sistent storage when created from the Amazon CodeCatalyst con- sole, but there is no default when programmatically creating a Dev Environment. Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. sizeInGiB -&gt; (integer) [required] The size of the persistent storage in gigabytes (specifically GiB). NOTE: Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64. Constraints: o min: 0 o max: 64 Shorthand Syntax: sizeInGiB=integer JSON Syntax: { "sizeInGiB": integer }
+    /// </summary>
+    [CliOption("--persistent-storage")]
+    public string? PersistentStorage { get; private init; }
 
     /// <summary>
     /// The source repository that contains the branch to clone into the Dev Environment. (structure) Information about a repository that will be cloned to a Dev En- vironment. repositoryName -&gt; (string) [required] The name of the source repository. Constraints: o min: 1 o max: 100 o pattern: (?!.*[.]git$)[\w\-.]* branchName -&gt; (string) The name of the branch in a source repository. Constraints: o min: 1 o max: 100 Shorthand Syntax: repositoryName=string,branchName=string ... JSON Syntax: [ { "repositoryName": "string", "branchName": "string" } ... ]
@@ -53,17 +118,11 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions
     [CliOption("--ides", GroupValues = true)]
     public IEnumerable<string>? Ides { get; set; }
 
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
     /// <summary>
     /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are al- lowed. Dev Environments consume compute minutes when running. Constraints: o min: 0 o max: 1200
     /// </summary>
     [CliOption("--inactivity-timeout-minutes")]
     public int? InactivityTimeoutMinutes { get; set; }
-
-    [CliOption("--persistent-storage")]
-    public string? PersistentStorage { get; set; }
 
     /// <summary>
     /// The name of the connection that will be used to connect to Amazon VPC, if any. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
@@ -76,5 +135,21 @@ public record AwsCodecatalystCreateDevEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

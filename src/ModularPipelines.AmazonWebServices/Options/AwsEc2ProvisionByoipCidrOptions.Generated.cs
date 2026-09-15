@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "provision-byoip-cidr")]
-public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
+public record AwsEc2ProvisionByoipCidrOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and cre- ates a corresponding address pool. After the address range is provi- sioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are au- thorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the ad...
+    /// </summary>
+    /// <param name="Cidr">The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can specify is /24. The most specific IPv6 address range that you can bring is /48 for CIDRs that are pub- licly advertisable and /56 for CIDRs that are not publicly advertis- able. The address range cannot overlap with another address range that you've brought to this or another Region.</param>
+    public AwsEc2ProvisionByoipCidrOptions(
+        string Cidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cidr);
+        this.Cidr = Cidr;
+    }
+
+    private AwsEc2ProvisionByoipCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ProvisionByoipCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ProvisionByoipCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can specify is /24. The most specific IPv6 address range that you can bring is /48 for CIDRs that are pub- licly advertisable and /56 for CIDRs that are not publicly advertis- able. The address range cannot overlap with another address range that you've brought to this or another Region.
+    /// </summary>
     [CliOption("--cidr")]
-    public string? Cidr { get; set; }
+    public string? Cidr { get; private init; }
 
     /// <summary>
     /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. Message -&gt; (string) [required] The plain-text authorization message for the prefix and account. Signature -&gt; (string) [required] The signed authorization message for the prefix and account. Shorthand Syntax: Message=string,Signature=string JSON Syntax: { "Message": "string", "Signature": "string" }
@@ -30,7 +67,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--cidr-authorization-context")]
     public string? CidrAuthorizationContext { get; set; }
 
-    [CliFlag("--publicly-advertisable")]
+    /// <summary>
+    /// (IPv6 only) Indicate whether the address range will be publicly ad- vertised to the internet. Default: true
+    /// </summary>
+    [CliFlag("--publicly-advertisable", NegatedName = "--no-publicly-advertisable")]
     public bool? PubliclyAdvertisable { get; set; }
 
     /// <summary>
@@ -39,7 +79,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -48,7 +91,10 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
     [CliOption("--pool-tag-specifications", GroupValues = true)]
     public IEnumerable<string>? PoolTagSpecifications { get; set; }
 
-    [CliFlag("--multi-region")]
+    /// <summary>
+    /// Reserved.
+    /// </summary>
+    [CliFlag("--multi-region", NegatedName = "--no-multi-region")]
     public bool? MultiRegion { get; set; }
 
     /// <summary>
@@ -62,5 +108,21 @@ public record AwsEc2ProvisionByoipCidrOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

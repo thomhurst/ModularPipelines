@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-contact-flow")]
-public record AwsConnectCreateContactFlowOptions : AwsOptions
+public record AwsConnectCreateContactFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a flow for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the flow. Constraints: o min: 1</param>
+    /// <param name="Type">The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN</param>
+    /// <param name="Content">The JSON string that represents the content of the flow. For an ex- ample, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.</param>
+    public AwsConnectCreateContactFlowOptions(
+        string InstanceId,
+        string Name,
+        AwsConnectCreateContactFlowType Type,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectCreateContactFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateContactFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateContactFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The name of the flow. Constraints: o min: 1
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide . Possible values: o CONTACT_FLOW o CUSTOMER_QUEUE o CUSTOMER_HOLD o CUSTOMER_WHISPER o AGENT_HOLD o AGENT_WHISPER o OUTBOUND_WHISPER o AGENT_TRANSFER o QUEUE_TRANSFER o CAMPAIGN
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsConnectCreateContactFlowType? Type { get; private init; }
+
+    /// <summary>
+    /// The JSON string that represents the content of the flow. For an ex- ample, see Example flow in Connect Customer Flow language . Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
 
     /// <summary>
     /// The description of the flow.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// Indicates the flow status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. the SAVED status does not initiate validation of the content. SAVED | PUB- LISHED . Possible values: o PUBLISHED o SAVED
@@ -58,5 +116,21 @@ public record AwsConnectCreateContactFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

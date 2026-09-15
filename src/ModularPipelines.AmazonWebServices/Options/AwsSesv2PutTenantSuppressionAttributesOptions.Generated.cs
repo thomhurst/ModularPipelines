@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-tenant-suppression-attributes")]
-public record AwsSesv2PutTenantSuppressionAttributesOptions : AwsOptions
+public record AwsSesv2PutTenantSuppressionAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configure the suppression list preferences for a tenant. Use this oper- ation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to AC- COUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TenantName">The name of the tenant to configure suppression list preferences for. Constraints: o min: 1</param>
+    public AwsSesv2PutTenantSuppressionAttributesOptions(
+        string TenantName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TenantName);
+        this.TenantName = TenantName;
+    }
+
+    private AwsSesv2PutTenantSuppressionAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutTenantSuppressionAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutTenantSuppressionAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the tenant to configure suppression list preferences for. Constraints: o min: 1
+    /// </summary>
     [CliOption("--tenant-name")]
-    public string? TenantName { get; set; }
+    public string? TenantName { get; private init; }
 
     /// <summary>
     /// A list that contains the reasons that email addresses are automati- cally added to the suppression list for the tenant. This list can contain any or all of the following: o COMPLAINT Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint. o BOUNCE Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
@@ -42,5 +79,21 @@ public record AwsSesv2PutTenantSuppressionAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

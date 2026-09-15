@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "create-voice-connector")]
-public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions
+public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see Managing Amazon Chime SDK Voice Connector groups in the Amazon Chime SDK Administrator Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the Voice Connector. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="RequireEncryption">Enables or disables encryption for the Voice Connector.</param>
+    public AwsChimeSdkVoiceCreateVoiceConnectorOptions(
+        string Name,
+        bool RequireEncryption
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.RequireEncryption = RequireEncryption;
+    }
+
+    private AwsChimeSdkVoiceCreateVoiceConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceCreateVoiceConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceCreateVoiceConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Voice Connector. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Enables or disables encryption for the Voice Connector.
+    /// </summary>
+    [CliFlag("--require-encryption", NegatedName = "--no-require-encryption")]
+    public bool? RequireEncryption { get; private init; }
 
     /// <summary>
     /// The AWS Region in which the Amazon Chime SDK Voice Connector is cre- ated. Default value: us-east-1 . Possible values: o us-east-1 o us-west-2 o ca-central-1 o eu-central-1 o eu-west-1 o eu-west-2 o ap-northeast-2 o ap-northeast-1 o ap-southeast-1 o ap-southeast-2
     /// </summary>
     [CliOption("--aws-region")]
     public AwsChimeSdkVoiceCreateVoiceConnectorAwsRegion? AwsRegion { get; set; }
-
-    [CliFlag("--require-encryption")]
-    public bool? RequireEncryption { get; set; }
 
     /// <summary>
     /// The tags assigned to the Voice Connector. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -57,5 +100,21 @@ public record AwsChimeSdkVoiceCreateVoiceConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

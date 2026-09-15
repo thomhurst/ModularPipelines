@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +22,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "create-trusted-token-issuer")]
-public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions
+public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propa- gation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these to- kens for authentication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="Name">Specifies the name of the new trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+</param>
+    /// <param name="TrustedTokenIssuerType">Specifies the type of the new trusted token issuer. Possible values: o OIDC_JWT</param>
+    /// <param name="TrustedTokenIssuerConfiguration"></param>
+    public AwsSsoAdminCreateTrustedTokenIssuerOptions(
+        string InstanceArn,
+        string Name,
+        AwsSsoAdminCreateTrustedTokenIssuerTrustedTokenIssuerType TrustedTokenIssuerType,
+        string TrustedTokenIssuerConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TrustedTokenIssuerType);
+        this.TrustedTokenIssuerType = TrustedTokenIssuerType;
+        global::System.ArgumentNullException.ThrowIfNull(TrustedTokenIssuerConfiguration);
+        this.TrustedTokenIssuerConfiguration = TrustedTokenIssuerConfiguration;
+    }
+
+    private AwsSsoAdminCreateTrustedTokenIssuerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminCreateTrustedTokenIssuerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminCreateTrustedTokenIssuerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
     [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// Specifies the name of the new trusted token issuer configuration. Constraints: o min: 1 o max: 255 o pattern: [\w+=,.@-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Specifies the type of the new trusted token issuer. Possible values: o OIDC_JWT
+    /// </summary>
     [SecretValue]
     [CliOption("--trusted-token-issuer-type")]
-    public string? TrustedTokenIssuerType { get; set; }
+    public AwsSsoAdminCreateTrustedTokenIssuerTrustedTokenIssuerType? TrustedTokenIssuerType { get; private init; }
 
     [SecretValue]
     [CliOption("--trusted-token-issuer-configuration")]
-    public string? TrustedTokenIssuerConfiguration { get; set; }
+    public string? TrustedTokenIssuerConfiguration { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
@@ -54,5 +110,21 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

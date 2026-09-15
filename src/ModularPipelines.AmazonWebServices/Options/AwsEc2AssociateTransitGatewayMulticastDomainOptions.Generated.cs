@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-transit-gateway-multicast-domain")]
-public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions
+public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments to see the state of the attachment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayMulticastDomainId">The ID of the transit gateway multicast domain.</param>
+    /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment to associate with the tran- sit gateway multicast domain.</param>
+    /// <param name="SubnetIds">The IDs of the subnets to associate with the transit gateway multi- cast domain. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2AssociateTransitGatewayMulticastDomainOptions(
+        string TransitGatewayMulticastDomainId,
+        string TransitGatewayAttachmentId,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayMulticastDomainId);
+        this.TransitGatewayMulticastDomainId = TransitGatewayMulticastDomainId;
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayAttachmentId);
+        this.TransitGatewayAttachmentId = TransitGatewayAttachmentId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsEc2AssociateTransitGatewayMulticastDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateTransitGatewayMulticastDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateTransitGatewayMulticastDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway multicast domain.
+    /// </summary>
     [CliOption("--transit-gateway-multicast-domain-id")]
-    public string? TransitGatewayMulticastDomainId { get; set; }
+    public string? TransitGatewayMulticastDomainId { get; private init; }
 
+    /// <summary>
+    /// The ID of the transit gateway attachment to associate with the tran- sit gateway multicast domain.
+    /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
-    public string? TransitGatewayAttachmentId { get; set; }
+    public string? TransitGatewayAttachmentId { get; private init; }
 
+    /// <summary>
+    /// The IDs of the subnets to associate with the transit gateway multi- cast domain. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +103,21 @@ public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

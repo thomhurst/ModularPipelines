@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "create-data-repository-task")]
-public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions
+public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon FSx for Lustre data repository task. A Create- DataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. You use import and export data repository tasks to perform bulk opera- tions between your FSx for Lustre file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directo- ries, and symbolic links (symlinks) from your FSx file syste...
+    /// </summary>
+    /// <param name="Type">Specifies the type of data repository task to create. o EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository. o IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system. o RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria. o AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource. Possible values: o EXPORT_TO_REPOSITORY o IMPORT_METADATA_FROM_REPOSITORY o RELEASE_DATA_FROM_FILESYSTEM o AUTO_RELEASE_DATA</param>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="Report">Defines whether or not Amazon FSx provides a CompletionReport once the task has completed. A CompletionReport provides a detailed re- port on the files that Amazon FSx processed that meet the criteria specified by the Scope parameter. For more information, see Working with Task Completion Reports . Enabled -&gt; (boolean) [required] Set Enabled to True to generate a CompletionReport when the task completes. If set to true , then you need to provide a report Scope , Path , and Format . Set Enabled to False if you do not want a CompletionReport generated when the task completes. Path -&gt; (string) Required if Enabled is set to true . Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file systems ExportPath. An example Path value is "s3://amzn-s3-demo-bucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$ Format -&gt; (string) Required if Enabled is set to true . Specifies the format of the CompletionReport . REPORT_CSV_20191124 is the only format cur- rently supported. When Format is set to REPORT_CSV_20191124 , the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv . Possible values: o REPORT_CSV_20191124 Scope -&gt; (string) Required if Enabled is set to true . Specifies the scope of the CompletionReport ; FAILED_FILES_ONLY is the only scope currently supported. When Scope is set to FAILED_FILES_ONLY , the Comple- tionReport only contains information about files that the data repository task failed to process. Possible values: o FAILED_FILES_ONLY Shorthand Syntax: Enabled=boolean,Path=string,Format=string,Scope=string JSON Syntax: { "Enabled": true|false, "Path": "string", "Format": "REPORT_CSV_20191124", "Scope": "FAILED_FILES_ONLY" }</param>
+    public AwsFsxCreateDataRepositoryTaskOptions(
+        AwsFsxCreateDataRepositoryTaskType Type,
+        string FileSystemId,
+        string Report
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        global::System.ArgumentNullException.ThrowIfNull(Report);
+        this.Report = Report;
+    }
+
+    private AwsFsxCreateDataRepositoryTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCreateDataRepositoryTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCreateDataRepositoryTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the type of data repository task to create. o EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository. o IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system. o RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria. o AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource. Possible values: o EXPORT_TO_REPOSITORY o IMPORT_METADATA_FROM_REPOSITORY o RELEASE_DATA_FROM_FILESYSTEM o AUTO_RELEASE_DATA
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsFsxCreateDataRepositoryTaskType? Type { get; private init; }
+
+    /// <summary>
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--file-system-id")]
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// Defines whether or not Amazon FSx provides a CompletionReport once the task has completed. A CompletionReport provides a detailed re- port on the files that Amazon FSx processed that meet the criteria specified by the Scope parameter. For more information, see Working with Task Completion Reports . Enabled -&gt; (boolean) [required] Set Enabled to True to generate a CompletionReport when the task completes. If set to true , then you need to provide a report Scope , Path , and Format . Set Enabled to False if you do not want a CompletionReport generated when the task completes. Path -&gt; (string) Required if Enabled is set to true . Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file systems ExportPath. An example Path value is "s3://amzn-s3-demo-bucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$ Format -&gt; (string) Required if Enabled is set to true . Specifies the format of the CompletionReport . REPORT_CSV_20191124 is the only format cur- rently supported. When Format is set to REPORT_CSV_20191124 , the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv . Possible values: o REPORT_CSV_20191124 Scope -&gt; (string) Required if Enabled is set to true . Specifies the scope of the CompletionReport ; FAILED_FILES_ONLY is the only scope currently supported. When Scope is set to FAILED_FILES_ONLY , the Comple- tionReport only contains information about files that the data repository task failed to process. Possible values: o FAILED_FILES_ONLY Shorthand Syntax: Enabled=boolean,Path=string,Format=string,Scope=string JSON Syntax: { "Enabled": true|false, "Path": "string", "Format": "REPORT_CSV_20191124", "Scope": "FAILED_FILES_ONLY" }
+    /// </summary>
+    [CliOption("--report")]
+    public string? Report { get; private init; }
 
     /// <summary>
     /// A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails. If you don't provide paths, the default behavior is to export all files to S3 (for export tasks), import all files from S3 (for import tasks), or release all exported files that meet the last accessed time criteria (for release tasks). o For export tasks, the list contains paths on the FSx for Lustre file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1 . o For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the FSx for Lus- tre file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix (where prefix is optional). o For release tasks, the list contains directory or file paths on the FSx for Lustre file system from which to release exported files. If a directory is specified, files within the directory are released. If a file path is specified, only that file is released. To release all exported files in the file system, specify a for- ward slash (/) as the path. NOTE: A file must also meet the last accessed time criteria specified in for the file to be released. Constraints: o max: 100 (string) Constraints: o min: 0 o max: 4096 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{0,4096}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--paths", GroupValues = true)]
     public IEnumerable<string>? Paths { get; set; }
-
-    [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
-
-    [CliOption("--report")]
-    public string? Report { get; set; }
 
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
@@ -67,5 +119,21 @@ public record AwsFsxCreateDataRepositoryTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

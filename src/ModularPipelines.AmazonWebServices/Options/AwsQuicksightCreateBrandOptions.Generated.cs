@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-brand")]
-public record AwsQuicksightCreateBrandOptions : AwsOptions
+public record AwsQuicksightCreateBrandOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an Quick Sight brand. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="BrandId">The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    public AwsQuicksightCreateBrandOptions(
+        string AwsAccountId,
+        string BrandId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(BrandId);
+        this.BrandId = BrandId;
+    }
+
+    private AwsQuicksightCreateBrandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateBrandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateBrandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--brand-id")]
-    public string? BrandId { get; set; }
+    public string? BrandId { get; private init; }
 
     /// <summary>
     /// The definition of the brand. BrandName -&gt; (string) [required] The name of the brand. Constraints: o min: 1 o max: 512 o pattern: [ -]+ Description -&gt; (string) The description of the brand. Constraints: o min: 1 o max: 2048 o pattern: [ -]+ ApplicationTheme -&gt; (structure) The application theme of the brand. BrandColorPalette -&gt; (structure) The color palette. Primary -&gt; (structure) The primary color. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Secondary -&gt; (structure) The secondary color. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Accent -&gt; (structure) The color that is used for accent elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Measure -&gt; (structure) The color that is used for measure elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Dimension -&gt; (structure) The color that is used for dimension elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Success -&gt; (structure) The color that is used for success elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Info -&gt; (structure) The color that is used for info elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Warning -&gt; (structure) The color that is used for warning elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Danger -&gt; (structure) The color that is used for danger elements. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ ContextualAccentPalette -&gt; (structure) The contextual accent palette. Connection -&gt; (structure) The color palette. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Visualization -&gt; (structure) The color palette. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Insight -&gt; (structure) The color palette. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ Automation -&gt; (structure) The color palette. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ BrandElementStyle -&gt; (structure) The element style. NavbarStyle -&gt; (structure) The navigation bar style. GlobalNavbar -&gt; (structure) The global navigation bar style. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ ContextualNavbar -&gt; (structure) The contextual navigation bar style. Foreground -&gt; (string) The foreground color. Constraints: o pattern: ^#[A-F0-9]{6}$ Background -&gt; (string) The background color. Constraints: o pattern: ^#[A-F0-9]{6}$ LogoConfiguration -&gt; (structure) The logo configuration of the brand. AltText -&gt; (string) [required] The alt text for the logo. LogoSet -&gt; (structure) [required] A set of configured logos. Primary -&gt; (structure) [required] The primary logo. Original -&gt; (structure) [required] The original image. Source -&gt; (tagged union structure) The source of the image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Publi- cUrl, S3Uri. PublicUrl -&gt; (string) The public URL that points to the source image. S3Uri -&gt; (string) The Amazon S3 URI that points to the source im- age. Favicon -&gt; (structure) The favicon logo. Original -&gt; (structure) [required] The original image. Source -&gt; (tagged union structure) The source of the image. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Publi- cUrl, S3Uri. PublicUrl -&gt; (string) The public URL that points to the source image. S3Uri -&gt; (string) The Amazon S3 URI that points to the source im- age. JSON Syntax: { "BrandName": "string", "Description": "string", "ApplicationTheme": { "BrandColorPalette": { "Primary": { "Foreground": "string", "Background": "string" }, "Secondary": { "Foreground": "string", "Background": "string" }, "Accent": { "Foreground": "string", "Background": "string" }, "Measure": { "Foreground": "string", "Background": "string" }, "Dimension": { "Foreground": "string", "Background": "string" }, "Success": { "Foreground": "string", "Background": "string" }, "Info": { "Foreground": "string", "Background": "string" }, "Warning": { "Foreground": "string", "Background": "string" }, "Danger": { "Foreground": "string", "Background": "string" } }, "ContextualAccentPalette": { "Connection": { "Foreground": "string", "Background": "string" }, "Visualization": { "Foreground": "string", "Background": "string" }, "Insight": { "Foreground": "string", "Background": "string" }, "Automation": { "Foreground": "string", "Background": "string" } }, "BrandElementStyle": { "NavbarStyle": { "GlobalNavbar": { "Foreground": "string", "Background": "string" }, "ContextualNavbar": { "Foreground": "string", "Background": "string" } } } }, "LogoConfiguration": { "AltText": "string", "LogoSet": { "Primary": { "Original": { "Source": { "PublicUrl": "string", "S3Uri": "string" } } }, "Favicon": { "Original": { "Source": { "PublicUrl": "string", "S3Uri": "string" } } } } } }
@@ -44,5 +88,21 @@ public record AwsQuicksightCreateBrandOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

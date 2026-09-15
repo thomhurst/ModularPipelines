@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "update-table")]
-public record AwsKeyspacesUpdateTableOptions : AwsOptions
+public record AwsKeyspacesUpdateTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--keyspace-name")]
-    public string? KeyspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time re- covery, or ttl settings. Note that you can only update one specific ta- ble setting per update operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyspaceName">The name of the keyspace the specified table is stored in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    public AwsKeyspacesUpdateTableOptions(
+        string KeyspaceName,
+        string TableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+    }
+
+    private AwsKeyspacesUpdateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesUpdateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesUpdateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the keyspace the specified table is stored in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
+    [CliOption("--keyspace-name")]
+    public string? KeyspaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
     /// <summary>
     /// For each column to be added to the specified table: o name - The name of the column. o type - An Amazon Keyspaces data type. For more information, see Data types in the Amazon Keyspaces Developer Guide . Constraints: o min: 1 (structure) The names and data types of regular columns. name -&gt; (string) [required] The name of the column. type -&gt; (string) [required] The data type of the column. For a list of available data types, see Data types in the Amazon Keyspaces Developer Guide . Shorthand Syntax: name=string,type=string ... JSON Syntax: [ { "name": "string", "type": "string" } ... ]
@@ -98,5 +142,21 @@ public record AwsKeyspacesUpdateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

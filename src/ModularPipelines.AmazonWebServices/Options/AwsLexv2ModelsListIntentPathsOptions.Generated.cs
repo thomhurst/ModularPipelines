@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-intent-paths")]
-public record AwsLexv2ModelsListIntentPathsOptions : AwsOptions
+public record AwsLexv2ModelsListIntentPathsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. o intentPath Define an order of intents for which you want to retrieve metrics. Separate intents in the path with a forward slash. For exam- ple, populate the intentPath field with /BookCar/BookHotel to see de- tails about how many times users invoked the BookCar and BookHotel...
+    /// </summary>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve intent path metrics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see intent path metrics.</param>
+    /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see intent path metrics.</param>
+    /// <param name="IntentPath">The intent path for which you want to retrieve metrics. Use a for- ward slash to separate intents in the path. For example: o /BookCar o /BookCar/BookHotel o /BookHotel/BookCar Constraints: o min: 1 o max: 1024</param>
+    public AwsLexv2ModelsListIntentPathsOptions(
+        string BotId,
+        string StartDateTime,
+        string EndDateTime,
+        string IntentPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDateTime);
+        this.StartDateTime = StartDateTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndDateTime);
+        this.EndDateTime = EndDateTime;
+        global::System.ArgumentNullException.ThrowIfNull(IntentPath);
+        this.IntentPath = IntentPath;
+    }
+
+    private AwsLexv2ModelsListIntentPathsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListIntentPathsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListIntentPathsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the bot for which you want to retrieve intent path metrics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the beginning of the range of time for which you want to see intent path metrics.
+    /// </summary>
     [CliOption("--start-date-time")]
-    public string? StartDateTime { get; set; }
+    public string? StartDateTime { get; private init; }
 
+    /// <summary>
+    /// The date and time that marks the end of the range of time for which you want to see intent path metrics.
+    /// </summary>
     [CliOption("--end-date-time")]
-    public string? EndDateTime { get; set; }
+    public string? EndDateTime { get; private init; }
 
+    /// <summary>
+    /// The intent path for which you want to retrieve metrics. Use a for- ward slash to separate intents in the path. For example: o /BookCar o /BookCar/BookHotel o /BookHotel/BookCar Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--intent-path")]
-    public string? IntentPath { get; set; }
+    public string? IntentPath { get; private init; }
 
     /// <summary>
     /// A list of objects, each describes a condition by which you want to filter the results. Constraints: o min: 1 o max: 5 (structure) Contains fields describing a condition by which to filter the paths. The expression may be understood as name operator val- ues . For example: o LocaleId EQ en The locale is "en". o BotVersion EQ 2 The bot version is equal to two. The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . name -&gt; (string) [required] The category by which to filter the intent paths. The de- scriptions for each option are as follows: o BotAlias The name of the bot alias. o BotVersion The version of the bot. o LocaleId The locale of the bot. o Modality The modality of the session with the bot (audio, DTMF, or text). o Channel The channel that the bot is integrated with. Possible values: o BotAliasId o BotVersion o LocaleId o Modality o Channel operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: o CO Contains o EQ Equals o GT Greater than o LT Less than The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . Possible values: o EQ o GT o LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
@@ -44,5 +102,21 @@ public record AwsLexv2ModelsListIntentPathsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

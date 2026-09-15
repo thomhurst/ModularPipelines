@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam-policy-allocation-rules")]
-public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions
+public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the allocation rules in an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be...
+    /// </summary>
+    /// <param name="IpamPolicyId">The ID of the IPAM policy whose allocation rules you want to modify.</param>
+    /// <param name="Locale">The locale for which to modify the allocation rules.</param>
+    /// <param name="ResourceType">The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP ad- dresses through IPAM policies. Supported services and resource types include: o Elastic IP addresses Possible values: o alb o eip o rds o rnat</param>
+    public AwsEc2ModifyIpamPolicyAllocationRulesOptions(
+        string IpamPolicyId,
+        string Locale,
+        AwsEc2ModifyIpamPolicyAllocationRulesResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPolicyId);
+        this.IpamPolicyId = IpamPolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(Locale);
+        this.Locale = Locale;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsEc2ModifyIpamPolicyAllocationRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamPolicyAllocationRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamPolicyAllocationRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM policy whose allocation rules you want to modify.
+    /// </summary>
     [CliOption("--ipam-policy-id")]
-    public string? IpamPolicyId { get; set; }
+    public string? IpamPolicyId { get; private init; }
 
+    /// <summary>
+    /// The locale for which to modify the allocation rules.
+    /// </summary>
     [CliOption("--locale")]
-    public string? Locale { get; set; }
+    public string? Locale { get; private init; }
 
+    /// <summary>
+    /// The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP ad- dresses through IPAM policies. Supported services and resource types include: o Elastic IP addresses Possible values: o alb o eip o rds o rnat
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public AwsEc2ModifyIpamPolicyAllocationRulesResourceType? ResourceType { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The new allocation rules to apply to the IPAM policy. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Ama- zon-provided IP addresses. (structure) Information about a requested IPAM policy allocation rule. Allocation rules are optional configurations within an IPAM pol- icy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses. SourceIpamPoolId -&gt; (string) The ID of the source IPAM pool for the requested allocation rule. An IPAM pool is a collection of IP addresses in IPAM that can be allocated to Amazon Web Services resources. Shorthand Syntax: SourceIpamPoolId=string ... JSON Syntax: [ { "SourceIpamPoolId": "string" } ... ]
@@ -44,5 +99,21 @@ public record AwsEc2ModifyIpamPolicyAllocationRulesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

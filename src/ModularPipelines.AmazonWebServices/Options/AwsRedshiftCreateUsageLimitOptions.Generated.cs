@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-usage-limit")]
-public record AwsRedshiftCreateUsageLimitOptions : AwsOptions
+public record AwsRedshiftCreateUsageLimitOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterIdentifier">The identifier of the cluster that you want to limit usage. Constraints: o max: 2147483647</param>
+    /// <param name="FeatureType">The Amazon Redshift feature that you want to limit. Possible values: o spectrum o concurrency-scaling o cross-region-datasharing o extra-compute-for-automatic-optimization</param>
+    /// <param name="LimitType">The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scal- ing , then LimitType must be time . If FeatureType is cross-re- gion-datasharing , then LimitType must be data-scanned . If Feature- Type is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: o time o data-scanned</param>
+    /// <param name="Amount">The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.</param>
+    public AwsRedshiftCreateUsageLimitOptions(
+        string ClusterIdentifier,
+        AwsRedshiftCreateUsageLimitFeatureType FeatureType,
+        AwsRedshiftCreateUsageLimitLimitType LimitType,
+        int Amount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(FeatureType);
+        this.FeatureType = FeatureType;
+        global::System.ArgumentNullException.ThrowIfNull(LimitType);
+        this.LimitType = LimitType;
+        this.Amount = Amount;
+    }
+
+    private AwsRedshiftCreateUsageLimitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateUsageLimitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateUsageLimitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster that you want to limit usage. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Redshift feature that you want to limit. Possible values: o spectrum o concurrency-scaling o cross-region-datasharing o extra-compute-for-automatic-optimization
+    /// </summary>
     [CliOption("--feature-type")]
-    public string? FeatureType { get; set; }
+    public AwsRedshiftCreateUsageLimitFeatureType? FeatureType { get; private init; }
 
+    /// <summary>
+    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum , then LimitType must be data-scanned . If FeatureType is concurrency-scal- ing , then LimitType must be time . If FeatureType is cross-re- gion-datasharing , then LimitType must be data-scanned . If Feature- Type is extra-compute-for-automatic-optimization , then LimitType must be time . Possible values: o time o data-scanned
+    /// </summary>
     [CliOption("--limit-type")]
-    public string? LimitType { get; set; }
+    public AwsRedshiftCreateUsageLimitLimitType? LimitType { get; private init; }
 
+    /// <summary>
+    /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.
+    /// </summary>
     [CliOption("--amount")]
-    public int? Amount { get; set; }
+    public int? Amount { get; private init; }
 
     /// <summary>
     /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly . Possible values: o daily o weekly o monthly
@@ -57,5 +114,21 @@ public record AwsRedshiftCreateUsageLimitOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

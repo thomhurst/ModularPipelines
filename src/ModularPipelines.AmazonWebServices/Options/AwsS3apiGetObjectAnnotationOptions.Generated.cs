@@ -22,14 +22,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("s3api", "get-object-annotation")]
 public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
 {
+    /// <summary>
+    /// Retrieves an annotation from an Amazon S3 object. To use this opera- tion, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inven- tory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buck- ets). Th...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket that contains the object.</param>
+    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="AnnotationName">The name of the annotation to retrieve. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsS3apiGetObjectAnnotationOptions(
+        string Bucket,
+        string Key,
+        string AnnotationName,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+        global::System.ArgumentNullException.ThrowIfNull(AnnotationName);
+        this.AnnotationName = AnnotationName;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string Bucket, out string Key, out string AnnotationName, out string Outfile)
+    {
+        Bucket = this.Bucket;
+        Key = this.Key;
+        AnnotationName = this.AnnotationName;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The name of the bucket that contains the object.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string Bucket { get; private init; }
 
+    /// <summary>
+    /// The object key. Constraints: o min: 1
+    /// </summary>
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public string Key { get; private init; }
 
+    /// <summary>
+    /// The name of the annotation to retrieve. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// </summary>
     [CliOption("--annotation-name")]
-    public string? AnnotationName { get; set; }
+    public string AnnotationName { get; private init; }
 
     /// <summary>
     /// The version ID of the object.
@@ -53,6 +94,12 @@ public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
     /// Set to ENABLED to validate the checksum of the annotation payload on retrieval. Possible values: o ENABLED outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--checksum-mode")]
-    public AwsS3apiGetObjectAnnotationChecksumMode? ChecksumMode { get; set; }
+    public string? ChecksumMode { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

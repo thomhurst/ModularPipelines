@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("payment-cryptography", "get-parameters-for-export")]
-public record AwsPaymentCryptographyGetParametersForExportOptions : AwsOptions
+public record AwsPaymentCryptographyGetParametersForExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling ExportKey . The export token expires in 30 days. You can use the same export token to export multiple keys from your service account. To return a previously generated export token an...
+    /// </summary>
+    /// <param name="KeyMaterialType">The key block format type (for example, TR-34 or TR-31) to use dur- ing key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK . Export token is not required for TR-31 key export. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM</param>
+    /// <param name="SigningKeyAlgorithm">The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521</param>
+    public AwsPaymentCryptographyGetParametersForExportOptions(
+        AwsPaymentCryptographyGetParametersForExportKeyMaterialType KeyMaterialType,
+        AwsPaymentCryptographyGetParametersForExportSigningKeyAlgorithm SigningKeyAlgorithm
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyMaterialType);
+        this.KeyMaterialType = KeyMaterialType;
+        global::System.ArgumentNullException.ThrowIfNull(SigningKeyAlgorithm);
+        this.SigningKeyAlgorithm = SigningKeyAlgorithm;
+    }
+
+    private AwsPaymentCryptographyGetParametersForExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPaymentCryptographyGetParametersForExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPaymentCryptographyGetParametersForExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The key block format type (for example, TR-34 or TR-31) to use dur- ing key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK . Export token is not required for TR-31 key export. Possible values: o TR34_KEY_BLOCK o TR31_KEY_BLOCK o ROOT_PUBLIC_KEY_CERTIFICATE o TRUSTED_PUBLIC_KEY_CERTIFICATE o KEY_CRYPTOGRAM
+    /// </summary>
     [CliOption("--key-material-type")]
-    public string? KeyMaterialType { get; set; }
+    public AwsPaymentCryptographyGetParametersForExportKeyMaterialType? KeyMaterialType { get; private init; }
 
+    /// <summary>
+    /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed. Possible values: o TDES_2KEY o TDES_3KEY o AES_128 o AES_192 o AES_256 o HMAC_SHA256 o HMAC_SHA384 o HMAC_SHA512 o HMAC_SHA224 o RSA_2048 o RSA_3072 o RSA_4096 o ECC_NIST_P256 o ECC_NIST_P384 o ECC_NIST_P521
+    /// </summary>
     [CliOption("--signing-key-algorithm")]
-    public string? SigningKeyAlgorithm { get; set; }
+    public AwsPaymentCryptographyGetParametersForExportSigningKeyAlgorithm? SigningKeyAlgorithm { get; private init; }
 
-    [CliFlag("--reuse-last-generated-token")]
+    /// <summary>
+    /// Specifies whether to reuse the existing export token and signing key certificate. If set to true and a valid export token exists for the same key material type and signing key algorithm with at least 7 days of remaining validity, the existing token and signing key cer- tificate are returned. Otherwise, a new export token and signing key certificate are generated. The default value is false , which gener- ates a new export token and signing key certificate on every call.
+    /// </summary>
+    [CliFlag("--reuse-last-generated-token", NegatedName = "--no-reuse-last-generated-token")]
     public bool? ReuseLastGeneratedToken { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +83,21 @@ public record AwsPaymentCryptographyGetParametersForExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

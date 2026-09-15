@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "update-billing-preferences")]
-public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions
+public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--feature")]
-    public string? Feature { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{credi- tId}/status key may be set by member accounts ...
+    /// </summary>
+    /// <param name="Feature">The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS</param>
+    /// <param name="BillingPreferencesPerKey">Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same credi- tId . Constraints: o min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being up- dated. Constraints: o min: 1 o max: 2148 o pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: o ENABLED o DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]</param>
+    public AwsBillingUpdateBillingPreferencesOptions(
+        AwsBillingUpdateBillingPreferencesFeature Feature,
+        IEnumerable<string> BillingPreferencesPerKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Feature);
+        this.Feature = Feature;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BillingPreferencesPerKey);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BillingPreferencesPerKey));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BillingPreferencesPerKey));
+            }
+
+            BillingPreferencesPerKey = materialized;
+        }
+        this.BillingPreferencesPerKey = BillingPreferencesPerKey;
+    }
+
+    private AwsBillingUpdateBillingPreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingUpdateBillingPreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingUpdateBillingPreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS
+    /// </summary>
+    [CliOption("--feature")]
+    public AwsBillingUpdateBillingPreferencesFeature? Feature { get; private init; }
+
+    /// <summary>
+    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same credi- tId . Constraints: o min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being up- dated. Constraints: o min: 1 o max: 2148 o pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: o ENABLED o DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]
+    /// </summary>
     [CliOption("--billing-preferences-per-key", GroupValues = true)]
-    public IEnumerable<string>? BillingPreferencesPerKey { get; set; }
+    public IEnumerable<string>? BillingPreferencesPerKey { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

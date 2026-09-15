@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "get-credits")]
-public record AwsBillingGetCreditsOptions : AwsOptions
+public record AwsBillingGetCreditsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the list of Amazon Web Services account credits for the speci- fied account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS ...
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID. Must be a 12-digit numeric string.</param>
+    /// <param name="StartDate">The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.</param>
+    public AwsBillingGetCreditsOptions(
+        string AccountId,
+        string StartDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+    }
+
+    private AwsBillingGetCreditsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingGetCreditsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingGetCreditsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID. Must be a 12-digit numeric string.
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.
+    /// </summary>
     [CliOption("--start-date")]
-    public string? StartDate { get; set; }
+    public string? StartDate { get; private init; }
 
     /// <summary>
     /// The end date for the credit period as Unix epoch seconds. Must not be a future date and must be on or after startDate . Defaults to the current date when omitted.
@@ -33,7 +77,10 @@ public record AwsBillingGetCreditsOptions : AwsOptions
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CliFlag("--payer-account-flag")]
+    /// <summary>
+    /// When true and the caller is the management account, the response ag- gregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId .
+    /// </summary>
+    [CliFlag("--payer-account-flag", NegatedName = "--no-payer-account-flag")]
     public bool? PayerAccountFlag { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsBillingGetCreditsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

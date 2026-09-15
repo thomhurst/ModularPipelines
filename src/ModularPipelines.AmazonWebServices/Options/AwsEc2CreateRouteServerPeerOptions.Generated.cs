@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-route-server-peer")]
-public record AwsEc2CreateRouteServerPeerOptions : AwsOptions
+public record AwsEc2CreateRouteServerPeerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server...
+    /// </summary>
+    /// <param name="RouteServerEndpointId">The ID of the route server endpoint for which to create a peer.</param>
+    /// <param name="PeerAddress">The IPv4 address of the peer device.</param>
+    /// <param name="BgpOptions">The BGP options for the peer, including ASN (Autonomous System Num- ber) and BFD (Bidrectional Forwarding Detection) settings. PeerAsn -&gt; (long) [required] The Border Gateway Protocol (BGP) Autonomous System Number (ASN) for the appliance. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 6451265534 (16-bit ASN) or 42000000004294967294 (32-bit ASN) range. PeerLivenessDetection -&gt; (string) The requested liveness detection protocol for the BGP peer. o bgp-keepalive : The standard BGP keep alive mechanism (RFC4271 ) that is stable but may take longer to fail-over in cases of network impact or router failure. o bfd : An additional Bidirectional Forwarding Detection (BFD) protocol (RFC5880 ) that enables fast failover by using more sensitive liveness detection. Defaults to bgp-keepalive . Possible values: o bfd o bgp-keepalive Shorthand Syntax: PeerAsn=long,PeerLivenessDetection=string JSON Syntax: { "PeerAsn": long, "PeerLivenessDetection": "bfd"|"bgp-keepalive" }</param>
+    public AwsEc2CreateRouteServerPeerOptions(
+        string RouteServerEndpointId,
+        string PeerAddress,
+        string BgpOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerEndpointId);
+        this.RouteServerEndpointId = RouteServerEndpointId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAddress);
+        this.PeerAddress = PeerAddress;
+        global::System.ArgumentNullException.ThrowIfNull(BgpOptions);
+        this.BgpOptions = BgpOptions;
+    }
+
+    private AwsEc2CreateRouteServerPeerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateRouteServerPeerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateRouteServerPeerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server endpoint for which to create a peer.
+    /// </summary>
     [CliOption("--route-server-endpoint-id")]
-    public string? RouteServerEndpointId { get; set; }
+    public string? RouteServerEndpointId { get; private init; }
 
+    /// <summary>
+    /// The IPv4 address of the peer device.
+    /// </summary>
     [CliOption("--peer-address")]
-    public string? PeerAddress { get; set; }
+    public string? PeerAddress { get; private init; }
 
+    /// <summary>
+    /// The BGP options for the peer, including ASN (Autonomous System Num- ber) and BFD (Bidrectional Forwarding Detection) settings. PeerAsn -&gt; (long) [required] The Border Gateway Protocol (BGP) Autonomous System Number (ASN) for the appliance. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 6451265534 (16-bit ASN) or 42000000004294967294 (32-bit ASN) range. PeerLivenessDetection -&gt; (string) The requested liveness detection protocol for the BGP peer. o bgp-keepalive : The standard BGP keep alive mechanism (RFC4271 ) that is stable but may take longer to fail-over in cases of network impact or router failure. o bfd : An additional Bidirectional Forwarding Detection (BFD) protocol (RFC5880 ) that enables fast failover by using more sensitive liveness detection. Defaults to bgp-keepalive . Possible values: o bfd o bgp-keepalive Shorthand Syntax: PeerAsn=long,PeerLivenessDetection=string JSON Syntax: { "PeerAsn": long, "PeerLivenessDetection": "bfd"|"bgp-keepalive" }
+    /// </summary>
     [CliOption("--bgp-options")]
-    public string? BgpOptions { get; set; }
+    public string? BgpOptions { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -44,5 +98,21 @@ public record AwsEc2CreateRouteServerPeerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

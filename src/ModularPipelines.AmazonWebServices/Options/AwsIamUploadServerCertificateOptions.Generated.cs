@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,23 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "upload-server-certificate")]
-public record AwsIamUploadServerCertificateOptions : AwsOptions
+public record AwsIamUploadServerCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads a server certificate entity for the Amazon Web Services ac- count. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certifi- cate, deploy it to Amazon Web Services resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free...
+    /// </summary>
+    /// <param name="ServerCertificateName">The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="CertificateBody">The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="PrivateKey">The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    public AwsIamUploadServerCertificateOptions(
+        string ServerCertificateName,
+        string CertificateBody,
+        string PrivateKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServerCertificateName);
+        this.ServerCertificateName = ServerCertificateName;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateBody);
+        this.CertificateBody = CertificateBody;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateKey);
+        this.PrivateKey = PrivateKey;
+    }
+
+    private AwsIamUploadServerCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamUploadServerCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamUploadServerCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--server-certificate-name")]
+    public string? ServerCertificateName { get; private init; }
+
+    /// <summary>
+    /// The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
+    [CliOption("--certificate-body")]
+    public string? CertificateBody { get; private init; }
+
+    /// <summary>
+    /// The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 16384 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--private-key")]
+    public string? PrivateKey { get; private init; }
+
     /// <summary>
     /// The path for the server certificate. For more information about paths, see IAM identifiers in the IAM User Guide . This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern ) a string of characters consisting of either a forward slash (/) by it- self or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021 ) through the DEL character (\u007F ), including most punctuation characters, digits, and upper and lowercased letters. NOTE: If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the path parameter. The path must begin with /cloudfront and must include a trailing slash (for example, /cloud- front/test/ ). Constraints: o min: 1 o max: 512 o pattern: (\u002F)|(\u002F[\u0021-\u007E]+\u002F)
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; set; }
-
-    [CliOption("--server-certificate-name")]
-    public string? ServerCertificateName { get; set; }
-
-    [CliOption("--certificate-body")]
-    public string? CertificateBody { get; set; }
-
-    [SecretValue]
-    [CliOption("--private-key")]
-    public string? PrivateKey { get; set; }
 
     /// <summary>
     /// The contents of the certificate chain. This is typically a concate- nation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of the following: o Any printable ASCII character ranging from the space character (\u0020 ) through the end of the ASCII character range o The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF ) o The special characters tab (\u0009 ), line feed (\u000A ), and carriage return (\u000D ) Constraints: o min: 1 o max: 2097152 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
@@ -55,5 +106,21 @@ public record AwsIamUploadServerCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "delete-service-linked-analyzer")]
-public record AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions : AwsOptions
+public record AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a service-linked analyzer. This operation can be invoked by both authorized Amazon Web Services services and customers. When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with ConflictException . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnalyzerName">The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{Service- Name}-{Id} . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    public AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions(
+        string AnalyzerName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnalyzerName);
+        this.AnalyzerName = AnalyzerName;
+    }
+
+    private AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{Service- Name}-{Id} . Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// </summary>
     [CliOption("--analyzer-name")]
-    public string? AnalyzerName { get; set; }
+    public string? AnalyzerName { get; private init; }
 
     /// <summary>
     /// A client token.
@@ -37,5 +74,21 @@ public record AwsAccessanalyzerDeleteServiceLinkedAnalyzerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

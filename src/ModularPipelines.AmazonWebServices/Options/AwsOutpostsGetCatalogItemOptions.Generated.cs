@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "get-catalog-item")]
-public record AwsOutpostsGetCatalogItemOptions : AwsOptions
+public record AwsOutpostsGetCatalogItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets information about the specified catalog item. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CatalogItemId">The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7}</param>
+    public AwsOutpostsGetCatalogItemOptions(
+        string CatalogItemId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogItemId);
+        this.CatalogItemId = CatalogItemId;
+    }
+
+    private AwsOutpostsGetCatalogItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsGetCatalogItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsGetCatalogItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7}
+    /// </summary>
     [CliOption("--catalog-item-id")]
-    public string? CatalogItemId { get; set; }
+    public string? CatalogItemId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

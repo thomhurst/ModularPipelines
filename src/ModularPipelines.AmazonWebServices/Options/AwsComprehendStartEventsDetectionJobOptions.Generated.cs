@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "start-events-detection-job")]
-public record AwsComprehendStartEventsDetectionJobOptions : AwsOptions
+public record AwsComprehendStartEventsDetectionJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous event detection job for a collection of docu- ments. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDataConfig">Specifies the format and location of the input data for the job. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as in- put. If more than one file begins with the prefix, Amazon Com- prehend uses all of them as input. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed: o ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large documents, such as newspaper articles or scientific papers. o ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE DocumentReaderConfig -&gt; (structure) Provides configuration parameters to override the default ac- tions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and im- age files. Enter one of the following values: o TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend ser- vice uses the DetectDocumentText API operation. o TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: o TEXTRACT_DETECT_DOCUMENT_TEXT o TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: o SERVICE_DEFAULT - use the Amazon Comprehend service de- faults for PDF files. o FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: o SERVICE_DEFAULT o FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: o TABLES - Returns additional information about any tables that are detected in the input document. o FORMS - Returns additional information about any forms that are detected in the input document. Constraints: o min: 1 o max: 2 (string) TABLES or FORMS Possible values: o TABLES o FORMS Shorthand Syntax: S3Uri=string,InputFormat=string,DocumentReaderConfig={DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=[string,string]} JSON Syntax: { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE", "DocumentReaderConfig": { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] } }</param>
+    /// <param name="OutputDataConfig">Specifies where to send the output files. S3Uri -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz . It is a compressed archive that contains the ouput of the opera- tion. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" o KMS Key Alias: "alias/ExampleAlias" o ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ Shorthand Syntax: S3Uri=string,KmsKeyId=string JSON Syntax: { "S3Uri": "string", "KmsKeyId": "string" }</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="LanguageCode">The language code of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="TargetEventTypes">The types of events to detect in the input documents. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 40 o pattern: [A-Z_]* Syntax: "string" "string" ...</param>
+    public AwsComprehendStartEventsDetectionJobOptions(
+        string InputDataConfig,
+        string OutputDataConfig,
+        string DataAccessRoleArn,
+        AwsComprehendStartEventsDetectionJobLanguageCode LanguageCode,
+        IEnumerable<string> TargetEventTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetEventTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetEventTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetEventTypes));
+            }
+
+            TargetEventTypes = materialized;
+        }
+        this.TargetEventTypes = TargetEventTypes;
+    }
+
+    private AwsComprehendStartEventsDetectionJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendStartEventsDetectionJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendStartEventsDetectionJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the format and location of the input data for the job. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as in- put. If more than one file begins with the prefix, Amazon Com- prehend uses all of them as input. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed: o ONE_DOC_PER_FILE - Each file is considered a separate docu- ment. Use this option when you are processing large documents, such as newspaper articles or scientific papers. o ONE_DOC_PER_LINE - Each line in a file is considered a sepa- rate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE DocumentReaderConfig -&gt; (structure) Provides configuration parameters to override the default ac- tions for extracting text from PDF documents and image files. DocumentReadAction -&gt; (string) [required] This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and im- age files. Enter one of the following values: o TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend ser- vice uses the DetectDocumentText API operation. o TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument API operation. Possible values: o TEXTRACT_DETECT_DOCUMENT_TEXT o TEXTRACT_ANALYZE_DOCUMENT DocumentReadMode -&gt; (string) Determines the text extraction actions for PDF files. Enter one of the following values: o SERVICE_DEFAULT - use the Amazon Comprehend service de- faults for PDF files. o FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files. Possible values: o SERVICE_DEFAULT o FORCE_DOCUMENT_READ_ACTION FeatureTypes -&gt; (list) Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values: o TABLES - Returns additional information about any tables that are detected in the input document. o FORMS - Returns additional information about any forms that are detected in the input document. Constraints: o min: 1 o max: 2 (string) TABLES or FORMS Possible values: o TABLES o FORMS Shorthand Syntax: S3Uri=string,InputFormat=string,DocumentReaderConfig={DocumentReadAction=string,DocumentReadMode=string,FeatureTypes=[string,string]} JSON Syntax: { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE", "DocumentReaderConfig": { "DocumentReadAction": "TEXTRACT_DETECT_DOCUMENT_TEXT"|"TEXTRACT_ANALYZE_DOCUMENT", "DocumentReadMode": "SERVICE_DEFAULT"|"FORCE_DOCUMENT_READ_ACTION", "FeatureTypes": ["TABLES"|"FORMS", ...] } }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// Specifies where to send the output files. S3Uri -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz . It is a compressed archive that contains the ouput of the opera- tion. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KmsKeyId -&gt; (string) ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" o KMS Key Alias: "alias/ExampleAlias" o ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ Shorthand Syntax: S3Uri=string,KmsKeyId=string JSON Syntax: { "S3Uri": "string", "KmsKeyId": "string" }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
+    public string? DataAccessRoleArn { get; private init; }
+
+    /// <summary>
+    /// The language code of the input documents. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// </summary>
+    [CliOption("--language-code")]
+    public AwsComprehendStartEventsDetectionJobLanguageCode? LanguageCode { get; private init; }
+
+    /// <summary>
+    /// The types of events to detect in the input documents. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 40 o pattern: [A-Z_]* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--target-event-types", GroupValues = true)]
+    public IEnumerable<string>? TargetEventTypes { get; private init; }
 
     /// <summary>
     /// The identifier of the events detection job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
@@ -37,18 +120,12 @@ public record AwsComprehendStartEventsDetectionJobOptions : AwsOptions
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
-
     /// <summary>
     /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--target-event-types", GroupValues = true)]
-    public IEnumerable<string>? TargetEventTypes { get; set; }
 
     /// <summary>
     /// Tags to associate with the events detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Com- prehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. (structure) A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair Department:Sales might be added to a resource to indicate its use by a particular department. Key -&gt; (string) [required] The initial part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the key portion of the pair, with multiple pos- sible values such as sales, legal, and administration. Constraints: o min: 1 o max: 128 Value -&gt; (string) The second part of a key-value pair that forms a tag associ- ated with a given resource. For instance, if you want to show which resources are used by which departments, you might use Department as the initial (key) portion of the pair, with a value of sales to indicate the sales department. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -61,5 +138,21 @@ public record AwsComprehendStartEventsDetectionJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

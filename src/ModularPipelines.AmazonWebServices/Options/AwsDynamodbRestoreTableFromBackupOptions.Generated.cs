@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "restore-table-from-backup")]
-public record AwsDynamodbRestoreTableFromBackupOptions : AwsOptions
+public record AwsDynamodbRestoreTableFromBackupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-table-name")]
-    public string? TargetTableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new table from an existing backup. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. You can call RestoreTableFromBackup at a maximum rate of 10 times per second. You must manually set up the following on the restored table: o Auto scaling policies o IAM policies o Amazon CloudWatch metrics and alarms o Tags o Stream settings o Time to Live (TTL) settings See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetTableName">The name of the new table to which the backup must be restored. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BackupArn">The Amazon Resource Name (ARN) associated with the backup. Constraints: o min: 37 o max: 1024</param>
+    public AwsDynamodbRestoreTableFromBackupOptions(
+        string TargetTableName,
+        string BackupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetTableName);
+        this.TargetTableName = TargetTableName;
+        global::System.ArgumentNullException.ThrowIfNull(BackupArn);
+        this.BackupArn = BackupArn;
+    }
+
+    private AwsDynamodbRestoreTableFromBackupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbRestoreTableFromBackupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbRestoreTableFromBackupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the new table to which the backup must be restored. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--target-table-name")]
+    public string? TargetTableName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) associated with the backup. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--backup-arn")]
-    public string? BackupArn { get; set; }
+    public string? BackupArn { get; private init; }
 
     /// <summary>
     /// The billing mode of the restored table. Possible values: o PROVISIONED o PAY_PER_REQUEST
@@ -75,5 +119,21 @@ public record AwsDynamodbRestoreTableFromBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "update-app-authorization")]
-public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions
+public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. If the app authorization was in a connected state, updating the app au- thorization will set it back to a PendingConnect state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsAppfabricUpdateAppAuthorizationOptions(
+        string AppBundleIdentifier,
+        string AppAuthorizationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(AppAuthorizationIdentifier);
+        this.AppAuthorizationIdentifier = AppAuthorizationIdentifier;
+    }
+
+    private AwsAppfabricUpdateAppAuthorizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricUpdateAppAuthorizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricUpdateAppAuthorizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--app-bundle-identifier")]
+    public string? AppBundleIdentifier { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--app-authorization-identifier")]
-    public string? AppAuthorizationIdentifier { get; set; }
+    public string? AppAuthorizationIdentifier { get; private init; }
 
     /// <summary>
     /// Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type of the app au- thorization to update. For example, if the authorization type of the app authorization is OAuth2 (oauth2 ), then you should provide only the OAuth2 credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: o min: 1 o max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: o min: 1 o max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: o min: 1 o max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }
@@ -46,5 +90,21 @@ public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

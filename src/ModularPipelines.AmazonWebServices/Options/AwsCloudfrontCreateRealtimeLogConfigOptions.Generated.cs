@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,118 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-realtime-log-config")]
-public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions
+public record AwsCloudfrontCreateRealtimeLogConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EndPoints">Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]</param>
+    /// <param name="Fields">A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide . (string) Syntax: "string" "string" ...</param>
+    /// <param name="Name">A unique name to identify this real-time log configuration.</param>
+    /// <param name="SamplingRate">The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.</param>
+    public AwsCloudfrontCreateRealtimeLogConfigOptions(
+        IEnumerable<string> EndPoints,
+        IEnumerable<string> Fields,
+        string Name,
+        int SamplingRate
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndPoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndPoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndPoints));
+            }
+
+            EndPoints = materialized;
+        }
+        this.EndPoints = EndPoints;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.SamplingRate = SamplingRate;
+    }
+
+    private AwsCloudfrontCreateRealtimeLogConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateRealtimeLogConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateRealtimeLogConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data. (structure) Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configura- tion. StreamType -&gt; (string) [required] The type of data stream where you are sending real-time log data. The only valid value is Kinesis . KinesisStreamConfig -&gt; (structure) Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration. RoleARN -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log con- figuration IAM role in the Amazon CloudFront Developer Guide . StreamARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data. Shorthand Syntax: StreamType=string,KinesisStreamConfig={RoleARN=string,StreamARN=string} ... JSON Syntax: [ { "StreamType": "string", "KinesisStreamConfig": { "RoleARN": "string", "StreamARN": "string" } } ... ]
+    /// </summary>
     [CliOption("--end-points", GroupValues = true)]
-    public IEnumerable<string>? EndPoints { get; set; }
+    public IEnumerable<string>? EndPoints { get; private init; }
 
+    /// <summary>
+    /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide . (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--fields", GroupValues = true)]
-    public IEnumerable<string>? Fields { get; set; }
+    public IEnumerable<string>? Fields { get; private init; }
 
+    /// <summary>
+    /// A unique name to identify this real-time log configuration.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
+    /// </summary>
     [CliOption("--sampling-rate")]
-    public int? SamplingRate { get; set; }
+    public int? SamplingRate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

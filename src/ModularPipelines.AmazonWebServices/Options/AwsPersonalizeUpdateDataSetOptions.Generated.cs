@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "update-dataset")]
-public record AwsPersonalizeUpdateDataSetOptions : AwsOptions
+public record AwsPersonalizeUpdateDataSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--dataset-arn")]
-    public string? DataSetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset that you want to up- date. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="SchemaArn">The Amazon Resource Name (ARN) of the new schema you want use. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    public AwsPersonalizeUpdateDataSetOptions(
+        string DataSetArn,
+        string SchemaArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetArn);
+        this.DataSetArn = DataSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+    }
+
+    private AwsPersonalizeUpdateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeUpdateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeUpdateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the dataset that you want to up- date. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
+    [CliOption("--dataset-arn")]
+    public string? DataSetArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the new schema you want use. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    public string? SchemaArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

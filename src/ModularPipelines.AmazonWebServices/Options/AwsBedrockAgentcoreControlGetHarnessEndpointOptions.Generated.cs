@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-harness-endpoint")]
-public record AwsBedrockAgentcoreControlGetHarnessEndpointOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetHarnessEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--harness-id")]
-    public string? HarnessId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Operation to get a single harness endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HarnessId">The ID of the harness that the endpoint belongs to. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the endpoint to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    public AwsBedrockAgentcoreControlGetHarnessEndpointOptions(
+        string HarnessId,
+        string EndpointName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HarnessId);
+        this.HarnessId = HarnessId;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointName);
+        this.EndpointName = EndpointName;
+    }
+
+    private AwsBedrockAgentcoreControlGetHarnessEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetHarnessEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetHarnessEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the harness that the endpoint belongs to. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// </summary>
+    [CliOption("--harness-id")]
+    public string? HarnessId { get; private init; }
+
+    /// <summary>
+    /// The name of the endpoint to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--endpoint-name")]
-    public string? EndpointName { get; set; }
+    public string? EndpointName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

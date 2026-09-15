@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "list-attributes")]
-public record AwsEcsListAttributesOptions : AwsOptions
+public record AwsEcsListAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAt- tributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (ecs...
+    /// </summary>
+    /// <param name="TargetType">The type of the target to list attributes with. Possible values: o container-instance</param>
+    public AwsEcsListAttributesOptions(
+        AwsEcsListAttributesTargetType TargetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+    }
+
+    private AwsEcsListAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsListAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsListAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the target to list attributes with. Possible values: o container-instance
+    /// </summary>
+    [CliOption("--target-type")]
+    public AwsEcsListAttributesTargetType? TargetType { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default clus- ter is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
-
-    [CliOption("--target-type")]
-    public string? TargetType { get; set; }
 
     /// <summary>
     /// The name of the attribute to filter the results with.
@@ -67,5 +105,21 @@ public record AwsEcsListAttributesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

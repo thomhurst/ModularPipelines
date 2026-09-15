@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "register-transit-gateway-multicast-group-sources")]
-public record AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions : AwsOptions
+public record AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers sources (network interfaces) with the specified transit gate- way multicast group. A multicast source is a network interface attached to a supported in- stance that sends multicast traffic. For more information about sup- ported instances, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayMulticastDomainId">The ID of the transit gateway multicast domain.</param>
+    /// <param name="NetworkInterfaceIds">The group sources' network interface IDs to register with the tran- sit gateway multicast group. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions(
+        string TransitGatewayMulticastDomainId,
+        IEnumerable<string> NetworkInterfaceIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayMulticastDomainId);
+        this.TransitGatewayMulticastDomainId = TransitGatewayMulticastDomainId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NetworkInterfaceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NetworkInterfaceIds));
+            }
+
+            NetworkInterfaceIds = materialized;
+        }
+        this.NetworkInterfaceIds = NetworkInterfaceIds;
+    }
+
+    private AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the transit gateway multicast domain.
+    /// </summary>
     [CliOption("--transit-gateway-multicast-domain-id")]
-    public string? TransitGatewayMulticastDomainId { get; set; }
+    public string? TransitGatewayMulticastDomainId { get; private init; }
+
+    /// <summary>
+    /// The group sources' network interface IDs to register with the tran- sit gateway multicast group. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--network-interface-ids", GroupValues = true)]
+    public IEnumerable<string>? NetworkInterfaceIds { get; private init; }
 
     /// <summary>
     /// The IP address assigned to the transit gateway multicast group.
@@ -30,10 +88,10 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions : AwsOpti
     [CliOption("--group-ip-address")]
     public string? GroupIpAddress { get; set; }
 
-    [CliOption("--network-interface-ids", GroupValues = true)]
-    public IEnumerable<string>? NetworkInterfaceIds { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +99,21 @@ public record AwsEc2RegisterTransitGatewayMulticastGroupSourcesOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

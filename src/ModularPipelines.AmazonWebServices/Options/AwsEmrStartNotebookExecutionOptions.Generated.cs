@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "start-notebook-execution")]
-public record AwsEmrStartNotebookExecutionOptions : AwsOptions
+public record AwsEmrStartNotebookExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a notebook execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ExecutionEngine">Specifies the execution engine (cluster) that runs the notebook exe- cution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: o EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to asso- ciate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }</param>
+    /// <param name="ServiceRole">The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsEmrStartNotebookExecutionOptions(
+        string ExecutionEngine,
+        string ServiceRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionEngine);
+        this.ExecutionEngine = ExecutionEngine;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceRole);
+        this.ServiceRole = ServiceRole;
+    }
+
+    private AwsEmrStartNotebookExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrStartNotebookExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrStartNotebookExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the execution engine (cluster) that runs the notebook exe- cution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: o EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to asso- ciate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }
+    /// </summary>
+    [CliOption("--execution-engine")]
+    public string? ExecutionEngine { get; private init; }
+
+    /// <summary>
+    /// The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--service-role")]
+    public string? ServiceRole { get; private init; }
+
     /// <summary>
     /// The unique identifier of the Amazon EMR Notebook to use for notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
@@ -46,12 +96,6 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions
     /// </summary>
     [CliOption("--notebook-params")]
     public string? NotebookParams { get; set; }
-
-    [CliOption("--execution-engine")]
-    public string? ExecutionEngine { get; set; }
-
-    [CliOption("--service-role")]
-    public string? ServiceRole { get; set; }
 
     /// <summary>
     /// The unique identifier of the Amazon EC2 security group to associate with the Amazon EMR Notebook for this notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -94,5 +138,21 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

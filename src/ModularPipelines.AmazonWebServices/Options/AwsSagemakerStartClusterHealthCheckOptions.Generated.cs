@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "start-cluster-health-check")]
-public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions
+public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for de- tails. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="DeepHealthCheckConfigurations">A list of configurations containing instance group names, EC2 in- stance IDs, and deep health checks to perform. Constraints: o min: 1 o max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: o min: 1 o max: 3 (string) Possible values: o InstanceStress o InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]</param>
+    public AwsSagemakerStartClusterHealthCheckOptions(
+        string ClusterName,
+        IEnumerable<string> DeepHealthCheckConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeepHealthCheckConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeepHealthCheckConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeepHealthCheckConfigurations));
+            }
+
+            DeepHealthCheckConfigurations = materialized;
+        }
+        this.DeepHealthCheckConfigurations = DeepHealthCheckConfigurations;
+    }
+
+    private AwsSagemakerStartClusterHealthCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerStartClusterHealthCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerStartClusterHealthCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// A list of configurations containing instance group names, EC2 in- stance IDs, and deep health checks to perform. Constraints: o min: 1 o max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: o min: 1 o max: 3 (string) Possible values: o InstanceStress o InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]
+    /// </summary>
     [CliOption("--deep-health-check-configurations", GroupValues = true)]
-    public IEnumerable<string>? DeepHealthCheckConfigurations { get; set; }
+    public IEnumerable<string>? DeepHealthCheckConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

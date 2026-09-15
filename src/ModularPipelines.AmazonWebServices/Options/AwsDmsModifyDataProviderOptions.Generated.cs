@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "modify-data-provider")]
-public record AwsDmsModifyDataProviderOptions : AwsOptions
+public record AwsDmsModifyDataProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the specified data provider using the provided settings. Required permissions: dms:UpdateDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: You must remove the data provider from all migration projects before you can modify it. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataProviderIdentifier">The identifier of the data provider. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.</param>
+    public AwsDmsModifyDataProviderOptions(
+        string DataProviderIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataProviderIdentifier);
+        this.DataProviderIdentifier = DataProviderIdentifier;
+    }
+
+    private AwsDmsModifyDataProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDmsModifyDataProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDmsModifyDataProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the data provider. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// </summary>
     [CliOption("--data-provider-identifier")]
-    public string? DataProviderIdentifier { get; set; }
+    public string? DataProviderIdentifier { get; private init; }
 
     /// <summary>
     /// The name of the data provider.
@@ -40,12 +78,18 @@ public record AwsDmsModifyDataProviderOptions : AwsOptions
     /// The type of database engine for the data provider. Valid values: aurora , aurora-postgresql , db2 , db2-zos , docdb , mariadb , mongodb , mysql , oracle , postgres , redshift , sqlserver , and sybase . A value of aurora represents Amazon Aurora MySQL-Com- patible Edition.
     /// </summary>
     [CliOption("--engine")]
-    public string? Engine { get; set; }
+    public AwsDmsModifyDataProviderEngine? Engine { get; set; }
 
-    [CliFlag("--virtual")]
+    /// <summary>
+    /// Indicates whether the data provider is virtual.
+    /// </summary>
+    [CliFlag("--virtual", NegatedName = "--no-virtual")]
     public bool? Virtual { get; set; }
 
-    [CliFlag("--exact-settings")]
+    /// <summary>
+    /// If this attribute is Y, the current call to ModifyDataProvider re- places all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things: o It replaces any data provider settings that already exist with new values, for settings with the same names. o It creates new data provider settings that you specify in the call, for settings with different names.
+    /// </summary>
+    [CliFlag("--exact-settings", NegatedName = "--no-exact-settings")]
     public bool? ExactSettings { get; set; }
 
     /// <summary>
@@ -59,5 +103,21 @@ public record AwsDmsModifyDataProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "list-groups-older-than-ordering-id")]
-public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions
+public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides a list of groups that are mapped to users before a given or- dering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Ama- zon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="OrderingId">The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: o min: 0 o max: 32535158400000</param>
+    public AwsKendraListGroupsOlderThanOrderingIdOptions(
+        string IndexId,
+        int OrderingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        this.OrderingId = OrderingId;
+    }
+
+    private AwsKendraListGroupsOlderThanOrderingIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraListGroupsOlderThanOrderingIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraListGroupsOlderThanOrderingIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
     [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: o min: 0 o max: 32535158400000
+    /// </summary>
+    [CliOption("--ordering-id")]
+    public int? OrderingId { get; private init; }
 
     /// <summary>
     /// The identifier of the data source for getting a list of groups mapped to users before a given ordering timestamp identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
-
-    [CliOption("--ordering-id")]
-    public int? OrderingId { get; set; }
 
     /// <summary>
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of groups that are mapped to users before a given ordering or time- stamp identifier. Constraints: o min: 1 o max: 800
@@ -52,5 +95,21 @@ public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

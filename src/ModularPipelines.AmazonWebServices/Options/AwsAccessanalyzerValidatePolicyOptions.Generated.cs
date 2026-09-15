@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("accessanalyzer", "validate-policy")]
-public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions
+public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommenda- tions to resolve the issue and enable you to author functional policies that meet security best practices. See also: AWS API Documentation validate-policy is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output ...
+    /// </summary>
+    /// <param name="PolicyDocument">The JSON policy document to use as the content for the policy.</param>
+    /// <param name="PolicyType">The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY</param>
+    public AwsAccessanalyzerValidatePolicyOptions(
+        string PolicyDocument,
+        AwsAccessanalyzerValidatePolicyPolicyType PolicyType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyType);
+        this.PolicyType = PolicyType;
+    }
+
+    private AwsAccessanalyzerValidatePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAccessanalyzerValidatePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAccessanalyzerValidatePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON policy document to use as the content for the policy.
+    /// </summary>
+    [CliOption("--policy-document")]
+    public string? PolicyDocument { get; private init; }
+
+    /// <summary>
+    /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic in- put such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy. Service control policies (SCPs) are a type of organization policy attached to an Amazon Web Services organization, organizational unit (OU), or an account. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY
+    /// </summary>
+    [CliOption("--policy-type")]
+    public AwsAccessanalyzerValidatePolicyPolicyType? PolicyType { get; private init; }
+
     /// <summary>
     /// The locale to use for localizing the findings. Possible values: o DE o EN o ES o FR o IT o JA o KO o PT_BR o ZH_CN o ZH_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsAccessanalyzerValidatePolicyLocale? Locale { get; set; }
 
-    [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
-
-    [CliOption("--policy-type")]
-    public string? PolicyType { get; set; }
-
     /// <summary>
     /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY . For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Ana- lyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies. Possible values: o AWS::S3::Bucket o AWS::S3::AccessPoint o AWS::S3::MultiRegionAccessPoint o AWS::S3ObjectLambda::AccessPoint o AWS::IAM::AssumeRolePolicyDocument o AWS::DynamoDB::Table
     /// </summary>
     [CliOption("--validate-policy-resource-type")]
-    public AwsAccessanalyzerValidatePolicyValidatePolicyResourceType? ValidatePolicyResourceType { get; set; }
+    public string? ValidatePolicyResourceType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -65,5 +109,21 @@ public record AwsAccessanalyzerValidatePolicyOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

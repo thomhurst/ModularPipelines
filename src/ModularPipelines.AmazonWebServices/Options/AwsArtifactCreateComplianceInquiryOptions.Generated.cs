@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifact", "create-compliance-inquiry")]
-public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions
+public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a new compliance inquiry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Title of the inquiry.</param>
+    /// <param name="InquiryContent">Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: o min: 1 o max: 2048 o pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }</param>
+    public AwsArtifactCreateComplianceInquiryOptions(
+        string Name,
+        string InquiryContent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InquiryContent);
+        this.InquiryContent = InquiryContent;
+    }
+
+    private AwsArtifactCreateComplianceInquiryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArtifactCreateComplianceInquiryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArtifactCreateComplianceInquiryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Title of the inquiry.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: o min: 1 o max: 2048 o pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }
+    /// </summary>
     [CliOption("--inquiry-content")]
-    public string? InquiryContent { get; set; }
+    public string? InquiryContent { get; private init; }
 
     /// <summary>
     /// Idempotency token for the request. Constraints: o min: 1 o max: 128 o pattern: [\w\-]+
@@ -54,5 +98,21 @@ public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-container-agent")]
-public record AwsEcsUpdateContainerAgentOptions : AwsOptions
+public record AwsEcsUpdateContainerAgentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the Amazon ECS container agent on a specified container in- stance. Updating the Amazon ECS container agent doesn't interrupt run- ning tasks or services on the container instance. The process for up- dating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. NOTE: The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update t...
+    /// </summary>
+    /// <param name="ContainerInstance">The container instance ID or full ARN entries for the container in- stance where you would like to update the Amazon ECS container agent.</param>
+    public AwsEcsUpdateContainerAgentOptions(
+        string ContainerInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContainerInstance);
+        this.ContainerInstance = ContainerInstance;
+    }
+
+    private AwsEcsUpdateContainerAgentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateContainerAgentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateContainerAgentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The container instance ID or full ARN entries for the container in- stance where you would like to update the Amazon ECS container agent.
+    /// </summary>
+    [CliOption("--container-instance")]
+    public string? ContainerInstance { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--container-instance")]
-    public string? ContainerInstance { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

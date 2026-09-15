@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "create-vpc-endpoint-association")]
-public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions
+public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="VpcId">The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$</param>
+    /// <param name="SubnetMapping">The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVp- cEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traf- fic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }</param>
+    public AwsNetworkFirewallCreateVpcEndpointAssociationOptions(
+        string FirewallArn,
+        string VpcId,
+        string SubnetMapping
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallArn);
+        this.FirewallArn = FirewallArn;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetMapping);
+        this.SubnetMapping = SubnetMapping;
+    }
+
+    private AwsNetworkFirewallCreateVpcEndpointAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallCreateVpcEndpointAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallCreateVpcEndpointAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// </summary>
     [CliOption("--firewall-arn")]
-    public string? FirewallArn { get; set; }
+    public string? FirewallArn { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$
+    /// </summary>
     [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    public string? VpcId { get; private init; }
 
+    /// <summary>
+    /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVp- cEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traf- fic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }
+    /// </summary>
     [CliOption("--subnet-mapping")]
-    public string? SubnetMapping { get; set; }
+    public string? SubnetMapping { get; private init; }
 
     /// <summary>
     /// A description of the VPC endpoint association. Constraints: o max: 512 o pattern: ^.*$
@@ -47,5 +98,21 @@ public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

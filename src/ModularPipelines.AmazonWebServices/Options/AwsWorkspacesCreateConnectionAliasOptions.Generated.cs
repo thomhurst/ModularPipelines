@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "create-connection-alias")]
-public record AwsWorkspacesCreateConnectionAliasOptions : AwsOptions
+public record AwsWorkspacesCreateConnectionAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the specified connection alias for use with cross-Region redi- rection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectionString">A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com . WARNING: After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account. Constraints: o min: 1 o max: 255 o pattern: ^[.0-9a-zA-Z\-]{1,255}$</param>
+    public AwsWorkspacesCreateConnectionAliasOptions(
+        string ConnectionString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionString);
+        this.ConnectionString = ConnectionString;
+    }
+
+    private AwsWorkspacesCreateConnectionAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesCreateConnectionAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesCreateConnectionAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com . WARNING: After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account. Constraints: o min: 1 o max: 255 o pattern: ^[.0-9a-zA-Z\-]{1,255}$
+    /// </summary>
     [CliOption("--connection-string")]
-    public string? ConnectionString { get; set; }
+    public string? ConnectionString { get; private init; }
 
     /// <summary>
     /// The tags to associate with the connection alias. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsWorkspacesCreateConnectionAliasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

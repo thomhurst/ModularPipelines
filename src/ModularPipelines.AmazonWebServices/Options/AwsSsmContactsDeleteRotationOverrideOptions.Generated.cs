@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "delete-rotation-override")]
-public record AwsSsmContactsDeleteRotationOverrideOptions : AwsOptions
+public record AwsSsmContactsDeleteRotationOverrideOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rotation-id")]
-    public string? RotationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an existing override for an on-call rotation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RotationId">The Amazon Resource Name (ARN) of the rotation that was overridden. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="RotationOverrideId">The Amazon Resource Name (ARN) of the on-call rotation override to delete. Constraints: o min: 36 o max: 39 o pattern: ([a-fA-Z0-9]{8,11}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}){1}</param>
+    public AwsSsmContactsDeleteRotationOverrideOptions(
+        string RotationId,
+        string RotationOverrideId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RotationId);
+        this.RotationId = RotationId;
+        global::System.ArgumentNullException.ThrowIfNull(RotationOverrideId);
+        this.RotationOverrideId = RotationOverrideId;
+    }
+
+    private AwsSsmContactsDeleteRotationOverrideOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsDeleteRotationOverrideOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsDeleteRotationOverrideOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the rotation that was overridden. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// </summary>
+    [CliOption("--rotation-id")]
+    public string? RotationId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the on-call rotation override to delete. Constraints: o min: 36 o max: 39 o pattern: ([a-fA-Z0-9]{8,11}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}){1}
+    /// </summary>
     [CliOption("--rotation-override-id")]
-    public string? RotationOverrideId { get; set; }
+    public string? RotationOverrideId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

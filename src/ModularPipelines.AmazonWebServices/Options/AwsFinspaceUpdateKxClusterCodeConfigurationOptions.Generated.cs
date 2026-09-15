@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("finspace", "update-kx-cluster-code-configuration")]
-public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions
+public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
+    /// <param name="ClusterName">The name of the cluster. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="Code">The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: o min: 1 o max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }</param>
+    public AwsFinspaceUpdateKxClusterCodeConfigurationOptions(
+        string EnvironmentId,
+        string ClusterName,
+        string Code
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(Code);
+        this.Code = Code;
+    }
+
+    private AwsFinspaceUpdateKxClusterCodeConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFinspaceUpdateKxClusterCodeConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFinspaceUpdateKxClusterCodeConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier of the kdb environment. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// The name of the cluster. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The structure of the customer code available within the running cluster. s3Bucket -&gt; (string) A unique name for the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: ^[a-z0-9][a-z0-9\.\-]*[a-z0-9]$ s3Key -&gt; (string) The full S3 path (excluding bucket) to the .zip file. This file contains the code that is loaded onto the cluster when it's started. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9\/\!\-_\.\*'\(\)]+$ s3ObjectVersion -&gt; (string) The version of an S3 object. Constraints: o min: 1 o max: 1000 Shorthand Syntax: s3Bucket=string,s3Key=string,s3ObjectVersion=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3ObjectVersion": "string" }
+    /// </summary>
+    [CliOption("--code")]
+    public string? Code { get; private init; }
 
     /// <summary>
     /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -34,9 +88,6 @@ public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--code")]
-    public string? Code { get; set; }
 
     /// <summary>
     /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q . You cannot update this parameter for a NO_RESTART deployment. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\_\-\.\/\\]+$
@@ -61,5 +112,21 @@ public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-model")]
-public record AwsApigatewayCreateModelOptions : AwsOptions
+public record AwsApigatewayCreateModelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds a new Model resource to an existing RestApi resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The RestApi identifier under which the Model will be created.</param>
+    /// <param name="Name">The name of the model. Must be alphanumeric.</param>
+    /// <param name="ContentType">The content-type for the model.</param>
+    public AwsApigatewayCreateModelOptions(
+        string RestApiId,
+        string Name,
+        string ContentType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ContentType);
+        this.ContentType = ContentType;
+    }
+
+    private AwsApigatewayCreateModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RestApi identifier under which the Model will be created.
+    /// </summary>
+    [CliOption("--rest-api-id")]
+    public string? RestApiId { get; private init; }
+
+    /// <summary>
+    /// The name of the model. Must be alphanumeric.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The content-type for the model.
+    /// </summary>
+    [CliOption("--content-type")]
+    public string? ContentType { get; private init; }
 
     /// <summary>
     /// The description of the model.
@@ -39,13 +93,26 @@ public record AwsApigatewayCreateModelOptions : AwsOptions
     [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CliOption("--content-type")]
-    public string? ContentType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

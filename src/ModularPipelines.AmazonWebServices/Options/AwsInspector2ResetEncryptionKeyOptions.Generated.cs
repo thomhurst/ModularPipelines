@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "reset-encryption-key")]
-public record AwsInspector2ResetEncryptionKeyOptions : AwsOptions
+public record AwsInspector2ResetEncryptionKeyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--scan-type")]
-    public string? ScanType { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ScanType">The scan type the key encrypts. Possible values: o NETWORK o PACKAGE o CODE</param>
+    /// <param name="ResourceType">The resource type the key encrypts. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites</param>
+    public AwsInspector2ResetEncryptionKeyOptions(
+        AwsInspector2ResetEncryptionKeyScanType ScanType,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanType);
+        this.ScanType = ScanType;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsInspector2ResetEncryptionKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2ResetEncryptionKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2ResetEncryptionKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The scan type the key encrypts. Possible values: o NETWORK o PACKAGE o CODE
+    /// </summary>
+    [CliOption("--scan-type")]
+    public AwsInspector2ResetEncryptionKeyScanType? ScanType { get; private init; }
+
+    /// <summary>
+    /// The resource type the key encrypts. Possible values: o AWS_EC2_INSTANCE o AWS_ECR_CONTAINER_IMAGE o AWS_ECR_REPOSITORY o AWS_LAMBDA_FUNCTION o CODE_REPOSITORY o Microsoft.Compute/virtualMachines o Microsoft.ContainerRegistry/registry/containerImage o Microsoft.Web/sites
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

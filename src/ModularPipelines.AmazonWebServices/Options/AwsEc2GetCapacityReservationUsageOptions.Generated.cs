@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-capacity-reservation-usage")]
-public record AwsEc2GetCapacityReservationUsageOptions : AwsOptions
+public record AwsEc2GetCapacityReservationUsageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is cur- rently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
+    public AwsEc2GetCapacityReservationUsageOptions(
+        string CapacityReservationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationId);
+        this.CapacityReservationId = CapacityReservationId;
+    }
+
+    private AwsEc2GetCapacityReservationUsageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetCapacityReservationUsageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetCapacityReservationUsageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Capacity Reservation.
+    /// </summary>
     [CliOption("--capacity-reservation-id")]
-    public string? CapacityReservationId { get; set; }
+    public string? CapacityReservationId { get; private init; }
 
     /// <summary>
     /// The token to use to retrieve the next page of results.
@@ -38,7 +75,10 @@ public record AwsEc2GetCapacityReservationUsageOptions : AwsOptions
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +86,21 @@ public record AwsEc2GetCapacityReservationUsageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

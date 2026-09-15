@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "create-bucket-metadata-table-configuration")]
-public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
+public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: We recommend that you create your S3 Metadata configurations by us- ing the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Me...
+    /// </summary>
+    /// <param name="Bucket">The general purpose bucket that you want to create the metadata ta- ble configuration for.</param>
+    /// <param name="MetadataTableConfiguration">The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table con- figuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }</param>
+    public AwsS3apiCreateBucketMetadataTableConfigurationOptions(
+        string Bucket,
+        string MetadataTableConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(MetadataTableConfiguration);
+        this.MetadataTableConfiguration = MetadataTableConfiguration;
+    }
+
+    private AwsS3apiCreateBucketMetadataTableConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiCreateBucketMetadataTableConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiCreateBucketMetadataTableConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The general purpose bucket that you want to create the metadata ta- ble configuration for.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table con- figuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }
+    /// </summary>
+    [CliOption("--metadata-table-configuration")]
+    public string? MetadataTableConfiguration { get; private init; }
 
     /// <summary>
     /// The Content-MD5 header for the metadata table configuration.
@@ -37,9 +84,6 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiCreateBucketMetadataTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--metadata-table-configuration")]
-    public string? MetadataTableConfiguration { get; set; }
-
     /// <summary>
     /// The expected owner of the general purpose bucket that corresponds to your metadata table configuration.
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

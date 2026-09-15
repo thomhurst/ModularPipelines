@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-document-default-version")]
-public record AwsSsmUpdateDocumentDefaultVersionOptions : AwsOptions
+public record AwsSsmUpdateDocumentDefaultVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Set the default version of a document. NOTE: If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previ- ously specifed the apply-only-at-cron-interval parameter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of a custom document that you want to set as the default version. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="DocumentVersion">The version of a custom document that you want to set as the default version. Constraints: o pattern: (^[1-9][0-9]*$)</param>
+    public AwsSsmUpdateDocumentDefaultVersionOptions(
+        string Name,
+        string DocumentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentVersion);
+        this.DocumentVersion = DocumentVersion;
+    }
+
+    private AwsSsmUpdateDocumentDefaultVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateDocumentDefaultVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateDocumentDefaultVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a custom document that you want to set as the default version. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The version of a custom document that you want to set as the default version. Constraints: o pattern: (^[1-9][0-9]*$)
+    /// </summary>
     [CliOption("--document-version")]
-    public string? DocumentVersion { get; set; }
+    public string? DocumentVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

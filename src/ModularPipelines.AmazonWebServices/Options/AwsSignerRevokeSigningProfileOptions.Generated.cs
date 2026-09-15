@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "revoke-signing-profile")]
-public record AwsSignerRevokeSigningProfileOptions : AwsOptions
+public record AwsSignerRevokeSigningProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the state of a signing profile to REVOKED . This indicates that signatures generated using the signing profile after an effective start date are no longer valid. A revoked profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a re- voked signing profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileName">The name of the signing profile to be revoked. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="ProfileVersion">The version of the signing profile to be revoked. Constraints: o min: 10 o max: 10 o pattern: ^[a-zA-Z0-9]{10}$</param>
+    /// <param name="Reason">The reason for revoking a signing profile. Constraints: o min: 1 o max: 500</param>
+    /// <param name="EffectiveTime">A timestamp for when revocation of a Signing Profile should become effective. Signatures generated using the signing profile after this timestamp are not trusted.</param>
+    public AwsSignerRevokeSigningProfileOptions(
+        string ProfileName,
+        string ProfileVersion,
+        string Reason,
+        string EffectiveTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileVersion);
+        this.ProfileVersion = ProfileVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Reason);
+        this.Reason = Reason;
+        global::System.ArgumentNullException.ThrowIfNull(EffectiveTime);
+        this.EffectiveTime = EffectiveTime;
+    }
+
+    private AwsSignerRevokeSigningProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerRevokeSigningProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerRevokeSigningProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the signing profile to be revoked. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
 
+    /// <summary>
+    /// The version of the signing profile to be revoked. Constraints: o min: 10 o max: 10 o pattern: ^[a-zA-Z0-9]{10}$
+    /// </summary>
     [CliOption("--profile-version")]
-    public string? ProfileVersion { get; set; }
+    public string? ProfileVersion { get; private init; }
 
+    /// <summary>
+    /// The reason for revoking a signing profile. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--reason")]
-    public string? Reason { get; set; }
+    public string? Reason { get; private init; }
 
+    /// <summary>
+    /// A timestamp for when revocation of a Signing Profile should become effective. Signatures generated using the signing profile after this timestamp are not trusted.
+    /// </summary>
     [CliOption("--effective-time")]
-    public string? EffectiveTime { get; set; }
+    public string? EffectiveTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

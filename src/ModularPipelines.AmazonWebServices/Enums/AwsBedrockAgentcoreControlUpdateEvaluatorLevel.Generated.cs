@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlUpdateEvaluatorLevel
 {
+    [EnumValue("SESSION")]
+    Session,
+
     [EnumValue("TOOL_CALL")]
-    ToolCall = 1,
+    ToolCall,
 
     [EnumValue("TRACE")]
-    Trace = 2,
-
-    [EnumValue("SESSION")]
-    Session = 3
+    Trace
 }

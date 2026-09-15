@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "delete-grant")]
-public record AwsLicenseManagerDeleteGrantOptions : AwsOptions
+public record AwsLicenseManagerDeleteGrantOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified grant. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GrantArn">Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="GrantVersion">Current version of the grant.</param>
+    public AwsLicenseManagerDeleteGrantOptions(
+        string GrantArn,
+        string GrantVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GrantArn);
+        this.GrantArn = GrantArn;
+        global::System.ArgumentNullException.ThrowIfNull(GrantVersion);
+        this.GrantVersion = GrantVersion;
+    }
+
+    private AwsLicenseManagerDeleteGrantOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerDeleteGrantOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerDeleteGrantOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// </summary>
     [CliOption("--grant-arn")]
-    public string? GrantArn { get; set; }
+    public string? GrantArn { get; private init; }
+
+    /// <summary>
+    /// Current version of the grant.
+    /// </summary>
+    [CliOption("--grant-version")]
+    public string? GrantVersion { get; private init; }
 
     /// <summary>
     /// The Status reason for the delete request. Constraints: o max: 400 o pattern: [\s\S]+
@@ -30,13 +77,26 @@ public record AwsLicenseManagerDeleteGrantOptions : AwsOptions
     [CliOption("--status-reason")]
     public string? StatusReason { get; set; }
 
-    [CliOption("--grant-version")]
-    public string? GrantVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

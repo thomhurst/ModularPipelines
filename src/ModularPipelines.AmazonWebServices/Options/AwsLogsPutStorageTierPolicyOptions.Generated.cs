@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-storage-tier-policy")]
-public record AwsLogsPutStorageTierPolicyOptions : AwsOptions
+public record AwsLogsPutStorageTierPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the storage tier policy for the account. When you set the storage tier to INTELLIGENT_TIERING , the service automatically moves log data to the most cost-effective storage tier based on access frequency. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StorageTier">The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the ap- propriate tier based on access frequency. Possible values: o STANDARD o INTELLIGENT_TIERING</param>
+    public AwsLogsPutStorageTierPolicyOptions(
+        AwsLogsPutStorageTierPolicyStorageTier StorageTier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StorageTier);
+        this.StorageTier = StorageTier;
+    }
+
+    private AwsLogsPutStorageTierPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutStorageTierPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutStorageTierPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the ap- propriate tier based on access frequency. Possible values: o STANDARD o INTELLIGENT_TIERING
+    /// </summary>
     [CliOption("--storage-tier")]
-    public string? StorageTier { get; set; }
+    public AwsLogsPutStorageTierPolicyStorageTier? StorageTier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

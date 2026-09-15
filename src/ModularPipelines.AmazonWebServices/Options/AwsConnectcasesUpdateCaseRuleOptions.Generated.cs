@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "update-case-rule")]
-public record AwsConnectcasesUpdateCaseRuleOptions : AwsOptions
+public record AwsConnectcasesUpdateCaseRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field conditions, see Add case field conditions to a case template . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="CaseRuleId">Unique identifier of a case rule. Constraints: o min: 1 o max: 500</param>
+    public AwsConnectcasesUpdateCaseRuleOptions(
+        string DomainId,
+        string CaseRuleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(CaseRuleId);
+        this.CaseRuleId = CaseRuleId;
+    }
+
+    private AwsConnectcasesUpdateCaseRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesUpdateCaseRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesUpdateCaseRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique identifier of a Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// Unique identifier of a case rule. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--case-rule-id")]
-    public string? CaseRuleId { get; set; }
+    public string? CaseRuleId { get; private init; }
 
     /// <summary>
     /// Name of the case rule. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
@@ -50,5 +94,21 @@ public record AwsConnectcasesUpdateCaseRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

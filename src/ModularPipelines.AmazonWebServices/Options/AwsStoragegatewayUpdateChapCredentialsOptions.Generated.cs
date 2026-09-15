@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "update-chap-credentials")]
-public record AwsStoragegatewayUpdateChapCredentialsOptions : AwsOptions
+public record AwsStoragegatewayUpdateChapCredentialsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the Challenge-Handshake Authentication Protocol (CHAP) creden- tials for a specified iSCSI target. By default, a gateway does not have CHAP enabled; however, for added security, you might use it. This oper- ation is supported in the volume and tape gateway types. WARNING: When you update CHAP credentials, all existing connections on the target are closed and initiators must reconnect with the new creden- tials. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetArn">The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN. Constraints: o min: 50 o max: 800</param>
+    /// <param name="SecretToAuthenticateInitiator">The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target. NOTE: The secret key must be between 12 and 16 bytes when encoded in UTF-8. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InitiatorName">The iSCSI initiator that connects to the target. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z:.-]+</param>
+    public AwsStoragegatewayUpdateChapCredentialsOptions(
+        string TargetArn,
+        string SecretToAuthenticateInitiator,
+        string InitiatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+        global::System.ArgumentNullException.ThrowIfNull(SecretToAuthenticateInitiator);
+        this.SecretToAuthenticateInitiator = SecretToAuthenticateInitiator;
+        global::System.ArgumentNullException.ThrowIfNull(InitiatorName);
+        this.InitiatorName = InitiatorName;
+    }
+
+    private AwsStoragegatewayUpdateChapCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayUpdateChapCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayUpdateChapCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN. Constraints: o min: 50 o max: 800
+    /// </summary>
+    [CliOption("--target-arn")]
+    public string? TargetArn { get; private init; }
+
+    /// <summary>
+    /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target. NOTE: The secret key must be between 12 and 16 bytes when encoded in UTF-8. Constraints: o min: 1 o max: 100
+    /// </summary>
     [SecretValue]
     [CliOption("--secret-to-authenticate-initiator")]
-    public string? SecretToAuthenticateInitiator { get; set; }
+    public string? SecretToAuthenticateInitiator { get; private init; }
 
+    /// <summary>
+    /// The iSCSI initiator that connects to the target. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z:.-]+
+    /// </summary>
     [CliOption("--initiator-name")]
-    public string? InitiatorName { get; set; }
+    public string? InitiatorName { get; private init; }
 
     /// <summary>
     /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints: Minimum bytes of 12. Maximum bytes of 16. NOTE: The secret key must be between 12 and 16 bytes when encoded in UTF-8. Constraints: o min: 1 o max: 100
@@ -44,5 +95,21 @@ public record AwsStoragegatewayUpdateChapCredentialsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

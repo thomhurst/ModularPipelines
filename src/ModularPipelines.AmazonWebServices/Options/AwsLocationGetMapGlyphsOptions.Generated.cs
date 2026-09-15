@@ -21,19 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("location", "get-map-glyphs")]
 public record AwsLocationGetMapGlyphsOptions : AwsOptions
 {
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetGlyphs https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html`__ unless you require Grab data. o GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetGlyphs operation gives a better user experience and is compatible with th...
+    /// </summary>
+    /// <param name="MapName">The map resource associated with the glyph le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="FontStack">A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode . Valid font stacks for Esri styles: o VectorEsriDarkGrayCanvas Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold o VectorEsriLightGrayCanvas Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold o VectorEsriTopographic Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic o VectorEsriStreets Arial Regular | Arial Italic | Arial Bold o VectorEsriNavigation Arial Regular | Arial Italic | Arial Bold Valid font stacks for HERE Technologies styles: o VectorHereContrast Fira GO Regular | Fira GO Bold o VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatel- lite Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular Valid font stacks for GrabMaps styles: o VectorGrabStandardLight, VectorGrabStandardDark Noto Sans Regular | Noto Sans Medium | Noto Sans Bold Valid font stacks for Open Data styles: o VectorOpenDataStandardLight, VectorOpenDataStandardDark, Vec- torOpenDataVisualizationLight, VectorOpenDataVisualizationDark Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regu- lar,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium NOTE: The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember .</param>
+    /// <param name="FontUnicodeRange">A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0255 includes all charac- ters from range U+0000 to 00FF . Must be aligned to multiples of 256. Constraints: o pattern: [0-9]+-[0-9]+\.pbf</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsLocationGetMapGlyphsOptions(
+        string MapName,
+        string FontStack,
+        string FontUnicodeRange,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MapName);
+        this.MapName = MapName;
+        global::System.ArgumentNullException.ThrowIfNull(FontStack);
+        this.FontStack = FontStack;
+        global::System.ArgumentNullException.ThrowIfNull(FontUnicodeRange);
+        this.FontUnicodeRange = FontUnicodeRange;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string MapName, out string FontStack, out string FontUnicodeRange, out string Outfile)
+    {
+        MapName = this.MapName;
+        FontStack = this.FontStack;
+        FontUnicodeRange = this.FontUnicodeRange;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The map resource associated with the glyph le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--map-name")]
-    public string? MapName { get; set; }
+    public string MapName { get; private init; }
 
+    /// <summary>
+    /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode . Valid font stacks for Esri styles: o VectorEsriDarkGrayCanvas Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold o VectorEsriLightGrayCanvas Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold o VectorEsriTopographic Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic o VectorEsriStreets Arial Regular | Arial Italic | Arial Bold o VectorEsriNavigation Arial Regular | Arial Italic | Arial Bold Valid font stacks for HERE Technologies styles: o VectorHereContrast Fira GO Regular | Fira GO Bold o VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatel- lite Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular Valid font stacks for GrabMaps styles: o VectorGrabStandardLight, VectorGrabStandardDark Noto Sans Regular | Noto Sans Medium | Noto Sans Bold Valid font stacks for Open Data styles: o VectorOpenDataStandardLight, VectorOpenDataStandardDark, Vec- torOpenDataVisualizationLight, VectorOpenDataVisualizationDark Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regu- lar,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium NOTE: The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember .
+    /// </summary>
     [CliOption("--font-stack")]
-    public string? FontStack { get; set; }
+    public string FontStack { get; private init; }
 
+    /// <summary>
+    /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0255 includes all charac- ters from range U+0000 to 00FF . Must be aligned to multiples of 256. Constraints: o pattern: [0-9]+-[0-9]+\.pbf
+    /// </summary>
     [CliOption("--font-unicode-range")]
-    public string? FontUnicodeRange { get; set; }
+    public string FontUnicodeRange { get; private init; }
 
     /// <summary>
     /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

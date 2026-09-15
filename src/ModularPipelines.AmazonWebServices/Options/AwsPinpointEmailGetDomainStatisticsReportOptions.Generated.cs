@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "get-domain-statistics-report")]
-public record AwsPinpointEmailGetDomainStatisticsReportOptions : AwsOptions
+public record AwsPinpointEmailGetDomainStatisticsReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieve inbox placement and engagement rates for the domains that you use to send email. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The domain that you want to obtain deliverability metrics for.</param>
+    /// <param name="StartDate">The first day (in Unix time) that you want to obtain domain deliver- ability metrics for.</param>
+    /// <param name="EndDate">The last day (in Unix time) that you want to obtain domain deliver- ability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .</param>
+    public AwsPinpointEmailGetDomainStatisticsReportOptions(
+        string Domain,
+        string StartDate,
+        string EndDate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(StartDate);
+        this.StartDate = StartDate;
+        global::System.ArgumentNullException.ThrowIfNull(EndDate);
+        this.EndDate = EndDate;
+    }
+
+    private AwsPinpointEmailGetDomainStatisticsReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailGetDomainStatisticsReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailGetDomainStatisticsReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain that you want to obtain deliverability metrics for.
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
+    /// <summary>
+    /// The first day (in Unix time) that you want to obtain domain deliver- ability metrics for.
+    /// </summary>
     [CliOption("--start-date")]
-    public string? StartDate { get; set; }
+    public string? StartDate { get; private init; }
 
+    /// <summary>
+    /// The last day (in Unix time) that you want to obtain domain deliver- ability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .
+    /// </summary>
     [CliOption("--end-date")]
-    public string? EndDate { get; set; }
+    public string? EndDate { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

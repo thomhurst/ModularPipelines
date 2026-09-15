@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "describe-aggregate-compliance-by-config-rules")]
-public record AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions : AwsOptions
+public record AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results. NOTE: The results can return an empty result page, but if you have a next- Token , the results are displayed on the next page. See also: AWS API Documentation describe-aggregate-compliance-by-config-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You c...
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    public AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions(
+        string ConfigurationAggregatorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+    }
+
+    private AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
     /// <summary>
     /// Filters the results by ConfigRuleComplianceFilters object. ConfigRuleName -&gt; (string) The name of the Config rule. Constraints: o min: 1 o max: 128 o pattern: .*\S.* ComplianceType -&gt; (string) The rule compliance status. For the ConfigRuleComplianceFilters data type, Config supports only COMPLIANT and NON_COMPLIANT . Config does not support the NOT_APPLICABLE and the INSUFFICIENT_DATA values. Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA AccountId -&gt; (string) The 12-digit account ID of the source account. Constraints: o pattern: \d{12} AwsRegion -&gt; (string) The source region where the data is aggregated. Constraints: o min: 1 o max: 64 Shorthand Syntax: ConfigRuleName=string,ComplianceType=string,AccountId=string,AwsRegion=string JSON Syntax: { "ConfigRuleName": "string", "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"NOT_APPLICABLE"|"INSUFFICIENT_DATA", "AccountId": "string", "AwsRegion": "string" }
@@ -55,5 +92,21 @@ public record AwsConfigserviceDescribeAggregateComplianceByConfigRulesOptions : 
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

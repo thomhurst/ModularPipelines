@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmonitor", "create-monitor")]
-public record AwsNetworkmonitorCreateMonitorOptions : AwsOptions
+public record AwsNetworkmonitorCreateMonitorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch. You can also create a monitor with probes using this command. For each probe, you define the following: o source The subnet IDs where the probes will be created. o destination The target destinatio...
+    /// </summary>
+    /// <param name="MonitorName">The name identifying the monitor. It can contain only letters, un- derscores (_), or dashes (-), and can be up to 200 characters. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsNetworkmonitorCreateMonitorOptions(
+        string MonitorName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+    }
+
+    private AwsNetworkmonitorCreateMonitorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmonitorCreateMonitorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmonitorCreateMonitorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name identifying the monitor. It can contain only letters, un- derscores (_), or dashes (-), and can be up to 200 characters. Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    public string? MonitorName { get; private init; }
 
     /// <summary>
     /// Displays a list of all of the probes created for a monitor. (structure) Creates a monitor probe. sourceArn -&gt; (string) [required] The ARN of the subnet. Constraints: o min: 20 o max: 2048 o pattern: arn:.* destination -&gt; (string) [required] The destination IP address. This must be either IPV4 or IPV6 . Constraints: o min: 1 o max: 255 destinationPort -&gt; (integer) The port associated with the destination . This is required only if the protocol is TCP and must be a number between 1 and 65536 . Constraints: o min: 0 o max: 65536 protocol -&gt; (string) [required] The protocol used for the network traffic between the source and destination . This must be either TCP or ICMP . Possible values: o TCP o ICMP packetSize -&gt; (integer) The size of the packets sent between the source and destina- tion. This must be a number between 56 and 8500 . Constraints: o min: 56 o max: 8500 probeTags -&gt; (map) The list of key-value pairs created and assigned to the moni- tor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: sourceArn=string,destination=string,destinationPort=integer,protocol=string,packetSize=integer,probeTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "sourceArn": "string", "destination": "string", "destinationPort": integer, "protocol": "TCP"|"ICMP", "packetSize": integer, "probeTags": {"string": "string" ...} } ... ]
@@ -56,5 +93,21 @@ public record AwsNetworkmonitorCreateMonitorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

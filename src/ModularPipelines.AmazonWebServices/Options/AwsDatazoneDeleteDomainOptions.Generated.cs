@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "delete-domain")]
-public record AwsDatazoneDeleteDomainOptions : AwsOptions
+public record AwsDatazoneDeleteDomainOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Amazon DataZone domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">The identifier of the Amazon Web Services domain that is to be deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    public AwsDatazoneDeleteDomainOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsDatazoneDeleteDomainOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneDeleteDomainOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneDeleteDomainOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Web Services domain that is to be deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
@@ -32,10 +69,16 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--skip-deletion-check")]
+    /// <summary>
+    /// Specifies whether to skip the check that prevents deletion of a do- main that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associ- ated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascad- eDelete instead. You can't use this parameter together with cascad- eDelete .
+    /// </summary>
+    [CliFlag("--skip-deletion-check", NegatedName = "--no-skip-deletion-check")]
     public bool? SkipDeletionCheck { get; set; }
 
-    [CliFlag("--cascade-delete")]
+    /// <summary>
+    /// Specifies whether to delete the domain along with all of its associ- ated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck . If you don't specify a value, the default is false .
+    /// </summary>
+    [CliFlag("--cascade-delete", NegatedName = "--no-cascade-delete")]
     public bool? CascadeDelete { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -43,5 +86,21 @@ public record AwsDatazoneDeleteDomainOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

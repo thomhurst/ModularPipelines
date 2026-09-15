@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-integration")]
-public record AwsRdsCreateIntegrationOptions : AwsOptions
+public record AwsRdsCreateIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a zero-ETL integration with Amazon Redshift. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(clus- ter|db):[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="TargetArn">The ARN of the Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="IntegrationName">The name of the integration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    public AwsRdsCreateIntegrationOptions(
+        string SourceArn,
+        string TargetArn,
+        string IntegrationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
+        this.IntegrationName = IntegrationName;
+    }
+
+    private AwsRdsCreateIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(clus- ter|db):[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// </summary>
     [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    public string? SourceArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048
+    /// </summary>
     [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
+    public string? TargetArn { get; private init; }
 
+    /// <summary>
+    /// The name of the integration. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--integration-name")]
-    public string? IntegrationName { get; set; }
+    public string? IntegrationName { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, RDS uses a default Amazon Web Services owned key.
@@ -66,5 +117,21 @@ public record AwsRdsCreateIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

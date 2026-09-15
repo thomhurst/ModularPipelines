@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "update-featured-results-set")]
-public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions
+public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to spe- cific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are fea- tured in the search results. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="FeaturedResultsSetId">The identifier of the set of featured results that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*</param>
+    public AwsKendraUpdateFeaturedResultsSetOptions(
+        string IndexId,
+        string FeaturedResultsSetId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(FeaturedResultsSetId);
+        this.FeaturedResultsSetId = FeaturedResultsSetId;
+    }
+
+    private AwsKendraUpdateFeaturedResultsSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraUpdateFeaturedResultsSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraUpdateFeaturedResultsSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the set of featured results that you want to up- date. Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]*
+    /// </summary>
     [CliOption("--featured-results-set-id")]
-    public string? FeaturedResultsSetId { get; set; }
+    public string? FeaturedResultsSetId { get; private init; }
 
     /// <summary>
     /// A new name for the set of featured results. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][ a-zA-Z0-9_-]*
@@ -63,5 +107,21 @@ public record AwsKendraUpdateFeaturedResultsSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "remove-flow-media-stream")]
-public record AwsMediaconnectRemoveFlowMediaStreamOptions : AwsOptions
+public record AwsMediaconnectRemoveFlowMediaStreamOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="MediaStreamName">The name of the media stream that you want to remove.</param>
+    public AwsMediaconnectRemoveFlowMediaStreamOptions(
+        string FlowArn,
+        string MediaStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+        global::System.ArgumentNullException.ThrowIfNull(MediaStreamName);
+        this.MediaStreamName = MediaStreamName;
+    }
+
+    private AwsMediaconnectRemoveFlowMediaStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectRemoveFlowMediaStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectRemoveFlowMediaStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
+    /// <summary>
+    /// The name of the media stream that you want to remove.
+    /// </summary>
     [CliOption("--media-stream-name")]
-    public string? MediaStreamName { get; set; }
+    public string? MediaStreamName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

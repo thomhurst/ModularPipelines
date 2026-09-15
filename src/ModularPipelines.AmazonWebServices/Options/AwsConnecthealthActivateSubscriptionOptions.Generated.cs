@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connecthealth", "activate-subscription")]
-public record AwsConnecthealthActivateSubscriptionOptions : AwsOptions
+public record AwsConnecthealthActivateSubscriptionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Activates a Subscription to enable billing for a user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+</param>
+    /// <param name="SubscriptionId">The unique identifier of the Subscription. Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}</param>
+    public AwsConnecthealthActivateSubscriptionOptions(
+        string DomainId,
+        string SubscriptionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionId);
+        this.SubscriptionId = SubscriptionId;
+    }
+
+    private AwsConnecthealthActivateSubscriptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnecthealthActivateSubscriptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnecthealthActivateSubscriptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the parent Domain. Constraints: o min: 20 o max: 25 o pattern: (hai-|dom-)[a-z0-9]+
+    /// </summary>
+    [CliOption("--domain-id")]
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the Subscription. Constraints: o min: 25 o max: 25 o pattern: sub-[a-zA-Z0-9]{21}
+    /// </summary>
     [CliOption("--subscription-id")]
-    public string? SubscriptionId { get; set; }
+    public string? SubscriptionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

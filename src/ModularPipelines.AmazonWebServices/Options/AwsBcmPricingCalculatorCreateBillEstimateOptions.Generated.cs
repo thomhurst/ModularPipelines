@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-pricing-calculator", "create-bill-estimate")]
-public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions
+public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bill-scenario-id")]
-    public string? BillScenarioId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill esti- mate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing us- age and commitme...
+    /// </summary>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to create a Bill es- timate. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    public AwsBcmPricingCalculatorCreateBillEstimateOptions(
+        string BillScenarioId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillScenarioId);
+        this.BillScenarioId = BillScenarioId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsBcmPricingCalculatorCreateBillEstimateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmPricingCalculatorCreateBillEstimateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmPricingCalculatorCreateBillEstimateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Bill Scenario for which you want to create a Bill es- timate. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
+    [CliOption("--bill-scenario-id")]
+    public string? BillScenarioId { get; private init; }
+
+    /// <summary>
+    /// The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
@@ -47,5 +91,21 @@ public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

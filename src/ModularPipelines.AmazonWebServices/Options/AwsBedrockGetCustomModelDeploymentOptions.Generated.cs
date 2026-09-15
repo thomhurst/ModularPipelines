@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "get-custom-model-deployment")]
-public record AwsBedrockGetCustomModelDeploymentOptions : AwsOptions
+public record AwsBedrockGetCustomModelDeploymentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a custom model deployment, including its status, configuration, and metadata. Use this operation to monitor the deployment status and retrieve details needed for inference requests. The following actions are related to the GetCustomModelDeployment oper- ation: o CreateCustomModelDeployment o ListCustomModelDeployments o DeleteCustomModelDeployment See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CustomModelDeploymentIdentifier">The Amazon Resource Name (ARN) or name of the custom model deploy- ment to retrieve information about. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}</param>
+    public AwsBedrockGetCustomModelDeploymentOptions(
+        string CustomModelDeploymentIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomModelDeploymentIdentifier);
+        this.CustomModelDeploymentIdentifier = CustomModelDeploymentIdentifier;
+    }
+
+    private AwsBedrockGetCustomModelDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockGetCustomModelDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockGetCustomModelDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or name of the custom model deploy- ment to retrieve information about. Constraints: o min: 1 o max: 93 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model-deployment/[a-z0-9]{12})|^([0-9a-zA-Z][_-]?){1,63}
+    /// </summary>
     [CliOption("--custom-model-deployment-identifier")]
-    public string? CustomModelDeploymentIdentifier { get; set; }
+    public string? CustomModelDeploymentIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

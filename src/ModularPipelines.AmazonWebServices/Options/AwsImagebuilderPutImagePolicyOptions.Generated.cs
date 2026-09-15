@@ -10,27 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy , you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. See also: AWS API Documentation
+/// Applies a policy to an image. To share resources, call the RAM API CreateResourceShare . If you call this API, you must also call the RAM API PromoteResourceShareCreatedFromPolicy so that the resource is visi- ble to all principals with whom the resource is shared. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "put-image-policy")]
-public record AwsImagebuilderPutImagePolicyOptions : AwsOptions
+public record AwsImagebuilderPutImagePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-arn")]
-    public string? ImageArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Applies a policy to an image. To share resources, call the RAM API CreateResourceShare . If you call this API, you must also call the RAM API PromoteResourceShareCreatedFromPolicy so that the resource is visi- ble to all principals with whom the resource is shared. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageArn">The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="Policy">The policy to apply. Constraints: o min: 1 o max: 30000</param>
+    public AwsImagebuilderPutImagePolicyOptions(
+        string ImageArn,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageArn);
+        this.ImageArn = ImageArn;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsImagebuilderPutImagePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderPutImagePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderPutImagePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// </summary>
+    [CliOption("--image-arn")]
+    public string? ImageArn { get; private init; }
+
+    /// <summary>
+    /// The policy to apply. Constraints: o min: 1 o max: 30000
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

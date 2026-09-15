@@ -10,20 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates multiple LaunchConfigurations by Source Server ID. NOTE: bootMode valid values are LEGACY_BIOS | UEFI See also: AWS API Documentation
+/// Updates multiple LaunchConfigurations by Source Server ID. NOTE: bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-launch-configuration")]
-public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
+public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates multiple LaunchConfigurations by Source Server ID. NOTE: bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceServerId">Update Launch configuration by Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    public AwsMgnUpdateLaunchConfigurationOptions(
+        string SourceServerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceServerId);
+        this.SourceServerId = SourceServerId;
+    }
+
+    private AwsMgnUpdateLaunchConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateLaunchConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateLaunchConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Update Launch configuration by Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--source-server-id")]
-    public string? SourceServerId { get; set; }
+    public string? SourceServerId { get; private init; }
 
     /// <summary>
     /// Update Launch configuration name request. Constraints: o min: 0 o max: 128
@@ -43,10 +80,16 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CliFlag("--copy-private-ip")]
+    /// <summary>
+    /// Update Launch configuration copy Private IP request.
+    /// </summary>
+    [CliFlag("--copy-private-ip", NegatedName = "--no-copy-private-ip")]
     public bool? CopyPrivateIp { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Update Launch configuration copy Tags request.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -62,12 +105,15 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
     public AwsMgnUpdateLaunchConfigurationBootMode? BootMode { get; set; }
 
     /// <summary>
-    /// Post Launch Actions to executed on the Test or Cutover instance. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: o TEST_AND_CUTOVER o CUTOVER_ONLY o TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: o min: 3 o max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: o min: 0 o max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: o min: 0 o max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: o min: 3 o max: 172 o pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: o min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
+    /// Post Launch Actions to be executed on the Test or Cutover instance. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: o TEST_AND_CUTOVER o CUTOVER_ONLY o TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: o min: 3 o max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: o min: 0 o max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: o min: 0 o max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: o min: 3 o max: 172 o pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: o min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
     /// </summary>
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
 
-    [CliFlag("--enable-map-auto-tagging")]
+    /// <summary>
+    /// Enable map auto tagging.
+    /// </summary>
+    [CliFlag("--enable-map-auto-tagging", NegatedName = "--no-enable-map-auto-tagging")]
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
@@ -87,5 +133,21 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

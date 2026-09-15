@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("omics", "get-s3-access-policy")]
-public record AwsOmicsGetS3AccessPolicyOptions : AwsOptions
+public record AwsOmicsGetS3AccessPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details about an access policy on a given store. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3AccessPointArn">The S3 access point ARN that has the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*</param>
+    public AwsOmicsGetS3AccessPolicyOptions(
+        string S3AccessPointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3AccessPointArn);
+        this.S3AccessPointArn = S3AccessPointArn;
+    }
+
+    private AwsOmicsGetS3AccessPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOmicsGetS3AccessPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOmicsGetS3AccessPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The S3 access point ARN that has the access policy. Constraints: o min: 1 o max: 1024 o pattern: arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*
+    /// </summary>
     [CliOption("--s3-access-point-arn")]
-    public string? S3AccessPointArn { get; set; }
+    public string? S3AccessPointArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

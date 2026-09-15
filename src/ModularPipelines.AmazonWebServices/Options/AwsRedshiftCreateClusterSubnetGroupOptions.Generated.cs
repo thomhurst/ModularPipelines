@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-cluster-subnet-group")]
-public record AwsRedshiftCreateClusterSubnetGroupOptions : AwsOptions
+public record AwsRedshiftCreateClusterSubnetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Ama- zon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Sub- net Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterSubnetGroupName">The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all subnet groups that are created by your Ama- zon Web Services account. Example: examplesubnetgroup Constraints: o max: 2147483647</param>
+    /// <param name="Description">A description for the subnet group. Constraints: o max: 2147483647</param>
+    /// <param name="SubnetIds">An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    public AwsRedshiftCreateClusterSubnetGroupOptions(
+        string ClusterSubnetGroupName,
+        string Description,
+        IEnumerable<string> SubnetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterSubnetGroupName);
+        this.ClusterSubnetGroupName = ClusterSubnetGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+    }
+
+    private AwsRedshiftCreateClusterSubnetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateClusterSubnetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateClusterSubnetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all subnet groups that are created by your Ama- zon Web Services account. Example: examplesubnetgroup Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-subnet-group-name")]
-    public string? ClusterSubnetGroupName { get; set; }
+    public string? ClusterSubnetGroupName { get; private init; }
 
+    /// <summary>
+    /// A description for the subnet group. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
+    /// <summary>
+    /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
-    public IEnumerable<string>? SubnetIds { get; set; }
+    public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
     /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +103,21 @@ public record AwsRedshiftCreateClusterSubnetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

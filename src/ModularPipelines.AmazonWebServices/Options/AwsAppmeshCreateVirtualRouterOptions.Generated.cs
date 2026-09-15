@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appmesh", "create-virtual-router")]
-public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions
+public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router re- ceives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming re- quests to different virtual nodes. For more information about virtual routers, see Virtual routers ....
+    /// </summary>
+    /// <param name="MeshName">The name of the service mesh to create the virtual router in. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Spec">The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }</param>
+    /// <param name="VirtualRouterName">The name to use for the virtual router. Constraints: o min: 1 o max: 255</param>
+    public AwsAppmeshCreateVirtualRouterOptions(
+        string MeshName,
+        string Spec,
+        string VirtualRouterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeshName);
+        this.MeshName = MeshName;
+        global::System.ArgumentNullException.ThrowIfNull(Spec);
+        this.Spec = Spec;
+        global::System.ArgumentNullException.ThrowIfNull(VirtualRouterName);
+        this.VirtualRouterName = VirtualRouterName;
+    }
+
+    private AwsAppmeshCreateVirtualRouterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppmeshCreateVirtualRouterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppmeshCreateVirtualRouterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service mesh to create the virtual router in. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--mesh-name")]
+    public string? MeshName { get; private init; }
+
+    /// <summary>
+    /// The virtual router specification to apply. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }
+    /// </summary>
+    [CliOption("--spec")]
+    public string? Spec { get; private init; }
+
+    /// <summary>
+    /// The name to use for the virtual router. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--virtual-router-name")]
+    public string? VirtualRouterName { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     /// </summary>
@@ -29,17 +89,11 @@ public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--mesh-name")]
-    public string? MeshName { get; set; }
-
     /// <summary>
     /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the re- source in the service mesh. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
-
-    [CliOption("--spec")]
-    public string? Spec { get; set; }
 
     /// <summary>
     /// Optional metadata that you can apply to the virtual router to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: o min: 0 o max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -47,13 +101,26 @@ public record AwsAppmeshCreateVirtualRouterOptions : AwsOptions
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
-    [CliOption("--virtual-router-name")]
-    public string? VirtualRouterName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

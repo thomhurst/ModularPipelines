@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mturk", "update-hit-type-of-hit")]
-public record AwsMturkUpdateHitTypeOfHitOptions : AwsOptions
+public record AwsMturkUpdateHitTypeOfHitOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--hit-id")]
-    public string? HitId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The UpdateHITTypeOfHIT operation allows you to change the HITType prop- erties of a HIT. This operation disassociates the HIT from its old HIT- Type properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HitId">The HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitTypeId">The ID of the new HIT type. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    public AwsMturkUpdateHitTypeOfHitOptions(
+        string HitId,
+        string HitTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HitId);
+        this.HitId = HitId;
+        global::System.ArgumentNullException.ThrowIfNull(HitTypeId);
+        this.HitTypeId = HitTypeId;
+    }
+
+    private AwsMturkUpdateHitTypeOfHitOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMturkUpdateHitTypeOfHitOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMturkUpdateHitTypeOfHitOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The HIT to update. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
+    [CliOption("--hit-id")]
+    public string? HitId { get; private init; }
+
+    /// <summary>
+    /// The ID of the new HIT type. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// </summary>
     [CliOption("--hit-type-id")]
-    public string? HitTypeId { get; set; }
+    public string? HitTypeId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

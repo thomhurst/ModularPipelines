@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,9 +21,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "describe-capacity-block-offerings")]
-public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
+public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. See also: AWS API Documentation describe-capacity-block-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data s...
+    /// </summary>
+    /// <param name="CapacityDurationHours">The reservation duration for the Capacity Block, in hours. You must specify the duration in 1-day increments up 14 days, and in 7-day increments up to 182 days.</param>
+    public AwsEc2DescribeCapacityBlockOfferingsOptions(
+        int CapacityDurationHours
+    )
+    {
+        this.CapacityDurationHours = CapacityDurationHours;
+    }
+
+    private AwsEc2DescribeCapacityBlockOfferingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DescribeCapacityBlockOfferingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DescribeCapacityBlockOfferingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The reservation duration for the Capacity Block, in hours. You must specify the duration in 1-day increments up 14 days, and in 7-day increments up to 182 days.
+    /// </summary>
+    [CliOption("--capacity-duration-hours")]
+    public int? CapacityDurationHours { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -49,9 +91,6 @@ public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
     [CliOption("--end-date-range")]
     public string? EndDateRange { get; set; }
 
-    [CliOption("--capacity-duration-hours")]
-    public int? CapacityDurationHours { get; set; }
-
     /// <summary>
     /// The EC2 UltraServer type of the Capacity Block offerings.
     /// </summary>
@@ -64,7 +103,10 @@ public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
     [CliOption("--ultraserver-count")]
     public int? UltraserverCount { get; set; }
 
-    [CliFlag("--all-availability-zones")]
+    /// <summary>
+    /// Include all Availability Zones and Local Zones, regardless of your opt-in status. If you do not use this parameter, the results include available offerings from all Availability Zones in the Amazon Web Services Region and Local Zones you are opted into.
+    /// </summary>
+    [CliFlag("--all-availability-zones", NegatedName = "--no-all-availability-zones")]
     public bool? AllAvailabilityZones { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -91,5 +133,21 @@ public record AwsEc2DescribeCapacityBlockOfferingsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

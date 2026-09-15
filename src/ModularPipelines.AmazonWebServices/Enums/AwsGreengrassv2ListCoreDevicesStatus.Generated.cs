@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGreengrassv2ListCoreDevicesStatus
 {
     [EnumValue("HEALTHY")]
-    Healthy = 1,
+    Healthy,
 
     [EnumValue("UNHEALTHY")]
-    Unhealthy = 2
+    Unhealthy
 }

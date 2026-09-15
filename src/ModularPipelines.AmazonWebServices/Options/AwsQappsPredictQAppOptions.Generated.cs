@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "predict-q-app")]
-public record AwsQappsPredictQAppOptions : AwsOptions
+public record AwsQappsPredictQAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp . This API doesn't create Amazon Q Apps di- rectly. See also: AWS API Documentation predict-q-app uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type docum...
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    public AwsQappsPredictQAppOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsQappsPredictQAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsPredictQAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsPredictQAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The input to generate the Q App definition from, either a conversa- tion or problem statement. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversation, problemStatement. conversation -&gt; (list) A conversation to use as input for generating the Q App defini- tion. Constraints: o min: 1 o max: 25 (structure) A message in a conversation, used as input for generating an Amazon Q App definition. body -&gt; (string) [required] The text content of the conversation message. Constraints: o min: 0 o max: 7000 type -&gt; (string) [required] The type of the conversation message. Possible values: o USER o SYSTEM problemStatement -&gt; (string) A problem statement to use as input for generating the Q App de- finition. Constraints: o min: 0 o max: 10000 Shorthand Syntax: conversation=[{body=string,type=string},{body=string,type=string}],problemStatement=string JSON Syntax: { "conversation": [ { "body": "string", "type": "USER"|"SYSTEM" } ... ], "problemStatement": "string" }
@@ -35,5 +72,21 @@ public record AwsQappsPredictQAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

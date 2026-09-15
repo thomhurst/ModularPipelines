@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --actionownerfilter.
+/// Allowed values for --action-owner-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodepipelineListActionTypesActionOwnerFilter
 {
     [EnumValue("AWS")]
-    Aws = 1,
-
-    [EnumValue("ThirdParty")]
-    ThirdParty = 2,
+    Aws,
 
     [EnumValue("Custom")]
-    Custom = 3
+    Custom,
+
+    [EnumValue("ThirdParty")]
+    ThirdParty
 }

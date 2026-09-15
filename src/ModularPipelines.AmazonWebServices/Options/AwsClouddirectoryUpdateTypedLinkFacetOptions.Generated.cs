@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,119 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "update-typed-link-facet")]
-public record AwsClouddirectoryUpdateTypedLinkFacetOptions : AwsOptions
+public record AwsClouddirectoryUpdateTypedLinkFacetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns .</param>
+    /// <param name="Name">The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AttributeUpdates">Attributes update structure. (structure) A typed link facet attribute update. Attribute -&gt; (structure) [required] The attribute to update. Name -&gt; (string) [required] The unique name of the typed link attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules that are attached to the attribute defi- nition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) RequiredBehavior -&gt; (string) [required] The required behavior of the TypedLinkAttributeDefinition . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED Action -&gt; (string) [required] The action to perform when updating the attribute. Possible values: o CREATE_OR_UPDATE o DELETE JSON Syntax: [ { "Attribute": { "Name": "string", "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...}, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" }, "Action": "CREATE_OR_UPDATE"|"DELETE" } ... ]</param>
+    /// <param name="IdentityAttributeOrder">The order of identity attributes for the facet, from most signifi- cant to least significant. The ability to filter typed links consid- ers the order that the attributes are defined on the typed link facet. When providing ranges to a typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links . (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Syntax: "string" "string" ...</param>
+    public AwsClouddirectoryUpdateTypedLinkFacetOptions(
+        string SchemaArn,
+        string Name,
+        IEnumerable<string> AttributeUpdates,
+        IEnumerable<string> IdentityAttributeOrder
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaArn);
+        this.SchemaArn = SchemaArn;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeUpdates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttributeUpdates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeUpdates));
+            }
+
+            AttributeUpdates = materialized;
+        }
+        this.AttributeUpdates = AttributeUpdates;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IdentityAttributeOrder);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IdentityAttributeOrder));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IdentityAttributeOrder));
+            }
+
+            IdentityAttributeOrder = materialized;
+        }
+        this.IdentityAttributeOrder = IdentityAttributeOrder;
+    }
+
+    private AwsClouddirectoryUpdateTypedLinkFacetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryUpdateTypedLinkFacetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryUpdateTypedLinkFacetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns .
+    /// </summary>
     [CliOption("--schema-arn")]
-    public string? SchemaArn { get; set; }
+    public string? SchemaArn { get; private init; }
 
+    /// <summary>
+    /// The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Attributes update structure. (structure) A typed link facet attribute update. Attribute -&gt; (structure) [required] The attribute to update. Name -&gt; (string) [required] The unique name of the typed link attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Type -&gt; (string) [required] The type of the attribute. Possible values: o STRING o BINARY o BOOLEAN o NUMBER o DATETIME o VARIANT DefaultValue -&gt; (structure) The default value of the attribute (if configured). StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. IsImmutable -&gt; (boolean) Whether the attribute is mutable or not. Rules -&gt; (map) Validation rules that are attached to the attribute defi- nition. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ value -&gt; (structure) Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule. Type -&gt; (string) The type of attribute validation rule. Possible values: o BINARY_LENGTH o NUMBER_COMPARISON o STRING_FROM_SET o STRING_LENGTH Parameters -&gt; (map) The minimum and maximum parameters that are asso- ciated with the rule. key -&gt; (string) value -&gt; (string) RequiredBehavior -&gt; (string) [required] The required behavior of the TypedLinkAttributeDefinition . Possible values: o REQUIRED_ALWAYS o NOT_REQUIRED Action -&gt; (string) [required] The action to perform when updating the attribute. Possible values: o CREATE_OR_UPDATE o DELETE JSON Syntax: [ { "Attribute": { "Name": "string", "Type": "STRING"|"BINARY"|"BOOLEAN"|"NUMBER"|"DATETIME"|"VARIANT", "DefaultValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp }, "IsImmutable": true|false, "Rules": {"string": { "Type": "BINARY_LENGTH"|"NUMBER_COMPARISON"|"STRING_FROM_SET"|"STRING_LENGTH", "Parameters": {"string": "string" ...} } ...}, "RequiredBehavior": "REQUIRED_ALWAYS"|"NOT_REQUIRED" }, "Action": "CREATE_OR_UPDATE"|"DELETE" } ... ]
+    /// </summary>
     [CliOption("--attribute-updates", GroupValues = true)]
-    public IEnumerable<string>? AttributeUpdates { get; set; }
+    public IEnumerable<string>? AttributeUpdates { get; private init; }
 
+    /// <summary>
+    /// The order of identity attributes for the facet, from most signifi- cant to least significant. The ability to filter typed links consid- ers the order that the attributes are defined on the typed link facet. When providing ranges to a typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links . (string) Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--identity-attribute-order", GroupValues = true)]
-    public IEnumerable<string>? IdentityAttributeOrder { get; set; }
+    public IEnumerable<string>? IdentityAttributeOrder { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "create-user")]
-public record AwsMemorydbCreateUserOptions : AwsOptions
+public record AwsMemorydbCreateUserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs) . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserName">The name of the user. This value must be unique as it also serves as the user identifier. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="AuthenticationMode">Denotes the user's authentication properties, such as whether it re- quires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: o password o iam Passwords -&gt; (list) The password(s) used for authentication Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }</param>
+    /// <param name="AccessString">Access permissions string used for this user. Constraints: o pattern: .*\S.*</param>
+    public AwsMemorydbCreateUserOptions(
+        string UserName,
+        string AuthenticationMode,
+        string AccessString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserName);
+        this.UserName = UserName;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMode);
+        this.AuthenticationMode = AuthenticationMode;
+        global::System.ArgumentNullException.ThrowIfNull(AccessString);
+        this.AccessString = AccessString;
+    }
+
+    private AwsMemorydbCreateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbCreateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbCreateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the user. This value must be unique as it also serves as the user identifier. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// </summary>
     [CliOption("--user-name")]
-    public string? UserName { get; set; }
+    public string? UserName { get; private init; }
 
+    /// <summary>
+    /// Denotes the user's authentication properties, such as whether it re- quires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: o password o iam Passwords -&gt; (list) The password(s) used for authentication Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }
+    /// </summary>
     [CliOption("--authentication-mode")]
-    public string? AuthenticationMode { get; set; }
+    public string? AuthenticationMode { get; private init; }
 
+    /// <summary>
+    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// </summary>
     [CliOption("--access-string")]
-    public string? AccessString { get; set; }
+    public string? AccessString { get; private init; }
 
     /// <summary>
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Constraints: o max: 200 (structure) A tag that can be added to an MemoryDB resource. Tags are com- posed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more in- formation, see Tagging your MemoryDB resources Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsMemorydbCreateUserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datapipeline", "query-objects")]
-public record AwsDatapipelineQueryObjectsOptions : AwsOptions
+public record AwsDatapipelineQueryObjectsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pipeline-id")]
-    public string? PipelineId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Queries the specified pipeline for the names of objects that match the specified set of conditions. See also: AWS API Documentation query-objects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ids
+    /// </summary>
+    /// <param name="PipelineId">The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="Sphere">Indicates whether the query applies to components or instances. The possible values are: COMPONENT , INSTANCE , and ATTEMPT . Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsDatapipelineQueryObjectsOptions(
+        string PipelineId,
+        string Sphere
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineId);
+        this.PipelineId = PipelineId;
+        global::System.ArgumentNullException.ThrowIfNull(Sphere);
+        this.Sphere = Sphere;
+    }
+
+    private AwsDatapipelineQueryObjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatapipelineQueryObjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatapipelineQueryObjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pipeline. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--pipeline-id")]
+    public string? PipelineId { get; private init; }
+
+    /// <summary>
+    /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT , INSTANCE , and ATTEMPT . Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--sphere")]
-    public string? Sphere { get; set; }
+    public string? Sphere { get; private init; }
 
     /// <summary>
     /// The query that defines the objects to be returned. The Query object can contain a maximum of ten selectors. The conditions in the query are limited to top-level String fields in the object. These filters can be applied to components, instances, and attempts. selectors -&gt; (list) List of selectors that define the query. An object must satisfy all of the selectors to match the query. (structure) A comparision that is used to determine whether a query should return this object. fieldName -&gt; (string) The name of the field that the operator will be applied to. The field name is the "key" portion of the field def- inition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails. Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* operator -&gt; (structure) Contains a logical operation for comparing the value of a field with a specified value. type -&gt; (string) The logical operation to be performed: equal (EQ ), equal reference (REF_EQ ), less than or equal (LE ), greater than or equal (GE ), or between (BETWEEN ). Equal reference (REF_EQ ) can be used only with refer- ence fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below. The comparison operators EQ and REF_EQ act on the fol- lowing fields: o name o @sphere o parent o @componentParent o @instanceParent o @status o @scheduledStartTime o @scheduledEndTime o @actualStartTime o @actualEndTime The comparison operators GE , LE , and BETWEEN act on the following fields: o @scheduledStartTime o @scheduledEndTime o @actualStartTime o @actualEndTime Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only al- pha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my". Possible values: o EQ o REF_EQ o LE o GE o BETWEEN values -&gt; (list) The value that the actual field value will be compared with. (string) Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: { "selectors": [ { "fieldName": "string", "operator": { "type": "EQ"|"REF_EQ"|"LE"|"GE"|"BETWEEN", "values": ["string", ...] } } ... ] }
@@ -58,5 +102,21 @@ public record AwsDatapipelineQueryObjectsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

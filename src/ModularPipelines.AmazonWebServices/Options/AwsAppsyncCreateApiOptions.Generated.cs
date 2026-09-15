@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "create-api")]
-public record AwsAppsyncCreateApiOptions : AwsOptions
+public record AwsAppsyncCreateApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the Api . Constraints: o min: 1 o max: 50 o pattern: [A-Za-z0-9_\-\ ]+</param>
+    /// <param name="EventConfig">The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API. authProviders -&gt; (list) [required] A list of authorization providers. (structure) Describes an authorization provider. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA cognitoConfig -&gt; (structure) Describes an Amazon Cognito user pool configuration. userPoolId -&gt; (string) [required] The user pool ID. awsRegion -&gt; (string) [required] The Amazon Web Services Region in which the user pool was created. appIdClientRegex -&gt; (string) A regular expression for validating the incoming Ama- zon Cognito user pool app client ID. If this value isn't set, no filtering is applied. openIDConnectConfig -&gt; (structure) Describes an OpenID Connect (OIDC) configuration. issuer -&gt; (string) [required] The issuer for the OIDC configuration. The issuer re- turned by discovery must exactly match the value of iss in the ID token. clientId -&gt; (string) The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multi- ple client identifiers at a time. iatTTL -&gt; (long) The number of milliseconds that a token is valid after it's issued to a user. authTTL -&gt; (long) The number of milliseconds that a token is valid after being authenticated. lambdaAuthorizerConfig -&gt; (structure) A LambdaAuthorizerConfig specifies how to authorize App- Sync API access when using the AWS_LAMBDA authorizer mode. Be aware that an AppSync API can have only one Lambda authorizer configured at a time. authorizerResultTtlInSeconds -&gt; (integer) The number of seconds a response should be cached for. The default is 0 seconds, which disables caching. If you don't specify a value for authorizerResultTtlIn- Seconds , the default value is used. The maximum value is one hour (3600 seconds). The Lambda function can override this by returning a ttlOverride key in its response. Constraints: o min: 0 o max: 3600 authorizerUri -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3 ), or an alias ARN. Note : This Lambda function must have the follow- ing resource-based policy assigned to it. When configuring Lambda authorizers in the console, this is done for you. To use the Command Line In- terface (CLI), run the following: aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:func- tion:my-function" --statement-id "appsync" --prin- cipal appsync.amazonaws.com --action lambda:In- vokeFunction identityValidationExpression -&gt; (string) A regular expression for validation of tokens before the Lambda function is called. connectionAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API connec- tions. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA defaultPublishAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API publish- ing. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA defaultSubscribeAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API subscrip- tions. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA logConfig -&gt; (structure) The CloudWatch Logs configuration for the Event API. logLevel -&gt; (string) [required] The type of information to log for the Event API. Possible values: o NONE o ERROR o ALL o INFO o DEBUG cloudWatchLogsRoleArn -&gt; (string) [required] The IAM service role that AppSync assumes to publish Cloud- Watch Logs in your account. JSON Syntax: { "authProviders": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA", "cognitoConfig": { "userPoolId": "string", "awsRegion": "string", "appIdClientRegex": "string" }, "openIDConnectConfig": { "issuer": "string", "clientId": "string", "iatTTL": long, "authTTL": long }, "lambdaAuthorizerConfig": { "authorizerResultTtlInSeconds": integer, "authorizerUri": "string", "identityValidationExpression": "string" } } ... ], "connectionAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "defaultPublishAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "defaultSubscribeAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "logConfig": { "logLevel": "NONE"|"ERROR"|"ALL"|"INFO"|"DEBUG", "cloudWatchLogsRoleArn": "string" } }</param>
+    public AwsAppsyncCreateApiOptions(
+        string Name,
+        string EventConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(EventConfig);
+        this.EventConfig = EventConfig;
+    }
+
+    private AwsAppsyncCreateApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncCreateApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncCreateApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the Api . Constraints: o min: 1 o max: 50 o pattern: [A-Za-z0-9_\-\ ]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API. authProviders -&gt; (list) [required] A list of authorization providers. (structure) Describes an authorization provider. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA cognitoConfig -&gt; (structure) Describes an Amazon Cognito user pool configuration. userPoolId -&gt; (string) [required] The user pool ID. awsRegion -&gt; (string) [required] The Amazon Web Services Region in which the user pool was created. appIdClientRegex -&gt; (string) A regular expression for validating the incoming Ama- zon Cognito user pool app client ID. If this value isn't set, no filtering is applied. openIDConnectConfig -&gt; (structure) Describes an OpenID Connect (OIDC) configuration. issuer -&gt; (string) [required] The issuer for the OIDC configuration. The issuer re- turned by discovery must exactly match the value of iss in the ID token. clientId -&gt; (string) The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multi- ple client identifiers at a time. iatTTL -&gt; (long) The number of milliseconds that a token is valid after it's issued to a user. authTTL -&gt; (long) The number of milliseconds that a token is valid after being authenticated. lambdaAuthorizerConfig -&gt; (structure) A LambdaAuthorizerConfig specifies how to authorize App- Sync API access when using the AWS_LAMBDA authorizer mode. Be aware that an AppSync API can have only one Lambda authorizer configured at a time. authorizerResultTtlInSeconds -&gt; (integer) The number of seconds a response should be cached for. The default is 0 seconds, which disables caching. If you don't specify a value for authorizerResultTtlIn- Seconds , the default value is used. The maximum value is one hour (3600 seconds). The Lambda function can override this by returning a ttlOverride key in its response. Constraints: o min: 0 o max: 3600 authorizerUri -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3 ), or an alias ARN. Note : This Lambda function must have the follow- ing resource-based policy assigned to it. When configuring Lambda authorizers in the console, this is done for you. To use the Command Line In- terface (CLI), run the following: aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:func- tion:my-function" --statement-id "appsync" --prin- cipal appsync.amazonaws.com --action lambda:In- vokeFunction identityValidationExpression -&gt; (string) A regular expression for validation of tokens before the Lambda function is called. connectionAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API connec- tions. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA defaultPublishAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API publish- ing. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA defaultSubscribeAuthModes -&gt; (list) [required] A list of valid authorization modes for the Event API subscrip- tions. (structure) Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization config- uration for an Event API. authType -&gt; (string) [required] The authorization type. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA logConfig -&gt; (structure) The CloudWatch Logs configuration for the Event API. logLevel -&gt; (string) [required] The type of information to log for the Event API. Possible values: o NONE o ERROR o ALL o INFO o DEBUG cloudWatchLogsRoleArn -&gt; (string) [required] The IAM service role that AppSync assumes to publish Cloud- Watch Logs in your account. JSON Syntax: { "authProviders": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA", "cognitoConfig": { "userPoolId": "string", "awsRegion": "string", "appIdClientRegex": "string" }, "openIDConnectConfig": { "issuer": "string", "clientId": "string", "iatTTL": long, "authTTL": long }, "lambdaAuthorizerConfig": { "authorizerResultTtlInSeconds": integer, "authorizerUri": "string", "identityValidationExpression": "string" } } ... ], "connectionAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "defaultPublishAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "defaultSubscribeAuthModes": [ { "authType": "API_KEY"|"AWS_IAM"|"AMAZON_COGNITO_USER_POOLS"|"OPENID_CONNECT"|"AWS_LAMBDA" } ... ], "logConfig": { "logLevel": "NONE"|"ERROR"|"ALL"|"INFO"|"DEBUG", "cloudWatchLogsRoleArn": "string" } }
+    /// </summary>
+    [CliOption("--event-config")]
+    public string? EventConfig { get; private init; }
 
     /// <summary>
     /// The owner contact information for the Api .
@@ -37,13 +84,26 @@ public record AwsAppsyncCreateApiOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--event-config")]
-    public string? EventConfig { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

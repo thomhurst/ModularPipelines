@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "set-security-token-service-preferences")]
-public record AwsIamSetSecurityTokenServicePreferencesOptions : AwsOptions
+public record AwsIamSetSecurityTokenServicePreferencesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the specified version of the global endpoint token as the token version used for the Amazon Web Services account. By default, Security Token Service (STS) is available as a global ser- vice, and all STS requests go to a single endpoint at https://sts.ama- zonaws.com . Amazon Web Services recommends using Regional STS end- points to reduce latency, build in redundancy, and increase session to- ken availability. For information about Regional endpoints for STS, see Security Token Service endp...
+    /// </summary>
+    /// <param name="GlobalEndpointTokenVersion">The version of the global endpoint token. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. How- ever, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an Amazon Web Services Region in the IAM User Guide . Possible values: o v1Token o v2Token</param>
+    public AwsIamSetSecurityTokenServicePreferencesOptions(
+        AwsIamSetSecurityTokenServicePreferencesGlobalEndpointTokenVersion GlobalEndpointTokenVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalEndpointTokenVersion);
+        this.GlobalEndpointTokenVersion = GlobalEndpointTokenVersion;
+    }
+
+    private AwsIamSetSecurityTokenServicePreferencesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamSetSecurityTokenServicePreferencesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamSetSecurityTokenServicePreferencesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The version of the global endpoint token. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. How- ever, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an Amazon Web Services Region in the IAM User Guide . Possible values: o v1Token o v2Token
+    /// </summary>
     [SecretValue]
     [CliOption("--global-endpoint-token-version")]
-    public string? GlobalEndpointTokenVersion { get; set; }
+    public AwsIamSetSecurityTokenServicePreferencesGlobalEndpointTokenVersion? GlobalEndpointTokenVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

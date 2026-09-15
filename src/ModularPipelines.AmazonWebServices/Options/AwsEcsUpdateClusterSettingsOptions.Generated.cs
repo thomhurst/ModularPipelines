@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-cluster-settings")]
-public record AwsEcsUpdateClusterSettingsOptions : AwsOptions
+public record AwsEcsUpdateClusterSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster")]
-    public string? Cluster { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the settings to use for a cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Cluster">The name of the cluster to modify the settings for.</param>
+    /// <param name="Settings">The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with PutAccountSetting or PutAccountSettingDefault . WARNING: Currently, if you delete an existing cluster that does not have Container Insights turned on, and then create a new cluster with the same name with Container Insights tuned on, Container In- sights will not actually be turned on. If you want to preserve the same name for your existing cluster and turn on Container Insights, you must wait 7 days before you can re-create it. (structure) The settings to use when creating a cluster. This parameter is used to turn on CloudWatch Container Insights with enhanced ob- servability or CloudWatch Container Insights for a cluster. Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. Af- ter you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infra- structure telemetry from the cluster level down to the container level in your environment and displays these critical perfor- mance data in curated dashboards removing the heavy lifting in observability set-up. For more information, see Monitor Amazon ECS containers using Container Insights with enhanced observability in the Amazon Elastic Container Service Developer Guide . name -&gt; (string) The name of the cluster setting. The value is containerIn- sights . Possible values: o containerInsights value -&gt; (string) The value to set for the cluster setting. The supported val- ues are enhanced , enabled , and disabled . To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced . To use Container Insights, set the containerInsights account setting to enabled . If a cluster value is specified, it will override the con- tainerInsights value set with PutAccountSetting or PutAccountSettingDefault . Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "containerInsights", "value": "string" } ... ]</param>
+    public AwsEcsUpdateClusterSettingsOptions(
+        string Cluster,
+        IEnumerable<string> Settings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Settings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Settings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Settings));
+            }
+
+            Settings = materialized;
+        }
+        this.Settings = Settings;
+    }
+
+    private AwsEcsUpdateClusterSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateClusterSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateClusterSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the cluster to modify the settings for.
+    /// </summary>
+    [CliOption("--cluster")]
+    public string? Cluster { get; private init; }
+
+    /// <summary>
+    /// The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with PutAccountSetting or PutAccountSettingDefault . WARNING: Currently, if you delete an existing cluster that does not have Container Insights turned on, and then create a new cluster with the same name with Container Insights tuned on, Container In- sights will not actually be turned on. If you want to preserve the same name for your existing cluster and turn on Container Insights, you must wait 7 days before you can re-create it. (structure) The settings to use when creating a cluster. This parameter is used to turn on CloudWatch Container Insights with enhanced ob- servability or CloudWatch Container Insights for a cluster. Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. Af- ter you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infra- structure telemetry from the cluster level down to the container level in your environment and displays these critical perfor- mance data in curated dashboards removing the heavy lifting in observability set-up. For more information, see Monitor Amazon ECS containers using Container Insights with enhanced observability in the Amazon Elastic Container Service Developer Guide . name -&gt; (string) The name of the cluster setting. The value is containerIn- sights . Possible values: o containerInsights value -&gt; (string) The value to set for the cluster setting. The supported val- ues are enhanced , enabled , and disabled . To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced . To use Container Insights, set the containerInsights account setting to enabled . If a cluster value is specified, it will override the con- tainerInsights value set with PutAccountSetting or PutAccountSettingDefault . Shorthand Syntax: name=string,value=string ... JSON Syntax: [ { "name": "containerInsights", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--settings", GroupValues = true)]
-    public IEnumerable<string>? Settings { get; set; }
+    public IEnumerable<string>? Settings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

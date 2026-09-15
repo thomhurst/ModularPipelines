@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-capacity-provider")]
-public record AwsBedrockAgentcoreControlGetCapacityProviderOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetCapacityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a capacity provider, including its status, permissions configuration, and compute configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CapacityProviderId">The unique identifier of the capacity provider. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    public AwsBedrockAgentcoreControlGetCapacityProviderOptions(
+        string CapacityProviderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityProviderId);
+        this.CapacityProviderId = CapacityProviderId;
+    }
+
+    private AwsBedrockAgentcoreControlGetCapacityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetCapacityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetCapacityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the capacity provider. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--capacity-provider-id")]
-    public string? CapacityProviderId { get; set; }
+    public string? CapacityProviderId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

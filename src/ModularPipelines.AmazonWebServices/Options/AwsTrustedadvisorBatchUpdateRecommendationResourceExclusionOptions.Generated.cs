@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trustedadvisor", "batch-update-recommendation-resource-exclusion")]
-public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions : AwsOptions
+public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update one or more exclusion statuses for a list of recommendation re- sources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommenda- tion resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclu- sion update, note that it might take a few minutes for the changes to be reflected in the system. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecommendationResourceExclusions">A list of recommendation resource ARNs and exclusion status to up- date Constraints: o min: 1 o max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corre- sponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: o min: 20 o max: 2048 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommenda- tion-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]</param>
+    public AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions(
+        IEnumerable<string> RecommendationResourceExclusions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RecommendationResourceExclusions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(RecommendationResourceExclusions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RecommendationResourceExclusions));
+            }
+
+            RecommendationResourceExclusions = materialized;
+        }
+        this.RecommendationResourceExclusions = RecommendationResourceExclusions;
+    }
+
+    private AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of recommendation resource ARNs and exclusion status to up- date Constraints: o min: 1 o max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corre- sponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: o min: 20 o max: 2048 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommenda- tion-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]
+    /// </summary>
     [CliOption("--recommendation-resource-exclusions", GroupValues = true)]
-    public IEnumerable<string>? RecommendationResourceExclusions { get; set; }
+    public IEnumerable<string>? RecommendationResourceExclusions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

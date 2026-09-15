@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "batch-delete-firewall-rule")]
-public record AwsRoute53resolverBatchDeleteFirewallRuleOptions : AwsOptions
+public record AwsRoute53resolverBatchDeleteFirewallRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes multiple DNS Firewall rules from the specified rule group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeleteFirewallRuleEntries">The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch oper- ation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: o min: 1 o max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: o min: 1 o max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: o min: 1 o max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]</param>
+    public AwsRoute53resolverBatchDeleteFirewallRuleOptions(
+        IEnumerable<string> DeleteFirewallRuleEntries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeleteFirewallRuleEntries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeleteFirewallRuleEntries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeleteFirewallRuleEntries));
+            }
+
+            DeleteFirewallRuleEntries = materialized;
+        }
+        this.DeleteFirewallRuleEntries = DeleteFirewallRuleEntries;
+    }
+
+    private AwsRoute53resolverBatchDeleteFirewallRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverBatchDeleteFirewallRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverBatchDeleteFirewallRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of firewall rules to delete. (structure) The details for deleting a single firewall rule in a batch oper- ation. FirewallRuleGroupId -&gt; (string) [required] The unique identifier of the firewall rule group for the rule. Constraints: o min: 1 o max: 64 FirewallDomainListId -&gt; (string) The ID of the domain list that's used in the rule. Constraints: o min: 1 o max: 64 FirewallThreatProtectionId -&gt; (string) The ID of the DNS Firewall Advanced rule. Constraints: o min: 1 o max: 64 Qtype -&gt; (string) The DNS query type that the rule evaluates. Constraints: o min: 1 o max: 16 Shorthand Syntax: FirewallRuleGroupId=string,FirewallDomainListId=string,FirewallThreatProtectionId=string,Qtype=string ... JSON Syntax: [ { "FirewallRuleGroupId": "string", "FirewallDomainListId": "string", "FirewallThreatProtectionId": "string", "Qtype": "string" } ... ]
+    /// </summary>
     [CliOption("--delete-firewall-rule-entries", GroupValues = true)]
-    public IEnumerable<string>? DeleteFirewallRuleEntries { get; set; }
+    public IEnumerable<string>? DeleteFirewallRuleEntries { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

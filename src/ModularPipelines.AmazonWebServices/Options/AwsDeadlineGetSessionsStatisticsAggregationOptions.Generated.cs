@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "get-sessions-statistics-aggregation")]
-public record AwsDeadlineGetSessionsStatisticsAggregationOptions : AwsOptions
+public record AwsDeadlineGetSessionsStatisticsAggregationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a set of statistics for queues or farms. Before you can call the GetSessionStatisticsAggregation operation, you must first call the StartSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation opera- tion. See also: AWS API Documentation get-sessions-statistics-aggregation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by pr...
+    /// </summary>
+    /// <param name="FarmId">The identifier of the farm to include in the statistics. This should be the same as the farm ID used in the call to the StartSessionsSta- tisticsAggregation operation. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="AggregationId">The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics. Constraints: o pattern: [0-9a-f]{32}</param>
+    public AwsDeadlineGetSessionsStatisticsAggregationOptions(
+        string FarmId,
+        string AggregationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(AggregationId);
+        this.AggregationId = AggregationId;
+    }
+
+    private AwsDeadlineGetSessionsStatisticsAggregationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineGetSessionsStatisticsAggregationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineGetSessionsStatisticsAggregationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the farm to include in the statistics. This should be the same as the farm ID used in the call to the StartSessionsSta- tisticsAggregation operation. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
+    [CliOption("--farm-id")]
+    public string? FarmId { get; private init; }
+
+    /// <summary>
+    /// The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics. Constraints: o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--aggregation-id")]
-    public string? AggregationId { get; set; }
+    public string? AggregationId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsDeadlineGetSessionsStatisticsAggregationOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

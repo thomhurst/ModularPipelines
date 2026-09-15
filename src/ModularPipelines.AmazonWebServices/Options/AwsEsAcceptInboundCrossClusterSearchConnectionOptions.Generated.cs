@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "accept-inbound-cross-cluster-search-connection")]
-public record AwsEsAcceptInboundCrossClusterSearchConnectionOptions : AwsOptions
+public record AwsEsAcceptInboundCrossClusterSearchConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows the destination domain owner to accept an inbound cross-cluster search connection request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CrossClusterSearchConnectionId">The id of the inbound connection that you want to accept.</param>
+    public AwsEsAcceptInboundCrossClusterSearchConnectionOptions(
+        string CrossClusterSearchConnectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrossClusterSearchConnectionId);
+        this.CrossClusterSearchConnectionId = CrossClusterSearchConnectionId;
+    }
+
+    private AwsEsAcceptInboundCrossClusterSearchConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsAcceptInboundCrossClusterSearchConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsAcceptInboundCrossClusterSearchConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The id of the inbound connection that you want to accept.
+    /// </summary>
     [CliOption("--cross-cluster-search-connection-id")]
-    public string? CrossClusterSearchConnectionId { get; set; }
+    public string? CrossClusterSearchConnectionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

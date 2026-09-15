@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-sms-voice-v2", "create-event-destination")]
-public record AwsPinpointSmsVoiceV2CreateEventDestinationOptions : AwsOptions
+public record AwsPinpointSmsVoiceV2CreateEventDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send no- tifications to endpoints that are subscribed to an Amazon SNS topic. You can only create one event destination at a time. You must provide a value for a single event ...
+    /// </summary>
+    /// <param name="ConfigurationSetName">Either the name of the configuration set or the configuration set ARN to apply event logging to. The ConfigurateSetName and Configura- tionSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="EventDestinationName">The name that identifies the event destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="MatchingEventTypes">An array of event types that determine which events to log. If "ALL" is used, then End User Messaging SMS logs every event type. NOTE: The TEXT_SENT event type is not supported. Constraints: o min: 1 o max: 52 (string) Possible values: o ALL o TEXT_ALL o TEXT_SENT o TEXT_PENDING o TEXT_QUEUED o TEXT_SUCCESSFUL o TEXT_DELIVERED o TEXT_INVALID o TEXT_INVALID_MESSAGE o TEXT_UNREACHABLE o TEXT_CARRIER_UNREACHABLE o TEXT_BLOCKED o TEXT_CARRIER_BLOCKED o TEXT_SPAM o TEXT_UNKNOWN o TEXT_TTL_EXPIRED o TEXT_PROTECT_BLOCKED o VOICE_ALL o VOICE_INITIATED o VOICE_RINGING o VOICE_ANSWERED o VOICE_COMPLETED o VOICE_BUSY o VOICE_NO_ANSWER o VOICE_FAILED o VOICE_TTL_EXPIRED o MEDIA_ALL o MEDIA_PENDING o MEDIA_QUEUED o MEDIA_SUCCESSFUL o MEDIA_DELIVERED o MEDIA_INVALID o MEDIA_INVALID_MESSAGE o MEDIA_UNREACHABLE o MEDIA_CARRIER_UNREACHABLE o MEDIA_BLOCKED o MEDIA_CARRIER_BLOCKED o MEDIA_SPAM o MEDIA_UNKNOWN o MEDIA_TTL_EXPIRED o MEDIA_FILE_INACCESSIBLE o MEDIA_FILE_TYPE_UNSUPPORTED o MEDIA_FILE_SIZE_EXCEEDED o RCS_ALL o RCS_QUEUED o RCS_SENT o RCS_DELIVERED o RCS_READ o RCS_FAILED o RCS_TTL_EXPIRED o RCS_PROTECT_BLOCKED o RCS_FALLEN_BACK_TO_SMS Syntax: "string" "string" ...</param>
+    public AwsPinpointSmsVoiceV2CreateEventDestinationOptions(
+        string ConfigurationSetName,
+        string EventDestinationName,
+        IEnumerable<string> MatchingEventTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationSetName);
+        this.ConfigurationSetName = ConfigurationSetName;
+        global::System.ArgumentNullException.ThrowIfNull(EventDestinationName);
+        this.EventDestinationName = EventDestinationName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MatchingEventTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MatchingEventTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MatchingEventTypes));
+            }
+
+            MatchingEventTypes = materialized;
+        }
+        this.MatchingEventTypes = MatchingEventTypes;
+    }
+
+    private AwsPinpointSmsVoiceV2CreateEventDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateEventDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointSmsVoiceV2CreateEventDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Either the name of the configuration set or the configuration set ARN to apply event logging to. The ConfigurateSetName and Configura- tionSetArn can be found using the DescribeConfigurationSets action. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// </summary>
     [CliOption("--configuration-set-name")]
-    public string? ConfigurationSetName { get; set; }
+    public string? ConfigurationSetName { get; private init; }
 
+    /// <summary>
+    /// The name that identifies the event destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+
+    /// </summary>
     [CliOption("--event-destination-name")]
-    public string? EventDestinationName { get; set; }
+    public string? EventDestinationName { get; private init; }
 
+    /// <summary>
+    /// An array of event types that determine which events to log. If "ALL" is used, then End User Messaging SMS logs every event type. NOTE: The TEXT_SENT event type is not supported. Constraints: o min: 1 o max: 52 (string) Possible values: o ALL o TEXT_ALL o TEXT_SENT o TEXT_PENDING o TEXT_QUEUED o TEXT_SUCCESSFUL o TEXT_DELIVERED o TEXT_INVALID o TEXT_INVALID_MESSAGE o TEXT_UNREACHABLE o TEXT_CARRIER_UNREACHABLE o TEXT_BLOCKED o TEXT_CARRIER_BLOCKED o TEXT_SPAM o TEXT_UNKNOWN o TEXT_TTL_EXPIRED o TEXT_PROTECT_BLOCKED o VOICE_ALL o VOICE_INITIATED o VOICE_RINGING o VOICE_ANSWERED o VOICE_COMPLETED o VOICE_BUSY o VOICE_NO_ANSWER o VOICE_FAILED o VOICE_TTL_EXPIRED o MEDIA_ALL o MEDIA_PENDING o MEDIA_QUEUED o MEDIA_SUCCESSFUL o MEDIA_DELIVERED o MEDIA_INVALID o MEDIA_INVALID_MESSAGE o MEDIA_UNREACHABLE o MEDIA_CARRIER_UNREACHABLE o MEDIA_BLOCKED o MEDIA_CARRIER_BLOCKED o MEDIA_SPAM o MEDIA_UNKNOWN o MEDIA_TTL_EXPIRED o MEDIA_FILE_INACCESSIBLE o MEDIA_FILE_TYPE_UNSUPPORTED o MEDIA_FILE_SIZE_EXCEEDED o RCS_ALL o RCS_QUEUED o RCS_SENT o RCS_DELIVERED o RCS_READ o RCS_FAILED o RCS_TTL_EXPIRED o RCS_PROTECT_BLOCKED o RCS_FALLEN_BACK_TO_SMS Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--matching-event-types", GroupValues = true)]
-    public IEnumerable<string>? MatchingEventTypes { get; set; }
+    public IEnumerable<string>? MatchingEventTypes { get; private init; }
 
     /// <summary>
     /// An object that contains information about an event destination for logging to Amazon CloudWatch Logs. IamRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Manage- ment role that is able to write event data to an Amazon Cloud- Watch destination. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ LogGroupArn -&gt; (string) [required] The name of the Amazon CloudWatch log group that you want to record events in. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ Shorthand Syntax: IamRoleArn=string,LogGroupArn=string JSON Syntax: { "IamRoleArn": "string", "LogGroupArn": "string" }
@@ -61,5 +123,21 @@ public record AwsPinpointSmsVoiceV2CreateEventDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

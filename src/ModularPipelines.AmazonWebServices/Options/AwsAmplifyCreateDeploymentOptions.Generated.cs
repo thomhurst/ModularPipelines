@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "create-deployment")]
-public record AwsAmplifyCreateDeploymentOptions : AwsOptions
+public record AwsAmplifyCreateDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a deployment for a manually deployed Amplify app. Manually de- ployed apps are not connected to a Git repository. The maximum duration between the CreateDeployment call and the StartDe- ployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    public AwsAmplifyCreateDeploymentOptions(
+        string AppId,
+        string BranchName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+    }
+
+    private AwsAmplifyCreateDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyCreateDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyCreateDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// </summary>
+    [CliOption("--app-id")]
+    public string? AppId { get; private init; }
+
+    /// <summary>
+    /// The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
 
     /// <summary>
     /// An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files. key -&gt; (string) Constraints: o max: 255 o pattern: (?s).* value -&gt; (string) Constraints: o max: 32 o pattern: (?s).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,21 @@ public record AwsAmplifyCreateDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

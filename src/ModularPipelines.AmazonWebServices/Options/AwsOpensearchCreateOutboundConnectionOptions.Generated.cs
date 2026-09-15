@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "create-outbound-connection")]
-public record AwsOpensearchCreateOutboundConnectionOptions : AwsOptions
+public record AwsOpensearchCreateOutboundConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more informa- tion, see Cross-cluster search for Amazon OpenSearch Service . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LocalDomainInfo">Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
+    /// <param name="RemoteDomainInfo">Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }</param>
+    /// <param name="ConnectionAlias">Name of the connection. Constraints: o min: 2 o max: 100 o pattern: [a-zA-Z][a-zA-Z0-9\-\_]+</param>
+    public AwsOpensearchCreateOutboundConnectionOptions(
+        string LocalDomainInfo,
+        string RemoteDomainInfo,
+        string ConnectionAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocalDomainInfo);
+        this.LocalDomainInfo = LocalDomainInfo;
+        global::System.ArgumentNullException.ThrowIfNull(RemoteDomainInfo);
+        this.RemoteDomainInfo = RemoteDomainInfo;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionAlias);
+        this.ConnectionAlias = ConnectionAlias;
+    }
+
+    private AwsOpensearchCreateOutboundConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchCreateOutboundConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchCreateOutboundConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name and Region of the source (local) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
+    /// </summary>
     [CliOption("--local-domain-info")]
-    public string? LocalDomainInfo { get; set; }
+    public string? LocalDomainInfo { get; private init; }
 
+    /// <summary>
+    /// Name and Region of the destination (remote) domain. AWSDomainInformation -&gt; (structure) Information about an Amazon OpenSearch Service domain. OwnerId -&gt; (string) The Amazon Web Services account ID of the domain owner. Constraints: o min: 12 o max: 12 o pattern: [0-9]+ DomainName -&gt; (string) [required] Name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) The Amazon Web Services Region in which the domain is lo- cated. Constraints: o min: 5 o max: 30 o pattern: [a-z][a-z0-9\-]+ Shorthand Syntax: AWSDomainInformation={OwnerId=string,DomainName=string,Region=string} JSON Syntax: { "AWSDomainInformation": { "OwnerId": "string", "DomainName": "string", "Region": "string" } }
+    /// </summary>
     [CliOption("--remote-domain-info")]
-    public string? RemoteDomainInfo { get; set; }
+    public string? RemoteDomainInfo { get; private init; }
 
+    /// <summary>
+    /// Name of the connection. Constraints: o min: 2 o max: 100 o pattern: [a-zA-Z][a-zA-Z0-9\-\_]+
+    /// </summary>
     [CliOption("--connection-alias")]
-    public string? ConnectionAlias { get; set; }
+    public string? ConnectionAlias { get; private init; }
 
     /// <summary>
     /// The connection mode. Possible values: o DIRECT o VPC_ENDPOINT
@@ -48,5 +99,21 @@ public record AwsOpensearchCreateOutboundConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

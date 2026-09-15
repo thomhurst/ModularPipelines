@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-custom-model-deployment")]
-public record AwsBedrockCreateCustomModelDeploymentOptions : AwsOptions
+public record AwsBedrockCreateCustomModelDeploymentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--model-deployment-name")]
-    public string? ModelDeploymentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your custom model, you use the deployment's Amazon Resource Name (ARN) as the modelId parameter when you submit prompts and gener- ate responses with model inference. For more information about setting up on-demand inference for custom models, see Set up inference for a custom model . The following actions are related to the CreateCustomModelDeployment operation: o GetCustomModelDeployment o ListCustomModelDeploym...
+    /// </summary>
+    /// <param name="ModelDeploymentName">The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}</param>
+    /// <param name="ModelArn">The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}</param>
+    public AwsBedrockCreateCustomModelDeploymentOptions(
+        string ModelDeploymentName,
+        string ModelArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelDeploymentName);
+        this.ModelDeploymentName = ModelDeploymentName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelArn);
+        this.ModelArn = ModelArn;
+    }
+
+    private AwsBedrockCreateCustomModelDeploymentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateCustomModelDeploymentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateCustomModelDeploymentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?){1,63}
+    /// </summary>
+    [CliOption("--model-deployment-name")]
+    public string? ModelDeploymentName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:cus- tom-model/(im- ported|[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})/[a-z0-9]{12}
+    /// </summary>
     [CliOption("--model-arn")]
-    public string? ModelArn { get; set; }
+    public string? ModelArn { get; private init; }
 
     /// <summary>
     /// A description for the custom model deployment to help you identify its purpose. Constraints: o min: 1 o max: 2048 o pattern: .*
@@ -52,5 +96,21 @@ public record AwsBedrockCreateCustomModelDeploymentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

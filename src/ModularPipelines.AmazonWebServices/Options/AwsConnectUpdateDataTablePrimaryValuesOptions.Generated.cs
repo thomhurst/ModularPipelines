@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,129 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-data-table-primary-values")]
-public record AwsConnectUpdateDataTablePrimaryValuesOptions : AwsOptions
+public record AwsConnectUpdateDataTablePrimaryValuesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the primary values for a record. This operation affects all ex- isting values that are currently associated to the record and its pri- mary values. Users that have restrictions on attributes and/or primary values are not authorized to use this endpoint. The combination of new primary values must be unique within the table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256</param>
+    /// <param name="PrimaryValues">The current primary values for the record. Required and must include values for all primary attributes. Fails if the table has primary attributes and some primary values are omitted. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly speci- fied. Shorthand Syntax: AttributeName=string,Value=string ... JSON Syntax: [ { "AttributeName": "string", "Value": "string" } ... ]</param>
+    /// <param name="NewPrimaryValues">The new primary values for the record. Required and must include values for all primary attributes. The combination must be unique within the table. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly speci- fied. Shorthand Syntax: AttributeName=string,Value=string ... JSON Syntax: [ { "AttributeName": "string", "Value": "string" } ... ]</param>
+    /// <param name="LockVersion">The lock version information required for optimistic locking to pre- vent concurrent modifications. DataTable -&gt; (string) The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the ValueLock- Level is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the in- dividual value is modified. Used for the finest-grained locking control. Shorthand Syntax: DataTable=string,Attribute=string,PrimaryValues=string,Value=string JSON Syntax: { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" }</param>
+    public AwsConnectUpdateDataTablePrimaryValuesOptions(
+        string InstanceId,
+        string DataTableId,
+        IEnumerable<string> PrimaryValues,
+        IEnumerable<string> NewPrimaryValues,
+        string LockVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataTableId);
+        this.DataTableId = DataTableId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PrimaryValues);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PrimaryValues));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PrimaryValues));
+            }
+
+            PrimaryValues = materialized;
+        }
+        this.PrimaryValues = PrimaryValues;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NewPrimaryValues);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NewPrimaryValues));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NewPrimaryValues));
+            }
+
+            NewPrimaryValues = materialized;
+        }
+        this.NewPrimaryValues = NewPrimaryValues;
+        global::System.ArgumentNullException.ThrowIfNull(LockVersion);
+        this.LockVersion = LockVersion;
+    }
+
+    private AwsConnectUpdateDataTablePrimaryValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateDataTablePrimaryValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateDataTablePrimaryValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--data-table-id")]
-    public string? DataTableId { get; set; }
+    public string? DataTableId { get; private init; }
 
+    /// <summary>
+    /// The current primary values for the record. Required and must include values for all primary attributes. Fails if the table has primary attributes and some primary values are omitted. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly speci- fied. Shorthand Syntax: AttributeName=string,Value=string ... JSON Syntax: [ { "AttributeName": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--primary-values", GroupValues = true)]
-    public IEnumerable<string>? PrimaryValues { get; set; }
+    public IEnumerable<string>? PrimaryValues { get; private init; }
 
+    /// <summary>
+    /// The new primary values for the record. Required and must include values for all primary attributes. The combination must be unique within the table. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly speci- fied. Shorthand Syntax: AttributeName=string,Value=string ... JSON Syntax: [ { "AttributeName": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--new-primary-values", GroupValues = true)]
-    public IEnumerable<string>? NewPrimaryValues { get; set; }
+    public IEnumerable<string>? NewPrimaryValues { get; private init; }
 
+    /// <summary>
+    /// The lock version information required for optimistic locking to pre- vent concurrent modifications. DataTable -&gt; (string) The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the ValueLock- Level is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the in- dividual value is modified. Used for the finest-grained locking control. Shorthand Syntax: DataTable=string,Attribute=string,PrimaryValues=string,Value=string JSON Syntax: { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" }
+    /// </summary>
     [CliOption("--lock-version")]
-    public string? LockVersion { get; set; }
+    public string? LockVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

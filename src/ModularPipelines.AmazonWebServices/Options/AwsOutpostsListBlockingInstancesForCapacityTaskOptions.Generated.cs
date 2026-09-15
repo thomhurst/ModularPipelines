@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "list-blocking-instances-for-capacity-task")]
-public record AwsOutpostsListBlockingInstancesForCapacityTaskOptions : AwsOptions
+public record AwsOutpostsListBlockingInstancesForCapacityTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task. See also: AWS API Documentation list-blocking-instances-for-capacity-task is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text a...
+    /// </summary>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="CapacityTaskId">The ID of the capacity task. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$</param>
+    public AwsOutpostsListBlockingInstancesForCapacityTaskOptions(
+        string OutpostIdentifier,
+        string CapacityTaskId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(CapacityTaskId);
+        this.CapacityTaskId = CapacityTaskId;
+    }
+
+    private AwsOutpostsListBlockingInstancesForCapacityTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsListBlockingInstancesForCapacityTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsListBlockingInstancesForCapacityTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the Outpost associated with the specified capacity task. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--outpost-identifier")]
+    public string? OutpostIdentifier { get; private init; }
+
+    /// <summary>
+    /// The ID of the capacity task. Constraints: o min: 21 o max: 21 o pattern: ^cap-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--capacity-task-id")]
-    public string? CapacityTaskId { get; set; }
+    public string? CapacityTaskId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsOutpostsListBlockingInstancesForCapacityTaskOptions : AwsOption
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

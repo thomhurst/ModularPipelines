@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "complete-resource-token-auth")]
-public record AwsBedrockAgentcoreCompleteResourceTokenAuthOptions : AwsOptions
+public record AwsBedrockAgentcoreCompleteResourceTokenAuthOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--user-identifier")]
-    public string? UserIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UserIdentifier">The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to re- trieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: o min: 1 o max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }</param>
+    /// <param name="SessionUri">Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+</param>
+    public AwsBedrockAgentcoreCompleteResourceTokenAuthOptions(
+        string UserIdentifier,
+        string SessionUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserIdentifier);
+        this.UserIdentifier = UserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionUri);
+        this.SessionUri = SessionUri;
+    }
+
+    private AwsBedrockAgentcoreCompleteResourceTokenAuthOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreCompleteResourceTokenAuthOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreCompleteResourceTokenAuthOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to re- trieve OAuth2.0 tokens. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userToken, userId. userToken -&gt; (string) The OAuth2.0 token issued by the users identity provider that was used to generate the workload access token Constraints: o min: 1 o max: 131072 o pattern: [A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+ userId -&gt; (string) The ID of the user for whom you have retrieved a workload access token for Constraints: o min: 1 o max: 128 Shorthand Syntax: userToken=string,userId=string JSON Syntax: { "userToken": "string", "userId": "string" }
+    /// </summary>
+    [CliOption("--user-identifier")]
+    public string? UserIdentifier { get; private init; }
+
+    /// <summary>
+    /// Unique identifier for the user's authentication session for retriev- ing OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentica- tion process. Constraints: o min: 1 o max: 1024 o pattern: urn:ietf:params:oauth:request_uri:[a-zA-Z0-9-._~]+
+    /// </summary>
     [CliOption("--session-uri")]
-    public string? SessionUri { get; set; }
+    public string? SessionUri { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

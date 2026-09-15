@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,94 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "create-location-hdfs")]
-public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
+public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses HDFS clusters . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NameNodes">The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directo- ries. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode: o Enhanced mode You can specify multiple NameNodes for HDFS High Availability (HA) configurations. o Basic mode You can specify only one NameNode. Constraints: o min: 1 (structure) The NameNode of the Hadoop Distributed File System (HDFS). The NameNode manages the file system's namespace. The NameNode per- forms operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. Hostname -&gt; (string) [required] The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$ Port -&gt; (integer) [required] The port that the NameNode uses to listen to client requests. Constraints: o min: 1 o max: 65536 Shorthand Syntax: Hostname=string,Port=integer ... JSON Syntax: [ { "Hostname": "string", "Port": integer } ... ]</param>
+    /// <param name="AuthenticationType">The type of authentication used to determine the identity of the user. Possible values: o SIMPLE o KERBEROS</param>
+    /// <param name="AgentArns">The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...</param>
+    public AwsDatasyncCreateLocationHdfsOptions(
+        IEnumerable<string> NameNodes,
+        AwsDatasyncCreateLocationHdfsAuthenticationType AuthenticationType,
+        IEnumerable<string> AgentArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NameNodes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NameNodes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NameNodes));
+            }
+
+            NameNodes = materialized;
+        }
+        this.NameNodes = NameNodes;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
+        this.AuthenticationType = AuthenticationType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AgentArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AgentArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AgentArns));
+            }
+
+            AgentArns = materialized;
+        }
+        this.AgentArns = AgentArns;
+    }
+
+    private AwsDatasyncCreateLocationHdfsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncCreateLocationHdfsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncCreateLocationHdfsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directo- ries. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode: o Enhanced mode You can specify multiple NameNodes for HDFS High Availability (HA) configurations. o Basic mode You can specify only one NameNode. Constraints: o min: 1 (structure) The NameNode of the Hadoop Distributed File System (HDFS). The NameNode manages the file system's namespace. The NameNode per- forms operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. Hostname -&gt; (string) [required] The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$ Port -&gt; (integer) [required] The port that the NameNode uses to listen to client requests. Constraints: o min: 1 o max: 65536 Shorthand Syntax: Hostname=string,Port=integer ... JSON Syntax: [ { "Hostname": "string", "Port": integer } ... ]
+    /// </summary>
+    [CliOption("--name-nodes", GroupValues = true)]
+    public IEnumerable<string>? NameNodes { get; private init; }
+
+    /// <summary>
+    /// The type of authentication used to determine the identity of the user. Possible values: o SIMPLE o KERBEROS
+    /// </summary>
+    [CliOption("--authentication-type")]
+    public AwsDatasyncCreateLocationHdfsAuthenticationType? AuthenticationType { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster. Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--agent-arns", GroupValues = true)]
+    public IEnumerable<string>? AgentArns { get; private init; }
+
     /// <summary>
     /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster. If the subdirec- tory isn't specified, it will default to / . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
-
-    [CliOption("--name-nodes", GroupValues = true)]
-    public IEnumerable<string>? NameNodes { get; set; }
 
     /// <summary>
     /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB). Constraints: o min: 1048576 o max: 1073741824
@@ -55,9 +135,6 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
     [CliOption("--qop-configuration")]
     public string? QopConfiguration { get; set; }
 
-    [CliOption("--authentication-type")]
-    public string? AuthenticationType { get; set; }
-
     /// <summary>
     /// The user name used to identify the client on the host operating sys- tem. NOTE: If SIMPLE is specified for AuthenticationType , this parameter is required. Constraints: o min: 1 o max: 256 o pattern: ^[_.A-Za-z0-9][-_.A-Za-z0-9]*$
     /// </summary>
@@ -81,9 +158,6 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
     /// </summary>
     [CliOption("--kerberos-krb5-conf")]
     public string? KerberosKrb5Conf { get; set; }
-
-    [CliOption("--agent-arns", GroupValues = true)]
-    public IEnumerable<string>? AgentArns { get; set; }
 
     /// <summary>
     /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -110,5 +184,21 @@ public record AwsDatasyncCreateLocationHdfsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "update-rule-metadata")]
-public record AwsFrauddetectorUpdateRuleMetadataOptions : AwsOptions
+public record AwsFrauddetectorUpdateRuleMetadataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule")]
-    public string? Rule { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a rule's metadata. The description attribute can be updated. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Rule">The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
+    /// <param name="Description">The rule description. Constraints: o min: 1 o max: 128</param>
+    public AwsFrauddetectorUpdateRuleMetadataOptions(
+        string Rule,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsFrauddetectorUpdateRuleMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorUpdateRuleMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorUpdateRuleMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
+    /// </summary>
+    [CliOption("--rule")]
+    public string? Rule { get; private init; }
+
+    /// <summary>
+    /// The rule description. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

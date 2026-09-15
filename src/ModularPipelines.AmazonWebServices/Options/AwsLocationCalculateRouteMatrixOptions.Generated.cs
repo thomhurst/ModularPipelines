@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "calculate-route-matrix")]
-public record AwsLocationCalculateRouteMatrixOptions : AwsOptions
+public record AwsLocationCalculateRouteMatrixOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 ``CalculateRouteM- atrix` /location/latest/APIReference/API_CalculateRouteM- atrix.html`__ unless you require Grab data. o This version of CalculateRouteMatrix is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 CalculateRouteMatrix operation gives better re- sul...
+    /// </summary>
+    /// <param name="CalculatorName">The name of the route calculator resource that you want to use to calculate the route matrix. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DeparturePositions">The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude] . For example, [-123.115, 49.285] . WARNING: Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See Position restrictions in the Amazon Location Service Developer Guide . NOTE: For route calculators that use Esri as the data provider, if you specify a departure that's not located on a road, Amazon Loca- tion moves the position to the nearest road . The snapped value is available in the result in SnappedDeparturePositions . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 1 o max: 350 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]</param>
+    /// <param name="DestinationPositions">The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude] . For example, [-122.339, 47.615] WARNING: Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See Position restrictions in the Amazon Location Service Developer Guide . NOTE: For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Loca- tion moves the position to the nearest road . The snapped value is available in the result in SnappedDestinationPositions . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 1 o max: 350 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]</param>
+    public AwsLocationCalculateRouteMatrixOptions(
+        string CalculatorName,
+        IEnumerable<string> DeparturePositions,
+        IEnumerable<string> DestinationPositions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CalculatorName);
+        this.CalculatorName = CalculatorName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeparturePositions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeparturePositions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeparturePositions));
+            }
+
+            DeparturePositions = materialized;
+        }
+        this.DeparturePositions = DeparturePositions;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DestinationPositions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DestinationPositions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DestinationPositions));
+            }
+
+            DestinationPositions = materialized;
+        }
+        this.DestinationPositions = DestinationPositions;
+    }
+
+    private AwsLocationCalculateRouteMatrixOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCalculateRouteMatrixOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCalculateRouteMatrixOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the route calculator resource that you want to use to calculate the route matrix. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--calculator-name")]
-    public string? CalculatorName { get; set; }
+    public string? CalculatorName { get; private init; }
 
+    /// <summary>
+    /// The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude] . For example, [-123.115, 49.285] . WARNING: Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See Position restrictions in the Amazon Location Service Developer Guide . NOTE: For route calculators that use Esri as the data provider, if you specify a departure that's not located on a road, Amazon Loca- tion moves the position to the nearest road . The snapped value is available in the result in SnappedDeparturePositions . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 1 o max: 350 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
+    /// </summary>
     [CliOption("--departure-positions", GroupValues = true)]
-    public IEnumerable<string>? DeparturePositions { get; set; }
+    public IEnumerable<string>? DeparturePositions { get; private init; }
 
+    /// <summary>
+    /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude] . For example, [-122.339, 47.615] WARNING: Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See Position restrictions in the Amazon Location Service Developer Guide . NOTE: For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Loca- tion moves the position to the nearest road . The snapped value is available in the result in SnappedDestinationPositions . Valid Values: [-180 to 180,-90 to 90] Constraints: o min: 1 o max: 350 (list) Constraints: o min: 2 o max: 2 (double) Shorthand Syntax: double,double ... JSON Syntax: [ [double, ...] ... ]
+    /// </summary>
     [CliOption("--destination-positions", GroupValues = true)]
-    public IEnumerable<string>? DestinationPositions { get; set; }
+    public IEnumerable<string>? DestinationPositions { get; private init; }
 
     /// <summary>
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences: o If traveling by Car use the CarModeOptions parameter. o If traveling by Truck use the TruckModeOptions parameter. NOTE: Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more information about using Grab as a data provider, see GrabMaps in the Amazon Location Service Developer Guide . Default Value: Car Possible values: o Car o Truck o Walking o Bicycle o Motorcycle
@@ -43,7 +116,10 @@ public record AwsLocationCalculateRouteMatrixOptions : AwsOptions
     [CliOption("--departure-time")]
     public string? DepartureTime { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// Sets the time of departure as the current time. Uses the current time to calculate the route matrix. You can't set both DepartureTime and DepartNow . If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route ma- trix. Default Value: false Valid Values: false | true
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>
@@ -75,5 +151,21 @@ public record AwsLocationCalculateRouteMatrixOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

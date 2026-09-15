@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "put-event-selectors")]
-public record AwsCloudtrailPutEventSelectorsOptions : AwsOptions
+public record AwsCloudtrailPutEventSelectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Configures event selectors (also referred to as basic event selectors ) or advanced event selectors for your trail. You can use either Ad- vancedEventSelectors or EventSelectors , but not both. If you apply Ad- vancedEventSelectors to a trail, any existing EventSelectors are over- written. You can use AdvancedEventSelectors to log management events, data events for all resource types, and network activity events. You can use EventSelectors to log management events and data events for the followi...
+    /// </summary>
+    /// <param name="TrailName">Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
+    public AwsCloudtrailPutEventSelectorsOptions(
+        string TrailName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrailName);
+        this.TrailName = TrailName;
+    }
+
+    private AwsCloudtrailPutEventSelectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailPutEventSelectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailPutEventSelectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If you specify a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// </summary>
     [CliOption("--trail-name")]
-    public string? TrailName { get; set; }
+    public string? TrailName { get; private init; }
 
     /// <summary>
     /// Specifies the settings for your event selectors. You can use event selectors to log management events and data events for the following resource types: o AWS::DynamoDB::Table o AWS::Lambda::Function o AWS::S3::Object You can't use event selectors to log network activity events. You can configure up to five event selectors for a trail. You can use either EventSelectors or AdvancedEventSelectors in a PutEventSe- lectors request, but not both. If you apply EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten. (structure) Use event selectors to further specify the management and data event settings for your trail. By default, trails created with- out specific event selectors will be configured to log all read and write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. You can configure up to five event selectors for a trail. You cannot apply both event selectors and advanced event selec- tors to a trail. ReadWriteType -&gt; (string) Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsole- Output is a read-only API operation and RunInstances is a write-only API operation. By default, the value is All . Possible values: o ReadOnly o WriteOnly o All IncludeManagementEvents -&gt; (boolean) Specify if you want your event selector to include management events for your trail. For more information, see Management Events in the CloudTrail User Guide . By default, the value is true . The first copy of management events is free. You are charged for additional copies of management events that you are log- ging on any subsequent trail in the same Region. For more in- formation about CloudTrail pricing, see CloudTrail Pricing . DataResources -&gt; (list) CloudTrail supports data event logging for Amazon S3 objects in standard S3 buckets, Lambda functions, and Amazon DynamoDB tables with basic event selectors. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you con- figure resource logging for all data events. For more information, see Data Events and Limits in Cloud- Trail in the CloudTrail User Guide . NOTE: To log data events for all other resource types including objects stored in directory buckets , you must use AdvancedEventSelectors . You must also use AdvancedE- ventSelectors if you want to filter on the eventName field. (structure) You can configure the DataResource in an EventSelector to log data events for the following three resource types: o AWS::DynamoDB::Table o AWS::Lambda::Function o AWS::S3::Object To log data events for all other resource types including objects stored in directory buckets , you must use AdvancedEventSelectors . You must also use AdvancedE- ventSelectors if you want to filter on the eventName field. Configure the DataResource to specify the resource type and resource ARNs for which you want to log data events. NOTE: The total number of allowed data resources is 250. This number can be distributed between 1 and 5 event selectors, but the total cannot exceed 250 across all selectors for the trail. The following example demonstrates how logging works when you configure logging of all data events for a general purpose bucket named amzn-s3-demo-bucket1 . In this exam- ple, the CloudTrail user specified an empty prefix, and the option to log both Read and Write data events. o A user uploads an image file to amzn-s3-demo-bucket1 . o The PutObject API operation is an Amazon S3 ob- ject-level API. It is recorded as a data event in CloudTrail. Because the CloudTrail user specified an S3 bucket with an empty prefix, events that occur on any object in that bucket are logged. The trail processes and logs the event. o A user uploads an object to an Amazon S3 bucket named arn:aws:s3:::amzn-s3-demo-bucket1 . o The PutObject API operation occurred for an object in an S3 bucket that the CloudTrail user didn't specify for the trail. The trail doesnt log the event. The following example demonstrates how logging works when you configure logging of Lambda data events for a Lambda function named MyLambdaFunction , but not for all Lambda functions. o A user runs a script that includes a call to the My- LambdaFunction function and the MyOtherLambdaFunction function. o The Invoke API operation on MyLambdaFunction is an Lambda API. It is recorded as a data event in Cloud- Trail. Because the CloudTrail user specified logging data events for MyLambdaFunction , any invocations of that function are logged. The trail processes and logs the event. o The Invoke API operation on MyOtherLambdaFunction is an Lambda API. Because the CloudTrail user did not specify logging data events for all Lambda functions, the In- voke operation for MyOtherLambdaFunction does not match the function specified for the trail. The trail doesnt log the event. Type -&gt; (string) The resource type in which you want to log data events. You can specify the following basic event se- lector resource types: o AWS::DynamoDB::Table o AWS::Lambda::Function o AWS::S3::Object Additional resource types are available through ad- vanced event selectors. For more information, see AdvancedEventSelector . Values -&gt; (list) An array of Amazon Resource Name (ARN) strings or par- tial ARN strings for the specified resource type. o To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3 . NOTE: This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is per- formed on a bucket that belongs to another Amazon Web Services account. o To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::amzn-s3-demo-bucket1/ . The trail logs data events for all objects in this S3 bucket. o To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::amzn-s3-demo-bucket1/example-images . The trail logs data events for objects in this S3 bucket that match the prefix. o To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda . NOTE: This also enables logging of Invoke activity per- formed by any user or role in your Amazon Web Ser- vices account, even if that activity is performed on a function that belongs to another Amazon Web Services account. o To log data events for a specific Lambda function, specify the function ARN. NOTE: Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:func- tion:helloworld , data events will only be logged for arn:aws:lambda:us-west-2:111111111111:func- tion:helloworld . They will not be logged for arn:aws:lambda:us-west-2:111111111111:func- tion:helloworld2 . o To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb . (string) ExcludeManagementEventSources -&gt; (list) An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazon- aws.com . By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in Re- gions that support the event source. (string) JSON Syntax: [ { "ReadWriteType": "ReadOnly"|"WriteOnly"|"All", "IncludeManagementEvents": true|false, "DataResources": [ { "Type": "string", "Values": ["string", ...] } ... ], "ExcludeManagementEventSources": ["string", ...] } ... ]
@@ -41,5 +78,21 @@ public record AwsCloudtrailPutEventSelectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

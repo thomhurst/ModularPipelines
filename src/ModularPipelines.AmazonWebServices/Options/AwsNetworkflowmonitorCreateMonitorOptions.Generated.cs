@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,22 +22,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "create-monitor")]
-public record AwsNetworkflowmonitorCreateMonitorOptions : AwsOptions
+public record AwsNetworkflowmonitorCreateMonitorOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--monitor-name")]
-    public string? MonitorName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or sev- eral of your workloads. For each monitor, Network Flow Monitor pub- lishes detailed end-to-end performance metrics and a network health in- dicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a moni- tor, during a time period that you choose. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MonitorName">The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="LocalResources">The local resources to monitor. A local resource in a workload is the location of the host, or hosts, where the Network Flow Monitor agent is installed. For example, if a workload consists of an inter- action between a web service and a backend database (for example, Amazon Dynamo DB), the subnet with the EC2 instance that hosts the web service, which also runs the agent, is the local resource. Be aware that all local resources must belong to the current Region. Constraints: o min: 1 (structure) A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, an Availability Zone, an EKS cluster or an Amazon Web Services Region. type -&gt; (string) [required] The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone , AWS::EC2::Subnet , AWS::EKS::Cluster , or AWS::Region . Possible values: o AWS::EC2::VPC o AWS::AvailabilityZone o AWS::EC2::Subnet o AWS::Region o AWS::EKS::Cluster identifier -&gt; (string) [required] The identifier of the local resource. The values you can specify are the following: o For a VPC, subnet or EKS cluster, this identifier is the VPC Amazon Resource Name (ARN), subnet ARN or cluster ARN. o For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. o For a Region, this identifier is the Region name, for exam- ple, us-west-2. Shorthand Syntax: type=string,identifier=string ... JSON Syntax: [ { "type": "AWS::EC2::VPC"|"AWS::AvailabilityZone"|"AWS::EC2::Subnet"|"AWS::Region"|"AWS::EKS::Cluster", "identifier": "string" } ... ]</param>
+    /// <param name="ScopeArn">The Amazon Resource Name (ARN) of the scope for the monitor. Constraints: o min: 20 o max: 2048 o pattern: arn:.*</param>
+    public AwsNetworkflowmonitorCreateMonitorOptions(
+        string MonitorName,
+        IEnumerable<string> LocalResources,
+        string ScopeArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitorName);
+        this.MonitorName = MonitorName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(LocalResources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(LocalResources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(LocalResources));
+            }
+
+            LocalResources = materialized;
+        }
+        this.LocalResources = LocalResources;
+        global::System.ArgumentNullException.ThrowIfNull(ScopeArn);
+        this.ScopeArn = ScopeArn;
+    }
+
+    private AwsNetworkflowmonitorCreateMonitorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorCreateMonitorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorCreateMonitorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the monitor. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--monitor-name")]
+    public string? MonitorName { get; private init; }
+
+    /// <summary>
+    /// The local resources to monitor. A local resource in a workload is the location of the host, or hosts, where the Network Flow Monitor agent is installed. For example, if a workload consists of an inter- action between a web service and a backend database (for example, Amazon Dynamo DB), the subnet with the EC2 instance that hosts the web service, which also runs the agent, is the local resource. Be aware that all local resources must belong to the current Region. Constraints: o min: 1 (structure) A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, an Availability Zone, an EKS cluster or an Amazon Web Services Region. type -&gt; (string) [required] The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone , AWS::EC2::Subnet , AWS::EKS::Cluster , or AWS::Region . Possible values: o AWS::EC2::VPC o AWS::AvailabilityZone o AWS::EC2::Subnet o AWS::Region o AWS::EKS::Cluster identifier -&gt; (string) [required] The identifier of the local resource. The values you can specify are the following: o For a VPC, subnet or EKS cluster, this identifier is the VPC Amazon Resource Name (ARN), subnet ARN or cluster ARN. o For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. o For a Region, this identifier is the Region name, for exam- ple, us-west-2. Shorthand Syntax: type=string,identifier=string ... JSON Syntax: [ { "type": "AWS::EC2::VPC"|"AWS::AvailabilityZone"|"AWS::EC2::Subnet"|"AWS::Region"|"AWS::EKS::Cluster", "identifier": "string" } ... ]
+    /// </summary>
     [CliOption("--local-resources", GroupValues = true)]
-    public IEnumerable<string>? LocalResources { get; set; }
+    public IEnumerable<string>? LocalResources { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the scope for the monitor. Constraints: o min: 20 o max: 2048 o pattern: arn:.*
+    /// </summary>
+    [CliOption("--scope-arn")]
+    public string? ScopeArn { get; private init; }
 
     /// <summary>
     /// The remote resources to monitor. A remote resource is the other end- point in the bi-directional flow of a workload, with a local re- source. For example, Amazon Dynamo DB can be a remote resource. When you specify remote resources, be aware that specific combina- tions of resources are allowed and others are not, including the following constraints: o All remote resources that you specify must all belong to a single Region. o If you specify Amazon Web Services services as remote resources, any other remote resources that you specify must be in the current Region. o When you specify a remote resource for another Region, you can only specify the Region resource type. You cannot specify a sub- net, VPC, or Availability Zone in another Region. o If you leave the RemoteResources parameter empty, the monitor will include all network flows that terminate in the current Region. (structure) A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the re- mote resource. The values you can specify are the following: o For a VPC or subnet, this identifier is the VPC Amazon Re- source Name (ARN) or subnet ARN. o For a service, this identifier is one of the following strings: S3 or DynamoDB . o For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. o For a Region, this identifier is the Region name, for example, us-west-2. When a remote resource is an Amazon Web Services Region, Network Flow Monitor provides network performance measurements up to the edge of the Region that you specify. type -&gt; (string) [required] The type of the remote resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone , AWS::EC2::Subnet , AWS::AWSService , or AWS::Region . Possible values: o AWS::EC2::VPC o AWS::AvailabilityZone o AWS::EC2::Subnet o AWS::AWSService o AWS::Region identifier -&gt; (string) [required] The identifier of the remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or sub- net ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Re- gion , this identifier is the Region name, for example, us-west-2. Shorthand Syntax: type=string,identifier=string ... JSON Syntax: [ { "type": "AWS::EC2::VPC"|"AWS::AvailabilityZone"|"AWS::EC2::Subnet"|"AWS::AWSService"|"AWS::Region", "identifier": "string" } ... ]
     /// </summary>
     [CliOption("--remote-resources", GroupValues = true)]
     public IEnumerable<string>? RemoteResources { get; set; }
-
-    [CliOption("--scope-arn")]
-    public string? ScopeArn { get; set; }
 
     /// <summary>
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -56,5 +118,21 @@ public record AwsNetworkflowmonitorCreateMonitorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

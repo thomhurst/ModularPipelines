@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "remove-bridge-source")]
-public record AwsMediaconnectRemoveBridgeSourceOptions : AwsOptions
+public record AwsMediaconnectRemoveBridgeSourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bridge-arn")]
-    public string? BridgeArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a source from a bridge. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="SourceName">The name of the bridge source that you want to remove.</param>
+    public AwsMediaconnectRemoveBridgeSourceOptions(
+        string BridgeArn,
+        string SourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
+        this.BridgeArn = BridgeArn;
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+    }
+
+    private AwsMediaconnectRemoveBridgeSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectRemoveBridgeSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectRemoveBridgeSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// </summary>
+    [CliOption("--bridge-arn")]
+    public string? BridgeArn { get; private init; }
+
+    /// <summary>
+    /// The name of the bridge source that you want to remove.
+    /// </summary>
     [CliOption("--source-name")]
-    public string? SourceName { get; set; }
+    public string? SourceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

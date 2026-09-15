@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-identity", "create-identity-pool")]
-public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
+public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new identity pool. The identity pool is a store of user iden- tity information that is specific to your Amazon Web Services account. The keys for SupportedLoginProviders are as follows: o Facebook: graph.facebook.com o Google: accounts.google.com o Sign in With Apple: appleid.apple.com o Amazon: www.amazon.com o Twitter: api.twitter.com o Digits: www.digits.com WARNING: If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Se...
+    /// </summary>
+    /// <param name="IdentityPoolName">A string that you provide. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+</param>
+    /// <param name="AllowUnauthenticatedIdentities">ties (boolean) [required] TRUE if the identity pool supports unauthenticated logins.</param>
+    public AwsCognitoIdentityCreateIdentityPoolOptions(
+        string IdentityPoolName,
+        bool AllowUnauthenticatedIdentities
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityPoolName);
+        this.IdentityPoolName = IdentityPoolName;
+        this.AllowUnauthenticatedIdentities = AllowUnauthenticatedIdentities;
+    }
+
+    private AwsCognitoIdentityCreateIdentityPoolOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdentityCreateIdentityPoolOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdentityCreateIdentityPoolOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string that you provide. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+
+    /// </summary>
     [CliOption("--identity-pool-name")]
-    public string? IdentityPoolName { get; set; }
+    public string? IdentityPoolName { get; private init; }
 
-    [CliFlag("--allow-unauthenticated-identities")]
-    public bool? AllowUnauthenticatedIdentities { get; set; }
+    /// <summary>
+    /// ties (boolean) [required] TRUE if the identity pool supports unauthenticated logins.
+    /// </summary>
+    [CliFlag("--allow-unauthenticated-identities", NegatedName = "--no-allow-unauthenticated-identities")]
+    public bool? AllowUnauthenticatedIdentities { get; private init; }
 
-    [CliFlag("--allow-classic-flow")]
+    /// <summary>
+    /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authen- tication Flow in the Amazon Cognito Developer Guide .
+    /// </summary>
+    [CliFlag("--allow-classic-flow", NegatedName = "--no-allow-classic-flow")]
     public bool? AllowClassicFlow { get; set; }
 
     /// <summary>
@@ -72,5 +118,21 @@ public record AwsCognitoIdentityCreateIdentityPoolOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

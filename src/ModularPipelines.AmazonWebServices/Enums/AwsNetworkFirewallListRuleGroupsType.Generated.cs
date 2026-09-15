@@ -16,12 +16,12 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsNetworkFirewallListRuleGroupsType
 {
-    [EnumValue("STATELESS")]
-    Stateless = 1,
-
     [EnumValue("STATEFUL")]
-    Stateful = 2,
+    Stateful,
 
     [EnumValue("STATEFUL_DOMAIN")]
-    StatefulDomain = 3
+    StatefulDomain,
+
+    [EnumValue("STATELESS")]
+    Stateless
 }

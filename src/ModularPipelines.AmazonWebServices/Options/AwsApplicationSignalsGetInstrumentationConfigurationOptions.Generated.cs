@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "get-instrumentation-configuration")]
-public record AwsApplicationSignalsGetInstrumentationConfigurationOptions : AwsOptions
+public record AwsApplicationSignalsGetInstrumentationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the details of a single instrumentation configuration identi- fied by service, environment, signal type, and location. Use this to audit or display configuration details. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to identify the configuration to retrieve. Possible values: o BREAKPOINT o PROBE</param>
+    /// <param name="Service">Service name for the instrumentation configuration. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Environment">Environment name for the instrumentation configuration. Constraints: o min: 1 o max: 255</param>
+    /// <param name="SignalType">Signal type for the instrumentation configuration. Possible values: o SNAPSHOT</param>
+    /// <param name="LocationIdentifier">Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: o min: 16 o max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }</param>
+    public AwsApplicationSignalsGetInstrumentationConfigurationOptions(
+        AwsApplicationSignalsGetInstrumentationConfigurationInstrumentationType InstrumentationType,
+        string Service,
+        string Environment,
+        AwsApplicationSignalsGetInstrumentationConfigurationSignalType SignalType,
+        string LocationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstrumentationType);
+        this.InstrumentationType = InstrumentationType;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(SignalType);
+        this.SignalType = SignalType;
+        global::System.ArgumentNullException.ThrowIfNull(LocationIdentifier);
+        this.LocationIdentifier = LocationIdentifier;
+    }
+
+    private AwsApplicationSignalsGetInstrumentationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsGetInstrumentationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsGetInstrumentationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to identify the configuration to retrieve. Possible values: o BREAKPOINT o PROBE
+    /// </summary>
     [CliOption("--instrumentation-type")]
-    public string? InstrumentationType { get; set; }
+    public AwsApplicationSignalsGetInstrumentationConfigurationInstrumentationType? InstrumentationType { get; private init; }
 
+    /// <summary>
+    /// Service name for the instrumentation configuration. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--service")]
-    public string? Service { get; set; }
+    public string? Service { get; private init; }
 
+    /// <summary>
+    /// Environment name for the instrumentation configuration. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--environment")]
-    public string? Environment { get; set; }
+    public string? Environment { get; private init; }
 
+    /// <summary>
+    /// Signal type for the instrumentation configuration. Possible values: o SNAPSHOT
+    /// </summary>
     [CliOption("--signal-type")]
-    public string? SignalType { get; set; }
+    public AwsApplicationSignalsGetInstrumentationConfigurationSignalType? SignalType { get; private init; }
 
+    /// <summary>
+    /// Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: o min: 16 o max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }
+    /// </summary>
     [CliOption("--location-identifier")]
-    public string? LocationIdentifier { get; set; }
+    public string? LocationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

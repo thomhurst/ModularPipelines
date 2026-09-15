@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkflowmonitor", "create-scope")]
-public record AwsNetworkflowmonitorCreateScopeOptions : AwsOptions
+public record AwsNetworkflowmonitorCreateScopeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// In Network Flow Monitor, you specify a scope for the service to gener- ate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Moni- tor. A scope is a Region-account pair or multiple Region-account pairs. Net- work Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow perfor- ma...
+    /// </summary>
+    /// <param name="Targets">The targets to define the scope to be monitored. A target is an ar- ray of targetResources, which are currently Region-account pairs, defined by targetResource constructs. Constraints: o min: 1 o max: 100 (structure) A target resource in a scope. The resource is identified by a Region and an account, defined by a target identifier. A target identifier is made up of a target ID (currently always an ac- count ID) and a target type (currently always ACCOUNT ). targetIdentifier -&gt; (structure) [required] A target identifier is a pair of identifying information for a scope. A target identifier is made up of a targetID (cur- rently always an account ID) and a targetType (currently al- ways an account). targetId -&gt; (tagged union structure) [required] The identifier for a target, which is currently always an account ID . NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: accountId. accountId -&gt; (string) The identifier for the account for a target. Constraints: o min: 1 o max: 12 o pattern: [0-9]{12} targetType -&gt; (string) [required] The type of a target. A target type is currently always ACCOUNT . Possible values: o ACCOUNT region -&gt; (string) [required] The Amazon Web Services Region for the scope. Shorthand Syntax: targetIdentifier={targetId={accountId=string},targetType=string},region=string ... JSON Syntax: [ { "targetIdentifier": { "targetId": { "accountId": "string" }, "targetType": "ACCOUNT" }, "region": "string" } ... ]</param>
+    public AwsNetworkflowmonitorCreateScopeOptions(
+        IEnumerable<string> Targets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+    }
+
+    private AwsNetworkflowmonitorCreateScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkflowmonitorCreateScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkflowmonitorCreateScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The targets to define the scope to be monitored. A target is an ar- ray of targetResources, which are currently Region-account pairs, defined by targetResource constructs. Constraints: o min: 1 o max: 100 (structure) A target resource in a scope. The resource is identified by a Region and an account, defined by a target identifier. A target identifier is made up of a target ID (currently always an ac- count ID) and a target type (currently always ACCOUNT ). targetIdentifier -&gt; (structure) [required] A target identifier is a pair of identifying information for a scope. A target identifier is made up of a targetID (cur- rently always an account ID) and a targetType (currently al- ways an account). targetId -&gt; (tagged union structure) [required] The identifier for a target, which is currently always an account ID . NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: accountId. accountId -&gt; (string) The identifier for the account for a target. Constraints: o min: 1 o max: 12 o pattern: [0-9]{12} targetType -&gt; (string) [required] The type of a target. A target type is currently always ACCOUNT . Possible values: o ACCOUNT region -&gt; (string) [required] The Amazon Web Services Region for the scope. Shorthand Syntax: targetIdentifier={targetId={accountId=string},targetType=string},region=string ... JSON Syntax: [ { "targetIdentifier": { "targetId": { "accountId": "string" }, "targetType": "ACCOUNT" }, "region": "string" } ... ]
+    /// </summary>
     [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
+    public IEnumerable<string>? Targets { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -44,5 +92,21 @@ public record AwsNetworkflowmonitorCreateScopeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

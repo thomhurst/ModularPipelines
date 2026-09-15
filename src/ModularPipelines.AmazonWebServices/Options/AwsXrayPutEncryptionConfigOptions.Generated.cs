@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "put-encryption-config")]
-public record AwsXrayPutEncryptionConfigOptions : AwsOptions
+public record AwsXrayPutEncryptionConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the encryption configuration for X-Ray data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of encryption. Set to KMS to use your own key for encryp- tion. Set to NONE for default encryption. Possible values: o NONE o KMS</param>
+    public AwsXrayPutEncryptionConfigOptions(
+        AwsXrayPutEncryptionConfigType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsXrayPutEncryptionConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayPutEncryptionConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayPutEncryptionConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of encryption. Set to KMS to use your own key for encryp- tion. Set to NONE for default encryption. Possible values: o NONE o KMS
+    /// </summary>
+    [CliOption("--type")]
+    public AwsXrayPutEncryptionConfigType? Type { get; private init; }
+
     /// <summary>
     /// An Amazon Web Services KMS key in one of the following formats: o Alias - The name of the key. For example, alias/MyKey . o Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Amazon Web Services X-Ray does not support asymmetric KMS keys. o ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456 . Use this format to specify a key in a different account. Omit this key if you set Type to NONE . Constraints: o min: 1 o max: 3000
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CliOption("--type")]
-    public string? Type { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

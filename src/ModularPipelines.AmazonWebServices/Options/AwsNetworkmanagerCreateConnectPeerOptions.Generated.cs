@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-connect-peer")]
-public record AwsNetworkmanagerCreateConnectPeerOptions : AwsOptions
+public record AwsNetworkmanagerCreateConnectPeerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a core network Connect peer for a specified core network con- nect attachment between a core network and an appliance. The peer ad- dress and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectAttachmentId">The ID of the connection attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="PeerAddress">The Connect peer address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]*</param>
+    public AwsNetworkmanagerCreateConnectPeerOptions(
+        string ConnectAttachmentId,
+        string PeerAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectAttachmentId);
+        this.ConnectAttachmentId = ConnectAttachmentId;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAddress);
+        this.PeerAddress = PeerAddress;
+    }
+
+    private AwsNetworkmanagerCreateConnectPeerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateConnectPeerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateConnectPeerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the connection attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--connect-attachment-id")]
-    public string? ConnectAttachmentId { get; set; }
+    public string? ConnectAttachmentId { get; private init; }
+
+    /// <summary>
+    /// The Connect peer address. Constraints: o min: 1 o max: 50 o pattern: [\s\S]*
+    /// </summary>
+    [CliOption("--peer-address")]
+    public string? PeerAddress { get; private init; }
 
     /// <summary>
     /// A Connect peer core network address. This only applies only when the protocol is GRE . Constraints: o min: 1 o max: 50 o pattern: [\s\S]*
     /// </summary>
     [CliOption("--core-network-address")]
     public string? CoreNetworkAddress { get; set; }
-
-    [CliOption("--peer-address")]
-    public string? PeerAddress { get; set; }
 
     /// <summary>
     /// The Connect peer BGP options. This only applies only when the proto- col is GRE . PeerAsn -&gt; (long) The Peer ASN of the BGP. Shorthand Syntax: PeerAsn=long JSON Syntax: { "PeerAsn": long }
@@ -70,5 +114,21 @@ public record AwsNetworkmanagerCreateConnectPeerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

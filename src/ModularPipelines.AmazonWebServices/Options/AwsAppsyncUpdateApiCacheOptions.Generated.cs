@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,19 +21,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "update-api-cache")]
-public record AwsAppsyncUpdateApiCacheOptions : AwsOptions
+public record AwsAppsyncUpdateApiCacheOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the cache for the GraphQL API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApiId">The GraphQL API ID.</param>
+    /// <param name="Ttl">TTL in seconds for cache entries. Valid values are 13,600 seconds.</param>
+    /// <param name="ApiCachingBehavior">Caching behavior. o FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. o PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. o OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: o FULL_REQUEST_CACHING o PER_RESOLVER_CACHING o OPERATION_LEVEL_CACHING</param>
+    /// <param name="Type">The cache instance type. Valid values are o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X (not available in all regions) o LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: o T2_SMALL : A t2.small instance type. o T2_MEDIUM : A t2.medium instance type. o R4_LARGE : A r4.large instance type. o R4_XLARGE : A r4.xlarge instance type. o R4_2XLARGE : A r4.2xlarge instance type. o R4_4XLARGE : A r4.4xlarge instance type. o R4_8XLARGE : A r4.8xlarge instance type. Possible values: o T2_SMALL o T2_MEDIUM o R4_LARGE o R4_XLARGE o R4_2XLARGE o R4_4XLARGE o R4_8XLARGE o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X o LARGE_12X</param>
+    public AwsAppsyncUpdateApiCacheOptions(
+        string ApiId,
+        int Ttl,
+        AwsAppsyncUpdateApiCacheApiCachingBehavior ApiCachingBehavior,
+        AwsAppsyncUpdateApiCacheType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiId);
+        this.ApiId = ApiId;
+        this.Ttl = Ttl;
+        global::System.ArgumentNullException.ThrowIfNull(ApiCachingBehavior);
+        this.ApiCachingBehavior = ApiCachingBehavior;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsAppsyncUpdateApiCacheOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncUpdateApiCacheOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncUpdateApiCacheOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The GraphQL API ID.
+    /// </summary>
     [CliOption("--api-id")]
-    public string? ApiId { get; set; }
+    public string? ApiId { get; private init; }
 
+    /// <summary>
+    /// TTL in seconds for cache entries. Valid values are 13,600 seconds.
+    /// </summary>
     [CliOption("--ttl")]
-    public int? Ttl { get; set; }
+    public int? Ttl { get; private init; }
 
+    /// <summary>
+    /// Caching behavior. o FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. o PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. o OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: o FULL_REQUEST_CACHING o PER_RESOLVER_CACHING o OPERATION_LEVEL_CACHING
+    /// </summary>
     [CliOption("--api-caching-behavior")]
-    public string? ApiCachingBehavior { get; set; }
+    public AwsAppsyncUpdateApiCacheApiCachingBehavior? ApiCachingBehavior { get; private init; }
 
+    /// <summary>
+    /// The cache instance type. Valid values are o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X (not available in all regions) o LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: o T2_SMALL : A t2.small instance type. o T2_MEDIUM : A t2.medium instance type. o R4_LARGE : A r4.large instance type. o R4_XLARGE : A r4.xlarge instance type. o R4_2XLARGE : A r4.2xlarge instance type. o R4_4XLARGE : A r4.4xlarge instance type. o R4_8XLARGE : A r4.8xlarge instance type. Possible values: o T2_SMALL o T2_MEDIUM o R4_LARGE o R4_XLARGE o R4_2XLARGE o R4_4XLARGE o R4_8XLARGE o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X o LARGE_12X
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsAppsyncUpdateApiCacheType? Type { get; private init; }
 
     /// <summary>
     /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include: o NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configura- tion. o EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration. Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED . Possible values: o ENABLED o DISABLED
@@ -45,5 +102,21 @@ public record AwsAppsyncUpdateApiCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

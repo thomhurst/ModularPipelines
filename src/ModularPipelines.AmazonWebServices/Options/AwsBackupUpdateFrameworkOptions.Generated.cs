@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "update-framework")]
-public record AwsBackupUpdateFrameworkOptions : AwsOptions
+public record AwsBackupUpdateFrameworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified framework. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FrameworkName">The unique name of a framework. This name is between 1 and 256 char- acters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*</param>
+    public AwsBackupUpdateFrameworkOptions(
+        string FrameworkName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FrameworkName);
+        this.FrameworkName = FrameworkName;
+    }
+
+    private AwsBackupUpdateFrameworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupUpdateFrameworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupUpdateFrameworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of a framework. This name is between 1 and 256 char- acters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_). Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// </summary>
     [CliOption("--framework-name")]
-    public string? FrameworkName { get; set; }
+    public string? FrameworkName { get; private init; }
 
     /// <summary>
     /// An optional description of the framework with a maximum 1,024 char- acters. Constraints: o min: 0 o max: 1024 o pattern: .*\S.*
@@ -49,5 +86,21 @@ public record AwsBackupUpdateFrameworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

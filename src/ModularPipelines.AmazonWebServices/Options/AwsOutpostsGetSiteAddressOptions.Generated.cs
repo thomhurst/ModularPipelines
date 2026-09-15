@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "get-site-address")]
-public record AwsOutpostsGetSiteAddressOptions : AwsOptions
+public record AwsOutpostsGetSiteAddressOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--site-id")]
-    public string? SiteId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the site address of the specified site. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    /// <param name="AddressType">The type of the address you request. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS</param>
+    public AwsOutpostsGetSiteAddressOptions(
+        string SiteId,
+        AwsOutpostsGetSiteAddressAddressType AddressType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SiteId);
+        this.SiteId = SiteId;
+        global::System.ArgumentNullException.ThrowIfNull(AddressType);
+        this.AddressType = AddressType;
+    }
+
+    private AwsOutpostsGetSiteAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsGetSiteAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsGetSiteAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// </summary>
+    [CliOption("--site-id")]
+    public string? SiteId { get; private init; }
+
+    /// <summary>
+    /// The type of the address you request. Possible values: o SHIPPING_ADDRESS o OPERATING_ADDRESS
+    /// </summary>
     [CliOption("--address-type")]
-    public string? AddressType { get; set; }
+    public AwsOutpostsGetSiteAddressAddressType? AddressType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

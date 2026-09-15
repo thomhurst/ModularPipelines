@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "list-collaboration-privacy-budgets")]
-public record AwsCleanroomsListCollaborationPrivacyBudgetsOptions : AwsOptions
+public record AwsCleanroomsListCollaborationPrivacyBudgetsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details. See also: AWS API Documentation list-collaboration-privacy-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pagina...
+    /// </summary>
+    /// <param name="CollaborationIdentifier">A unique identifier for one of your collaborations. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="PrivacyBudgetType">Specifies the type of the privacy budget. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET</param>
+    public AwsCleanroomsListCollaborationPrivacyBudgetsOptions(
+        string CollaborationIdentifier,
+        AwsCleanroomsListCollaborationPrivacyBudgetsPrivacyBudgetType PrivacyBudgetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(PrivacyBudgetType);
+        this.PrivacyBudgetType = PrivacyBudgetType;
+    }
+
+    private AwsCleanroomsListCollaborationPrivacyBudgetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsListCollaborationPrivacyBudgetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsListCollaborationPrivacyBudgetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for one of your collaborations. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--collaboration-identifier")]
+    public string? CollaborationIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies the type of the privacy budget. Possible values: o DIFFERENTIAL_PRIVACY o ACCESS_BUDGET
+    /// </summary>
     [CliOption("--privacy-budget-type")]
-    public string? PrivacyBudgetType { get; set; }
+    public AwsCleanroomsListCollaborationPrivacyBudgetsPrivacyBudgetType? PrivacyBudgetType { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Configured Table Association (ConfiguredTableAssociation) used to filter privacy budgets. Constraints: o min: 0 o max: 200 o pattern: arn:aws:[\w]+:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/(configuredtableassociation|intermedi- atetable)/[\d\w-]+
@@ -58,5 +103,21 @@ public record AwsCleanroomsListCollaborationPrivacyBudgetsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

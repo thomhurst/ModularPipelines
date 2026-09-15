@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "list-insights")]
-public record AwsOpensearchListInsightsOptions : AwsOptions
+public record AwsOpensearchListInsightsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account. Returns a paginated list of insights based on the specified entity, filters, time range, and sort order. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entity">The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
+    public AwsOpensearchListInsightsOptions(
+        string Entity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entity);
+        this.Entity = Entity;
+    }
+
+    private AwsOpensearchListInsightsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchListInsightsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchListInsightsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
+    /// </summary>
     [CliOption("--entity")]
-    public string? Entity { get; set; }
+    public string? Entity { get; private init; }
 
     /// <summary>
     /// The time range for filtering insights, specified as epoch millisec- ond timestamps. From -&gt; (long) [required] The start of the time range, in epoch milliseconds. To -&gt; (long) [required] The end of the time range, in epoch milliseconds. Shorthand Syntax: From=long,To=long JSON Syntax: { "From": long, "To": long }
@@ -56,5 +93,21 @@ public record AwsOpensearchListInsightsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +23,95 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb-elastic", "create-cluster")]
-public record AwsDocdbElasticCreateClusterOptions : AwsOptions
+public record AwsDocdbElasticCreateClusterOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--admin-user-name")]
-    public string? AdminUserName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdminUserName">The name of the Amazon DocumentDB elastic clusters administrator. Constraints : o Must be from 1 to 63 letters or numbers. o The first character must be a letter. o Cannot be a reserved word.</param>
+    /// <param name="AdminUserPassword">The password for the Amazon DocumentDB elastic clusters administra- tor. The password can contain any printable ASCII characters. Constraints : o Must contain from 8 to 100 characters. o Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).</param>
+    /// <param name="AuthType">The authentication type used to determine where to fetch the pass- word used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: o PLAIN_TEXT o SECRET_ARN</param>
+    /// <param name="ClusterName">The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster</param>
+    /// <param name="ShardCapacity">The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.</param>
+    /// <param name="ShardCount">The number of shards assigned to the elastic cluster. Maximum is 32.</param>
+    public AwsDocdbElasticCreateClusterOptions(
+        string AdminUserName,
+        string AdminUserPassword,
+        AwsDocdbElasticCreateClusterAuthType AuthType,
+        string ClusterName,
+        int ShardCapacity,
+        int ShardCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminUserName);
+        this.AdminUserName = AdminUserName;
+        global::System.ArgumentNullException.ThrowIfNull(AdminUserPassword);
+        this.AdminUserPassword = AdminUserPassword;
+        global::System.ArgumentNullException.ThrowIfNull(AuthType);
+        this.AuthType = AuthType;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        this.ShardCapacity = ShardCapacity;
+        this.ShardCount = ShardCount;
+    }
+
+    private AwsDocdbElasticCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbElasticCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbElasticCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints : o Must be from 1 to 63 letters or numbers. o The first character must be a letter. o Cannot be a reserved word.
+    /// </summary>
+    [CliOption("--admin-user-name")]
+    public string? AdminUserName { get; private init; }
+
+    /// <summary>
+    /// The password for the Amazon DocumentDB elastic clusters administra- tor. The password can contain any printable ASCII characters. Constraints : o Must contain from 8 to 100 characters. o Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
+    /// </summary>
     [SecretValue]
     [CliOption("--admin-user-password")]
-    public string? AdminUserPassword { get; set; }
+    public string? AdminUserPassword { get; private init; }
 
+    /// <summary>
+    /// The authentication type used to determine where to fetch the pass- word used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: o PLAIN_TEXT o SECRET_ARN
+    /// </summary>
     [CliOption("--auth-type")]
-    public string? AuthType { get; set; }
+    public AwsDocdbElasticCreateClusterAuthType? AuthType { get; private init; }
+
+    /// <summary>
+    /// The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints : o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example : my-cluster
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.
+    /// </summary>
+    [CliOption("--shard-capacity")]
+    public int? ShardCapacity { get; private init; }
+
+    /// <summary>
+    /// The number of shards assigned to the elastic cluster. Maximum is 32.
+    /// </summary>
+    [CliOption("--shard-count")]
+    public int? ShardCount { get; private init; }
 
     /// <summary>
     /// The number of days for which automatic snapshots are retained.
@@ -45,9 +125,6 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
 
     /// <summary>
     /// The KMS key identifier to use to encrypt the new elastic cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your ac- count has a different default encryption key for each Amazon Region.
@@ -66,12 +143,6 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
-
-    [CliOption("--shard-capacity")]
-    public int? ShardCapacity { get; set; }
-
-    [CliOption("--shard-count")]
-    public int? ShardCount { get; set; }
 
     /// <summary>
     /// The number of replica instances applying to all shards in the elas- tic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
@@ -102,5 +173,21 @@ public record AwsDocdbElasticCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

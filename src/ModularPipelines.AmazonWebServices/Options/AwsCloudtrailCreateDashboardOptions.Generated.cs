@@ -10,19 +10,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom dashboard or the Highlights dashboard. o Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a custom dashboard, or you can set a refresh schedule. o Highlights dashboard - You can create the Highlights dashboard to see a summary of key user activities and API usage across all your event data stores. CloudTrail Lake manages the Highlights dashboard and re- fresh...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. o Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "create-dashboard")]
-public record AwsCloudtrailCreateDashboardOptions : AwsOptions
+public record AwsCloudtrailCreateDashboardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. o Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
+    /// </summary>
+    /// <param name="Name">The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloud- Trail-Highlights . Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-]+$</param>
+    public AwsCloudtrailCreateDashboardOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsCloudtrailCreateDashboardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailCreateDashboardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailCreateDashboardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloud- Trail-Highlights . Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The refresh schedule configuration for the dashboard. To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED . The Unit for the refresh schedule must be HOURS and the Value must be 6 . Frequency -&gt; (structure) The frequency at which you want the dashboard refreshed. Unit -&gt; (string) The unit to use for the refresh. For custom dashboards, the unit can be HOURS or DAYS . For the Highlights dashboard, the Unit must be HOURS . Possible values: o HOURS o DAYS Value -&gt; (integer) The value for the refresh schedule. For custom dashboards, the following values are valid when the unit is HOURS : 1 , 6 , 12 , 24 For custom dashboards, the only valid value when the unit is DAYS is 1 . For the Highlights dashboard, the Value must be 6 . Status -&gt; (string) Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule. Possible values: o ENABLED o DISABLED TimeOfDay -&gt; (string) The time of day in UTC to run the schedule; for hourly only re- fer to minutes; default is 00:00. Constraints: o pattern: ^[0-9]{2}:[0-9]{2} Shorthand Syntax: Frequency={Unit=string,Value=integer},Status=string,TimeOfDay=string JSON Syntax: { "Frequency": { "Unit": "HOURS"|"DAYS", "Value": integer }, "Status": "ENABLED"|"DISABLED", "TimeOfDay": "string" }
@@ -36,7 +73,10 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions
     [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Specifies whether termination protection is enabled for the dash- board. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
@@ -50,5 +90,21 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

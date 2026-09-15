@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "associate-firewall-rule-group")]
-public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions
+public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active AWS Mar- ketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group. Constraints: o min: 1 o max: 64</param>
+    /// <param name="VpcId">The unique identifier of the VPC that you want to associate with the rule group. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Priority">The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it. The allowed values for Priority are between 100 and 9900.</param>
+    /// <param name="Name">A name that lets you identify the association, to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    public AwsRoute53resolverAssociateFirewallRuleGroupOptions(
+        string FirewallRuleGroupId,
+        string VpcId,
+        int Priority,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallRuleGroupId);
+        this.FirewallRuleGroupId = FirewallRuleGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsRoute53resolverAssociateFirewallRuleGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverAssociateFirewallRuleGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverAssociateFirewallRuleGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the firewall rule group. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--firewall-rule-group-id")]
+    public string? FirewallRuleGroupId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the VPC that you want to associate with the rule group. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it. The allowed values for Priority are between 100 and 9900.
+    /// </summary>
+    [CliOption("--priority")]
+    public int? Priority { get; private init; }
+
+    /// <summary>
+    /// A name that lets you identify the association, to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
     /// <summary>
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
-
-    [CliOption("--firewall-rule-group-id")]
-    public string? FirewallRuleGroupId { get; set; }
-
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
-
-    [CliOption("--priority")]
-    public int? Priority { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS fire- wall protections. When you create the association, the default set- ting is DISABLED . Possible values: o ENABLED o DISABLED
@@ -57,5 +114,21 @@ public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

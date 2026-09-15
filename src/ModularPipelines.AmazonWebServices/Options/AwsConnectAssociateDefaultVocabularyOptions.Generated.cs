@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "associate-default-vocabulary")]
-public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions
+public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates an existing vocabulary as the default. Contact Lens for Con- nect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="LanguageCode">The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH</param>
+    public AwsConnectAssociateDefaultVocabularyOptions(
+        string InstanceId,
+        string LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsConnectAssociateDefaultVocabularyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectAssociateDefaultVocabularyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectAssociateDefaultVocabularyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public string? LanguageCode { get; private init; }
 
     /// <summary>
     /// The identifier of the custom vocabulary. If this is empty, the de- fault is set to none. Constraints: o min: 1 o max: 500
@@ -38,5 +82,21 @@ public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

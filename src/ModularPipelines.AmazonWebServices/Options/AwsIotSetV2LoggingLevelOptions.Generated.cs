@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "set-v2-logging-level")]
-public record AwsIotSetV2LoggingLevelOptions : AwsOptions
+public record AwsIotSetV2LoggingLevelOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--log-target")]
-    public string? LogTarget { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the logging level. Requires permission to access the SetV2LoggingLevel action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogTarget">The log target. targetType -&gt; (string) [required] The target type. Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }</param>
+    /// <param name="LogLevel">The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED</param>
+    public AwsIotSetV2LoggingLevelOptions(
+        string LogTarget,
+        AwsIotSetV2LoggingLevelLogLevel LogLevel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogTarget);
+        this.LogTarget = LogTarget;
+        global::System.ArgumentNullException.ThrowIfNull(LogLevel);
+        this.LogLevel = LogLevel;
+    }
+
+    private AwsIotSetV2LoggingLevelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotSetV2LoggingLevelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotSetV2LoggingLevelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The log target. targetType -&gt; (string) [required] The target type. Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID targetName -&gt; (string) The target name. Shorthand Syntax: targetType=string,targetName=string JSON Syntax: { "targetType": "DEFAULT"|"THING_GROUP"|"CLIENT_ID"|"SOURCE_IP"|"PRINCIPAL_ID", "targetName": "string" }
+    /// </summary>
+    [CliOption("--log-target")]
+    public string? LogTarget { get; private init; }
+
+    /// <summary>
+    /// The log level. Possible values: o DEBUG o INFO o ERROR o WARN o DISABLED
+    /// </summary>
     [CliOption("--log-level")]
-    public string? LogLevel { get; set; }
+    public AwsIotSetV2LoggingLevelLogLevel? LogLevel { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

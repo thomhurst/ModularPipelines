@@ -10,27 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Lake query federation on the specified event data store. Feder- ating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a managed database named aws:cloudtrail (...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Feder- ating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "enable-federation")]
-public record AwsCloudtrailEnableFederationOptions : AwsOptions
+public record AwsCloudtrailEnableFederationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--event-data-store")]
-    public string? EventDataStore { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Enables Lake query federation on the specified event data store. Feder- ating an event data store lets you view the metadata associated with the event data store in the Glue Data Catalog and run SQL queries against y...
+    /// </summary>
+    /// <param name="EventDataStore">The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="FederationRoleArn">The ARN of the federation role to use for the event data store. Ama- zon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federa- tion role must exist in your account and provide the required mini- mum permissions . Constraints: o min: 3 o max: 125 o pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$</param>
+    public AwsCloudtrailEnableFederationOptions(
+        string EventDataStore,
+        string FederationRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventDataStore);
+        this.EventDataStore = EventDataStore;
+        global::System.ArgumentNullException.ThrowIfNull(FederationRoleArn);
+        this.FederationRoleArn = FederationRoleArn;
+    }
+
+    private AwsCloudtrailEnableFederationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailEnableFederationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailEnableFederationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
+    [CliOption("--event-data-store")]
+    public string? EventDataStore { get; private init; }
+
+    /// <summary>
+    /// The ARN of the federation role to use for the event data store. Ama- zon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federa- tion role must exist in your account and provide the required mini- mum permissions . Constraints: o min: 3 o max: 125 o pattern: ^[a-zA-Z0-9._/\-:@=\+,\.]+$
+    /// </summary>
     [CliOption("--federation-role-arn")]
-    public string? FederationRoleArn { get; set; }
+    public string? FederationRoleArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

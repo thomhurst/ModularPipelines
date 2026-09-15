@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rtbfabric", "list-link-routing-rules")]
-public record AwsRtbfabricListLinkRoutingRulesOptions : AwsOptions
+public record AwsRtbfabricListLinkRoutingRulesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--gateway-id")]
-    public string? GatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the routing rules for a link. See also: AWS API Documentation list-link-routing-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: rules
+    /// </summary>
+    /// <param name="GatewayId">The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}</param>
+    /// <param name="LinkId">The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}</param>
+    public AwsRtbfabricListLinkRoutingRulesOptions(
+        string GatewayId,
+        string LinkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayId);
+        this.GatewayId = GatewayId;
+        global::System.ArgumentNullException.ThrowIfNull(LinkId);
+        this.LinkId = LinkId;
+    }
+
+    private AwsRtbfabricListLinkRoutingRulesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRtbfabricListLinkRoutingRulesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRtbfabricListLinkRoutingRulesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the gateway. Constraints: o min: 8 o max: 32 o pattern: rtb-gw-[a-z0-9-]{1,25}
+    /// </summary>
+    [CliOption("--gateway-id")]
+    public string? GatewayId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the link. Constraints: o min: 6 o max: 30 o pattern: link-[a-z0-9-]{1,25}
+    /// </summary>
     [CliOption("--link-id")]
-    public string? LinkId { get; set; }
+    public string? LinkId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsRtbfabricListLinkRoutingRulesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

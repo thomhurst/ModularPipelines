@@ -10,33 +10,113 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan to use the Amazon Web Services Support API. o If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the ...
+/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "describe-create-case-options")]
-public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions
+public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
+    /// </summary>
+    /// <param name="IssueType">The type of issue for the case. You can specify customer-service or technical . If you don't specify a value, the default is technical .</param>
+    /// <param name="ServiceCode">The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.</param>
+    /// <param name="Language">The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.</param>
+    /// <param name="CategoryCode">The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.</param>
+    public AwsSupportDescribeCreateCaseOptionsOptions(
+        string IssueType,
+        string ServiceCode,
+        string Language,
+        string CategoryCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IssueType);
+        this.IssueType = IssueType;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+        global::System.ArgumentNullException.ThrowIfNull(Language);
+        this.Language = Language;
+        global::System.ArgumentNullException.ThrowIfNull(CategoryCode);
+        this.CategoryCode = CategoryCode;
+    }
+
+    private AwsSupportDescribeCreateCaseOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportDescribeCreateCaseOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportDescribeCreateCaseOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of issue for the case. You can specify customer-service or technical . If you don't specify a value, the default is technical .
+    /// </summary>
     [CliOption("--issue-type")]
-    public string? IssueType { get; set; }
+    public string? IssueType { get; private init; }
 
+    /// <summary>
+    /// The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.
+    /// </summary>
     [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    public string? ServiceCode { get; private init; }
 
+    /// <summary>
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// </summary>
     [CliOption("--language")]
-    public string? Language { get; set; }
+    public string? Language { get; private init; }
 
+    /// <summary>
+    /// The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// </summary>
     [CliOption("--category-code")]
-    public string? CategoryCode { get; set; }
+    public string? CategoryCode { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually returning case option data. When set to true , the request is validated but no options are returned, and the operation returns a DryRunOperationEx- ception . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-resource-data-sync")]
-public record AwsSsmUpdateResourceDataSyncOptions : AwsOptions
+public record AwsSsmUpdateResourceDataSyncOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For exam- ple, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my Organizations config- uration option. Instead, you must delete the first resource data sync, and create a new one. NOTE: This API operation only supports a resource ...
+    /// </summary>
+    /// <param name="SyncName">The name of the resource data sync you want to update. Constraints: o min: 1 o max: 64</param>
+    /// <param name="SyncType">The type of resource data sync. The supported SyncType is SyncFrom- Source. Constraints: o min: 1 o max: 64</param>
+    /// <param name="SyncSource">Specify information about the data sources to synchronize. SourceType -&gt; (string) [required] The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Or- ganizations) or SingleAccountMultiRegions . Constraints: o min: 1 o max: 64 AwsOrganizationsSource -&gt; (structure) Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Or- ganizations. OrganizationSourceType -&gt; (string) [required] If an Amazon Web Services organization is present, this is either OrganizationalUnits or EntireOrganization . For Orga- nizationalUnits , the data is aggregated from a set of orga- nization units. For EntireOrganization , the data is aggre- gated from the entire Amazon Web Services organization. Constraints: o min: 1 o max: 64 OrganizationalUnits -&gt; (list) The Organizations organization units included in the sync. Constraints: o min: 1 o max: 1000 (structure) The Organizations organizational unit data source for the sync. OrganizationalUnitId -&gt; (string) The Organizations unit ID data source for the sync. Constraints: o min: 1 o max: 128 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ SourceRegions -&gt; (list) [required] The SyncSource Amazon Web Services Regions included in the re- source data sync. (string) Constraints: o min: 1 o max: 64 IncludeFutureRegions -&gt; (boolean) Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online. EnableAllOpsDataSources -&gt; (boolean) When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically en- ables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organiza- tion (or in the selected organization units). For more informa- tion, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide . JSON Syntax: { "SourceType": "string", "AwsOrganizationsSource": { "OrganizationSourceType": "string", "OrganizationalUnits": [ { "OrganizationalUnitId": "string" } ... ] }, "SourceRegions": ["string", ...], "IncludeFutureRegions": true|false, "EnableAllOpsDataSources": true|false }</param>
+    public AwsSsmUpdateResourceDataSyncOptions(
+        string SyncName,
+        string SyncType,
+        string SyncSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SyncName);
+        this.SyncName = SyncName;
+        global::System.ArgumentNullException.ThrowIfNull(SyncType);
+        this.SyncType = SyncType;
+        global::System.ArgumentNullException.ThrowIfNull(SyncSource);
+        this.SyncSource = SyncSource;
+    }
+
+    private AwsSsmUpdateResourceDataSyncOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateResourceDataSyncOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateResourceDataSyncOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource data sync you want to update. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--sync-name")]
-    public string? SyncName { get; set; }
+    public string? SyncName { get; private init; }
 
+    /// <summary>
+    /// The type of resource data sync. The supported SyncType is SyncFrom- Source. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--sync-type")]
-    public string? SyncType { get; set; }
+    public string? SyncType { get; private init; }
 
+    /// <summary>
+    /// Specify information about the data sources to synchronize. SourceType -&gt; (string) [required] The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Or- ganizations) or SingleAccountMultiRegions . Constraints: o min: 1 o max: 64 AwsOrganizationsSource -&gt; (structure) Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Or- ganizations. OrganizationSourceType -&gt; (string) [required] If an Amazon Web Services organization is present, this is either OrganizationalUnits or EntireOrganization . For Orga- nizationalUnits , the data is aggregated from a set of orga- nization units. For EntireOrganization , the data is aggre- gated from the entire Amazon Web Services organization. Constraints: o min: 1 o max: 64 OrganizationalUnits -&gt; (list) The Organizations organization units included in the sync. Constraints: o min: 1 o max: 1000 (structure) The Organizations organizational unit data source for the sync. OrganizationalUnitId -&gt; (string) The Organizations unit ID data source for the sync. Constraints: o min: 1 o max: 128 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ SourceRegions -&gt; (list) [required] The SyncSource Amazon Web Services Regions included in the re- source data sync. (string) Constraints: o min: 1 o max: 64 IncludeFutureRegions -&gt; (boolean) Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online. EnableAllOpsDataSources -&gt; (boolean) When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically en- ables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organiza- tion (or in the selected organization units). For more informa- tion, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide . JSON Syntax: { "SourceType": "string", "AwsOrganizationsSource": { "OrganizationSourceType": "string", "OrganizationalUnits": [ { "OrganizationalUnitId": "string" } ... ] }, "SourceRegions": ["string", ...], "IncludeFutureRegions": true|false, "EnableAllOpsDataSources": true|false }
+    /// </summary>
     [CliOption("--sync-source")]
-    public string? SyncSource { get; set; }
+    public string? SyncSource { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

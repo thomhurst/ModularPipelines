@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("networkmanager", "create-vpc-attachment")]
-public record AwsNetworkmanagerCreateVpcAttachmentOptions : AwsOptions
+public record AwsNetworkmanagerCreateVpcAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a VPC attachment on an edge location of a core network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CoreNetworkId">The ID of a core network for the VPC attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="VpcArn">The ARN of the VPC. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$</param>
+    /// <param name="SubnetArns">The subnet ARN of the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...</param>
+    public AwsNetworkmanagerCreateVpcAttachmentOptions(
+        string CoreNetworkId,
+        string VpcArn,
+        IEnumerable<string> SubnetArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CoreNetworkId);
+        this.CoreNetworkId = CoreNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcArn);
+        this.VpcArn = VpcArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetArns));
+            }
+
+            SubnetArns = materialized;
+        }
+        this.SubnetArns = SubnetArns;
+    }
+
+    private AwsNetworkmanagerCreateVpcAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkmanagerCreateVpcAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkmanagerCreateVpcAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of a core network for the VPC attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// </summary>
     [CliOption("--core-network-id")]
-    public string? CoreNetworkId { get; set; }
+    public string? CoreNetworkId { get; private init; }
 
+    /// <summary>
+    /// The ARN of the VPC. Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\/vpc-[0-9a-f]{8,17}$
+    /// </summary>
     [CliOption("--vpc-arn")]
-    public string? VpcArn { get; set; }
+    public string? VpcArn { get; private init; }
 
+    /// <summary>
+    /// The subnet ARN of the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--subnet-arns", GroupValues = true)]
-    public IEnumerable<string>? SubnetArns { get; set; }
+    public IEnumerable<string>? SubnetArns { get; private init; }
 
     /// <summary>
     /// Options for the VPC attachment. Ipv6Support -&gt; (boolean) Indicates whether IPv6 is supported. ApplianceModeSupport -&gt; (boolean) Indicates whether appliance mode is supported. If enabled, traf- fic flow between a source and destination use the same Avail- ability Zone for the VPC attachment for the lifetime of that flow. The default value is false . DnsSupport -&gt; (boolean) Indicates whether DNS is supported. SecurityGroupReferencingSupport -&gt; (boolean) Indicates whether security group referencing is enabled for this VPC attachment. The default is true . However, at the core net- work policy-level the default is set to false . Shorthand Syntax: Ipv6Support=boolean,ApplianceModeSupport=boolean,DnsSupport=boolean,SecurityGroupReferencingSupport=boolean JSON Syntax: { "Ipv6Support": true|false, "ApplianceModeSupport": true|false, "DnsSupport": true|false, "SecurityGroupReferencingSupport": true|false }
@@ -61,5 +123,21 @@ public record AwsNetworkmanagerCreateVpcAttachmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

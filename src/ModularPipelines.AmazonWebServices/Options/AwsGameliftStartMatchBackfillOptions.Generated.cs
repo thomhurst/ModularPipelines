@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "start-match-backfill")]
-public record AwsGameliftStartMatchBackfillOptions : AwsOptions
+public record AwsGameliftStartMatchBackfillOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Finds new players to fill open slots in currently running game ses- sions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same match- maker that was used to make the original match, and they provide match- making data for all players currently in the game session. FlexMatch uses this information to select new players so that backfilled match continues to...
+    /// </summary>
+    /// <param name="ConfigurationName">Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$</param>
+    /// <param name="Players">Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game. You can include up to 199 Players in a StartMatchBackfill request. o PlayerID, PlayerAttributes, Team -- This information is maintained in the GameSession object, MatchmakerData property, for all play- ers who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see Match Data . The backfill request must specify the team mem- bership for every player. Do not specify team if you are not using backfill. o LatencyInMs -- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game ses- sion is currently in. Do not include latency values for any other Region. (structure) Represents a player in matchmaking. When starting a matchmaking request, a player has a player ID, attributes, and may have la- tency data. Team information is added after a match has been successfully completed. PlayerId -&gt; (string) A unique identifier for a player Constraints: o min: 1 o max: 1024 PlayerAttributes -&gt; (map) A collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}} . You can provide up to 10 PlayerAttributes . key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (structure) Values for use in player attribute key-value pairs. This object lets you specify an attribute value using any of the valid data types: string, number, string array, or data map. Each AttributeValue object can use only one of the available properties. S -&gt; (string) For single string values. Maximum string length is 100 characters. Constraints: o min: 1 o max: 100 N -&gt; (double) For number values, expressed as double. SL -&gt; (list) For a list of up to 100 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored. (string) Constraints: o min: 1 o max: 100 SDM -&gt; (map) For a map of up to 10 data type:value pairs. Maximum length for each string value is 100 characters. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (double) Team -&gt; (string) Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set. Constraints: o min: 1 o max: 1024 LatencyInMs -&gt; (map) A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when con- nected to a fleet location (Amazon Web Services Regions or custom locations for Amazon GameLift Servers Anywhere fleets). If this property is present, FlexMatch considers placing the match only in Regions for which latency is re- ported. If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no la- tency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable. key -&gt; (string) Constraints: o min: 1 value -&gt; (integer) Constraints: o min: 1 JSON Syntax: [ { "PlayerId": "string", "PlayerAttributes": {"string": { "S": "string", "N": double, "SL": ["string", ...], "SDM": {"string": double ...} } ...}, "Team": "string", "LatencyInMs": {"string": integer ...} } ... ]</param>
+    public AwsGameliftStartMatchBackfillOptions(
+        string ConfigurationName,
+        IEnumerable<string> Players
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Players);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Players));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Players));
+            }
+
+            Players = materialized;
+        }
+        this.Players = Players;
+    }
+
+    private AwsGameliftStartMatchBackfillOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftStartMatchBackfillOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftStartMatchBackfillOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$
+    /// </summary>
+    [CliOption("--configuration-name")]
+    public string? ConfigurationName { get; private init; }
+
+    /// <summary>
+    /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game. You can include up to 199 Players in a StartMatchBackfill request. o PlayerID, PlayerAttributes, Team -- This information is maintained in the GameSession object, MatchmakerData property, for all play- ers who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see Match Data . The backfill request must specify the team mem- bership for every player. Do not specify team if you are not using backfill. o LatencyInMs -- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game ses- sion is currently in. Do not include latency values for any other Region. (structure) Represents a player in matchmaking. When starting a matchmaking request, a player has a player ID, attributes, and may have la- tency data. Team information is added after a match has been successfully completed. PlayerId -&gt; (string) A unique identifier for a player Constraints: o min: 1 o max: 1024 PlayerAttributes -&gt; (map) A collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}} . You can provide up to 10 PlayerAttributes . key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (structure) Values for use in player attribute key-value pairs. This object lets you specify an attribute value using any of the valid data types: string, number, string array, or data map. Each AttributeValue object can use only one of the available properties. S -&gt; (string) For single string values. Maximum string length is 100 characters. Constraints: o min: 1 o max: 100 N -&gt; (double) For number values, expressed as double. SL -&gt; (list) For a list of up to 100 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored. (string) Constraints: o min: 1 o max: 100 SDM -&gt; (map) For a map of up to 10 data type:value pairs. Maximum length for each string value is 100 characters. key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (double) Team -&gt; (string) Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set. Constraints: o min: 1 o max: 1024 LatencyInMs -&gt; (map) A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when con- nected to a fleet location (Amazon Web Services Regions or custom locations for Amazon GameLift Servers Anywhere fleets). If this property is present, FlexMatch considers placing the match only in Regions for which latency is re- ported. If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no la- tency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable. key -&gt; (string) Constraints: o min: 1 value -&gt; (integer) Constraints: o min: 1 JSON Syntax: [ { "PlayerId": "string", "PlayerAttributes": {"string": { "S": "string", "N": double, "SL": ["string", ...], "SDM": {"string": double ...} } ...}, "Team": "string", "LatencyInMs": {"string": integer ...} } ... ]
+    /// </summary>
+    [CliOption("--players", GroupValues = true)]
+    public IEnumerable<string>? Players { get; private init; }
+
     /// <summary>
     /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift Servers will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
     /// </summary>
     [CliOption("--ticket-id")]
     public string? TicketId { get; set; }
-
-    [CliOption("--configuration-name")]
-    public string? ConfigurationName { get; set; }
 
     /// <summary>
     /// An identifier for the game session that is unique across all re- gions. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gameses- sion/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . When using FlexMatch as a standalone matchmaking solution, this parameter is not needed. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
@@ -36,13 +94,26 @@ public record AwsGameliftStartMatchBackfillOptions : AwsOptions
     [CliOption("--game-session-arn")]
     public string? GameSessionArn { get; set; }
 
-    [CliOption("--players", GroupValues = true)]
-    public IEnumerable<string>? Players { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

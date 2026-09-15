@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "send-api-asset")]
-public record AwsDataexchangeSendApiAssetOptions : AwsOptions
+public record AwsDataexchangeSendApiAssetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation invokes an API Gateway API asset. The request is proxied to the providers API Gateway API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssetId">Asset ID value for the API request.</param>
+    /// <param name="DataSetId">Data set ID value for the API request.</param>
+    /// <param name="RevisionId">Revision ID value for the API request.</param>
+    public AwsDataexchangeSendApiAssetOptions(
+        string AssetId,
+        string DataSetId,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssetId);
+        this.AssetId = AssetId;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsDataexchangeSendApiAssetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeSendApiAssetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeSendApiAssetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Asset ID value for the API request.
+    /// </summary>
+    [CliOption("--asset-id")]
+    public string? AssetId { get; private init; }
+
+    /// <summary>
+    /// Data set ID value for the API request.
+    /// </summary>
+    [CliOption("--data-set-id")]
+    public string? DataSetId { get; private init; }
+
+    /// <summary>
+    /// Revision ID value for the API request.
+    /// </summary>
+    [CliOption("--revision-id")]
+    public string? RevisionId { get; private init; }
+
     /// <summary>
     /// The request body.
     /// </summary>
@@ -33,12 +93,6 @@ public record AwsDataexchangeSendApiAssetOptions : AwsOptions
     /// </summary>
     [CliOption("--query-string-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryStringParameters { get; set; }
-
-    [CliOption("--asset-id")]
-    public string? AssetId { get; set; }
-
-    [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
 
     /// <summary>
     /// Any header value prefixed with x-amzn-dataexchange-header- will have that stripped before sending the Asset API request. Use this when you want to override a header that AWS Data Exchange uses. Alterna- tively, you can use the header without a prefix to the HTTP request. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -58,13 +112,26 @@ public record AwsDataexchangeSendApiAssetOptions : AwsOptions
     [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

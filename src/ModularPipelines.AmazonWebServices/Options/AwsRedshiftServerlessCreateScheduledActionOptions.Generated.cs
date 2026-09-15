@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +20,91 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-serverless", "create-scheduled-action")]
-public record AwsRedshiftServerlessCreateScheduledActionOptions : AwsOptions
+public record AwsRedshiftServerlessCreateScheduledActionOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--enabled")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NamespaceName">The name of the namespace for which to create a scheduled action. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="RoleArn">The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your be- half. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide</param>
+    /// <param name="Schedule">The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. o Format of at timestamp is yyyy-mm-ddThh:mm:ss . For example, 2016-03-04T17:27:00 . o Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year) . For example, "(0 10 ? * MON *)" . For more in- formation, see Cron Expressions in the Amazon CloudWatch Events User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: at, cron. at -&gt; (timestamp) The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss . For example, 2016-03-04T17:27:00 . cron -&gt; (string) The cron expression to use to schedule a recurring scheduled ac- tion. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year) . For example, "(0 10 ? * MON *)" . For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide . Shorthand Syntax: at=timestamp,cron=string JSON Syntax: { "at": timestamp, "cron": "string" }</param>
+    /// <param name="ScheduledActionName">The name of the scheduled action. Constraints: o min: 3 o max: 60 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="TargetAction">A JSON format string of the Amazon Redshift Serverless API operation with input parameters. The following is an example of a target ac- tion. "{"CreateSnapshot": {"NamespaceName": "sampleNamespace","Snap- shotName": "sampleSnapshot", "retentionPeriod": "1"}}" NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: createSnapshot. createSnapshot -&gt; (structure) The parameters that you can use to configure a scheduled action to create a snapshot. For more information about creating a scheduled action, see CreateScheduledAction . namespaceName -&gt; (string) [required] The name of the namespace for which you want to configure a scheduled action to create a snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$ retentionPeriod -&gt; (integer) The retention period of the snapshot created by the scheduled action. snapshotNamePrefix -&gt; (string) [required] A string prefix that is attached to the name of the snapshot created by the scheduled action. The final name of the snap- shot is the string prefix appended by the date and time of when the snapshot was created. Constraints: o min: 1 o max: 235 tags -&gt; (list) An array of Tag objects to associate with the snapshot. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 JSON Syntax: { "createSnapshot": { "namespaceName": "string", "retentionPeriod": integer, "snapshotNamePrefix": "string", "tags": [ { "key": "string", "value": "string" } ... ] } }</param>
+    public AwsRedshiftServerlessCreateScheduledActionOptions(
+        string NamespaceName,
+        string RoleArn,
+        string Schedule,
+        string ScheduledActionName,
+        string TargetAction
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NamespaceName);
+        this.NamespaceName = NamespaceName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledActionName);
+        this.ScheduledActionName = ScheduledActionName;
+        global::System.ArgumentNullException.ThrowIfNull(TargetAction);
+        this.TargetAction = TargetAction;
+    }
+
+    private AwsRedshiftServerlessCreateScheduledActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftServerlessCreateScheduledActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftServerlessCreateScheduledActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the namespace for which to create a scheduled action. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; private init; }
+
+    /// <summary>
+    /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your be- half. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. o Format of at timestamp is yyyy-mm-ddThh:mm:ss . For example, 2016-03-04T17:27:00 . o Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year) . For example, "(0 10 ? * MON *)" . For more in- formation, see Cron Expressions in the Amazon CloudWatch Events User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: at, cron. at -&gt; (timestamp) The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss . For example, 2016-03-04T17:27:00 . cron -&gt; (string) The cron expression to use to schedule a recurring scheduled ac- tion. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year) . For example, "(0 10 ? * MON *)" . For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide . Shorthand Syntax: at=timestamp,cron=string JSON Syntax: { "at": timestamp, "cron": "string" }
+    /// </summary>
+    [CliOption("--schedule")]
+    public string? Schedule { get; private init; }
+
+    /// <summary>
+    /// The name of the scheduled action. Constraints: o min: 3 o max: 60 o pattern: ^[a-z0-9-]+$
+    /// </summary>
+    [CliOption("--scheduled-action-name")]
+    public string? ScheduledActionName { get; private init; }
+
+    /// <summary>
+    /// A JSON format string of the Amazon Redshift Serverless API operation with input parameters. The following is an example of a target ac- tion. "{"CreateSnapshot": {"NamespaceName": "sampleNamespace","Snap- shotName": "sampleSnapshot", "retentionPeriod": "1"}}" NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: createSnapshot. createSnapshot -&gt; (structure) The parameters that you can use to configure a scheduled action to create a snapshot. For more information about creating a scheduled action, see CreateScheduledAction . namespaceName -&gt; (string) [required] The name of the namespace for which you want to configure a scheduled action to create a snapshot. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$ retentionPeriod -&gt; (integer) The retention period of the snapshot created by the scheduled action. snapshotNamePrefix -&gt; (string) [required] A string prefix that is attached to the name of the snapshot created by the scheduled action. The final name of the snap- shot is the string prefix appended by the date and time of when the snapshot was created. Constraints: o min: 1 o max: 235 tags -&gt; (list) An array of Tag objects to associate with the snapshot. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 JSON Syntax: { "createSnapshot": { "namespaceName": "string", "retentionPeriod": integer, "snapshotNamePrefix": "string", "tags": [ { "key": "string", "value": "string" } ... ] } }
+    /// </summary>
+    [CliOption("--target-action")]
+    public string? TargetAction { get; private init; }
+
+    /// <summary>
+    /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction .
+    /// </summary>
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -30,23 +113,11 @@ public record AwsRedshiftServerlessCreateScheduledActionOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliOption("--namespace-name")]
-    public string? NamespaceName { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--schedule")]
-    public string? Schedule { get; set; }
-
     /// <summary>
     /// The description of the scheduled action.
     /// </summary>
     [CliOption("--scheduled-action-description")]
     public string? ScheduledActionDescription { get; set; }
-
-    [CliOption("--scheduled-action-name")]
-    public string? ScheduledActionName { get; set; }
 
     /// <summary>
     /// The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger.
@@ -54,13 +125,26 @@ public record AwsRedshiftServerlessCreateScheduledActionOptions : AwsOptions
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CliOption("--target-action")]
-    public string? TargetAction { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

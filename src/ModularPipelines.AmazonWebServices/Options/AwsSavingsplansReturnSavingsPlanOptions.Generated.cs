@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("savingsplans", "return-savings-plan")]
-public record AwsSavingsplansReturnSavingsPlanOptions : AwsOptions
+public record AwsSavingsplansReturnSavingsPlanOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the specified Savings Plan. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SavingsPlanId">The ID of the Savings Plan.</param>
+    public AwsSavingsplansReturnSavingsPlanOptions(
+        string SavingsPlanId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SavingsPlanId);
+        this.SavingsPlanId = SavingsPlanId;
+    }
+
+    private AwsSavingsplansReturnSavingsPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSavingsplansReturnSavingsPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSavingsplansReturnSavingsPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Savings Plan.
+    /// </summary>
     [CliOption("--savings-plan-id")]
-    public string? SavingsPlanId { get; set; }
+    public string? SavingsPlanId { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -37,5 +74,21 @@ public record AwsSavingsplansReturnSavingsPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fms", "put-apps-list")]
-public record AwsFmsPutAppsListOptions : AwsOptions
+public record AwsFmsPutAppsListOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Firewall Manager applications list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppsList">The details of the Firewall Manager applications list to be created. ListId -&gt; (string) The ID of the Firewall Manager applications list. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$ ListName -&gt; (string) [required] The name of the Firewall Manager applications list. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ListUpdateToken -&gt; (string) A unique identifier for each update to the list. When you update the list, the update token must match the token of the current version of the application list. You can retrieve the update to- ken by getting the list. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ CreateTime -&gt; (timestamp) The time that the Firewall Manager applications list was cre- ated. LastUpdateTime -&gt; (timestamp) The time that the Firewall Manager applications list was last updated. AppsList -&gt; (list) [required] An array of applications in the Firewall Manager applications list. (structure) An individual Firewall Manager application. AppName -&gt; (string) [required] The application's name. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Protocol -&gt; (string) [required] The IP protocol name or number. The name can be one of tcp , udp , or icmp . For information on possible num- bers, see Protocol Numbers . Constraints: o min: 1 o max: 20 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Port -&gt; (long) [required] The application's port number, for example 80 . Constraints: o min: 0 o max: 65535 PreviousAppsList -&gt; (map) A map of previous version numbers to their corresponding App ob- ject arrays. key -&gt; (string) Constraints: o min: 1 o max: 2 o pattern: ^\d{1,2}$ value -&gt; (list) (structure) An individual Firewall Manager application. AppName -&gt; (string) [required] The application's name. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Protocol -&gt; (string) [required] The IP protocol name or number. The name can be one of tcp , udp , or icmp . For information on possible num- bers, see Protocol Numbers . Constraints: o min: 1 o max: 20 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Port -&gt; (long) [required] The application's port number, for example 80 . Constraints: o min: 0 o max: 65535 JSON Syntax: { "ListId": "string", "ListName": "string", "ListUpdateToken": "string", "CreateTime": timestamp, "LastUpdateTime": timestamp, "AppsList": [ { "AppName": "string", "Protocol": "string", "Port": long } ... ], "PreviousAppsList": {"string": [ { "AppName": "string", "Protocol": "string", "Port": long } ... ] ...} }</param>
+    public AwsFmsPutAppsListOptions(
+        string AppsList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppsList);
+        this.AppsList = AppsList;
+    }
+
+    private AwsFmsPutAppsListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFmsPutAppsListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFmsPutAppsListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The details of the Firewall Manager applications list to be created. ListId -&gt; (string) The ID of the Firewall Manager applications list. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$ ListName -&gt; (string) [required] The name of the Firewall Manager applications list. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ ListUpdateToken -&gt; (string) A unique identifier for each update to the list. When you update the list, the update token must match the token of the current version of the application list. You can retrieve the update to- ken by getting the list. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ CreateTime -&gt; (timestamp) The time that the Firewall Manager applications list was cre- ated. LastUpdateTime -&gt; (timestamp) The time that the Firewall Manager applications list was last updated. AppsList -&gt; (list) [required] An array of applications in the Firewall Manager applications list. (structure) An individual Firewall Manager application. AppName -&gt; (string) [required] The application's name. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Protocol -&gt; (string) [required] The IP protocol name or number. The name can be one of tcp , udp , or icmp . For information on possible num- bers, see Protocol Numbers . Constraints: o min: 1 o max: 20 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Port -&gt; (long) [required] The application's port number, for example 80 . Constraints: o min: 0 o max: 65535 PreviousAppsList -&gt; (map) A map of previous version numbers to their corresponding App ob- ject arrays. key -&gt; (string) Constraints: o min: 1 o max: 2 o pattern: ^\d{1,2}$ value -&gt; (list) (structure) An individual Firewall Manager application. AppName -&gt; (string) [required] The application's name. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Protocol -&gt; (string) [required] The IP protocol name or number. The name can be one of tcp , udp , or icmp . For information on possible num- bers, see Protocol Numbers . Constraints: o min: 1 o max: 20 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Port -&gt; (long) [required] The application's port number, for example 80 . Constraints: o min: 0 o max: 65535 JSON Syntax: { "ListId": "string", "ListName": "string", "ListUpdateToken": "string", "CreateTime": timestamp, "LastUpdateTime": timestamp, "AppsList": [ { "AppName": "string", "Protocol": "string", "Port": long } ... ], "PreviousAppsList": {"string": [ { "AppName": "string", "Protocol": "string", "Port": long } ... ] ...} }
+    /// </summary>
     [CliOption("--apps-list")]
-    public string? AppsList { get; set; }
+    public string? AppsList { get; private init; }
 
     /// <summary>
     /// The tags associated with the resource. Constraints: o min: 0 o max: 200 (structure) A collection of key:value pairs associated with an Amazon Web Services resource. The key:value pair can be anything you de- fine. Typically, the tag key represents a category (such as "en- vironment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsFmsPutAppsListOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

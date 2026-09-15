@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --fileexistsbehavior.
+/// Allowed values for --file-exists-behavior.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDeployCreateDeploymentFileExistsBehavior
 {
     [EnumValue("DISALLOW")]
-    Disallow = 1,
+    Disallow,
 
     [EnumValue("OVERWRITE")]
-    Overwrite = 2,
+    Overwrite,
 
     [EnumValue("RETAIN")]
-    Retain = 3
+    Retain
 }

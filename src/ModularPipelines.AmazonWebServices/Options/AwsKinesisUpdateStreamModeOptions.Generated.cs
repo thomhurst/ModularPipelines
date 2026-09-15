@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "update-stream-mode")]
-public record AwsKinesisUpdateStreamModeOptions : AwsOptions
+public record AwsKinesisUpdateStreamModeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data streams capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your ac- count. Once your account has MinimumThroughputBillingCommitment en- abled, you can specify the warm throu...
+    /// </summary>
+    /// <param name="StreamArn">Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+</param>
+    /// <param name="StreamModeDetails">Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose be- tween an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: o PROVISIONED o ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }</param>
+    public AwsKinesisUpdateStreamModeOptions(
+        string StreamArn,
+        string StreamModeDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+        global::System.ArgumentNullException.ThrowIfNull(StreamModeDetails);
+        this.StreamModeDetails = StreamModeDetails;
+    }
+
+    private AwsKinesisUpdateStreamModeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisUpdateStreamModeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisUpdateStreamModeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the data stream whose capacity mode you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams. StreamMode -&gt; (string) [required] Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose be- tween an on-demand capacity mode and a provisioned capacity mode for your data streams. Possible values: o PROVISIONED o ON_DEMAND Shorthand Syntax: StreamMode=string JSON Syntax: { "StreamMode": "PROVISIONED"|"ON_DEMAND" }
+    /// </summary>
+    [CliOption("--stream-mode-details")]
+    public string? StreamModeDetails { get; private init; }
 
     /// <summary>
     /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
-
-    [CliOption("--stream-mode-details")]
-    public string? StreamModeDetails { get; set; }
 
     /// <summary>
     /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. This field is only valid when the stream mode is being updated to on-demand. Constraints: o min: 0
@@ -44,5 +88,21 @@ public record AwsKinesisUpdateStreamModeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

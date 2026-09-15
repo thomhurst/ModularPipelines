@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "set-subscription-attributes")]
-public record AwsSnsSetSubscriptionAttributesOptions : AwsOptions
+public record AwsSnsSetSubscriptionAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--subscription-arn")]
-    public string? SubscriptionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows a subscription owner to set an attribute of the subscription to a new value. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SubscriptionArn">The ARN of the subscription to modify.</param>
+    /// <param name="AttributeName">A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the spe- cial request parameters that this action uses: o DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. o FilterPolicy The simple JSON object that lets your subscriber re- ceive only a subset of messages, rather than receiving every mes- sage published to the topic. o FilterPolicyScope This attribute lets you choose the filtering scope by using one of the following string value types: o MessageAttributes (default) The filter is applied on the mes- sage attributes. o MessageBody The filter is applied on the message body. o RawMessageDelivery When set to true , enables raw message deliv- ery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata. o RedrivePolicy When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be de- livered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or repro- cessing. The following attribute applies only to Amazon Data Firehose deliv- ery stream subscriptions: o SubscriptionRoleArn The ARN of the IAM role that has the follow- ing: o Permission to write to the Firehose delivery stream o Amazon SNS listed as a trusted entity Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see Fanout to Firehose delivery streams in the Amazon SNS Developer Guide .</param>
+    public AwsSnsSetSubscriptionAttributesOptions(
+        string SubscriptionArn,
+        string AttributeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SubscriptionArn);
+        this.SubscriptionArn = SubscriptionArn;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
+        this.AttributeName = AttributeName;
+    }
+
+    private AwsSnsSetSubscriptionAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsSetSubscriptionAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsSetSubscriptionAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the subscription to modify.
+    /// </summary>
+    [CliOption("--subscription-arn")]
+    public string? SubscriptionArn { get; private init; }
+
+    /// <summary>
+    /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the spe- cial request parameters that this action uses: o DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. o FilterPolicy The simple JSON object that lets your subscriber re- ceive only a subset of messages, rather than receiving every mes- sage published to the topic. o FilterPolicyScope This attribute lets you choose the filtering scope by using one of the following string value types: o MessageAttributes (default) The filter is applied on the mes- sage attributes. o MessageBody The filter is applied on the message body. o RawMessageDelivery When set to true , enables raw message deliv- ery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata. o RedrivePolicy When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be de- livered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or repro- cessing. The following attribute applies only to Amazon Data Firehose deliv- ery stream subscriptions: o SubscriptionRoleArn The ARN of the IAM role that has the follow- ing: o Permission to write to the Firehose delivery stream o Amazon SNS listed as a trusted entity Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see Fanout to Firehose delivery streams in the Amazon SNS Developer Guide .
+    /// </summary>
     [CliOption("--attribute-name")]
-    public string? AttributeName { get; set; }
+    public string? AttributeName { get; private init; }
 
     /// <summary>
     /// The new value for the attribute in JSON format.
@@ -38,5 +82,21 @@ public record AwsSnsSetSubscriptionAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

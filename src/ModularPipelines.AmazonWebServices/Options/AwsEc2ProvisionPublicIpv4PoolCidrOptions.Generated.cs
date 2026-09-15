@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "provision-public-ipv4-pool-cidr")]
-public record AwsEc2ProvisionPublicIpv4PoolCidrOptions : AwsOptions
+public record AwsEc2ProvisionPublicIpv4PoolCidrOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provision a CIDR to a public IPv4 pool. For more information about IPAM, see What is IPAM? in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamPoolId">The ID of the IPAM pool you would like to use to allocate this CIDR.</param>
+    /// <param name="PoolId">The ID of the public IPv4 pool you would like to use for this CIDR.</param>
+    /// <param name="NetmaskLength">The netmask length of the CIDR you would like to allocate to the public IPv4 pool. The least specific netmask length you can define is 24.</param>
+    public AwsEc2ProvisionPublicIpv4PoolCidrOptions(
+        string IpamPoolId,
+        string PoolId,
+        int NetmaskLength
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamPoolId);
+        this.IpamPoolId = IpamPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(PoolId);
+        this.PoolId = PoolId;
+        this.NetmaskLength = NetmaskLength;
+    }
+
+    private AwsEc2ProvisionPublicIpv4PoolCidrOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ProvisionPublicIpv4PoolCidrOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ProvisionPublicIpv4PoolCidrOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the IPAM pool you would like to use to allocate this CIDR.
+    /// </summary>
     [CliOption("--ipam-pool-id")]
-    public string? IpamPoolId { get; set; }
+    public string? IpamPoolId { get; private init; }
 
+    /// <summary>
+    /// The ID of the public IPv4 pool you would like to use for this CIDR.
+    /// </summary>
     [CliOption("--pool-id")]
-    public string? PoolId { get; set; }
+    public string? PoolId { get; private init; }
 
+    /// <summary>
+    /// The netmask length of the CIDR you would like to allocate to the public IPv4 pool. The least specific netmask length you can define is 24.
+    /// </summary>
     [CliOption("--netmask-length")]
-    public int? NetmaskLength { get; set; }
+    public int? NetmaskLength { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The Availability Zone (AZ) or Local Zone (LZ) network border group that the resource that the IP address is assigned to is in. Defaults to an AZ network border group. For more information on available Lo- cal Zones, see Local Zone availability in the Amazon EC2 User Guide .
@@ -44,5 +97,21 @@ public record AwsEc2ProvisionPublicIpv4PoolCidrOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

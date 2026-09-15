@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "update-link-attributes")]
-public record AwsClouddirectoryUpdateLinkAttributesOptions : AwsOptions
+public record AwsClouddirectoryUpdateLinkAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a given typed links attributes. Attributes to be updated must not contribute to the typed links identity, as defined by its Identity- AttributeOrder . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links .</param>
+    /// <param name="TypedLinkSpecifier">Allows a typed link specifier to be accepted as input. TypedLinkFacet -&gt; (structure) [required] Identifies the typed link facet that is associated with the typed link. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns . TypedLinkName -&gt; (string) [required] The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$ SourceObjectReference -&gt; (structure) [required] Identifies the source object that the typed link will attach to. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectI- dentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call TargetObjectReference -&gt; (structure) [required] Identifies the target object that the typed link will attach to. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectI- dentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call IdentityAttributeValues -&gt; (list) [required] Identifies the attribute value to update. (structure) Identifies the attribute name and value for a typed link. AttributeName -&gt; (string) [required] The attribute name of the typed link. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value for the typed link. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. JSON Syntax: { "TypedLinkFacet": { "SchemaArn": "string", "TypedLinkName": "string" }, "SourceObjectReference": { "Selector": "string" }, "TargetObjectReference": { "Selector": "string" }, "IdentityAttributeValues": [ { "AttributeName": "string", "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ] }</param>
+    /// <param name="AttributeUpdates">The attributes update structure. (structure) Structure that contains attribute update information. AttributeKey -&gt; (structure) The key of the attribute being updated. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ AttributeAction -&gt; (structure) The action to perform as part of the attribute update. AttributeActionType -&gt; (string) A type that can be either UPDATE_OR_CREATE or DELETE . Possible values: o CREATE_OR_UPDATE o DELETE AttributeUpdateValue -&gt; (structure) The value that you want to update to. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: AttributeKey={SchemaArn=string,FacetName=string,Name=string},AttributeAction={AttributeActionType=string,AttributeUpdateValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp}} ... JSON Syntax: [ { "AttributeKey": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "AttributeAction": { "AttributeActionType": "CREATE_OR_UPDATE"|"DELETE", "AttributeUpdateValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } } ... ]</param>
+    public AwsClouddirectoryUpdateLinkAttributesOptions(
+        string DirectoryArn,
+        string TypedLinkSpecifier,
+        IEnumerable<string> AttributeUpdates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+        global::System.ArgumentNullException.ThrowIfNull(TypedLinkSpecifier);
+        this.TypedLinkSpecifier = TypedLinkSpecifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AttributeUpdates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AttributeUpdates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AttributeUpdates));
+            }
+
+            AttributeUpdates = materialized;
+        }
+        this.AttributeUpdates = AttributeUpdates;
+    }
+
+    private AwsClouddirectoryUpdateLinkAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryUpdateLinkAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryUpdateLinkAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links .
+    /// </summary>
     [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    public string? DirectoryArn { get; private init; }
 
+    /// <summary>
+    /// Allows a typed link specifier to be accepted as input. TypedLinkFacet -&gt; (structure) [required] Identifies the typed link facet that is associated with the typed link. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns . TypedLinkName -&gt; (string) [required] The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$ SourceObjectReference -&gt; (structure) [required] Identifies the source object that the typed link will attach to. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectI- dentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call TargetObjectReference -&gt; (structure) [required] Identifies the target object that the typed link will attach to. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectI- dentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call IdentityAttributeValues -&gt; (list) [required] Identifies the attribute value to update. (structure) Identifies the attribute name and value for a typed link. AttributeName -&gt; (string) [required] The attribute name of the typed link. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value for the typed link. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. JSON Syntax: { "TypedLinkFacet": { "SchemaArn": "string", "TypedLinkName": "string" }, "SourceObjectReference": { "Selector": "string" }, "TargetObjectReference": { "Selector": "string" }, "IdentityAttributeValues": [ { "AttributeName": "string", "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ] }
+    /// </summary>
     [CliOption("--typed-link-specifier")]
-    public string? TypedLinkSpecifier { get; set; }
+    public string? TypedLinkSpecifier { get; private init; }
 
+    /// <summary>
+    /// The attributes update structure. (structure) Structure that contains attribute update information. AttributeKey -&gt; (structure) The key of the attribute being updated. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ AttributeAction -&gt; (structure) The action to perform as part of the attribute update. AttributeActionType -&gt; (string) A type that can be either UPDATE_OR_CREATE or DELETE . Possible values: o CREATE_OR_UPDATE o DELETE AttributeUpdateValue -&gt; (structure) The value that you want to update to. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: AttributeKey={SchemaArn=string,FacetName=string,Name=string},AttributeAction={AttributeActionType=string,AttributeUpdateValue={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp}} ... JSON Syntax: [ { "AttributeKey": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "AttributeAction": { "AttributeActionType": "CREATE_OR_UPDATE"|"DELETE", "AttributeUpdateValue": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } } ... ]
+    /// </summary>
     [CliOption("--attribute-updates", GroupValues = true)]
-    public IEnumerable<string>? AttributeUpdates { get; set; }
+    public IEnumerable<string>? AttributeUpdates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

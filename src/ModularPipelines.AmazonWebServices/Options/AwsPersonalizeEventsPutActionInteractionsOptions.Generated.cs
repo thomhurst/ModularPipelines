@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize-events", "put-action-interactions")]
-public record AwsPersonalizeEventsPutActionInteractionsOptions : AwsOptions
+public record AwsPersonalizeEventsPutActionInteractionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tracking-id")]
-    public string? TrackingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Records action interaction event data. An action interaction event is an interaction between a user and an action . For example, a user tak- ing an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see Recording action interaction events . For more information about actions in an Actions dataset, see Actions dataset . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrackingId">The ID of your action interaction event tracker. When you create an Action interactions dataset, Amazon Personalize creates an action interaction event tracker for you. For more information, see Action interaction event tracker ID . Constraints: o min: 1 o max: 256</param>
+    /// <param name="ActionInteractions">A list of action interaction events from the session. Constraints: o min: 1 o max: 10 (structure) Represents an action interaction event sent using the PutAction- Interactions API. actionId -&gt; (string) [required] The ID of the action the user interacted with. This corre- sponds to the ACTION_ID field of the Action interaction schema. Constraints: o min: 1 o max: 256 userId -&gt; (string) The ID of the user who interacted with the action. This cor- responds to the USER_ID field of the Action interaction schema. Constraints: o min: 1 o max: 256 sessionId -&gt; (string) [required] The ID associated with the user's visit. Your application generates a unique sessionId when a user first visits your website or uses your application. Constraints: o min: 1 o max: 256 timestamp -&gt; (timestamp) [required] The timestamp for when the action interaction event occurred. Timestamps must be in Unix epoch time format, in seconds. eventType -&gt; (string) [required] The type of action interaction event. You can specify Viewed , Taken , and Not Taken event types. For more information about action interaction event type data, see Event type data . Constraints: o min: 1 o max: 256 eventId -&gt; (string) An ID associated with the event. If an event ID is not pro- vided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Ama- zon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training. Constraints: o min: 1 o max: 256 recommendationId -&gt; (string) The ID of the list of recommendations that contains the ac- tion the user interacted with. Constraints: o min: 1 o max: 40 impression -&gt; (list) A list of action IDs that represents the sequence of actions you have shown the user. For example, ["actionId1", "ac- tionId2", "actionId3"] . Amazon Personalize doesn't use im- pressions data from action interaction events. Instead, record multiple events for each action and use the Viewed event type. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of event-specific data that you might choose to record. For example, if a user takes an action, other than the action ID, you might also send the number of actions taken by the user. Each item in the map consists of a key-value pair. For exam- ple, {"numberOfActions": "12"} The keys use camel case names that match the fields in the Action interactions schema. In the above example, the num- berOfActions would match the 'NUMBER_OF_ACTIONS' field de- fined in the Action interactions schema. The following can't be included as a keyword for properties (case insensitive). o userId o sessionId o eventType o timestamp o recommendationId o impression Constraints: o min: 1 o max: 1024 Shorthand Syntax: actionId=string,userId=string,sessionId=string,timestamp=timestamp,eventType=string,eventId=string,recommendationId=string,impression=string,string,properties=string ... JSON Syntax: [ { "actionId": "string", "userId": "string", "sessionId": "string", "timestamp": timestamp, "eventType": "string", "eventId": "string", "recommendationId": "string", "impression": ["string", ...], "properties": "string" } ... ]</param>
+    public AwsPersonalizeEventsPutActionInteractionsOptions(
+        string TrackingId,
+        IEnumerable<string> ActionInteractions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrackingId);
+        this.TrackingId = TrackingId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ActionInteractions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ActionInteractions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ActionInteractions));
+            }
+
+            ActionInteractions = materialized;
+        }
+        this.ActionInteractions = ActionInteractions;
+    }
+
+    private AwsPersonalizeEventsPutActionInteractionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeEventsPutActionInteractionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeEventsPutActionInteractionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of your action interaction event tracker. When you create an Action interactions dataset, Amazon Personalize creates an action interaction event tracker for you. For more information, see Action interaction event tracker ID . Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--tracking-id")]
+    public string? TrackingId { get; private init; }
+
+    /// <summary>
+    /// A list of action interaction events from the session. Constraints: o min: 1 o max: 10 (structure) Represents an action interaction event sent using the PutAction- Interactions API. actionId -&gt; (string) [required] The ID of the action the user interacted with. This corre- sponds to the ACTION_ID field of the Action interaction schema. Constraints: o min: 1 o max: 256 userId -&gt; (string) The ID of the user who interacted with the action. This cor- responds to the USER_ID field of the Action interaction schema. Constraints: o min: 1 o max: 256 sessionId -&gt; (string) [required] The ID associated with the user's visit. Your application generates a unique sessionId when a user first visits your website or uses your application. Constraints: o min: 1 o max: 256 timestamp -&gt; (timestamp) [required] The timestamp for when the action interaction event occurred. Timestamps must be in Unix epoch time format, in seconds. eventType -&gt; (string) [required] The type of action interaction event. You can specify Viewed , Taken , and Not Taken event types. For more information about action interaction event type data, see Event type data . Constraints: o min: 1 o max: 256 eventId -&gt; (string) An ID associated with the event. If an event ID is not pro- vided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Ama- zon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training. Constraints: o min: 1 o max: 256 recommendationId -&gt; (string) The ID of the list of recommendations that contains the ac- tion the user interacted with. Constraints: o min: 1 o max: 40 impression -&gt; (list) A list of action IDs that represents the sequence of actions you have shown the user. For example, ["actionId1", "ac- tionId2", "actionId3"] . Amazon Personalize doesn't use im- pressions data from action interaction events. Instead, record multiple events for each action and use the Viewed event type. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of event-specific data that you might choose to record. For example, if a user takes an action, other than the action ID, you might also send the number of actions taken by the user. Each item in the map consists of a key-value pair. For exam- ple, {"numberOfActions": "12"} The keys use camel case names that match the fields in the Action interactions schema. In the above example, the num- berOfActions would match the 'NUMBER_OF_ACTIONS' field de- fined in the Action interactions schema. The following can't be included as a keyword for properties (case insensitive). o userId o sessionId o eventType o timestamp o recommendationId o impression Constraints: o min: 1 o max: 1024 Shorthand Syntax: actionId=string,userId=string,sessionId=string,timestamp=timestamp,eventType=string,eventId=string,recommendationId=string,impression=string,string,properties=string ... JSON Syntax: [ { "actionId": "string", "userId": "string", "sessionId": "string", "timestamp": timestamp, "eventType": "string", "eventId": "string", "recommendationId": "string", "impression": ["string", ...], "properties": "string" } ... ]
+    /// </summary>
     [CliOption("--action-interactions", GroupValues = true)]
-    public IEnumerable<string>? ActionInteractions { get; set; }
+    public IEnumerable<string>? ActionInteractions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

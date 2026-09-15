@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "add-association")]
-public record AwsSagemakerAddAssociationOptions : AwsOptions
+public record AwsSagemakerAddAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceArn">The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
+    public AwsSagemakerAddAssociationOptions(
+        string SourceArn,
+        string DestinationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationArn);
+        this.DestinationArn = DestinationArn;
+    }
+
+    private AwsSagemakerAddAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerAddAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerAddAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// </summary>
+    [CliOption("--source-arn")]
+    public string? SourceArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// </summary>
     [CliOption("--destination-arn")]
-    public string? DestinationArn { get; set; }
+    public string? DestinationArn { get; private init; }
 
     /// <summary>
     /// The type of association. The following are suggested uses for each type. Amazon SageMaker places no restrictions on their use. o ContributedTo - The source contributed to the destination or had a part in enabling the destination. For example, the training data contributed to the training job. o AssociatedWith - The source is connected to the destination. For example, an approval workflow is associated with a model deploy- ment. o DerivedFrom - The destination is a modification of the source. For example, a digest output of a channel input for a processing job is derived from the original inputs. o Produced - The source generated the destination. For example, a training job produced a model artifact. Possible values: o ContributedTo o AssociatedWith o DerivedFrom o Produced o SameAs
@@ -39,5 +83,21 @@ public record AwsSagemakerAddAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

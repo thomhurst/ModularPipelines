@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("qapps", "import-document")]
-public record AwsQappsImportDocumentOptions : AwsOptions
+public record AwsQappsImportDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Uploads a file that can then be used either as a default in a FileU- ploadCard from Q App definition or as a file that is used inside a sin- gle Q App run. The purpose of the document is determined by a scope pa- rameter that indicates whether it is at the app definition level or at the app session level. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="CardId">The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="AppId">The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="FileContentsBase64">The base64-encoded contents of the file to upload.</param>
+    /// <param name="FileName">The name of the file being uploaded. Constraints: o min: 0 o max: 100</param>
+    /// <param name="Scope">Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION</param>
+    public AwsQappsImportDocumentOptions(
+        string InstanceId,
+        string CardId,
+        string AppId,
+        string FileContentsBase64,
+        string FileName,
+        AwsQappsImportDocumentScope Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(CardId);
+        this.CardId = CardId;
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(FileContentsBase64);
+        this.FileContentsBase64 = FileContentsBase64;
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    private AwsQappsImportDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQappsImportDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQappsImportDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the card the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--card-id")]
-    public string? CardId { get; set; }
+    public string? CardId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the Q App the file is associated with. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// </summary>
     [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    public string? AppId { get; private init; }
 
+    /// <summary>
+    /// The base64-encoded contents of the file to upload.
+    /// </summary>
     [CliOption("--file-contents-base64")]
-    public string? FileContentsBase64 { get; set; }
+    public string? FileContentsBase64 { get; private init; }
 
+    /// <summary>
+    /// The name of the file being uploaded. Constraints: o min: 0 o max: 100
+    /// </summary>
     [CliOption("--file-name")]
-    public string? FileName { get; set; }
+    public string? FileName { get; private init; }
 
+    /// <summary>
+    /// Whether the file is associated with a Q App definition or a specific Q App session. Possible values: o APPLICATION o SESSION
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsQappsImportDocumentScope? Scope { get; private init; }
 
     /// <summary>
     /// The unique identifier of the Q App session the file is associated with, if applicable. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
@@ -50,5 +123,21 @@ public record AwsQappsImportDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-key-group")]
-public record AwsCloudfrontCreateKeyGroupOptions : AwsOptions
+public record AwsCloudfrontCreateKeyGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache be- havior, CloudFront requires signed URLs or signed cookies for all re- quests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in t...
+    /// </summary>
+    /// <param name="KeyGroupConfig">A key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }</param>
+    public AwsCloudfrontCreateKeyGroupOptions(
+        string KeyGroupConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyGroupConfig);
+        this.KeyGroupConfig = KeyGroupConfig;
+    }
+
+    private AwsCloudfrontCreateKeyGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateKeyGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateKeyGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A key group configuration. Name -&gt; (string) [required] A name to identify the key group. Items -&gt; (list) [required] A list of the identifiers of the public keys in the key group. (string) Comment -&gt; (string) A comment to describe the key group. The comment cannot be longer than 128 characters. Shorthand Syntax: Name=string,Items=string,string,Comment=string JSON Syntax: { "Name": "string", "Items": ["string", ...], "Comment": "string" }
+    /// </summary>
     [CliOption("--key-group-config")]
-    public string? KeyGroupConfig { get; set; }
+    public string? KeyGroupConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

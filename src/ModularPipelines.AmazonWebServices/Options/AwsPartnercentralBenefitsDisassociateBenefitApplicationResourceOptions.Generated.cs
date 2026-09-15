@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-benefits", "disassociate-benefit-application-resource")]
-public record AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions : AwsOptions
+public record AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the association between an AWS resource and a benefit applica- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="BenefitApplicationIdentifier">The unique identifier of the benefit application to disassociate the resource from. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: o min: 0 o max: 1600 o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)</param>
+    public AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions(
+        string Catalog,
+        string BenefitApplicationIdentifier,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(BenefitApplicationIdentifier);
+        this.BenefitApplicationIdentifier = BenefitApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the benefit application to disassociate the resource from. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// </summary>
     [CliOption("--benefit-application-identifier")]
-    public string? BenefitApplicationIdentifier { get; set; }
+    public string? BenefitApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: o min: 0 o max: 1600 o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

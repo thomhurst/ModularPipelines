@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("braket", "get-job")]
-public record AwsBraketGetJobOptions : AwsOptions
+public record AwsBraketGetJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the specified Amazon Braket hybrid job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobArn">The ARN of the hybrid job to retrieve. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*</param>
+    public AwsBraketGetJobOptions(
+        string JobArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobArn);
+        this.JobArn = JobArn;
+    }
+
+    private AwsBraketGetJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBraketGetJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBraketGetJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the hybrid job to retrieve. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*
+    /// </summary>
     [CliOption("--job-arn")]
-    public string? JobArn { get; set; }
+    public string? JobArn { get; private init; }
 
     /// <summary>
     /// A list of attributes to return additional information for. Only the QueueInfo additional attribute name is currently supported. (string) Possible values: o QueueInfo Syntax: "string" "string" ...
@@ -35,5 +72,21 @@ public record AwsBraketGetJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

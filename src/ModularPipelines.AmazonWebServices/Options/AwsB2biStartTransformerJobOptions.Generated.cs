@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("b2bi", "start-transformer-job")]
-public record AwsB2biStartTransformerJobOptions : AwsOptions
+public record AwsB2biStartTransformerJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Ser- vices B2B Data Interchange. If you only want to transform EDI (electronic data interchange) docu- ments, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTrans- formerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run...
+    /// </summary>
+    /// <param name="InputFile">Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
+    /// <param name="OutputLocation">Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
+    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsB2biStartTransformerJobOptions(
+        string InputFile,
+        string OutputLocation,
+        string TransformerId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputFile);
+        this.InputFile = InputFile;
+        global::System.ArgumentNullException.ThrowIfNull(OutputLocation);
+        this.OutputLocation = OutputLocation;
+        global::System.ArgumentNullException.ThrowIfNull(TransformerId);
+        this.TransformerId = TransformerId;
+    }
+
+    private AwsB2biStartTransformerJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsB2biStartTransformerJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsB2biStartTransformerJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// </summary>
     [CliOption("--input-file")]
-    public string? InputFile { get; set; }
+    public string? InputFile { get; private init; }
 
+    /// <summary>
+    /// Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// </summary>
     [CliOption("--output-location")]
-    public string? OutputLocation { get; set; }
+    public string? OutputLocation { get; private init; }
 
+    /// <summary>
+    /// Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--transformer-id")]
-    public string? TransformerId { get; set; }
+    public string? TransformerId { get; private init; }
 
     /// <summary>
     /// Reserved for future use.
@@ -43,5 +94,21 @@ public record AwsB2biStartTransformerJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

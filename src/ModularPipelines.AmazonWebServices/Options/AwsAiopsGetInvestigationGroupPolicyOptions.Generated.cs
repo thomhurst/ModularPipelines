@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aiops", "get-investigation-group-policy")]
-public record AwsAiopsGetInvestigationGroupPolicyOptions : AwsOptions
+public record AwsAiopsGetInvestigationGroupPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the JSON of the IAM resource policy associated with the speci- fied investigation group in a string. For example, {\"Ver- sion\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Princi- pal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Ac- tion\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigation- Event\"],\"Resource\":\"*\",\"Condition\":{\"StringE- quals\":{\"aws:SourceAccount\":\"111122223333\"},\"Arn- Like\":{\"aws:SourceArn\":\"arn:aws:cloud- watch:us-east...
+    /// </summary>
+    /// <param name="Identifier">Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})</param>
+    public AwsAiopsGetInvestigationGroupPolicyOptions(
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsAiopsGetInvestigationGroupPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAiopsGetInvestigationGroupPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAiopsGetInvestigationGroupPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specify either the name or the ARN of the investigation group that you want to view the policy of. Constraints: o pattern: (?:[\-_A-Za-z0-9]{1,512}|arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):aiops:[a-zA-Z0-9-]*:[0-9]{12}:in- vestigation-group\/[A-Za-z0-9]{16})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-assistant-contact")]
-public record AwsConnectStartAssistantContactOptions : AwsOptions
+public record AwsConnectStartAssistantContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="AiAgent">The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: o min: 0 o max: 128 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }</param>
+    /// <param name="ParticipantDetails">The display name and other details that identify the chat partici- pant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    public AwsConnectStartAssistantContactOptions(
+        string InstanceId,
+        string AiAgent,
+        string ParticipantDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(AiAgent);
+        this.AiAgent = AiAgent;
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantDetails);
+        this.ParticipantDetails = ParticipantDetails;
+    }
+
+    private AwsConnectStartAssistantContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartAssistantContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartAssistantContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: o min: 0 o max: 128 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }
+    /// </summary>
     [CliOption("--ai-agent")]
-    public string? AiAgent { get; set; }
+    public string? AiAgent { get; private init; }
 
+    /// <summary>
+    /// The display name and other details that identify the chat partici- pant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// </summary>
     [CliOption("--participant-details")]
-    public string? ParticipantDetails { get; set; }
+    public string? ParticipantDetails { get; private init; }
 
     /// <summary>
     /// The initial message to send to the newly created chat. ContentType -&gt; (string) [required] The type of the content. Supported types are text/plain , text/markdown , application/json , and application/vnd.amazon- aws.connect.message.interactive.response . Constraints: o min: 1 o max: 100 Content -&gt; (string) [required] The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.re- sponse ). Some messaging channels enforce lower limits. For channel-spe- cific message size limits, see Chat message size limits by chan- nel in the Amazon Connect Customer Administrator Guide . Constraints: o min: 1 o max: 16384 Shorthand Syntax: ContentType=string,Content=string JSON Syntax: { "ContentType": "string", "Content": "string" }
@@ -68,5 +119,21 @@ public record AwsConnectStartAssistantContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

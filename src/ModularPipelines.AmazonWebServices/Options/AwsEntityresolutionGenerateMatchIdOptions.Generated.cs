@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("entityresolution", "generate-match-id")]
-public record AwsEntityresolutionGenerateMatchIdOptions : AwsOptions
+public record AwsEntityresolutionGenerateMatchIdOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-name")]
-    public string? WorkflowName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Generates or retrieves Match IDs for records using a rule-based match- ing workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The op- eration saves results to Amazon S3. The processing type (processingType ) you choose affects both the accu- racy and response time of the operation. Add...
+    /// </summary>
+    /// <param name="WorkflowName">The name of the rule-based matching workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="Records">The records to match. Constraints: o min: 1 o max: 1 (structure) The record. inputSourceARN -&gt; (string) [required] The input source ARN of the record. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) uniqueId -&gt; (string) [required] The unique ID of the record. Constraints: o min: 1 o max: 38 o pattern: [a-zA-Z0-9_-]* recordAttributeMap -&gt; (map) [required] The record's attribute map. key -&gt; (string) Constraints: o min: 0 o max: 255 value -&gt; (string) Constraints: o min: 0 o max: 255 Shorthand Syntax: inputSourceARN=string,uniqueId=string,recordAttributeMap={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "inputSourceARN": "string", "uniqueId": "string", "recordAttributeMap": {"string": "string" ...} } ... ]</param>
+    public AwsEntityresolutionGenerateMatchIdOptions(
+        string WorkflowName,
+        IEnumerable<string> Records
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowName);
+        this.WorkflowName = WorkflowName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Records);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Records));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Records));
+            }
+
+            Records = materialized;
+        }
+        this.Records = Records;
+    }
+
+    private AwsEntityresolutionGenerateMatchIdOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEntityresolutionGenerateMatchIdOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEntityresolutionGenerateMatchIdOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the rule-based matching workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// </summary>
+    [CliOption("--workflow-name")]
+    public string? WorkflowName { get; private init; }
+
+    /// <summary>
+    /// The records to match. Constraints: o min: 1 o max: 1 (structure) The record. inputSourceARN -&gt; (string) [required] The input source ARN of the record. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idname- space/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):en- tityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(match- ingwork- flow/[a-zA-Z_0-9-]{1,255})$|^arn:(aws|aws-us-gov|aws-cn):glue:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(ta- ble/[a-zA-Z_0-9-]{1,255}/[a-zA-Z_0-9-]{1,255}) uniqueId -&gt; (string) [required] The unique ID of the record. Constraints: o min: 1 o max: 38 o pattern: [a-zA-Z0-9_-]* recordAttributeMap -&gt; (map) [required] The record's attribute map. key -&gt; (string) Constraints: o min: 0 o max: 255 value -&gt; (string) Constraints: o min: 0 o max: 255 Shorthand Syntax: inputSourceARN=string,uniqueId=string,recordAttributeMap={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "inputSourceARN": "string", "uniqueId": "string", "recordAttributeMap": {"string": "string" ...} } ... ]
+    /// </summary>
     [CliOption("--records", GroupValues = true)]
-    public IEnumerable<string>? Records { get; set; }
+    public IEnumerable<string>? Records { get; private init; }
 
     /// <summary>
     /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT . CONSISTENT : Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time. EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster ini- tial response time, with complete matching results available later in S3. EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the con- sole): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique. NOTE: Advanced matching workflows don't support the processingType field. Possible values: o CONSISTENT o EVENTUAL o EVENTUAL_NO_LOOKUP
@@ -39,5 +94,21 @@ public record AwsEntityresolutionGenerateMatchIdOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

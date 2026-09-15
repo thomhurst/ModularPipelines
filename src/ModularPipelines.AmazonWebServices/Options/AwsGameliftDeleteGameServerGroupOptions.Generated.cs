@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "delete-game-server-group")]
-public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions
+public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are im- pacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: o The game server group o The corresponding Auto Scaling group o All game servers that are currently running in the group To delete a game server group, ide...
+    /// </summary>
+    /// <param name="GameServerGroupName">A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$</param>
+    public AwsGameliftDeleteGameServerGroupOptions(
+        string GameServerGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+    }
+
+    private AwsGameliftDeleteGameServerGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeleteGameServerGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeleteGameServerGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the game server group. Use either the name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]+|arn:.*:gameserver- group\/[a-zA-Z0-9-\.]+)$
+    /// </summary>
     [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    public string? GameServerGroupName { get; private init; }
 
     /// <summary>
     /// The type of delete to perform. Options include the following: o SAFE_DELETE (default) Terminates the game server group and Amazon EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status. o FORCE_DELETE Terminates the game server group, including all ac- tive game servers regardless of their utilization status, and the Amazon EC2 Auto Scaling group. o RETAIN Does a safe delete of the game server group but retains the Amazon EC2 Auto Scaling group as is. Possible values: o SAFE_DELETE o FORCE_DELETE o RETAIN
@@ -36,5 +73,21 @@ public record AwsGameliftDeleteGameServerGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

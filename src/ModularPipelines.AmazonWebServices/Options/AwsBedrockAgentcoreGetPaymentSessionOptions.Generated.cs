@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-payment-session")]
-public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions
+public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get a payment session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentSessionId">The ID of the payment session to retrieve. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}</param>
+    public AwsBedrockAgentcoreGetPaymentSessionOptions(
+        string PaymentManagerArn,
+        string PaymentSessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PaymentManagerArn);
+        this.PaymentManagerArn = PaymentManagerArn;
+        global::System.ArgumentNullException.ThrowIfNull(PaymentSessionId);
+        this.PaymentSessionId = PaymentSessionId;
+    }
+
+    private AwsBedrockAgentcoreGetPaymentSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetPaymentSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetPaymentSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the payment manager that owns this session. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--payment-manager-arn")]
+    public string? PaymentManagerArn { get; private init; }
+
+    /// <summary>
+    /// The ID of the payment session to retrieve. Constraints: o min: 31 o max: 31 o pattern: payment-session-[0-9a-zA-Z-]{15}
+    /// </summary>
+    [CliOption("--payment-session-id")]
+    public string? PaymentSessionId { get; private init; }
+
     /// <summary>
     /// The user ID associated with this payment session. Constraints: o min: 0 o max: 120
     /// </summary>
@@ -33,16 +83,26 @@ public record AwsBedrockAgentcoreGetPaymentSessionOptions : AwsOptions
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
-    [CliOption("--payment-manager-arn")]
-    public string? PaymentManagerArn { get; set; }
-
-    [CliOption("--payment-session-id")]
-    public string? PaymentSessionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

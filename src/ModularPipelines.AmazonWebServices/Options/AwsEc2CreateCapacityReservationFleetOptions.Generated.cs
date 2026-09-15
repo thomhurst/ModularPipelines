@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,8 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-capacity-reservation-fleet")]
-public record AwsEc2CreateCapacityReservationFleetOptions : AwsOptions
+public record AwsEc2CreateCapacityReservationFleetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Capacity Reservation Fleet. For more information, see Create a Capacity Reservation Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TotalTargetCapacity">The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet de- termine the number of instances for which the Fleet reserves capac- ity. Both values are based on units that make sense for your work- load. For more information, see Total target capacity in the Amazon EC2 User Guide .</param>
+    public AwsEc2CreateCapacityReservationFleetOptions(
+        int TotalTargetCapacity
+    )
+    {
+        this.TotalTargetCapacity = TotalTargetCapacity;
+    }
+
+    private AwsEc2CreateCapacityReservationFleetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateCapacityReservationFleetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateCapacityReservationFleetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The total number of capacity units to be reserved by the Capacity Reservation Fleet. This value, together with the instance type weights that you assign to each instance type used by the Fleet de- termine the number of instances for which the Fleet reserves capac- ity. Both values are based on units that make sense for your work- load. For more information, see Total target capacity in the Amazon EC2 User Guide .
+    /// </summary>
+    [CliOption("--total-target-capacity")]
+    public int? TotalTargetCapacity { get; private init; }
+
     /// <summary>
     /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. Currently, only the prioritized allocation strategy is supported. For more information, see Allocation strategy in the Amazon EC2 User Guide . Valid values: prioritized
     /// </summary>
@@ -48,9 +87,6 @@ public record AwsEc2CreateCapacityReservationFleetOptions : AwsOptions
     [CliOption("--tenancy")]
     public AwsEc2CreateCapacityReservationFleetTenancy? Tenancy { get; set; }
 
-    [CliOption("--total-target-capacity")]
-    public int? TotalTargetCapacity { get; set; }
-
     /// <summary>
     /// The date and time at which the Capacity Reservation Fleet expires. When the Capacity Reservation Fleet expires, its state changes to expired and all of the Capacity Reservations in the Fleet expire. The Capacity Reservation Fleet expires within an hour after the specified time. For example, if you specify 5/31/2019 , 13:30:55 , the Capacity Reservation Fleet is guaranteed to expire between 13:30:55 and 14:30:55 on 5/31/2019 .
     /// </summary>
@@ -69,7 +105,10 @@ public record AwsEc2CreateCapacityReservationFleetOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -77,5 +116,21 @@ public record AwsEc2CreateCapacityReservationFleetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

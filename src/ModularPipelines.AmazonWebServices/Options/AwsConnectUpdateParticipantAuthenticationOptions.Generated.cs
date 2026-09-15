@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "update-participant-authentication")]
-public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions
+public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--state")]
-    public string? State { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: o If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. o If an error is provided : The error branch of the Authenticate Cus- tomer block is executed. NOTE: The API returns a success response to acknowledge the request. How- ever, the interaction and exchange of identity information occur async...
+    /// </summary>
+    /// <param name="State">The state query parameter that was provided by Cognito in the redi- rectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    public AwsConnectUpdateParticipantAuthenticationOptions(
+        string State,
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsConnectUpdateParticipantAuthenticationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectUpdateParticipantAuthenticationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectUpdateParticipantAuthenticationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The state query parameter that was provided by Cognito in the redi- rectUri . This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [CliOption("--state")]
+    public string? State { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
     /// <summary>
     /// The code query parameter provided by Cognito in the redirectUri . Constraints: o min: 1 o max: 2048
@@ -50,5 +94,21 @@ public record AwsConnectUpdateParticipantAuthenticationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

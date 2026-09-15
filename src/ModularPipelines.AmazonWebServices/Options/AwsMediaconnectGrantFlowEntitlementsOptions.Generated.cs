@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "grant-flow-entitlements")]
-public record AwsMediaconnectGrantFlowEntitlementsOptions : AwsOptions
+public record AwsMediaconnectGrantFlowEntitlementsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--entitlements", GroupValues = true)]
-    public IEnumerable<string>? Entitlements { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Grants entitlements to an existing flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Entitlements">The list of entitlements that you want to grant. (structure) The entitlements that you want to grant on a flow. DataTransferSubscriberFeePercent -&gt; (integer) Percentage from 0-100 of the data transfer cost to be billed to the subscriber. Description -&gt; (string) A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user. Encryption -&gt; (structure) The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-charac- ter string, to be used with the key for encrypting con- tent. This parameter is not valid for static key encryp- tion. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) [required] The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE en- cryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. EntitlementStatus -&gt; (string) An indication of whether the new entitlement should be en- abled or disabled as soon as it is created. If you dont spec- ify the entitlementStatus field in your request, MediaConnect sets it to ENABLED. Possible values: o ENABLED o DISABLED Name -&gt; (string) The name of the entitlement. This value must be unique within the current flow. Subscribers -&gt; (list) [required] The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source. (string) EntitlementTags -&gt; (map) The key-value pairs that can be used to tag and organize the entitlement. key -&gt; (string) value -&gt; (string) Shorthand Syntax: DataTransferSubscriberFeePercent=integer,Description=string,Encryption={Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string},EntitlementStatus=string,Name=string,Subscribers=string,string,EntitlementTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DataTransferSubscriberFeePercent": integer, "Description": "string", "Encryption": { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }, "EntitlementStatus": "ENABLED"|"DISABLED", "Name": "string", "Subscribers": ["string", ...], "EntitlementTags": {"string": "string" ...} } ... ]</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to grant entitlements on. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    public AwsMediaconnectGrantFlowEntitlementsOptions(
+        IEnumerable<string> Entitlements,
+        string FlowArn
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entitlements);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entitlements));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entitlements));
+            }
+
+            Entitlements = materialized;
+        }
+        this.Entitlements = Entitlements;
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+    }
+
+    private AwsMediaconnectGrantFlowEntitlementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectGrantFlowEntitlementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectGrantFlowEntitlementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of entitlements that you want to grant. (structure) The entitlements that you want to grant on a flow. DataTransferSubscriberFeePercent -&gt; (integer) Percentage from 0-100 of the data transfer cost to be billed to the subscriber. Description -&gt; (string) A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user. Encryption -&gt; (structure) The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke. Algorithm -&gt; (string) The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256). Possible values: o aes128 o aes192 o aes256 ConstantInitializationVector -&gt; (string) A 128-bit, 16-byte hex value represented by a 32-charac- ter string, to be used with the key for encrypting con- tent. This parameter is not valid for static key encryp- tion. DeviceId -&gt; (string) The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption. KeyType -&gt; (string) The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Possible values: o speke o static-key o srt-password Region -&gt; (string) The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. ResourceId -&gt; (string) An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This pa- rameter is required for SPEKE encryption and is not valid for static key encryption. RoleArn -&gt; (string) [required] The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity). SecretArn -&gt; (string) The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE en- cryption. Url -&gt; (string) The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryp- tion. EntitlementStatus -&gt; (string) An indication of whether the new entitlement should be en- abled or disabled as soon as it is created. If you dont spec- ify the entitlementStatus field in your request, MediaConnect sets it to ENABLED. Possible values: o ENABLED o DISABLED Name -&gt; (string) The name of the entitlement. This value must be unique within the current flow. Subscribers -&gt; (list) [required] The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source. (string) EntitlementTags -&gt; (map) The key-value pairs that can be used to tag and organize the entitlement. key -&gt; (string) value -&gt; (string) Shorthand Syntax: DataTransferSubscriberFeePercent=integer,Description=string,Encryption={Algorithm=string,ConstantInitializationVector=string,DeviceId=string,KeyType=string,Region=string,ResourceId=string,RoleArn=string,SecretArn=string,Url=string},EntitlementStatus=string,Name=string,Subscribers=string,string,EntitlementTags={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "DataTransferSubscriberFeePercent": integer, "Description": "string", "Encryption": { "Algorithm": "aes128"|"aes192"|"aes256", "ConstantInitializationVector": "string", "DeviceId": "string", "KeyType": "speke"|"static-key"|"srt-password", "Region": "string", "ResourceId": "string", "RoleArn": "string", "SecretArn": "string", "Url": "string" }, "EntitlementStatus": "ENABLED"|"DISABLED", "Name": "string", "Subscribers": ["string", ...], "EntitlementTags": {"string": "string" ...} } ... ]
+    /// </summary>
+    [CliOption("--entitlements", GroupValues = true)]
+    public IEnumerable<string>? Entitlements { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that you want to grant entitlements on. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
     [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
+    public string? FlowArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

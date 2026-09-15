@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "update-sol-network-package")]
-public record AwsTnbUpdateSolNetworkPackageOptions : AwsOptions
+public record AwsTnbUpdateSolNetworkPackageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--nsd-info-id")]
-    public string? NsdInfoId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the operational state of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on. See also: AWS API Do...
+    /// </summary>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsdOperationalState">Operational state of the network service descriptor in the network package. Possible values: o ENABLED o DISABLED</param>
+    public AwsTnbUpdateSolNetworkPackageOptions(
+        string NsdInfoId,
+        AwsTnbUpdateSolNetworkPackageNsdOperationalState NsdOperationalState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
+        this.NsdInfoId = NsdInfoId;
+        global::System.ArgumentNullException.ThrowIfNull(NsdOperationalState);
+        this.NsdOperationalState = NsdOperationalState;
+    }
+
+    private AwsTnbUpdateSolNetworkPackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbUpdateSolNetworkPackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbUpdateSolNetworkPackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// </summary>
+    [CliOption("--nsd-info-id")]
+    public string? NsdInfoId { get; private init; }
+
+    /// <summary>
+    /// Operational state of the network service descriptor in the network package. Possible values: o ENABLED o DISABLED
+    /// </summary>
     [CliOption("--nsd-operational-state")]
-    public string? NsdOperationalState { get; set; }
+    public AwsTnbUpdateSolNetworkPackageNsdOperationalState? NsdOperationalState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

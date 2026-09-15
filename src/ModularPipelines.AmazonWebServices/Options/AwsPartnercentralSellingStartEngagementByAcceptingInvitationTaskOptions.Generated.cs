@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "start-engagement-by-accepting-invitation-task")]
-public record AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions : AwsOptions
+public record AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This action starts the engagement by accepting an EngagementInvitation . The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partners account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportu- nity has been successfully created in the partner's account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    public AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions(
+        string Catalog,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// </summary>
+    [CliOption("--identifier")]
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier provided by the client that helps to ensure the idempotency of the request. This can be a random or meaningful string but must be unique for each request. Constraints: o pattern: .{1,255}
@@ -31,9 +78,6 @@ public record AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOp
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--identifier")]
-    public string? Identifier { get; set; }
 
     /// <summary>
     /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -46,5 +90,21 @@ public record AwsPartnercentralSellingStartEngagementByAcceptingInvitationTaskOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

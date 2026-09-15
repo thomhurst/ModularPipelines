@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "batch-put-asset-property-value")]
-public record AwsIotsitewiseBatchPutAssetPropertyValueOptions : AwsOptions
+public record AwsIotsitewiseBatchPutAssetPropertyValueOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--enable-partial-entry-processing")]
-    public bool? EnablePartialEntryProcessing { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide . To identify an asset property, you must specify one of the following: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /com- pany/windfarm/3/turbine/7/temperature ). To define an asset prop- erty's alias, see UpdateAssetProperty . WAR...
+    /// </summary>
+    /// <param name="Entries">The list of asset property value entries for the batch put request. You can specify up to 10 entries per request. (structure) Contains a list of value updates for an asset property in the list of asset entries consumed by the BatchPutAssetPropertyValue API operation. entryId -&gt; (string) [required] The user specified ID for the entry. You can use this ID to identify which entries failed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property for this entry. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/wind- farm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ propertyValues -&gt; (list) [required] The list of property values to upload. You can specify up to 10 propertyValues array elements. (structure) Contains asset property value information. value -&gt; (structure) [required] The value of the asset property (see Variant ). stringValue -&gt; (string) Asset property data of type string (sequence of characters). The allowed pattern: "^$|[^u0000-u001Fu007F]+". The max length is 1024. integerValue -&gt; (integer) Asset property data of type integer (whole num- ber). doubleValue -&gt; (double) Asset property data of type double (floating point number). The min value is -10^10. The max value is 10^10. Double.NaN is allowed. booleanValue -&gt; (boolean) Asset property data of type Boolean (true or false). nullValue -&gt; (structure) The type of null asset property data with BAD and UNCERTAIN qualities. valueType -&gt; (string) [required] The type of null asset property data. Possible values: o D o B o S o I o U timestamp -&gt; (structure) [required] The timestamp of the asset property value. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 quality -&gt; (string) The quality of the asset property value. Possible values: o GOOD o BAD o UNCERTAIN JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string", "propertyValues": [ { "value": { "stringValue": "string", "integerValue": integer, "doubleValue": double, "booleanValue": true|false, "nullValue": { "valueType": "D"|"B"|"S"|"I"|"U" } }, "timestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "quality": "GOOD"|"BAD"|"UNCERTAIN" } ... ] } ... ]</param>
+    public AwsIotsitewiseBatchPutAssetPropertyValueOptions(
+        IEnumerable<string> Entries
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Entries);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Entries));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Entries));
+            }
+
+            Entries = materialized;
+        }
+        this.Entries = Entries;
+    }
+
+    private AwsIotsitewiseBatchPutAssetPropertyValueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseBatchPutAssetPropertyValueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseBatchPutAssetPropertyValueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request. (structure) Contains a list of value updates for an asset property in the list of asset entries consumed by the BatchPutAssetPropertyValue API operation. entryId -&gt; (string) [required] The user specified ID for the entry. You can use this ID to identify which entries failed. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property for this entry. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/wind- farm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ propertyValues -&gt; (list) [required] The list of property values to upload. You can specify up to 10 propertyValues array elements. (structure) Contains asset property value information. value -&gt; (structure) [required] The value of the asset property (see Variant ). stringValue -&gt; (string) Asset property data of type string (sequence of characters). The allowed pattern: "^$|[^u0000-u001Fu007F]+". The max length is 1024. integerValue -&gt; (integer) Asset property data of type integer (whole num- ber). doubleValue -&gt; (double) Asset property data of type double (floating point number). The min value is -10^10. The max value is 10^10. Double.NaN is allowed. booleanValue -&gt; (boolean) Asset property data of type Boolean (true or false). nullValue -&gt; (structure) The type of null asset property data with BAD and UNCERTAIN qualities. valueType -&gt; (string) [required] The type of null asset property data. Possible values: o D o B o S o I o U timestamp -&gt; (structure) [required] The timestamp of the asset property value. timeInSeconds -&gt; (long) [required] The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos . Constraints: o min: 1 o max: 9223372036854774 offsetInNanos -&gt; (integer) The nanosecond offset from timeInSeconds . Constraints: o min: 0 o max: 999999999 quality -&gt; (string) The quality of the asset property value. Possible values: o GOOD o BAD o UNCERTAIN JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string", "propertyValues": [ { "value": { "stringValue": "string", "integerValue": integer, "doubleValue": double, "booleanValue": true|false, "nullValue": { "valueType": "D"|"B"|"S"|"I"|"U" } }, "timestamp": { "timeInSeconds": long, "offsetInNanos": integer }, "quality": "GOOD"|"BAD"|"UNCERTAIN" } ... ] } ... ]
+    /// </summary>
     [CliOption("--entries", GroupValues = true)]
-    public IEnumerable<string>? Entries { get; set; }
+    public IEnumerable<string>? Entries { get; private init; }
+
+    /// <summary>
+    /// ing (boolean) This setting enables partial ingestion at entry-level. If set to true , we ingest all TQVs not resulting in an error. If set to false , an invalid TQV fails ingestion of the entire entry that contains it.
+    /// </summary>
+    [CliFlag("--enable-partial-entry-processing", NegatedName = "--no-enable-partial-entry-processing")]
+    public bool? EnablePartialEntryProcessing { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

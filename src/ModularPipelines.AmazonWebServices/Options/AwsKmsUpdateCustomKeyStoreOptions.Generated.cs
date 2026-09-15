@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "update-custom-key-store")]
-public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions
+public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Changes the properties of a custom key store. You can use this opera- tion to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the up- dated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which c...
+    /// </summary>
+    /// <param name="CustomKeyStoreId">Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: o min: 1 o max: 64</param>
+    public AwsKmsUpdateCustomKeyStoreOptions(
+        string CustomKeyStoreId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomKeyStoreId);
+        this.CustomKeyStoreId = CustomKeyStoreId;
+    }
+
+    private AwsKmsUpdateCustomKeyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsUpdateCustomKeyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsUpdateCustomKeyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--custom-key-store-id")]
-    public string? CustomKeyStoreId { get; set; }
+    public string? CustomKeyStoreId { get; private init; }
 
     /// <summary>
     /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To change this value, the custom key store can be connected or dis- connected. Constraints: o min: 1 o max: 256
@@ -87,5 +124,21 @@ public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

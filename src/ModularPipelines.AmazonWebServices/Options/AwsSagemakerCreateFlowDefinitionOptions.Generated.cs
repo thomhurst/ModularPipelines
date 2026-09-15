@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-flow-definition")]
-public record AwsSagemakerCreateFlowDefinitionOptions : AwsOptions
+public record AwsSagemakerCreateFlowDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a flow definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowDefinitionName">The name of your flow definition. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9]){0,62}</param>
+    /// <param name="OutputConfig">An object containing information about where the human review re- sults will be uploaded. S3OutputPath -&gt; (string) [required] The Amazon S3 path where the object containing human output will be made available. To learn more about the format of Amazon A2I output data, see Amazon A2I Output Data . Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Key Management Service (KMS) key ID for server-side encryption. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* Shorthand Syntax: S3OutputPath=string,KmsKeyId=string JSON Syntax: { "S3OutputPath": "string", "KmsKeyId": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role needed to call other ser- vices on your behalf. For example, arn:aws:iam::1234567890:role/ser- vice-role/AmazonSageMaker-ExecutionRole-20180111T151298 . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    public AwsSagemakerCreateFlowDefinitionOptions(
+        string FlowDefinitionName,
+        string OutputConfig,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowDefinitionName);
+        this.FlowDefinitionName = FlowDefinitionName;
+        global::System.ArgumentNullException.ThrowIfNull(OutputConfig);
+        this.OutputConfig = OutputConfig;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsSagemakerCreateFlowDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateFlowDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateFlowDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your flow definition. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9]){0,62}
+    /// </summary>
     [CliOption("--flow-definition-name")]
-    public string? FlowDefinitionName { get; set; }
+    public string? FlowDefinitionName { get; private init; }
+
+    /// <summary>
+    /// An object containing information about where the human review re- sults will be uploaded. S3OutputPath -&gt; (string) [required] The Amazon S3 path where the object containing human output will be made available. To learn more about the format of Amazon A2I output data, see Amazon A2I Output Data . Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) KmsKeyId -&gt; (string) The Amazon Key Management Service (KMS) key ID for server-side encryption. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* Shorthand Syntax: S3OutputPath=string,KmsKeyId=string JSON Syntax: { "S3OutputPath": "string", "KmsKeyId": "string" }
+    /// </summary>
+    [CliOption("--output-config")]
+    public string? OutputConfig { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role needed to call other ser- vices on your behalf. For example, arn:aws:iam::1234567890:role/ser- vice-role/AmazonSageMaker-ExecutionRole-20180111T151298 . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// Container for configuring the source of human task requests. Use to specify if Amazon Rekognition or Amazon Textract is used as an inte- gration source. AwsManagedHumanLoopRequestSource -&gt; (string) [required] Specifies whether Amazon Rekognition or Amazon Textract are used as the integration source. The default field settings and JSON parsing rules are different based on the integration source. Valid values: Possible values: o AWS/Rekognition/DetectModerationLabels/Image/V3 o AWS/Textract/AnalyzeDocument/Forms/V1 Shorthand Syntax: AwsManagedHumanLoopRequestSource=string JSON Syntax: { "AwsManagedHumanLoopRequestSource": "AWS/Rekognition/DetectModerationLabels/Image/V3"|"AWS/Textract/AnalyzeDocument/Forms/V1" }
@@ -42,12 +99,6 @@ public record AwsSagemakerCreateFlowDefinitionOptions : AwsOptions
     [CliOption("--human-loop-config")]
     public string? HumanLoopConfig { get; set; }
 
-    [CliOption("--output-config")]
-    public string? OutputConfig { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
     /// <summary>
     /// An array of key-value pairs that contain metadata to help you cate- gorize and organize a flow definition. Each tag consists of a key and a value, both of which you define. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -59,5 +110,21 @@ public record AwsSagemakerCreateFlowDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

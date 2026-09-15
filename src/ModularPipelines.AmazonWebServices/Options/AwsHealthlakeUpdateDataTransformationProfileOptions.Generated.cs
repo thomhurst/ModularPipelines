@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "update-data-transformation-profile")]
-public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions
+public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT con- tent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile to update. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    /// <param name="ProfileMapping">The new profile content for the DRAFT version. This is a full re- placement of all profile files. Constraints: o min: 1 o max: 500 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (string) Constraints: o min: 0 o max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsHealthlakeUpdateDataTransformationProfileOptions(
+        string ProfileId,
+        IReadOnlyList<KeyValue> ProfileMapping
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ProfileMapping);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(ProfileMapping));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ProfileMapping));
+            }
+
+            ProfileMapping = materialized;
+        }
+        this.ProfileMapping = ProfileMapping;
+    }
+
+    private AwsHealthlakeUpdateDataTransformationProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeUpdateDataTransformationProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeUpdateDataTransformationProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile to update. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
+
+    /// <summary>
+    /// The new profile content for the DRAFT version. This is a full re- placement of all profile files. Constraints: o min: 1 o max: 500 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (string) Constraints: o min: 0 o max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--profile-mapping", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? ProfileMapping { get; set; }
+    public IReadOnlyList<KeyValue>? ProfileMapping { get; private init; }
 
     /// <summary>
     /// A description of what changed in this update. Constraints: o min: 0 o max: 1000
@@ -39,5 +94,21 @@ public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

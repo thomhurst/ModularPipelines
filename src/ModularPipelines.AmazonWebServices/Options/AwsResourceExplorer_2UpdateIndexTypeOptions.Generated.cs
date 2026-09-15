@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-explorer-2", "update-index-type")]
-public record AwsResourceExplorer_2UpdateIndexTypeOptions : AwsOptions
+public record AwsResourceExplorer_2UpdateIndexTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Changes the type of the index from one of the following types to the other. For more information about indexes and the role they perform in Amazon Web Services Resource Explorer, see Turning on cross-Region search by creating an aggregator index in the Amazon Web Services Re- source Explorer User Guide . o ``AGGREGATOR`` index type The index contains information about re- sources from all Amazon Web Services Regions in the Amazon Web Ser- vices account in which you've created a Resource Explorer...
+    /// </summary>
+    /// <param name="Arn">The Amazon resource name (ARN) of the index that you want to update.</param>
+    /// <param name="Type">The type of the index. To understand the difference between LOCAL and AGGREGATOR , see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide . Possible values: o LOCAL o AGGREGATOR</param>
+    public AwsResourceExplorer_2UpdateIndexTypeOptions(
+        string Arn,
+        AwsResourceExplorer_2UpdateIndexTypeType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsResourceExplorer_2UpdateIndexTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResourceExplorer_2UpdateIndexTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResourceExplorer_2UpdateIndexTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon resource name (ARN) of the index that you want to update.
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The type of the index. To understand the difference between LOCAL and AGGREGATOR , see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide . Possible values: o LOCAL o AGGREGATOR
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsResourceExplorer_2UpdateIndexTypeType? Type { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

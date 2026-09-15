@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +23,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-managed-thing")]
-public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
+    /// </summary>
+    /// <param name="Role">The type of device used. This will be the hub controller, cloud de- vice, or AWS IoT device. Possible values: o CONTROLLER o DEVICE</param>
+    /// <param name="AuthenticationMaterial">The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+</param>
+    /// <param name="AuthenticationMaterialType">The type of authentication material used for device connectivity setup requests. Possible values: o CUSTOM_PROTOCOL_QR_BAR_CODE o WIFI_SETUP_QR_BAR_CODE o ZWAVE_QR_BAR_CODE o ZIGBEE_QR_BAR_CODE o DISCOVERED_DEVICE o PRE_ONBOARDED_CLOUD</param>
+    public AwsIotManagedIntegrationsCreateManagedThingOptions(
+        AwsIotManagedIntegrationsCreateManagedThingRole Role,
+        string AuthenticationMaterial,
+        AwsIotManagedIntegrationsCreateManagedThingAuthenticationMaterialType AuthenticationMaterialType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMaterial);
+        this.AuthenticationMaterial = AuthenticationMaterial;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationMaterialType);
+        this.AuthenticationMaterialType = AuthenticationMaterialType;
+    }
+
+    private AwsIotManagedIntegrationsCreateManagedThingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateManagedThingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateManagedThingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of device used. This will be the hub controller, cloud de- vice, or AWS IoT device. Possible values: o CONTROLLER o DEVICE
+    /// </summary>
     [CliOption("--role")]
-    public string? Role { get; set; }
+    public AwsIotManagedIntegrationsCreateManagedThingRole? Role { get; private init; }
+
+    /// <summary>
+    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+
+    /// </summary>
+    [CliOption("--authentication-material")]
+    public string? AuthenticationMaterial { get; private init; }
+
+    /// <summary>
+    /// The type of authentication material used for device connectivity setup requests. Possible values: o CUSTOM_PROTOCOL_QR_BAR_CODE o WIFI_SETUP_QR_BAR_CODE o ZWAVE_QR_BAR_CODE o ZIGBEE_QR_BAR_CODE o DISCOVERED_DEVICE o PRE_ONBOARDED_CLOUD
+    /// </summary>
+    [CliOption("--authentication-material-type")]
+    public AwsIotManagedIntegrationsCreateManagedThingAuthenticationMaterialType? AuthenticationMaterialType { get; private init; }
 
     /// <summary>
     /// Owner of the device, usually an indication of whom the device be- longs to. This value should not contain personal identifiable infor- mation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.,@-]+
@@ -35,15 +93,8 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions
     /// <summary>
     /// The identifier of the credential for the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-locker-id")]
     public string? CredentialLockerId { get; set; }
-
-    [CliOption("--authentication-material")]
-    public string? AuthenticationMaterial { get; set; }
-
-    [CliOption("--authentication-material-type")]
-    public string? AuthenticationMaterialType { get; set; }
 
     /// <summary>
     /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings. EnableAsProvisioner -&gt; (boolean) Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices. EnableAsProvisionee -&gt; (boolean) Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices. TimeoutInMinutes -&gt; (integer) The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes. Constraints: o min: 5 o max: 15 Shorthand Syntax: EnableAsProvisioner=boolean,EnableAsProvisionee=boolean,TimeoutInMinutes=integer JSON Syntax: { "EnableAsProvisioner": true|false, "EnableAsProvisionee": true|false, "TimeoutInMinutes": integer }
@@ -123,5 +174,21 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

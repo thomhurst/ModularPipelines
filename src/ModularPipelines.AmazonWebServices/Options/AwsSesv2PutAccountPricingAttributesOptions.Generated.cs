@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-account-pricing-attributes")]
-public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions
+public record AwsSesv2PutAccountPricingAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Set the pricing plan for your Amazon SES account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Plan">The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the follow- ing: o NONE o ESSENTIALS o PRO o ENTERPRISE Possible values: o NONE o ESSENTIALS o PRO o ENTERPRISE</param>
+    public AwsSesv2PutAccountPricingAttributesOptions(
+        AwsSesv2PutAccountPricingAttributesPlan Plan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plan);
+        this.Plan = Plan;
+    }
+
+    private AwsSesv2PutAccountPricingAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutAccountPricingAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutAccountPricingAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing . Can be one of the follow- ing: o NONE o ESSENTIALS o PRO o ENTERPRISE Possible values: o NONE o ESSENTIALS o PRO o ENTERPRISE
+    /// </summary>
     [CliOption("--plan")]
-    public string? Plan { get; set; }
+    public AwsSesv2PutAccountPricingAttributesPlan? Plan { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

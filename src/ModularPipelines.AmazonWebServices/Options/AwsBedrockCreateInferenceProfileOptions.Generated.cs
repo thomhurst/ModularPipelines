@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "create-inference-profile")]
-public record AwsBedrockCreateInferenceProfileOptions : AwsOptions
+public record AwsBedrockCreateInferenceProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route re- quests to. For more information, see Increase throughput and resilience with cross-...
+    /// </summary>
+    /// <param name="InferenceProfileName">A name for the inference profile. Constraints: o min: 1 o max: 64 o pattern: ([0-9a-zA-Z][ _-]?)+</param>
+    /// <param name="ModelSource">The foundation model or system-defined inference profile that the inference profile will track metrics and costs for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: copyFrom. copyFrom -&gt; (string) The ARN of the model or system-defined inference profile that is the source for the inference profile. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|foundation-model)/[a-zA-Z0-9-:.]+ Shorthand Syntax: copyFrom=string JSON Syntax: { "copyFrom": "string" }</param>
+    public AwsBedrockCreateInferenceProfileOptions(
+        string InferenceProfileName,
+        string ModelSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InferenceProfileName);
+        this.InferenceProfileName = InferenceProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(ModelSource);
+        this.ModelSource = ModelSource;
+    }
+
+    private AwsBedrockCreateInferenceProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockCreateInferenceProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockCreateInferenceProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for the inference profile. Constraints: o min: 1 o max: 64 o pattern: ([0-9a-zA-Z][ _-]?)+
+    /// </summary>
     [CliOption("--inference-profile-name")]
-    public string? InferenceProfileName { get; set; }
+    public string? InferenceProfileName { get; private init; }
+
+    /// <summary>
+    /// The foundation model or system-defined inference profile that the inference profile will track metrics and costs for. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: copyFrom. copyFrom -&gt; (string) The ARN of the model or system-defined inference profile that is the source for the inference profile. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|foundation-model)/[a-zA-Z0-9-:.]+ Shorthand Syntax: copyFrom=string JSON Syntax: { "copyFrom": "string" }
+    /// </summary>
+    [CliOption("--model-source")]
+    public string? ModelSource { get; private init; }
 
     /// <summary>
     /// A description for the inference profile. Constraints: o min: 1 o max: 200 o pattern: ([0-9a-zA-Z:.][ _-]?)+
@@ -38,9 +85,6 @@ public record AwsBedrockCreateInferenceProfileOptions : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--model-source")]
-    public string? ModelSource { get; set; }
-
     /// <summary>
     /// An array of objects, each of which contains a tag and its value. For more information, see Tagging resources in the Amazon Bedrock User Guide . Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
@@ -52,5 +96,21 @@ public record AwsBedrockCreateInferenceProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

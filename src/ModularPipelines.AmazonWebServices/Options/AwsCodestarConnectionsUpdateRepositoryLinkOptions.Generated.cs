@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codestar-connections", "update-repository-link")]
-public record AwsCodestarConnectionsUpdateRepositoryLinkOptions : AwsOptions
+public record AwsCodestarConnectionsUpdateRepositoryLinkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the association between your connection and a specified exter- nal Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RepositoryLinkId">The ID of the repository link to be updated. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    public AwsCodestarConnectionsUpdateRepositoryLinkOptions(
+        string RepositoryLinkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryLinkId);
+        this.RepositoryLinkId = RepositoryLinkId;
+    }
+
+    private AwsCodestarConnectionsUpdateRepositoryLinkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodestarConnectionsUpdateRepositoryLinkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodestarConnectionsUpdateRepositoryLinkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the repository link to be updated. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// </summary>
+    [CliOption("--repository-link-id")]
+    public string? RepositoryLinkId { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+
     /// </summary>
@@ -33,13 +73,26 @@ public record AwsCodestarConnectionsUpdateRepositoryLinkOptions : AwsOptions
     [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
 
-    [CliOption("--repository-link-id")]
-    public string? RepositoryLinkId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

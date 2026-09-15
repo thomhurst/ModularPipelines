@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("waf-regional", "delete-xss-match-set")]
-public record AwsWafRegionalDeleteXssMatchSetOptions : AwsOptions
+public record AwsWafRegionalDeleteXssMatchSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--xss-match-set-id")]
-    public string? XssMatchSetId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes an XssMatchSet . You can't delete an XssMatchSet if it's still used in any Rules or if it still contains any XssMatch- Tuple objects. If you just want to remove an XssMatchSet from ...
+    /// </summary>
+    /// <param name="XssMatchSetId">The XssMatchSetId of the XssMatchSet that you want to delete. Xss- MatchSetId is returned by CreateXssMatchSet and by ListXssMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    public AwsWafRegionalDeleteXssMatchSetOptions(
+        string XssMatchSetId,
+        string ChangeToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(XssMatchSetId);
+        this.XssMatchSetId = XssMatchSetId;
+        global::System.ArgumentNullException.ThrowIfNull(ChangeToken);
+        this.ChangeToken = ChangeToken;
+    }
+
+    private AwsWafRegionalDeleteXssMatchSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafRegionalDeleteXssMatchSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafRegionalDeleteXssMatchSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The XssMatchSetId of the XssMatchSet that you want to delete. Xss- MatchSetId is returned by CreateXssMatchSet and by ListXssMatch- Sets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--xss-match-set-id")]
+    public string? XssMatchSetId { get; private init; }
+
+    /// <summary>
+    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
-    public string? ChangeToken { get; set; }
+    public string? ChangeToken { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

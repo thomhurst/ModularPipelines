@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "list-engagement-by-accepting-invitation-tasks")]
-public record AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions : AwsOptions
+public record AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all in-progress, completed, or failed StartEngagementByAccepting- InvitationTask tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-by-accepting-invitation-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// </summary>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the request from the production AWS environment. o Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
+    public AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    private AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the catalog related to the request. Valid values are: o AWS: Retrieves the request from the production AWS environment. o Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
     /// <summary>
     /// Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes. SortOrder -&gt; (string) [required] Determines the order in which the sorted results are presented. Possible values: o ASCENDING o DESCENDING SortBy -&gt; (string) [required] Specifies the field by which the task list should be sorted. Possible values: o StartTime Shorthand Syntax: SortOrder=string,SortBy=string JSON Syntax: { "SortOrder": "ASCENDING"|"DESCENDING", "SortBy": "StartTime" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
-
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
 
     /// <summary>
     /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Constraints: o min: 1 o max: 3 (string) Possible values: o IN_PROGRESS o COMPLETE o FAILED Syntax: "string" "string" ...
@@ -79,5 +116,21 @@ public record AwsPartnercentralSellingListEngagementByAcceptingInvitationTasksOp
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

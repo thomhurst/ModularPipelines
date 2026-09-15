@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "set-load-balancer-listener-ssl-certificate")]
-public record AwsElbSetLoadBalancerListenerSslCertificateOptions : AwsOptions
+public record AwsElbSetLoadBalancerListenerSslCertificateOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets the certificate that terminates the specified listener's SSL con- nections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see Replace the SSL Certificate for Your Load Balancer in the Classic Load Bal- ancers Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="LoadBalancerPort">The port that uses the specified SSL certificate.</param>
+    /// <param name="SslCertificateId">The Amazon Resource Name (ARN) of the SSL certificate.</param>
+    public AwsElbSetLoadBalancerListenerSslCertificateOptions(
+        string LoadBalancerName,
+        int LoadBalancerPort,
+        string SslCertificateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        this.LoadBalancerPort = LoadBalancerPort;
+        global::System.ArgumentNullException.ThrowIfNull(SslCertificateId);
+        this.SslCertificateId = SslCertificateId;
+    }
+
+    private AwsElbSetLoadBalancerListenerSslCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbSetLoadBalancerListenerSslCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbSetLoadBalancerListenerSslCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The port that uses the specified SSL certificate.
+    /// </summary>
     [CliOption("--load-balancer-port")]
-    public int? LoadBalancerPort { get; set; }
+    public int? LoadBalancerPort { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the SSL certificate.
+    /// </summary>
     [CliOption("--ssl-certificate-id")]
-    public string? SslCertificateId { get; set; }
+    public string? SslCertificateId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -22,19 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("apigateway", "get-sdk")]
 public record AwsApigatewayGetSdkOptions : AwsOptions
 {
+    /// <summary>
+    /// Generates a client SDK for a RestApi and Stage. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="StageName">The name of the Stage that the SDK will use.</param>
+    /// <param name="SdkType">The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are sup- ported.</param>
+    /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
+    public AwsApigatewayGetSdkOptions(
+        string RestApiId,
+        string StageName,
+        string SdkType,
+        string Outfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+        global::System.ArgumentNullException.ThrowIfNull(SdkType);
+        this.SdkType = SdkType;
+        global::System.ArgumentNullException.ThrowIfNull(Outfile);
+        this.Outfile = Outfile;
+    }
+
+    public void Deconstruct(out string RestApiId, out string StageName, out string SdkType, out string Outfile)
+    {
+        RestApiId = this.RestApiId;
+        StageName = this.StageName;
+        SdkType = this.SdkType;
+        Outfile = this.Outfile;
+    }
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string RestApiId { get; private init; }
 
+    /// <summary>
+    /// The name of the Stage that the SDK will use.
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string StageName { get; private init; }
 
+    /// <summary>
+    /// The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are sup- ported.
+    /// </summary>
     [CliOption("--sdk-type")]
-    public string? SdkType { get; set; }
+    public string SdkType { get; private init; }
 
     /// <summary>
     /// A string-to-string key-value map of query parameters sdkType -depen- dent properties of the SDK. For sdkType of objectivec or swift , a parameter named classPrefix is required. For sdkType of android , parameters named groupId , artifactId , artifactVersion , and invok- erPackage are required. For sdkType of java , parameters named ser- viceName and javaPackageName are required. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...} outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
+
+    /// <summary>
+    /// The &lt;outfile&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Outfile { get; private init; }
 
 }

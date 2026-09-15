@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeartifact", "put-domain-permissions-policy")]
-public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions
+public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy , the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Domain">The name of the domain on which to set the resource policy. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PolicyDocument">A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: o min: 1 o max: 7168 o pattern: [\P{C}\s]+</param>
+    public AwsCodeartifactPutDomainPermissionsPolicyOptions(
+        string Domain,
+        string PolicyDocument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+    }
+
+    private AwsCodeartifactPutDomainPermissionsPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeartifactPutDomainPermissionsPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeartifactPutDomainPermissionsPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain on which to set the resource policy. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: o min: 1 o max: 7168 o pattern: [\P{C}\s]+
+    /// </summary>
+    [CliOption("--policy-document")]
+    public string? PolicyDocument { get; private init; }
 
     /// <summary>
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
@@ -36,13 +83,26 @@ public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions
     [CliOption("--policy-revision")]
     public string? PolicyRevision { get; set; }
 
-    [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

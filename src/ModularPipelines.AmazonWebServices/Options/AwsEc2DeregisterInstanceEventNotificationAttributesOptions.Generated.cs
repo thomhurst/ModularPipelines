@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,73 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "deregister-instance-event-notification-attributes")]
-public record AwsEc2DeregisterInstanceEventNotificationAttributesOptions : AwsOptions
+public record AwsEc2DeregisterInstanceEventNotificationAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceTagAttribute">Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Re- gion. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }</param>
+    public AwsEc2DeregisterInstanceEventNotificationAttributesOptions(
+        string InstanceTagAttribute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceTagAttribute);
+        this.InstanceTagAttribute = InstanceTagAttribute;
+    }
+
+    private AwsEc2DeregisterInstanceEventNotificationAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeregisterInstanceEventNotificationAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeregisterInstanceEventNotificationAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the tag keys to deregister. IncludeAllTagsOfInstance -&gt; (boolean) Indicates whether to deregister all tag keys in the current Re- gion. Specify false to deregister all tag keys. InstanceTagKeys -&gt; (list) Information about the tag keys to deregister. (string) Shorthand Syntax: IncludeAllTagsOfInstance=boolean,InstanceTagKeys=string,string JSON Syntax: { "IncludeAllTagsOfInstance": true|false, "InstanceTagKeys": ["string", ...] }
+    /// </summary>
     [CliOption("--instance-tag-attribute")]
-    public string? InstanceTagAttribute { get; set; }
+    public string? InstanceTagAttribute { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

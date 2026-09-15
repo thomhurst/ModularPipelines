@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "register-db-proxy-targets")]
-public record AwsRdsRegisterDbProxyTargetsOptions : AwsOptions
+public record AwsRdsRegisterDbProxyTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associate one or more DBProxyTarget data structures with a DBProxyTar- getGroup . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbProxyName">The identifier of the DBProxy that is associated with the DBProxy- TargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    public AwsRdsRegisterDbProxyTargetsOptions(
+        string DbProxyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbProxyName);
+        this.DbProxyName = DbProxyName;
+    }
+
+    private AwsRdsRegisterDbProxyTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRegisterDbProxyTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRegisterDbProxyTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the DBProxy that is associated with the DBProxy- TargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--db-proxy-name")]
-    public string? DbProxyName { get; set; }
+    public string? DbProxyName { get; private init; }
 
     /// <summary>
     /// The identifier of the DBProxyTargetGroup . Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
@@ -47,5 +84,21 @@ public record AwsRdsRegisterDbProxyTargetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

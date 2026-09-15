@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplify", "start-job")]
-public record AwsAmplifyStartJobOptions : AwsOptions
+public record AwsAmplifyStartJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a new job for a branch of an Amplify app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="BranchName">The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+</param>
+    /// <param name="JobType">Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: o RELEASE o RETRY o MANUAL o WEB_HOOK Constraints: o max: 10</param>
+    public AwsAmplifyStartJobOptions(
+        string AppId,
+        string BranchName,
+        AwsAmplifyStartJobJobType JobType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BranchName);
+        this.BranchName = BranchName;
+        global::System.ArgumentNullException.ThrowIfNull(JobType);
+        this.JobType = JobType;
+    }
+
+    private AwsAmplifyStartJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifyStartJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifyStartJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// </summary>
+    [CliOption("--app-id")]
+    public string? AppId { get; private init; }
+
+    /// <summary>
+    /// The name of the branch to use for the job. Constraints: o min: 1 o max: 255 o pattern: (?s).+
+    /// </summary>
     [CliOption("--branch-name")]
-    public string? BranchName { get; set; }
+    public string? BranchName { get; private init; }
+
+    /// <summary>
+    /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY , the jobId is also required. Possible values: o RELEASE o RETRY o MANUAL o WEB_HOOK Constraints: o max: 10
+    /// </summary>
+    [CliOption("--job-type")]
+    public AwsAmplifyStartJobJobType? JobType { get; private init; }
 
     /// <summary>
     /// The unique ID for an existing job. This is required if the value of jobType is RETRY . Constraints: o max: 255 o pattern: [0-9]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; set; }
-
-    [CliOption("--job-type")]
-    public string? JobType { get; set; }
 
     /// <summary>
     /// A descriptive reason for starting the job. Constraints: o max: 255 o pattern: (?s).*
@@ -65,5 +117,21 @@ public record AwsAmplifyStartJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

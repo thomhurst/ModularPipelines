@@ -10,19 +10,66 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. A successful CreateCase request...
+/// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("support", "create-case")]
-public record AwsSupportCreateCaseOptions : AwsOptions
+public record AwsSupportCreateCaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a case in the Amazon Web Services Support Center. This opera- tion is similar to how you create a case in the Amazon Web Services Support Center Create Case page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the follow- ing ways: o Submit a request from the Amazon Web Services Support Center Create Case page. o Use the Service Quotas RequestServiceQuotaIncrease operation. WARNING: Amazon Web Services Su...
+    /// </summary>
+    /// <param name="Subject">The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.</param>
+    /// <param name="CommunicationBody">The communication body text that describes the issue. This text ap- pears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: o min: 1 o max: 8000</param>
+    public AwsSupportCreateCaseOptions(
+        string Subject,
+        string CommunicationBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subject);
+        this.Subject = Subject;
+        global::System.ArgumentNullException.ThrowIfNull(CommunicationBody);
+        this.CommunicationBody = CommunicationBody;
+    }
+
+    private AwsSupportCreateCaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupportCreateCaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupportCreateCaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.
+    /// </summary>
     [CliOption("--subject")]
-    public string? Subject { get; set; }
+    public string? Subject { get; private init; }
+
+    /// <summary>
+    /// The communication body text that describes the issue. This text ap- pears in the Description field on the Amazon Web Services Support Center Create Case page. Constraints: o min: 1 o max: 8000
+    /// </summary>
+    [CliOption("--communication-body")]
+    public string? CommunicationBody { get; private init; }
 
     /// <summary>
     /// The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.
@@ -42,9 +89,6 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     [CliOption("--category-code")]
     public string? CategoryCode { get; set; }
 
-    [CliOption("--communication-body")]
-    public string? CommunicationBody { get; set; }
-
     /// <summary>
     /// A list of email addresses that Amazon Web Services Support copies on case correspondence. Amazon Web Services Support identifies the ac- count that creates the case when you specify your Amazon Web Ser- vices credentials in an HTTP POST method or use the Amazon Web Ser- vices SDKs . Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
@@ -52,7 +96,7 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     public IEnumerable<string>? CcEmailAddresses { get; set; }
 
     /// <summary>
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") and Korean (ko). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
@@ -64,15 +108,43 @@ public record AwsSupportCreateCaseOptions : AwsOptions
     public string? IssueType { get; set; }
 
     /// <summary>
-    /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
+    /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds .
     /// </summary>
     [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
+
+    /// <summary>
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--upload-ids", GroupValues = true)]
+    public IEnumerable<string>? UploadIds { get; set; }
+
+    /// <summary>
+    /// Specifies whether to validate the request without actually creating the case. When set to true , the request is validated but no case is created, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

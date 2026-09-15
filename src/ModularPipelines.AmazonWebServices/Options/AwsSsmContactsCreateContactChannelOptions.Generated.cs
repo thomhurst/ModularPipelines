@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +22,81 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-contacts", "create-contact-channel")]
-public record AwsSsmContactsCreateContactChannelOptions : AwsOptions
+public record AwsSsmContactsCreateContactChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// A contact channel is the method that Incident Manager uses to engage your contact. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="Name">The name of the contact channel. Constraints: o min: 1 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$</param>
+    /// <param name="Type">Incident Manager supports three types of contact channels: o SMS o VOICE o EMAIL Possible values: o SMS o VOICE o EMAIL</param>
+    /// <param name="DeliveryAddress">The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format Constraints: o min: 1 o max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }</param>
+    public AwsSsmContactsCreateContactChannelOptions(
+        string ContactId,
+        string Name,
+        AwsSsmContactsCreateContactChannelType Type,
+        string DeliveryAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryAddress);
+        this.DeliveryAddress = DeliveryAddress;
+    }
+
+    private AwsSsmContactsCreateContactChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmContactsCreateContactChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmContactsCreateContactChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// </summary>
     [CliOption("--contact-id")]
-    public string? ContactId { get; set; }
+    public string? ContactId { get; private init; }
 
+    /// <summary>
+    /// The name of the contact channel. Constraints: o min: 1 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Incident Manager supports three types of contact channels: o SMS o VOICE o EMAIL Possible values: o SMS o VOICE o EMAIL
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsSsmContactsCreateContactChannelType? Type { get; private init; }
 
+    /// <summary>
+    /// The details that Incident Manager uses when trying to engage the contact channel. The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format SimpleAddress -&gt; (string) The format is dependent on the type of the contact channel. The following are the expected formats: o SMS - '+' followed by the country code and phone number o VOICE - '+' followed by the country code and phone number o EMAIL - any standard email format Constraints: o min: 1 o max: 320 Shorthand Syntax: SimpleAddress=string JSON Syntax: { "SimpleAddress": "string" }
+    /// </summary>
     [CliOption("--delivery-address")]
-    public string? DeliveryAddress { get; set; }
+    public string? DeliveryAddress { get; private init; }
 
-    [CliFlag("--defer-activation")]
+    /// <summary>
+    /// If you want to activate the channel at a later time, you can choose to defer activation. Incident Manager can't engage your contact channel until it has been activated.
+    /// </summary>
+    [CliFlag("--defer-activation", NegatedName = "--no-defer-activation")]
     public bool? DeferActivation { get; set; }
 
     /// <summary>
@@ -49,5 +111,21 @@ public record AwsSsmContactsCreateContactChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

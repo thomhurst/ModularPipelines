@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "add-notification-channel")]
-public record AwsDevopsGuruAddNotificationChannelOptions : AwsOptions
+public record AwsDevopsGuruAddNotificationChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifica- tions. DevOps Guru adds the required policy on your behalf to send no- tifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see Permissio...
+    /// </summary>
+    /// <param name="Config">A NotificationChannelConfig object that specifies what type of noti- fication channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS). Sns -&gt; (structure) [required] Information about a notification channel configured in DevOps Guru to send notifications when insights are created. If you use an Amazon SNS topic in another account, you must at- tach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more informa- tion, see Permissions for Amazon SNS topics . If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for Amazon Web Services KMSencrypted Amazon SNS topics . TopicArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notifica- tion Service topic. Constraints: o min: 36 o max: 1024 o pattern: ^arn:aws[a-z0-9-]*:sns:[a-z0-9-]+:\d{12}:[^:]+$ Filters -&gt; (structure) The filter configurations for the Amazon SNS notification topic you use with DevOps Guru. If you do not provide filter configu- rations, the default configurations are to receive notifications for all message types of High or Medium severity. Severities -&gt; (list) The severity levels that you want to receive notifications for. For example, you can choose to receive notifications only for insights with HIGH and MEDIUM severity levels. For more information, see Understanding insight severities . Constraints: o min: 0 o max: 3 (string) Possible values: o LOW o MEDIUM o HIGH MessageTypes -&gt; (list) The events that you want to receive notifications for. For example, you can choose to receive notifications only when the severity level is upgraded or a new insight is created. Constraints: o min: 0 o max: 5 (string) Possible values: o NEW_INSIGHT o CLOSED_INSIGHT o NEW_ASSOCIATION o SEVERITY_UPGRADED o NEW_RECOMMENDATION Shorthand Syntax: Sns={TopicArn=string},Filters={Severities=[string,string],MessageTypes=[string,string]} JSON Syntax: { "Sns": { "TopicArn": "string" }, "Filters": { "Severities": ["LOW"|"MEDIUM"|"HIGH", ...], "MessageTypes": ["NEW_INSIGHT"|"CLOSED_INSIGHT"|"NEW_ASSOCIATION"|"SEVERITY_UPGRADED"|"NEW_RECOMMENDATION", ...] } }</param>
+    public AwsDevopsGuruAddNotificationChannelOptions(
+        string Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+    }
+
+    private AwsDevopsGuruAddNotificationChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruAddNotificationChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruAddNotificationChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A NotificationChannelConfig object that specifies what type of noti- fication channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS). Sns -&gt; (structure) [required] Information about a notification channel configured in DevOps Guru to send notifications when insights are created. If you use an Amazon SNS topic in another account, you must at- tach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more informa- tion, see Permissions for Amazon SNS topics . If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for Amazon Web Services KMSencrypted Amazon SNS topics . TopicArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Simple Notifica- tion Service topic. Constraints: o min: 36 o max: 1024 o pattern: ^arn:aws[a-z0-9-]*:sns:[a-z0-9-]+:\d{12}:[^:]+$ Filters -&gt; (structure) The filter configurations for the Amazon SNS notification topic you use with DevOps Guru. If you do not provide filter configu- rations, the default configurations are to receive notifications for all message types of High or Medium severity. Severities -&gt; (list) The severity levels that you want to receive notifications for. For example, you can choose to receive notifications only for insights with HIGH and MEDIUM severity levels. For more information, see Understanding insight severities . Constraints: o min: 0 o max: 3 (string) Possible values: o LOW o MEDIUM o HIGH MessageTypes -&gt; (list) The events that you want to receive notifications for. For example, you can choose to receive notifications only when the severity level is upgraded or a new insight is created. Constraints: o min: 0 o max: 5 (string) Possible values: o NEW_INSIGHT o CLOSED_INSIGHT o NEW_ASSOCIATION o SEVERITY_UPGRADED o NEW_RECOMMENDATION Shorthand Syntax: Sns={TopicArn=string},Filters={Severities=[string,string],MessageTypes=[string,string]} JSON Syntax: { "Sns": { "TopicArn": "string" }, "Filters": { "Severities": ["LOW"|"MEDIUM"|"HIGH", ...], "MessageTypes": ["NEW_INSIGHT"|"CLOSED_INSIGHT"|"NEW_ASSOCIATION"|"SEVERITY_UPGRADED"|"NEW_RECOMMENDATION", ...] } }
+    /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public string? Config { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

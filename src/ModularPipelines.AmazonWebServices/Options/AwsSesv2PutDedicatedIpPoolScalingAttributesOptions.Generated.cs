@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "put-dedicated-ip-pool-scaling-attributes")]
-public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions
+public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pool-name")]
-    public string? PoolName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Used to convert a dedicated IP pool to a different scaling mode. NOTE: MANAGED pools cannot be converted to STANDARD scaling mode. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PoolName">The name of the dedicated IP pool.</param>
+    /// <param name="ScalingMode">The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not sup- ported. Possible values: o STANDARD o MANAGED</param>
+    public AwsSesv2PutDedicatedIpPoolScalingAttributesOptions(
+        string PoolName,
+        AwsSesv2PutDedicatedIpPoolScalingAttributesScalingMode ScalingMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PoolName);
+        this.PoolName = PoolName;
+        global::System.ArgumentNullException.ThrowIfNull(ScalingMode);
+        this.ScalingMode = ScalingMode;
+    }
+
+    private AwsSesv2PutDedicatedIpPoolScalingAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2PutDedicatedIpPoolScalingAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2PutDedicatedIpPoolScalingAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the dedicated IP pool.
+    /// </summary>
+    [CliOption("--pool-name")]
+    public string? PoolName { get; private init; }
+
+    /// <summary>
+    /// The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not sup- ported. Possible values: o STANDARD o MANAGED
+    /// </summary>
     [CliOption("--scaling-mode")]
-    public string? ScalingMode { get; set; }
+    public AwsSesv2PutDedicatedIpPoolScalingAttributesScalingMode? ScalingMode { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

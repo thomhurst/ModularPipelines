@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "cancel-batch-job-execution")]
-public record AwsM2CancelBatchJobExecutionOptions : AwsOptions
+public record AwsM2CancelBatchJobExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels the running of a specific batch job execution. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ExecutionId">The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$</param>
+    public AwsM2CancelBatchJobExecutionOptions(
+        string ApplicationId,
+        string ExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionId);
+        this.ExecutionId = ExecutionId;
+    }
+
+    private AwsM2CancelBatchJobExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2CancelBatchJobExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2CancelBatchJobExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
+    [CliOption("--execution-id")]
+    public string? ExecutionId { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services Secrets Manager containing user's creden- tials for authentication and authorization for Cancel Batch Job Exe- cution operation. Constraints: o min: 20 o max: 2048
@@ -32,13 +79,26 @@ public record AwsM2CancelBatchJobExecutionOptions : AwsOptions
     [CliOption("--auth-secrets-manager-arn")]
     public string? AuthSecretsManagerArn { get; set; }
 
-    [CliOption("--execution-id")]
-    public string? ExecutionId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

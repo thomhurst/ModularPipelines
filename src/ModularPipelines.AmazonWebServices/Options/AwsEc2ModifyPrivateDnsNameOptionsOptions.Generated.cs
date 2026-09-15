@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,30 +21,69 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-private-dns-name-options")]
-public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions
+public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the options for instance hostnames for the specified instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    public AwsEc2ModifyPrivateDnsNameOptionsOptions(
+        string InstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+    }
+
+    private AwsEc2ModifyPrivateDnsNameOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyPrivateDnsNameOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyPrivateDnsNameOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the in- stance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID. Possible values: o ip-name o resource-name
     /// </summary>
     [CliOption("--private-dns-hostname-type")]
-    public AwsEc2ModifyPrivateDnsNamePrivateDnsHostnameType? PrivateDnsHostnameType { get; set; }
+    public AwsEc2ModifyPrivateDnsNameOptionsPrivateDnsHostnameType? PrivateDnsHostnameType { get; set; }
 
     /// <summary>
-    /// | --no-enable-re- source-name-dns-a-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
+    /// source-name-dns-a-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
     /// </summary>
-    [CliFlag("--enable-resource-name-dns-a-record")]
+    [CliFlag("--enable-resource-name-dns-a-record", NegatedName = "--no-enable-resource-name-dns-a-record")]
     public bool? EnableResourceNameDnsARecord { get; set; }
 
     /// <summary>
-    /// | --no-enable-re- source-name-dns-aaaa-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
+    /// source-name-dns-aaaa-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
     /// </summary>
-    [CliFlag("--enable-resource-name-dns-aaaa-record")]
+    [CliFlag("--enable-resource-name-dns-aaaa-record", NegatedName = "--no-enable-resource-name-dns-aaaa-record")]
     public bool? EnableResourceNameDnsAaaaRecord { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -51,5 +91,21 @@ public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

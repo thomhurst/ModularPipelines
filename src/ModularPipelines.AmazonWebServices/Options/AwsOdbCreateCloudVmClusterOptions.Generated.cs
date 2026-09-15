@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,28 +23,116 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-cloud-vm-cluster")]
-public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
+public record AwsOdbCreateCloudVmClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a VM cluster on the specified Exadata infrastructure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="CpuCoreCount">The number of CPU cores to enable on the VM cluster. Constraints: o min: 0 o max: 10000</param>
+    /// <param name="DisplayName">A user-friendly name for the VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="GiVersion">A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and spec- ify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: o min: 1 o max: 255</param>
+    /// <param name="Hostname">The host name for the VM cluster. Constraints: o Can't be "localhost" or "hostname". o Can't contain "-version". o The maximum length of the combined hostname and domain is 63 char- acters. o The hostname must be unique within the subnet. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]</param>
+    /// <param name="SshPublicKeys">The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network for the VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    public AwsOdbCreateCloudVmClusterOptions(
+        string CloudExadataInfrastructureId,
+        int CpuCoreCount,
+        string DisplayName,
+        string GiVersion,
+        string Hostname,
+        IEnumerable<string> SshPublicKeys,
+        string OdbNetworkId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructureId);
+        this.CloudExadataInfrastructureId = CloudExadataInfrastructureId;
+        this.CpuCoreCount = CpuCoreCount;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(GiVersion);
+        this.GiVersion = GiVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SshPublicKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SshPublicKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SshPublicKeys));
+            }
+
+            SshPublicKeys = materialized;
+        }
+        this.SshPublicKeys = SshPublicKeys;
+        global::System.ArgumentNullException.ThrowIfNull(OdbNetworkId);
+        this.OdbNetworkId = OdbNetworkId;
+    }
+
+    private AwsOdbCreateCloudVmClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateCloudVmClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateCloudVmClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Exadata infrastructure for this VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
-    public string? CloudExadataInfrastructureId { get; set; }
+    public string? CloudExadataInfrastructureId { get; private init; }
 
+    /// <summary>
+    /// The number of CPU cores to enable on the VM cluster. Constraints: o min: 0 o max: 10000
+    /// </summary>
     [CliOption("--cpu-core-count")]
-    public int? CpuCoreCount { get; set; }
+    public int? CpuCoreCount { get; private init; }
 
+    /// <summary>
+    /// A user-friendly name for the VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
 
+    /// <summary>
+    /// A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and spec- ify the shape of the Exadata infrastructure. Example: 19.0.0.0 Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--gi-version")]
-    public string? GiVersion { get; set; }
+    public string? GiVersion { get; private init; }
 
+    /// <summary>
+    /// The host name for the VM cluster. Constraints: o Can't be "localhost" or "hostname". o Can't contain "-version". o The maximum length of the combined hostname and domain is 63 char- acters. o The hostname must be unique within the subnet. Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]
+    /// </summary>
     [CliOption("--hostname")]
-    public string? Hostname { get; set; }
+    public string? Hostname { get; private init; }
 
+    /// <summary>
+    /// The public key portion of one or more key pairs used for SSH access to the VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--ssh-public-keys", GroupValues = true)]
-    public IEnumerable<string>? SshPublicKeys { get; set; }
+    public IEnumerable<string>? SshPublicKeys { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the ODB network for the VM cluster. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--odb-network-id")]
-    public string? OdbNetworkId { get; set; }
+    public string? OdbNetworkId { get; private init; }
 
     /// <summary>
     /// A name for the Grid Infrastructure cluster. The name isn't case sen- sitive. Constraints: o min: 1 o max: 11 o pattern: [a-zA-Z][a-zA-Z0-9-]*
@@ -81,10 +170,16 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--is-local-backup-enabled")]
+    /// <summary>
+    /// Specifies whether to enable database backups to local Exadata stor- age for the VM cluster.
+    /// </summary>
+    [CliFlag("--is-local-backup-enabled", NegatedName = "--no-is-local-backup-enabled")]
     public bool? IsLocalBackupEnabled { get; set; }
 
-    [CliFlag("--is-sparse-diskgroup-enabled")]
+    /// <summary>
+    /// Specifies whether to create a sparse disk group for the VM cluster.
+    /// </summary>
+    [CliFlag("--is-sparse-diskgroup-enabled", NegatedName = "--no-is-sparse-diskgroup-enabled")]
     public bool? IsSparseDiskgroupEnabled { get; set; }
 
     /// <summary>
@@ -129,5 +224,21 @@ public record AwsOdbCreateCloudVmClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

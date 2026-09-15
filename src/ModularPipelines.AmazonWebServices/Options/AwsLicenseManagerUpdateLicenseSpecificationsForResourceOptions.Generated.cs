@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("license-manager", "update-license-specifications-for-resource")]
-public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : AwsOptions
+public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch tem- plates and CloudFormation templates, as they send license configura- tions to the operation that creates the resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the Amazon Web Services resource.</param>
+    public AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Amazon Web Services resource.
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     /// <summary>
     /// ARNs of the license configurations to add. (structure) Details for associating a license configuration with a resource. LicenseConfigurationArn -&gt; (string) [required] Amazon Resource Name (ARN) of the license configuration. AmiAssociationScope -&gt; (string) Scope of AMI associations. The possible value is cross-ac- count . Shorthand Syntax: LicenseConfigurationArn=string,AmiAssociationScope=string ... JSON Syntax: [ { "LicenseConfigurationArn": "string", "AmiAssociationScope": "string" } ... ]
@@ -41,5 +78,21 @@ public record AwsLicenseManagerUpdateLicenseSpecificationsForResourceOptions : A
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

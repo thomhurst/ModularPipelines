@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,93 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-fleets")]
-public record AwsEc2DeleteFleetsOptions : AwsOptions
+public record AwsEc2DeleteFleetsOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should termi- nate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it en- ters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not...
+    /// </summary>
+    /// <param name="FleetIds">The IDs of the EC2 Fleets. Constraints: In a single request, you can specify up to 25 instant fleet IDs and up to 100 maintain or request fleet IDs. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TerminateInstances">Indicates whether to terminate the associated instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify no-terminate-instances . Supported only for fleets of type maintain and request . For instant fleets, you cannot specify NoTerminateInstances . A deleted instant fleet with running instances is not supported.</param>
+    public AwsEc2DeleteFleetsOptions(
+        IEnumerable<string> FleetIds,
+        bool TerminateInstances
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FleetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FleetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FleetIds));
+            }
+
+            FleetIds = materialized;
+        }
+        this.FleetIds = FleetIds;
+        this.TerminateInstances = TerminateInstances;
+    }
+
+    private AwsEc2DeleteFleetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteFleetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteFleetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the EC2 Fleets. Constraints: In a single request, you can specify up to 25 instant fleet IDs and up to 100 maintain or request fleet IDs. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--fleet-ids", GroupValues = true)]
-    public IEnumerable<string>? FleetIds { get; set; }
+    public IEnumerable<string>? FleetIds { get; private init; }
 
-    [CliFlag("--terminate-instances")]
-    public bool? TerminateInstances { get; set; }
+    /// <summary>
+    /// Indicates whether to terminate the associated instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify no-terminate-instances . Supported only for fleets of type maintain and request . For instant fleets, you cannot specify NoTerminateInstances . A deleted instant fleet with running instances is not supported.
+    /// </summary>
+    [CliFlag("--terminate-instances", NegatedName = "--no-terminate-instances")]
+    public bool? TerminateInstances { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "create-target-group")]
-public record AwsElbv2CreateTargetGroupOptions : AwsOptions
+public record AwsElbv2CreateTargetGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a target group. For more information, see the following: o Target groups for your Application Load Balancers o Target groups for your Network Load Balancers o Target groups for your Gateway Load Balancers This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hy- phens, and must not begin or end with a hyphen.</param>
+    public AwsElbv2CreateTargetGroupOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsElbv2CreateTargetGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2CreateTargetGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2CreateTargetGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hy- phens, and must not begin or end with a hyphen.
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The protocol to use for routing traffic to the targets. For Applica- tion Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC. For Gateway Load Balancers, the sup- ported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. A TCP_QUIC listener must be associated with a TCP_QUIC target group. If the target is a Lambda function, this parameter does not apply. Possible values: o HTTP o HTTPS o TCP o TLS o UDP o TCP_UDP o GENEVE o QUIC o TCP_QUIC
@@ -61,7 +98,10 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
     [CliOption("--health-check-port")]
     public string? HealthCheckPort { get; set; }
 
-    [CliFlag("--health-check-enabled")]
+    /// <summary>
+    /// Indicates whether health checks are enabled. If the target type is lambda , health checks are disabled by default but can be enabled. If the target type is instance , ip , or alb , health checks are al- ways enabled and can't be disabled.
+    /// </summary>
+    [CliFlag("--health-check-enabled", NegatedName = "--no-health-check-enabled")]
     public bool? HealthCheckEnabled { get; set; }
 
     /// <summary>
@@ -97,8 +137,8 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
     /// <summary>
     /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when check- ing for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399. HttpCode -&gt; (string) For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200399". Note that when using shorthand syntax, some values such as com- mas need to be escaped. GrpcCode -&gt; (string) You can specify values between 0 and 99. You can specify multi- ple values (for example, "0,1") or a range of values (for exam- ple, "0-5"). The default value is 12. Shorthand Syntax: HttpCode=string,GrpcCode=string JSON Syntax: { "HttpCode": "string", "GrpcCode": "string" }
     /// </summary>
-    [CliOption("--matcher", GroupValues = true)]
-    public IEnumerable<string>? Matcher { get; set; }
+    [CliOption("--matcher")]
+    public string? Matcher { get; set; }
 
     /// <summary>
     /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type. o instance - Register targets by instance ID. This is the default value. o ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses. o lambda - Register a single Lambda function as a target. o alb - Register a single Application Load Balancer as a target. Possible values: o instance o ip o lambda o alb
@@ -129,5 +169,21 @@ public record AwsElbv2CreateTargetGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,19 +23,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-metric")]
-public record AwsConnectCreateMetricOptions : AwsOptions
+public record AwsConnectCreateMetricOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new metric definition for the specified Connect Customer in- stance. You can create custom metrics that use formulas referencing ex- isting Amazon Web Services-managed metrics, optionally with filters ap- plied. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the metric. Constraints: o min: 1 o max: 128</param>
+    /// <param name="MetricCalculation">The calculation definition for the metric, including the formula ex- pression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation for- mula. Each component has an alias used in the formula expres- sion. Constraints: o min: 1 o max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calcu- lation expression. Constraints: o min: 1 o max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calcula- tion component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: o min: 1 o max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: o min: 1 o max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: o min: 0 o max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: o min: 1 o max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: o LESSER o LESSER_OR_EQUAL o GREATER o GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: o min: 1 o max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified val- ues) | MATCHES_NONE (matches none of the speci- fied values). Possible values: o MATCHES_ANY o MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: o min: 1 o max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: o IS_TRUE o IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calcu- lated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: o min: 1 o max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }</param>
+    /// <param name="Unit">The display unit for the metric's data. Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS</param>
+    public AwsConnectCreateMetricOptions(
+        string InstanceId,
+        string Name,
+        string MetricCalculation,
+        AwsConnectCreateMetricUnit Unit
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(MetricCalculation);
+        this.MetricCalculation = MetricCalculation;
+        global::System.ArgumentNullException.ThrowIfNull(Unit);
+        this.Unit = Unit;
+    }
+
+    private AwsConnectCreateMetricOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateMetricOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateMetricOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The name of the metric. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The calculation definition for the metric, including the formula ex- pression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation for- mula. Each component has an alias used in the formula expres- sion. Constraints: o min: 1 o max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calcu- lation expression. Constraints: o min: 1 o max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calcula- tion component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: o min: 1 o max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: o min: 1 o max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: o min: 0 o max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: o min: 1 o max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: o LESSER o LESSER_OR_EQUAL o GREATER o GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: o min: 1 o max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified val- ues) | MATCHES_NONE (matches none of the speci- fied values). Possible values: o MATCHES_ANY o MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: o min: 1 o max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: o IS_TRUE o IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calcu- lated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: o min: 1 o max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }
+    /// </summary>
     [CliOption("--metric-calculation")]
-    public string? MetricCalculation { get; set; }
+    public string? MetricCalculation { get; private init; }
 
+    /// <summary>
+    /// The display unit for the metric's data. Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS
+    /// </summary>
     [CliOption("--unit")]
-    public string? Unit { get; set; }
+    public AwsConnectCreateMetricUnit? Unit { get; private init; }
 
     /// <summary>
     /// The publish status of the metric. Set to PUBLISHED to make the met- ric available for use in dashboards and reports, or SAVED to keep it in draft state. Possible values: o PUBLISHED o SAVED
@@ -59,7 +117,7 @@ public record AwsConnectCreateMetricOptions : AwsOptions
     /// How an increase in the metric value should be interpreted. Valid values: POSITIVE , NEUTRAL , NEGATIVE . Possible values: o POSITIVE o NEGATIVE o NEUTRAL
     /// </summary>
     [CliOption("--positive-trend-indicator")]
-    public string? PositiveTrendIndicator { get; set; }
+    public AwsConnectCreateMetricPositiveTrendIndicator? PositiveTrendIndicator { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -72,5 +130,21 @@ public record AwsConnectCreateMetricOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-jobs-data", "start-command-execution")]
-public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions
+public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Using the command created with the CreateCommand API, start a command execution on a specific device. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the device where the command ex- ecution is occurring. Constraints: o max: 2048</param>
+    /// <param name="CommandArn">The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:&lt;region&gt;:&lt;accountid&gt;:command/&lt;commandName&gt;</param>
+    public AwsIotJobsDataStartCommandExecutionOptions(
+        string TargetArn,
+        string CommandArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+        global::System.ArgumentNullException.ThrowIfNull(CommandArn);
+        this.CommandArn = CommandArn;
+    }
+
+    private AwsIotJobsDataStartCommandExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotJobsDataStartCommandExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotJobsDataStartCommandExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the device where the command ex- ecution is occurring. Constraints: o max: 2048
+    /// </summary>
+    [CliOption("--target-arn")]
+    public string? TargetArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:&lt;region&gt;:&lt;accountid&gt;:command/&lt;commandName&gt;
+    /// </summary>
     [CliOption("--command-arn")]
-    public string? CommandArn { get; set; }
+    public string? CommandArn { get; private init; }
 
     /// <summary>
     /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 192 o pattern: ^[.$a-zA-Z0-9_-]+$ value -&gt; (structure) The list of values used to describe a specific command parame- ter. S -&gt; (string) An attribute of type String. For example: "S": "Hello" Constraints: o min: 1 B -&gt; (boolean) An attribute of type Boolean. For example: "BOOL": true I -&gt; (integer) An attribute of type Integer (Thirty-Two Bits). L -&gt; (long) An attribute of type Long. D -&gt; (double) An attribute of type Double (Sixty-Four Bits). BIN -&gt; (blob) An attribute of type Binary. Constraints: o min: 1 UL -&gt; (string) An attribute of type Unsigned Long. Constraints: o min: 1 o max: 20 o pattern: ^[0-9]*$ Shorthand Syntax: KeyName1={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string},KeyName2={S=string,B=boolean,I=integer,L=long,D=double,BIN=blob,UL=string} JSON Syntax: {"string": { "S": "string", "B": true|false, "I": integer, "L": long, "D": double, "BIN": blob, "UL": "string" } ...}
@@ -53,5 +97,21 @@ public record AwsIotJobsDataStartCommandExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-encryption")]
-public record AwsS3apiPutBucketEncryptionOptions : AwsOptions
+public record AwsS3apiPutBucketEncryptionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation configures default encryption and Amazon S3 Bucket Keys for an existing bucket. You can also block encryption types using this operation. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more infor- mation about endpoints in Ava...
+    /// </summary>
+    /// <param name="Bucket">Specifies default encryption for a bucket using server-side encryp- tion with different key options. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="ServerSideEncryptionConfiguration">Specifies the default server-side-encryption configuration. Rules -&gt; (list) [required] Container for information about a particular server-side encryp- tion configuration rule. (structure) Specifies the default server-side encryption configuration. NOTE: o General purpose buckets - If you're specifying a cus- tomer managed KMS key, we recommend using a fully qual- ified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requesters ac- count. This behavior can result in data that's en- crypted with a KMS key that belongs to the requester, and not the bucket owner. o Directory buckets - When you specify an KMS customer managed key for encryption in your directory bucket, only use the key ID or key ARN. The key alias format of the KMS key isn't supported. ApplyServerSideEncryptionByDefault -&gt; (structure) Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied. SSEAlgorithm -&gt; (string) [required] Server-side encryption algorithm to use for the de- fault encryption. NOTE: For directory buckets, there are only two sup- ported values for server-side encryption: AES256 and aws:kms . Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse KMSMasterKeyID -&gt; (string) Amazon Web Services Key Management Service (KMS) cus- tomer managed key ID to use for the default encryp- tion. NOTE: o General purpose buckets - This parameter is al- lowed if and only if SSEAlgorithm is set to aws:kms or aws:kms:dsse . o Directory buckets - This parameter is allowed if and only if SSEAlgorithm is set to aws:kms . You can specify the key ID, key alias, or the Amazon Resource Name (ARN) of the KMS key. o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Key Alias: alias/alias-name If you are using encryption with cross-account or Ama- zon Web Services service operations, you must use a fully qualified KMS key ARN. For more information, see Using encryption for cross-account operations . NOTE: o General purpose buckets - If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requesters account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner. Also, if you use a key ID, you can run into a LogDestination undeliverable error when creating a VPC flow log. o Directory buckets - When you specify an KMS cus- tomer managed key for encryption in your direc- tory bucket, only use the key ID or key ARN. The key alias format of the KMS key isn't supported. WARNING: Amazon S3 only supports symmetric encryption KMS keys. For more information, see Asymmetric keys in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide . BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Ama- zon S3 to use an S3 Bucket Key. NOTE: o General purpose buckets - By default, S3 Bucket Key is not enabled. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide . o Directory buckets - S3 Bucket Keys are always en- abled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Opera- tions , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object. BlockedEncryptionTypes -&gt; (structure) A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects en- crypted with the specified server-side encryption type. For example, blocking an encryption type will block PutO- bject , CopyObject , PostObject , multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see Blocking or unblocking SSE-C for a general purpose bucket . NOTE: Currently, this parameter only supports blocking or unblocking server-side encryption with customer-pro- vided keys (SSE-C). For more information about SSE-C, see Using server-side encryption with customer-pro- vided keys (SSE-C) . EncryptionType -&gt; (list) The object encryption type that you want to block or unblock for an Amazon S3 general purpose bucket. NOTE: Currently, this parameter only supports blocking or unblocking server side encryption with cus- tomer-provided keys (SSE-C). For more information about SSE-C, see Using server-side encryption with customer-provided keys (SSE-C) . (string) Possible values: o NONE o SSE-C JSON Syntax: { "Rules": [ { "ApplyServerSideEncryptionByDefault": { "SSEAlgorithm": "AES256"|"aws:fsx"|"aws:backup"|"aws:kms"|"aws:kms:dsse", "KMSMasterKeyID": "string" }, "BucketKeyEnabled": true|false, "BlockedEncryptionTypes": { "EncryptionType": ["NONE"|"SSE-C", ...] } } ... ] }</param>
+    public AwsS3apiPutBucketEncryptionOptions(
+        string Bucket,
+        string ServerSideEncryptionConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(ServerSideEncryptionConfiguration);
+        this.ServerSideEncryptionConfiguration = ServerSideEncryptionConfiguration;
+    }
+
+    private AwsS3apiPutBucketEncryptionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketEncryptionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketEncryptionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies default encryption for a bucket using server-side encryp- tion with different key options. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Specifies the default server-side-encryption configuration. Rules -&gt; (list) [required] Container for information about a particular server-side encryp- tion configuration rule. (structure) Specifies the default server-side encryption configuration. NOTE: o General purpose buckets - If you're specifying a cus- tomer managed KMS key, we recommend using a fully qual- ified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requesters ac- count. This behavior can result in data that's en- crypted with a KMS key that belongs to the requester, and not the bucket owner. o Directory buckets - When you specify an KMS customer managed key for encryption in your directory bucket, only use the key ID or key ARN. The key alias format of the KMS key isn't supported. ApplyServerSideEncryptionByDefault -&gt; (structure) Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied. SSEAlgorithm -&gt; (string) [required] Server-side encryption algorithm to use for the de- fault encryption. NOTE: For directory buckets, there are only two sup- ported values for server-side encryption: AES256 and aws:kms . Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse KMSMasterKeyID -&gt; (string) Amazon Web Services Key Management Service (KMS) cus- tomer managed key ID to use for the default encryp- tion. NOTE: o General purpose buckets - This parameter is al- lowed if and only if SSEAlgorithm is set to aws:kms or aws:kms:dsse . o Directory buckets - This parameter is allowed if and only if SSEAlgorithm is set to aws:kms . You can specify the key ID, key alias, or the Amazon Resource Name (ARN) of the KMS key. o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Key Alias: alias/alias-name If you are using encryption with cross-account or Ama- zon Web Services service operations, you must use a fully qualified KMS key ARN. For more information, see Using encryption for cross-account operations . NOTE: o General purpose buckets - If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requesters account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner. Also, if you use a key ID, you can run into a LogDestination undeliverable error when creating a VPC flow log. o Directory buckets - When you specify an KMS cus- tomer managed key for encryption in your direc- tory bucket, only use the key ID or key ARN. The key alias format of the KMS key isn't supported. WARNING: Amazon S3 only supports symmetric encryption KMS keys. For more information, see Asymmetric keys in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide . BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Ama- zon S3 to use an S3 Bucket Key. NOTE: o General purpose buckets - By default, S3 Bucket Key is not enabled. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide . o Directory buckets - S3 Bucket Keys are always en- abled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Opera- tions , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object. BlockedEncryptionTypes -&gt; (structure) A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects en- crypted with the specified server-side encryption type. For example, blocking an encryption type will block PutO- bject , CopyObject , PostObject , multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see Blocking or unblocking SSE-C for a general purpose bucket . NOTE: Currently, this parameter only supports blocking or unblocking server-side encryption with customer-pro- vided keys (SSE-C). For more information about SSE-C, see Using server-side encryption with customer-pro- vided keys (SSE-C) . EncryptionType -&gt; (list) The object encryption type that you want to block or unblock for an Amazon S3 general purpose bucket. NOTE: Currently, this parameter only supports blocking or unblocking server side encryption with cus- tomer-provided keys (SSE-C). For more information about SSE-C, see Using server-side encryption with customer-provided keys (SSE-C) . (string) Possible values: o NONE o SSE-C JSON Syntax: { "Rules": [ { "ApplyServerSideEncryptionByDefault": { "SSEAlgorithm": "AES256"|"aws:fsx"|"aws:backup"|"aws:kms"|"aws:kms:dsse", "KMSMasterKeyID": "string" }, "BucketKeyEnabled": true|false, "BlockedEncryptionTypes": { "EncryptionType": ["NONE"|"SSE-C", ...] } } ... ] }
+    /// </summary>
+    [CliOption("--server-side-encryption-configuration")]
+    public string? ServerSideEncryptionConfiguration { get; private init; }
 
     /// <summary>
     /// The Base64 encoded 128-bit MD5 digest of the server-side encryption configuration. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically. NOTE: This functionality is not supported for directory buckets.
@@ -37,9 +84,6 @@ public record AwsS3apiPutBucketEncryptionOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketEncryptionChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--server-side-encryption-configuration")]
-    public string? ServerSideEncryptionConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiPutBucketEncryptionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

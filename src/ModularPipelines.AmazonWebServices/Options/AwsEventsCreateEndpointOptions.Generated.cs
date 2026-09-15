@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "create-endpoint")]
-public record AwsEventsCreateEndpointOptions : AwsOptions
+public record AwsEventsCreateEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you de- fine a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell Event- Bridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Re- gion when the health check reports a "healthy" state. See also: AWS API Documentat...
+    /// </summary>
+    /// <param name="Name">The name of the global endpoint. For example, "Name":"us-east-2-cus- tom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="RoutingConfig">Configure the routing policy, including the health check and sec- ondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to de- termine whether failover is triggered. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is trig- gered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }</param>
+    /// <param name="EventBuses">Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]</param>
+    public AwsEventsCreateEndpointOptions(
+        string Name,
+        string RoutingConfig,
+        IEnumerable<string> EventBuses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingConfig);
+        this.RoutingConfig = RoutingConfig;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventBuses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventBuses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventBuses));
+            }
+
+            EventBuses = materialized;
+        }
+        this.EventBuses = EventBuses;
+    }
+
+    private AwsEventsCreateEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsCreateEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsCreateEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the global endpoint. For example, "Name":"us-east-2-cus- tom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Configure the routing policy, including the health check and sec- ondary Region.. FailoverConfig -&gt; (structure) [required] The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered. Primary -&gt; (structure) [required] The main Region of the endpoint. HealthCheck -&gt; (string) [required] The ARN of the health check used by the endpoint to de- termine whether failover is triggered. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:route53:::healthcheck/[\-a-z0-9]+$ Secondary -&gt; (structure) [required] The Region that events are routed to when failover is trig- gered or event replication is enabled. Route -&gt; (string) [required] Defines the secondary Region. Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$ Shorthand Syntax: FailoverConfig={Primary={HealthCheck=string},Secondary={Route=string}} JSON Syntax: { "FailoverConfig": { "Primary": { "HealthCheck": "string" }, "Secondary": { "Route": "string" } } }
+    /// </summary>
+    [CliOption("--routing-config")]
+    public string? RoutingConfig { get; private init; }
+
+    /// <summary>
+    /// Define the event buses used. WARNING: The names of the event buses must be identical in each Region. Constraints: o min: 2 o max: 2 (structure) The event buses the endpoint is associated with. EventBusArn -&gt; (string) [required] The ARN of the event bus the endpoint is associated with. Constraints: o min: 1 o max: 512 o pattern: ^arn:aws[a-z-]*:events:[a-z]+-[a-z-]+-\d+:\d{12}:event-bus/[\w.-]+$ Shorthand Syntax: EventBusArn=string ... JSON Syntax: [ { "EventBusArn": "string" } ... ]
+    /// </summary>
+    [CliOption("--event-buses", GroupValues = true)]
+    public IEnumerable<string>? EventBuses { get; private init; }
 
     /// <summary>
     /// A description of the global endpoint. Constraints: o max: 512 o pattern: .*
@@ -30,17 +98,11 @@ public record AwsEventsCreateEndpointOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--routing-config")]
-    public string? RoutingConfig { get; set; }
-
     /// <summary>
     /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn . If you don't have a RoleArn or you don't want event replication enabled, set the state to DIS- ABLED . State -&gt; (string) The state of event replication. Possible values: o ENABLED o DISABLED Shorthand Syntax: State=string JSON Syntax: { "State": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
-
-    [CliOption("--event-buses", GroupValues = true)]
-    public IEnumerable<string>? EventBuses { get; set; }
 
     /// <summary>
     /// The ARN of the role used for replication. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws[a-z-]*:iam::\d{12}:role\/[\w+=,.@/-]+$
@@ -53,5 +115,21 @@ public record AwsEventsCreateEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

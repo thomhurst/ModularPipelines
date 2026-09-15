@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pcs", "update-cluster")]
-public record AwsPcsUpdateClusterOptions : AwsOptions
+public record AwsPcsUpdateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a cluster configuration. You can update the scheduler version, modify scheduler settings, and update accounting configuration for an existing cluster. For more information about updating the scheduler version, see Updating the scheduler version on a cluster in the PCS User Guide . NOTE: You can only update clusters that are in ACTIVE , UPDATE_FAILED , or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster. S...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster to update. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    public AwsPcsUpdateClusterOptions(
+        string ClusterIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+    }
+
+    private AwsPcsUpdateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPcsUpdateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPcsUpdateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ID of the cluster to update. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you. Constraints: o min: 8 o max: 100
@@ -39,7 +76,7 @@ public record AwsPcsUpdateClusterOptions : AwsOptions
     public string? SlurmConfiguration { get; set; }
 
     /// <summary>
-    /// The scheduler configuration to update for the cluster. Use this to update the scheduler version. For more information, see Updating the scheduler version on a cluster in the PCS User Guide . version -&gt; (string) [required] The scheduler version to update the cluster to. You can only up- date to a newer version. For more information about supported versions and update paths, see Updating the scheduler version on a cluster in the PCS User Guide . Valid Values: 24.05 | 24.11 | 25.05 | 25.11 Shorthand Syntax: version=string JSON Syntax: { "version": "string" }
+    /// The scheduler configuration to update for the cluster. Use this to update the scheduler version. For more information, see Updating the scheduler version on a cluster in the PCS User Guide . version -&gt; (string) [required] The scheduler version to update the cluster to. You can only up- date to a newer version. For more information about supported versions and update paths, see Updating the scheduler version on a cluster in the PCS User Guide . Valid Values: 24.05 | 24.11 | 25.05 | 25.11 | 26.05 Shorthand Syntax: version=string JSON Syntax: { "version": "string" }
     /// </summary>
     [CliOption("--scheduler")]
     public string? Scheduler { get; set; }
@@ -49,5 +86,21 @@ public record AwsPcsUpdateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

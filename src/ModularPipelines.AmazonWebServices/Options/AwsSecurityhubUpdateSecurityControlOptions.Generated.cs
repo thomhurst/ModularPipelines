@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "update-security-control")]
-public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions
+public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--security-control-id")]
-    public string? SecurityControlId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the properties of a security control. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SecurityControlId">The Amazon Resource Name (ARN) or ID of the control to update. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Parameters">An object that specifies which security control parameters to up- date. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-de- fined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Integer, IntegerList, Dou- ble, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}</param>
+    public AwsSecurityhubUpdateSecurityControlOptions(
+        string SecurityControlId,
+        IReadOnlyList<KeyValue> Parameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityControlId);
+        this.SecurityControlId = SecurityControlId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Parameters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Parameters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Parameters));
+            }
+
+            Parameters = materialized;
+        }
+        this.Parameters = Parameters;
+    }
+
+    private AwsSecurityhubUpdateSecurityControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubUpdateSecurityControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubUpdateSecurityControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or ID of the control to update. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--security-control-id")]
+    public string? SecurityControlId { get; private init; }
+
+    /// <summary>
+    /// An object that specifies which security control parameters to up- date. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-de- fined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Integer, IntegerList, Dou- ble, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}
+    /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Parameters { get; set; }
+    public IReadOnlyList<KeyValue>? Parameters { get; private init; }
 
     /// <summary>
     /// The most recent reason for updating the properties of the security control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores. Constraints: o pattern: ^([^\u0000-\u007F]|[-_ a-zA-Z0-9])+$
@@ -39,5 +94,21 @@ public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

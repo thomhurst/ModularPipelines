@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "delete-hsm-configuration")]
-public record AwsRedshiftDeleteHsmConfigurationOptions : AwsOptions
+public record AwsRedshiftDeleteHsmConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the specified Amazon Redshift HSM configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HsmConfigurationIdentifier">The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: o max: 2147483647</param>
+    public AwsRedshiftDeleteHsmConfigurationOptions(
+        string HsmConfigurationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HsmConfigurationIdentifier);
+        this.HsmConfigurationIdentifier = HsmConfigurationIdentifier;
+    }
+
+    private AwsRedshiftDeleteHsmConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDeleteHsmConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDeleteHsmConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--hsm-configuration-identifier")]
-    public string? HsmConfigurationIdentifier { get; set; }
+    public string? HsmConfigurationIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

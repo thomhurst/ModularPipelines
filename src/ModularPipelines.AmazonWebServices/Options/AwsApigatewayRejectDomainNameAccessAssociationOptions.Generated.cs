@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "reject-domain-name-access-association")]
-public record AwsApigatewayRejectDomainNameAccessAssociationOptions : AwsOptions
+public record AwsApigatewayRejectDomainNameAccessAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name-access-association-arn")]
-    public string? DomainNameAccessAssociationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainNameAccessAssociationArn">The ARN of the domain name access association resource.</param>
+    /// <param name="DomainNameArn">The ARN of the domain name.</param>
+    public AwsApigatewayRejectDomainNameAccessAssociationOptions(
+        string DomainNameAccessAssociationArn,
+        string DomainNameArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainNameAccessAssociationArn);
+        this.DomainNameAccessAssociationArn = DomainNameAccessAssociationArn;
+        global::System.ArgumentNullException.ThrowIfNull(DomainNameArn);
+        this.DomainNameArn = DomainNameArn;
+    }
+
+    private AwsApigatewayRejectDomainNameAccessAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayRejectDomainNameAccessAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayRejectDomainNameAccessAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the domain name access association resource.
+    /// </summary>
+    [CliOption("--domain-name-access-association-arn")]
+    public string? DomainNameAccessAssociationArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the domain name.
+    /// </summary>
     [CliOption("--domain-name-arn")]
-    public string? DomainNameArn { get; set; }
+    public string? DomainNameArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

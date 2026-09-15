@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-lens-share")]
-public record AwsWellarchitectedCreateLensShareOptions : AwsOptions
+public record AwsWellarchitectedCreateLensShareOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--lens-alias")]
-    public string? LensAlias { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services ac- counts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the or- ganization or OU are granted access to the lens. For more infor...
+    /// </summary>
+    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128</param>
+    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048</param>
+    public AwsWellarchitectedCreateLensShareOptions(
+        string LensAlias,
+        string SharedWith
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LensAlias);
+        this.LensAlias = LensAlias;
+        global::System.ArgumentNullException.ThrowIfNull(SharedWith);
+        this.SharedWith = SharedWith;
+    }
+
+    private AwsWellarchitectedCreateLensShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateLensShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateLensShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--lens-alias")]
+    public string? LensAlias { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048
+    /// </summary>
     [CliOption("--shared-with")]
-    public string? SharedWith { get; set; }
+    public string? SharedWith { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
@@ -40,5 +84,21 @@ public record AwsWellarchitectedCreateLensShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

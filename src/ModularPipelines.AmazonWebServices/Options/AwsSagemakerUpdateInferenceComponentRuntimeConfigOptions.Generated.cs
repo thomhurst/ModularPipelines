@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-inference-component-runtime-config")]
-public record AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions : AwsOptions
+public record AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--inference-component-name")]
-    public string? InferenceComponentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Runtime settings for a model that is deployed with an inference compo- nent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InferenceComponentName">The name of the inference component to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
+    /// <param name="DesiredRuntimeConfig">Runtime settings for a model that is deployed with an inference com- ponent. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference re- quests. Constraints: o min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }</param>
+    public AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions(
+        string InferenceComponentName,
+        string DesiredRuntimeConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InferenceComponentName);
+        this.InferenceComponentName = InferenceComponentName;
+        global::System.ArgumentNullException.ThrowIfNull(DesiredRuntimeConfig);
+        this.DesiredRuntimeConfig = DesiredRuntimeConfig;
+    }
+
+    private AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the inference component to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
+    /// </summary>
+    [CliOption("--inference-component-name")]
+    public string? InferenceComponentName { get; private init; }
+
+    /// <summary>
+    /// Runtime settings for a model that is deployed with an inference com- ponent. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference re- quests. Constraints: o min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }
+    /// </summary>
     [CliOption("--desired-runtime-config")]
-    public string? DesiredRuntimeConfig { get; set; }
+    public string? DesiredRuntimeConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

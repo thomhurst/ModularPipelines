@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodb", "update-global-table")]
-public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions
+public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-table-name")]
-    public string? GlobalTableName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or removes replicas in the specified global table. The global ta- ble must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version...
+    /// </summary>
+    /// <param name="GlobalTableName">The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ReplicaUpdates">A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: o A new replica to be added to an existing global table. o New parameters for an existing replica. o An existing replica to be removed from an existing global ta- ble. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]</param>
+    public AwsDynamodbUpdateGlobalTableOptions(
+        string GlobalTableName,
+        IEnumerable<string> ReplicaUpdates
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalTableName);
+        this.GlobalTableName = GlobalTableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ReplicaUpdates);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ReplicaUpdates));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ReplicaUpdates));
+            }
+
+            ReplicaUpdates = materialized;
+        }
+        this.ReplicaUpdates = ReplicaUpdates;
+    }
+
+    private AwsDynamodbUpdateGlobalTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbUpdateGlobalTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbUpdateGlobalTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--global-table-name")]
+    public string? GlobalTableName { get; private init; }
+
+    /// <summary>
+    /// A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: o A new replica to be added to an existing global table. o New parameters for an existing replica. o An existing replica to be removed from an existing global ta- ble. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]
+    /// </summary>
     [CliOption("--replica-updates", GroupValues = true)]
-    public IEnumerable<string>? ReplicaUpdates { get; set; }
+    public IEnumerable<string>? ReplicaUpdates { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

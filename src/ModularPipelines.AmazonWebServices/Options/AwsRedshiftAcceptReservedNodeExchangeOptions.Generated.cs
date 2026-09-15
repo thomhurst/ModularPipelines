@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "accept-reserved-node-exchange")]
-public record AwsRedshiftAcceptReservedNodeExchangeOptions : AwsOptions
+public record AwsRedshiftAcceptReservedNodeExchangeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--reserved-node-id")]
-    public string? ReservedNodeId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ReservedNodeId">A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647</param>
+    /// <param name="TargetReservedNodeOfferingId">The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: o max: 2147483647</param>
+    public AwsRedshiftAcceptReservedNodeExchangeOptions(
+        string ReservedNodeId,
+        string TargetReservedNodeOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReservedNodeId);
+        this.ReservedNodeId = ReservedNodeId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetReservedNodeOfferingId);
+        this.TargetReservedNodeOfferingId = TargetReservedNodeOfferingId;
+    }
+
+    private AwsRedshiftAcceptReservedNodeExchangeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftAcceptReservedNodeExchangeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftAcceptReservedNodeExchangeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A string representing the node identifier of the DC1 Reserved Node to be exchanged. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--reserved-node-id")]
+    public string? ReservedNodeId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--target-reserved-node-offering-id")]
-    public string? TargetReservedNodeOfferingId { get; set; }
+    public string? TargetReservedNodeOfferingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

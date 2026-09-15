@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "update-workload-share")]
-public record AwsWellarchitectedUpdateWorkloadShareOptions : AwsOptions
+public record AwsWellarchitectedUpdateWorkloadShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Update a workload share. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ShareId">The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="PermissionType">Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR</param>
+    public AwsWellarchitectedUpdateWorkloadShareOptions(
+        string ShareId,
+        string WorkloadId,
+        AwsWellarchitectedUpdateWorkloadSharePermissionType PermissionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShareId);
+        this.ShareId = ShareId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
+        this.PermissionType = PermissionType;
+    }
+
+    private AwsWellarchitectedUpdateWorkloadShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedUpdateWorkloadShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedUpdateWorkloadShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--share-id")]
-    public string? ShareId { get; set; }
+    public string? ShareId { get; private init; }
 
+    /// <summary>
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--workload-id")]
-    public string? WorkloadId { get; set; }
+    public string? WorkloadId { get; private init; }
 
+    /// <summary>
+    /// Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR
+    /// </summary>
     [CliOption("--permission-type")]
-    public string? PermissionType { get; set; }
+    public AwsWellarchitectedUpdateWorkloadSharePermissionType? PermissionType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("timestream-influxdb", "create-db-parameter-group")]
-public record AwsTimestreamInfluxdbCreateDbParameterGroupOptions : AwsOptions
+public record AwsTimestreamInfluxdbCreateDbParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the DB parameter group. The name must be unique per cus- tomer and per region. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    public AwsTimestreamInfluxdbCreateDbParameterGroupOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsTimestreamInfluxdbCreateDbParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTimestreamInfluxdbCreateDbParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB parameter group. The name must be unique per cus- tomer and per region. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A description of the DB parameter group. Constraints: o min: 0 o max: 500
@@ -48,5 +85,21 @@ public record AwsTimestreamInfluxdbCreateDbParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

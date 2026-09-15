@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "stop-game-session-placement")]
-public record AwsGameliftStopGameSessionPlacementOptions : AwsOptions
+public record AwsGameliftStopGameSessionPlacementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestExecption (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
+    /// </summary>
+    /// <param name="PlacementId">A unique identifier for a game session placement to stop. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$</param>
+    public AwsGameliftStopGameSessionPlacementOptions(
+        string PlacementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlacementId);
+        this.PlacementId = PlacementId;
+    }
+
+    private AwsGameliftStopGameSessionPlacementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftStopGameSessionPlacementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftStopGameSessionPlacementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for a game session placement to stop. Constraints: o min: 1 o max: 48 o pattern: ^[a-zA-Z0-9-]+$
+    /// </summary>
     [CliOption("--placement-id")]
-    public string? PlacementId { get; set; }
+    public string? PlacementId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

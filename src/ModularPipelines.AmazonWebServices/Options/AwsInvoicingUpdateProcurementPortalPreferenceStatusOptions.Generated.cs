@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("invoicing", "update-procurement-portal-preference-status")]
-public record AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions : AwsOptions
+public record AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProcurementPortalPreferenceArn">The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+</param>
+    public AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions(
+        string ProcurementPortalPreferenceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProcurementPortalPreferenceArn);
+        this.ProcurementPortalPreferenceArn = ProcurementPortalPreferenceArn;
+    }
+
+    private AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to update. Constraints: o min: 1 o max: 256 o pattern: arn:aws:invoicing::[0-9]{12}:procurement-portal-prefer- ence/[-a-zA-Z0-9]+
+    /// </summary>
     [CliOption("--procurement-portal-preference-arn")]
-    public string? ProcurementPortalPreferenceArn { get; set; }
+    public string? ProcurementPortalPreferenceArn { get; private init; }
 
     /// <summary>
     /// The updated status of the e-invoice delivery preference. Possible values: o PENDING_VERIFICATION o VALIDATED o TEST_INITIALIZED o TEST_INITIALIZATION_FAILED o TEST_FAILED o ACTIVE o SUSPENDED
@@ -62,5 +99,21 @@ public record AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

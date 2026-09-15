@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorydb", "create-multi-region-cluster")]
-public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions
+public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new multi-Region cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MultiRegionClusterNameSuffix">A suffix to be added to the Multi-Region cluster name. Amazon Memo- ryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For in- stance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.</param>
+    /// <param name="NodeType">The node type to be used for the multi-Region cluster.</param>
+    public AwsMemorydbCreateMultiRegionClusterOptions(
+        string MultiRegionClusterNameSuffix,
+        string NodeType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MultiRegionClusterNameSuffix);
+        this.MultiRegionClusterNameSuffix = MultiRegionClusterNameSuffix;
+        global::System.ArgumentNullException.ThrowIfNull(NodeType);
+        this.NodeType = NodeType;
+    }
+
+    private AwsMemorydbCreateMultiRegionClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMemorydbCreateMultiRegionClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMemorydbCreateMultiRegionClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A suffix to be added to the Multi-Region cluster name. Amazon Memo- ryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For in- stance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
+    /// </summary>
     [CliOption("--multi-region-cluster-name-suffix")]
-    public string? MultiRegionClusterNameSuffix { get; set; }
+    public string? MultiRegionClusterNameSuffix { get; private init; }
+
+    /// <summary>
+    /// The node type to be used for the multi-Region cluster.
+    /// </summary>
+    [CliOption("--node-type")]
+    public string? NodeType { get; private init; }
 
     /// <summary>
     /// A description for the multi-Region cluster.
@@ -42,9 +89,6 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliOption("--node-type")]
-    public string? NodeType { get; set; }
-
     /// <summary>
     /// The name of the multi-Region parameter group to be associated with the cluster.
     /// </summary>
@@ -57,7 +101,10 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions
     [CliOption("--num-shards")]
     public int? NumShards { get; set; }
 
-    [CliFlag("--tls-enabled")]
+    /// <summary>
+    /// Whether to enable TLS encryption for the multi-Region cluster.
+    /// </summary>
+    [CliFlag("--tls-enabled", NegatedName = "--no-tls-enabled")]
     public bool? TlsEnabled { get; set; }
 
     /// <summary>
@@ -71,5 +118,21 @@ public record AwsMemorydbCreateMultiRegionClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

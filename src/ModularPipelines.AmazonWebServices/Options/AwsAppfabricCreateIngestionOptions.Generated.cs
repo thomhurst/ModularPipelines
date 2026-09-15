@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appfabric", "create-ingestion")]
-public record AwsAppfabricCreateIngestionOptions : AwsOptions
+public record AwsAppfabricCreateIngestionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a data ingestion for an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="App">The name of the application. Valid values are: o SLACK o ASANA o JIRA o M365 o M365AUDITLOGS o ZOOM o ZENDESK o OKTA o GOOGLE o DROPBOX o SMARTSHEET o CISCO Constraints: o min: 1 o max: 255</param>
+    /// <param name="TenantId">The ID of the application tenant. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="IngestionType">The ingestion type. Possible values: o auditLog</param>
+    public AwsAppfabricCreateIngestionOptions(
+        string AppBundleIdentifier,
+        string App,
+        string TenantId,
+        AwsAppfabricCreateIngestionIngestionType IngestionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppBundleIdentifier);
+        this.AppBundleIdentifier = AppBundleIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(App);
+        this.App = App;
+        global::System.ArgumentNullException.ThrowIfNull(TenantId);
+        this.TenantId = TenantId;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionType);
+        this.IngestionType = IngestionType;
+    }
+
+    private AwsAppfabricCreateIngestionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppfabricCreateIngestionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppfabricCreateIngestionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--app-bundle-identifier")]
-    public string? AppBundleIdentifier { get; set; }
+    public string? AppBundleIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the application. Valid values are: o SLACK o ASANA o JIRA o M365 o M365AUDITLOGS o ZOOM o ZENDESK o OKTA o GOOGLE o DROPBOX o SMARTSHEET o CISCO Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--app")]
-    public string? App { get; set; }
+    public string? App { get; private init; }
 
+    /// <summary>
+    /// The ID of the application tenant. Constraints: o min: 1 o max: 1024
+    /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantId { get; set; }
+    public string? TenantId { get; private init; }
 
+    /// <summary>
+    /// The ingestion type. Possible values: o auditLog
+    /// </summary>
     [CliOption("--ingestion-type")]
-    public string? IngestionType { get; set; }
+    public AwsAppfabricCreateIngestionIngestionType? IngestionType { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
@@ -52,5 +111,21 @@ public record AwsAppfabricCreateIngestionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

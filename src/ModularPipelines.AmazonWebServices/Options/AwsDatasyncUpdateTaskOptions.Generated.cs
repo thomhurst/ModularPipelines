@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datasync", "update-task")]
-public record AwsDatasyncUpdateTaskOptions : AwsOptions
+public record AwsDatasyncUpdateTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration of a task , which defines where and how Data- Sync transfers your data. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TaskArn">Specifies the ARN of the task that you want to update. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$</param>
+    public AwsDatasyncUpdateTaskOptions(
+        string TaskArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskArn);
+        this.TaskArn = TaskArn;
+    }
+
+    private AwsDatasyncUpdateTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatasyncUpdateTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatasyncUpdateTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the task that you want to update. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:task/task-[0-9a-f]{17}$
+    /// </summary>
     [CliOption("--task-arn")]
-    public string? TaskArn { get; set; }
+    public string? TaskArn { get; private init; }
 
     /// <summary>
     /// Indicates how your transfer task is configured. These options in- clude how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other op- tions. Each option has a default value. Unless you need to, you don't have to configure any option before calling StartTaskExecution . You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual ex- ecution. VerifyMode -&gt; (string) Specifies if and how DataSync checks the integrity of your data at the end of your transfer. o ONLY_FILES_TRANSFERRED (recommended) - DataSync calculates the checksum of transferred data (including metadata) at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on that data at the destination. NOTE: This is the default option for Enhanced mode tasks . We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considera- tions with Amazon S3 locations . o POINT_IN_TIME_CONSISTENT - At the end of the transfer, Data- Sync checks the entire source and destination to verify that both locations are fully synchronized. NOTE: The is the default option for Basic mode tasks and isn't currently supported with Enhanced mode tasks. If you use a manifest , DataSync only scans and verifies what's listed in the manifest. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations . o NONE - DataSync performs data integrity checks only during your transfer. Unlike other options, there's no additional verification at the end of your transfer. Possible values: o POINT_IN_TIME_CONSISTENT o ONLY_FILES_TRANSFERRED o NONE OverwriteMode -&gt; (string) Specifies whether DataSync should modify or preserve data at the destination location. o ALWAYS (default) - DataSync modifies data in the destination location when source data (including metadata) has changed. If DataSync overwrites objects, you might incur additional charges for certain Amazon S3 storage classes (for example, for retrieval or early deletion). For more information, see Storage class considerations with Amazon S3 transfers . o NEVER - DataSync doesn't overwrite data in the destination lo- cation even if the source data has changed. You can use this option to protect against overwriting changes made to files or objects in the destination. Possible values: o ALWAYS o NEVER Atime -&gt; (string) Specifies whether to preserve metadata indicating the last time a file was read or written to. NOTE: The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis. o BEST_EFFORT (default) - DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING steps of the task execution). This option is recommended. o NONE - Ignores Atime . NOTE: The following applies only to Basic mode tasks: If Atime is set to BEST_EFFORT , Mtime must be set to PRE- SERVE . If Atime is set to NONE , Mtime must also be NONE . Enhanced mode tasks support configuring Atime independently of Mtime . Possible values: o NONE o BEST_EFFORT Mtime -&gt; (string) Specifies whether to preserve metadata indicating the last time that a file was written to before the PREPARING step of your task execution. This option is required when you need to run the a task more than once. o PRESERVE (default) - Preserves original Mtime , which is rec- ommended. o NONE - Ignores Mtime . NOTE: The following applies only to Basic mode tasks: If Mtime is set to PRESERVE , Atime must be set to BEST_EF- FORT . If Mtime is set to NONE , Atime must also be set to NONE . Enhanced mode tasks don't support Mtime set to NONE . Possible values: o NONE o PRESERVE Uid -&gt; (string) Specifies the POSIX user ID (UID) of the file's owner. o INT_VALUE (default) - Preserves the integer value of UID and group ID (GID), which is recommended. o NONE - Ignores UID and GID. For more information, see Metadata copied by DataSync . Possible values: o NONE o INT_VALUE o NAME o BOTH Gid -&gt; (string) Specifies the POSIX group ID (GID) of the file's owners. o INT_VALUE (default) - Preserves the integer value of user ID (UID) and GID, which is recommended. o NONE - Ignores UID and GID. For more information, see Understanding how DataSync handles file and object metadata . Possible values: o NONE o INT_VALUE o NAME o BOTH PreserveDeletedFiles -&gt; (string) Specifies whether files in the destination location that don't exist in the source should be preserved. This option can affect your Amazon S3 storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when work- ing with Amazon S3 storage classes in DataSync . o PRESERVE (default) - Ignores such destination files, which is recommended. o REMOVE - Deletes destination files that arent present in the source. NOTE: If you set this parameter to REMOVE , you can't set Transfer- Mode to ALL . When you transfer all data, DataSync doesn't scan your destination location and doesn't know what to delete. Possible values: o PRESERVE o REMOVE PreserveDevices -&gt; (string) Specifies whether DataSync should preserve the metadata of block and character devices in the source location and recreate the files with that device name and metadata on the destination. DataSync copies only the name and metadata of such devices. NOTE: DataSync can't copy the actual contents of these devices be- cause they're nonterminal and don't return an end-of-file (EOF) marker. o NONE (default) - Ignores special devices (recommended). o PRESERVE - Preserves character and block device metadata. This option currently isn't supported for Amazon EFS. Possible values: o NONE o PRESERVE PosixPermissions -&gt; (string) Specifies which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. For more information, see Understanding how DataSync handles file and object metadata . o PRESERVE (default) - Preserves POSIX-style permissions, which is recommended. o NONE - Ignores POSIX-style permissions. NOTE: DataSync can preserve extant permissions of a source loca- tion. Possible values: o NONE o PRESERVE BytesPerSecond -&gt; (long) Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024 ). Constraints: o min: -1 TaskQueueing -&gt; (string) Specifies whether your transfer tasks should be put into a queue during certain scenarios when running multiple tasks . This is ENABLED by default. Possible values: o ENABLED o DISABLED LogLevel -&gt; (string) Specifies the type of logs that DataSync publishes to a Amazon CloudWatch Logs log group. To specify the log group, see CloudWatchLogGroupArn . o BASIC - Publishes logs with only basic information (such as transfer errors). o TRANSFER - Publishes logs for all files or objects that your DataSync task transfers and performs data-integrity checks on. o OFF - No logs are published. Possible values: o OFF o BASIC o TRANSFER TransferMode -&gt; (string) Specifies whether DataSync transfers only the data (including metadata) that differs between locations following an initial copy or transfers all data every time you run the task. If you're planning on recurring transfers, you might only want to transfer what's changed since your previous task execution. o CHANGED (default) - After your initial full transfer, DataSync copies only the data and metadata that differs between the source and destination location. o ALL - DataSync copies everything in the source to the destina- tion without comparing differences between the locations. Possible values: o CHANGED o ALL SecurityDescriptorCopyFlags -&gt; (string) Specifies which components of the SMB security descriptor are copied from source to destination objects. This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations or between two FSx for Windows File Server locations. For more information, see Understanding how DataSync handles file and object metadata . o OWNER_DACL (default) - For each copied object, DataSync copies the following metadata: o The object owner. o NTFS discretionary access control lists (DACLs), which de- termine whether to grant access to an object. DataSync won't copy NTFS system access control lists (SACLs) with this op- tion. o OWNER_DACL_SACL - For each copied object, DataSync copies the following metadata: o The object owner. o NTFS discretionary access control lists (DACLs), which de- termine whether to grant access to an object. o SACLs, which are used by administrators to log attempts to access a secured object. Copying SACLs requires granting ad- ditional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user with the right permissions, see required permissions for SMB , FSx for Windows File Server , or FSx for ONTAP (depending on the type of location in your transfer). o NONE - None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination servers configuration. Possible values: o NONE o OWNER_DACL o OWNER_DACL_SACL ObjectTags -&gt; (string) Specifies whether you want DataSync to PRESERVE object tags (de- fault behavior) when transferring between object storage sys- tems. If you want your DataSync task to ignore object tags, specify the NONE value. Possible values: o PRESERVE o NONE Shorthand Syntax: VerifyMode=string,OverwriteMode=string,Atime=string,Mtime=string,Uid=string,Gid=string,PreserveDeletedFiles=string,PreserveDevices=string,PosixPermissions=string,BytesPerSecond=long,TaskQueueing=string,LogLevel=string,TransferMode=string,SecurityDescriptorCopyFlags=string,ObjectTags=string JSON Syntax: { "VerifyMode": "POINT_IN_TIME_CONSISTENT"|"ONLY_FILES_TRANSFERRED"|"NONE", "OverwriteMode": "ALWAYS"|"NEVER", "Atime": "NONE"|"BEST_EFFORT", "Mtime": "NONE"|"PRESERVE", "Uid": "NONE"|"INT_VALUE"|"NAME"|"BOTH", "Gid": "NONE"|"INT_VALUE"|"NAME"|"BOTH", "PreserveDeletedFiles": "PRESERVE"|"REMOVE", "PreserveDevices": "NONE"|"PRESERVE", "PosixPermissions": "NONE"|"PRESERVE", "BytesPerSecond": long, "TaskQueueing": "ENABLED"|"DISABLED", "LogLevel": "OFF"|"BASIC"|"TRANSFER", "TransferMode": "CHANGED"|"ALL", "SecurityDescriptorCopyFlags": "NONE"|"OWNER_DACL"|"OWNER_DACL_SACL", "ObjectTags": "PRESERVE"|"NONE" }
@@ -77,5 +114,21 @@ public record AwsDatasyncUpdateTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

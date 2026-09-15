@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-optimizer-automation", "delete-automation-rule")]
-public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOptions
+public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--rule-arn")]
-    public string? RuleArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes an existing automation rule. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RuleArn">The ARN of the rule to delete. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="RuleRevision">The revision number of the rule to delete.</param>
+    public AwsComputeOptimizerAutomationDeleteAutomationRuleOptions(
+        string RuleArn,
+        int RuleRevision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuleArn);
+        this.RuleArn = RuleArn;
+        this.RuleRevision = RuleRevision;
+    }
+
+    private AwsComputeOptimizerAutomationDeleteAutomationRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComputeOptimizerAutomationDeleteAutomationRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComputeOptimizerAutomationDeleteAutomationRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the rule to delete. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// </summary>
+    [CliOption("--rule-arn")]
+    public string? RuleArn { get; private init; }
+
+    /// <summary>
+    /// The revision number of the rule to delete.
+    /// </summary>
     [CliOption("--rule-revision")]
-    public int? RuleRevision { get; set; }
+    public int? RuleRevision { get; private init; }
 
     /// <summary>
     /// A unique identifier to ensure idempotency of the request. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
@@ -40,5 +83,21 @@ public record AwsComputeOptimizerAutomationDeleteAutomationRuleOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

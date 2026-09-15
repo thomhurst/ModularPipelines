@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "put-instance-public-ports")]
-public record AwsLightsailPutInstancePublicPortsOptions : AwsOptions
+public record AwsLightsailPutInstancePublicPortsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--port-infos", GroupValues = true)]
-    public IEnumerable<string>? PortInfos { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPorts request. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access co...
+    /// </summary>
+    /// <param name="PortInfos">An array of objects to describe the ports to open for the specified instance. (structure) Describes ports to open on an instance, the IP addresses allowed to connect to the instance through the ports, and the protocol. fromPort -&gt; (integer) The first port in a range of open ports on an instance. Allowed ports: o TCP and UDP - 0 to 65535 o ICMP - The ICMP type for IPv4 addresses. For example, spec- ify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia . o ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6 . Constraints: o min: -1 o max: 65535 toPort -&gt; (integer) The last port in a range of open ports on an instance. Allowed ports: o TCP and UDP - 0 to 65535 o ICMP - The ICMP code for IPv4 addresses. For example, spec- ify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia . o ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6 . Constraints: o min: -1 o max: 65535 protocol -&gt; (string) The IP protocol name. The name can be one of the following: o tcp - Transmission Control Protocol (TCP) provides reli- able, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead. o all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia . o udp - With User Datagram Protocol (UDP), computer applica- tions can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream ser- vice can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP in- stead. o icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol , you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter. o icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol , you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter. Possible values: o tcp o all o udp o icmp o icmpv6 cidrs -&gt; (list) The IPv4 address, or range of IPv4 addresses (in CIDR nota- tion) that are allowed to connect to an instance through the ports, and the protocol. NOTE: The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance. Examples: o To allow the IP address 192.0.2.44 , specify 192.0.2.44 or 192.0.2.44/32 . o To allow the IP addresses 192.0.2.0 to 192.0.2.255 , spec- ify 192.0.2.0/24 . For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia . (string) ipv6Cidrs -&gt; (list) The IPv6 address, or range of IPv6 addresses (in CIDR nota- tion) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used. NOTE: The cidrs parameter lists the IPv4 addresses that are al- lowed to connect to an instance. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia . (string) cidrListAliases -&gt; (list) An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect , which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance. (string) Shorthand Syntax: fromPort=integer,toPort=integer,protocol=string,cidrs=string,string,ipv6Cidrs=string,string,cidrListAliases=string,string ... JSON Syntax: [ { "fromPort": integer, "toPort": integer, "protocol": "tcp"|"all"|"udp"|"icmp"|"icmpv6", "cidrs": ["string", ...], "ipv6Cidrs": ["string", ...], "cidrListAliases": ["string", ...] } ... ]</param>
+    /// <param name="InstanceName">The name of the instance for which to open ports. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailPutInstancePublicPortsOptions(
+        IEnumerable<string> PortInfos,
+        string InstanceName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PortInfos);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PortInfos));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PortInfos));
+            }
+
+            PortInfos = materialized;
+        }
+        this.PortInfos = PortInfos;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    private AwsLightsailPutInstancePublicPortsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailPutInstancePublicPortsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailPutInstancePublicPortsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of objects to describe the ports to open for the specified instance. (structure) Describes ports to open on an instance, the IP addresses allowed to connect to the instance through the ports, and the protocol. fromPort -&gt; (integer) The first port in a range of open ports on an instance. Allowed ports: o TCP and UDP - 0 to 65535 o ICMP - The ICMP type for IPv4 addresses. For example, spec- ify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia . o ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6 . Constraints: o min: -1 o max: 65535 toPort -&gt; (integer) The last port in a range of open ports on an instance. Allowed ports: o TCP and UDP - 0 to 65535 o ICMP - The ICMP code for IPv4 addresses. For example, spec- ify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia . o ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6 . Constraints: o min: -1 o max: 65535 protocol -&gt; (string) The IP protocol name. The name can be one of the following: o tcp - Transmission Control Protocol (TCP) provides reli- able, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead. o all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia . o udp - With User Datagram Protocol (UDP), computer applica- tions can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream ser- vice can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP in- stead. o icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol , you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter. o icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol , you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter. Possible values: o tcp o all o udp o icmp o icmpv6 cidrs -&gt; (list) The IPv4 address, or range of IPv4 addresses (in CIDR nota- tion) that are allowed to connect to an instance through the ports, and the protocol. NOTE: The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance. Examples: o To allow the IP address 192.0.2.44 , specify 192.0.2.44 or 192.0.2.44/32 . o To allow the IP addresses 192.0.2.0 to 192.0.2.255 , spec- ify 192.0.2.0/24 . For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia . (string) ipv6Cidrs -&gt; (list) The IPv6 address, or range of IPv6 addresses (in CIDR nota- tion) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used. NOTE: The cidrs parameter lists the IPv4 addresses that are al- lowed to connect to an instance. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia . (string) cidrListAliases -&gt; (list) An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect , which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance. (string) Shorthand Syntax: fromPort=integer,toPort=integer,protocol=string,cidrs=string,string,ipv6Cidrs=string,string,cidrListAliases=string,string ... JSON Syntax: [ { "fromPort": integer, "toPort": integer, "protocol": "tcp"|"all"|"udp"|"icmp"|"icmpv6", "cidrs": ["string", ...], "ipv6Cidrs": ["string", ...], "cidrListAliases": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--port-infos", GroupValues = true)]
+    public IEnumerable<string>? PortInfos { get; private init; }
+
+    /// <summary>
+    /// The name of the instance for which to open ports. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string? InstanceName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("health", "describe-event-details-for-organization")]
-public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions
+public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This infor- mation includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected enti- ties, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before y...
+    /// </summary>
+    /// <param name="OrganizationEventDetailFilters">A set of JSON elements that includes the awsAccountId and the even- tArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]</param>
+    public AwsHealthDescribeEventDetailsForOrganizationOptions(
+        IEnumerable<string> OrganizationEventDetailFilters
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OrganizationEventDetailFilters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OrganizationEventDetailFilters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OrganizationEventDetailFilters));
+            }
+
+            OrganizationEventDetailFilters = materialized;
+        }
+        this.OrganizationEventDetailFilters = OrganizationEventDetailFilters;
+    }
+
+    private AwsHealthDescribeEventDetailsForOrganizationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthDescribeEventDetailsForOrganizationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthDescribeEventDetailsForOrganizationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A set of JSON elements that includes the awsAccountId and the even- tArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 131) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
+    /// </summary>
     [CliOption("--organization-event-detail-filters", GroupValues = true)]
-    public IEnumerable<string>? OrganizationEventDetailFilters { get; set; }
+    public IEnumerable<string>? OrganizationEventDetailFilters { get; private init; }
 
     /// <summary>
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
@@ -35,5 +83,21 @@ public record AwsHealthDescribeEventDetailsForOrganizationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

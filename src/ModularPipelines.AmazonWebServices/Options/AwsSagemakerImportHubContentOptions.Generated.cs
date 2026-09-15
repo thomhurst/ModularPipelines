@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "import-hub-content")]
-public record AwsSagemakerImportHubContentOptions : AwsOptions
+public record AwsSagemakerImportHubContentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Import hub content. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HubContentName">The name of the hub content to import. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to import. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
+    /// <param name="DocumentSchemaVersion">The version of the hub content schema to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}</param>
+    /// <param name="HubName">The name of the hub to import content into. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentDocument">The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: o min: 0 o max: 327680 o pattern: .*</param>
+    public AwsSagemakerImportHubContentOptions(
+        string HubContentName,
+        AwsSagemakerImportHubContentHubContentType HubContentType,
+        string DocumentSchemaVersion,
+        string HubName,
+        string HubContentDocument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HubContentName);
+        this.HubContentName = HubContentName;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentType);
+        this.HubContentType = HubContentType;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentSchemaVersion);
+        this.DocumentSchemaVersion = DocumentSchemaVersion;
+        global::System.ArgumentNullException.ThrowIfNull(HubName);
+        this.HubName = HubName;
+        global::System.ArgumentNullException.ThrowIfNull(HubContentDocument);
+        this.HubContentDocument = HubContentDocument;
+    }
+
+    private AwsSagemakerImportHubContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerImportHubContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerImportHubContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the hub content to import. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--hub-content-name")]
-    public string? HubContentName { get; set; }
+    public string? HubContentName { get; private init; }
+
+    /// <summary>
+    /// The type of hub content to import. Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// </summary>
+    [CliOption("--hub-content-type")]
+    public AwsSagemakerImportHubContentHubContentType? HubContentType { get; private init; }
+
+    /// <summary>
+    /// The version of the hub content schema to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// </summary>
+    [CliOption("--document-schema-version")]
+    public string? DocumentSchemaVersion { get; private init; }
+
+    /// <summary>
+    /// The name of the hub to import content into. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--hub-name")]
+    public string? HubName { get; private init; }
+
+    /// <summary>
+    /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more. Constraints: o min: 0 o max: 327680 o pattern: .*
+    /// </summary>
+    [CliOption("--hub-content-document")]
+    public string? HubContentDocument { get; private init; }
 
     /// <summary>
     /// The version of the hub content to import. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--hub-content-version")]
     public string? HubContentVersion { get; set; }
-
-    [CliOption("--hub-content-type")]
-    public string? HubContentType { get; set; }
-
-    [CliOption("--document-schema-version")]
-    public string? DocumentSchemaVersion { get; set; }
-
-    [CliOption("--hub-name")]
-    public string? HubName { get; set; }
 
     /// <summary>
     /// The display name of the hub content to import. Constraints: o min: 0 o max: 255 o pattern: .*
@@ -57,9 +125,6 @@ public record AwsSagemakerImportHubContentOptions : AwsOptions
     /// </summary>
     [CliOption("--hub-content-markdown")]
     public string? HubContentMarkdown { get; set; }
-
-    [CliOption("--hub-content-document")]
-    public string? HubContentDocument { get; set; }
 
     /// <summary>
     /// The status of the hub content resource. Possible values: o Supported o Deprecated o Restricted
@@ -84,5 +149,21 @@ public record AwsSagemakerImportHubContentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

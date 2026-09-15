@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "list-flow-operation-results")]
-public record AwsNetworkFirewallListFlowOperationResultsOptions : AwsOptions
+public record AwsNetworkFirewallListFlowOperationResultsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--firewall-arn")]
-    public string? FirewallArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the results of a specific flow operation. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort. See also: AWS API Documentation list-flow-operation-results is a paginated operation. Multiple API calls may be issu...
+    /// </summary>
+    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
+    /// <param name="FlowOperationId">A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: o min: 36 o max: 36 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    public AwsNetworkFirewallListFlowOperationResultsOptions(
+        string FirewallArn,
+        string FlowOperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallArn);
+        this.FirewallArn = FirewallArn;
+        global::System.ArgumentNullException.ThrowIfNull(FlowOperationId);
+        this.FlowOperationId = FlowOperationId;
+    }
+
+    private AwsNetworkFirewallListFlowOperationResultsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallListFlowOperationResultsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallListFlowOperationResultsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// </summary>
+    [CliOption("--firewall-arn")]
+    public string? FirewallArn { get; private init; }
+
+    /// <summary>
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: o min: 36 o max: 36 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// </summary>
     [CliOption("--flow-operation-id")]
-    public string? FlowOperationId { get; set; }
+    public string? FlowOperationId { get; private init; }
 
     /// <summary>
     /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a . Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -70,5 +114,21 @@ public record AwsNetworkFirewallListFlowOperationResultsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

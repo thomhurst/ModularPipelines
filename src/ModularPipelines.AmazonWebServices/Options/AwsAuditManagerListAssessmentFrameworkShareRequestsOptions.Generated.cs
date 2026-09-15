@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auditmanager", "list-assessment-framework-share-requests")]
-public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOptions
+public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of sent or received share requests for custom frameworks in Audit Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED</param>
+    public AwsAuditManagerListAssessmentFrameworkShareRequestsOptions(
+        AwsAuditManagerListAssessmentFrameworkShareRequestsRequestType RequestType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RequestType);
+        this.RequestType = RequestType;
+    }
+
+    private AwsAuditManagerListAssessmentFrameworkShareRequestsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAuditManagerListAssessmentFrameworkShareRequestsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAuditManagerListAssessmentFrameworkShareRequestsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED
+    /// </summary>
     [CliOption("--request-type")]
-    public string? RequestType { get; set; }
+    public AwsAuditManagerListAssessmentFrameworkShareRequestsRequestType? RequestType { get; private init; }
 
     /// <summary>
     /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
@@ -43,5 +81,21 @@ public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

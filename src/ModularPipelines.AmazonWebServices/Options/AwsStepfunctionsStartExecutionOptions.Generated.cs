@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "start-execution")]
-public record AwsStepfunctionsStartExecutionOptions : AwsOptions
+public record AwsStepfunctionsStartExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--state-machine-arn")]
-    public string? StateMachineArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see Limits Related to State Machine Executions in the Step Functions Developer Guide . If you don't provide a name for the execution, Step Functions auto- matically generates a universally unique identifier (UUID) as the execution name. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80
+    /// Starts a state machine execution. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state ma- chine ARNs: o The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMa- chine . arn:partition:states:region:account-id:stateMachine:myS- tateMachine/mapStateLabel NOTE: If you ...
+    /// </summary>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine to execute. The stateMachineArn parameter accepts one of the following inputs: o An unqualified state machine ARN Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN. arn:&lt;parti- tion&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt; Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used. o A state machine version ARN Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10. arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMa- chine:&lt;myStateMachine&gt;:10 Step Functions doesn't associate exe- cutions that you start with a version ARN with any aliases that point to that version. o A state machine alias ARN Refers to an alias ARN, which is a com- bination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD . arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;ac- count-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt; Step Functions as- sociates executions that you start with an alias ARN with that alias and the state machine version used for that execution. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsStartExecutionOptions(
+        string StateMachineArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StateMachineArn);
+        this.StateMachineArn = StateMachineArn;
+    }
+
+    private AwsStepfunctionsStartExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsStartExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsStartExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the state machine to execute. The stateMachineArn parameter accepts one of the following inputs: o An unqualified state machine ARN Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN. arn:&lt;parti- tion&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt; Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used. o A state machine version ARN Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10. arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMa- chine:&lt;myStateMachine&gt;:10 Step Functions doesn't associate exe- cutions that you start with a version ARN with any aliases that point to that version. o A state machine alias ARN Refers to an alias ARN, which is a com- bination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD . arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;ac- count-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt; Step Functions as- sociates executions that you start with an alias ARN with that alias and the state machine version used for that execution. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--state-machine-arn")]
+    public string? StateMachineArn { get; private init; }
+
+    /// <summary>
+    /// Optional name of the execution. For STANDARD workflows, this name must be unique for your Amazon Web Services account, region, and state machine. If a previous execution with the same name exists, you can reuse the name 90 days after it closes. For EXPRESS work- flows, execution names can be reused immediately. For more informa- tion, see Limits Related to State Machine Executions in the Step Functions Developer Guide . If you don't provide a name for the execution, Step Functions auto- matically generates a universally unique identifier (UUID) as the execution name. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -47,5 +84,21 @@ public record AwsStepfunctionsStartExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

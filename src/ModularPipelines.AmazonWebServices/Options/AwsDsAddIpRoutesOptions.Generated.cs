@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "add-ip-routes")]
-public record AwsDsAddIpRoutesOptions : AwsOptions
+public record AwsDsAddIpRoutesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// If the DNS server for your self-managed domain uses a publicly address- able IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. Ad- dIpRoutes adds this address block. You can also use AddIpRoutes to fa- cilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes , ensure that all of the required permis- sions have been explicitly granted thr...
+    /// </summary>
+    /// <param name="DirectoryId">Identifier (ID) of the directory to which to add the address block. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="IpRoutes">IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your self-managed domain. (structure) Contains the IP address block. This is often the address block of the DNS server used for your self-managed domain. CidrIp -&gt; (string) IP address block in CIDR format, such as 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address, use a CIDR ad- dress block with /32. For example, 10.0.0.0/32. Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ CidrIpv6 -&gt; (string) IPv6 address block in CIDR format, such as 2001:db8::/32. This is often the address block of the DNS server used for your self-managed domain. For a single IPv6 address, use a CIDR address block with /128. For example, 2001:db8::1/128. Constraints: o pattern: ^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$ Description -&gt; (string) Description of the address block. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ Shorthand Syntax: CidrIp=string,CidrIpv6=string,Description=string ... JSON Syntax: [ { "CidrIp": "string", "CidrIpv6": "string", "Description": "string" } ... ]</param>
+    public AwsDsAddIpRoutesOptions(
+        string DirectoryId,
+        IEnumerable<string> IpRoutes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IpRoutes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IpRoutes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IpRoutes));
+            }
+
+            IpRoutes = materialized;
+        }
+        this.IpRoutes = IpRoutes;
+    }
+
+    private AwsDsAddIpRoutesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsAddIpRoutesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsAddIpRoutesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier (ID) of the directory to which to add the address block. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
 
+    /// <summary>
+    /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your self-managed domain. (structure) Contains the IP address block. This is often the address block of the DNS server used for your self-managed domain. CidrIp -&gt; (string) IP address block in CIDR format, such as 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address, use a CIDR ad- dress block with /32. For example, 10.0.0.0/32. Constraints: o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([1-9]|[1-2][0-9]|3[0-2]))$ CidrIpv6 -&gt; (string) IPv6 address block in CIDR format, such as 2001:db8::/32. This is often the address block of the DNS server used for your self-managed domain. For a single IPv6 address, use a CIDR address block with /128. For example, 2001:db8::1/128. Constraints: o pattern: ^((([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,7}:)|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2})|(([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3})|(([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4})|(([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5})|([0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6}))|(:((:[0-9a-fA-F]{1,4}){1,7}|:)))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$ Description -&gt; (string) Description of the address block. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ Shorthand Syntax: CidrIp=string,CidrIpv6=string,Description=string ... JSON Syntax: [ { "CidrIp": "string", "CidrIpv6": "string", "Description": "string" } ... ]
+    /// </summary>
     [CliOption("--ip-routes", GroupValues = true)]
-    public IEnumerable<string>? IpRoutes { get; set; }
+    public IEnumerable<string>? IpRoutes { get; private init; }
 
-    [CliFlag("--update-security-group-for-directory-controllers")]
+    /// <summary>
+    /// rity-group-for-directory-controllers (boolean) If set to true, updates the inbound and outbound rules of the secu- rity group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules: Inbound: o Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Mi- crosoft AD VPC IPv4 CIDR o Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Mi- crosoft AD VPC IPv4 CIDR o Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR o Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Mi- crosoft AD VPC IPv4 CIDR Outbound: o Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0 These security rules impact an internal network interface that is not exposed publicly.
+    /// </summary>
+    [CliFlag("--update-security-group-for-directory-controllers", NegatedName = "--no-update-security-group-for-directory-controllers")]
     public bool? UpdateSecurityGroupForDirectoryControllers { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +93,21 @@ public record AwsDsAddIpRoutesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

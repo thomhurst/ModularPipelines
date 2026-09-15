@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("arc-region-switch", "start-plan-execution")]
-public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions
+public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan to execute. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="TargetRegion">The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.</param>
+    /// <param name="Action">The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: o activate o deactivate o postRecovery</param>
+    public AwsArcRegionSwitchStartPlanExecutionOptions(
+        string PlanArn,
+        string TargetRegion,
+        AwsArcRegionSwitchStartPlanExecutionAction Action
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlanArn);
+        this.PlanArn = PlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetRegion);
+        this.TargetRegion = TargetRegion;
+        global::System.ArgumentNullException.ThrowIfNull(Action);
+        this.Action = Action;
+    }
+
+    private AwsArcRegionSwitchStartPlanExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsArcRegionSwitchStartPlanExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsArcRegionSwitchStartPlanExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the plan to execute. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// </summary>
     [CliOption("--plan-arn")]
-    public string? PlanArn { get; set; }
+    public string? PlanArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.
+    /// </summary>
     [CliOption("--target-region")]
-    public string? TargetRegion { get; set; }
+    public string? TargetRegion { get; private init; }
 
+    /// <summary>
+    /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: o activate o deactivate o postRecovery
+    /// </summary>
     [CliOption("--action")]
-    public string? Action { get; set; }
+    public AwsArcRegionSwitchStartPlanExecutionAction? Action { get; private init; }
 
     /// <summary>
     /// The plan execution mode. Valid values are graceful , for starting the execution in graceful mode, or ungraceful , for starting the ex- ecution in ungraceful mode. Possible values: o graceful o ungraceful
@@ -68,5 +119,21 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

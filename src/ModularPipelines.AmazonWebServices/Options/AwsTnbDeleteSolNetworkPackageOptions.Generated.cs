@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tnb", "delete-sol-network-package")]
-public record AwsTnbDeleteSolNetworkPackageOptions : AwsOptions
+public record AwsTnbDeleteSolNetworkPackageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see UpdateSolNetworkPackage . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NsdInfoId">ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    public AwsTnbDeleteSolNetworkPackageOptions(
+        string NsdInfoId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NsdInfoId);
+        this.NsdInfoId = NsdInfoId;
+    }
+
+    private AwsTnbDeleteSolNetworkPackageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTnbDeleteSolNetworkPackageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTnbDeleteSolNetworkPackageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// ID of the network service descriptor in the network package. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--nsd-info-id")]
-    public string? NsdInfoId { get; set; }
+    public string? NsdInfoId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

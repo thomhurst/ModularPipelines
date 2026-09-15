@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector2", "list-cis-scan-results-aggregated-by-target-resource")]
-public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions : AwsOptions
+public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResou...
+    /// </summary>
+    /// <param name="ScanArn">The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    public AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions(
+        string ScanArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScanArn);
+        this.ScanArn = ScanArn;
+    }
+
+    private AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// </summary>
     [CliOption("--scan-arn")]
-    public string? ScanArn { get; set; }
+    public string? ScanArn { get; private init; }
 
     /// <summary>
     /// The filter criteria. accountIdFilters -&gt; (list) The criteria's account ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. statusFilters -&gt; (list) The criteria's status filter. Constraints: o min: 1 o max: 10 (structure) The CIS result status filter. comparison -&gt; (string) [required] The comparison value of the CIS result status filter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS result status filter. Possible values: o PASSED o FAILED o SKIPPED checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceIdFilters -&gt; (list) The criteria's target resource ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceTagFilters -&gt; (list) The criteria's target resource tag filters. Constraints: o min: 1 o max: 10 (structure) The tag filter. comparison -&gt; (string) [required] The tag filter comparison value. Possible values: o EQUALS key -&gt; (string) [required] The tag filter key. Constraints: o min: 1 value -&gt; (string) [required] The tag filter value. Constraints: o min: 1 platformFilters -&gt; (list) The criteria's platform filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetStatusFilters -&gt; (list) The criteria's target status filters. Constraints: o min: 1 o max: 10 (structure) The CIS target status filter. comparison -&gt; (string) [required] The comparison value of the CIS target status filter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS target status filter. Possible values: o TIMED_OUT o CANCELLED o COMPLETED targetStatusReasonFilters -&gt; (list) The criteria's target status reason filters. Constraints: o min: 1 o max: 10 (structure) The CIS target status reason filter. comparison -&gt; (string) [required] The comparison value of the CIS target status reason fil- ter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS target status reason filter. Possible values: o SCAN_IN_PROGRESS o UNSUPPORTED_OS o SSM_UNMANAGED failedChecksFilters -&gt; (list) The criteria's failed checks filters. Constraints: o min: 1 o max: 10 (structure) The CIS number filter. upperInclusive -&gt; (integer) The CIS number filter's upper inclusive. lowerInclusive -&gt; (integer) The CIS number filter's lower inclusive. Shorthand Syntax: accountIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],statusFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceTagFilters=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],platformFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusReasonFilters=[{comparison=string,value=string},{comparison=string,value=string}],failedChecksFilters=[{upperInclusive=integer,lowerInclusive=integer},{upperInclusive=integer,lowerInclusive=integer}] JSON Syntax: { "accountIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "statusFilters": [ { "comparison": "EQUALS", "value": "PASSED"|"FAILED"|"SKIPPED" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceTagFilters": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "platformFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetStatusFilters": [ { "comparison": "EQUALS", "value": "TIMED_OUT"|"CANCELLED"|"COMPLETED" } ... ], "targetStatusReasonFilters": [ { "comparison": "EQUALS", "value": "SCAN_IN_PROGRESS"|"UNSUPPORTED_OS"|"SSM_UNMANAGED" } ... ], "failedChecksFilters": [ { "upperInclusive": integer, "lowerInclusive": integer } ... ] }
@@ -68,5 +105,21 @@ public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions :
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

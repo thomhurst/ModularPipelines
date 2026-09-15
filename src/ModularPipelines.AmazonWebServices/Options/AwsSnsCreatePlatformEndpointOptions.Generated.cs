@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,14 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sns", "create-platform-endpoint")]
-public record AwsSnsCreatePlatformEndpointOptions : AwsOptions
+public record AwsSnsCreatePlatformEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--platform-application-arn")]
-    public string? PlatformApplicationArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication . You can use the returned EndpointArn to send a message to a mobile app or by the Subscribe ac- tion for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same devic...
+    /// </summary>
+    /// <param name="PlatformApplicationArn">PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.</param>
+    /// <param name="Token">Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM (Firebase Cloud Messaging) or ADM, the device token equivalent is called the registration ID.</param>
+    public AwsSnsCreatePlatformEndpointOptions(
+        string PlatformApplicationArn,
+        string Token
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformApplicationArn);
+        this.PlatformApplicationArn = PlatformApplicationArn;
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+    }
+
+    private AwsSnsCreatePlatformEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnsCreatePlatformEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnsCreatePlatformEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.
+    /// </summary>
+    [CliOption("--platform-application-arn")]
+    public string? PlatformApplicationArn { get; private init; }
+
+    /// <summary>
+    /// Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM (Firebase Cloud Messaging) or ADM, the device token equivalent is called the registration ID.
+    /// </summary>
     [SecretValue]
     [CliOption("--token")]
-    public string? Token { get; set; }
+    public string? Token { get; private init; }
 
     /// <summary>
     /// Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
@@ -47,5 +91,21 @@ public record AwsSnsCreatePlatformEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

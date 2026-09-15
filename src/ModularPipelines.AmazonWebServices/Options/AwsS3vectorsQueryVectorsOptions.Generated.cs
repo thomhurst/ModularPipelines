@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3vectors", "query-vectors")]
-public record AwsS3vectorsQueryVectorsOptions : AwsOptions
+public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3...
+    /// </summary>
+    /// <param name="TopK">The number of results to return for each query. Constraints: o min: 1</param>
+    /// <param name="QueryVector">The query vector. Ensure that the query vector has the same dimen- sion as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }</param>
+    public AwsS3vectorsQueryVectorsOptions(
+        int TopK,
+        string QueryVector
+    )
+    {
+        this.TopK = TopK;
+        global::System.ArgumentNullException.ThrowIfNull(QueryVector);
+        this.QueryVector = QueryVector;
+    }
+
+    private AwsS3vectorsQueryVectorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3vectorsQueryVectorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3vectorsQueryVectorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The number of results to return for each query. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--top-k")]
+    public int? TopK { get; private init; }
+
+    /// <summary>
+    /// The query vector. Ensure that the query vector has the same dimen- sion as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: float32. float32 -&gt; (list) The vector data as 32-bit floating point numbers. The number of elements in this array must exactly match the dimension of the vector index where the operation is being performed. (float) Shorthand Syntax: float32=float,float JSON Syntax: { "float32": [float, ...] }
+    /// </summary>
+    [CliOption("--query-vector")]
+    public string? QueryVector { get; private init; }
+
     /// <summary>
     /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
     /// </summary>
@@ -40,22 +89,22 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
-    [CliOption("--top-k")]
-    public int? TopK { get; set; }
-
-    [CliOption("--query-vector")]
-    public string? QueryVector { get; set; }
-
     /// <summary>
     /// Metadata filter to apply during the query. For more information about metadata keys, see Metadata filtering in the Amazon S3 User Guide . JSON Syntax: {...}
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CliFlag("--return-metadata")]
+    /// <summary>
+    /// Indicates whether to include metadata in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]
     public bool? ReturnMetadata { get; set; }
 
-    [CliFlag("--return-distance")]
+    /// <summary>
+    /// Indicates whether to include the computed distance in the response. The default value is false .
+    /// </summary>
+    [CliFlag("--return-distance", NegatedName = "--no-return-distance")]
     public bool? ReturnDistance { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -76,5 +125,21 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

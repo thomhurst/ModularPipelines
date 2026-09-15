@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mwaa-serverless", "update-workflow")]
-public record AwsMwaaServerlessUpdateWorkflowOptions : AwsOptions
+public record AwsMwaaServerlessUpdateWorkflowOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workflow-arn")]
-    public string? WorkflowArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing workflow with new configuration settings. This op- eration allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the ...
+    /// </summary>
+    /// <param name="WorkflowArn">The Amazon Resource Name (ARN) of the workflow you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})</param>
+    /// <param name="DefinitionS3Location">The Amazon S3 location where the updated workflow definition file is stored. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow def- inition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Ama- zon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when it executes the updated workflow. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}</param>
+    public AwsMwaaServerlessUpdateWorkflowOptions(
+        string WorkflowArn,
+        string DefinitionS3Location,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowArn);
+        this.WorkflowArn = WorkflowArn;
+        global::System.ArgumentNullException.ThrowIfNull(DefinitionS3Location);
+        this.DefinitionS3Location = DefinitionS3Location;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsMwaaServerlessUpdateWorkflowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMwaaServerlessUpdateWorkflowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMwaaServerlessUpdateWorkflowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the workflow you want to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:air- flow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):work- flow/([a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,254}-[a-zA-Z0-9]{10})
+    /// </summary>
+    [CliOption("--workflow-arn")]
+    public string? WorkflowArn { get; private init; }
+
+    /// <summary>
+    /// The Amazon S3 location where the updated workflow definition file is stored. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow def- inition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Ama- zon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }
+    /// </summary>
     [CliOption("--definition-s3-location")]
-    public string? DefinitionS3Location { get; set; }
+    public string? DefinitionS3Location { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when it executes the updated workflow. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The location of code artifacts in Amazon S3 for the updated work- flow. The service copies the code from this location at the time of the request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Location. S3Location -&gt; (structure) The Amazon S3 location of the code artifacts that your workflow tasks use during execution. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 ObjectKey -&gt; (string) [required] The key of the code artifact within the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 VersionId -&gt; (string) The version ID of the object in Amazon S3. If not specified, the latest version is used. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Location={Bucket=string,ObjectKey=string,VersionId=string} JSON Syntax: { "S3Location": { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" } }
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// An updated description for the workflow. Constraints: o min: 1 o max: 1024 o pattern: .+
@@ -71,5 +122,21 @@ public record AwsMwaaServerlessUpdateWorkflowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "get-storage-lens-configuration")]
-public record AwsS3controlGetStorageLensConfigurationOptions : AwsOptions
+public record AwsS3controlGetStorageLensConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--config-id")]
-    public string? ConfigId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens in the Amazon S3 User Guide . For a complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide . NOTE: To use this action, you must have permission to perform the s3:Get- StorageLensConfiguration action. For more information, see Setting permissions...
+    /// </summary>
+    /// <param name="ConfigId">The ID of the Amazon S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+</param>
+    /// <param name="AccountId">The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    public AwsS3controlGetStorageLensConfigurationOptions(
+        string ConfigId,
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigId);
+        this.ConfigId = ConfigId;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsS3controlGetStorageLensConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlGetStorageLensConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlGetStorageLensConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon S3 Storage Lens configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-\_\.]+
+    /// </summary>
+    [CliOption("--config-id")]
+    public string? ConfigId { get; private init; }
+
+    /// <summary>
+    /// The account ID of the requester. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

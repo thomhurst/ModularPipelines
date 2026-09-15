@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,22 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "create-data-source")]
-public record AwsDatazoneCreateDataSourceOptions : AwsOptions
+public record AwsDatazoneCreateDataSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon DataZone data source. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the data source. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where the data source is cre- ated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The identifier of the Amazon DataZone project in which you want to add this data source. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Type">The type of the data source. In Amazon DataZone, you can use data sources to import technical metadata of assets (data) from the source databases or data warehouses into Amazon DataZone. In the current release of Amazon DataZone, you can create and run data sources for Amazon Web Services Glue and Amazon Redshift. Constraints: o min: 1 o max: 256</param>
+    public AwsDatazoneCreateDataSourceOptions(
+        string Name,
+        string DomainIdentifier,
+        string ProjectIdentifier,
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdentifier);
+        this.ProjectIdentifier = ProjectIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsDatazoneCreateDataSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneCreateDataSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneCreateDataSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the data source. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain where the data source is cre- ated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the Amazon DataZone project in which you want to add this data source. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--project-identifier")]
+    public string? ProjectIdentifier { get; private init; }
+
+    /// <summary>
+    /// The type of the data source. In Amazon DataZone, you can use data sources to import technical metadata of assets (data) from the source databases or data warehouses into Amazon DataZone. In the current release of Amazon DataZone, you can create and run data sources for Amazon Web Services Glue and Amazon Redshift. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--type")]
+    public string? Type { get; private init; }
 
     /// <summary>
     /// The description of the data source. Constraints: o min: 0 o max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
-
-    [CliOption("--project-identifier")]
-    public string? ProjectIdentifier { get; set; }
 
     /// <summary>
     /// The unique identifier of the Amazon DataZone environment to which the data source publishes assets. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
@@ -49,9 +110,6 @@ public record AwsDatazoneCreateDataSourceOptions : AwsOptions
     /// </summary>
     [CliOption("--connection-identifier")]
     public string? ConnectionIdentifier { get; set; }
-
-    [CliOption("--type")]
-    public string? Type { get; set; }
 
     /// <summary>
     /// Specifies the configuration of the data source. It can be set to ei- ther glueRunConfiguration or redshiftRunConfiguration . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: glueRunConfiguration, redshiftRunConfigu- ration, sageMakerRunConfiguration. glueRunConfiguration -&gt; (structure) The configuration of the Amazon Web Services Glue data source. dataAccessRole -&gt; (string) The data access role included in the configuration details of the Amazon Web Services Glue data source. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]{1,128} relationalFilterConfigurations -&gt; (list) [required] The relational filter configurations included in the configu- ration details of the Amazon Web Services Glue data source. (structure) The relational filter configuration for the data source. databaseName -&gt; (string) [required] The database name specified in the relational filter configuration for the data source. Constraints: o min: 1 o max: 128 schemaName -&gt; (string) The schema name specified in the relational filter configuration for the data source. Constraints: o min: 1 o max: 128 filterExpressions -&gt; (list) The filter expressions specified in the relational filter configuration for the data source. (structure) A filter expression in Amazon DataZone. type -&gt; (string) [required] The search filter explresison type. Possible values: o INCLUDE o EXCLUDE expression -&gt; (string) [required] The search filter expression. Constraints: o min: 1 o max: 2048 autoImportDataQualityResult -&gt; (boolean) Specifies whether to automatically import data quality met- rics as part of the data source run. catalogName -&gt; (string) The catalog name in the Amazon Web Services Glue run configu- ration. Constraints: o min: 1 o max: 128 redshiftRunConfiguration -&gt; (structure) The configuration of the Amazon Redshift data source. dataAccessRole -&gt; (string) The data access role included in the configuration details of the Amazon Redshift data source. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]{1,128} relationalFilterConfigurations -&gt; (list) [required] The relational filger configurations included in the configu- ration details of the Amazon Redshift data source. (structure) The relational filter configuration for the data source. databaseName -&gt; (string) [required] The database name specified in the relational filter configuration for the data source. Constraints: o min: 1 o max: 128 schemaName -&gt; (string) The schema name specified in the relational filter configuration for the data source. Constraints: o min: 1 o max: 128 filterExpressions -&gt; (list) The filter expressions specified in the relational filter configuration for the data source. (structure) A filter expression in Amazon DataZone. type -&gt; (string) [required] The search filter explresison type. Possible values: o INCLUDE o EXCLUDE expression -&gt; (string) [required] The search filter expression. Constraints: o min: 1 o max: 2048 redshiftCredentialConfiguration -&gt; (structure) The details of the credentials required to access an Amazon Redshift cluster. secretManagerArn -&gt; (string) [required] The ARN of a secret manager for an Amazon Redshift clus- ter. Constraints: o min: 0 o max: 256 o pattern: arn:aws[^:]*:secretsman- ager:[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]:\d{12}:se- cret:.* redshiftStorage -&gt; (tagged union structure) The details of the Amazon Redshift storage as part of the configuration of an Amazon Redshift data source run. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: redshiftClusterSource, redshiftServerlessSource. redshiftClusterSource -&gt; (structure) The details of the Amazon Redshift cluster source. clusterName -&gt; (string) [required] The name of an Amazon Redshift cluster. Constraints: o min: 1 o max: 63 o pattern: [0-9a-z].[a-z0-9\-]* redshiftServerlessSource -&gt; (structure) The details of the Amazon Redshift Serverless workgroup source. workgroupName -&gt; (string) [required] The name of the Amazon Redshift Serverless workgroup. Constraints: o min: 3 o max: 64 o pattern: [a-z0-9-]+ sageMakerRunConfiguration -&gt; (structure) The Amazon SageMaker run configuration. trackingAssets -&gt; (map) [required] The tracking assets of the Amazon SageMaker run. Constraints: o min: 1 o max: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (list) Constraints: o min: 0 o max: 500 (string) Constraints: o pattern: arn:aws[^:]*:sage- maker:[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]:\d{12}:[\w+=,.@-]{1,128}/[\w+=,.@-]{1,256} JSON Syntax: { "glueRunConfiguration": { "dataAccessRole": "string", "relationalFilterConfigurations": [ { "databaseName": "string", "schemaName": "string", "filterExpressions": [ { "type": "INCLUDE"|"EXCLUDE", "expression": "string" } ... ] } ... ], "autoImportDataQualityResult": true|false, "catalogName": "string" }, "redshiftRunConfiguration": { "dataAccessRole": "string", "relationalFilterConfigurations": [ { "databaseName": "string", "schemaName": "string", "filterExpressions": [ { "type": "INCLUDE"|"EXCLUDE", "expression": "string" } ... ] } ... ], "redshiftCredentialConfiguration": { "secretManagerArn": "string" }, "redshiftStorage": { "redshiftClusterSource": { "clusterName": "string" }, "redshiftServerlessSource": { "workgroupName": "string" } } }, "sageMakerRunConfiguration": { "trackingAssets": {"string": ["string", ...] ...} } }
@@ -77,7 +135,10 @@ public record AwsDatazoneCreateDataSourceOptions : AwsOptions
     [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CliFlag("--publish-on-import")]
+    /// <summary>
+    /// Specifies whether the assets that this data source creates in the inventory are to be also automatically published to the catalog.
+    /// </summary>
+    [CliFlag("--publish-on-import", NegatedName = "--no-publish-on-import")]
     public bool? PublishOnImport { get; set; }
 
     /// <summary>
@@ -98,5 +159,21 @@ public record AwsDatazoneCreateDataSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

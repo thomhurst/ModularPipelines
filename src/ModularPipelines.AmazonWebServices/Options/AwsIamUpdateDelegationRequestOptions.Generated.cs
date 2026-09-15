@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "update-delegation-request")]
-public record AwsIamUpdateDelegationRequestOptions : AwsOptions
+public record AwsIamUpdateDelegationRequestOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state. Once a delegation request has an owner, that owner gets a default per- mission to update the delegation request. For more details, see Managing Permissions for Delegation Requests . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to update. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    public AwsIamUpdateDelegationRequestOptions(
+        string DelegationRequestId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DelegationRequestId);
+        this.DelegationRequestId = DelegationRequestId;
+    }
+
+    private AwsIamUpdateDelegationRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIamUpdateDelegationRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIamUpdateDelegationRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the delegation request to update. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// </summary>
     [CliOption("--delegation-request-id")]
-    public string? DelegationRequestId { get; set; }
+    public string? DelegationRequestId { get; private init; }
 
     /// <summary>
     /// Additional notes or comments to add to the delegation request. Constraints: o max: 500 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
@@ -35,5 +72,21 @@ public record AwsIamUpdateDelegationRequestOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

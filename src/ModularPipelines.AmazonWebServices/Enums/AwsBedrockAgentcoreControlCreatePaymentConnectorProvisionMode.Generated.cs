@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --provisionmode.
+/// Allowed values for --provision-mode.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsBedrockAgentcoreControlCreatePaymentConnectorProvisionMode
 {
     [EnumValue("MANUAL")]
-    Manual = 1,
+    Manual,
 
     [EnumValue("QUICK_CREATE")]
-    QuickCreate = 2
+    QuickCreate
 }

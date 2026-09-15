@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "update-column-statistics-for-table")]
-public record AwsGlueUpdateColumnStatisticsForTableOptions : AwsOptions
+public record AwsGlueUpdateColumnStatisticsForTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the partitions' table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="ColumnStatisticsList">A list of the column statistics. Constraints: o min: 0 o max: 25 (structure) Represents the generated column-level statistics for a table or partition. ColumnName -&gt; (string) [required] Name of column which statistics belong to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ColumnType -&gt; (string) [required] The data type of the column. Constraints: o min: 0 o max: 20000 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AnalyzedTime -&gt; (timestamp) [required] The timestamp of when column statistics were generated. StatisticsData -&gt; (structure) [required] A ColumnStatisticData object that contains the statistics data values. Type -&gt; (string) [required] The type of column statistics data. Possible values: o BOOLEAN o DATE o DECIMAL o DOUBLE o LONG o STRING o BINARY BooleanColumnStatisticsData -&gt; (structure) Boolean column statistics data. NumberOfTrues -&gt; (long) [required] The number of true values in the column. Constraints: o min: 0 NumberOfFalses -&gt; (long) [required] The number of false values in the column. Constraints: o min: 0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 DateColumnStatisticsData -&gt; (structure) Date column statistics data. MinimumValue -&gt; (timestamp) The lowest value in the column. MaximumValue -&gt; (timestamp) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 DecimalColumnStatisticsData -&gt; (structure) Decimal column statistics data. UnscaledValues within are Base64-encoded binary objects storing big-endian, two's complement representations of the decimal's unscaled value. MinimumValue -&gt; (structure) The lowest value in the column. UnscaledValue -&gt; (blob) [required] The unscaled numeric value. Scale -&gt; (integer) [required] The scale that determines where the decimal point falls in the unscaled value. MaximumValue -&gt; (structure) The highest value in the column. UnscaledValue -&gt; (blob) [required] The unscaled numeric value. Scale -&gt; (integer) [required] The scale that determines where the decimal point falls in the unscaled value. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 DoubleColumnStatisticsData -&gt; (structure) Double column statistics data. MinimumValue -&gt; (double) The lowest value in the column. MaximumValue -&gt; (double) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 LongColumnStatisticsData -&gt; (structure) Long column statistics data. MinimumValue -&gt; (long) The lowest value in the column. MaximumValue -&gt; (long) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 StringColumnStatisticsData -&gt; (structure) String column statistics data. MaximumLength -&gt; (long) [required] The size of the longest string in the column. Constraints: o min: 0 AverageLength -&gt; (double) [required] The average string length in the column. Constraints: o min: 0.0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 BinaryColumnStatisticsData -&gt; (structure) Binary column statistics data. MaximumLength -&gt; (long) [required] The size of the longest bit sequence in the column. Constraints: o min: 0 AverageLength -&gt; (double) [required] The average bit sequence length in the column. Constraints: o min: 0.0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 JSON Syntax: [ { "ColumnName": "string", "ColumnType": "string", "AnalyzedTime": timestamp, "StatisticsData": { "Type": "BOOLEAN"|"DATE"|"DECIMAL"|"DOUBLE"|"LONG"|"STRING"|"BINARY", "BooleanColumnStatisticsData": { "NumberOfTrues": long, "NumberOfFalses": long, "NumberOfNulls": long }, "DateColumnStatisticsData": { "MinimumValue": timestamp, "MaximumValue": timestamp, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "DecimalColumnStatisticsData": { "MinimumValue": { "UnscaledValue": blob, "Scale": integer }, "MaximumValue": { "UnscaledValue": blob, "Scale": integer }, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "DoubleColumnStatisticsData": { "MinimumValue": double, "MaximumValue": double, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "LongColumnStatisticsData": { "MinimumValue": long, "MaximumValue": long, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "StringColumnStatisticsData": { "MaximumLength": long, "AverageLength": double, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "BinaryColumnStatisticsData": { "MaximumLength": long, "AverageLength": double, "NumberOfNulls": long } } } ... ]</param>
+    public AwsGlueUpdateColumnStatisticsForTableOptions(
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> ColumnStatisticsList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ColumnStatisticsList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ColumnStatisticsList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ColumnStatisticsList));
+            }
+
+            ColumnStatisticsList = materialized;
+        }
+        this.ColumnStatisticsList = ColumnStatisticsList;
+    }
+
+    private AwsGlueUpdateColumnStatisticsForTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueUpdateColumnStatisticsForTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueUpdateColumnStatisticsForTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the partitions' table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A list of the column statistics. Constraints: o min: 0 o max: 25 (structure) Represents the generated column-level statistics for a table or partition. ColumnName -&gt; (string) [required] Name of column which statistics belong to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ColumnType -&gt; (string) [required] The data type of the column. Constraints: o min: 0 o max: 20000 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AnalyzedTime -&gt; (timestamp) [required] The timestamp of when column statistics were generated. StatisticsData -&gt; (structure) [required] A ColumnStatisticData object that contains the statistics data values. Type -&gt; (string) [required] The type of column statistics data. Possible values: o BOOLEAN o DATE o DECIMAL o DOUBLE o LONG o STRING o BINARY BooleanColumnStatisticsData -&gt; (structure) Boolean column statistics data. NumberOfTrues -&gt; (long) [required] The number of true values in the column. Constraints: o min: 0 NumberOfFalses -&gt; (long) [required] The number of false values in the column. Constraints: o min: 0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 DateColumnStatisticsData -&gt; (structure) Date column statistics data. MinimumValue -&gt; (timestamp) The lowest value in the column. MaximumValue -&gt; (timestamp) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 DecimalColumnStatisticsData -&gt; (structure) Decimal column statistics data. UnscaledValues within are Base64-encoded binary objects storing big-endian, two's complement representations of the decimal's unscaled value. MinimumValue -&gt; (structure) The lowest value in the column. UnscaledValue -&gt; (blob) [required] The unscaled numeric value. Scale -&gt; (integer) [required] The scale that determines where the decimal point falls in the unscaled value. MaximumValue -&gt; (structure) The highest value in the column. UnscaledValue -&gt; (blob) [required] The unscaled numeric value. Scale -&gt; (integer) [required] The scale that determines where the decimal point falls in the unscaled value. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 DoubleColumnStatisticsData -&gt; (structure) Double column statistics data. MinimumValue -&gt; (double) The lowest value in the column. MaximumValue -&gt; (double) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 LongColumnStatisticsData -&gt; (structure) Long column statistics data. MinimumValue -&gt; (long) The lowest value in the column. MaximumValue -&gt; (long) The highest value in the column. NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 StringColumnStatisticsData -&gt; (structure) String column statistics data. MaximumLength -&gt; (long) [required] The size of the longest string in the column. Constraints: o min: 0 AverageLength -&gt; (double) [required] The average string length in the column. Constraints: o min: 0.0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 NumberOfDistinctValues -&gt; (long) [required] The number of distinct values in a column. Constraints: o min: 0 BinaryColumnStatisticsData -&gt; (structure) Binary column statistics data. MaximumLength -&gt; (long) [required] The size of the longest bit sequence in the column. Constraints: o min: 0 AverageLength -&gt; (double) [required] The average bit sequence length in the column. Constraints: o min: 0.0 NumberOfNulls -&gt; (long) [required] The number of null values in the column. Constraints: o min: 0 JSON Syntax: [ { "ColumnName": "string", "ColumnType": "string", "AnalyzedTime": timestamp, "StatisticsData": { "Type": "BOOLEAN"|"DATE"|"DECIMAL"|"DOUBLE"|"LONG"|"STRING"|"BINARY", "BooleanColumnStatisticsData": { "NumberOfTrues": long, "NumberOfFalses": long, "NumberOfNulls": long }, "DateColumnStatisticsData": { "MinimumValue": timestamp, "MaximumValue": timestamp, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "DecimalColumnStatisticsData": { "MinimumValue": { "UnscaledValue": blob, "Scale": integer }, "MaximumValue": { "UnscaledValue": blob, "Scale": integer }, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "DoubleColumnStatisticsData": { "MinimumValue": double, "MaximumValue": double, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "LongColumnStatisticsData": { "MinimumValue": long, "MaximumValue": long, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "StringColumnStatisticsData": { "MaximumLength": long, "AverageLength": double, "NumberOfNulls": long, "NumberOfDistinctValues": long }, "BinaryColumnStatisticsData": { "MaximumLength": long, "AverageLength": double, "NumberOfNulls": long } } } ... ]
+    /// </summary>
+    [CliOption("--column-statistics-list", GroupValues = true)]
+    public IEnumerable<string>? ColumnStatisticsList { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--column-statistics-list", GroupValues = true)]
-    public IEnumerable<string>? ColumnStatisticsList { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

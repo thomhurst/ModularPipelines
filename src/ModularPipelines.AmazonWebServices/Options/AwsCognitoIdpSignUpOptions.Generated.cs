@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "sign-up")]
-public record AwsCognitoIdpSignUpOptions : AwsOptions
+public record AwsCognitoIdpSignUpOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Registers a user with an app client and requests a user name, password, and user attributes in the user pool. NOTE: Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authoriza- tion models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints . NOTE: Thi...
+    /// </summary>
+    /// <param name="ClientId">The ID of the app client where the user wants to sign up. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="Username">The username of the user that you want to sign up. The value of this parameter is typically a username, but can be any alias attribute in your user pool. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    public AwsCognitoIdpSignUpOptions(
+        string ClientId,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    private AwsCognitoIdpSignUpOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpSignUpOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpSignUpOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the app client where the user wants to sign up. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// </summary>
     [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// The username of the user that you want to sign up. The value of this parameter is typically a username, but can be any alias attribute in your user pool. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
+    [CliOption("--username")]
+    public string? Username { get; private init; }
 
     /// <summary>
     /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash , see Computing secret hash values . Constraints: o min: 1 o max: 128 o pattern: [\w+=/]+
@@ -32,9 +79,6 @@ public record AwsCognitoIdpSignUpOptions : AwsOptions
     [SecretValue]
     [CliOption("--secret-hash")]
     public string? SecretHash { get; set; }
-
-    [CliOption("--username")]
-    public string? Username { get; set; }
 
     /// <summary>
     /// The user's proposed password. The password must comply with the password requirements of your user pool. Users can sign up without a password when your user pool supports passwordless sign-in with email or SMS OTPs. To create a user with no password, omit this parameter or submit a blank value. You can only create a passwordless user when passwordless sign-in is avail- able. Constraints: o max: 256 o pattern: [\S]+
@@ -78,5 +122,21 @@ public record AwsCognitoIdpSignUpOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

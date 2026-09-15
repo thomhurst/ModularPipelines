@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "put-resource-policy")]
-public record AwsXrayPutResourcePolicyOptions : AwsOptions
+public record AwsXrayPutResourcePolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the resource policy to grant one or more Amazon Web Services ser- vices and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyName">The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyDocument">The resource policy document, which can be up to 5kb in size.</param>
+    public AwsXrayPutResourcePolicyOptions(
+        string PolicyName,
+        string PolicyDocument
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyDocument);
+        this.PolicyDocument = PolicyDocument;
+    }
+
+    private AwsXrayPutResourcePolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayPutResourcePolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayPutResourcePolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource policy. Must be unique within a specific Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; private init; }
+
+    /// <summary>
+    /// The resource policy document, which can be up to 5kb in size.
+    /// </summary>
     [CliOption("--policy-document")]
-    public string? PolicyDocument { get; set; }
+    public string? PolicyDocument { get; private init; }
 
     /// <summary>
     /// Specifies a specific policy revision, to ensure an atomic create op- eration. By default the resource policy is created if it does not exist, or updated with an incremented revision id. The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException excep- tion. You can also provide a PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException ex- ception if a resource policy with the same name already exists.
@@ -33,7 +77,10 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions
     [CliOption("--policy-revision-id")]
     public string? PolicyRevisionId { get; set; }
 
-    [CliFlag("--bypass-policy-lockout-check")]
+    /// <summary>
+    /// A flag to indicate whether to bypass the resource policy lockout safety check. WARNING: Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscrimi- nately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
+    /// </summary>
+    [CliFlag("--bypass-policy-lockout-check", NegatedName = "--no-bypass-policy-lockout-check")]
     public bool? BypassPolicyLockoutCheck { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -41,5 +88,21 @@ public record AwsXrayPutResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

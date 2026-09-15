@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "enable-availability-zones-for-load-balancer")]
-public record AwsElbEnableAvailabilityZonesForLoadBalancerOptions : AwsOptions
+public record AwsElbEnableAvailabilityZonesForLoadBalancerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer in EC2-Classic or a default VPC. For load balancers in a non-default VPC, use AttachLoadBalancerToSub- nets . The load balancer evenly distributes requests across all its registered Availability Zones that contain instances. For more information, see Add or Remove Availability Zones in the Classic Load Balancers Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="AvailabilityZones">The Availability Zones. These must be in the same region as the load balancer. (string) Syntax: "string" "string" ...</param>
+    public AwsElbEnableAvailabilityZonesForLoadBalancerOptions(
+        string LoadBalancerName,
+        IEnumerable<string> AvailabilityZones
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AvailabilityZones);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AvailabilityZones));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AvailabilityZones));
+            }
+
+            AvailabilityZones = materialized;
+        }
+        this.AvailabilityZones = AvailabilityZones;
+    }
+
+    private AwsElbEnableAvailabilityZonesForLoadBalancerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbEnableAvailabilityZonesForLoadBalancerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbEnableAvailabilityZonesForLoadBalancerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The Availability Zones. These must be in the same region as the load balancer. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
-    public IEnumerable<string>? AvailabilityZones { get; set; }
+    public IEnumerable<string>? AvailabilityZones { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecommit", "get-pull-request-override-state")]
-public record AwsCodecommitGetPullRequestOverrideStateOptions : AwsOptions
+public record AwsCodecommitGetPullRequestOverrideStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pull-request-id")]
-    public string? PullRequestId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their re- quirements for the pull request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PullRequestId">The ID of the pull request for which you want to get information about whether approval rules have been set aside (overridden).</param>
+    /// <param name="RevisionId">The system-generated ID of the revision for the pull request. To re- trieve the most recent revision ID, use GetPullRequest .</param>
+    public AwsCodecommitGetPullRequestOverrideStateOptions(
+        string PullRequestId,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PullRequestId);
+        this.PullRequestId = PullRequestId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    private AwsCodecommitGetPullRequestOverrideStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecommitGetPullRequestOverrideStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecommitGetPullRequestOverrideStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the pull request for which you want to get information about whether approval rules have been set aside (overridden).
+    /// </summary>
+    [CliOption("--pull-request-id")]
+    public string? PullRequestId { get; private init; }
+
+    /// <summary>
+    /// The system-generated ID of the revision for the pull request. To re- trieve the most recent revision ID, use GetPullRequest .
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

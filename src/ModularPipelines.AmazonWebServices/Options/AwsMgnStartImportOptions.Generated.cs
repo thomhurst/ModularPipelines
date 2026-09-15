@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "start-import")]
-public record AwsMgnStartImportOptions : AwsOptions
+public record AwsMgnStartImportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Start import. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="S3BucketSource">Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: o pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }</param>
+    public AwsMgnStartImportOptions(
+        string S3BucketSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3BucketSource);
+        this.S3BucketSource = S3BucketSource;
+    }
+
+    private AwsMgnStartImportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnStartImportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnStartImportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: o pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }
+    /// </summary>
+    [CliOption("--s3-bucket-source")]
+    public string? S3BucketSource { get; private init; }
+
     /// <summary>
     /// Start import request client token. Constraints: o min: 0 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--s3-bucket-source")]
-    public string? S3BucketSource { get; set; }
 
     /// <summary>
     /// Start import request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -44,5 +81,21 @@ public record AwsMgnStartImportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

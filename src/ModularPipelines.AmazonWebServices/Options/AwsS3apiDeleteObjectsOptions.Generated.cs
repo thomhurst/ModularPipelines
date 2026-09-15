@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "delete-objects")]
-public record AwsS3apiDeleteObjectsOptions : AwsOptions
+public record AwsS3apiDeleteObjectsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This operation enables you to delete multiple objects from a bucket us- ing a single HTTP request. If you know the object keys that you want to delete, then this operation provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request can contain a list of up to 1,000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-ena...
+    /// </summary>
+    /// <param name="Bucket">The bucket name containing the objects to delete. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Delete">Container for the request. Objects -&gt; (list) [required] The object to delete. NOTE: Directory buckets - For directory buckets, an object that's composed entirely of whitespace characters is not supported by the DeleteObjects API operation. The request will receive a 400 Bad Request error and none of the objects in the re- quest will be deleted. (structure) Object Identifier is unique value to identify objects. Key -&gt; (string) [required] Key name of the object. WARNING: Replacement must be made for object keys containing special characters (such as carriage returns) when us- ing XML requests. For more information, see XML re- lated object key constraints . Constraints: o min: 1 VersionId -&gt; (string) Version ID for the specific version of the object to delete. NOTE: This functionality is not supported for directory buckets. ETag -&gt; (string) An entity tag (ETag) is an identifier assigned by a web server to a specific version of a resource found at a URL. This header field makes the request method condi- tional on ETags . NOTE: Entity tags (ETags) for S3 Express One Zone are random alphanumeric strings unique to the object. LastModifiedTime -&gt; (timestamp) If present, the objects are deleted only if its modifica- tion times matches the provided Timestamp . NOTE: This functionality is only supported for directory buckets. Size -&gt; (long) If present, the objects are deleted only if its size matches the provided size in bytes. NOTE: This functionality is only supported for directory buckets. Quiet -&gt; (boolean) Element to enable quiet mode for the request. When you add this element, you must set its value to true . Shorthand Syntax: Objects=[{Key=string,VersionId=string,ETag=string,LastModifiedTime=timestamp,Size=long},{Key=string,VersionId=string,ETag=string,LastModifiedTime=timestamp,Size=long}],Quiet=boolean JSON Syntax: { "Objects": [ { "Key": "string", "VersionId": "string", "ETag": "string", "LastModifiedTime": timestamp, "Size": long } ... ], "Quiet": true|false }</param>
+    public AwsS3apiDeleteObjectsOptions(
+        string Bucket,
+        string Delete
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Delete);
+        this.Delete = Delete;
+    }
+
+    private AwsS3apiDeleteObjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiDeleteObjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiDeleteObjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket name containing the objects to delete. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Container for the request. Objects -&gt; (list) [required] The object to delete. NOTE: Directory buckets - For directory buckets, an object that's composed entirely of whitespace characters is not supported by the DeleteObjects API operation. The request will receive a 400 Bad Request error and none of the objects in the re- quest will be deleted. (structure) Object Identifier is unique value to identify objects. Key -&gt; (string) [required] Key name of the object. WARNING: Replacement must be made for object keys containing special characters (such as carriage returns) when us- ing XML requests. For more information, see XML re- lated object key constraints . Constraints: o min: 1 VersionId -&gt; (string) Version ID for the specific version of the object to delete. NOTE: This functionality is not supported for directory buckets. ETag -&gt; (string) An entity tag (ETag) is an identifier assigned by a web server to a specific version of a resource found at a URL. This header field makes the request method condi- tional on ETags . NOTE: Entity tags (ETags) for S3 Express One Zone are random alphanumeric strings unique to the object. LastModifiedTime -&gt; (timestamp) If present, the objects are deleted only if its modifica- tion times matches the provided Timestamp . NOTE: This functionality is only supported for directory buckets. Size -&gt; (long) If present, the objects are deleted only if its size matches the provided size in bytes. NOTE: This functionality is only supported for directory buckets. Quiet -&gt; (boolean) Element to enable quiet mode for the request. When you add this element, you must set its value to true . Shorthand Syntax: Objects=[{Key=string,VersionId=string,ETag=string,LastModifiedTime=timestamp,Size=long},{Key=string,VersionId=string,ETag=string,LastModifiedTime=timestamp,Size=long}],Quiet=boolean JSON Syntax: { "Objects": [ { "Key": "string", "VersionId": "string", "ETag": "string", "LastModifiedTime": timestamp, "Size": long } ... ], "Quiet": true|false }
+    /// </summary>
     [CliOption("--delete")]
-    public string? Delete { get; set; }
+    public string? Delete { get; private init; }
 
     /// <summary>
     /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication de- vice. Required to permanently delete a versioned object if version- ing is configured with MFA delete enabled. When performing the DeleteObjects operation on an MFA delete enabled bucket, which attempts to delete the specified versioned objects, you must include an MFA token. If you don't provide an MFA token, the entire request will fail, even if there are non-versioned ob- jects that you are trying to delete. If you provide an invalid to- ken, whether there are versioned object keys in the request or not, the entire Multi-Object Delete request will fail. For information about MFA Delete, see MFA Delete in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets.
@@ -40,7 +84,10 @@ public record AwsS3apiDeleteObjectsOptions : AwsOptions
     [CliOption("--request-payer")]
     public AwsS3apiDeleteObjectsRequestPayer? RequestPayer { get; set; }
 
-    [CliFlag("--bypass-governance-retention")]
+    /// <summary>
+    /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliFlag("--bypass-governance-retention", NegatedName = "--no-bypass-governance-retention")]
     public bool? BypassGovernanceRetention { get; set; }
 
     /// <summary>
@@ -60,5 +107,21 @@ public record AwsS3apiDeleteObjectsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

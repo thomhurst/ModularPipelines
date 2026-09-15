@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "describe-db-snapshot-attributes")]
-public record AwsRdsDescribeDbSnapshotAttributesOptions : AwsOptions
+public record AwsRdsDescribeDbSnapshotAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other Amazon Web Services accounts, De- scribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of val- ues for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all Amazon Web Services accounts....
+    /// </summary>
+    /// <param name="DbSnapshotIdentifier">The identifier for the DB snapshot to describe the attributes for.</param>
+    public AwsRdsDescribeDbSnapshotAttributesOptions(
+        string DbSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSnapshotIdentifier);
+        this.DbSnapshotIdentifier = DbSnapshotIdentifier;
+    }
+
+    private AwsRdsDescribeDbSnapshotAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsDescribeDbSnapshotAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsDescribeDbSnapshotAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the DB snapshot to describe the attributes for.
+    /// </summary>
     [CliOption("--db-snapshot-identifier")]
-    public string? DbSnapshotIdentifier { get; set; }
+    public string? DbSnapshotIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

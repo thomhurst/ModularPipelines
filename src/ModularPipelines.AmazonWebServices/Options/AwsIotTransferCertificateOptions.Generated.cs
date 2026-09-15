@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "transfer-certificate")]
-public record AwsIotTransferCertificateOptions : AwsOptions
+public record AwsIotTransferCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-id")]
-    public string? CertificateId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Transfers the specified certificate to the specified Amazon Web Ser- vices account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is accepted by the recipient. No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any pol...
+    /// </summary>
+    /// <param name="CertificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="TargetAwsAccount">The Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: [0-9]+</param>
+    public AwsIotTransferCertificateOptions(
+        string CertificateId,
+        string TargetAwsAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateId);
+        this.CertificateId = CertificateId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetAwsAccount);
+        this.TargetAwsAccount = TargetAwsAccount;
+    }
+
+    private AwsIotTransferCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotTransferCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotTransferCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.) Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// </summary>
+    [CliOption("--certificate-id")]
+    public string? CertificateId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
+    /// </summary>
     [CliOption("--target-aws-account")]
-    public string? TargetAwsAccount { get; set; }
+    public string? TargetAwsAccount { get; private init; }
 
     /// <summary>
     /// The transfer message. Constraints: o max: 128 o pattern: [\s\S]*
@@ -38,5 +82,21 @@ public record AwsIotTransferCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

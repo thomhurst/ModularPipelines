@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sts", "assume-role-with-web-identity")]
-public record AwsStsAssumeRoleWithWebIdentityOptions : AwsOptions
+public record AwsStsAssumeRoleWithWebIdentityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a set of temporary security credentials for users who have been authenticated in a mobile or web application with a web identity provider. Example providers include the OAuth 2.0 providers Login with Amazon and Facebook, or any OpenID Connect-compatible identity provider such as Google or Amazon Cognito federated identities . NOTE: For mobile applications, we recommend that you use Amazon Cognito. You can use Amazon Cognito with the Amazon Web Services SDK for iOS Developer Guide and the...
+    /// </summary>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role that the caller is assum- ing. NOTE: Additional considerations apply to Amazon Cognito identity pools that assume cross-account IAM roles . The trust policies of these roles must accept the cognito-identity.amazonaws.com ser- vice principal and must contain the cognito-identity.amazon- aws.com:aud condition key to restrict role assumption to users from your intended identity pools. A policy that trusts Amazon Cognito identity pools without this condition creates a risk that a user from an unintended identity pool can assume the role. For more information, see Trust policies for IAM roles in Basic (Classic) authentication in the Amazon Cognito Developer Guide . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+</param>
+    /// <param name="RoleSessionName">An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This ses- sion name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more in- formation, see ` sts:RoleSessionName https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname`__ . The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@- Constraints: o min: 2 o max: 64 o pattern: [\w+=,.@-]*</param>
+    /// <param name="WebIdentityToken">The OAuth 2.0 access token or OpenID Connect ID token that is pro- vided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWe- bIdentity call. Timestamps in the token must be formatted as either an integer or a long integer. Tokens must be signed using either RSA keys (RS256, RS384, or RS512) or ECDSA keys (ES256, ES384, or ES512). Constraints: o min: 4 o max: 20000</param>
+    public AwsStsAssumeRoleWithWebIdentityOptions(
+        string RoleArn,
+        string RoleSessionName,
+        string WebIdentityToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleSessionName);
+        this.RoleSessionName = RoleSessionName;
+        global::System.ArgumentNullException.ThrowIfNull(WebIdentityToken);
+        this.WebIdentityToken = WebIdentityToken;
+    }
+
+    private AwsStsAssumeRoleWithWebIdentityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStsAssumeRoleWithWebIdentityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStsAssumeRoleWithWebIdentityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role that the caller is assum- ing. NOTE: Additional considerations apply to Amazon Cognito identity pools that assume cross-account IAM roles . The trust policies of these roles must accept the cognito-identity.amazonaws.com ser- vice principal and must contain the cognito-identity.amazon- aws.com:aud condition key to restrict role assumption to users from your intended identity pools. A policy that trusts Amazon Cognito identity pools without this condition creates a risk that a user from an unintended identity pool can assume the role. For more information, see Trust policies for IAM roles in Basic (Classic) authentication in the Amazon Cognito Developer Guide . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This ses- sion name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more in- formation, see ` sts:RoleSessionName https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname`__ . The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@- Constraints: o min: 2 o max: 64 o pattern: [\w+=,.@-]*
+    /// </summary>
     [CliOption("--role-session-name")]
-    public string? RoleSessionName { get; set; }
+    public string? RoleSessionName { get; private init; }
 
+    /// <summary>
+    /// The OAuth 2.0 access token or OpenID Connect ID token that is pro- vided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWe- bIdentity call. Timestamps in the token must be formatted as either an integer or a long integer. Tokens must be signed using either RSA keys (RS256, RS384, or RS512) or ECDSA keys (ES256, ES384, or ES512). Constraints: o min: 4 o max: 20000
+    /// </summary>
     [SecretValue]
     [CliOption("--web-identity-token")]
-    public string? WebIdentityToken { get; set; }
+    public string? WebIdentityToken { get; private init; }
 
     /// <summary>
     /// The fully qualified host component of the domain name of the OAuth 2.0 identity provider. Do not specify this value for an OpenID Con- nect identity provider. Currently www.amazon.com and graph.facebook.com are the only sup- ported identity providers for OAuth 2.0 access tokens. Do not in- clude URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens. Constraints: o min: 4 o max: 2048
@@ -56,10 +107,30 @@ public record AwsStsAssumeRoleWithWebIdentityOptions : AwsOptions
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
+    [SecretValue]
+    [CliOption("--minimum-session-token-size")]
+    public int? MinimumSessionTokenSize { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

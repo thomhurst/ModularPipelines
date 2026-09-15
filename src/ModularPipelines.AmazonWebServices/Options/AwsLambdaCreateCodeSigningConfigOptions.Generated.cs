@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lambda", "create-code-signing-config")]
-public record AwsLambdaCreateCodeSigningConfigOptions : AwsOptions
+public record AwsLambdaCreateCodeSigningConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a code signing configuration. A code signing configuration de- fines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AllowedPublishers">Signing profiles for this code signing configuration. SigningProfileVersionArns -&gt; (list) [required] The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: SigningProfileVersionArns=string,string JSON Syntax: { "SigningProfileVersionArns": ["string", ...] }</param>
+    public AwsLambdaCreateCodeSigningConfigOptions(
+        string AllowedPublishers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AllowedPublishers);
+        this.AllowedPublishers = AllowedPublishers;
+    }
+
+    private AwsLambdaCreateCodeSigningConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLambdaCreateCodeSigningConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLambdaCreateCodeSigningConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Signing profiles for this code signing configuration. SigningProfileVersionArns -&gt; (list) [required] The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: SigningProfileVersionArns=string,string JSON Syntax: { "SigningProfileVersionArns": ["string", ...] }
+    /// </summary>
+    [CliOption("--allowed-publishers")]
+    public string? AllowedPublishers { get; private init; }
+
     /// <summary>
     /// Descriptive name for this code signing configuration. Constraints: o min: 0 o max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--allowed-publishers")]
-    public string? AllowedPublishers { get; set; }
 
     /// <summary>
     /// The code signing policies define the actions to take if the valida- tion checks fail. UntrustedArtifactOnDeployment -&gt; (string) Code signing configuration policy for deployment validation failure. If you set the policy to Enforce , Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn , Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors ) and also stores the warning in the CloudTrail log. Default value: Warn Possible values: o Warn o Enforce Shorthand Syntax: UntrustedArtifactOnDeployment=string JSON Syntax: { "UntrustedArtifactOnDeployment": "Warn"|"Enforce" }
@@ -48,5 +85,21 @@ public record AwsLambdaCreateCodeSigningConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

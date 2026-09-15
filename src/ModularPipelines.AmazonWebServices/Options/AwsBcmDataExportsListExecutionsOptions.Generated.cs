@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bcm-data-exports", "list-executions")]
-public record AwsBcmDataExportsListExecutionsOptions : AwsOptions
+public record AwsBcmDataExportsListExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the historical executions for the export. See also: AWS API Documentation list-executions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Executions
+    /// </summary>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    public AwsBcmDataExportsListExecutionsOptions(
+        string ExportArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExportArn);
+        this.ExportArn = ExportArn;
+    }
+
+    private AwsBcmDataExportsListExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBcmDataExportsListExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBcmDataExportsListExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// </summary>
     [CliOption("--export-arn")]
-    public string? ExportArn { get; set; }
+    public string? ExportArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -49,5 +86,21 @@ public record AwsBcmDataExportsListExecutionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

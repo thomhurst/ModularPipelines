@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "get-harness")]
-public record AwsBedrockAgentcoreControlGetHarnessOptions : AwsOptions
+public record AwsBedrockAgentcoreControlGetHarnessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Operation to get a single harness. See also: AWS API Documentation get-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="HarnessId">The ID of the harness to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    public AwsBedrockAgentcoreControlGetHarnessOptions(
+        string HarnessId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HarnessId);
+        this.HarnessId = HarnessId;
+    }
+
+    private AwsBedrockAgentcoreControlGetHarnessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlGetHarnessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlGetHarnessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the harness to retrieve. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--harness-id")]
-    public string? HarnessId { get; set; }
+    public string? HarnessId { get; private init; }
 
     /// <summary>
     /// Specific version of the harness to retrieve. If omitted, returns the current Harness configuration, including its status. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
@@ -35,5 +72,21 @@ public record AwsBedrockAgentcoreControlGetHarnessOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

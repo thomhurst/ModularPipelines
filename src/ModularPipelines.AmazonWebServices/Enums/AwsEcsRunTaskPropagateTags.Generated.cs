@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --propagatetags.
+/// Allowed values for --propagate-tags.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEcsRunTaskPropagateTags
 {
-    [EnumValue("TASK_DEFINITION")]
-    TaskDefinition = 1,
+    [EnumValue("NONE")]
+    None,
 
     [EnumValue("SERVICE")]
-    Service = 2,
+    Service,
 
-    [EnumValue("NONE")]
-    None = 3
+    [EnumValue("TASK_DEFINITION")]
+    TaskDefinition
 }

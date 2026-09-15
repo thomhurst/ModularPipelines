@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("personalize", "update-campaign")]
-public record AwsPersonalizeUpdateCampaignOptions : AwsOptions
+public record AwsPersonalizeUpdateCampaignOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a campaign to deploy a retrained solution version with an ex- isting campaign, change your campaign's minProvisionedTPS , or modify your campaign's configuration. For example, you can set enableMeta- dataWithRecommendations to true for an existing campaign. To update a campaign to start automatically using the latest solution version, specify the following: o For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format. o In ...
+    /// </summary>
+    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    public AwsPersonalizeUpdateCampaignOptions(
+        string CampaignArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CampaignArn);
+        this.CampaignArn = CampaignArn;
+    }
+
+    private AwsPersonalizeUpdateCampaignOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPersonalizeUpdateCampaignOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPersonalizeUpdateCampaignOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// </summary>
     [CliOption("--campaign-arn")]
-    public string? CampaignArn { get; set; }
+    public string? CampaignArn { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution, specify the ARN of your solution in SolutionArn/$LATEST format. You must use this for- mat if you set syncWithLatestSolutionVersion to True in the CampaignConfig . To deploy a model that isn't the latest solution version of your so- lution, specify the ARN of the solution version. For more information about automatic campaign updates, see Enabling automatic campaign updates . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
@@ -47,5 +84,21 @@ public record AwsPersonalizeUpdateCampaignOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

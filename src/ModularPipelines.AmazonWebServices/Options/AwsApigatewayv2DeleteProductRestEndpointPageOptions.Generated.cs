@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "delete-product-rest-endpoint-page")]
-public record AwsApigatewayv2DeleteProductRestEndpointPageOptions : AwsOptions
+public record AwsApigatewayv2DeleteProductRestEndpointPageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--portal-product-id")]
-    public string? PortalProductId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes a product REST endpoint page. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalProductId">The portal product identifier.</param>
+    /// <param name="ProductRestEndpointPageId">The product REST endpoint identifier.</param>
+    public AwsApigatewayv2DeleteProductRestEndpointPageOptions(
+        string PortalProductId,
+        string ProductRestEndpointPageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalProductId);
+        this.PortalProductId = PortalProductId;
+        global::System.ArgumentNullException.ThrowIfNull(ProductRestEndpointPageId);
+        this.ProductRestEndpointPageId = ProductRestEndpointPageId;
+    }
+
+    private AwsApigatewayv2DeleteProductRestEndpointPageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2DeleteProductRestEndpointPageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2DeleteProductRestEndpointPageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portal product identifier.
+    /// </summary>
+    [CliOption("--portal-product-id")]
+    public string? PortalProductId { get; private init; }
+
+    /// <summary>
+    /// The product REST endpoint identifier.
+    /// </summary>
     [CliOption("--product-rest-endpoint-page-id")]
-    public string? ProductRestEndpointPageId { get; set; }
+    public string? ProductRestEndpointPageId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

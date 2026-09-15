@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("xray", "create-sampling-rule")]
-public record AwsXrayCreateSamplingRuleOptions : AwsOptions
+public record AwsXrayCreateSamplingRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a rule to control sampling behavior for instrumented applica- tions. Services retrieve rules with GetSamplingRules , and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with GetSamplingTargets to get updated versions of each in-use rule. The up- dated rule contains a trace quota that the service can use instead of borrowing from the...
+    /// </summary>
+    /// <param name="SamplingRule">The rule definition. RuleName -&gt; (string) The name of the sampling rule. Specify a rule by either name or ARN, but not both. Constraints: o min: 1 o max: 32 RuleARN -&gt; (string) The ARN of the sampling rule. Specify a rule by either name or ARN, but not both. ResourceARN -&gt; (string) [required] Matches the ARN of the Amazon Web Services resource on which the service runs. Constraints: o max: 500 Priority -&gt; (integer) [required] The priority of the sampling rule. Constraints: o min: 1 o max: 9999 FixedRate -&gt; (double) [required] The percentage of matching requests to instrument, after the reservoir is exhausted. Constraints: o min: 0 o max: 1 ReservoirSize -&gt; (integer) [required] A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used di- rectly by services, but applies to all services using the rule collectively. Constraints: o min: 0 ServiceName -&gt; (string) [required] Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 ServiceType -&gt; (string) [required] Matches the origin that the service uses to identify its type in segments. Constraints: o max: 64 Host -&gt; (string) [required] Matches the hostname from a request URL. Constraints: o max: 64 HTTPMethod -&gt; (string) [required] Matches the HTTP method of a request. Constraints: o max: 10 URLPath -&gt; (string) [required] Matches the path from a request URL. Constraints: o max: 128 Version -&gt; (integer) [required] The version of the sampling rule format (1 ). Constraints: o min: 1 Attributes -&gt; (map) Matches attributes derived from the request. Constraints: o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 1 o max: 32 SamplingRateBoost -&gt; (structure) Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without chang- ing the rule's configuration. MaxRate -&gt; (double) [required] Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate. Constraints: o min: 0 o max: 1 CooldownWindowMinutes -&gt; (integer) [required] Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window. Constraints: o min: 0 Shorthand Syntax: RuleName=string,RuleARN=string,ResourceARN=string,Priority=integer,FixedRate=double,ReservoirSize=integer,ServiceName=string,ServiceType=string,Host=string,HTTPMethod=string,URLPath=string,Version=integer,Attributes={KeyName1=string,KeyName2=string},SamplingRateBoost={MaxRate=double,CooldownWindowMinutes=integer} JSON Syntax: { "RuleName": "string", "RuleARN": "string", "ResourceARN": "string", "Priority": integer, "FixedRate": double, "ReservoirSize": integer, "ServiceName": "string", "ServiceType": "string", "Host": "string", "HTTPMethod": "string", "URLPath": "string", "Version": integer, "Attributes": {"string": "string" ...}, "SamplingRateBoost": { "MaxRate": double, "CooldownWindowMinutes": integer } }</param>
+    public AwsXrayCreateSamplingRuleOptions(
+        string SamplingRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SamplingRule);
+        this.SamplingRule = SamplingRule;
+    }
+
+    private AwsXrayCreateSamplingRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsXrayCreateSamplingRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsXrayCreateSamplingRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The rule definition. RuleName -&gt; (string) The name of the sampling rule. Specify a rule by either name or ARN, but not both. Constraints: o min: 1 o max: 32 RuleARN -&gt; (string) The ARN of the sampling rule. Specify a rule by either name or ARN, but not both. ResourceARN -&gt; (string) [required] Matches the ARN of the Amazon Web Services resource on which the service runs. Constraints: o max: 500 Priority -&gt; (integer) [required] The priority of the sampling rule. Constraints: o min: 1 o max: 9999 FixedRate -&gt; (double) [required] The percentage of matching requests to instrument, after the reservoir is exhausted. Constraints: o min: 0 o max: 1 ReservoirSize -&gt; (integer) [required] A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used di- rectly by services, but applies to all services using the rule collectively. Constraints: o min: 0 ServiceName -&gt; (string) [required] Matches the name that the service uses to identify itself in segments. Constraints: o max: 64 ServiceType -&gt; (string) [required] Matches the origin that the service uses to identify its type in segments. Constraints: o max: 64 Host -&gt; (string) [required] Matches the hostname from a request URL. Constraints: o max: 64 HTTPMethod -&gt; (string) [required] Matches the HTTP method of a request. Constraints: o max: 10 URLPath -&gt; (string) [required] Matches the path from a request URL. Constraints: o max: 128 Version -&gt; (integer) [required] The version of the sampling rule format (1 ). Constraints: o min: 1 Attributes -&gt; (map) Matches attributes derived from the request. Constraints: o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 32 value -&gt; (string) Constraints: o min: 1 o max: 32 SamplingRateBoost -&gt; (structure) Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without chang- ing the rule's configuration. MaxRate -&gt; (double) [required] Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate. Constraints: o min: 0 o max: 1 CooldownWindowMinutes -&gt; (integer) [required] Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window. Constraints: o min: 0 Shorthand Syntax: RuleName=string,RuleARN=string,ResourceARN=string,Priority=integer,FixedRate=double,ReservoirSize=integer,ServiceName=string,ServiceType=string,Host=string,HTTPMethod=string,URLPath=string,Version=integer,Attributes={KeyName1=string,KeyName2=string},SamplingRateBoost={MaxRate=double,CooldownWindowMinutes=integer} JSON Syntax: { "RuleName": "string", "RuleARN": "string", "ResourceARN": "string", "Priority": integer, "FixedRate": double, "ReservoirSize": integer, "ServiceName": "string", "ServiceType": "string", "Host": "string", "HTTPMethod": "string", "URLPath": "string", "Version": integer, "Attributes": {"string": "string" ...}, "SamplingRateBoost": { "MaxRate": double, "CooldownWindowMinutes": integer } }
+    /// </summary>
     [CliOption("--sampling-rule")]
-    public string? SamplingRule { get; set; }
+    public string? SamplingRule { get; private init; }
 
     /// <summary>
     /// A map that contains one or more tag keys and tag values to attach to an X-Ray sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Maximum tag key length: 128 Unicode characters o Maximum tag value length: 256 Unicode characters o Valid values for key and value: a-z, A-Z, 0-9, space, and the fol- lowing characters: _ . : / = + - and @ o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. Constraints: o min: 0 o max: 200 (structure) A map that contains tag keys and tag values to attach to an Ama- zon Web Services X-Ray group or sampling rule. For more informa- tion about ways to use tags, see Tagging Amazon Web Services re- sources in the Amazon Web Services General Reference . The following restrictions apply to tags: o Maximum number of user-applied tags per resource: 50 o Tag keys and values are case sensitive. o Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags. Key -&gt; (string) [required] A tag key, such as Stage or Name . A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the follow- ing special characters: + - = . _ : / Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] An optional tag value, such as Production or test-only . The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -35,5 +72,21 @@ public record AwsXrayCreateSamplingRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

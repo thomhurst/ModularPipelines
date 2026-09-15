@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "update-marketplace-revenue-share-allocation")]
-public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing marketplace revenue share allocation. Supports mod- ifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog containing the allocation. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareAllocationId">The identifier of the allocation to update. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareRevision">The current revision of the parent share. Must match for optimistic concurrency control. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
+    public AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions(
+        AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationCatalog Catalog,
+        string ProductId,
+        string MarketplaceRevenueShareAllocationId,
+        string MarketplaceRevenueShareRevision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(MarketplaceRevenueShareAllocationId);
+        this.MarketplaceRevenueShareAllocationId = MarketplaceRevenueShareAllocationId;
+        global::System.ArgumentNullException.ThrowIfNull(MarketplaceRevenueShareRevision);
+        this.MarketplaceRevenueShareRevision = MarketplaceRevenueShareRevision;
+    }
+
+    private AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog containing the allocation. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
 
+    /// <summary>
+    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the allocation to update. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}
+    /// </summary>
     [CliOption("--marketplace-revenue-share-allocation-id")]
-    public string? MarketplaceRevenueShareAllocationId { get; set; }
+    public string? MarketplaceRevenueShareAllocationId { get; private init; }
 
+    /// <summary>
+    /// The current revision of the parent share. Must match for optimistic concurrency control. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// </summary>
     [CliOption("--marketplace-revenue-share-revision")]
-    public string? MarketplaceRevenueShareRevision { get; set; }
+    public string? MarketplaceRevenueShareRevision { get; private init; }
 
     /// <summary>
     /// A unique token to ensure idempotency of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
@@ -71,5 +129,21 @@ public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAl
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

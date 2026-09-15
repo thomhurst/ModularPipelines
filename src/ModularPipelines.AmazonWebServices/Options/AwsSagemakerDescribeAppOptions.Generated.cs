@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "describe-app")]
-public record AwsSagemakerDescribeAppOptions : AwsOptions
+public record AwsSagemakerDescribeAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the app. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainId">The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}</param>
+    /// <param name="AppType">The type of app. Possible values: o JupyterServer o KernelGateway o DetailedProfiler o TensorBoard o CodeEditor o JupyterLab o RStudioServerPro o RSessionGateway o Canvas</param>
+    /// <param name="AppName">The name of the app. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerDescribeAppOptions(
+        string DomainId,
+        AwsSagemakerDescribeAppAppType AppType,
+        string AppName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(AppType);
+        this.AppType = AppType;
+        global::System.ArgumentNullException.ThrowIfNull(AppName);
+        this.AppName = AppName;
+    }
+
+    private AwsSagemakerDescribeAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerDescribeAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerDescribeAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID. Constraints: o min: 0 o max: 63 o pattern: d-(-*[a-z0-9]){1,61}
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
+
+    /// <summary>
+    /// The type of app. Possible values: o JupyterServer o KernelGateway o DetailedProfiler o TensorBoard o CodeEditor o JupyterLab o RStudioServerPro o RSessionGateway o Canvas
+    /// </summary>
+    [CliOption("--app-type")]
+    public AwsSagemakerDescribeAppAppType? AppType { get; private init; }
+
+    /// <summary>
+    /// The name of the app. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--app-name")]
+    public string? AppName { get; private init; }
 
     /// <summary>
     /// The user profile name. If this value is not set, then SpaceName must be set. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
@@ -36,16 +94,26 @@ public record AwsSagemakerDescribeAppOptions : AwsOptions
     [CliOption("--space-name")]
     public string? SpaceName { get; set; }
 
-    [CliOption("--app-type")]
-    public string? AppType { get; set; }
-
-    [CliOption("--app-name")]
-    public string? AppName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verifiedpermissions", "update-policy-store")]
-public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions
+public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-store-id")]
-    public string? PolicyStoreId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the validation setting for a policy store. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="ValidationSettings">A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
+    public AwsVerifiedpermissionsUpdatePolicyStoreOptions(
+        string PolicyStoreId,
+        string ValidationSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyStoreId);
+        this.PolicyStoreId = PolicyStoreId;
+        global::System.ArgumentNullException.ThrowIfNull(ValidationSettings);
+        this.ValidationSettings = ValidationSettings;
+    }
+
+    private AwsVerifiedpermissionsUpdatePolicyStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVerifiedpermissionsUpdatePolicyStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// </summary>
+    [CliOption("--policy-store-id")]
+    public string? PolicyStoreId { get; private init; }
+
+    /// <summary>
+    /// A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
+    /// </summary>
     [CliOption("--validation-settings")]
-    public string? ValidationSettings { get; set; }
+    public string? ValidationSettings { get; private init; }
 
     /// <summary>
     /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore , this parameter is unchanged unless explicitly included in the call. Possible values: o ENABLED o DISABLED
@@ -45,5 +89,21 @@ public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

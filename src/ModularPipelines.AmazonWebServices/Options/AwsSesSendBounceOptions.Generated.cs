@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "send-bounce")]
-public record AwsSesSendBounceOptions : AwsOptions
+public record AwsSesSendBounceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--original-message-id")]
-    public string? OriginalMessageId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Generates and sends a bounce message to the sender of an email you re- ceived through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. NOTE: You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OriginalMessageId">The message ID of the message to be bounced.</param>
+    /// <param name="BounceSender">The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.</param>
+    /// <param name="BouncedRecipientInfoList">A list of recipients of the bounced message, including the informa- tion required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list. (structure) Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . Recipient -&gt; (string) [required] The email address of the recipient of the bounced email. RecipientArn -&gt; (string) This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the Amazon SES Developer Guide . BounceType -&gt; (string) The reason for the bounce. You must provide either this para- meter or RecipientDsnFields . Possible values: o DoesNotExist o MessageTooLarge o ExceededQuota o ContentRejected o Undefined o TemporaryFailure RecipientDsnFields -&gt; (structure) Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType . You must provide either this parameter or BounceType . FinalRecipient -&gt; (string) The email address that the message was ultimately deliv- ered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient is set to the Re- cipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipi- entInfo must be a recipient of the original bounced mes- sage. NOTE: Do not prepend the FinalRecipient email address with rfc 822; , as described in RFC 3798 . Action -&gt; (string) [required] The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464 . Possible values: o failed o delayed o delivered o relayed o expanded RemoteMta -&gt; (string) The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name ). This parameter typically ap- plies only to propagating synchronous bounces. Status -&gt; (string) [required] The status code that indicates what went wrong. This is required by RFC 3464 . DiagnosticCode -&gt; (string) An extended explanation of what went wrong; this is usu- ally an SMTP response. See RFC 3463 for the correct for- matting of this parameter. LastAttemptDate -&gt; (timestamp) The time the final delivery attempt was made, in RFC 822 date-time format. ExtensionFields -&gt; (list) Additional X-headers to include in the DSN. (structure) Additional X-headers to include in the Delivery Status Notification (DSN) when an email that Amazon SES re- ceives on your behalf bounces. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of al- phanumeric (a-z, A-Z, 0-9) characters and dashes only. Value -&gt; (string) [required] The value of the header to add. Must contain 2048 characters or fewer, and must not contain newline characters ("r" or "n"). JSON Syntax: [ { "Recipient": "string", "RecipientArn": "string", "BounceType": "DoesNotExist"|"MessageTooLarge"|"ExceededQuota"|"ContentRejected"|"Undefined"|"TemporaryFailure", "RecipientDsnFields": { "FinalRecipient": "string", "Action": "failed"|"delayed"|"delivered"|"relayed"|"expanded", "RemoteMta": "string", "Status": "string", "DiagnosticCode": "string", "LastAttemptDate": timestamp, "ExtensionFields": [ { "Name": "string", "Value": "string" } ... ] } } ... ]</param>
+    public AwsSesSendBounceOptions(
+        string OriginalMessageId,
+        string BounceSender,
+        IEnumerable<string> BouncedRecipientInfoList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginalMessageId);
+        this.OriginalMessageId = OriginalMessageId;
+        global::System.ArgumentNullException.ThrowIfNull(BounceSender);
+        this.BounceSender = BounceSender;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(BouncedRecipientInfoList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(BouncedRecipientInfoList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(BouncedRecipientInfoList));
+            }
+
+            BouncedRecipientInfoList = materialized;
+        }
+        this.BouncedRecipientInfoList = BouncedRecipientInfoList;
+    }
+
+    private AwsSesSendBounceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSendBounceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSendBounceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The message ID of the message to be bounced.
+    /// </summary>
+    [CliOption("--original-message-id")]
+    public string? OriginalMessageId { get; private init; }
+
+    /// <summary>
+    /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
+    /// </summary>
     [CliOption("--bounce-sender")]
-    public string? BounceSender { get; set; }
+    public string? BounceSender { get; private init; }
+
+    /// <summary>
+    /// A list of recipients of the bounced message, including the informa- tion required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list. (structure) Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . Recipient -&gt; (string) [required] The email address of the recipient of the bounced email. RecipientArn -&gt; (string) This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the Amazon SES Developer Guide . BounceType -&gt; (string) The reason for the bounce. You must provide either this para- meter or RecipientDsnFields . Possible values: o DoesNotExist o MessageTooLarge o ExceededQuota o ContentRejected o Undefined o TemporaryFailure RecipientDsnFields -&gt; (structure) Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType . You must provide either this parameter or BounceType . FinalRecipient -&gt; (string) The email address that the message was ultimately deliv- ered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient is set to the Re- cipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipi- entInfo must be a recipient of the original bounced mes- sage. NOTE: Do not prepend the FinalRecipient email address with rfc 822; , as described in RFC 3798 . Action -&gt; (string) [required] The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464 . Possible values: o failed o delayed o delivered o relayed o expanded RemoteMta -&gt; (string) The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name ). This parameter typically ap- plies only to propagating synchronous bounces. Status -&gt; (string) [required] The status code that indicates what went wrong. This is required by RFC 3464 . DiagnosticCode -&gt; (string) An extended explanation of what went wrong; this is usu- ally an SMTP response. See RFC 3463 for the correct for- matting of this parameter. LastAttemptDate -&gt; (timestamp) The time the final delivery attempt was made, in RFC 822 date-time format. ExtensionFields -&gt; (list) Additional X-headers to include in the DSN. (structure) Additional X-headers to include in the Delivery Status Notification (DSN) when an email that Amazon SES re- ceives on your behalf bounces. For information about receiving email through Amazon SES, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of al- phanumeric (a-z, A-Z, 0-9) characters and dashes only. Value -&gt; (string) [required] The value of the header to add. Must contain 2048 characters or fewer, and must not contain newline characters ("r" or "n"). JSON Syntax: [ { "Recipient": "string", "RecipientArn": "string", "BounceType": "DoesNotExist"|"MessageTooLarge"|"ExceededQuota"|"ContentRejected"|"Undefined"|"TemporaryFailure", "RecipientDsnFields": { "FinalRecipient": "string", "Action": "failed"|"delayed"|"delivered"|"relayed"|"expanded", "RemoteMta": "string", "Status": "string", "DiagnosticCode": "string", "LastAttemptDate": timestamp, "ExtensionFields": [ { "Name": "string", "Value": "string" } ... ] } } ... ]
+    /// </summary>
+    [CliOption("--bounced-recipient-info-list", GroupValues = true)]
+    public IEnumerable<string>? BouncedRecipientInfoList { get; private init; }
 
     /// <summary>
     /// Human-readable text for the bounce message to explain the failure. If not specified, the text is auto-generated based on the bounced recipient information.
@@ -39,9 +104,6 @@ public record AwsSesSendBounceOptions : AwsOptions
     [CliOption("--message-dsn")]
     public string? MessageDsn { get; set; }
 
-    [CliOption("--bounced-recipient-info-list", GroupValues = true)]
-    public IEnumerable<string>? BouncedRecipientInfoList { get; set; }
-
     /// <summary>
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide .
     /// </summary>
@@ -53,5 +115,21 @@ public record AwsSesSendBounceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

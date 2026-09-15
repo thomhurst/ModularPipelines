@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "get-identity-context")]
-public record AwsQuicksightGetIdentityContextOptions : AwsOptions
+public record AwsQuicksightGetIdentityContextOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Cre- dentials o StartDashboardSnapshotJob o DescribeDashboardSnapshotJob o DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user whose iden- tity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="UserIdentifier">The identifier for the user whose identity context you want to re- trieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity con- text for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }</param>
+    public AwsQuicksightGetIdentityContextOptions(
+        string AwsAccountId,
+        string UserIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(UserIdentifier);
+        this.UserIdentifier = UserIdentifier;
+    }
+
+    private AwsQuicksightGetIdentityContextOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightGetIdentityContextOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightGetIdentityContextOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that the user whose iden- tity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The identifier for the user whose identity context you want to re- trieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity con- text for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }
+    /// </summary>
     [CliOption("--user-identifier")]
-    public string? UserIdentifier { get; set; }
+    public string? UserIdentifier { get; private init; }
 
     /// <summary>
     /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified us- ing Email or UserName. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
@@ -50,5 +94,21 @@ public record AwsQuicksightGetIdentityContextOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

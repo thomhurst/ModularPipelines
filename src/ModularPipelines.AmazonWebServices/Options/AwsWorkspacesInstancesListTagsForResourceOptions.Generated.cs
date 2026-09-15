@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-instances", "list-tags-for-resource")]
-public record AwsWorkspacesInstancesListTagsForResourceOptions : AwsOptions
+public record AwsWorkspacesInstancesListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves tags for a WorkSpace Instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    public AwsWorkspacesInstancesListTagsForResourceOptions(
+        string WorkspaceInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceInstanceId);
+        this.WorkspaceInstanceId = WorkspaceInstanceId;
+    }
+
+    private AwsWorkspacesInstancesListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesInstancesListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesInstancesListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Unique identifier of the WorkSpace Instance. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// </summary>
     [CliOption("--workspace-instance-id")]
-    public string? WorkspaceInstanceId { get; set; }
+    public string? WorkspaceInstanceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

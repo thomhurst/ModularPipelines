@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("frauddetector", "create-batch-import-job")]
-public record AwsFrauddetectorCreateBatchImportJobOptions : AwsOptions
+public record AwsFrauddetectorCreateBatchImportJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a batch import job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The ID of the batch import job. The ID cannot be of a past job, un- less the job exists in CREATE_FAILED state. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="InputPath">The URI that points to the Amazon S3 location of your data file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$</param>
+    /// <param name="OutputPath">The URI that points to the Amazon S3 location for storing your re- sults. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$</param>
+    /// <param name="EventTypeName">The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="IamRoleArn">The ARN of the IAM role created for Amazon S3 bucket that holds your data file. The IAM role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$</param>
+    public AwsFrauddetectorCreateBatchImportJobOptions(
+        string JobId,
+        string InputPath,
+        string OutputPath,
+        string EventTypeName,
+        string IamRoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(InputPath);
+        this.InputPath = InputPath;
+        global::System.ArgumentNullException.ThrowIfNull(OutputPath);
+        this.OutputPath = OutputPath;
+        global::System.ArgumentNullException.ThrowIfNull(EventTypeName);
+        this.EventTypeName = EventTypeName;
+        global::System.ArgumentNullException.ThrowIfNull(IamRoleArn);
+        this.IamRoleArn = IamRoleArn;
+    }
+
+    private AwsFrauddetectorCreateBatchImportJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFrauddetectorCreateBatchImportJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFrauddetectorCreateBatchImportJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the batch import job. The ID cannot be of a past job, un- less the job exists in CREATE_FAILED state. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
+    /// <summary>
+    /// The URI that points to the Amazon S3 location of your data file. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$
+    /// </summary>
     [CliOption("--input-path")]
-    public string? InputPath { get; set; }
+    public string? InputPath { get; private init; }
 
+    /// <summary>
+    /// The URI that points to the Amazon S3 location for storing your re- sults. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$
+    /// </summary>
     [CliOption("--output-path")]
-    public string? OutputPath { get; set; }
+    public string? OutputPath { get; private init; }
 
+    /// <summary>
+    /// The name of the event type. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// </summary>
     [CliOption("--event-type-name")]
-    public string? EventTypeName { get; set; }
+    public string? EventTypeName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role created for Amazon S3 bucket that holds your data file. The IAM role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the Amazon S3 User Guide . Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$
+    /// </summary>
     [CliOption("--iam-role-arn")]
-    public string? IamRoleArn { get; set; }
+    public string? IamRoleArn { get; private init; }
 
     /// <summary>
     /// A collection of key-value pairs associated with this request. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -47,5 +112,21 @@ public record AwsFrauddetectorCreateBatchImportJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

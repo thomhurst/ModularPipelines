@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "update-identity-provider")]
-public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions
+public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the identity provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityProviderArn">The ARN of the identity provider. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}</param>
+    public AwsWorkspacesWebUpdateIdentityProviderOptions(
+        string IdentityProviderArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderArn);
+        this.IdentityProviderArn = IdentityProviderArn;
+    }
+
+    private AwsWorkspacesWebUpdateIdentityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebUpdateIdentityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebUpdateIdentityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the identity provider. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36}){2,}
+    /// </summary>
     [CliOption("--identity-provider-arn")]
-    public string? IdentityProviderArn { get; set; }
+    public string? IdentityProviderArn { get; private init; }
 
     /// <summary>
     /// The name of the identity provider. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
@@ -57,5 +94,21 @@ public record AwsWorkspacesWebUpdateIdentityProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

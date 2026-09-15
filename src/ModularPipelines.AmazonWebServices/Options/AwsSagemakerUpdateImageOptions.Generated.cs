@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "update-image")]
-public record AwsSagemakerUpdateImageOptions : AwsOptions
+public record AwsSagemakerUpdateImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageName">The name of the image to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    public AwsSagemakerUpdateImageOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    private AwsSagemakerUpdateImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerUpdateImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerUpdateImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the image to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// </summary>
+    [CliOption("--image-name")]
+    public string? ImageName { get; private init; }
+
     /// <summary>
     /// A list of properties to delete. Only the Description and DisplayName properties can be deleted. Constraints: o min: 0 o max: 2 (string) Constraints: o min: 1 o max: 11 o pattern: (^DisplayName$)|(^Description$) Syntax: "string" "string" ...
     /// </summary>
@@ -39,9 +79,6 @@ public record AwsSagemakerUpdateImageOptions : AwsOptions
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CliOption("--image-name")]
-    public string? ImageName { get; set; }
-
     /// <summary>
     /// The new ARN for the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
@@ -53,5 +90,21 @@ public record AwsSagemakerUpdateImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

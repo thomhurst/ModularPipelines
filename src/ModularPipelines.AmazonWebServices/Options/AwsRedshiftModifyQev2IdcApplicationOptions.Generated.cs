@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-qev2-idc-application")]
-public record AwsRedshiftModifyQev2IdcApplicationOptions : AwsOptions
+public record AwsRedshiftModifyQev2IdcApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Qev2IdcApplicationArn">The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyQev2IdcApplicationOptions(
+        string Qev2IdcApplicationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Qev2IdcApplicationArn);
+        this.Qev2IdcApplicationArn = Qev2IdcApplicationArn;
+    }
+
+    private AwsRedshiftModifyQev2IdcApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyQev2IdcApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyQev2IdcApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--qev2-idc-application-arn")]
-    public string? Qev2IdcApplicationArn { get; set; }
+    public string? Qev2IdcApplicationArn { get; private init; }
 
     /// <summary>
     /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console. Constraints: o min: 1 o max: 127 o pattern: [\w+=,.@-]+
@@ -35,5 +72,21 @@ public record AwsRedshiftModifyQev2IdcApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

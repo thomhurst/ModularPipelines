@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "create-dataset")]
-public record AwsComprehendCreateDataSetOptions : AwsOptions
+public record AwsComprehendCreateDataSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--flywheel-arn")]
-    public string? FlywheelArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a dataset to upload training or test data for a model associ- ated with a flywheel. For more information about datasets, see Flywheel overview in the Amazon Comprehend Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlywheelArn">The Amazon Resource Number (ARN) of the flywheel of the flywheel to receive the data. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="DataSetName">Name of the dataset. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$</param>
+    /// <param name="InputDataConfig">Information about the input data configuration. The type of input data varies based on the format of the input and whether the data is for a classifier model or an entity recognition model. AugmentedManifests -&gt; (list) A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. (structure) An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. AttributeNames -&gt; (list) [required] The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job. (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])* S3Uri -&gt; (string) [required] The Amazon S3 location of the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? AnnotationDataS3Uri -&gt; (string) The S3 prefix to the annotation files that are referred in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? SourceDocumentsS3Uri -&gt; (string) The S3 prefix to the source files (PDFs) that are re- ferred to in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? DocumentType -&gt; (string) The type of augmented manifest. If you don't specify, the default is PlainTextDocument. PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8. Possible values: o PLAIN_TEXT_DOCUMENT o SEMI_STRUCTURED_DOCUMENT DataFormat -&gt; (string) COMPREHEND_CSV : The data format is a two-column CSV file, where the first column contains labels and the second column contains documents. AUGMENTED_MANIFEST : The data format Possible values: o COMPREHEND_CSV o AUGMENTED_MANIFEST DocumentClassifierInputDataConfig -&gt; (structure) The input properties for training a document classifier model. For more information on how the input file is formatted, see Preparing training data in the Comprehend Developer Guide. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Ama- zon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPRE- HEND_CSV . Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? LabelDelimiter -&gt; (string) Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter be- tween labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you spec- ify, the labels on that line will be combined to make a sin- gle unique label, such as LABELLABELLABEL. Constraints: o min: 1 o max: 1 o pattern: ^[ ~!@#$%^*\-_+=|\\:;\t&gt;?/]$ EntityRecognizerInputDataConfig -&gt; (structure) The input properties for training an entity recognizer model. Annotations -&gt; (structure) The S3 location of the annotation documents for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the training docu- ments for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Documents -&gt; (structure) [required] The format and location of the training documents for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the documents for the dataset are located. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is consid- ered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE EntityList -&gt; (structure) The S3 location of the entity list for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the entity list is located. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "AugmentedManifests": [ { "AttributeNames": ["string", ...], "S3Uri": "string", "AnnotationDataS3Uri": "string", "SourceDocumentsS3Uri": "string", "DocumentType": "PLAIN_TEXT_DOCUMENT"|"SEMI_STRUCTURED_DOCUMENT" } ... ], "DataFormat": "COMPREHEND_CSV"|"AUGMENTED_MANIFEST", "DocumentClassifierInputDataConfig": { "S3Uri": "string", "LabelDelimiter": "string" }, "EntityRecognizerInputDataConfig": { "Annotations": { "S3Uri": "string" }, "Documents": { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE" }, "EntityList": { "S3Uri": "string" } } }</param>
+    public AwsComprehendCreateDataSetOptions(
+        string FlywheelArn,
+        string DataSetName,
+        string InputDataConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlywheelArn);
+        this.FlywheelArn = FlywheelArn;
+        global::System.ArgumentNullException.ThrowIfNull(DataSetName);
+        this.DataSetName = DataSetName;
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+    }
+
+    private AwsComprehendCreateDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendCreateDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendCreateDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the flywheel of the flywheel to receive the data. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
+    [CliOption("--flywheel-arn")]
+    public string? FlywheelArn { get; private init; }
+
+    /// <summary>
+    /// Name of the dataset. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])*$
+    /// </summary>
     [CliOption("--dataset-name")]
-    public string? DataSetName { get; set; }
+    public string? DataSetName { get; private init; }
+
+    /// <summary>
+    /// Information about the input data configuration. The type of input data varies based on the format of the input and whether the data is for a classifier model or an entity recognition model. AugmentedManifests -&gt; (list) A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. (structure) An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. AttributeNames -&gt; (list) [required] The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job. (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*[a-zA-Z0-9])* S3Uri -&gt; (string) [required] The Amazon S3 location of the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? AnnotationDataS3Uri -&gt; (string) The S3 prefix to the annotation files that are referred in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? SourceDocumentsS3Uri -&gt; (string) The S3 prefix to the source files (PDFs) that are re- ferred to in the augmented manifest file. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? DocumentType -&gt; (string) The type of augmented manifest. If you don't specify, the default is PlainTextDocument. PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8. Possible values: o PLAIN_TEXT_DOCUMENT o SEMI_STRUCTURED_DOCUMENT DataFormat -&gt; (string) COMPREHEND_CSV : The data format is a two-column CSV file, where the first column contains labels and the second column contains documents. AUGMENTED_MANIFEST : The data format Possible values: o COMPREHEND_CSV o AUGMENTED_MANIFEST DocumentClassifierInputDataConfig -&gt; (structure) The input properties for training a document classifier model. For more information on how the input file is formatted, see Preparing training data in the Comprehend Developer Guide. S3Uri -&gt; (string) [required] The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix , if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Ama- zon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPRE- HEND_CSV . Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? LabelDelimiter -&gt; (string) Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter be- tween labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you spec- ify, the labels on that line will be combined to make a sin- gle unique label, such as LABELLABELLABEL. Constraints: o min: 1 o max: 1 o pattern: ^[ ~!@#$%^*\-_+=|\\:;\t&gt;?/]$ EntityRecognizerInputDataConfig -&gt; (structure) The input properties for training an entity recognizer model. Annotations -&gt; (structure) The S3 location of the annotation documents for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the training docu- ments for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Documents -&gt; (structure) [required] The format and location of the training documents for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the documents for the dataset are located. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? InputFormat -&gt; (string) Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is consid- ered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages. Possible values: o ONE_DOC_PER_FILE o ONE_DOC_PER_LINE EntityList -&gt; (structure) The S3 location of the entity list for your custom entity recognizer. S3Uri -&gt; (string) [required] Specifies the Amazon S3 location where the entity list is located. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? JSON Syntax: { "AugmentedManifests": [ { "AttributeNames": ["string", ...], "S3Uri": "string", "AnnotationDataS3Uri": "string", "SourceDocumentsS3Uri": "string", "DocumentType": "PLAIN_TEXT_DOCUMENT"|"SEMI_STRUCTURED_DOCUMENT" } ... ], "DataFormat": "COMPREHEND_CSV"|"AUGMENTED_MANIFEST", "DocumentClassifierInputDataConfig": { "S3Uri": "string", "LabelDelimiter": "string" }, "EntityRecognizerInputDataConfig": { "Annotations": { "S3Uri": "string" }, "Documents": { "S3Uri": "string", "InputFormat": "ONE_DOC_PER_FILE"|"ONE_DOC_PER_LINE" }, "EntityList": { "S3Uri": "string" } } }
+    /// </summary>
+    [CliOption("--input-data-config")]
+    public string? InputDataConfig { get; private init; }
 
     /// <summary>
     /// The dataset type. You can specify that the data in a dataset is for training the model or for testing the model. Possible values: o TRAIN o TEST
@@ -40,9 +94,6 @@ public record AwsComprehendCreateDataSetOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
 
     /// <summary>
     /// A unique identifier for the request. If you don't set the client re- quest token, Amazon Comprehend generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
@@ -62,5 +113,21 @@ public record AwsComprehendCreateDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

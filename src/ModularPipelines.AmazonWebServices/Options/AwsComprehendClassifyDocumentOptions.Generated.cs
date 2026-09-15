@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("comprehend", "classify-document")]
-public record AwsComprehendClassifyDocumentOptions : AwsOptions
+public record AwsComprehendClassifyDocumentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types: o Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide . o Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying ...
+    /// </summary>
+    /// <param name="EndpointArn">The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-end- point/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    public AwsComprehendClassifyDocumentOptions(
+        string EndpointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointArn);
+        this.EndpointArn = EndpointArn;
+    }
+
+    private AwsComprehendClassifyDocumentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsComprehendClassifyDocumentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsComprehendClassifyDocumentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see Using Amazon Comprehend endpoints . Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:compre- hend:[a-zA-Z0-9-]*:([0-9]{12}|aws):document-classifier-end- point/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// </summary>
+    [CliOption("--endpoint-arn")]
+    public string? EndpointArn { get; private init; }
+
     /// <summary>
     /// The document text to be analyzed. If you enter text using this para- meter, do not use the Bytes parameter. Constraints: o min: 1
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; set; }
-
-    [CliOption("--endpoint-arn")]
-    public string? EndpointArn { get; set; }
 
     /// <summary>
     /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see Inputs for real-time custom analysis in the Compre- hend Developer Guide. If you use the Bytes parameter, do not use the Text parameter. Constraints: o min: 1
@@ -47,5 +84,21 @@ public record AwsComprehendClassifyDocumentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

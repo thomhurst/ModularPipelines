@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "send-feedback")]
-public record AwsSecurityIrSendFeedbackOptions : AwsOptions
+public record AwsSecurityIrSendFeedbackOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Send feedback based on response investigation action See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CaseId">Send feedback based on request caseID Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    /// <param name="ResultId">Send feedback based on request result ID Constraints: o pattern: inv-[a-z0-9]{10,32}</param>
+    /// <param name="Usefulness">Required enum value indicating user assessment of result q..... Possible values: o USEFUL o NOT_USEFUL</param>
+    public AwsSecurityIrSendFeedbackOptions(
+        string CaseId,
+        string ResultId,
+        AwsSecurityIrSendFeedbackUsefulness Usefulness
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(ResultId);
+        this.ResultId = ResultId;
+        global::System.ArgumentNullException.ThrowIfNull(Usefulness);
+        this.Usefulness = Usefulness;
+    }
+
+    private AwsSecurityIrSendFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrSendFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrSendFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Send feedback based on request caseID Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// Send feedback based on request result ID Constraints: o pattern: inv-[a-z0-9]{10,32}
+    /// </summary>
     [CliOption("--result-id")]
-    public string? ResultId { get; set; }
+    public string? ResultId { get; private init; }
 
+    /// <summary>
+    /// Required enum value indicating user assessment of result q..... Possible values: o USEFUL o NOT_USEFUL
+    /// </summary>
     [CliOption("--usefulness")]
-    public string? Usefulness { get; set; }
+    public AwsSecurityIrSendFeedbackUsefulness? Usefulness { get; private init; }
 
     /// <summary>
     /// Send feedback based on request comments Constraints: o min: 1 o max: 1000
@@ -41,5 +93,21 @@ public record AwsSecurityIrSendFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

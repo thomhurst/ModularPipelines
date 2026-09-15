@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("clouddirectory", "create-object")]
-public record AwsClouddirectoryCreateObjectOptions : AwsOptions
+public record AwsClouddirectoryCreateObjectOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-arn")]
-    public string? DirectoryArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an object in a Directory . Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory in which the object will be created. For more information, see arns .</param>
+    /// <param name="SchemaFacets">A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a de- scription of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]</param>
+    public AwsClouddirectoryCreateObjectOptions(
+        string DirectoryArn,
+        IEnumerable<string> SchemaFacets
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryArn);
+        this.DirectoryArn = DirectoryArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SchemaFacets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SchemaFacets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SchemaFacets));
+            }
+
+            SchemaFacets = materialized;
+        }
+        this.SchemaFacets = SchemaFacets;
+    }
+
+    private AwsClouddirectoryCreateObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsClouddirectoryCreateObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsClouddirectoryCreateObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory in which the object will be created. For more information, see arns .
+    /// </summary>
+    [CliOption("--directory-arn")]
+    public string? DirectoryArn { get; private init; }
+
+    /// <summary>
+    /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a de- scription of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]
+    /// </summary>
     [CliOption("--schema-facets", GroupValues = true)]
-    public IEnumerable<string>? SchemaFacets { get; set; }
+    public IEnumerable<string>? SchemaFacets { get; private init; }
 
     /// <summary>
     /// The attribute map whose attribute ARN contains the key and attribute value as the map value. (structure) The combination of an attribute key and an attribute value. Key -&gt; (structure) [required] The key of the attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: Key={SchemaArn=string,FacetName=string,Name=string},Value={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp} ... JSON Syntax: [ { "Key": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ]
@@ -50,5 +105,21 @@ public record AwsClouddirectoryCreateObjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

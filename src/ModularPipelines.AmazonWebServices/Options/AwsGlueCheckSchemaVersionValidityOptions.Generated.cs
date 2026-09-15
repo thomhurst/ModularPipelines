@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "check-schema-version-validity")]
-public record AwsGlueCheckSchemaVersionValidityOptions : AwsOptions
+public record AwsGlueCheckSchemaVersionValidityOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--data-format")]
-    public string? DataFormat { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataFormat">The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF</param>
+    /// <param name="SchemaDefinition">The definition of the schema that has to be validated. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*</param>
+    public AwsGlueCheckSchemaVersionValidityOptions(
+        AwsGlueCheckSchemaVersionValidityDataFormat DataFormat,
+        string SchemaDefinition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataFormat);
+        this.DataFormat = DataFormat;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaDefinition);
+        this.SchemaDefinition = SchemaDefinition;
+    }
+
+    private AwsGlueCheckSchemaVersionValidityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCheckSchemaVersionValidityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCheckSchemaVersionValidityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF
+    /// </summary>
+    [CliOption("--data-format")]
+    public AwsGlueCheckSchemaVersionValidityDataFormat? DataFormat { get; private init; }
+
+    /// <summary>
+    /// The definition of the schema that has to be validated. Constraints: o min: 1 o max: 170000 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--schema-definition")]
-    public string? SchemaDefinition { get; set; }
+    public string? SchemaDefinition { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-bearer-token-authentication")]
-public record AwsLogsPutBearerTokenAuthenticationOptions : AwsOptions
+public record AwsLogsPutBearerTokenAuthenticationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--log-group-identifier")]
-    public string? LogGroupIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--bearer-token-authentication-enabled")]
-    public bool? BearerTokenAuthenticationEnabled { get; set; }
+    /// <summary>
+    /// Enables or disables bearer token authentication for the specified log group. When enabled on a log group, bearer token authentication is en- abled on operations until it is explicitly disabled. For information about the parameters that are common to all actions, see Common Parameters . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="BearerTokenAuthenticationEnabled">tion-enabled (boolean) [required] Whether to enable bearer token authentication. Type: Boolean Required: Yes</param>
+    public AwsLogsPutBearerTokenAuthenticationOptions(
+        string LogGroupIdentifier,
+        bool BearerTokenAuthenticationEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupIdentifier);
+        this.LogGroupIdentifier = LogGroupIdentifier;
+        this.BearerTokenAuthenticationEnabled = BearerTokenAuthenticationEnabled;
+    }
+
+    private AwsLogsPutBearerTokenAuthenticationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutBearerTokenAuthenticationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutBearerTokenAuthenticationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+ Required: Yes Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// </summary>
+    [CliOption("--log-group-identifier")]
+    public string? LogGroupIdentifier { get; private init; }
+
+    /// <summary>
+    /// tion-enabled (boolean) [required] Whether to enable bearer token authentication. Type: Boolean Required: Yes
+    /// </summary>
+    [CliFlag("--bearer-token-authentication-enabled", NegatedName = "--no-bearer-token-authentication-enabled")]
+    public bool? BearerTokenAuthenticationEnabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

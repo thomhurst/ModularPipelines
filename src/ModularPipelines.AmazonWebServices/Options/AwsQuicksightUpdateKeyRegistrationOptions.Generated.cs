@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-key-registration")]
-public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions
+public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a customer managed key in a Quick Sight account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="KeyRegistration">A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: o KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. o DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]</param>
+    public AwsQuicksightUpdateKeyRegistrationOptions(
+        string AwsAccountId,
+        IEnumerable<string> KeyRegistration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(KeyRegistration);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(KeyRegistration));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(KeyRegistration));
+            }
+
+            KeyRegistration = materialized;
+        }
+        this.KeyRegistration = KeyRegistration;
+    }
+
+    private AwsQuicksightUpdateKeyRegistrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateKeyRegistrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateKeyRegistrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: o KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. o DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]
+    /// </summary>
     [CliOption("--key-registration", GroupValues = true)]
-    public IEnumerable<string>? KeyRegistration { get; set; }
+    public IEnumerable<string>? KeyRegistration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

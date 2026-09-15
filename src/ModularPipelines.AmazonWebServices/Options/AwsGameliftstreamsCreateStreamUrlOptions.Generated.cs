@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gameliftstreams", "create-stream-url")]
-public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions
+public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a stream URL that grants temporary access to a stream session in a web browser without requiring an Amazon Web Services account or client integration. You can use the stream URL to start a stream session up to the number of times set by UsageLimit , until it expires after UrlExpiresAfterMin- utes . Each successful use starts a new stream session. To make the request idempotent, provide a ClientToken . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . The stream session runs in this stream group. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="ApplicationIdentifier">An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . This application must be associated with the stream group. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)</param>
+    /// <param name="Protocol">The data transport protocol for the stream session. Amazon GameLift Streams supports WebRTC . Possible values: o WebRTC</param>
+    /// <param name="UrlExpiresAfterMinutes">The number of minutes after creation that the stream URL remains valid. After this period, the status of the stream URL changes to EXPIRED and it can no longer start stream sessions. The minimum is 1 minute. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1</param>
+    /// <param name="Locations">A list of locations, in order of preference, where Amazon GameLift Streams can place the stream session. Specify each location by its Amazon Web Services Region code, for example us-east-1 . For a com- plete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 20 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...</param>
+    public AwsGameliftstreamsCreateStreamUrlOptions(
+        string Identifier,
+        string ApplicationIdentifier,
+        AwsGameliftstreamsCreateStreamUrlProtocol Protocol,
+        int UrlExpiresAfterMinutes,
+        IEnumerable<string> Locations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        this.UrlExpiresAfterMinutes = UrlExpiresAfterMinutes;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Locations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Locations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Locations));
+            }
+
+            Locations = materialized;
+        }
+        this.Locations = Locations;
+    }
+
+    private AwsGameliftstreamsCreateStreamUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftstreamsCreateStreamUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftstreamsCreateStreamUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4 . Example ID: sg-1AB2C3De4 . The stream session runs in this stream group. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// An Amazon Resource Name (ARN) or ID that uniquely identifies the ap- plication resource. Example ARN: arn:aws:gamelift- streams:us-west-2:111122223333:application/a-9ZY8X7Wv6 . Example ID: a-9ZY8X7Wv6 . This application must be associated with the stream group. Constraints: o min: 1 o max: 128 o pattern: (^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^: ]*):([0-9]{12}):([^: ]*)$)
+    /// </summary>
     [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    public string? ApplicationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The data transport protocol for the stream session. Amazon GameLift Streams supports WebRTC . Possible values: o WebRTC
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public AwsGameliftstreamsCreateStreamUrlProtocol? Protocol { get; private init; }
 
+    /// <summary>
+    /// The number of minutes after creation that the stream URL remains valid. After this period, the status of the stream URL changes to EXPIRED and it can no longer start stream sessions. The minimum is 1 minute. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1
+    /// </summary>
     [CliOption("--url-expires-after-minutes")]
-    public int? UrlExpiresAfterMinutes { get; set; }
+    public int? UrlExpiresAfterMinutes { get; private init; }
+
+    /// <summary>
+    /// A list of locations, in order of preference, where Amazon GameLift Streams can place the stream session. Specify each location by its Amazon Web Services Region code, for example us-east-1 . For a com- plete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 20 o pattern: [a-zA-Z0-9-]+ Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--locations", GroupValues = true)]
+    public IEnumerable<string>? Locations { get; private init; }
 
     /// <summary>
     /// The maximum number of times the stream URL can start a stream ses- sion. Each successful use reduces the remaining uses by one. The minimum is 1, and the default is 1. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide . Constraints: o min: 1
@@ -46,9 +125,6 @@ public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--locations", GroupValues = true)]
-    public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>
     /// The maximum length of time, in seconds, that a stream session started from this stream URL can run. Valid values are 1-86400 sec- onds (1 second to 24 hours). The default is 43200 seconds (12 hours). Constraints: o min: 1 o max: 86400
@@ -92,5 +168,21 @@ public record AwsGameliftstreamsCreateStreamUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

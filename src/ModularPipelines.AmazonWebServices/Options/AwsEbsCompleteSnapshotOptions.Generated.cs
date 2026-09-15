@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ebs", "complete-snapshot")]
-public record AwsEbsCompleteSnapshotOptions : AwsOptions
+public record AwsEbsCompleteSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--snapshot-id")]
-    public string? SnapshotId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the sta- tus to completed . You cannot write new blocks to a snapshot after it has been completed. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Doc...
+    /// </summary>
+    /// <param name="SnapshotId">The ID of the snapshot. Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$</param>
+    /// <param name="ChangedBlocksCount">The number of blocks that were written to the snapshot. Constraints: o min: 0</param>
+    public AwsEbsCompleteSnapshotOptions(
+        string SnapshotId,
+        int ChangedBlocksCount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
+        this.SnapshotId = SnapshotId;
+        this.ChangedBlocksCount = ChangedBlocksCount;
+    }
+
+    private AwsEbsCompleteSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEbsCompleteSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEbsCompleteSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the snapshot. Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
+    /// </summary>
+    [CliOption("--snapshot-id")]
+    public string? SnapshotId { get; private init; }
+
+    /// <summary>
+    /// The number of blocks that were written to the snapshot. Constraints: o min: 0
+    /// </summary>
     [CliOption("--changed-blocks-count")]
-    public int? ChangedBlocksCount { get; set; }
+    public int? ChangedBlocksCount { get; private init; }
 
     /// <summary>
     /// An aggregated Base-64 SHA256 checksum based on the checksums of each written block. To generate the aggregated checksum using the linear aggregation method, arrange the checksums for each written block in ascending order of their block index, concatenate them to form a single string, and then generate the checksum on the entire string using the SHA256 algorithm. Constraints: o max: 64 o pattern: ^[A-Za-z0-9+/=]+$
@@ -51,5 +94,21 @@ public record AwsEbsCompleteSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

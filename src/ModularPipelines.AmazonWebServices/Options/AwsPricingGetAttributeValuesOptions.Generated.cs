@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pricing", "get-attribute-values")]
-public record AwsPricingGetAttributeValuesOptions : AwsOptions
+public record AwsPricingGetAttributeValuesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of attribute values. Attributes are similar to the de- tails in a Price List API offer file. For a list of available attrib- utes, see Offer File Definitions in the Billing and Cost Management User Guide . See also: AWS API Documentation get-attribute-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
+    /// </summary>
+    /// <param name="ServiceCode">The service code for the service whose attributes you want to re- trieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2 .</param>
+    /// <param name="AttributeName">The name of the attribute that you want to retrieve the values for, such as volumeType .</param>
+    public AwsPricingGetAttributeValuesOptions(
+        string ServiceCode,
+        string AttributeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeName);
+        this.AttributeName = AttributeName;
+    }
+
+    private AwsPricingGetAttributeValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPricingGetAttributeValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPricingGetAttributeValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service code for the service whose attributes you want to re- trieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2 .
+    /// </summary>
+    [CliOption("--service-code")]
+    public string? ServiceCode { get; private init; }
+
+    /// <summary>
+    /// The name of the attribute that you want to retrieve the values for, such as volumeType .
+    /// </summary>
     [CliOption("--attribute-name")]
-    public string? AttributeName { get; set; }
+    public string? AttributeName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsPricingGetAttributeValuesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "get-resource-api-key")]
-public record AwsBedrockAgentcoreGetResourceApiKeyOptions : AwsOptions
+public record AwsBedrockAgentcoreGetResourceApiKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the API key associated with an API key credential provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadIdentityToken">The identity token of the workload from which you want to retrieve the API key. Constraints: o min: 1 o max: 131072</param>
+    /// <param name="ResourceCredentialProviderName">The credential provider name for the resource from which you are re- trieving the API key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    public AwsBedrockAgentcoreGetResourceApiKeyOptions(
+        string WorkloadIdentityToken,
+        string ResourceCredentialProviderName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityToken);
+        this.WorkloadIdentityToken = WorkloadIdentityToken;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceCredentialProviderName);
+        this.ResourceCredentialProviderName = ResourceCredentialProviderName;
+    }
+
+    private AwsBedrockAgentcoreGetResourceApiKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreGetResourceApiKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreGetResourceApiKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity token of the workload from which you want to retrieve the API key. Constraints: o min: 1 o max: 131072
+    /// </summary>
     [SecretValue]
     [CliOption("--workload-identity-token")]
-    public string? WorkloadIdentityToken { get; set; }
+    public string? WorkloadIdentityToken { get; private init; }
 
-    [SecretValue]
+    /// <summary>
+    /// The credential provider name for the resource from which you are re- trieving the API key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
     [CliOption("--resource-credential-provider-name")]
-    public string? ResourceCredentialProviderName { get; set; }
+    public string? ResourceCredentialProviderName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

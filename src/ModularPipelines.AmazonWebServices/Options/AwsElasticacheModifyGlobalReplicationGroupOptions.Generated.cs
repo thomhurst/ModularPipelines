@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "modify-global-replication-group")]
-public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--global-replication-group-id")]
-    public string? GlobalReplicationGroupId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--apply-immediately")]
-    public bool? ApplyImmediately { get; set; }
+    /// <summary>
+    /// Modifies the settings for a Global datastore. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
+    /// <param name="ApplyImmediately">This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be re- quested to be applied in PreferredMaintenceWindow.</param>
+    public AwsElasticacheModifyGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupId,
+        bool ApplyImmediately
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupId);
+        this.GlobalReplicationGroupId = GlobalReplicationGroupId;
+        this.ApplyImmediately = ApplyImmediately;
+    }
+
+    private AwsElasticacheModifyGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheModifyGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheModifyGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Global datastore
+    /// </summary>
+    [CliOption("--global-replication-group-id")]
+    public string? GlobalReplicationGroupId { get; private init; }
+
+    /// <summary>
+    /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be re- quested to be applied in PreferredMaintenceWindow.
+    /// </summary>
+    [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
+    public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
     /// A valid cache node type that you want to scale this Global datastore to.
@@ -57,7 +100,10 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions
     [CliOption("--global-replication-group-description")]
     public string? GlobalReplicationGroupDescription { get; set; }
 
-    [CliFlag("--automatic-failover-enabled")]
+    /// <summary>
+    /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
+    /// </summary>
+    [CliFlag("--automatic-failover-enabled", NegatedName = "--no-automatic-failover-enabled")]
     public bool? AutomaticFailoverEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +111,21 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

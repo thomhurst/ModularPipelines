@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,9 +20,51 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "update-environment")]
-public record AwsM2UpdateEnvironmentOptions : AwsOptions
+public record AwsM2UpdateEnvironmentOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--apply-during-maintenance-window")]
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the configuration details for a specific runtime environment. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentId">The unique identifier of the runtime environment that you want to update. Constraints: o pattern: ^\S{1,80}$</param>
+    public AwsM2UpdateEnvironmentOptions(
+        string EnvironmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentId);
+        this.EnvironmentId = EnvironmentId;
+    }
+
+    private AwsM2UpdateEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2UpdateEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2UpdateEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the runtime environment that you want to update. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
+    [CliOption("--environment-id")]
+    public string? EnvironmentId { get; private init; }
+
+    /// <summary>
+    /// dow (boolean) Indicates whether to update the runtime environment during the main- tenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest , it will fail if applyDuringMaintenanceWindow is set to true.
+    /// </summary>
+    [CliFlag("--apply-during-maintenance-window", NegatedName = "--no-apply-during-maintenance-window")]
     public bool? ApplyDuringMaintenanceWindow { get; set; }
 
     /// <summary>
@@ -36,10 +79,10 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
-    [CliOption("--environment-id")]
-    public string? EnvironmentId { get; set; }
-
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are on- going application-related activities in the environment. If you use this option, be aware that it could lead to data corrup- tion in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is pre- ferredMaintenanceWindow .
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     /// <summary>
@@ -59,5 +102,21 @@ public record AwsM2UpdateEnvironmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds-data", "describe-group")]
-public record AwsDsDataDescribeGroupOptions : AwsOptions
+public record AwsDsDataDescribeGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about a specific group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DirectoryId">The Identifier (ID) of the directory associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    public AwsDsDataDescribeGroupOptions(
+        string DirectoryId,
+        string SamAccountName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SamAccountName);
+        this.SamAccountName = SamAccountName;
+    }
+
+    private AwsDsDataDescribeGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDataDescribeGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDataDescribeGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Identifier (ID) of the directory associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// </summary>
+    [CliOption("--sam-account-name")]
+    public string? SamAccountName { get; private init; }
 
     /// <summary>
     /// One or more attributes to be returned for the group. For a list of supported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
@@ -36,13 +83,26 @@ public record AwsDsDataDescribeGroupOptions : AwsOptions
     [CliOption("--realm")]
     public string? Realm { get; set; }
 
-    [CliOption("--sam-account-name")]
-    public string? SamAccountName { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

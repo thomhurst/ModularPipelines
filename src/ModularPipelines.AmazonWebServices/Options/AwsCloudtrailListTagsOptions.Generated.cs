@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "list-tags")]
-public record AwsCloudtrailListTagsOptions : AwsOptions
+public record AwsCloudtrailListTagsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions...
+    /// </summary>
+    /// <param name="ResourceIdList">Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890 (string) Syntax: "string" "string" ...</param>
+    public AwsCloudtrailListTagsOptions(
+        IEnumerable<string> ResourceIdList
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceIdList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceIdList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceIdList));
+            }
+
+            ResourceIdList = materialized;
+        }
+        this.ResourceIdList = ResourceIdList;
+    }
+
+    private AwsCloudtrailListTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailListTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailListTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloud- trail:us-east-2:123456789012:eventdatastore/EXAM- PLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloud- trail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloud- trail:us-east-2:123456789012:channel/01234567890 (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--resource-id-list", GroupValues = true)]
-    public IEnumerable<string>? ResourceIdList { get; set; }
+    public IEnumerable<string>? ResourceIdList { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -43,5 +91,21 @@ public record AwsCloudtrailListTagsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

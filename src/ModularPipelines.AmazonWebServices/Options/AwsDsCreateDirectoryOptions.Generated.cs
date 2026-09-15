@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "create-directory")]
-public record AwsDsCreateDirectoryOptions : AwsOptions
+public record AwsDsCreateDirectoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The fully qualified name for the directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="Password">The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following condi- tions: o Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Ac- tive Directory: o Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) o Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) o Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) o Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Mi- crosoft website. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*</param>
+    /// <param name="Size">The size of the directory. Possible values: o Small o Large</param>
+    public AwsDsCreateDirectoryOptions(
+        string Name,
+        string Password,
+        AwsDsCreateDirectorySize Size
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(Size);
+        this.Size = Size;
+    }
+
+    private AwsDsCreateDirectoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsCreateDirectoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsCreateDirectoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully qualified name for the directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following condi- tions: o Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Ac- tive Directory: o Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) o Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) o Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) o Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Mi- crosoft website. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
+    /// <summary>
+    /// The size of the directory. Possible values: o Small o Large
+    /// </summary>
+    [CliOption("--size")]
+    public AwsDsCreateDirectorySize? Size { get; private init; }
 
     /// <summary>
     /// The NetBIOS name of the directory, such as CORP . Constraints: o pattern: ^[^\\/:*?"&lt;&gt;|.]+[^\\/:*?"&lt;&gt;|]*$
@@ -32,18 +90,11 @@ public record AwsDsCreateDirectoryOptions : AwsOptions
     [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
-
     /// <summary>
     /// A description for the directory. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--size")]
-    public string? Size { get; set; }
 
     /// <summary>
     /// A DirectoryVpcSettings object that contains additional information for the operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }
@@ -68,5 +119,21 @@ public record AwsDsCreateDirectoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

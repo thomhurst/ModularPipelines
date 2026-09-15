@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "create-stream-processor")]
-public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions
+public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. There are two different settings for stream proces- sors in Amazon Rekognition: detecting faces and detecting labels. o If you are creating a stream processor for detecting faces, you pro- vide as input a Kinesis video stream (Input ) and a Kinesis data stream (Output ) s...
+    /// </summary>
+    /// <param name="Input">Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is Stream- ProcessorInput . This is required for both face search and label de- tection stream processors. KinesisVideoStream -&gt; (structure) The Kinesis video stream input stream for the source streaming video. Arn -&gt; (string) ARN of the Kinesis video stream stream that streams the source video. Constraints: o pattern: (^arn:([a-z\d-]+):kine- sisvideo:([a-z\d-]+):\d{12}:.+$) Shorthand Syntax: KinesisVideoStream={Arn=string} JSON Syntax: { "KinesisVideoStream": { "Arn": "string" } }</param>
+    /// <param name="Name">An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor . Name is idempotent. This is required for both face search and label detection stream processors. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="Settings">Input parameters used in a streaming video analyzed by a stream processor. You can use FaceSearch to recognize faces in a streaming video, or you can use ConnectedHome to detect labels. FaceSearch -&gt; (structure) Face search settings to use on a streaming video. CollectionId -&gt; (string) The ID of a collection that contains faces that you want to search for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+ FaceMatchThreshold -&gt; (float) Minimum face match confidence score that must be met to re- turn a result for a recognized face. The default is 80. 0 is the lowest confidence. 100 is the highest confidence. Values between 0 and 100 are accepted, and values lower than 80 are set to 80. Constraints: o min: 0 o max: 100 ConnectedHome -&gt; (structure) Label detection settings to use on a streaming video. Defining the settings is required in the request parameter for Creat- eStreamProcessor . Including this setting in the CreateStream- Processor request enables you to use the stream processor for label detection. You can then select what you want the stream processor to detect, such as people or pets. When the stream processor has started, one notification is sent for each object class specified. For example, if packages and pets are selected, one SNS notification is published the first time a package is detected and one SNS notification is published the first time a pet is detected, as well as an end-of-session summary. Labels -&gt; (list) [required] Specifies what you want to detect in the video, such as peo- ple, packages, or pets. The current valid labels you can in- clude in this list are: "PERSON", "PET", "PACKAGE", and "ALL". Constraints: o min: 1 o max: 128 (string) MinConfidence -&gt; (float) The minimum confidence required to label an object in the video. Constraints: o min: 0 o max: 100 Shorthand Syntax: FaceSearch={CollectionId=string,FaceMatchThreshold=float},ConnectedHome={Labels=[string,string],MinConfidence=float} JSON Syntax: { "FaceSearch": { "CollectionId": "string", "FaceMatchThreshold": float }, "ConnectedHome": { "Labels": ["string", ...], "MinConfidence": float } }</param>
+    /// <param name="RoleArn">The Amazon Resource Number (ARN) of the IAM role that allows access to the stream processor. The IAM role provides Rekognition read per- missions for a Kinesis stream. It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification Service topic for a label detection stream processor. This is required for both face search and label detection stream processors. Constraints: o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="StreamProcessorOutput">Kinesis data stream stream or Amazon S3 bucket location to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput . This must be a S3Destination of an Amazon S3 bucket that you own for a label detection stream processor or a Kinesis data stream ARN for a face search stream processor. KinesisDataStream -&gt; (structure) The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results. Arn -&gt; (string) ARN of the output Amazon Kinesis Data Streams stream. Constraints: o pattern: (^arn:([a-z\d-]+):kinesis:([a-z\d-]+):\d{12}:.+$) S3Destination -&gt; (structure) The Amazon S3 bucket location to which Amazon Rekognition pub- lishes the detailed inference results of a video analysis opera- tion. Bucket -&gt; (string) The name of the Amazon S3 bucket you want to associate with the streaming video project. You must be the owner of the Amazon S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* KeyPrefix -&gt; (string) The prefix value of the location within the bucket that you want the information to be published to. For more informa- tion, see Using prefixes . Constraints: o max: 1024 Shorthand Syntax: KinesisDataStream={Arn=string},S3Destination={Bucket=string,KeyPrefix=string} JSON Syntax: { "KinesisDataStream": { "Arn": "string" }, "S3Destination": { "Bucket": "string", "KeyPrefix": "string" } }</param>
+    public AwsRekognitionCreateStreamProcessorOptions(
+        string Input,
+        string Name,
+        string Settings,
+        string RoleArn,
+        string StreamProcessorOutput
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Settings);
+        this.Settings = Settings;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(StreamProcessorOutput);
+        this.StreamProcessorOutput = StreamProcessorOutput;
+    }
+
+    private AwsRekognitionCreateStreamProcessorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionCreateStreamProcessorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionCreateStreamProcessorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is Stream- ProcessorInput . This is required for both face search and label de- tection stream processors. KinesisVideoStream -&gt; (structure) The Kinesis video stream input stream for the source streaming video. Arn -&gt; (string) ARN of the Kinesis video stream stream that streams the source video. Constraints: o pattern: (^arn:([a-z\d-]+):kine- sisvideo:([a-z\d-]+):\d{12}:.+$) Shorthand Syntax: KinesisVideoStream={Arn=string} JSON Syntax: { "KinesisVideoStream": { "Arn": "string" } }
+    /// </summary>
     [CliOption("--input")]
-    public string? Input { get; set; }
+    public string? Input { get; private init; }
 
+    /// <summary>
+    /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor . Name is idempotent. This is required for both face search and label detection stream processors. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Input parameters used in a streaming video analyzed by a stream processor. You can use FaceSearch to recognize faces in a streaming video, or you can use ConnectedHome to detect labels. FaceSearch -&gt; (structure) Face search settings to use on a streaming video. CollectionId -&gt; (string) The ID of a collection that contains faces that you want to search for. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+ FaceMatchThreshold -&gt; (float) Minimum face match confidence score that must be met to re- turn a result for a recognized face. The default is 80. 0 is the lowest confidence. 100 is the highest confidence. Values between 0 and 100 are accepted, and values lower than 80 are set to 80. Constraints: o min: 0 o max: 100 ConnectedHome -&gt; (structure) Label detection settings to use on a streaming video. Defining the settings is required in the request parameter for Creat- eStreamProcessor . Including this setting in the CreateStream- Processor request enables you to use the stream processor for label detection. You can then select what you want the stream processor to detect, such as people or pets. When the stream processor has started, one notification is sent for each object class specified. For example, if packages and pets are selected, one SNS notification is published the first time a package is detected and one SNS notification is published the first time a pet is detected, as well as an end-of-session summary. Labels -&gt; (list) [required] Specifies what you want to detect in the video, such as peo- ple, packages, or pets. The current valid labels you can in- clude in this list are: "PERSON", "PET", "PACKAGE", and "ALL". Constraints: o min: 1 o max: 128 (string) MinConfidence -&gt; (float) The minimum confidence required to label an object in the video. Constraints: o min: 0 o max: 100 Shorthand Syntax: FaceSearch={CollectionId=string,FaceMatchThreshold=float},ConnectedHome={Labels=[string,string],MinConfidence=float} JSON Syntax: { "FaceSearch": { "CollectionId": "string", "FaceMatchThreshold": float }, "ConnectedHome": { "Labels": ["string", ...], "MinConfidence": float } }
+    /// </summary>
     [CliOption("--settings")]
-    public string? Settings { get; set; }
+    public string? Settings { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Number (ARN) of the IAM role that allows access to the stream processor. The IAM role provides Rekognition read per- missions for a Kinesis stream. It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification Service topic for a label detection stream processor. This is required for both face search and label detection stream processors. Constraints: o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// Kinesis data stream stream or Amazon S3 bucket location to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput . This must be a S3Destination of an Amazon S3 bucket that you own for a label detection stream processor or a Kinesis data stream ARN for a face search stream processor. KinesisDataStream -&gt; (structure) The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results. Arn -&gt; (string) ARN of the output Amazon Kinesis Data Streams stream. Constraints: o pattern: (^arn:([a-z\d-]+):kinesis:([a-z\d-]+):\d{12}:.+$) S3Destination -&gt; (structure) The Amazon S3 bucket location to which Amazon Rekognition pub- lishes the detailed inference results of a video analysis opera- tion. Bucket -&gt; (string) The name of the Amazon S3 bucket you want to associate with the streaming video project. You must be the owner of the Amazon S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* KeyPrefix -&gt; (string) The prefix value of the location within the bucket that you want the information to be published to. For more informa- tion, see Using prefixes . Constraints: o max: 1024 Shorthand Syntax: KinesisDataStream={Arn=string},S3Destination={Bucket=string,KeyPrefix=string} JSON Syntax: { "KinesisDataStream": { "Arn": "string" }, "S3Destination": { "Bucket": "string", "KeyPrefix": "string" } }
+    /// </summary>
+    [CliOption("--stream-processor-output")]
+    public string? StreamProcessorOutput { get; private init; }
 
     /// <summary>
     /// A set of tags (key-value pairs) that you want to attach to the stream processor. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -64,13 +132,26 @@ public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions
     [CliOption("--data-sharing-preference")]
     public string? DataSharingPreference { get; set; }
 
-    [CliOption("--stream-processor-output")]
-    public string? StreamProcessorOutput { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

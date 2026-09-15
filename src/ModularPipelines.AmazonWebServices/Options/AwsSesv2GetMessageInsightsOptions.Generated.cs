@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "get-message-insights")]
-public record AwsSesv2GetMessageInsightsOptions : AwsOptions
+public record AwsSesv2GetMessageInsightsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides information about a specific message, including the from ad- dress, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MessageId">A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.</param>
+    public AwsSesv2GetMessageInsightsOptions(
+        string MessageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageId);
+        this.MessageId = MessageId;
+    }
+
+    private AwsSesv2GetMessageInsightsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2GetMessageInsightsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2GetMessageInsightsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.
+    /// </summary>
     [CliOption("--message-id")]
-    public string? MessageId { get; set; }
+    public string? MessageId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

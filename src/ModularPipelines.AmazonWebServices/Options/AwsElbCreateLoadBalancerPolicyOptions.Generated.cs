@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elb", "create-load-balancer-policy")]
-public record AwsElbCreateLoadBalancerPolicyOptions : AwsOptions
+public record AwsElbCreateLoadBalancerPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a policy with the specified attributes for the specified load balancer. Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of the load balancer.</param>
+    /// <param name="PolicyName">The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.</param>
+    /// <param name="PolicyTypeName">The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes .</param>
+    public AwsElbCreateLoadBalancerPolicyOptions(
+        string LoadBalancerName,
+        string PolicyName,
+        string PolicyTypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyTypeName);
+        this.PolicyTypeName = PolicyTypeName;
+    }
+
+    private AwsElbCreateLoadBalancerPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbCreateLoadBalancerPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbCreateLoadBalancerPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    public string? LoadBalancerName { get; private init; }
 
+    /// <summary>
+    /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
+    /// <summary>
+    /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes .
+    /// </summary>
     [CliOption("--policy-type-name")]
-    public string? PolicyTypeName { get; set; }
+    public string? PolicyTypeName { get; private init; }
 
     /// <summary>
     /// The policy attributes. (structure) Information about a policy attribute. AttributeName -&gt; (string) The name of the attribute. AttributeValue -&gt; (string) The value of the attribute. Shorthand Syntax: AttributeName=string,AttributeValue=string ... JSON Syntax: [ { "AttributeName": "string", "AttributeValue": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsElbCreateLoadBalancerPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsServicediscoveryCreateServiceType
 {
     [EnumValue("HTTP")]
-    Http = 1
+    Http,
+
+    [EnumValue("o")]
+    O
 }

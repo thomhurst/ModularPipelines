@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "retrieve-memory-records")]
-public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions
+public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for and retrieves memory records from an AgentCore Memory re- source based on specified search criteria. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMem- oryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
+    /// </summary>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to re- trieve memory records. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SearchCriteria">The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search pa- rameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: o min: 1 o max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: o min: 1 o max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: o min: 1 o max: 5 (structure) Filters to apply to metadata associated with a memory. Spec- ify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: o EQUALS_TO o EXISTS o NOT_EXISTS o BEFORE o AFTER o CONTAINS o GREATER_THAN o GREATER_THAN_OR_EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }</param>
+    public AwsBedrockAgentcoreRetrieveMemoryRecordsOptions(
+        string MemoryId,
+        string SearchCriteria
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemoryId);
+        this.MemoryId = MemoryId;
+        global::System.ArgumentNullException.ThrowIfNull(SearchCriteria);
+        this.SearchCriteria = SearchCriteria;
+    }
+
+    private AwsBedrockAgentcoreRetrieveMemoryRecordsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreRetrieveMemoryRecordsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreRetrieveMemoryRecordsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the AgentCore Memory resource from which to re- trieve memory records. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--memory-id")]
-    public string? MemoryId { get; set; }
+    public string? MemoryId { get; private init; }
+
+    /// <summary>
+    /// The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search pa- rameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: o min: 1 o max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: o min: 1 o max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: o min: 1 o max: 5 (structure) Filters to apply to metadata associated with a memory. Spec- ify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: o EQUALS_TO o EXISTS o NOT_EXISTS o BEFORE o AFTER o CONTAINS o GREATER_THAN o GREATER_THAN_OR_EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }
+    /// </summary>
+    [CliOption("--search-criteria")]
+    public string? SearchCriteria { get; private init; }
 
     /// <summary>
     /// The namespace prefix to filter memory records by. Searches for mem- ory records in namespaces that start with the provided prefix. Ei- ther namespace or namespacePath is required. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
@@ -36,9 +83,6 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions
     /// </summary>
     [CliOption("--namespace-path")]
     public string? NamespacePath { get; set; }
-
-    [CliOption("--search-criteria")]
-    public string? SearchCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -64,5 +108,21 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

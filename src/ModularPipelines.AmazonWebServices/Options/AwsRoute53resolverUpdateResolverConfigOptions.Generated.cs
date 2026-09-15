@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "update-resolver-config")]
-public record AwsRoute53resolverUpdateResolverConfigOptions : AwsOptions
+public record AwsRoute53resolverUpdateResolverConfigOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: o min: 1 o max: 64</param>
+    /// <param name="AutodefinedReverseFlag">Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more informa- tion, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING</param>
+    public AwsRoute53resolverUpdateResolverConfigOptions(
+        string ResourceId,
+        AwsRoute53resolverUpdateResolverConfigAutodefinedReverseFlag AutodefinedReverseFlag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(AutodefinedReverseFlag);
+        this.AutodefinedReverseFlag = AutodefinedReverseFlag;
+    }
+
+    private AwsRoute53resolverUpdateResolverConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverUpdateResolverConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverUpdateResolverConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in the Amazon EC2 guide . WARNING: We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more informa- tion, see Migrate from EC2-Classic to a VPC in the Amazon EC2 guide and the blog EC2-Classic Networking is Retiring Heres How to Prepare . NOTE: It can take some time for the status change to be completed. Possible values: o ENABLE o DISABLE o USE_LOCAL_RESOURCE_SETTING
+    /// </summary>
     [CliOption("--autodefined-reverse-flag")]
-    public string? AutodefinedReverseFlag { get; set; }
+    public AwsRoute53resolverUpdateResolverConfigAutodefinedReverseFlag? AutodefinedReverseFlag { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

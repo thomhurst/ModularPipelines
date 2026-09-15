@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,15 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stepfunctions", "get-execution-history")]
-public record AwsStepfunctionsGetExecutionHistoryOptions : AwsOptions
+public record AwsStepfunctionsGetExecutionHistoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--execution-arn")]
-    public string? ExecutionArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. ...
+    /// </summary>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution. Constraints: o min: 1 o max: 256</param>
+    public AwsStepfunctionsGetExecutionHistoryOptions(
+        string ExecutionArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionArn);
+        this.ExecutionArn = ExecutionArn;
+    }
+
+    private AwsStepfunctionsGetExecutionHistoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStepfunctionsGetExecutionHistoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStepfunctionsGetExecutionHistoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the execution. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--execution-arn")]
+    public string? ExecutionArn { get; private init; }
+
+    /// <summary>
+    /// Lists events in descending order of their timeStamp .
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
-    [CliFlag("--include-execution-data")]
+    /// <summary>
+    /// You can select whether execution data (input or output of a history event) is returned. The default is true .
+    /// </summary>
+    [CliFlag("--include-execution-data", NegatedName = "--no-include-execution-data")]
     public bool? IncludeExecutionData { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -55,5 +98,21 @@ public record AwsStepfunctionsGetExecutionHistoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

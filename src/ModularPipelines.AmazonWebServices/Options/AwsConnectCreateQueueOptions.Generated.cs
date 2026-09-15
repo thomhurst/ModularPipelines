@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-queue")]
-public record AwsConnectCreateQueueOptions : AwsOptions
+public record AwsConnectCreateQueueOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new queue for the specified Connect Customer instance. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in another Amazon Web Services Re...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of the queue. Constraints: o min: 1 o max: 127</param>
+    /// <param name="HoursOfOperationId">The identifier for the hours of operation.</param>
+    public AwsConnectCreateQueueOptions(
+        string InstanceId,
+        string Name,
+        string HoursOfOperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(HoursOfOperationId);
+        this.HoursOfOperationId = HoursOfOperationId;
+    }
+
+    private AwsConnectCreateQueueOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateQueueOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateQueueOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of the queue. Constraints: o min: 1 o max: 127
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The identifier for the hours of operation.
+    /// </summary>
+    [CliOption("--hours-of-operation-id")]
+    public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
     /// The description of the queue. Constraints: o min: 1 o max: 250
@@ -45,9 +99,6 @@ public record AwsConnectCreateQueueOptions : AwsOptions
     /// </summary>
     [CliOption("--outbound-email-config")]
     public string? OutboundEmailConfig { get; set; }
-
-    [CliOption("--hours-of-operation-id")]
-    public string? HoursOfOperationId { get; set; }
 
     /// <summary>
     /// The maximum number of contacts that can be in the queue before it is considered full. Constraints: o min: 0
@@ -78,5 +129,21 @@ public record AwsConnectCreateQueueOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

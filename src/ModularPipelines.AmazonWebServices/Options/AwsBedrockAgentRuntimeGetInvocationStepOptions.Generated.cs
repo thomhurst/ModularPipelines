@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "get-invocation-step")]
-public record AwsBedrockAgentRuntimeGetInvocationStepOptions : AwsOptions
+public record AwsBedrockAgentRuntimeGetInvocationStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the details of a specific invocation step within an invoca- tion in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InvocationIdentifier">The unique identifier for the invocation in UUID format. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="InvocationStepId">The unique identifier (in UUID format) for the specific invocation step to retrieve. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="SessionIdentifier">The unique identifier for the invocation step's associated session. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$</param>
+    public AwsBedrockAgentRuntimeGetInvocationStepOptions(
+        string InvocationIdentifier,
+        string InvocationStepId,
+        string SessionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InvocationIdentifier);
+        this.InvocationIdentifier = InvocationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(InvocationStepId);
+        this.InvocationStepId = InvocationStepId;
+        global::System.ArgumentNullException.ThrowIfNull(SessionIdentifier);
+        this.SessionIdentifier = SessionIdentifier;
+    }
+
+    private AwsBedrockAgentRuntimeGetInvocationStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeGetInvocationStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeGetInvocationStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the invocation in UUID format. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--invocation-identifier")]
-    public string? InvocationIdentifier { get; set; }
+    public string? InvocationIdentifier { get; private init; }
 
+    /// <summary>
+    /// The unique identifier (in UUID format) for the specific invocation step to retrieve. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// </summary>
     [CliOption("--invocation-step-id")]
-    public string? InvocationStepId { get; set; }
+    public string? InvocationStepId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the invocation step's associated session. You can specify either the session's sessionId or its Amazon Re- source Name (ARN). Constraints: o pattern: ^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]+:[0-9]{12}:ses- sion/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})|([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$
+    /// </summary>
     [CliOption("--session-identifier")]
-    public string? SessionIdentifier { get; set; }
+    public string? SessionIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

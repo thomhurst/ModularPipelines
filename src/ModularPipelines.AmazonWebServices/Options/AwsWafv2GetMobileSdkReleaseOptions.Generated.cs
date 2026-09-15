@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "get-mobile-sdk-release")]
-public record AwsWafv2GetMobileSdkReleaseOptions : AwsOptions
+public record AwsWafv2GetMobileSdkReleaseOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--platform")]
-    public string? Platform { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Platform">The device platform. Possible values: o IOS o ANDROID</param>
+    /// <param name="ReleaseVersion">The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$</param>
+    public AwsWafv2GetMobileSdkReleaseOptions(
+        AwsWafv2GetMobileSdkReleasePlatform Platform,
+        string ReleaseVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseVersion);
+        this.ReleaseVersion = ReleaseVersion;
+    }
+
+    private AwsWafv2GetMobileSdkReleaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2GetMobileSdkReleaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2GetMobileSdkReleaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The device platform. Possible values: o IOS o ANDROID
+    /// </summary>
+    [CliOption("--platform")]
+    public AwsWafv2GetMobileSdkReleasePlatform? Platform { get; private init; }
+
+    /// <summary>
+    /// The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$
+    /// </summary>
     [CliOption("--release-version")]
-    public string? ReleaseVersion { get; set; }
+    public string? ReleaseVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

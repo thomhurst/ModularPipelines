@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configservice", "get-aggregate-compliance-details-by-config-rule")]
-public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions : AwsOptions
+public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns the evaluation results for the specified Config rule for a spe- cific resource in a rule. The results indicate which Amazon Web Ser- vices resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. NOTE: The results can return an empty result page. But if you have a next- Token , the results are displayed on the next page. See also: AWS API Documentation get-aggregate-compliance-details-by-config-rule is a paginated oper...
+    /// </summary>
+    /// <param name="ConfigurationAggregatorName">The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+</param>
+    /// <param name="ConfigRuleName">The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="AccountId">The 12-digit account ID of the source account. Constraints: o pattern: \d{12}</param>
+    /// <param name="AwsRegion">The source region from where the data is aggregated. Constraints: o min: 1 o max: 64</param>
+    public AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions(
+        string ConfigurationAggregatorName,
+        string ConfigRuleName,
+        string AccountId,
+        string AwsRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationAggregatorName);
+        this.ConfigurationAggregatorName = ConfigurationAggregatorName;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigRuleName);
+        this.ConfigRuleName = ConfigRuleName;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(AwsRegion);
+        this.AwsRegion = AwsRegion;
+    }
+
+    private AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configuration aggregator. Constraints: o min: 1 o max: 256 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--configuration-aggregator-name")]
-    public string? ConfigurationAggregatorName { get; set; }
+    public string? ConfigurationAggregatorName { get; private init; }
 
+    /// <summary>
+    /// The name of the Config rule for which you want compliance informa- tion. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--config-rule-name")]
-    public string? ConfigRuleName { get; set; }
+    public string? ConfigRuleName { get; private init; }
 
+    /// <summary>
+    /// The 12-digit account ID of the source account. Constraints: o pattern: \d{12}
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The source region from where the data is aggregated. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--aws-region")]
-    public string? AwsRegion { get; set; }
+    public string? AwsRegion { get; private init; }
 
     /// <summary>
     /// The resource compliance status. NOTE: For the GetAggregateComplianceDetailsByConfigRuleRequest data type, Config supports only the COMPLIANT and NON_COMPLIANT . Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA values. Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA
@@ -65,5 +123,21 @@ public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions :
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

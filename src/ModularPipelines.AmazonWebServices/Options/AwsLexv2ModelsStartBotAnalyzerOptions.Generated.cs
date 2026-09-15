@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "start-bot-analyzer")]
-public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions
+public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improve- ments based on AWS best practices. The analysis examines your bot's configuration, including intents, ut- terances, slots, and conversation flows, to provide actionable recom- mendations for optimization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BotId">The unique identifier of the bot to analyze. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AnalysisScope">The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: o BotLocale</param>
+    public AwsLexv2ModelsStartBotAnalyzerOptions(
+        string BotId,
+        string AnalysisScope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(AnalysisScope);
+        this.AnalysisScope = AnalysisScope;
+    }
+
+    private AwsLexv2ModelsStartBotAnalyzerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStartBotAnalyzerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStartBotAnalyzerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the bot to analyze. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--bot-id")]
+    public string? BotId { get; private init; }
+
+    /// <summary>
+    /// The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: o BotLocale
+    /// </summary>
     [CliOption("--analysis-scope")]
-    public string? AnalysisScope { get; set; }
+    public string? AnalysisScope { get; private init; }
 
     /// <summary>
     /// The locale identifier for the bot locale to analyze. Required when analysisScope is BotLocale .
@@ -44,5 +88,21 @@ public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

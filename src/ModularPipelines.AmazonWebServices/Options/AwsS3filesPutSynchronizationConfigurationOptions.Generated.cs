@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3files", "put-synchronization-configuration")]
-public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions
+public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to con- figure synchronization for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="ImportDataRules">An array of import data rules that control how data is imported from S3 into the file system. Constraints: o min: 1 o max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: o pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DI- RECTORY_FIRST_ACCESS (import when a directory is first ac- cessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: o ON_DIRECTORY_FIRST_ACCESS o ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only ob- jects with a size strictly less than this value will have data imported into the file system. Constraints: o min: 0 o max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]</param>
+    /// <param name="ExpirationDataRules">An array of expiration data rules that control when cached data ex- pires from the file system. Constraints: o min: 1 o max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data ex- pires from the file system. Constraints: o min: 1 o max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]</param>
+    public AwsS3filesPutSynchronizationConfigurationOptions(
+        string FileSystemId,
+        IEnumerable<string> ImportDataRules,
+        IEnumerable<string> ExpirationDataRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileSystemId);
+        this.FileSystemId = FileSystemId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImportDataRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImportDataRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImportDataRules));
+            }
+
+            ImportDataRules = materialized;
+        }
+        this.ImportDataRules = ImportDataRules;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ExpirationDataRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ExpirationDataRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ExpirationDataRules));
+            }
+
+            ExpirationDataRules = materialized;
+        }
+        this.ExpirationDataRules = ExpirationDataRules;
+    }
+
+    private AwsS3filesPutSynchronizationConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3filesPutSynchronizationConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3filesPutSynchronizationConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to con- figure synchronization for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// </summary>
     [CliOption("--file-system-id")]
-    public string? FileSystemId { get; set; }
+    public string? FileSystemId { get; private init; }
+
+    /// <summary>
+    /// An array of import data rules that control how data is imported from S3 into the file system. Constraints: o min: 1 o max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: o pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DI- RECTORY_FIRST_ACCESS (import when a directory is first ac- cessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: o ON_DIRECTORY_FIRST_ACCESS o ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only ob- jects with a size strictly less than this value will have data imported into the file system. Constraints: o min: 0 o max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]
+    /// </summary>
+    [CliOption("--import-data-rules", GroupValues = true)]
+    public IEnumerable<string>? ImportDataRules { get; private init; }
+
+    /// <summary>
+    /// An array of expiration data rules that control when cached data ex- pires from the file system. Constraints: o min: 1 o max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data ex- pires from the file system. Constraints: o min: 1 o max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]
+    /// </summary>
+    [CliOption("--expiration-data-rules", GroupValues = true)]
+    public IEnumerable<string>? ExpirationDataRules { get; private init; }
 
     /// <summary>
     /// The version number of the current synchronization configuration. Omit this value when creating a synchronization configuration for the first time. For subsequent updates, provide this value for opti- mistic concurrency control. If the version number does not match the current configuration, the request fails with a ConflictException .
@@ -30,16 +109,26 @@ public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions
     [CliOption("--latest-version-number")]
     public int? LatestVersionNumber { get; set; }
 
-    [CliOption("--import-data-rules", GroupValues = true)]
-    public IEnumerable<string>? ImportDataRules { get; set; }
-
-    [CliOption("--expiration-data-rules", GroupValues = true)]
-    public IEnumerable<string>? ExpirationDataRules { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

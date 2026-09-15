@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --uploadtype.
+/// Allowed values for --upload-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSsmPutComplianceItemsUploadType
 {
     [EnumValue("COMPLETE")]
-    Complete = 1,
+    Complete,
 
     [EnumValue("PARTIAL")]
-    Partial = 2
+    Partial
 }

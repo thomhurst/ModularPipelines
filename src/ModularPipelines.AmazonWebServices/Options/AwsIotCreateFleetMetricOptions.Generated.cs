@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +20,85 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-fleet-metric")]
-public record AwsIotCreateFleetMetricOptions : AwsOptions
+public record AwsIotCreateFleetMetricOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a fleet metric. Requires permission to access the CreateFleetMetric action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MetricName">The name of the fleet metric to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+</param>
+    /// <param name="QueryString">The search query string. Constraints: o min: 1</param>
+    /// <param name="AggregationType">The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: o Statistics o Percentiles o Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }</param>
+    /// <param name="Period">The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: o min: 60 o max: 86400</param>
+    /// <param name="AggregationField">The field to aggregate. Constraints: o min: 1</param>
+    public AwsIotCreateFleetMetricOptions(
+        string MetricName,
+        string QueryString,
+        string AggregationType,
+        int Period,
+        string AggregationField
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+        global::System.ArgumentNullException.ThrowIfNull(QueryString);
+        this.QueryString = QueryString;
+        global::System.ArgumentNullException.ThrowIfNull(AggregationType);
+        this.AggregationType = AggregationType;
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(AggregationField);
+        this.AggregationField = AggregationField;
+    }
+
+    private AwsIotCreateFleetMetricOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateFleetMetricOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateFleetMetricOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the fleet metric to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+
+    /// </summary>
     [CliOption("--metric-name")]
-    public string? MetricName { get; set; }
+    public string? MetricName { get; private init; }
 
+    /// <summary>
+    /// The search query string. Constraints: o min: 1
+    /// </summary>
     [CliOption("--query-string")]
-    public string? QueryString { get; set; }
+    public string? QueryString { get; private init; }
 
+    /// <summary>
+    /// The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: o Statistics o Percentiles o Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }
+    /// </summary>
     [CliOption("--aggregation-type")]
-    public string? AggregationType { get; set; }
+    public string? AggregationType { get; private init; }
 
+    /// <summary>
+    /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: o min: 60 o max: 86400
+    /// </summary>
     [CliOption("--period")]
-    public int? Period { get; set; }
+    public int? Period { get; private init; }
 
+    /// <summary>
+    /// The field to aggregate. Constraints: o min: 1
+    /// </summary>
     [CliOption("--aggregation-field")]
-    public string? AggregationField { get; set; }
+    public string? AggregationField { get; private init; }
 
     /// <summary>
     /// The fleet metric description. Constraints: o max: 1024 o pattern: [\p{Graph}\x20]*
@@ -71,5 +135,21 @@ public record AwsIotCreateFleetMetricOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

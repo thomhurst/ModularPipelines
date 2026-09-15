@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machinelearning", "predict")]
-public record AwsMachinelearningPredictOptions : AwsOptions
+public record AwsMachinelearningPredictOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a re- sponse parameter is populated depends on the type of model re- quested. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MlModelId">A unique identifier of the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Record">A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filter- ing variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="PredictEndpoint">Constraints: o max: 2048 o pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?</param>
+    public AwsMachinelearningPredictOptions(
+        string MlModelId,
+        IReadOnlyList<KeyValue> Record,
+        string PredictEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MlModelId);
+        this.MlModelId = MlModelId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Record);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Record));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Record));
+            }
+
+            Record = materialized;
+        }
+        this.Record = Record;
+        global::System.ArgumentNullException.ThrowIfNull(PredictEndpoint);
+        this.PredictEndpoint = PredictEndpoint;
+    }
+
+    private AwsMachinelearningPredictOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMachinelearningPredictOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMachinelearningPredictOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier of the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
     [CliOption("--ml-model-id")]
-    public string? MlModelId { get; set; }
+    public string? MlModelId { get; private init; }
 
+    /// <summary>
+    /// A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filter- ing variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--record", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Record { get; set; }
+    public IReadOnlyList<KeyValue>? Record { get; private init; }
 
+    /// <summary>
+    /// Constraints: o max: 2048 o pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?
+    /// </summary>
     [CliOption("--predict-endpoint")]
-    public string? PredictEndpoint { get; set; }
+    public string? PredictEndpoint { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

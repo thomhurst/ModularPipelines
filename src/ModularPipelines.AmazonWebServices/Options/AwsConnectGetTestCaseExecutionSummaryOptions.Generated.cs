@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "get-test-case-execution-summary")]
-public record AwsConnectGetTestCaseExecutionSummaryOptions : AwsOptions
+public record AwsConnectGetTestCaseExecutionSummaryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TestCaseId">The identifier of the test case. Constraints: o max: 500</param>
+    /// <param name="TestCaseExecutionId">The identifier of the test case execution. Constraints: o max: 500</param>
+    public AwsConnectGetTestCaseExecutionSummaryOptions(
+        string InstanceId,
+        string TestCaseId,
+        string TestCaseExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(TestCaseId);
+        this.TestCaseId = TestCaseId;
+        global::System.ArgumentNullException.ThrowIfNull(TestCaseExecutionId);
+        this.TestCaseExecutionId = TestCaseExecutionId;
+    }
+
+    private AwsConnectGetTestCaseExecutionSummaryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectGetTestCaseExecutionSummaryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectGetTestCaseExecutionSummaryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the test case. Constraints: o max: 500
+    /// </summary>
     [CliOption("--test-case-id")]
-    public string? TestCaseId { get; set; }
+    public string? TestCaseId { get; private init; }
 
+    /// <summary>
+    /// The identifier of the test case execution. Constraints: o max: 500
+    /// </summary>
     [CliOption("--test-case-execution-id")]
-    public string? TestCaseExecutionId { get; set; }
+    public string? TestCaseExecutionId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

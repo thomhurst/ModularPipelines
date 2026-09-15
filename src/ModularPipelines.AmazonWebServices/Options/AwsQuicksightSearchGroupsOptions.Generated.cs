@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "search-groups")]
-public record AwsQuicksightSearchGroupsOptions : AwsOptions
+public record AwsQuicksightSearchGroupsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters. See also: AWS API Documentation search-groups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// </summary>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that you want to search. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Filters">The structure for the search filters that you want to apply to your search. Constraints: o min: 1 o max: 1 (structure) A GroupSearchFilter object that you want to apply to your search. Operator -&gt; (string) [required] The comparison operator that you want to use as a filter, for example "Operator": "StartsWith" . Currently, the only sup- ported operator is StartsWith . Possible values: o StartsWith Name -&gt; (string) [required] The name of the value that you want to use as a filter, for example "Name": "GROUP_NAME" . Currently, the only supported name is GROUP_NAME . Possible values: o GROUP_NAME Value -&gt; (string) [required] The value of the named item, in this case GROUP_NAME , that you want to use as a filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StartsWith", "Name": "GROUP_NAME", "Value": "string" } ... ]</param>
+    public AwsQuicksightSearchGroupsOptions(
+        string AwsAccountId,
+        string Namespace,
+        IEnumerable<string> Filters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Filters);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Filters));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Filters));
+            }
+
+            Filters = materialized;
+        }
+        this.Filters = Filters;
+    }
+
+    private AwsQuicksightSearchGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightSearchGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightSearchGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// The namespace that you want to search. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// </summary>
     [CliOption("--namespace")]
-    public string? Namespace { get; set; }
+    public string? Namespace { get; private init; }
 
+    /// <summary>
+    /// The structure for the search filters that you want to apply to your search. Constraints: o min: 1 o max: 1 (structure) A GroupSearchFilter object that you want to apply to your search. Operator -&gt; (string) [required] The comparison operator that you want to use as a filter, for example "Operator": "StartsWith" . Currently, the only sup- ported operator is StartsWith . Possible values: o StartsWith Name -&gt; (string) [required] The name of the value that you want to use as a filter, for example "Name": "GROUP_NAME" . Currently, the only supported name is GROUP_NAME . Possible values: o GROUP_NAME Value -&gt; (string) [required] The value of the named item, in this case GROUP_NAME , that you want to use as a filter. Shorthand Syntax: Operator=string,Name=string,Value=string ... JSON Syntax: [ { "Operator": "StartsWith", "Name": "GROUP_NAME", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    public IEnumerable<string>? Filters { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +117,21 @@ public record AwsQuicksightSearchGroupsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

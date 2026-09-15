@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-id-namespace-association")]
-public record AwsCleanroomsCreateIdNamespaceAssociationOptions : AwsOptions
+public record AwsCleanroomsCreateIdNamespaceAssociationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an ID namespace association. See also: AWS API Documentation create-id-namespace-association uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the ID name- space association. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="InputReferenceConfig">The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: o min: 0 o max: 256 o pattern: arn:aws:entityresolu- tion:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }</param>
+    /// <param name="Name">The name for the ID namespace association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    public AwsCleanroomsCreateIdNamespaceAssociationOptions(
+        string MembershipIdentifier,
+        string InputReferenceConfig,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(InputReferenceConfig);
+        this.InputReferenceConfig = InputReferenceConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsCleanroomsCreateIdNamespaceAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateIdNamespaceAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateIdNamespaceAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the membership that contains the ID name- space association. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--membership-identifier")]
+    public string? MembershipIdentifier { get; private init; }
+
+    /// <summary>
+    /// The input reference configuration needed to create the ID namespace association. inputReferenceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own. Constraints: o min: 0 o max: 256 o pattern: arn:aws:entityresolu- tion:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:idnamespace/[\d\w-]+ manageResourcePolicies -&gt; (boolean) [required] When TRUE , Clean Rooms manages permissions for the ID namespace association resource. When FALSE , the resource owner manages permissions for the ID namespace association resource. Shorthand Syntax: inputReferenceArn=string,manageResourcePolicies=boolean JSON Syntax: { "inputReferenceArn": "string", "manageResourcePolicies": true|false }
+    /// </summary>
     [CliOption("--input-reference-config")]
-    public string? InputReferenceConfig { get; set; }
+    public string? InputReferenceConfig { get; private init; }
+
+    /// <summary>
+    /// The name for the ID namespace association. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The description of the ID namespace association. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
@@ -54,5 +105,21 @@ public record AwsCleanroomsCreateIdNamespaceAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

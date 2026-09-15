@@ -17,8 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsGlueGetPlanLanguage
 {
     [EnumValue("PYTHON")]
-    Python = 1,
+    Python,
 
     [EnumValue("SCALA")]
-    Scala = 2
+    Scala
 }

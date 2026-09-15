@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "update-resource")]
-public record AwsWorkmailUpdateResourceOptions : AwsOptions
+public record AwsWorkmailUpdateResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates data for the resource. To have the latest information, it must be preceded by a DescribeResource call. The dataset in the request should be the one expected when performing another DescribeResource call. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The identifier associated with the organization for which the re- source is updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ResourceId">The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    public AwsWorkmailUpdateResourceOptions(
+        string OrganizationId,
+        string ResourceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+    }
+
+    private AwsWorkmailUpdateResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailUpdateResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailUpdateResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier associated with the organization for which the re- source is updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the resource to be updated. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
     /// <summary>
     /// The name of the resource to be updated. Constraints: o min: 1 o max: 20 o pattern: [\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?
@@ -52,7 +96,10 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions
     [CliOption("--type")]
     public AwsWorkmailUpdateResourceType? Type { get; set; }
 
-    [CliFlag("--hidden-from-global-address-list")]
+    /// <summary>
+    /// dress-list (boolean) If enabled, the resource is hidden from the global address list.
+    /// </summary>
+    [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -60,5 +107,21 @@ public record AwsWorkmailUpdateResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "delete-project-policy")]
-public record AwsRekognitionDeleteProjectPolicyOptions : AwsOptions
+public record AwsRekognitionDeleteProjectPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--project-arn")]
-    public string? ProjectArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing project policy. To get a list of project policies attached to a project, call ListPro- jectPolicies . To attach a project policy to a project, call PutPro- jectPolicy . This operation requires permissions to perform the rekogni- tion:DeleteProjectPolicy action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project that the project pol- icy you want to delete is attached to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="PolicyName">The name of the policy that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    public AwsRekognitionDeleteProjectPolicyOptions(
+        string ProjectArn,
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectArn);
+        this.ProjectArn = ProjectArn;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    private AwsRekognitionDeleteProjectPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionDeleteProjectPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionDeleteProjectPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the project that the project pol- icy you want to delete is attached to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// </summary>
+    [CliOption("--project-arn")]
+    public string? ProjectArn { get; private init; }
+
+    /// <summary>
+    /// The name of the policy that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
     /// <summary>
     /// The ID of the project policy revision that you want to delete. Constraints: o max: 64 o pattern: [0-9A-Fa-f]+
@@ -38,5 +82,21 @@ public record AwsRekognitionDeleteProjectPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

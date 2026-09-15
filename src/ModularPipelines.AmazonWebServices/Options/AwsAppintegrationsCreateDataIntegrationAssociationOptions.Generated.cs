@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appintegrations", "create-data-integration-association")]
-public record AwsAppintegrationsCreateDataIntegrationAssociationOptions : AwsOptions
+public record AwsAppintegrationsCreateDataIntegrationAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and persists a DataIntegrationAssociation resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataIntegrationIdentifier">A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    public AwsAppintegrationsCreateDataIntegrationAssociationOptions(
+        string DataIntegrationIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataIntegrationIdentifier);
+        this.DataIntegrationIdentifier = DataIntegrationIdentifier;
+    }
+
+    private AwsAppintegrationsCreateDataIntegrationAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppintegrationsCreateDataIntegrationAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppintegrationsCreateDataIntegrationAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// </summary>
     [CliOption("--data-integration-identifier")]
-    public string? DataIntegrationIdentifier { get; set; }
+    public string? DataIntegrationIdentifier { get; private init; }
 
     /// <summary>
     /// The identifier for the client that is associated with the DataInte- gration association. Constraints: o min: 1 o max: 255 o pattern: .*
@@ -68,5 +105,21 @@ public record AwsAppintegrationsCreateDataIntegrationAssociationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

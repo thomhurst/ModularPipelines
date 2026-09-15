@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore", "update-browser-stream")]
-public record AwsBedrockAgentcoreUpdateBrowserStreamOptions : AwsOptions
+public record AwsBedrockAgentcoreUpdateBrowserStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a browser stream. To use this operation, you must have permis- sions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrowserIdentifier">The identifier of the browser.</param>
+    /// <param name="SessionId">The identifier of the browser session. Constraints: o pattern: [0-9a-zA-Z]{1,40}</param>
+    /// <param name="StreamUpdate">The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: o ENABLED o DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }</param>
+    public AwsBedrockAgentcoreUpdateBrowserStreamOptions(
+        string BrowserIdentifier,
+        string SessionId,
+        string StreamUpdate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrowserIdentifier);
+        this.BrowserIdentifier = BrowserIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+        global::System.ArgumentNullException.ThrowIfNull(StreamUpdate);
+        this.StreamUpdate = StreamUpdate;
+    }
+
+    private AwsBedrockAgentcoreUpdateBrowserStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreUpdateBrowserStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreUpdateBrowserStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the browser.
+    /// </summary>
     [CliOption("--browser-identifier")]
-    public string? BrowserIdentifier { get; set; }
+    public string? BrowserIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the browser session. Constraints: o pattern: [0-9a-zA-Z]{1,40}
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
+    /// <summary>
+    /// The update to apply to the browser stream. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: automationStreamUpdate. automationStreamUpdate -&gt; (structure) The update to an automation stream. streamStatus -&gt; (string) The status of the automation stream. Possible values: o ENABLED o DISABLED Shorthand Syntax: automationStreamUpdate={streamStatus=string} JSON Syntax: { "automationStreamUpdate": { "streamStatus": "ENABLED"|"DISABLED" } }
+    /// </summary>
     [CliOption("--stream-update")]
-    public string? StreamUpdate { get; set; }
+    public string? StreamUpdate { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
@@ -43,5 +94,21 @@ public record AwsBedrockAgentcoreUpdateBrowserStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("guardduty", "create-detector")]
-public record AwsGuarddutyCreateDetectorOptions : AwsOptions
+public record AwsGuarddutyCreateDetectorOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--enable")]
-    public bool? Enable { get; set; }
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a single GuardDuty detector. A detector is a resource that rep- resents the GuardDuty service. To start using GuardDuty, you must cre- ate a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are en- abled in a new detector by default. o When you don't specify any features , with an exception to RUN- TIME_MONITORING , all the optional features are enabled by default. o When you specify some of the features , any f...
+    /// </summary>
+    /// <param name="Enable">A Boolean value that specifies whether the detector is to be en- abled.</param>
+    public AwsGuarddutyCreateDetectorOptions(
+        bool Enable
+    )
+    {
+        this.Enable = Enable;
+    }
+
+    private AwsGuarddutyCreateDetectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGuarddutyCreateDetectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGuarddutyCreateDetectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A Boolean value that specifies whether the detector is to be en- abled.
+    /// </summary>
+    [CliFlag("--enable", NegatedName = "--no-enable")]
+    public bool? Enable { get; private init; }
 
     /// <summary>
     /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
@@ -63,5 +99,21 @@ public record AwsGuarddutyCreateDetectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

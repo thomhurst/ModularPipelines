@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,129 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-approval-policy")]
-public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions
+public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--policy-id")]
-    public string? PolicyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an approval policy in Quick Sight. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyId">The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Name">The name of the approval policy. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Actions">The list of governed actions that trigger the approval workflow. Constraints: o min: 1 o max: 10 (string) Possible values: o SHARE Syntax: "string" "string" ...</param>
+    /// <param name="AssetTypes">The list of asset types that the approval policy applies to. Constraints: o min: 1 (string) Possible values: o AGENT o SPACE o KNOWLEDGE_BASE Syntax: "string" "string" ...</param>
+    /// <param name="ApplicableTo">The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the ap- proval policy applies to. Valid values are defined as follows: o GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: o GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: o min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }</param>
+    /// <param name="ApprovalGroups">The list of group ARNs whose members can approve requests. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    public AwsQuicksightCreateApprovalPolicyOptions(
+        string PolicyId,
+        string Name,
+        IEnumerable<string> Actions,
+        IEnumerable<string> AssetTypes,
+        string ApplicableTo,
+        IEnumerable<string> ApprovalGroups
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AssetTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AssetTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AssetTypes));
+            }
+
+            AssetTypes = materialized;
+        }
+        this.AssetTypes = AssetTypes;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicableTo);
+        this.ApplicableTo = ApplicableTo;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ApprovalGroups);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ApprovalGroups));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ApprovalGroups));
+            }
+
+            ApprovalGroups = materialized;
+        }
+        this.ApprovalGroups = ApprovalGroups;
+    }
+
+    private AwsQuicksightCreateApprovalPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateApprovalPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateApprovalPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier to assign to the approval policy. You cannot change this value after you create the policy. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\-_]+
+    /// </summary>
+    [CliOption("--policy-id")]
+    public string? PolicyId { get; private init; }
+
+    /// <summary>
+    /// The name of the approval policy. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The list of governed actions that trigger the approval workflow. Constraints: o min: 1 o max: 10 (string) Possible values: o SHARE Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; private init; }
+
+    /// <summary>
+    /// The list of asset types that the approval policy applies to. Constraints: o min: 1 (string) Possible values: o AGENT o SPACE o KNOWLEDGE_BASE Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--asset-types", GroupValues = true)]
+    public IEnumerable<string>? AssetTypes { get; private init; }
+
+    /// <summary>
+    /// The scoping configuration that determines who the approval policy applies to. Type -&gt; (string) [required] The type of scoping that determines which principals the ap- proval policy applies to. Valid values are defined as follows: o GROUP : The policy applies only to principals in the groups specified by GroupArns . When you use GROUP , you must also provide a value for GroupArns . Possible values: o GROUP GroupArns -&gt; (list) The list of group ARNs that the policy applies to. Required when type is GROUP. Constraints: o min: 1 (string) Shorthand Syntax: Type=string,GroupArns=string,string JSON Syntax: { "Type": "GROUP", "GroupArns": ["string", ...] }
+    /// </summary>
+    [CliOption("--applicable-to")]
+    public string? ApplicableTo { get; private init; }
+
+    /// <summary>
+    /// The list of group ARNs whose members can approve requests. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--approval-groups", GroupValues = true)]
+    public IEnumerable<string>? ApprovalGroups { get; private init; }
 
     /// <summary>
     /// A description of the approval policy. Constraints: o min: 0 o max: 1024
@@ -33,22 +150,26 @@ public record AwsQuicksightCreateApprovalPolicyOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
-
-    [CliOption("--asset-types", GroupValues = true)]
-    public IEnumerable<string>? AssetTypes { get; set; }
-
-    [CliOption("--applicable-to")]
-    public string? ApplicableTo { get; set; }
-
-    [CliOption("--approval-groups", GroupValues = true)]
-    public IEnumerable<string>? ApprovalGroups { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

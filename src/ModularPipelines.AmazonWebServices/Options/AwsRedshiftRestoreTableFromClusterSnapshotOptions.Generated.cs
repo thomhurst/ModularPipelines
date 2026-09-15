@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +20,92 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "restore-table-from-cluster-snapshot")]
-public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions
+public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new table from a table in an Amazon Redshift cluster snap- shot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The identifier of the Amazon Redshift cluster to restore the table to. Constraints: o max: 2147483647</param>
+    /// <param name="SnapshotIdentifier">The identifier of the snapshot to restore the table from. This snap- shot must have been created from the Amazon Redshift cluster speci- fied by the ClusterIdentifier parameter. Constraints: o max: 2147483647</param>
+    /// <param name="SourceDatabaseName">The name of the source database that contains the table to restore from. Constraints: o max: 2147483647</param>
+    /// <param name="SourceTableName">The name of the source table to restore from. Constraints: o max: 2147483647</param>
+    /// <param name="NewTableName">The name of the table to create as a result of the current request. Constraints: o max: 2147483647</param>
+    public AwsRedshiftRestoreTableFromClusterSnapshotOptions(
+        string ClusterIdentifier,
+        string SnapshotIdentifier,
+        string SourceDatabaseName,
+        string SourceTableName,
+        string NewTableName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotIdentifier);
+        this.SnapshotIdentifier = SnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SourceDatabaseName);
+        this.SourceDatabaseName = SourceDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceTableName);
+        this.SourceTableName = SourceTableName;
+        global::System.ArgumentNullException.ThrowIfNull(NewTableName);
+        this.NewTableName = NewTableName;
+    }
+
+    private AwsRedshiftRestoreTableFromClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftRestoreTableFromClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftRestoreTableFromClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Amazon Redshift cluster to restore the table to. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier of the snapshot to restore the table from. This snap- shot must have been created from the Amazon Redshift cluster speci- fied by the ClusterIdentifier parameter. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--snapshot-identifier")]
-    public string? SnapshotIdentifier { get; set; }
+    public string? SnapshotIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the source database that contains the table to restore from. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--source-database-name")]
-    public string? SourceDatabaseName { get; set; }
+    public string? SourceDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the source table to restore from. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--source-table-name")]
+    public string? SourceTableName { get; private init; }
+
+    /// <summary>
+    /// The name of the table to create as a result of the current request. Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--new-table-name")]
+    public string? NewTableName { get; private init; }
 
     /// <summary>
     /// The name of the source schema that contains the table to restore from. If you do not specify a SourceSchemaName value, the default is public . Constraints: o max: 2147483647
     /// </summary>
     [CliOption("--source-schema-name")]
     public string? SourceSchemaName { get; set; }
-
-    [CliOption("--source-table-name")]
-    public string? SourceTableName { get; set; }
 
     /// <summary>
     /// The name of the database to restore the table to. Constraints: o max: 2147483647
@@ -51,10 +119,10 @@ public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions
     [CliOption("--target-schema-name")]
     public string? TargetSchemaName { get; set; }
 
-    [CliOption("--new-table-name")]
-    public string? NewTableName { get; set; }
-
-    [CliFlag("--enable-case-sensitive-identifier")]
+    /// <summary>
+    /// fier (boolean) Indicates whether name identifiers for database, schema, and table are case sensitive. If true , the names are case sensitive. If false (default), the names are not case sensitive.
+    /// </summary>
+    [CliFlag("--enable-case-sensitive-identifier", NegatedName = "--no-enable-case-sensitive-identifier")]
     public bool? EnableCaseSensitiveIdentifier { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -62,5 +130,21 @@ public record AwsRedshiftRestoreTableFromClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

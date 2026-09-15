@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "list-enterprise-support-linked-account-charges")]
-public record AwsBillingListEnterpriseSupportLinkedAccountChargesOptions : AwsOptions
+public record AwsBillingListEnterpriseSupportLinkedAccountChargesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns Support-eligible spend broken down at linked account level. See also: AWS API Documentation list-enterprise-support-linked-account-charges is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: li...
+    /// </summary>
+    /// <param name="BillingMonth">The billing month in YYYY-MM format. This must be a month in the past. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])</param>
+    public AwsBillingListEnterpriseSupportLinkedAccountChargesOptions(
+        string BillingMonth
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillingMonth);
+        this.BillingMonth = BillingMonth;
+    }
+
+    private AwsBillingListEnterpriseSupportLinkedAccountChargesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingListEnterpriseSupportLinkedAccountChargesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingListEnterpriseSupportLinkedAccountChargesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The billing month in YYYY-MM format. This must be a month in the past. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])
+    /// </summary>
     [CliOption("--billing-month")]
-    public string? BillingMonth { get; set; }
+    public string? BillingMonth { get; private init; }
 
     /// <summary>
     /// An optional linked account ID to filter results to a specific ac- count. Constraints: o pattern: [0-9]{12}
@@ -55,5 +92,21 @@ public record AwsBillingListEnterpriseSupportLinkedAccountChargesOptions : AwsOp
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

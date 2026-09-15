@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "send-whatsapp-message")]
-public record AwsSocialmessagingSendWhatsappMessageOptions : AwsOptions
+public record AwsSocialmessagingSendWhatsappMessageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Ser- vices End User Messaging Social User Guide * . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OriginationPhoneNumberId">The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Message">The message to send through WhatsApp. The length is in KB. The mes- sage field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: o min: 1 o max: 2048000</param>
+    /// <param name="MetaApiVersion">The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service End- points &lt;- https://docs.aws.amazon.com/general/latest/gr/end-user-messag- ing.html&gt;`__ in the Amazon Web Services General Reference .</param>
+    public AwsSocialmessagingSendWhatsappMessageOptions(
+        string OriginationPhoneNumberId,
+        string Message,
+        string MetaApiVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginationPhoneNumberId);
+        this.OriginationPhoneNumberId = OriginationPhoneNumberId;
+        global::System.ArgumentNullException.ThrowIfNull(Message);
+        this.Message = Message;
+        global::System.ArgumentNullException.ThrowIfNull(MetaApiVersion);
+        this.MetaApiVersion = MetaApiVersion;
+    }
+
+    private AwsSocialmessagingSendWhatsappMessageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingSendWhatsappMessageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingSendWhatsappMessageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the phone number used to send the WhatsApp message. If you are sending a media file only the originationPhoneNumberId used to upload the file can be used. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// </summary>
     [CliOption("--origination-phone-number-id")]
-    public string? OriginationPhoneNumberId { get; set; }
+    public string? OriginationPhoneNumberId { get; private init; }
 
+    /// <summary>
+    /// The message to send through WhatsApp. The length is in KB. The mes- sage field passes through a WhatsApp Message object, see Messages in the WhatsApp Business Platform Cloud API Reference . Constraints: o min: 1 o max: 2048000
+    /// </summary>
     [CliOption("--message")]
-    public string? Message { get; set; }
+    public string? Message { get; private init; }
 
+    /// <summary>
+    /// The API version for the request formatted as v{VersionNumber} . For a list of supported API versions and Amazon Web Services Regions, see ` Amazon Web Services End User Messaging Social API Service End- points &lt;- https://docs.aws.amazon.com/general/latest/gr/end-user-messag- ing.html&gt;`__ in the Amazon Web Services General Reference .
+    /// </summary>
     [CliOption("--meta-api-version")]
-    public string? MetaApiVersion { get; set; }
+    public string? MetaApiVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

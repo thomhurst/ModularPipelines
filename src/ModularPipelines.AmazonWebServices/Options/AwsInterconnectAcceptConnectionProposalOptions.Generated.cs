@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("interconnect", "accept-connection-proposal")]
-public record AwsInterconnectAcceptConnectionProposalOptions : AwsOptions
+public record AwsInterconnectAcceptConnectionProposalOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--attach-point")]
-    public string? AttachPoint { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Accepts a connection proposal which was generated at a supported part- ner's portal. The proposal contains the Environment and bandwidth that were chosen on the partner's portal and cannot be modified. Upon accepting the proposal a connection will be made between the AWS network as accessed via the selected Attach Point and the network pre- viously selected network on the partner's portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AttachPoint">The Attach Point to which the connection should be associated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }</param>
+    /// <param name="ActivationKey">An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. The details of this request can be described using with De- scribeConnectionProposal . Constraints: o min: 1 o max: 2048</param>
+    public AwsInterconnectAcceptConnectionProposalOptions(
+        string AttachPoint,
+        string ActivationKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachPoint);
+        this.AttachPoint = AttachPoint;
+        global::System.ArgumentNullException.ThrowIfNull(ActivationKey);
+        this.ActivationKey = ActivationKey;
+    }
+
+    private AwsInterconnectAcceptConnectionProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInterconnectAcceptConnectionProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInterconnectAcceptConnectionProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Attach Point to which the connection should be associated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: directConnectGateway, arn. directConnectGateway -&gt; (string) Identifies an DirectConnect Gateway attach point by DirectCon- nectGatewayID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} arn -&gt; (string) Identifies an attach point by full ARN. Constraints: o min: 59 o max: 150 o pattern: arn:aws[a-z-]*:interconnect:[^:]+:[0-9]{12}:connec- tion/(mcc|lmcc)-[a-z0-9]{8} Shorthand Syntax: directConnectGateway=string,arn=string JSON Syntax: { "directConnectGateway": "string", "arn": "string" }
+    /// </summary>
+    [CliOption("--attach-point")]
+    public string? AttachPoint { get; private init; }
+
+    /// <summary>
+    /// An Activation Key that was generated on a supported partner's por- tal. This key captures the desired parameters from the initial cre- ation request. The details of this request can be described using with De- scribeConnectionProposal . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--activation-key")]
-    public string? ActivationKey { get; set; }
+    public string? ActivationKey { get; private init; }
 
     /// <summary>
     /// A description to distinguish this Connection . Constraints: o min: 1 o max: 255 o pattern: [-a-zA-Z0-9_ ]+
@@ -53,5 +97,21 @@ public record AwsInterconnectAcceptConnectionProposalOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

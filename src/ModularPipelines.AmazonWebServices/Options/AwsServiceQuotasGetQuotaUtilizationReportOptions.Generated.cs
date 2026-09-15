@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-quotas", "get-quota-utilization-report")]
-public record AwsServiceQuotasGetQuotaUtilizationReportOptions : AwsOptions
+public record AwsServiceQuotasGetQuotaUtilizationReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the quota utilization report for your Amazon Web Services ac- count. This operation returns paginated results showing your quota us- age across all Amazon Web Services services, sorted by utilization per- centage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and r...
+    /// </summary>
+    /// <param name="ReportId">The unique identifier for the quota utilization report. This identi- fier is returned by the StartQuotaUtilizationReport operation. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    public AwsServiceQuotasGetQuotaUtilizationReportOptions(
+        string ReportId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportId);
+        this.ReportId = ReportId;
+    }
+
+    private AwsServiceQuotasGetQuotaUtilizationReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServiceQuotasGetQuotaUtilizationReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServiceQuotasGetQuotaUtilizationReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the quota utilization report. This identi- fier is returned by the StartQuotaUtilizationReport operation. Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// </summary>
     [CliOption("--report-id")]
-    public string? ReportId { get; set; }
+    public string? ReportId { get; private init; }
 
     /// <summary>
     /// A token that indicates the next page of results to retrieve. This token is returned in the response when there are more results avail- able. Omit this parameter for the first request. Constraints: o max: 2048 o pattern: ^[a-zA-Z0-9/+]*={0,2}$
@@ -43,5 +80,21 @@ public record AwsServiceQuotasGetQuotaUtilizationReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

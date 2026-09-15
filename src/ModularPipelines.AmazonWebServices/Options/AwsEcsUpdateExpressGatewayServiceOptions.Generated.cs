@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "update-express-gateway-service")]
-public record AwsEcsUpdateExpressGatewayServiceOptions : AwsOptions
+public record AwsEcsUpdateExpressGatewayServiceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing Express service configuration. Modifies container settings, resource allocation, auto-scaling configuration, and other service parameters without recreating the service. Amazon ECS creates a new service revision with updated configuration and performs a rolling deployment to replace existing tasks. The ser- vice remains available during updates, ensuring zero-downtime deploy- ments. Some parameters like the infrastructure role cannot be modified after service creation and req...
+    /// </summary>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the Express service to update.</param>
+    public AwsEcsUpdateExpressGatewayServiceOptions(
+        string ServiceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceArn);
+        this.ServiceArn = ServiceArn;
+    }
+
+    private AwsEcsUpdateExpressGatewayServiceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsUpdateExpressGatewayServiceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsUpdateExpressGatewayServiceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Express service to update.
+    /// </summary>
     [CliOption("--service-arn")]
-    public string? ServiceArn { get; set; }
+    public string? ServiceArn { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
@@ -67,13 +104,19 @@ public record AwsEcsUpdateExpressGatewayServiceOptions : AwsOptions
     public string? Memory { get; set; }
 
     /// <summary>
+    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the ser- vice keeps the architecture that it currently runs on. Valid values: o X86_64 - The x86 64-bit architecture. o ARM64 - The 64-bit ARM architecture. Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX . You can't specify cpuArchitecture when you also specify taskDefini- tionArn , because this value applies only to a task definition that Amazon ECS registers on your behalf. Possible values: o X86_64 o ARM64
+    /// </summary>
+    [CliOption("--cpu-architecture")]
+    public string? CpuArchitecture { get; set; }
+
+    /// <summary>
     /// The auto-scaling configuration for the Express service. minTaskCount -&gt; (integer) The minimum number of tasks to run in the Express service. maxTaskCount -&gt; (integer) The maximum number of tasks to run in the Express service. autoScalingMetric -&gt; (string) The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization . Possible values: o AVERAGE_CPU o AVERAGE_MEMORY o REQUEST_COUNT_PER_TARGET autoScalingTargetValue -&gt; (integer) The target value for the auto-scaling metric. The default value for an Express service is 60. Shorthand Syntax: minTaskCount=integer,maxTaskCount=integer,autoScalingMetric=string,autoScalingTargetValue=integer JSON Syntax: { "minTaskCount": integer, "maxTaskCount": integer, "autoScalingMetric": "AVERAGE_CPU"|"AVERAGE_MEMORY"|"REQUEST_COUNT_PER_TARGET", "autoScalingTargetValue": integer }
     /// </summary>
     [CliOption("--scaling-target")]
     public string? ScalingTarget { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify prima- ryContainer , executionRoleArn , taskRoleArn , cpu , or memory .
+    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify prima- ryContainer , executionRoleArn , taskRoleArn , cpu , memory , or cpuArchitecture .
     /// </summary>
     [CliOption("--task-definition-arn")]
     public string? TaskDefinitionArn { get; set; }
@@ -89,5 +132,21 @@ public record AwsEcsUpdateExpressGatewayServiceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

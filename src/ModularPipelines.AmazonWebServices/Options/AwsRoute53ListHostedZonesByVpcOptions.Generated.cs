@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53", "list-hosted-zones-by-vpc")]
-public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions
+public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vpc-id")]
-    public string? VpcId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: o An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Ser- vices account. Some services, such as Cloud Map, create hosted zones using the current account. o A...
+    /// </summary>
+    /// <param name="VpcId">The ID of the Amazon VPC that you want to list hosted zones for. Constraints: o max: 1024</param>
+    /// <param name="VpcRegion">For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53ListHostedZonesByVpcOptions(
+        string VpcId,
+        string VpcRegion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        global::System.ArgumentNullException.ThrowIfNull(VpcRegion);
+        this.VpcRegion = VpcRegion;
+    }
+
+    private AwsRoute53ListHostedZonesByVpcOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53ListHostedZonesByVpcOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53ListHostedZonesByVpcOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon VPC that you want to list hosted zones for. Constraints: o max: 1024
+    /// </summary>
+    [CliOption("--vpc-id")]
+    public string? VpcId { get; private init; }
+
+    /// <summary>
+    /// For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--vpc-region")]
-    public string? VpcRegion { get; set; }
+    public string? VpcRegion { get; private init; }
 
     /// <summary>
     /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken ele- ment. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
@@ -46,5 +90,21 @@ public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

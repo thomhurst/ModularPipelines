@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "update-key")]
-public record AwsLocationUpdateKeyOptions : AwsOptions
+public record AwsLocationUpdateKeyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified properties of a given API key resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyName">The name of the API key resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    public AwsLocationUpdateKeyOptions(
+        string KeyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+    }
+
+    private AwsLocationUpdateKeyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationUpdateKeyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationUpdateKeyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the API key resource to update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
     [CliOption("--key-name")]
-    public string? KeyName { get; set; }
+    public string? KeyName { get; private init; }
 
     /// <summary>
     /// Updates the description for the API key resource. Constraints: o min: 0 o max: 1000
@@ -36,10 +73,16 @@ public record AwsLocationUpdateKeyOptions : AwsOptions
     [CliOption("--expire-time")]
     public string? ExpireTime { get; set; }
 
-    [CliFlag("--no-expiry")]
+    /// <summary>
+    /// Whether the API key should expire. Set to true to set the API key to have no expiration time.
+    /// </summary>
+    [CliFlag("--no-expiry", NegatedName = "--no-no-expiry")]
     public bool? NoExpiry { get; set; }
 
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// The boolean flag to be included for updating ExpireTime or Restric- tions details. Must be set to true to update an API key resource that has been used in the past 7 days. False if force update is not preferred Default value: False
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     /// <summary>
@@ -53,5 +96,21 @@ public record AwsLocationUpdateKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

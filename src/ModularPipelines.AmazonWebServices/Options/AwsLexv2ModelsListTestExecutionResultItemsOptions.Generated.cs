@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "list-test-execution-result-items")]
-public record AwsLexv2ModelsListTestExecutionResultItemsOptions : AwsOptions
+public record AwsLexv2ModelsListTestExecutionResultItemsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--test-execution-id")]
-    public string? TestExecutionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets a list of test execution result items. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TestExecutionId">The unique identifier of the test execution to list the result items. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ResultFilterBy">The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: o OverallTestResults o ConversationLevelTestResults o IntentClassificationTestResults o SlotResolutionTestResults o UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: o Matched o Mismatched o ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }</param>
+    public AwsLexv2ModelsListTestExecutionResultItemsOptions(
+        string TestExecutionId,
+        string ResultFilterBy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TestExecutionId);
+        this.TestExecutionId = TestExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(ResultFilterBy);
+        this.ResultFilterBy = ResultFilterBy;
+    }
+
+    private AwsLexv2ModelsListTestExecutionResultItemsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsListTestExecutionResultItemsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsListTestExecutionResultItemsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the test execution to list the result items. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
+    [CliOption("--test-execution-id")]
+    public string? TestExecutionId { get; private init; }
+
+    /// <summary>
+    /// The filter for the list of results from the test set execution. resultTypeFilter -&gt; (string) [required] Specifies which results to filter. See Test result details"&gt;Test results details for details about different types of results. Possible values: o OverallTestResults o ConversationLevelTestResults o IntentClassificationTestResults o SlotResolutionTestResults o UtteranceLevelResults conversationLevelTestResultsFilterBy -&gt; (structure) Contains information about the method for filtering Conversation level test results. endToEndResult -&gt; (string) The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level. Possible values: o Matched o Mismatched o ExecutionError Shorthand Syntax: resultTypeFilter=string,conversationLevelTestResultsFilterBy={endToEndResult=string} JSON Syntax: { "resultTypeFilter": "OverallTestResults"|"ConversationLevelTestResults"|"IntentClassificationTestResults"|"SlotResolutionTestResults"|"UtteranceLevelResults", "conversationLevelTestResultsFilterBy": { "endToEndResult": "Matched"|"Mismatched"|"ExecutionError" } }
+    /// </summary>
     [CliOption("--result-filter-by")]
-    public string? ResultFilterBy { get; set; }
+    public string? ResultFilterBy { get; private init; }
 
     /// <summary>
     /// The maximum number of test execution result items to return in each page. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
@@ -46,5 +90,21 @@ public record AwsLexv2ModelsListTestExecutionResultItemsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

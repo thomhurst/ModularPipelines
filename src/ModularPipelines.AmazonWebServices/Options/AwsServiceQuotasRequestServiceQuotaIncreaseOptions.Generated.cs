@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-quotas", "request-service-quota-increase")]
-public record AwsServiceQuotasRequestServiceQuotaIncreaseOptions : AwsOptions
+public record AwsServiceQuotasRequestServiceQuotaIncreaseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Submits a quota increase request for the specified quota at the account or resource level. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceCode">Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}</param>
+    /// <param name="QuotaCode">Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}</param>
+    /// <param name="DesiredValue">Specifies the new, increased value for the quota. Constraints: o min: 0 o max: 10000000000</param>
+    public AwsServiceQuotasRequestServiceQuotaIncreaseOptions(
+        string ServiceCode,
+        string QuotaCode,
+        int DesiredValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceCode);
+        this.ServiceCode = ServiceCode;
+        global::System.ArgumentNullException.ThrowIfNull(QuotaCode);
+        this.QuotaCode = QuotaCode;
+        this.DesiredValue = DesiredValue;
+    }
+
+    private AwsServiceQuotasRequestServiceQuotaIncreaseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServiceQuotasRequestServiceQuotaIncreaseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServiceQuotasRequestServiceQuotaIncreaseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the ListServices operation. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,63}
+    /// </summary>
     [CliOption("--service-code")]
-    public string? ServiceCode { get; set; }
+    public string? ServiceCode { get; private init; }
 
+    /// <summary>
+    /// Specifies the quota identifier. To find the quota code for a spe- cific quota, use the ListServiceQuotas operation, and look for the QuotaCode response in the output for the quota you want. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9-]{1,128}
+    /// </summary>
     [CliOption("--quota-code")]
-    public string? QuotaCode { get; set; }
+    public string? QuotaCode { get; private init; }
 
+    /// <summary>
+    /// Specifies the new, increased value for the quota. Constraints: o min: 0 o max: 10000000000
+    /// </summary>
     [CliOption("--desired-value")]
-    public int? DesiredValue { get; set; }
+    public int? DesiredValue { get; private init; }
 
     /// <summary>
     /// Specifies the resource with an Amazon Resource Name (ARN).
@@ -36,7 +86,10 @@ public record AwsServiceQuotasRequestServiceQuotaIncreaseOptions : AwsOptions
     [CliOption("--context-id")]
     public string? ContextId { get; set; }
 
-    [CliFlag("--support-case-allowed")]
+    /// <summary>
+    /// Specifies if an Amazon Web Services Support case can be opened for the quota increase request. This parameter is optional. By default, this flag is set to True and Amazon Web Services may create a support case for some quota increase requests. You can set this flag to False if you do not want a support case created when you request a quota increase. If you set the flag to False , Amazon Web Services does not open a support case and updates the request status to Not approved .
+    /// </summary>
+    [CliFlag("--support-case-allowed", NegatedName = "--no-support-case-allowed")]
     public bool? SupportCaseAllowed { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -44,5 +97,21 @@ public record AwsServiceQuotasRequestServiceQuotaIncreaseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

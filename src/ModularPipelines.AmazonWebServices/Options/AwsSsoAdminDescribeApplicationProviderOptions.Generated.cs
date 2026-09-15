@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "describe-application-provider")]
-public record AwsSsoAdminDescribeApplicationProviderOptions : AwsOptions
+public record AwsSsoAdminDescribeApplicationProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details about a provider that can be used to connect an Ama- zon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationProviderArn">Specifies the ARN of the application provider for which you want de- tails. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+</param>
+    public AwsSsoAdminDescribeApplicationProviderOptions(
+        string ApplicationProviderArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationProviderArn);
+        this.ApplicationProviderArn = ApplicationProviderArn;
+    }
+
+    private AwsSsoAdminDescribeApplicationProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminDescribeApplicationProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminDescribeApplicationProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the ARN of the application provider for which you want de- tails. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+
+    /// </summary>
     [CliOption("--application-provider-arn")]
-    public string? ApplicationProviderArn { get; set; }
+    public string? ApplicationProviderArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "create-channel-flow")]
-public record AwsChimeSdkMessagingCreateChannelFlowOptions : AwsOptions
+public record AwsChimeSdkMessagingCreateChannelFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as strip- ping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items: o New and updated messages o Persistent and non-persistent messages o The Standard message type NOTE: Channel flows don't process...
+    /// </summary>
+    /// <param name="AppInstanceArn">The ARN of the channel flow request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Processors">Information about the processor Lambda functions. Constraints: o min: 1 o max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identi- fier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: o ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the se- quence. At this point, we support only 1 processor within a flow. Constraints: o min: 1 o max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communica- tion with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: o CONTINUE o ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]</param>
+    /// <param name="Name">The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    public AwsChimeSdkMessagingCreateChannelFlowOptions(
+        string AppInstanceArn,
+        IEnumerable<string> Processors,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceArn);
+        this.AppInstanceArn = AppInstanceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Processors);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Processors));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Processors));
+            }
+
+            Processors = materialized;
+        }
+        this.Processors = Processors;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsChimeSdkMessagingCreateChannelFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingCreateChannelFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingCreateChannelFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the channel flow request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
     [CliOption("--app-instance-arn")]
-    public string? AppInstanceArn { get; set; }
+    public string? AppInstanceArn { get; private init; }
 
+    /// <summary>
+    /// Information about the processor Lambda functions. Constraints: o min: 1 o max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identi- fier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: o ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the se- quence. At this point, we support only 1 processor within a flow. Constraints: o min: 1 o max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communica- tion with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: o CONTINUE o ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]
+    /// </summary>
     [CliOption("--processors", GroupValues = true)]
-    public IEnumerable<string>? Processors { get; set; }
+    public IEnumerable<string>? Processors { get; private init; }
 
+    /// <summary>
+    /// The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The tags for the creation request. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -49,5 +111,21 @@ public record AwsChimeSdkMessagingCreateChannelFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

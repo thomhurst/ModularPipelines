@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "describe-step")]
-public record AwsEmrDescribeStepOptions : AwsOptions
+public record AwsEmrDescribeStepOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-id")]
-    public string? ClusterId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides more detail about the cluster step. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterId">The identifier of the cluster with steps to describe. Constraints: o max: 256</param>
+    /// <param name="StepId">The identifier of the step to describe.</param>
+    public AwsEmrDescribeStepOptions(
+        string ClusterId,
+        string StepId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterId);
+        this.ClusterId = ClusterId;
+        global::System.ArgumentNullException.ThrowIfNull(StepId);
+        this.StepId = StepId;
+    }
+
+    private AwsEmrDescribeStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrDescribeStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrDescribeStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster with steps to describe. Constraints: o max: 256
+    /// </summary>
+    [CliOption("--cluster-id")]
+    public string? ClusterId { get; private init; }
+
+    /// <summary>
+    /// The identifier of the step to describe.
+    /// </summary>
     [CliOption("--step-id")]
-    public string? StepId { get; set; }
+    public string? StepId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("m2", "create-data-set-export-task")]
-public record AwsM2CreateDataSetExportTaskOptions : AwsOptions
+public record AwsM2CreateDataSetExportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a data set export task for a specific application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the application for which you want to ex- port data sets. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ExportConfig">The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 1024 (structure) Identifies a specific data set to export from an external lo- cation. datasetName -&gt; (string) [required] The data set. Constraints: o pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }</param>
+    public AwsM2CreateDataSetExportTaskOptions(
+        string ApplicationId,
+        string ExportConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ExportConfig);
+        this.ExportConfig = ExportConfig;
+    }
+
+    private AwsM2CreateDataSetExportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsM2CreateDataSetExportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsM2CreateDataSetExportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the application for which you want to ex- port data sets. Constraints: o pattern: ^\S{1,80}$
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The data set export task configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dataSets, s3Location. dataSets -&gt; (list) The data sets. Constraints: o min: 1 o max: 1024 (structure) Identifies a specific data set to export from an external lo- cation. datasetName -&gt; (string) [required] The data set. Constraints: o pattern: ^\S{1,200}$ externalLocation -&gt; (tagged union structure) [required] The location of the data set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: s3Location. s3Location -&gt; (string) The URI of the Amazon S3 bucket. Constraints: o pattern: ^\S{1,2000}$ s3Location -&gt; (string) The Amazon S3 location of the data sets. JSON Syntax: { "dataSets": [ { "datasetName": "string", "externalLocation": { "s3Location": "string" } } ... ], "s3Location": "string" }
+    /// </summary>
+    [CliOption("--export-config")]
+    public string? ExportConfig { get; private init; }
 
     /// <summary>
     /// Unique, case-sensitive identifier you provide to ensure the idempo- tency of the request to create a data set export. The service gener- ates the clientToken when the API call is triggered. The token ex- pires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The ser- vice also handles deleting the clientToken after it expires. Constraints: o min: 0 o max: 128 o pattern: ^[!-~]+$
@@ -31,9 +78,6 @@ public record AwsM2CreateDataSetExportTaskOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--export-config")]
-    public string? ExportConfig { get; set; }
 
     /// <summary>
     /// The identifier of a customer managed key. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9:/_-]+$
@@ -46,5 +90,21 @@ public record AwsM2CreateDataSetExportTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

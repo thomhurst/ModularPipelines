@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "derive-shared-secret")]
-public record AwsKmsDeriveSharedSecretOptions : AwsOptions
+public record AwsKmsDeriveSharedSecretOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Derives a shared secret using a key agreement algorithm. NOTE: You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions only) KMS key pair with a KeyUsage value of KEY_AGREEMENT to call DeriveSharedSecret. DeriveSharedSecret uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive (ECDH) to establish a key agreement between two peers by deriving a shared secret from their elliptic curve pub- lic-private key pairs. You can use the raw shared secret that De...
+    /// </summary>
+    /// <param name="KeyId">Identifies an asymmetric NIST-standard ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT . To find the KeyUsage of a KMS key, use the De- scribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyAgreementAlgorithm">Specifies the key agreement algorithm used to derive the shared se- cret. The only valid value is ECDH . Possible values: o ECDH</param>
+    /// <param name="PublicKey">Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in RFC 5280 . GetPublicKey returns the public key of an asymmetric KMS key pair in the required DER-encoded format. NOTE: If you use Amazon Web Services CLI version 1 , you must provide the DER-encoded X.509 public key in a file. Otherwise, the Ama- zon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException . You can specify the public key as binary data in a file using fileb (fileb://&lt;path-to-file&gt; ) or in-line using a Base64 encoded string. Constraints: o min: 1 o max: 8192</param>
+    public AwsKmsDeriveSharedSecretOptions(
+        string KeyId,
+        AwsKmsDeriveSharedSecretKeyAgreementAlgorithm KeyAgreementAlgorithm,
+        string PublicKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+        global::System.ArgumentNullException.ThrowIfNull(KeyAgreementAlgorithm);
+        this.KeyAgreementAlgorithm = KeyAgreementAlgorithm;
+        global::System.ArgumentNullException.ThrowIfNull(PublicKey);
+        this.PublicKey = PublicKey;
+    }
+
+    private AwsKmsDeriveSharedSecretOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKmsDeriveSharedSecretOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKmsDeriveSharedSecretOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies an asymmetric NIST-standard ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT . To find the KeyUsage of a KMS key, use the De- scribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--key-id")]
-    public string? KeyId { get; set; }
+    public string? KeyId { get; private init; }
 
+    /// <summary>
+    /// Specifies the key agreement algorithm used to derive the shared se- cret. The only valid value is ECDH . Possible values: o ECDH
+    /// </summary>
     [CliOption("--key-agreement-algorithm")]
-    public string? KeyAgreementAlgorithm { get; set; }
+    public AwsKmsDeriveSharedSecretKeyAgreementAlgorithm? KeyAgreementAlgorithm { get; private init; }
 
+    /// <summary>
+    /// Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in RFC 5280 . GetPublicKey returns the public key of an asymmetric KMS key pair in the required DER-encoded format. NOTE: If you use Amazon Web Services CLI version 1 , you must provide the DER-encoded X.509 public key in a file. Otherwise, the Ama- zon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException . You can specify the public key as binary data in a file using fileb (fileb://&lt;path-to-file&gt; ) or in-line using a Base64 encoded string. Constraints: o min: 1 o max: 8192
+    /// </summary>
     [CliOption("--public-key")]
-    public string? PublicKey { get; set; }
+    public string? PublicKey { get; private init; }
 
     /// <summary>
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
@@ -38,7 +90,10 @@ public record AwsKmsDeriveSharedSecretOptions : AwsOptions
     [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -52,5 +107,21 @@ public record AwsKmsDeriveSharedSecretOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

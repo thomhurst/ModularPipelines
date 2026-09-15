@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "start-task-contact")]
-public record AwsConnectStartTaskContactOptions : AwsOptions
+public record AwsConnectStartTaskContactOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide . When using PreviousContactId and RelatedContactId input parameters, note the following: o PreviousContactId o Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain. o There can be a maximum of 12 linked task contacts in a chain. Tha...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Name">The name of a task that is shown to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 1024</param>
+    public AwsConnectStartTaskContactOptions(
+        string InstanceId,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsConnectStartTaskContactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectStartTaskContactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectStartTaskContactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The name of a task that is shown to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 1024
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The identifier of the previous chat, voice, or task contact. Any up- dates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain. Constraints: o min: 1 o max: 256
@@ -43,9 +90,6 @@ public record AwsConnectStartTaskContactOptions : AwsOptions
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
 
     /// <summary>
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during task creation. key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a con- tact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL ref- erence, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch time- stamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully cre- ated. Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
@@ -107,5 +151,21 @@ public record AwsConnectStartTaskContactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

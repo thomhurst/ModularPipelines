@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigatewayv2", "create-product-page")]
-public record AwsApigatewayv2CreateProductPageOptions : AwsOptions
+public record AwsApigatewayv2CreateProductPageOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--display-content")]
-    public string? DisplayContent { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new product page for a portal product. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayContent">The content of the product page. Body -&gt; (string) [required] The body. Constraints: o min: 1 o max: 32768 Title -&gt; (string) [required] The title. Constraints: o min: 1 o max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }</param>
+    /// <param name="PortalProductId">The portal product identifier.</param>
+    public AwsApigatewayv2CreateProductPageOptions(
+        string DisplayContent,
+        string PortalProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayContent);
+        this.DisplayContent = DisplayContent;
+        global::System.ArgumentNullException.ThrowIfNull(PortalProductId);
+        this.PortalProductId = PortalProductId;
+    }
+
+    private AwsApigatewayv2CreateProductPageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayv2CreateProductPageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayv2CreateProductPageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The content of the product page. Body -&gt; (string) [required] The body. Constraints: o min: 1 o max: 32768 Title -&gt; (string) [required] The title. Constraints: o min: 1 o max: 255 Shorthand Syntax: Body=string,Title=string JSON Syntax: { "Body": "string", "Title": "string" }
+    /// </summary>
+    [CliOption("--display-content")]
+    public string? DisplayContent { get; private init; }
+
+    /// <summary>
+    /// The portal product identifier.
+    /// </summary>
     [CliOption("--portal-product-id")]
-    public string? PortalProductId { get; set; }
+    public string? PortalProductId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

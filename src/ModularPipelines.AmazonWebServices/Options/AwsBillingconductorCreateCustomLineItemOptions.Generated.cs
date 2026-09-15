@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,23 +23,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billingconductor", "create-custom-line-item")]
-public record AwsBillingconductorCreateCustomLineItemOptions : AwsOptions
+public record AwsBillingconductorCreateCustomLineItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the custom line item. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="Description">The description of the custom line item. This is shown on the Bills page in association with the charge value. Constraints: o min: 1 o max: 255</param>
+    /// <param name="BillingGroupArn">The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
+    /// <param name="ChargeDetails">A CustomLineItemChargeDetails that describes the charge details for a custom line item. Flat -&gt; (structure) A CustomLineItemFlatChargeDetails that describes the charge de- tails of a flat custom line item. ChargeValue -&gt; (double) [required] The custom line item's fixed charge value in USD. Constraints: o min: 0 o max: 1000000 Percentage -&gt; (structure) A CustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item. PercentageValue -&gt; (double) [required] The custom line item's percentage value. This will be multi- plied against the combined value of its associated resources to determine its charge value. Constraints: o min: 0 o max: 10000 AssociatedValues -&gt; (list) A list of resource ARNs to associate to the percentage custom line item. Constraints: o min: 0 o max: 5 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:(customlineitem|billing- group)/)?[a-zA-Z0-9]{10,12} Type -&gt; (string) [required] The type of the custom line item that indicates whether the charge is a fee or credit. Possible values: o CREDIT o FEE LineItemFilters -&gt; (list) A representation of the line item filter. Constraints: o min: 0 o max: 1 (structure) A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plans discounts, you can update LineItemFilter to exclude it. Attribute -&gt; (string) [required] The attribute of the line item filter. This specifies what attribute that you can filter on. Possible values: o LINE_ITEM_TYPE o SERVICE MatchOption -&gt; (string) [required] The match criteria of the line item filter. This parame- ter specifies whether not to include the resource value from the billing group total cost. Possible values: o NOT_EQUAL o EQUAL Values -&gt; (list) The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Sav- ings Plans discounts. Constraints: o min: 0 o max: 1 (string) Possible values: o SAVINGS_PLAN_NEGATION AttributeValues -&gt; (list) The values of the line item filter. This specifies the values to filter on. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ JSON Syntax: { "Flat": { "ChargeValue": double }, "Percentage": { "PercentageValue": double, "AssociatedValues": ["string", ...] }, "Type": "CREDIT"|"FEE", "LineItemFilters": [ { "Attribute": "LINE_ITEM_TYPE"|"SERVICE", "MatchOption": "NOT_EQUAL"|"EQUAL", "Values": ["SAVINGS_PLAN_NEGATION", ...], "AttributeValues": ["string", ...] } ... ] }</param>
+    public AwsBillingconductorCreateCustomLineItemOptions(
+        string Name,
+        string Description,
+        string BillingGroupArn,
+        string ChargeDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(BillingGroupArn);
+        this.BillingGroupArn = BillingGroupArn;
+        global::System.ArgumentNullException.ThrowIfNull(ChargeDetails);
+        this.ChargeDetails = ChargeDetails;
+    }
+
+    private AwsBillingconductorCreateCustomLineItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBillingconductorCreateCustomLineItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBillingconductorCreateCustomLineItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom line item. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The description of the custom line item. This is shown on the Bills page in association with the charge value. Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
+    /// </summary>
+    [CliOption("--billing-group-arn")]
+    public string? BillingGroupArn { get; private init; }
+
+    /// <summary>
+    /// A CustomLineItemChargeDetails that describes the charge details for a custom line item. Flat -&gt; (structure) A CustomLineItemFlatChargeDetails that describes the charge de- tails of a flat custom line item. ChargeValue -&gt; (double) [required] The custom line item's fixed charge value in USD. Constraints: o min: 0 o max: 1000000 Percentage -&gt; (structure) A CustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item. PercentageValue -&gt; (double) [required] The custom line item's percentage value. This will be multi- plied against the combined value of its associated resources to determine its charge value. Constraints: o min: 0 o max: 10000 AssociatedValues -&gt; (list) A list of resource ARNs to associate to the percentage custom line item. Constraints: o min: 0 o max: 5 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconduc- tor::[0-9]{12}:(customlineitem|billing- group)/)?[a-zA-Z0-9]{10,12} Type -&gt; (string) [required] The type of the custom line item that indicates whether the charge is a fee or credit. Possible values: o CREDIT o FEE LineItemFilters -&gt; (list) A representation of the line item filter. Constraints: o min: 0 o max: 1 (structure) A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plans discounts, you can update LineItemFilter to exclude it. Attribute -&gt; (string) [required] The attribute of the line item filter. This specifies what attribute that you can filter on. Possible values: o LINE_ITEM_TYPE o SERVICE MatchOption -&gt; (string) [required] The match criteria of the line item filter. This parame- ter specifies whether not to include the resource value from the billing group total cost. Possible values: o NOT_EQUAL o EQUAL Values -&gt; (list) The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Sav- ings Plans discounts. Constraints: o min: 0 o max: 1 (string) Possible values: o SAVINGS_PLAN_NEGATION AttributeValues -&gt; (list) The values of the line item filter. This specifies the values to filter on. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ JSON Syntax: { "Flat": { "ChargeValue": double }, "Percentage": { "PercentageValue": double, "AssociatedValues": ["string", ...] }, "Type": "CREDIT"|"FEE", "LineItemFilters": [ { "Attribute": "LINE_ITEM_TYPE"|"SERVICE", "MatchOption": "NOT_EQUAL"|"EQUAL", "Values": ["SAVINGS_PLAN_NEGATION", ...], "AttributeValues": ["string", ...] } ... ] }
+    /// </summary>
+    [CliOption("--charge-details")]
+    public string? ChargeDetails { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you specify to ensure idem- potency of the request. Idempotency ensures that an API request com- pletes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries com- plete successfully without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--description")]
-    public string? Description { get; set; }
-
-    [CliOption("--billing-group-arn")]
-    public string? BillingGroupArn { get; set; }
 
     /// <summary>
     /// A time range for which the custom line item is effective. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
@@ -51,9 +112,6 @@ public record AwsBillingconductorCreateCustomLineItemOptions : AwsOptions
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
-
-    [CliOption("--charge-details")]
-    public string? ChargeDetails { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account in which this custom line item will be applied to. Constraints: o pattern: [0-9]{12}
@@ -78,5 +136,21 @@ public record AwsBillingconductorCreateCustomLineItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

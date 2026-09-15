@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "get-alarm-mute-rule")]
-public record AwsCloudwatchGetAlarmMuteRuleOptions : AwsOptions
+public record AwsCloudwatchGetAlarmMuteRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, in- cluding its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: o SCHEDULED : The mute rule is configured and will become active in the future o ACTIVE : The mute rule is currently muting alarm actions o EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrie...
+    /// </summary>
+    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to retrieve. Constraints: o min: 1 o max: 255</param>
+    public AwsCloudwatchGetAlarmMuteRuleOptions(
+        string AlarmMuteRuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AlarmMuteRuleName);
+        this.AlarmMuteRuleName = AlarmMuteRuleName;
+    }
+
+    private AwsCloudwatchGetAlarmMuteRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchGetAlarmMuteRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchGetAlarmMuteRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the alarm mute rule to retrieve. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--alarm-mute-rule-name")]
-    public string? AlarmMuteRuleName { get; set; }
+    public string? AlarmMuteRuleName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

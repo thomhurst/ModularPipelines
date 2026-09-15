@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --keywordaction.
+/// Allowed values for --keyword-action.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPinpointSmsVoiceV2PutKeywordKeywordAction
 {
     [EnumValue("AUTOMATIC_RESPONSE")]
-    AutomaticResponse = 1,
-
-    [EnumValue("OPT_OUT")]
-    OptOut = 2,
+    AutomaticResponse,
 
     [EnumValue("OPT_IN")]
-    OptIn = 3
+    OptIn,
+
+    [EnumValue("OPT_OUT")]
+    OptOut
 }

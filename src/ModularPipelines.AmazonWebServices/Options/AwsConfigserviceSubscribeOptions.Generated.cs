@@ -21,13 +21,40 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("configservice", "subscribe")]
 public record AwsConfigserviceSubscribeOptions : AwsOptions
 {
+    /// <summary>
+    /// Subscribes user to AWS Config by creating an AWS Config delivery chan- nel and configuration recorder to track AWS resource configurations. The names of the default channel and configuration recorder will be de- fault.
+    /// </summary>
+    /// <param name="S3Bucket"></param>
+    /// <param name="SnsTopic"></param>
+    /// <param name="IamRole"></param>
+    public AwsConfigserviceSubscribeOptions(
+        string S3Bucket,
+        string SnsTopic,
+        string IamRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(SnsTopic);
+        this.SnsTopic = SnsTopic;
+        global::System.ArgumentNullException.ThrowIfNull(IamRole);
+        this.IamRole = IamRole;
+    }
+
+    public void Deconstruct(out string S3Bucket, out string SnsTopic, out string IamRole)
+    {
+        S3Bucket = this.S3Bucket;
+        SnsTopic = this.SnsTopic;
+        IamRole = this.IamRole;
+    }
+
     [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
+    public string S3Bucket { get; private init; }
 
     [CliOption("--sns-topic")]
-    public string? SnsTopic { get; set; }
+    public string SnsTopic { get; private init; }
 
     [CliOption("--iam-role")]
-    public string? IamRole { get; set; }
+    public string IamRole { get; private init; }
 
 }

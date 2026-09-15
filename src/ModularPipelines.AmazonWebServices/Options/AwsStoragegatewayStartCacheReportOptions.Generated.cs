@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storagegateway", "start-cache-report")]
-public record AwsStoragegatewayStartCacheReportOptions : AwsOptions
+public record AwsStoragegatewayStartCacheReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the re- quest. NOTE: The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but b...
+    /// </summary>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500</param>
+    /// <param name="Role">The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$</param>
+    /// <param name="LocationArn">The ARN of the Amazon S3 bucket where you want to save the cache re- port. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: o min: 16 o max: 1400</param>
+    /// <param name="BucketRegion">The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: o min: 1 o max: 25</param>
+    /// <param name="ClientToken">A unique identifier that you use to ensure idempotent report genera- tion if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: o min: 5 o max: 100</param>
+    public AwsStoragegatewayStartCacheReportOptions(
+        string FileShareArn,
+        string Role,
+        string LocationArn,
+        string BucketRegion,
+        string ClientToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShareArn);
+        this.FileShareArn = FileShareArn;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(LocationArn);
+        this.LocationArn = LocationArn;
+        global::System.ArgumentNullException.ThrowIfNull(BucketRegion);
+        this.BucketRegion = BucketRegion;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+    }
+
+    private AwsStoragegatewayStartCacheReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsStoragegatewayStartCacheReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsStoragegatewayStartCacheReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500
+    /// </summary>
     [CliOption("--file-share-arn")]
-    public string? FileShareArn { get; set; }
+    public string? FileShareArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$
+    /// </summary>
     [CliOption("--role")]
-    public string? Role { get; set; }
+    public string? Role { get; private init; }
 
+    /// <summary>
+    /// The ARN of the Amazon S3 bucket where you want to save the cache re- port. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: o min: 16 o max: 1400
+    /// </summary>
     [CliOption("--location-arn")]
-    public string? LocationArn { get; set; }
+    public string? LocationArn { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: o min: 1 o max: 25
+    /// </summary>
     [CliOption("--bucket-region")]
-    public string? BucketRegion { get; set; }
+    public string? BucketRegion { get; private init; }
+
+    /// <summary>
+    /// A unique identifier that you use to ensure idempotent report genera- tion if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: o min: 5 o max: 100
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-token")]
+    public string? ClientToken { get; private init; }
 
     /// <summary>
     /// The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$
@@ -52,10 +121,6 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions
     [CliOption("--exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ExclusionFilters { get; set; }
 
-    [SecretValue]
-    [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
-
     /// <summary>
     /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -67,5 +132,21 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

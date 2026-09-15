@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --usercontextpolicy.
+/// Allowed values for --user-context-policy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKendraUpdateIndexUserContextPolicy
 {
     [EnumValue("ATTRIBUTE_FILTER")]
-    AttributeFilter = 1,
+    AttributeFilter,
 
     [EnumValue("USER_TOKEN")]
-    UserToken = 2
+    UserToken
 }

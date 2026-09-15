@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wellarchitected", "create-workload-share")]
-public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions
+public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services ac- counts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
+    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048</param>
+    /// <param name="PermissionType">Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR</param>
+    public AwsWellarchitectedCreateWorkloadShareOptions(
+        string WorkloadId,
+        string SharedWith,
+        AwsWellarchitectedCreateWorkloadSharePermissionType PermissionType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+        global::System.ArgumentNullException.ThrowIfNull(SharedWith);
+        this.SharedWith = SharedWith;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionType);
+        this.PermissionType = PermissionType;
+    }
+
+    private AwsWellarchitectedCreateWorkloadShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWellarchitectedCreateWorkloadShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWellarchitectedCreateWorkloadShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// </summary>
     [CliOption("--workload-id")]
-    public string? WorkloadId { get; set; }
+    public string? WorkloadId { get; private init; }
 
+    /// <summary>
+    /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048
+    /// </summary>
     [CliOption("--shared-with")]
-    public string? SharedWith { get; set; }
+    public string? SharedWith { get; private init; }
 
+    /// <summary>
+    /// Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR
+    /// </summary>
     [CliOption("--permission-type")]
-    public string? PermissionType { get; set; }
+    public AwsWellarchitectedCreateWorkloadSharePermissionType? PermissionType { get; private init; }
 
     /// <summary>
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
@@ -43,5 +95,21 @@ public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

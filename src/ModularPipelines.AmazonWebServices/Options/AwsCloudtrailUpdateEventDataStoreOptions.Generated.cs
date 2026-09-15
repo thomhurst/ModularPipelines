@@ -10,20 +10,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.AmazonWebServices.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers be- tween 7 and 3653 if the BillingMode is set to EXTENDABLE_RETEN- TION_PRICING , or between 7 and 2557 if BillingMode is set to FIXED_RE- TENTION_PRICING . By default, TerminationProtection is enabled. For event data sto...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an err...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "update-event-data-store")]
-public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
+public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an err...
+    /// </summary>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailUpdateEventDataStoreOptions(
+        string EventDataStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventDataStore);
+        this.EventDataStore = EventDataStore;
+    }
+
+    private AwsCloudtrailUpdateEventDataStoreOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailUpdateEventDataStoreOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailUpdateEventDataStoreOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--event-data-store")]
-    public string? EventDataStore { get; set; }
+    public string? EventDataStore { get; private init; }
 
     /// <summary>
     /// The event data store name. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
@@ -37,10 +73,16 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     [CliOption("--advanced-event-selectors", GroupValues = true)]
     public IEnumerable<string>? AdvancedEventSelectors { get; set; }
 
-    [CliFlag("--multi-region-enabled")]
+    /// <summary>
+    /// Specifies whether an event data store collects events from all Re- gions, or only from the Region in which it was created.
+    /// </summary>
+    [CliFlag("--multi-region-enabled", NegatedName = "--no-multi-region-enabled")]
     public bool? MultiRegionEnabled { get; set; }
 
-    [CliFlag("--organization-enabled")]
+    /// <summary>
+    /// Specifies whether an event data store collects events logged for an organization in Organizations. NOTE: Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to an or- ganization event data store.
+    /// </summary>
+    [CliFlag("--organization-enabled", NegatedName = "--no-organization-enabled")]
     public bool? OrganizationEnabled { get; set; }
 
     /// <summary>
@@ -49,7 +91,10 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
 
-    [CliFlag("--termination-protection-enabled")]
+    /// <summary>
+    /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
+    /// </summary>
+    [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
@@ -62,12 +107,28 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions
     /// NOTE: You can't change the billing mode from EXTENDABLE_RETEN- TION_PRICING to FIXED_RETENTION_PRICING . If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETEN- TION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RE- TENTION_PRICING . The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values: o EXTENDABLE_RETENTION_PRICING - This billing mode is generally rec- ommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days. o FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days. For more information about CloudTrail pricing, see CloudTrail Pric- ing and Managing CloudTrail Lake costs . Possible values: o EXTENDABLE_RETENTION_PRICING o FIXED_RETENTION_PRICING
     /// </summary>
     [CliOption("--billing-mode")]
-    public AwsCloudtrailUpdateEventDataStoreBillingMode? BillingMode { get; set; }
+    public string? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

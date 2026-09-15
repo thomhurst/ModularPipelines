@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,23 +22,59 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "update-instance-metadata-options")]
-public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions
+public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running in- stance, the GetInstance or GetInstances API operation initially re- sponds with a state of pending . After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the Amazon Lightsail Devel- oper Guide . S...
+    /// </summary>
+    /// <param name="InstanceName">The name of the instance for which to update metadata parameters. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailUpdateInstanceMetadataOptionsOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    private AwsLightsailUpdateInstanceMetadataOptionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailUpdateInstanceMetadataOptionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailUpdateInstanceMetadataOptionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the instance for which to update metadata parameters. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--instance-name")]
-    public string? InstanceName { get; set; }
+    public string? InstanceName { get; private init; }
 
     /// <summary>
     /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is op- tional . If the state is optional , you can choose whether to retrieve in- stance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role creden- tials by using a valid signed token, the version 2.0 role creden- tials are returned. If the state is required , you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Possible values: o optional o required
     /// </summary>
     [SecretValue]
     [CliOption("--http-tokens")]
-    public AwsLightsailUpdateInstanceMetadataHttpTokens? HttpTokens { get; set; }
+    public AwsLightsailUpdateInstanceMetadataOptionsHttpTokens? HttpTokens { get; set; }
 
     /// <summary>
     /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled , you cannot access your instance metadata. Possible values: o disabled o enabled
     /// </summary>
     [CliOption("--http-endpoint")]
-    public AwsLightsailUpdateInstanceMetadataHttpEndpoint? HttpEndpoint { get; set; }
+    public AwsLightsailUpdateInstanceMetadataOptionsHttpEndpoint? HttpEndpoint { get; set; }
 
     /// <summary>
     /// The desired HTTP PUT response hop limit for instance metadata re- quests. A larger number means that the instance metadata requests can travel farther. If no parameter is specified, the existing state is maintained.
@@ -49,12 +86,28 @@ public record AwsLightsailUpdateInstanceMetadataOptionsOptions : AwsOptions
     /// Enables or disables the IPv6 endpoint for the instance metadata ser- vice. This setting applies only when the HTTP metadata endpoint is enabled. NOTE: This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1 ). Possible values: o disabled o enabled
     /// </summary>
     [CliOption("--http-protocol-ipv6")]
-    public AwsLightsailUpdateInstanceMetadataHttpProtocolIpv6? HttpProtocolIpv6 { get; set; }
+    public AwsLightsailUpdateInstanceMetadataOptionsHttpProtocolIpv6? HttpProtocolIpv6 { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

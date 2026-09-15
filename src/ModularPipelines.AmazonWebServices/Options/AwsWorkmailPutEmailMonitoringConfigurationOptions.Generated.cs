@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workmail", "put-email-monitoring-configuration")]
-public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions
+public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the email monitoring configuration for a specified organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="OrganizationId">The ID of the organization for which the email monitoring configura- tion is set. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="LogGroupArn">The Amazon Resource Name (ARN) of the CloudWatch Log group associ- ated with the email monitoring configuration. Constraints: o min: 47 o max: 562 o pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$</param>
+    public AwsWorkmailPutEmailMonitoringConfigurationOptions(
+        string OrganizationId,
+        string LogGroupArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(LogGroupArn);
+        this.LogGroupArn = LogGroupArn;
+    }
+
+    private AwsWorkmailPutEmailMonitoringConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkmailPutEmailMonitoringConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkmailPutEmailMonitoringConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the organization for which the email monitoring configura- tion is set. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// </summary>
     [CliOption("--organization-id")]
-    public string? OrganizationId { get; set; }
+    public string? OrganizationId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the CloudWatch Log group associ- ated with the email monitoring configuration. Constraints: o min: 47 o max: 562 o pattern: arn:aws:logs:[a-z\-0-9]*:[0-9]{12}:log-group:([\.\-_/#A-Za-z0-9]+):\*$
+    /// </summary>
+    [CliOption("--log-group-arn")]
+    public string? LogGroupArn { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:iam:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
@@ -30,13 +77,26 @@ public record AwsWorkmailPutEmailMonitoringConfigurationOptions : AwsOptions
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CliOption("--log-group-arn")]
-    public string? LogGroupArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

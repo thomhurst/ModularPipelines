@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "revoke-cluster-security-group-ingress")]
-public record AwsRedshiftRevokeClusterSecurityGroupIngressOptions : AwsOptions
+public record AwsRedshiftRevokeClusterSecurityGroupIngressOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Revokes an ingress rule in an Amazon Redshift security group for a pre- viously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress . For informa- tion about managing security groups, go to Amazon Redshift Cluster Se- curity Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterSecurityGroupName">The name of the security Group from which to revoke the ingress rule. Constraints: o max: 2147483647</param>
+    public AwsRedshiftRevokeClusterSecurityGroupIngressOptions(
+        string ClusterSecurityGroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterSecurityGroupName);
+        this.ClusterSecurityGroupName = ClusterSecurityGroupName;
+    }
+
+    private AwsRedshiftRevokeClusterSecurityGroupIngressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftRevokeClusterSecurityGroupIngressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftRevokeClusterSecurityGroupIngressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the security Group from which to revoke the ingress rule. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-security-group-name")]
-    public string? ClusterSecurityGroupName { get; set; }
+    public string? ClusterSecurityGroupName { get; private init; }
 
     /// <summary>
     /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2Security- GroupOwnerId cannot be provided. Constraints: o max: 2147483647
@@ -47,5 +84,21 @@ public record AwsRedshiftRevokeClusterSecurityGroupIngressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

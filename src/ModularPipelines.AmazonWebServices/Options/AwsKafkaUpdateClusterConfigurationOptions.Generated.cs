@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "update-cluster-configuration")]
-public record AwsKafkaUpdateClusterConfigurationOptions : AwsOptions
+public record AwsKafkaUpdateClusterConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the cluster with the configuration that is specified in the re- quest body. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="ConfigurationInfo">Represents the configuration that you want MSK to use for the bro- kers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }</param>
+    /// <param name="CurrentVersion">The version of the cluster that needs to be updated.</param>
+    public AwsKafkaUpdateClusterConfigurationOptions(
+        string ClusterArn,
+        string ConfigurationInfo,
+        string CurrentVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationInfo);
+        this.ConfigurationInfo = ConfigurationInfo;
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVersion);
+        this.CurrentVersion = CurrentVersion;
+    }
+
+    private AwsKafkaUpdateClusterConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaUpdateClusterConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaUpdateClusterConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// Represents the configuration that you want MSK to use for the bro- kers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }
+    /// </summary>
     [CliOption("--configuration-info")]
-    public string? ConfigurationInfo { get; set; }
+    public string? ConfigurationInfo { get; private init; }
 
+    /// <summary>
+    /// The version of the cluster that needs to be updated.
+    /// </summary>
     [CliOption("--current-version")]
-    public string? CurrentVersion { get; set; }
+    public string? CurrentVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

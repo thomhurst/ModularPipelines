@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "create-tiering-configuration")]
-public record AwsBackupCreateTieringConfigurationOptions : AwsOptions
+public record AwsBackupCreateTieringConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a tiering configuration. A tiering configuration enables automatic movement of backup data to a lower-cost storage tier based on the age of backed-up objects in the backup vault. Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TieringConfiguration">A tiering configuration must contain a unique TieringConfigura- tionName string you create and must contain a BackupVaultName and ResourceSelection . You may optionally include a CreatorRequestId string. The TieringConfigurationName is a unique string that is the name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores. TieringConfigurationName -&gt; (string) [required] The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$ BackupVaultName -&gt; (string) [required] The name of the backup vault where the tiering configuration ap- plies. Use * to apply to all backup vaults. Constraints: o pattern: ^(\*|[a-zA-Z0-9\-\_]{2,50})$ ResourceSelection -&gt; (list) [required] An array of resource selection objects that specify which re- sources are included in the tiering configuration and their tiering settings. (structure) This contains metadata about resource selection for tiering configurations. You can specify up to 5 different resource selections per tiering configuration. Data moved to lower-cost tier remains there until deletion (one-way transition). Resources -&gt; (list) [required] An array of strings that either contains ARNs of the as- sociated resources or contains a wildcard * to specify all resources. You can specify up to 100 specific re- sources per tiering configuration. (string) TieringDownSettingsInDays -&gt; (integer) [required] The number of days after creation within a backup vault that an object can transition to the low cost warm stor- age tier. Must be a positive integer between 60 and 36500 days. Constraints: o min: 60 o max: 36500 ResourceType -&gt; (string) [required] The type of Amazon Web Services resource; for example, S3 for Amazon S3. For tiering configurations, this is cur- rently limited to S3 . Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ JSON Syntax: { "TieringConfigurationName": "string", "BackupVaultName": "string", "ResourceSelection": [ { "Resources": ["string", ...], "TieringDownSettingsInDays": integer, "ResourceType": "string" } ... ] }</param>
+    public AwsBackupCreateTieringConfigurationOptions(
+        string TieringConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TieringConfiguration);
+        this.TieringConfiguration = TieringConfiguration;
+    }
+
+    private AwsBackupCreateTieringConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupCreateTieringConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupCreateTieringConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A tiering configuration must contain a unique TieringConfigura- tionName string you create and must contain a BackupVaultName and ResourceSelection . You may optionally include a CreatorRequestId string. The TieringConfigurationName is a unique string that is the name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores. TieringConfigurationName -&gt; (string) [required] The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$ BackupVaultName -&gt; (string) [required] The name of the backup vault where the tiering configuration ap- plies. Use * to apply to all backup vaults. Constraints: o pattern: ^(\*|[a-zA-Z0-9\-\_]{2,50})$ ResourceSelection -&gt; (list) [required] An array of resource selection objects that specify which re- sources are included in the tiering configuration and their tiering settings. (structure) This contains metadata about resource selection for tiering configurations. You can specify up to 5 different resource selections per tiering configuration. Data moved to lower-cost tier remains there until deletion (one-way transition). Resources -&gt; (list) [required] An array of strings that either contains ARNs of the as- sociated resources or contains a wildcard * to specify all resources. You can specify up to 100 specific re- sources per tiering configuration. (string) TieringDownSettingsInDays -&gt; (integer) [required] The number of days after creation within a backup vault that an object can transition to the low cost warm stor- age tier. Must be a positive integer between 60 and 36500 days. Constraints: o min: 60 o max: 36500 ResourceType -&gt; (string) [required] The type of Amazon Web Services resource; for example, S3 for Amazon S3. For tiering configurations, this is cur- rently limited to S3 . Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$ JSON Syntax: { "TieringConfigurationName": "string", "BackupVaultName": "string", "ResourceSelection": [ { "Resources": ["string", ...], "TieringDownSettingsInDays": integer, "ResourceType": "string" } ... ] }
+    /// </summary>
     [CliOption("--tiering-configuration")]
-    public string? TieringConfiguration { get; set; }
+    public string? TieringConfiguration { get; private init; }
 
     /// <summary>
     /// The tags to assign to the tiering configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +79,21 @@ public record AwsBackupCreateTieringConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

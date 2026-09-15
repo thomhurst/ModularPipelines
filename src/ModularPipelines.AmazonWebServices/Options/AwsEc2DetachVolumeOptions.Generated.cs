@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "detach-volume")]
-public record AwsEc2DetachVolumeOptions : AwsOptions
+public record AwsEc2DetachVolumeOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an in- stance, it can't be detached while the instance is running. To detach th...
+    /// </summary>
+    /// <param name="VolumeId">The ID of the volume.</param>
+    public AwsEc2DetachVolumeOptions(
+        string VolumeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VolumeId);
+        this.VolumeId = VolumeId;
+    }
+
+    private AwsEc2DetachVolumeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DetachVolumeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DetachVolumeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the volume.
+    /// </summary>
+    [CliOption("--volume-id")]
+    public string? VolumeId { get; private init; }
+
     /// <summary>
     /// The device name.
     /// </summary>
     [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Forces detachment if the previous detachment attempt did not occur cleanly (for example, logging into an instance, unmounting the vol- ume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to de- tach a volume from a failed instance. The instance won't have an op- portunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -36,10 +79,10 @@ public record AwsEc2DetachVolumeOptions : AwsOptions
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CliOption("--volume-id")]
-    public string? VolumeId { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +90,21 @@ public record AwsEc2DetachVolumeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "update-network-migration-mapper-segment")]
-public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions
+public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a mapper segment's configuration, such as changing its scope tags. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SegmentId">The unique identifier of the segment to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsMgnUpdateNetworkMigrationMapperSegmentOptions(
+        string NetworkMigrationDefinitionId,
+        string NetworkMigrationExecutionId,
+        string SegmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationExecutionId);
+        this.NetworkMigrationExecutionId = NetworkMigrationExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(SegmentId);
+        this.SegmentId = SegmentId;
+    }
+
+    private AwsMgnUpdateNetworkMigrationMapperSegmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnUpdateNetworkMigrationMapperSegmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnUpdateNetworkMigrationMapperSegmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--network-migration-execution-id")]
-    public string? NetworkMigrationExecutionId { get; set; }
+    public string? NetworkMigrationExecutionId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the segment to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--segment-id")]
-    public string? SegmentId { get; set; }
+    public string? SegmentId { get; private init; }
 
     /// <summary>
     /// The updated scope tags for the segment. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +93,21 @@ public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

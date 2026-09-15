@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsIotListJobsStatus
 {
-    [EnumValue("IN_PROGRESS")]
-    InProgress = 1,
-
     [EnumValue("CANCELED")]
-    Canceled = 2,
+    Canceled,
 
     [EnumValue("COMPLETED")]
-    Completed = 3,
+    Completed,
 
     [EnumValue("DELETION_IN_PROGRESS")]
-    DeletionInProgress = 4,
+    DeletionInProgress,
+
+    [EnumValue("IN_PROGRESS")]
+    InProgress,
 
     [EnumValue("SCHEDULED")]
-    Scheduled = 5
+    Scheduled
 }

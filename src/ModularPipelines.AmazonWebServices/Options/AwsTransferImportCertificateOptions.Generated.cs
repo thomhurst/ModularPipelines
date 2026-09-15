@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "import-certificate")]
-public record AwsTransferImportCertificateOptions : AwsOptions
+public record AwsTransferImportCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--usage")]
-    public string? Usage { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the Inac- tiveDate parameter and is published daily in the AWS/Transfer name- space. WARNING: It can ...
+    /// </summary>
+    /// <param name="Usage">Specifies how this certificate is used. It can be used in the fol- lowing ways: o SIGNING : For signing AS2 messages o ENCRYPTION : For encrypting AS2 messages o TLS : For securing AS2 communications sent over HTTPS Possible values: o SIGNING o ENCRYPTION o TLS</param>
+    /// <param name="Certificate">o For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alterna- tively, you can provide the raw content. o For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this para- meter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: o min: 1 o max: 16384 o pattern: [\t\n\r\u0020-\u00FF]+</param>
+    public AwsTransferImportCertificateOptions(
+        AwsTransferImportCertificateUsage Usage,
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Usage);
+        this.Usage = Usage;
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    private AwsTransferImportCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferImportCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferImportCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies how this certificate is used. It can be used in the fol- lowing ways: o SIGNING : For signing AS2 messages o ENCRYPTION : For encrypting AS2 messages o TLS : For securing AS2 communications sent over HTTPS Possible values: o SIGNING o ENCRYPTION o TLS
+    /// </summary>
+    [CliOption("--usage")]
+    public AwsTransferImportCertificateUsage? Usage { get; private init; }
+
+    /// <summary>
+    /// o For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem . Alterna- tively, you can provide the raw content. o For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`" . NOTE: You can provide both the certificate and its chain in this para- meter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter. Constraints: o min: 1 o max: 16384 o pattern: [\t\n\r\u0020-\u00FF]+
+    /// </summary>
     [CliOption("--certificate")]
-    public string? Certificate { get; set; }
+    public string? Certificate { get; private init; }
 
     /// <summary>
     /// An optional list of certificates that make up the chain for the cer- tificate that's being imported. Constraints: o min: 1 o max: 2097152 o pattern: [\t\n\r\u0020-\u00FF]+
@@ -70,5 +115,21 @@ public record AwsTransferImportCertificateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

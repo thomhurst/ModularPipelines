@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "list-supported-phone-number-countries")]
-public record AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions : AwsOptions
+public record AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the countries that you can order phone numbers from. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProductType">The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn</param>
+    public AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions(
+        AwsChimeSdkVoiceListSupportedPhoneNumberCountriesProductType ProductType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProductType);
+        this.ProductType = ProductType;
+    }
+
+    private AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn
+    /// </summary>
     [CliOption("--product-type")]
-    public string? ProductType { get; set; }
+    public AwsChimeSdkVoiceListSupportedPhoneNumberCountriesProductType? ProductType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

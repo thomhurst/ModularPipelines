@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecr", "put-registry-policy")]
-public record AwsEcrPutRegistryPolicyOptions : AwsOptions
+public record AwsEcrPutRegistryPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replica- tion. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PolicyText">The JSON policy text to apply to your registry. The policy text fol- lows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: o min: 0 o max: 10240</param>
+    public AwsEcrPutRegistryPolicyOptions(
+        string PolicyText
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyText);
+        this.PolicyText = PolicyText;
+    }
+
+    private AwsEcrPutRegistryPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcrPutRegistryPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcrPutRegistryPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The JSON policy text to apply to your registry. The policy text fol- lows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide . Constraints: o min: 0 o max: 10240
+    /// </summary>
     [CliOption("--policy-text")]
-    public string? PolicyText { get; set; }
+    public string? PolicyText { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

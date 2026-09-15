@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "create-theme-alias")]
-public record AwsQuicksightCreateThemeAliasOptions : AwsOptions
+public record AwsQuicksightCreateThemeAliasOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a theme alias for a theme. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme for the new theme alias. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="ThemeId">An ID for the theme alias. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AliasName">The name that you want to give to the theme alias that you are cre- ating. The alias name can't begin with a $ . Alias names that start with $ are reserved by Amazon Quick Sight. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="ThemeVersionNumber">The version number of the theme. Constraints: o min: 1</param>
+    public AwsQuicksightCreateThemeAliasOptions(
+        string AwsAccountId,
+        string ThemeId,
+        string AliasName,
+        int ThemeVersionNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(ThemeId);
+        this.ThemeId = ThemeId;
+        global::System.ArgumentNullException.ThrowIfNull(AliasName);
+        this.AliasName = AliasName;
+        this.ThemeVersionNumber = ThemeVersionNumber;
+    }
+
+    private AwsQuicksightCreateThemeAliasOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightCreateThemeAliasOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightCreateThemeAliasOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the theme for the new theme alias. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
     [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    public string? AwsAccountId { get; private init; }
 
+    /// <summary>
+    /// An ID for the theme alias. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// </summary>
     [CliOption("--theme-id")]
-    public string? ThemeId { get; set; }
+    public string? ThemeId { get; private init; }
 
+    /// <summary>
+    /// The name that you want to give to the theme alias that you are cre- ating. The alias name can't begin with a $ . Alias names that start with $ are reserved by Amazon Quick Sight. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// </summary>
     [CliOption("--alias-name")]
-    public string? AliasName { get; set; }
+    public string? AliasName { get; private init; }
 
+    /// <summary>
+    /// The version number of the theme. Constraints: o min: 1
+    /// </summary>
     [CliOption("--theme-version-number")]
-    public int? ThemeVersionNumber { get; set; }
+    public int? ThemeVersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

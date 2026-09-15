@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ce", "provide-anomaly-feedback")]
-public record AwsCeProvideAnomalyFeedbackOptions : AwsOptions
+public record AwsCeProvideAnomalyFeedbackOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--anomaly-id")]
-    public string? AnomalyId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies the feedback property of a given cost anomaly. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AnomalyId">A cost anomaly ID. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="Feedback">Describes whether the cost anomaly was a planned activity or you considered it an anomaly. Possible values: o YES o NO o PLANNED_ACTIVITY</param>
+    public AwsCeProvideAnomalyFeedbackOptions(
+        string AnomalyId,
+        AwsCeProvideAnomalyFeedbackFeedback Feedback
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AnomalyId);
+        this.AnomalyId = AnomalyId;
+        global::System.ArgumentNullException.ThrowIfNull(Feedback);
+        this.Feedback = Feedback;
+    }
+
+    private AwsCeProvideAnomalyFeedbackOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCeProvideAnomalyFeedbackOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCeProvideAnomalyFeedbackOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A cost anomaly ID. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// </summary>
+    [CliOption("--anomaly-id")]
+    public string? AnomalyId { get; private init; }
+
+    /// <summary>
+    /// Describes whether the cost anomaly was a planned activity or you considered it an anomaly. Possible values: o YES o NO o PLANNED_ACTIVITY
+    /// </summary>
     [CliOption("--feedback")]
-    public string? Feedback { get; set; }
+    public AwsCeProvideAnomalyFeedbackFeedback? Feedback { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

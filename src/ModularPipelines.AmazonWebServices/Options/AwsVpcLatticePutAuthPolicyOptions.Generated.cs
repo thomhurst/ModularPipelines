@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "put-auth-policy")]
-public record AwsVpcLatticePutAuthPolicyOptions : AwsOptions
+public record AwsVpcLatticePutAuthPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see Auth policies in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The ID or ARN of the service network or service for which the policy is created. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))</param>
+    /// <param name="Policy">The auth policy. The policy string in JSON must not contain newlines or blank lines. Constraints: o min: 0 o max: 36864</param>
+    public AwsVpcLatticePutAuthPolicyOptions(
+        string ResourceIdentifier,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsVpcLatticePutAuthPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticePutAuthPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticePutAuthPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the service network or service for which the policy is created. Constraints: o min: 17 o max: 200 o pattern: ((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((ser- vicenetwork/sn)|(resourceconfiguration/rcfg)|(ser- vice/svc))-[0-9a-z]{17}))
+    /// </summary>
+    [CliOption("--resource-identifier")]
+    public string? ResourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The auth policy. The policy string in JSON must not contain newlines or blank lines. Constraints: o min: 0 o max: 36864
+    /// </summary>
     [CliOption("--policy")]
-    public string? Policy { get; set; }
+    public string? Policy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

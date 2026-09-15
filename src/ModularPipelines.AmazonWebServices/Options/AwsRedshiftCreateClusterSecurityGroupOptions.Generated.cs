@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "create-cluster-security-group")]
-public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions
+public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-security-group-name")]
-    public string? ClusterSecurityGroupName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterSecurityGroupName">The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: o max: 2147483647</param>
+    /// <param name="Description">A description for the security group. Constraints: o max: 2147483647</param>
+    public AwsRedshiftCreateClusterSecurityGroupOptions(
+        string ClusterSecurityGroupName,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterSecurityGroupName);
+        this.ClusterSecurityGroupName = ClusterSecurityGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsRedshiftCreateClusterSecurityGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftCreateClusterSecurityGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftCreateClusterSecurityGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints: o Must contain no more than 255 alphanumeric characters or hyphens. o Must not be "Default". o Must be unique for all security groups that are created by your Amazon Web Services account. Example: examplesecuritygroup Constraints: o max: 2147483647
+    /// </summary>
+    [CliOption("--cluster-security-group-name")]
+    public string? ClusterSecurityGroupName { get; private init; }
+
+    /// <summary>
+    /// A description for the security group. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     /// <summary>
     /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -38,5 +82,21 @@ public record AwsRedshiftCreateClusterSecurityGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

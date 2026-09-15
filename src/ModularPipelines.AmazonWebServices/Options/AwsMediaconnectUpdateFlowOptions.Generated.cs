@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-flow")]
-public record AwsMediaconnectUpdateFlowOptions : AwsOptions
+public record AwsMediaconnectUpdateFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and want t...
+    /// </summary>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    public AwsMediaconnectUpdateFlowOptions(
+        string FlowArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+    }
+
+    private AwsMediaconnectUpdateFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
     [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
+    public string? FlowArn { get; private init; }
 
     /// <summary>
     /// The settings for source failover. FailoverMode -&gt; (string) The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful re- covery from any single-source loss. FAILOVER allows switching between different streams. Possible values: o MERGE o FAILOVER RecoveryWindow -&gt; (integer) Recovery window time to look for dash-7 packets. SourcePriority -&gt; (structure) The priority you want to assign to a source. You can have a pri- mary stream and a backup stream or two equally prioritized streams. PrimarySource -&gt; (string) The name of the source you choose as the primary source for this flow. State -&gt; (string) The state of source failover on the flow. If the state is inac- tive, the flow can have only one source. If the state is active, the flow can have one or two sources. Possible values: o ENABLED o DISABLED Shorthand Syntax: FailoverMode=string,RecoveryWindow=integer,SourcePriority={PrimarySource=string},State=string JSON Syntax: { "FailoverMode": "MERGE"|"FAILOVER", "RecoveryWindow": integer, "SourcePriority": { "PrimarySource": "string" }, "State": "ENABLED"|"DISABLED" }
@@ -66,5 +103,21 @@ public record AwsMediaconnectUpdateFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

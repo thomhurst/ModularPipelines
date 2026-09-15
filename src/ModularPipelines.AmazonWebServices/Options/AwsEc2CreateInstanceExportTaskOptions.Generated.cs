@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-instance-export-task")]
-public record AwsEc2CreateInstanceExportTaskOptions : AwsOptions
+public record AwsEc2CreateInstanceExportTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, sup- ported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance.</param>
+    /// <param name="TargetEnvironment">The target virtualization environment. Possible values: o citrix o vmware o microsoft</param>
+    /// <param name="ExportToS3Task">The format and location for an export instance task. DiskImageFormat -&gt; (string) The format for the exported image. Possible values: o VMDK o RAW o VHD ContainerFormat -&gt; (string) The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported. Possible values: o ova S3Bucket -&gt; (string) The Amazon S3 bucket for the destination image. The destination bucket must exist and have an access control list (ACL) attached that specifies the Region-specific canonical account ID for the Grantee . For more information about the ACL to your S3 bucket, see Prerequisites in the VM Import/Export User Guide. S3Prefix -&gt; (string) The image is written to a single object in the Amazon S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat. Shorthand Syntax: DiskImageFormat=string,ContainerFormat=string,S3Bucket=string,S3Prefix=string JSON Syntax: { "DiskImageFormat": "VMDK"|"RAW"|"VHD", "ContainerFormat": "ova", "S3Bucket": "string", "S3Prefix": "string" }</param>
+    public AwsEc2CreateInstanceExportTaskOptions(
+        string InstanceId,
+        AwsEc2CreateInstanceExportTaskTargetEnvironment TargetEnvironment,
+        string ExportToS3Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetEnvironment);
+        this.TargetEnvironment = TargetEnvironment;
+        global::System.ArgumentNullException.ThrowIfNull(ExportToS3Task);
+        this.ExportToS3Task = ExportToS3Task;
+    }
+
+    private AwsEc2CreateInstanceExportTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateInstanceExportTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateInstanceExportTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance.
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The target virtualization environment. Possible values: o citrix o vmware o microsoft
+    /// </summary>
+    [CliOption("--target-environment")]
+    public AwsEc2CreateInstanceExportTaskTargetEnvironment? TargetEnvironment { get; private init; }
+
+    /// <summary>
+    /// The format and location for an export instance task. DiskImageFormat -&gt; (string) The format for the exported image. Possible values: o VMDK o RAW o VHD ContainerFormat -&gt; (string) The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported. Possible values: o ova S3Bucket -&gt; (string) The Amazon S3 bucket for the destination image. The destination bucket must exist and have an access control list (ACL) attached that specifies the Region-specific canonical account ID for the Grantee . For more information about the ACL to your S3 bucket, see Prerequisites in the VM Import/Export User Guide. S3Prefix -&gt; (string) The image is written to a single object in the Amazon S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat. Shorthand Syntax: DiskImageFormat=string,ContainerFormat=string,S3Bucket=string,S3Prefix=string JSON Syntax: { "DiskImageFormat": "VMDK"|"RAW"|"VHD", "ContainerFormat": "ova", "S3Bucket": "string", "S3Prefix": "string" }
+    /// </summary>
+    [CliOption("--export-to-s3-task")]
+    public string? ExportToS3Task { get; private init; }
+
     /// <summary>
     /// The tags to apply to the export instance task during creation. (structure) The tags to apply to a resource when the resource is being cre- ated. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. NOTE: The Valid Values lists all the resource types that can be tagged. However, the action you're using might not support tagging all of these resource types. If you try to tag a re- source type that is unsupported for the action you're using, you'll get an error. ResourceType -&gt; (string) The type of resource to tag on creation. Possible values: o capacity-reservation o client-vpn-endpoint o customer-gateway o carrier-gateway o coip-pool o declarative-policies-report o dedicated-host o dhcp-options o egress-only-internet-gateway o elastic-ip o elastic-gpu o export-image-task o export-instance-task o fleet o fpga-image o host-reservation o image o image-usage-report o import-image-task o import-snapshot-task o instance o instance-event-window o internet-gateway o ipam o ipam-pool o ipam-scope o ipv4pool-ec2 o ipv6pool-ec2 o key-pair o launch-template o local-gateway o local-gateway-route-table o local-gateway-virtual-interface o local-gateway-virtual-interface-group o local-gateway-route-table-vpc-association o local-gateway-route-table-virtual-interface-group-associa- tion o natgateway o network-acl o network-interface o network-insights-analysis o network-insights-path o network-insights-access-scope o network-insights-access-scope-analysis o outpost-lag o placement-group o prefix-list o replace-root-volume-task o reserved-instances o route-table o security-group o security-group-rule o service-link-virtual-interface o snapshot o spot-fleet-request o spot-instances-request o subnet o subnet-cidr-reservation o traffic-mirror-filter o traffic-mirror-session o traffic-mirror-target o transit-gateway o transit-gateway-attachment o transit-gateway-connect-peer o transit-gateway-multicast-domain o transit-gateway-policy-table o transit-gateway-metering-policy o transit-gateway-route-table o transit-gateway-route-table-announcement o volume o vpc o vpc-endpoint o vpc-endpoint-connection o vpc-endpoint-service o vpc-endpoint-service-permission o vpc-peering-connection o vpn-connection o vpn-gateway o vpc-flow-log o capacity-reservation-fleet o traffic-mirror-filter-rule o vpc-endpoint-connection-device-type o verified-access-instance o verified-access-group o verified-access-endpoint o verified-access-policy o verified-access-trust-provider o vpn-connection-device-type o vpc-block-public-access-exclusion o vpc-encryption-control o route-server o route-server-endpoint o route-server-peer o ipam-resource-discovery o ipam-resource-discovery-association o instance-connect-endpoint o verified-access-endpoint-target o ipam-external-resource-verification-token o capacity-block o mac-modification-task o ipam-prefix-list-resolver o ipam-policy o ipam-prefix-list-resolver-target o ipam-internet-registry-association o secondary-interface o secondary-network o secondary-subnet o capacity-manager-data-export o vpn-concentrator o ipam-pool-allocation o capacity-reservation-cancellation-quote o application-status-check Tags -&gt; (list) The tags to apply to the resource. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "capacity-reservation"|"client-vpn-endpoint"|"customer-gateway"|"carrier-gateway"|"coip-pool"|"declarative-policies-report"|"dedicated-host"|"dhcp-options"|"egress-only-internet-gateway"|"elastic-ip"|"elastic-gpu"|"export-image-task"|"export-instance-task"|"fleet"|"fpga-image"|"host-reservation"|"image"|"image-usage-report"|"import-image-task"|"import-snapshot-task"|"instance"|"instance-event-window"|"internet-gateway"|"ipam"|"ipam-pool"|"ipam-scope"|"ipv4pool-ec2"|"ipv6pool-ec2"|"key-pair"|"launch-template"|"local-gateway"|"local-gateway-route-table"|"local-gateway-virtual-interface"|"local-gateway-virtual-interface-group"|"local-gateway-route-table-vpc-association"|"local-gateway-route-table-virtual-interface-group-association"|"natgateway"|"network-acl"|"network-interface"|"network-insights-analysis"|"network-insights-path"|"network-insights-access-scope"|"network-insights-access-scope-analysis"|"outpost-lag"|"placement-group"|"prefix-list"|"replace-root-volume-task"|"reserved-instances"|"route-table"|"security-group"|"security-group-rule"|"service-link-virtual-interface"|"snapshot"|"spot-fleet-request"|"spot-instances-request"|"subnet"|"subnet-cidr-reservation"|"traffic-mirror-filter"|"traffic-mirror-session"|"traffic-mirror-target"|"transit-gateway"|"transit-gateway-attachment"|"transit-gateway-connect-peer"|"transit-gateway-multicast-domain"|"transit-gateway-policy-table"|"transit-gateway-metering-policy"|"transit-gateway-route-table"|"transit-gateway-route-table-announcement"|"volume"|"vpc"|"vpc-endpoint"|"vpc-endpoint-connection"|"vpc-endpoint-service"|"vpc-endpoint-service-permission"|"vpc-peering-connection"|"vpn-connection"|"vpn-gateway"|"vpc-flow-log"|"capacity-reservation-fleet"|"traffic-mirror-filter-rule"|"vpc-endpoint-connection-device-type"|"verified-access-instance"|"verified-access-group"|"verified-access-endpoint"|"verified-access-policy"|"verified-access-trust-provider"|"vpn-connection-device-type"|"vpc-block-public-access-exclusion"|"vpc-encryption-control"|"route-server"|"route-server-endpoint"|"route-server-peer"|"ipam-resource-discovery"|"ipam-resource-discovery-association"|"instance-connect-endpoint"|"verified-access-endpoint-target"|"ipam-external-resource-verification-token"|"capacity-block"|"mac-modification-task"|"ipam-prefix-list-resolver"|"ipam-policy"|"ipam-prefix-list-resolver-target"|"ipam-internet-registry-association"|"secondary-interface"|"secondary-network"|"secondary-subnet"|"capacity-manager-data-export"|"vpn-concentrator"|"ipam-pool-allocation"|"capacity-reservation-cancellation-quote"|"application-status-check", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
@@ -33,19 +94,26 @@ public record AwsEc2CreateInstanceExportTaskOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
-    [CliOption("--target-environment")]
-    public string? TargetEnvironment { get; set; }
-
-    [CliOption("--export-to-s3-task")]
-    public string? ExportToS3Task { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediapackagev2", "cancel-harvest-job")]
-public record AwsMediapackagev2CancelHarvestJobOptions : AwsOptions
+public record AwsMediapackagev2CancelHarvestJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Cancels an in-progress harvest job. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChannelGroupName">The name of the channel group containing the channel from which the harvest job is running. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name of the channel from which the harvest job is running. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name of the origin endpoint that the harvest job is harvesting from. This cannot be changed after the harvest job is submitted. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="HarvestJobName">The name of the harvest job to cancel. This name must be unique within the channel and cannot be changed after the harvest job is submitted. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsMediapackagev2CancelHarvestJobOptions(
+        string ChannelGroupName,
+        string ChannelName,
+        string OriginEndpointName,
+        string HarvestJobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelGroupName);
+        this.ChannelGroupName = ChannelGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelName);
+        this.ChannelName = ChannelName;
+        global::System.ArgumentNullException.ThrowIfNull(OriginEndpointName);
+        this.OriginEndpointName = OriginEndpointName;
+        global::System.ArgumentNullException.ThrowIfNull(HarvestJobName);
+        this.HarvestJobName = HarvestJobName;
+    }
+
+    private AwsMediapackagev2CancelHarvestJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediapackagev2CancelHarvestJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediapackagev2CancelHarvestJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the channel group containing the channel from which the harvest job is running. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-group-name")]
-    public string? ChannelGroupName { get; set; }
+    public string? ChannelGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the channel from which the harvest job is running. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--channel-name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; private init; }
 
+    /// <summary>
+    /// The name of the origin endpoint that the harvest job is harvesting from. This cannot be changed after the harvest job is submitted. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--origin-endpoint-name")]
-    public string? OriginEndpointName { get; set; }
+    public string? OriginEndpointName { get; private init; }
 
+    /// <summary>
+    /// The name of the harvest job to cancel. This name must be unique within the channel and cannot be changed after the harvest job is submitted. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--harvest-job-name")]
-    public string? HarvestJobName { get; set; }
+    public string? HarvestJobName { get; private init; }
 
     /// <summary>
     /// The current Entity Tag (ETag) associated with the harvest job. Used for concurrency control. Constraints: o min: 1 o max: 256 o pattern: [\S]+
@@ -44,5 +102,21 @@ public record AwsMediapackagev2CancelHarvestJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

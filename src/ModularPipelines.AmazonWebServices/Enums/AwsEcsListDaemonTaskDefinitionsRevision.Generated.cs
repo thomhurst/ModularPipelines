@@ -17,5 +17,8 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 public enum AwsEcsListDaemonTaskDefinitionsRevision
 {
     [EnumValue("LAST_REGISTERED")]
-    LastRegistered = 1
+    LastRegistered,
+
+    [EnumValue("o")]
+    O
 }

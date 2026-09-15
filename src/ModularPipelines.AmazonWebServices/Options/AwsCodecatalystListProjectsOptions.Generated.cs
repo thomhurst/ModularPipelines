@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codecatalyst", "list-projects")]
-public record AwsCodecatalystListProjectsOptions : AwsOptions
+public record AwsCodecatalystListProjectsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    public AwsCodecatalystListProjectsOptions(
+        string SpaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SpaceName);
+        this.SpaceName = SpaceName;
+    }
+
+    private AwsCodecatalystListProjectsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodecatalystListProjectsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodecatalystListProjectsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// </summary>
     [CliOption("--space-name")]
-    public string? SpaceName { get; set; }
+    public string? SpaceName { get; private init; }
 
     /// <summary>
     /// Information about filters to apply to narrow the results returned in the list. (structure) nformation about the filter used to narrow the results returned in a list of projects. key -&gt; (string) [required] A key that can be used to sort results. Possible values: o hasAccessTo o name values -&gt; (list) [required] The values of the key. (string) comparisonOperator -&gt; (string) The operator used to compare the fields. Possible values: o EQ o GT o GE o LT o LE o BEGINS_WITH Shorthand Syntax: key=string,values=string,string,comparisonOperator=string ... JSON Syntax: [ { "key": "hasAccessTo"|"name", "values": ["string", ...], "comparisonOperator": "EQ"|"GT"|"GE"|"LT"|"LE"|"BEGINS_WITH" } ... ]
@@ -55,5 +92,21 @@ public record AwsCodecatalystListProjectsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

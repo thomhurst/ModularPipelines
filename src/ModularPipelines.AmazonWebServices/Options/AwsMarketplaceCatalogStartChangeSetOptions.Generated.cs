@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "start-change-set")]
-public record AwsMarketplaceCatalogStartChangeSetOptions : AwsOptions
+public record AwsMarketplaceCatalogStartChangeSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Allows you to request changes for your entities. Within a single ChangeSet , you can't start the same change type against the same en- tity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is al- ready locked, you will receive a ResourceInUseException error. For example, you...
+    /// </summary>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    /// <param name="ChangeSet">Array of change object. Constraints: o min: 1 o max: 20 (structure) An object that contains the ChangeType , Details , and Entity . ChangeType -&gt; (string) [required] Change types are single string values that describe your in- tention for the change. Each change type is unique for each EntityType provided in the change's scope. For more informa- tion about change types available for single-AMI products, see Working with single-AMI products . Also, for more infor- mation about change types available for container-based prod- ucts, see Working with container products . Constraints: o min: 1 o max: 255 o pattern: ^[A-Z][\w]*$ Entity -&gt; (structure) [required] The entity to be changed. Type -&gt; (string) [required] The type of entity. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+$ Identifier -&gt; (string) The identifier for the entity. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-@]+$ EntityTags -&gt; (list) The tags associated with the change. Constraints: o min: 1 o max: 200 (structure) A list of objects specifying each key name and value. Key -&gt; (string) [required] The key associated with the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value associated with the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Details -&gt; (string) This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see Working with sin- gle-AMI products . Also, for more information about change types available for container-based products, see Working with container products . Constraints: o min: 2 o max: 16384 o pattern: ^[\s]*\{[\s\S]*\}[\s]*$ DetailsDocument -&gt; (document) Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument , but not both. To download the "DetailsDocument" shapes, see the Python and Java shapes on GitHub. ChangeName -&gt; (string) Optional name for the change. Constraints: o min: 1 o max: 72 o pattern: ^[a-zA-Z]$ Shorthand Syntax: ChangeType=string,Entity={Type=string,Identifier=string},EntityTags=[{Key=string,Value=string},{Key=string,Value=string}],Details=string,ChangeName=string ... JSON Syntax: [ { "ChangeType": "string", "Entity": { "Type": "string", "Identifier": "string" }, "EntityTags": [ { "Key": "string", "Value": "string" } ... ], "Details": "string", "DetailsDocument": {...}, "ChangeName": "string" } ... ]</param>
+    public AwsMarketplaceCatalogStartChangeSetOptions(
+        string Catalog,
+        IEnumerable<string> ChangeSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ChangeSet);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ChangeSet));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ChangeSet));
+            }
+
+            ChangeSet = materialized;
+        }
+        this.ChangeSet = ChangeSet;
+    }
+
+    private AwsMarketplaceCatalogStartChangeSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogStartChangeSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogStartChangeSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// Array of change object. Constraints: o min: 1 o max: 20 (structure) An object that contains the ChangeType , Details , and Entity . ChangeType -&gt; (string) [required] Change types are single string values that describe your in- tention for the change. Each change type is unique for each EntityType provided in the change's scope. For more informa- tion about change types available for single-AMI products, see Working with single-AMI products . Also, for more infor- mation about change types available for container-based prod- ucts, see Working with container products . Constraints: o min: 1 o max: 255 o pattern: ^[A-Z][\w]*$ Entity -&gt; (structure) [required] The entity to be changed. Type -&gt; (string) [required] The type of entity. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+$ Identifier -&gt; (string) The identifier for the entity. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-@]+$ EntityTags -&gt; (list) The tags associated with the change. Constraints: o min: 1 o max: 200 (structure) A list of objects specifying each key name and value. Key -&gt; (string) [required] The key associated with the tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value associated with the tag. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Details -&gt; (string) This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see Working with sin- gle-AMI products . Also, for more information about change types available for container-based products, see Working with container products . Constraints: o min: 2 o max: 16384 o pattern: ^[\s]*\{[\s\S]*\}[\s]*$ DetailsDocument -&gt; (document) Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument , but not both. To download the "DetailsDocument" shapes, see the Python and Java shapes on GitHub. ChangeName -&gt; (string) Optional name for the change. Constraints: o min: 1 o max: 72 o pattern: ^[a-zA-Z]$ Shorthand Syntax: ChangeType=string,Entity={Type=string,Identifier=string},EntityTags=[{Key=string,Value=string},{Key=string,Value=string}],Details=string,ChangeName=string ... JSON Syntax: [ { "ChangeType": "string", "Entity": { "Type": "string", "Identifier": "string" }, "EntityTags": [ { "Key": "string", "Value": "string" } ... ], "Details": "string", "DetailsDocument": {...}, "ChangeName": "string" } ... ]
+    /// </summary>
     [CliOption("--change-set", GroupValues = true)]
-    public IEnumerable<string>? ChangeSet { get; set; }
+    public IEnumerable<string>? ChangeSet { get; private init; }
 
     /// <summary>
     /// Optional case sensitive string of up to 100 ASCII characters. The change set name can be used to filter the list of change sets. Constraints: o min: 1 o max: 100 o pattern: ^[\w\s+=.:@-]+$
@@ -59,5 +114,21 @@ public record AwsMarketplaceCatalogStartChangeSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

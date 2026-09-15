@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,25 +21,96 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "replace-network-acl-entry")]
-public record AwsEc2ReplaceNetworkAclEntryOptions : AwsOptions
+public record AwsEc2ReplaceNetworkAclEntryOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkAclId">The ID of the ACL.</param>
+    /// <param name="RuleNumber">The rule number of the entry to replace.</param>
+    /// <param name="Protocol">The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify proto- col "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.</param>
+    /// <param name="RuleAction">Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny</param>
+    /// <param name="Egress">Indicates whether to replace the egress rule. Default: If no value is specified, we replace the ingress rule.</param>
+    public AwsEc2ReplaceNetworkAclEntryOptions(
+        string NetworkAclId,
+        int RuleNumber,
+        string Protocol,
+        AwsEc2ReplaceNetworkAclEntryRuleAction RuleAction,
+        bool Egress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkAclId);
+        this.NetworkAclId = NetworkAclId;
+        this.RuleNumber = RuleNumber;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+        global::System.ArgumentNullException.ThrowIfNull(RuleAction);
+        this.RuleAction = RuleAction;
+        if (!Egress)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Egress));
+        }
+        this.Egress = Egress;
+    }
+
+    private AwsEc2ReplaceNetworkAclEntryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ReplaceNetworkAclEntryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ReplaceNetworkAclEntryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the ACL.
+    /// </summary>
     [CliOption("--network-acl-id")]
-    public string? NetworkAclId { get; set; }
+    public string? NetworkAclId { get; private init; }
 
+    /// <summary>
+    /// The rule number of the entry to replace.
+    /// </summary>
     [CliOption("--rule-number")]
-    public int? RuleNumber { get; set; }
+    public int? RuleNumber { get; private init; }
 
+    /// <summary>
+    /// The protocol number. A value of "-1" means all protocols. If you specify "-1" or a protocol number other than "6" (TCP), "17" (UDP), or "1" (ICMP), traffic on all ports is allowed, regardless of any ports or ICMP types or codes that you specify. If you specify proto- col "58" (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol "58" (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
+    /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public string? Protocol { get; private init; }
 
+    /// <summary>
+    /// Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny
+    /// </summary>
     [CliOption("--rule-action")]
-    public string? RuleAction { get; set; }
+    public AwsEc2ReplaceNetworkAclEntryRuleAction? RuleAction { get; private init; }
 
+    /// <summary>
+    /// Indicates whether to replace the egress rule. Default: If no value is specified, we replace the ingress rule.
+    /// </summary>
     [CliFlag("--egress")]
-    public bool? Egress { get; set; }
+    public bool? Egress { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The IPv4 network range to allow or deny, in CIDR notation (for exam- ple 172.16.0.0/24 ).
@@ -68,5 +141,21 @@ public record AwsEc2ReplaceNetworkAclEntryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

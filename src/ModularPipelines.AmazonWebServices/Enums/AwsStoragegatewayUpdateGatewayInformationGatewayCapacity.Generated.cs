@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --gatewaycapacity.
+/// Allowed values for --gateway-capacity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsStoragegatewayUpdateGatewayInformationGatewayCapacity
 {
-    [EnumValue("Small")]
-    Small = 1,
+    [EnumValue("Large")]
+    Large,
 
     [EnumValue("Medium")]
-    Medium = 2,
+    Medium,
 
-    [EnumValue("Large")]
-    Large = 3
+    [EnumValue("Small")]
+    Small
 }

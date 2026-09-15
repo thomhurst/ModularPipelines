@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-model-card")]
-public record AwsSagemakerCreateModelCardOptions : AwsOptions
+public record AwsSagemakerCreateModelCardOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see Amazon SageMaker Model Card . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelCardName">The unique name of the model card. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Content">The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: o min: 0 o max: 100000 o pattern: .*</param>
+    /// <param name="ModelCardStatus">The approval status of the model card within your organization. Dif- ferent organizations might have different criteria for model card review and approval. o Draft : The model card is a work in progress. o PendingReview : The model card is pending review. o Approved : The model card is approved. o Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: o Draft o PendingReview o Approved o Archived</param>
+    public AwsSagemakerCreateModelCardOptions(
+        string ModelCardName,
+        string Content,
+        AwsSagemakerCreateModelCardModelCardStatus ModelCardStatus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelCardName);
+        this.ModelCardName = ModelCardName;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+        global::System.ArgumentNullException.ThrowIfNull(ModelCardStatus);
+        this.ModelCardStatus = ModelCardStatus;
+    }
+
+    private AwsSagemakerCreateModelCardOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateModelCardOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateModelCardOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the model card. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// </summary>
     [CliOption("--model-card-name")]
-    public string? ModelCardName { get; set; }
+    public string? ModelCardName { get; private init; }
+
+    /// <summary>
+    /// The content of the model card. Content must be in model card JSON schema and provided as a string. Constraints: o min: 0 o max: 100000 o pattern: .*
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
+    /// <summary>
+    /// The approval status of the model card within your organization. Dif- ferent organizations might have different criteria for model card review and approval. o Draft : The model card is a work in progress. o PendingReview : The model card is pending review. o Approved : The model card is approved. o Archived : The model card is archived. No more updates should be made to the model card, but it can still be exported. Possible values: o Draft o PendingReview o Approved o Archived
+    /// </summary>
+    [CliOption("--model-card-status")]
+    public AwsSagemakerCreateModelCardModelCardStatus? ModelCardStatus { get; private init; }
 
     /// <summary>
     /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt model card content for regulated workloads with highly sensitive data. KmsKeyId -&gt; (string) A Key Management Service key ID to use for encrypting a model card. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9:/_-]* Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--security-config")]
     public string? SecurityConfig { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
-
-    [CliOption("--model-card-status")]
-    public string? ModelCardStatus { get; set; }
 
     /// <summary>
     /// Key-value pairs used to manage metadata for model cards. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -47,5 +99,21 @@ public record AwsSagemakerCreateModelCardOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

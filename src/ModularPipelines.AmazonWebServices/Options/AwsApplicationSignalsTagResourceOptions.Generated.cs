@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-signals", "tag-resource")]
-public record AwsApplicationSignalsTagResourceOptions : AwsOptions
+public record AwsApplicationSignalsTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tag...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Tags">The list of key-value pairs to associate with the alarm. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    public AwsApplicationSignalsTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsApplicationSignalsTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationSignalsTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationSignalsTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to set tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 89) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// The list of key-value pairs to associate with the alarm. Constraints: o min: 0 o max: 200 (structure) A key-value pair associated with a resource. Tags can help you organize and categorize your resources. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

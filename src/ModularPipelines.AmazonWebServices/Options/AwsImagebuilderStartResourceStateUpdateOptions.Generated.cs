@@ -11,22 +11,66 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Begin asynchronous resource state update for lifecycle changes to the specified image resources. See also: AWS API Documentation
+/// Begins an asynchronous resource state update for lifecycle changes to the specified image resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "start-resource-state-update")]
-public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions
+public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Begins an asynchronous resource state update for lifecycle changes to the specified image resources. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEP- RECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="State">Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is sup- ported. status -&gt; (string) Shows the current lifecycle policy action that was applied to an impacted resource. Possible values: o AVAILABLE o DELETED o DEPRECATED o DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }</param>
+    public AwsImagebuilderStartResourceStateUpdateOptions(
+        string ResourceArn,
+        string State
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+    }
+
+    private AwsImagebuilderStartResourceStateUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderStartResourceStateUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderStartResourceStateUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE , DEP- RECATED , DISABLED , FAILED , or CANCELLED . Images with FAILED or CANCELLED status can transition only to DELETED . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE , DEPRECATED , DISABLED , and DELETED . For container-based images, only DELETED is sup- ported. status -&gt; (string) Shows the current lifecycle policy action that was applied to an impacted resource. Possible values: o AVAILABLE o DELETED o DEPRECATED o DISABLED Shorthand Syntax: status=string JSON Syntax: { "status": "AVAILABLE"|"DELETED"|"DEPRECATED"|"DISABLED" }
+    /// </summary>
     [CliOption("--state")]
-    public string? State { get; set; }
+    public string? State { get; private init; }
 
     /// <summary>
     /// The name or Amazon Resource Name (ARN) of the IAM role thats used to update image state. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$
@@ -53,7 +97,7 @@ public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions
     public string? UpdateAt { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -64,5 +108,21 @@ public record AwsImagebuilderStartResourceStateUpdateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

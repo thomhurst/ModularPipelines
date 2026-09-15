@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedUpdateAnswerReason
 {
-    [EnumValue("OUT_OF_SCOPE")]
-    OutOfScope = 1,
+    [EnumValue("ARCHITECTURE_CONSTRAINTS")]
+    ArchitectureConstraints,
 
     [EnumValue("BUSINESS_PRIORITIES")]
-    BusinessPriorities = 2,
-
-    [EnumValue("ARCHITECTURE_CONSTRAINTS")]
-    ArchitectureConstraints = 3,
-
-    [EnumValue("OTHER")]
-    Other = 4,
+    BusinessPriorities,
 
     [EnumValue("NONE")]
-    None = 5
+    None,
+
+    [EnumValue("OTHER")]
+    Other,
+
+    [EnumValue("OUT_OF_SCOPE")]
+    OutOfScope
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "create-network")]
-public record AwsWickrCreateNetworkOptions : AwsOptions
+public record AwsWickrCreateNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Wickr network with specified access level and configura- tion. This operation provisions a new communication network for your organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkName">The name for the new network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="AccessLevel">The access level for the network. Valid values are STANDARD or PRE- MIUM, which determine the features and capabilities available to network members. Possible values: o STANDARD o PREMIUM</param>
+    public AwsWickrCreateNetworkOptions(
+        string NetworkName,
+        AwsWickrCreateNetworkAccessLevel AccessLevel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkName);
+        this.NetworkName = NetworkName;
+        global::System.ArgumentNullException.ThrowIfNull(AccessLevel);
+        this.AccessLevel = AccessLevel;
+    }
+
+    private AwsWickrCreateNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrCreateNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrCreateNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the new network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*
+    /// </summary>
     [CliOption("--network-name")]
-    public string? NetworkName { get; set; }
+    public string? NetworkName { get; private init; }
 
+    /// <summary>
+    /// The access level for the network. Valid values are STANDARD or PRE- MIUM, which determine the features and capabilities available to network members. Possible values: o STANDARD o PREMIUM
+    /// </summary>
     [CliOption("--access-level")]
-    public string? AccessLevel { get; set; }
+    public AwsWickrCreateNetworkAccessLevel? AccessLevel { get; private init; }
 
-    [CliFlag("--enable-premium-free-trial")]
+    /// <summary>
+    /// Specifies whether to enable a premium free trial for the network. It is optional and has a default value as false. When set to true, the network starts with premium features for a limited trial period.
+    /// </summary>
+    [CliFlag("--enable-premium-free-trial", NegatedName = "--no-enable-premium-free-trial")]
     public bool? EnablePremiumFreeTrial { get; set; }
 
     /// <summary>
@@ -41,5 +89,21 @@ public record AwsWickrCreateNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

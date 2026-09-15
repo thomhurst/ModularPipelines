@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snowball", "list-service-versions")]
-public record AwsSnowballListServiceVersionsOptions : AwsOptions
+public record AwsSnowballListServiceVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all supported versions for Snow on-device services. Returns an array of ServiceVersion object containing the supported versions for a particular service. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceName">The name of the service for which you're requesting supported ver- sions. Possible values: o KUBERNETES o EKS_ANYWHERE</param>
+    public AwsSnowballListServiceVersionsOptions(
+        AwsSnowballListServiceVersionsServiceName ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    private AwsSnowballListServiceVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSnowballListServiceVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSnowballListServiceVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the service for which you're requesting supported ver- sions. Possible values: o KUBERNETES o EKS_ANYWHERE
+    /// </summary>
     [CliOption("--service-name")]
-    public string? ServiceName { get; set; }
+    public AwsSnowballListServiceVersionsServiceName? ServiceName { get; private init; }
 
     /// <summary>
     /// A list of names and versions of dependant services of the requested service. (structure) The name and version of the service dependant on the requested service. ServiceName -&gt; (string) The name of the dependent service. Possible values: o KUBERNETES o EKS_ANYWHERE ServiceVersion -&gt; (structure) The version of the dependent service. Version -&gt; (string) The version number of the requested service. Constraints: o min: 1 o max: 1024 o pattern: .* Shorthand Syntax: ServiceName=string,ServiceVersion={Version=string} ... JSON Syntax: [ { "ServiceName": "KUBERNETES"|"EKS_ANYWHERE", "ServiceVersion": { "Version": "string" } } ... ]
@@ -49,5 +87,21 @@ public record AwsSnowballListServiceVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

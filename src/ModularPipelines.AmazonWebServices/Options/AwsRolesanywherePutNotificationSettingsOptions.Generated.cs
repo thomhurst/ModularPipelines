@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "put-notification-settings")]
-public record AwsRolesanywherePutNotificationSettingsOptions : AwsOptions
+public record AwsRolesanywherePutNotificationSettingsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--trust-anchor-id")]
-    public string? TrustAnchorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, thresh- old, status of the notification setting, and the channel to notify. Required permissions: rolesanywhere:PutNotificationSettings . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="NotificationSettings">A list of notification settings to be associated to the trust an- chor. Constraints: o min: 0 o max: 50 (structure) Customizable notification settings that will be applied to noti- fication events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard. enabled -&gt; (boolean) [required] Indicates whether the notification setting is enabled. event -&gt; (string) [required] The event to which this notification setting is applied. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY threshold -&gt; (integer) The number of days before a notification event. This value is required for a notification setting that is enabled. Constraints: o min: 1 o max: 360 channel -&gt; (string) The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. NOTE: In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels. Possible values: o ALL Shorthand Syntax: enabled=boolean,event=string,threshold=integer,channel=string ... JSON Syntax: [ { "enabled": true|false, "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "threshold": integer, "channel": "ALL" } ... ]</param>
+    public AwsRolesanywherePutNotificationSettingsOptions(
+        string TrustAnchorId,
+        IEnumerable<string> NotificationSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrustAnchorId);
+        this.TrustAnchorId = TrustAnchorId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NotificationSettings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NotificationSettings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NotificationSettings));
+            }
+
+            NotificationSettings = materialized;
+        }
+        this.NotificationSettings = NotificationSettings;
+    }
+
+    private AwsRolesanywherePutNotificationSettingsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywherePutNotificationSettingsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywherePutNotificationSettingsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// </summary>
+    [CliOption("--trust-anchor-id")]
+    public string? TrustAnchorId { get; private init; }
+
+    /// <summary>
+    /// A list of notification settings to be associated to the trust an- chor. Constraints: o min: 0 o max: 50 (structure) Customizable notification settings that will be applied to noti- fication events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard. enabled -&gt; (boolean) [required] Indicates whether the notification setting is enabled. event -&gt; (string) [required] The event to which this notification setting is applied. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY threshold -&gt; (integer) The number of days before a notification event. This value is required for a notification setting that is enabled. Constraints: o min: 1 o max: 360 channel -&gt; (string) The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. NOTE: In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels. Possible values: o ALL Shorthand Syntax: enabled=boolean,event=string,threshold=integer,channel=string ... JSON Syntax: [ { "enabled": true|false, "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "threshold": integer, "channel": "ALL" } ... ]
+    /// </summary>
     [CliOption("--notification-settings", GroupValues = true)]
-    public IEnumerable<string>? NotificationSettings { get; set; }
+    public IEnumerable<string>? NotificationSettings { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

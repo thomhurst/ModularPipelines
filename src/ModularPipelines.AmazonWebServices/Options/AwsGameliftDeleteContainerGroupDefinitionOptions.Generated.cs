@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "delete-container-group-definition")]
-public record AwsGameliftDeleteContainerGroupDefinitionOptions : AwsOptions
+public record AwsGameliftDeleteContainerGroupDefinitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: Container Request options: Deletes a container group definition. o Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. o Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. o Keep the newest versions and delete all older versions. Specify the c...
+    /// </summary>
+    /// <param name="Name">The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
+    public AwsGameliftDeleteContainerGroupDefinitionOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGameliftDeleteContainerGroupDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftDeleteContainerGroupDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftDeleteContainerGroupDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// The specific version to delete. Constraints: o min: 1
@@ -41,5 +78,21 @@ public record AwsGameliftDeleteContainerGroupDefinitionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

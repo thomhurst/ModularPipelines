@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lakeformation", "search-tables-by-lf-tags")]
-public record AwsLakeformationSearchTablesByLfTagsOptions : AwsOptions
+public record AwsLakeformationSearchTablesByLfTagsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation allows a search on TABLE resources by LFTag s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTag s are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-tables-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disa...
+    /// </summary>
+    /// <param name="Expression">A list of conditions (LFTag structures) to search for in table re- sources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
+    public AwsLakeformationSearchTablesByLfTagsOptions(
+        IEnumerable<string> Expression
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Expression);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Expression));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Expression));
+            }
+
+            Expression = materialized;
+        }
+        this.Expression = Expression;
+    }
+
+    private AwsLakeformationSearchTablesByLfTagsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLakeformationSearchTablesByLfTagsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLakeformationSearchTablesByLfTagsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of conditions (LFTag structures) to search for in table re- sources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--expression", GroupValues = true)]
+    public IEnumerable<string>? Expression { get; private init; }
+
     /// <summary>
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
-
-    [CliOption("--expression", GroupValues = true)]
-    public IEnumerable<string>? Expression { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -55,5 +103,21 @@ public record AwsLakeformationSearchTablesByLfTagsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "run-scheduled-instances")]
-public record AwsEc2RunScheduledInstancesOptions : AwsOptions
+public record AwsEc2RunScheduledInstancesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances . You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few min- utes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LaunchSpecification">The launch specification. You must match the instance type, Avail- ability Zone, network, and platform of the schedule that you pur- chased. BlockDeviceMappings -&gt; (list) The block device mapping entries. (structure) Describes a block device mapping for a Scheduled Instance. DeviceName -&gt; (string) The device name (for example, /dev/sdh or xvdh ). Ebs -&gt; (structure) Parameters used to set up EBS volumes automatically when the instance is launched. DeleteOnTermination -&gt; (boolean) Indicates whether the volume is deleted on instance termination. Encrypted -&gt; (boolean) Indicates whether the volume is encrypted. You can at- tached encrypted volumes only to instances that sup- port them. Iops -&gt; (integer) The number of I/O operations per second (IOPS) to pro- vision for a gp3 , io1 , or io2 volume. SnapshotId -&gt; (string) The ID of the snapshot. VolumeSize -&gt; (integer) The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size. VolumeType -&gt; (string) The volume type. Default: gp2 NoDevice -&gt; (string) To omit the device from the block device mapping, specify an empty string. VirtualName -&gt; (string) The virtual device name (ephemeral N). Instance store volumes are numbered starting from 0. An instance type with two available instance store volumes can specify mappings for ephemeral0 and ephemeral1 . The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the in- stance. When you launch an M3 instance, we ignore any in- stance store volumes specified in the block device map- ping for the AMI. EbsOptimized -&gt; (boolean) Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O perfor- mance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-opti- mized instance. Default: false IamInstanceProfile -&gt; (structure) The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN). Name -&gt; (string) The name. ImageId -&gt; (string) [required] The ID of the Amazon Machine Image (AMI). InstanceType -&gt; (string) The instance type. KernelId -&gt; (string) The ID of the kernel. KeyName -&gt; (string) The name of the key pair. Monitoring -&gt; (structure) Enable or disable monitoring for the instances. Enabled -&gt; (boolean) Indicates whether monitoring is enabled. NetworkInterfaces -&gt; (list) The network interfaces. (structure) Describes a network interface for a Scheduled Instance. AssociatePublicIpAddress -&gt; (boolean) Indicates whether to assign a public IPv4 address to in- stances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an ex- isting one. You cannot specify more than one network in- terface in the request. If launching into a default sub- net, the default value is true . Amazon Web Services charges for all public IPv4 ad- dresses, including public IPv4 addresses associated with running instances and Elastic IP addresses. For more in- formation, see the Public IPv4 Address tab on the Amazon VPC pricing page . DeleteOnTermination -&gt; (boolean) Indicates whether to delete the interface when the in- stance is terminated. Description -&gt; (string) The description. DeviceIndex -&gt; (integer) The index of the device for the network interface attach- ment. Groups -&gt; (list) The IDs of the security groups. (string) Ipv6AddressCount -&gt; (integer) The number of IPv6 addresses to assign to the network in- terface. The IPv6 addresses are automatically selected from the subnet range. Ipv6Addresses -&gt; (list) The specific IPv6 addresses from the subnet range. (structure) Describes an IPv6 address. Ipv6Address -&gt; (string) The IPv6 address. NetworkInterfaceId -&gt; (string) The ID of the network interface. PrivateIpAddress -&gt; (string) The IPv4 address of the network interface within the sub- net. PrivateIpAddressConfigs -&gt; (list) The private IPv4 addresses. (structure) Describes a private IPv4 address for a Scheduled In- stance. Primary -&gt; (boolean) Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address. PrivateIpAddress -&gt; (string) The IPv4 address. SecondaryPrivateIpAddressCount -&gt; (integer) The number of secondary private IPv4 addresses. SubnetId -&gt; (string) The ID of the subnet. Placement -&gt; (structure) The placement information. AvailabilityZone -&gt; (string) The Availability Zone. GroupName -&gt; (string) The name of the placement group. RamdiskId -&gt; (string) The ID of the RAM disk. SecurityGroupIds -&gt; (list) The IDs of the security groups. (string) SubnetId -&gt; (string) The ID of the subnet in which to launch the instances. UserData -&gt; (string) The base64-encoded MIME user data. JSON Syntax: { "BlockDeviceMappings": [ { "DeviceName": "string", "Ebs": { "DeleteOnTermination": true|false, "Encrypted": true|false, "Iops": integer, "SnapshotId": "string", "VolumeSize": integer, "VolumeType": "string" }, "NoDevice": "string", "VirtualName": "string" } ... ], "EbsOptimized": true|false, "IamInstanceProfile": { "Arn": "string", "Name": "string" }, "ImageId": "string", "InstanceType": "string", "KernelId": "string", "KeyName": "string", "Monitoring": { "Enabled": true|false }, "NetworkInterfaces": [ { "AssociatePublicIpAddress": true|false, "DeleteOnTermination": true|false, "Description": "string", "DeviceIndex": integer, "Groups": ["string", ...], "Ipv6AddressCount": integer, "Ipv6Addresses": [ { "Ipv6Address": "string" } ... ], "NetworkInterfaceId": "string", "PrivateIpAddress": "string", "PrivateIpAddressConfigs": [ { "Primary": true|false, "PrivateIpAddress": "string" } ... ], "SecondaryPrivateIpAddressCount": integer, "SubnetId": "string" } ... ], "Placement": { "AvailabilityZone": "string", "GroupName": "string" }, "RamdiskId": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "UserData": "string" }</param>
+    /// <param name="ScheduledInstanceId">The Scheduled Instance ID.</param>
+    public AwsEc2RunScheduledInstancesOptions(
+        string LaunchSpecification,
+        string ScheduledInstanceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LaunchSpecification);
+        this.LaunchSpecification = LaunchSpecification;
+        global::System.ArgumentNullException.ThrowIfNull(ScheduledInstanceId);
+        this.ScheduledInstanceId = ScheduledInstanceId;
+    }
+
+    private AwsEc2RunScheduledInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2RunScheduledInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2RunScheduledInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The launch specification. You must match the instance type, Avail- ability Zone, network, and platform of the schedule that you pur- chased. BlockDeviceMappings -&gt; (list) The block device mapping entries. (structure) Describes a block device mapping for a Scheduled Instance. DeviceName -&gt; (string) The device name (for example, /dev/sdh or xvdh ). Ebs -&gt; (structure) Parameters used to set up EBS volumes automatically when the instance is launched. DeleteOnTermination -&gt; (boolean) Indicates whether the volume is deleted on instance termination. Encrypted -&gt; (boolean) Indicates whether the volume is encrypted. You can at- tached encrypted volumes only to instances that sup- port them. Iops -&gt; (integer) The number of I/O operations per second (IOPS) to pro- vision for a gp3 , io1 , or io2 volume. SnapshotId -&gt; (string) The ID of the snapshot. VolumeSize -&gt; (integer) The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size. VolumeType -&gt; (string) The volume type. Default: gp2 NoDevice -&gt; (string) To omit the device from the block device mapping, specify an empty string. VirtualName -&gt; (string) The virtual device name (ephemeral N). Instance store volumes are numbered starting from 0. An instance type with two available instance store volumes can specify mappings for ephemeral0 and ephemeral1 . The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the in- stance. When you launch an M3 instance, we ignore any in- stance store volumes specified in the block device map- ping for the AMI. EbsOptimized -&gt; (boolean) Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O perfor- mance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-opti- mized instance. Default: false IamInstanceProfile -&gt; (structure) The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN). Name -&gt; (string) The name. ImageId -&gt; (string) [required] The ID of the Amazon Machine Image (AMI). InstanceType -&gt; (string) The instance type. KernelId -&gt; (string) The ID of the kernel. KeyName -&gt; (string) The name of the key pair. Monitoring -&gt; (structure) Enable or disable monitoring for the instances. Enabled -&gt; (boolean) Indicates whether monitoring is enabled. NetworkInterfaces -&gt; (list) The network interfaces. (structure) Describes a network interface for a Scheduled Instance. AssociatePublicIpAddress -&gt; (boolean) Indicates whether to assign a public IPv4 address to in- stances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an ex- isting one. You cannot specify more than one network in- terface in the request. If launching into a default sub- net, the default value is true . Amazon Web Services charges for all public IPv4 ad- dresses, including public IPv4 addresses associated with running instances and Elastic IP addresses. For more in- formation, see the Public IPv4 Address tab on the Amazon VPC pricing page . DeleteOnTermination -&gt; (boolean) Indicates whether to delete the interface when the in- stance is terminated. Description -&gt; (string) The description. DeviceIndex -&gt; (integer) The index of the device for the network interface attach- ment. Groups -&gt; (list) The IDs of the security groups. (string) Ipv6AddressCount -&gt; (integer) The number of IPv6 addresses to assign to the network in- terface. The IPv6 addresses are automatically selected from the subnet range. Ipv6Addresses -&gt; (list) The specific IPv6 addresses from the subnet range. (structure) Describes an IPv6 address. Ipv6Address -&gt; (string) The IPv6 address. NetworkInterfaceId -&gt; (string) The ID of the network interface. PrivateIpAddress -&gt; (string) The IPv4 address of the network interface within the sub- net. PrivateIpAddressConfigs -&gt; (list) The private IPv4 addresses. (structure) Describes a private IPv4 address for a Scheduled In- stance. Primary -&gt; (boolean) Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address. PrivateIpAddress -&gt; (string) The IPv4 address. SecondaryPrivateIpAddressCount -&gt; (integer) The number of secondary private IPv4 addresses. SubnetId -&gt; (string) The ID of the subnet. Placement -&gt; (structure) The placement information. AvailabilityZone -&gt; (string) The Availability Zone. GroupName -&gt; (string) The name of the placement group. RamdiskId -&gt; (string) The ID of the RAM disk. SecurityGroupIds -&gt; (list) The IDs of the security groups. (string) SubnetId -&gt; (string) The ID of the subnet in which to launch the instances. UserData -&gt; (string) The base64-encoded MIME user data. JSON Syntax: { "BlockDeviceMappings": [ { "DeviceName": "string", "Ebs": { "DeleteOnTermination": true|false, "Encrypted": true|false, "Iops": integer, "SnapshotId": "string", "VolumeSize": integer, "VolumeType": "string" }, "NoDevice": "string", "VirtualName": "string" } ... ], "EbsOptimized": true|false, "IamInstanceProfile": { "Arn": "string", "Name": "string" }, "ImageId": "string", "InstanceType": "string", "KernelId": "string", "KeyName": "string", "Monitoring": { "Enabled": true|false }, "NetworkInterfaces": [ { "AssociatePublicIpAddress": true|false, "DeleteOnTermination": true|false, "Description": "string", "DeviceIndex": integer, "Groups": ["string", ...], "Ipv6AddressCount": integer, "Ipv6Addresses": [ { "Ipv6Address": "string" } ... ], "NetworkInterfaceId": "string", "PrivateIpAddress": "string", "PrivateIpAddressConfigs": [ { "Primary": true|false, "PrivateIpAddress": "string" } ... ], "SecondaryPrivateIpAddressCount": integer, "SubnetId": "string" } ... ], "Placement": { "AvailabilityZone": "string", "GroupName": "string" }, "RamdiskId": "string", "SecurityGroupIds": ["string", ...], "SubnetId": "string", "UserData": "string" }
+    /// </summary>
+    [CliOption("--launch-specification")]
+    public string? LaunchSpecification { get; private init; }
+
+    /// <summary>
+    /// The Scheduled Instance ID.
+    /// </summary>
+    [CliOption("--scheduled-instance-id")]
+    public string? ScheduledInstanceId { get; private init; }
+
     /// <summary>
     /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency .
     /// </summary>
@@ -29,7 +79,10 @@ public record AwsEc2RunScheduledInstancesOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -38,16 +91,26 @@ public record AwsEc2RunScheduledInstancesOptions : AwsOptions
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CliOption("--launch-specification")]
-    public string? LaunchSpecification { get; set; }
-
-    [CliOption("--scheduled-instance-id")]
-    public string? ScheduledInstanceId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

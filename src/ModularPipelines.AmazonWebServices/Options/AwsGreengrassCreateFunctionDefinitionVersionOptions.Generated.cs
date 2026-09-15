@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrass", "create-function-definition-version")]
-public record AwsGreengrassCreateFunctionDefinitionVersionOptions : AwsOptions
+public record AwsGreengrassCreateFunctionDefinitionVersionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a version of a Lambda function definition that has already been defined. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FunctionDefinitionId"></param>
+    public AwsGreengrassCreateFunctionDefinitionVersionOptions(
+        string FunctionDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FunctionDefinitionId);
+        this.FunctionDefinitionId = FunctionDefinitionId;
+    }
+
+    private AwsGreengrassCreateFunctionDefinitionVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassCreateFunctionDefinitionVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassCreateFunctionDefinitionVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--function-definition-id")]
+    public string? FunctionDefinitionId { get; private init; }
+
     [SecretValue]
     [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
     [CliOption("--default-config")]
     public string? DefaultConfig { get; set; }
-
-    [CliOption("--function-definition-id")]
-    public string? FunctionDefinitionId { get; set; }
 
     [CliOption("--functions", GroupValues = true)]
     public IEnumerable<string>? Functions { get; set; }
@@ -40,5 +74,21 @@ public record AwsGreengrassCreateFunctionDefinitionVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

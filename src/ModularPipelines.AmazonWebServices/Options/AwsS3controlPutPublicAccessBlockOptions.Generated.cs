@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "put-public-access-block")]
-public record AwsS3controlPutPublicAccessBlockOptions : AwsOptions
+public record AwsS3controlPutPublicAccessBlockOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--public-access-block-configuration")]
-    public string? PublicAccessBlockConfiguration { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported by directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. This operation may be restricted when the account is managed by organization-level Block Public Access policies. You might get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct ac- count-level modifications. Fo...
+    /// </summary>
+    /// <param name="PublicAccessBlockConfiguration">The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account. BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior: o PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for buck- ets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain. Enabling this setting doesn't affect the persistence of any ex- isting ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. This property is not supported for Amazon S3 on Outposts. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket poli- cies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Services service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to spe- cific accounts, is blocked. This property is not supported for Amazon S3 on Outposts. Shorthand Syntax: BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean JSON Syntax: { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }</param>
+    /// <param name="AccountId">The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to set. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    public AwsS3controlPutPublicAccessBlockOptions(
+        string PublicAccessBlockConfiguration,
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublicAccessBlockConfiguration);
+        this.PublicAccessBlockConfiguration = PublicAccessBlockConfiguration;
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    private AwsS3controlPutPublicAccessBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlPutPublicAccessBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlPutPublicAccessBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account. BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior: o PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. This property is not supported for Amazon S3 on Outposts. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for buck- ets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain. Enabling this setting doesn't affect the persistence of any ex- isting ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket policies for buckets in this account. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. This property is not supported for Amazon S3 on Outposts. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket poli- cies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Services service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to spe- cific accounts, is blocked. This property is not supported for Amazon S3 on Outposts. Shorthand Syntax: BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean JSON Syntax: { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }
+    /// </summary>
+    [CliOption("--public-access-block-configuration")]
+    public string? PublicAccessBlockConfiguration { get; private init; }
+
+    /// <summary>
+    /// The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to set. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

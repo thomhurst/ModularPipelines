@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "create-collaboration-change-request")]
-public record AwsCleanroomsCreateCollaborationChangeRequestOptions : AwsOptions
+public record AwsCleanroomsCreateCollaborationChangeRequestOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--collaboration-identifier")]
-    public string? CollaborationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a struc- tured API-driven approach. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollaborationIdentifier">The identifier of the collaboration that the change request is made against. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Changes">The list of changes to apply to the collaboration. Each change spec- ifies the type of modification and the details of what should be changed. Constraints: o min: 1 o max: 10 (structure) Specifies a change to apply to a collaboration. specificationType -&gt; (string) [required] The type of specification for the change. Currently supports MEMBER for member-related changes. Possible values: o MEMBER o COLLABORATION specification -&gt; (tagged union structure) [required] The specification details for the change. The structure de- pends on the specification type. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: member, collaboration. member -&gt; (structure) The member change specification when the change type is MEMBER . accountId -&gt; (string) [required] The Amazon Web Services account ID of the member to add to the collaboration. Constraints: o min: 12 o max: 12 o pattern: \d+ memberAbilities -&gt; (list) [required] The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. NOTE: The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB . Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RE- CEIVE_RESULTS] to allow a member to contribute data and receive results. Set the value of memberAbilities to [CAN_EX- PORT_QUERY_ANALYSIS_LOG] so that the member can export the analysis logs for a protected query. Having this ability isn't sufficient on its own: You can export logs only for queries that you ran or paid for. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG mlMemberAbilities -&gt; (structure) The ML member abilities for a collaboration member. customMLMemberAbilities -&gt; (list) [required] The custom ML member abilities for a collaboration member. (string) Possible values: o CAN_RECEIVE_MODEL_OUTPUT o CAN_RECEIVE_INFERENCE_OUTPUT paymentConfiguration -&gt; (structure) An object representing the collaboration member's pay- ment responsibilities set by the collaboration cre- ator. queryCompute -&gt; (structure) [required] The collaboration member's payment responsibili- ties set by the collaboration creator for query compute costs. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE ) or has not config- ured the collaboration member to pay for query compute costs (FALSE ). One or more members can be configured as payer candidates for query compute costs. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the de- fault payer. machineLearning -&gt; (structure) An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator. modelTraining -&gt; (structure) The payment responsibilities accepted by the member for model training. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE ) or has not configured the collaboration member to pay for model training costs (FALSE ). One or more members can be configured as payer candidates for model training costs. If the collaboration creator hasn't speci- fied anyone as the member paying for model training costs, then the member who can query is the default payer. modelInference -&gt; (structure) The payment responsibilities accepted by the member for model inference. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE ) or has not configured the collaboration member to pay for model inference costs (FALSE ). One or more members can be configured as payer candidates for model inference costs. If the collaboration creator hasn't speci- fied anyone as the member paying for model inference costs, then the member who can query is the default payer. syntheticDataGeneration -&gt; (structure) The payment configuration for machine learning synthetic data generation. isResponsible -&gt; (boolean) [required] Indicates who is responsible for paying for synthetic data generation. jobCompute -&gt; (structure) The compute configuration for the job. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE ) or has not configured the collaboration member to pay for query and job compute costs (FALSE ). One or more members can be configured as payer candidates for query and job compute costs. An error is returned if the collaboration cre- ator sets a FALSE value for the member who can run queries and jobs. displayName -&gt; (string) Specifies the display name that will be shown for this member in the collaboration. While this field is re- quired when inviting new members, it becomes optional when modifying abilities of existing collaboration members. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* collaboration -&gt; (structure) The collaboration configuration changes being requested. Currently, this only supports modifying which change types are auto-approved for the collaboration. autoApprovedChangeTypes -&gt; (list) Defines requested updates to properties of the collab- oration. Currently, this only supports modifying which change types are auto-approved for the collaboration. (string) Possible values: o ADD_MEMBER o GRANT_RECEIVE_RESULTS_ABILITY o REVOKE_RECEIVE_RESULTS_ABILITY o GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY o REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY JSON Syntax: [ { "specificationType": "MEMBER"|"COLLABORATION", "specification": { "member": { "accountId": "string", "memberAbilities": ["CAN_QUERY"|"CAN_RECEIVE_RESULTS"|"CAN_RUN_JOB"|"CAN_EXPORT_QUERY_ANALYSIS_LOG", ...], "mlMemberAbilities": { "customMLMemberAbilities": ["CAN_RECEIVE_MODEL_OUTPUT"|"CAN_RECEIVE_INFERENCE_OUTPUT", ...] }, "paymentConfiguration": { "queryCompute": { "isResponsible": true|false }, "machineLearning": { "modelTraining": { "isResponsible": true|false }, "modelInference": { "isResponsible": true|false }, "syntheticDataGeneration": { "isResponsible": true|false } }, "jobCompute": { "isResponsible": true|false } }, "displayName": "string" }, "collaboration": { "autoApprovedChangeTypes": ["ADD_MEMBER"|"GRANT_RECEIVE_RESULTS_ABILITY"|"REVOKE_RECEIVE_RESULTS_ABILITY"|"GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"|"REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY", ...] } } } ... ]</param>
+    public AwsCleanroomsCreateCollaborationChangeRequestOptions(
+        string CollaborationIdentifier,
+        IEnumerable<string> Changes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollaborationIdentifier);
+        this.CollaborationIdentifier = CollaborationIdentifier;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Changes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Changes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Changes));
+            }
+
+            Changes = materialized;
+        }
+        this.Changes = Changes;
+    }
+
+    private AwsCleanroomsCreateCollaborationChangeRequestOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsCreateCollaborationChangeRequestOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsCreateCollaborationChangeRequestOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the collaboration that the change request is made against. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--collaboration-identifier")]
+    public string? CollaborationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The list of changes to apply to the collaboration. Each change spec- ifies the type of modification and the details of what should be changed. Constraints: o min: 1 o max: 10 (structure) Specifies a change to apply to a collaboration. specificationType -&gt; (string) [required] The type of specification for the change. Currently supports MEMBER for member-related changes. Possible values: o MEMBER o COLLABORATION specification -&gt; (tagged union structure) [required] The specification details for the change. The structure de- pends on the specification type. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: member, collaboration. member -&gt; (structure) The member change specification when the change type is MEMBER . accountId -&gt; (string) [required] The Amazon Web Services account ID of the member to add to the collaboration. Constraints: o min: 12 o max: 12 o pattern: \d+ memberAbilities -&gt; (list) [required] The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. NOTE: The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB . Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RE- CEIVE_RESULTS] to allow a member to contribute data and receive results. Set the value of memberAbilities to [CAN_EX- PORT_QUERY_ANALYSIS_LOG] so that the member can export the analysis logs for a protected query. Having this ability isn't sufficient on its own: You can export logs only for queries that you ran or paid for. (string) Possible values: o CAN_QUERY o CAN_RECEIVE_RESULTS o CAN_RUN_JOB o CAN_EXPORT_QUERY_ANALYSIS_LOG mlMemberAbilities -&gt; (structure) The ML member abilities for a collaboration member. customMLMemberAbilities -&gt; (list) [required] The custom ML member abilities for a collaboration member. (string) Possible values: o CAN_RECEIVE_MODEL_OUTPUT o CAN_RECEIVE_INFERENCE_OUTPUT paymentConfiguration -&gt; (structure) An object representing the collaboration member's pay- ment responsibilities set by the collaboration cre- ator. queryCompute -&gt; (structure) [required] The collaboration member's payment responsibili- ties set by the collaboration creator for query compute costs. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE ) or has not config- ured the collaboration member to pay for query compute costs (FALSE ). One or more members can be configured as payer candidates for query compute costs. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the de- fault payer. machineLearning -&gt; (structure) An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator. modelTraining -&gt; (structure) The payment responsibilities accepted by the member for model training. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE ) or has not configured the collaboration member to pay for model training costs (FALSE ). One or more members can be configured as payer candidates for model training costs. If the collaboration creator hasn't speci- fied anyone as the member paying for model training costs, then the member who can query is the default payer. modelInference -&gt; (structure) The payment responsibilities accepted by the member for model inference. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE ) or has not configured the collaboration member to pay for model inference costs (FALSE ). One or more members can be configured as payer candidates for model inference costs. If the collaboration creator hasn't speci- fied anyone as the member paying for model inference costs, then the member who can query is the default payer. syntheticDataGeneration -&gt; (structure) The payment configuration for machine learning synthetic data generation. isResponsible -&gt; (boolean) [required] Indicates who is responsible for paying for synthetic data generation. jobCompute -&gt; (structure) The compute configuration for the job. isResponsible -&gt; (boolean) [required] Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE ) or has not configured the collaboration member to pay for query and job compute costs (FALSE ). One or more members can be configured as payer candidates for query and job compute costs. An error is returned if the collaboration cre- ator sets a FALSE value for the member who can run queries and jobs. displayName -&gt; (string) Specifies the display name that will be shown for this member in the collaboration. While this field is re- quired when inviting new members, it becomes optional when modifying abilities of existing collaboration members. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* collaboration -&gt; (structure) The collaboration configuration changes being requested. Currently, this only supports modifying which change types are auto-approved for the collaboration. autoApprovedChangeTypes -&gt; (list) Defines requested updates to properties of the collab- oration. Currently, this only supports modifying which change types are auto-approved for the collaboration. (string) Possible values: o ADD_MEMBER o GRANT_RECEIVE_RESULTS_ABILITY o REVOKE_RECEIVE_RESULTS_ABILITY o GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY o REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY JSON Syntax: [ { "specificationType": "MEMBER"|"COLLABORATION", "specification": { "member": { "accountId": "string", "memberAbilities": ["CAN_QUERY"|"CAN_RECEIVE_RESULTS"|"CAN_RUN_JOB"|"CAN_EXPORT_QUERY_ANALYSIS_LOG", ...], "mlMemberAbilities": { "customMLMemberAbilities": ["CAN_RECEIVE_MODEL_OUTPUT"|"CAN_RECEIVE_INFERENCE_OUTPUT", ...] }, "paymentConfiguration": { "queryCompute": { "isResponsible": true|false }, "machineLearning": { "modelTraining": { "isResponsible": true|false }, "modelInference": { "isResponsible": true|false }, "syntheticDataGeneration": { "isResponsible": true|false } }, "jobCompute": { "isResponsible": true|false } }, "displayName": "string" }, "collaboration": { "autoApprovedChangeTypes": ["ADD_MEMBER"|"GRANT_RECEIVE_RESULTS_ABILITY"|"REVOKE_RECEIVE_RESULTS_ABILITY"|"GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"|"REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY", ...] } } } ... ]
+    /// </summary>
     [CliOption("--changes", GroupValues = true)]
-    public IEnumerable<string>? Changes { get; set; }
+    public IEnumerable<string>? Changes { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

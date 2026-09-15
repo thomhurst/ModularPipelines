@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "create-integration")]
-public record AwsGlueCreateIntegrationOptions : AwsOptions
+public record AwsGlueCreateIntegrationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Zero-ETL integration in the caller's account between two re- sources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntegrationName">A unique name for an integration in Glue. Constraints: o min: 1 o max: 128</param>
+    /// <param name="SourceArn">The ARN of the source resource for the integration. Constraints: o min: 1 o max: 512</param>
+    /// <param name="TargetArn">The ARN of the target resource for the integration. Constraints: o min: 1 o max: 512</param>
+    public AwsGlueCreateIntegrationOptions(
+        string IntegrationName,
+        string SourceArn,
+        string TargetArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntegrationName);
+        this.IntegrationName = IntegrationName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceArn);
+        this.SourceArn = SourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetArn);
+        this.TargetArn = TargetArn;
+    }
+
+    private AwsGlueCreateIntegrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueCreateIntegrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueCreateIntegrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique name for an integration in Glue. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--integration-name")]
-    public string? IntegrationName { get; set; }
+    public string? IntegrationName { get; private init; }
 
+    /// <summary>
+    /// The ARN of the source resource for the integration. Constraints: o min: 1 o max: 512
+    /// </summary>
     [CliOption("--source-arn")]
-    public string? SourceArn { get; set; }
+    public string? SourceArn { get; private init; }
 
+    /// <summary>
+    /// The ARN of the target resource for the integration. Constraints: o min: 1 o max: 512
+    /// </summary>
     [CliOption("--target-arn")]
-    public string? TargetArn { get; set; }
+    public string? TargetArn { get; private init; }
 
     /// <summary>
     /// A description of the integration. Constraints: o max: 1000 o pattern: [\S\s]*
@@ -72,5 +123,21 @@ public record AwsGlueCreateIntegrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-stage")]
-public record AwsApigatewayCreateStageOptions : AwsOptions
+public record AwsApigatewayCreateStageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Stage resource that references a pre-existing Deployment for the API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="StageName">The name for the Stage resource. Stage names can only contain al- phanumeric characters, hyphens, and underscores. Maximum length is 128 characters.</param>
+    /// <param name="DeploymentId">The identifier of the Deployment resource for the Stage resource.</param>
+    public AwsApigatewayCreateStageOptions(
+        string RestApiId,
+        string StageName,
+        string DeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(StageName);
+        this.StageName = StageName;
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentId);
+        this.DeploymentId = DeploymentId;
+    }
+
+    private AwsApigatewayCreateStageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateStageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateStageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// The name for the Stage resource. Stage names can only contain al- phanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
+    /// </summary>
     [CliOption("--stage-name")]
-    public string? StageName { get; set; }
+    public string? StageName { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Deployment resource for the Stage resource.
+    /// </summary>
     [CliOption("--deployment-id")]
-    public string? DeploymentId { get; set; }
+    public string? DeploymentId { get; private init; }
 
     /// <summary>
     /// The description of the Stage resource.
@@ -37,7 +88,10 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--cache-cluster-enabled")]
+    /// <summary>
+    /// Whether cache clustering is enabled for the stage.
+    /// </summary>
+    [CliFlag("--cache-cluster-enabled", NegatedName = "--no-cache-cluster-enabled")]
     public bool? CacheClusterEnabled { get; set; }
 
     /// <summary>
@@ -64,7 +118,10 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
     [CliOption("--canary-settings")]
     public string? CanarySettings { get; set; }
 
-    [CliFlag("--tracing-enabled")]
+    /// <summary>
+    /// Specifies whether active tracing with X-ray is enabled for the Stage.
+    /// </summary>
+    [CliFlag("--tracing-enabled", NegatedName = "--no-tracing-enabled")]
     public bool? TracingEnabled { get; set; }
 
     /// <summary>
@@ -78,5 +135,21 @@ public record AwsApigatewayCreateStageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

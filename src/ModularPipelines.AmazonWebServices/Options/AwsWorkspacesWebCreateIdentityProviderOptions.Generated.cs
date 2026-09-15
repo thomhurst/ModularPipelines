@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,19 +23,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "create-identity-provider")]
-public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions
+public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an identity provider resource that is then associated with a web portal. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PortalArn">The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="IdentityProviderName">The identity provider name. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+</param>
+    /// <param name="IdentityProviderType">The identity provider type. Possible values: o SAML o Facebook o Google o LoginWithAmazon o SignInWithApple o OIDC</param>
+    /// <param name="IdentityProviderDetails">The identity provider details. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsWorkspacesWebCreateIdentityProviderOptions(
+        string PortalArn,
+        string IdentityProviderName,
+        AwsWorkspacesWebCreateIdentityProviderIdentityProviderType IdentityProviderType,
+        IReadOnlyList<KeyValue> IdentityProviderDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortalArn);
+        this.PortalArn = PortalArn;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderName);
+        this.IdentityProviderName = IdentityProviderName;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderType);
+        this.IdentityProviderType = IdentityProviderType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IdentityProviderDetails);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(IdentityProviderDetails));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IdentityProviderDetails));
+            }
+
+            IdentityProviderDetails = materialized;
+        }
+        this.IdentityProviderDetails = IdentityProviderDetails;
+    }
+
+    private AwsWorkspacesWebCreateIdentityProviderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebCreateIdentityProviderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebCreateIdentityProviderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the web portal. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// </summary>
     [CliOption("--portal-arn")]
-    public string? PortalArn { get; set; }
+    public string? PortalArn { get; private init; }
 
+    /// <summary>
+    /// The identity provider name. Constraints: o min: 1 o max: 32 o pattern: [^_][\p{L}\p{M}\p{S}\p{N}\p{P}][^_]+
+    /// </summary>
     [CliOption("--identity-provider-name")]
-    public string? IdentityProviderName { get; set; }
+    public string? IdentityProviderName { get; private init; }
 
+    /// <summary>
+    /// The identity provider type. Possible values: o SAML o Facebook o Google o LoginWithAmazon o SignInWithApple o OIDC
+    /// </summary>
     [CliOption("--identity-provider-type")]
-    public string? IdentityProviderType { get; set; }
+    public AwsWorkspacesWebCreateIdentityProviderIdentityProviderType? IdentityProviderType { get; private init; }
 
+    /// <summary>
+    /// The identity provider details. The following list describes the provider detail keys for each identity provider type. o For Google and Login with Amazon: o client_id o client_secret o authorize_scopes o For Facebook: o client_id o client_secret o authorize_scopes o api_version o For Sign in with Apple: o client_id o team_id o key_id o private_key o authorize_scopes o For OIDC providers: o client_id o client_secret o attributes_request_method o oidc_issuer o authorize_scopes o authorize_url if not available from discovery URL specified by ``oidc_issuer`` key o token_url if not available from discovery URL specified by ``oidc_issuer`` key o attributes_url if not available from discovery URL specified by ``oidc_issuer`` key o jwks_uri if not available from discovery URL specified by ``oidc_issuer`` key o For SAML providers: o MetadataFile OR MetadataURL o IDPSignout (boolean) optional o IDPInit (boolean) optional o RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256 o EncryptedResponses (boolean) optional key -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 131072 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
     [CliOption("--identity-provider-details", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; set; }
+    public IReadOnlyList<KeyValue>? IdentityProviderDetails { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, subsequent retries with the same client token returns the result from the original successful re- quest. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. Constraints: o min: 1 o max: 512
@@ -53,5 +123,21 @@ public record AwsWorkspacesWebCreateIdentityProviderOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("osis", "create-pipeline-endpoint")]
-public record AwsOsisCreatePipelineEndpointOptions : AwsOptions
+public record AwsOsisCreatePipelineEndpointOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pipeline-arn")]
-    public string? PipelineArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PipelineArn">The Amazon Resource Name (ARN) of the pipeline to create the end- point for. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
+    /// <param name="VpcOptions">Container for the VPC configuration for the pipeline endpoint, in- cluding subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network inter- faces are created. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    public AwsOsisCreatePipelineEndpointOptions(
+        string PipelineArn,
+        string VpcOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PipelineArn);
+        this.PipelineArn = PipelineArn;
+        global::System.ArgumentNullException.ThrowIfNull(VpcOptions);
+        this.VpcOptions = VpcOptions;
+    }
+
+    private AwsOsisCreatePipelineEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOsisCreatePipelineEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOsisCreatePipelineEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the pipeline to create the end- point for. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
+    /// </summary>
+    [CliOption("--pipeline-arn")]
+    public string? PipelineArn { get; private init; }
+
+    /// <summary>
+    /// Container for the VPC configuration for the pipeline endpoint, in- cluding subnet IDs and security group IDs. SubnetIds -&gt; (list) A list of subnet IDs where the pipeline endpoint network inter- faces are created. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) A list of security group IDs that control network access to the pipeline endpoint. Constraints: o min: 1 o max: 12 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// </summary>
     [CliOption("--vpc-options")]
-    public string? VpcOptions { get; set; }
+    public string? VpcOptions { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

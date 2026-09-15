@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityhub", "batch-disable-standards")]
-public record AwsSecurityhubBatchDisableStandardsOptions : AwsOptions
+public record AwsSecurityhubBatchDisableStandardsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disables the standards specified by the provided StandardsSubscrip- tionArns . For more information, see Security Standards section of the Security Hub CSPM User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StandardsSubscriptionArns">The ARNs of the standards subscriptions to disable. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    public AwsSecurityhubBatchDisableStandardsOptions(
+        IEnumerable<string> StandardsSubscriptionArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StandardsSubscriptionArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StandardsSubscriptionArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StandardsSubscriptionArns));
+            }
+
+            StandardsSubscriptionArns = materialized;
+        }
+        this.StandardsSubscriptionArns = StandardsSubscriptionArns;
+    }
+
+    private AwsSecurityhubBatchDisableStandardsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityhubBatchDisableStandardsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityhubBatchDisableStandardsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARNs of the standards subscriptions to disable. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--standards-subscription-arns", GroupValues = true)]
-    public IEnumerable<string>? StandardsSubscriptionArns { get; set; }
+    public IEnumerable<string>? StandardsSubscriptionArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

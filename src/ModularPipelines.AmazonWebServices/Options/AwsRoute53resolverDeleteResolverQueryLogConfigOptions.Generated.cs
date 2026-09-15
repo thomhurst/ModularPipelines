@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "delete-resolver-query-log-config")]
-public record AwsRoute53resolverDeleteResolverQueryLogConfigOptions : AwsOptions
+public record AwsRoute53resolverDeleteResolverQueryLogConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query log- ging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configura- tion. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQ...
+    /// </summary>
+    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to delete. Constraints: o min: 1 o max: 64</param>
+    public AwsRoute53resolverDeleteResolverQueryLogConfigOptions(
+        string ResolverQueryLogConfigId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResolverQueryLogConfigId);
+        this.ResolverQueryLogConfigId = ResolverQueryLogConfigId;
+    }
+
+    private AwsRoute53resolverDeleteResolverQueryLogConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverDeleteResolverQueryLogConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverDeleteResolverQueryLogConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the query logging configuration that you want to delete. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--resolver-query-log-config-id")]
-    public string? ResolverQueryLogConfigId { get; set; }
+    public string? ResolverQueryLogConfigId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "list-experiment-runs")]
-public record AwsAppConfigListExperimentRunsOptions : AwsOptions
+public record AwsAppConfigListExperimentRunsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-identifier")]
-    public string? ApplicationIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists the experiment runs for a specified experiment definition. You can filter by status. See also: AWS API Documentation list-experiment-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// </summary>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExperimentDefinitionIdentifier">The experiment definition ID or name. Constraints: o min: 1 o max: 2048</param>
+    public AwsAppConfigListExperimentRunsOptions(
+        string ApplicationIdentifier,
+        string ExperimentDefinitionIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIdentifier);
+        this.ApplicationIdentifier = ApplicationIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ExperimentDefinitionIdentifier);
+        this.ExperimentDefinitionIdentifier = ExperimentDefinitionIdentifier;
+    }
+
+    private AwsAppConfigListExperimentRunsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppConfigListExperimentRunsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppConfigListExperimentRunsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--application-identifier")]
+    public string? ApplicationIdentifier { get; private init; }
+
+    /// <summary>
+    /// The experiment definition ID or name. Constraints: o min: 1 o max: 2048
+    /// </summary>
     [CliOption("--experiment-definition-identifier")]
-    public string? ExperimentDefinitionIdentifier { get; set; }
+    public string? ExperimentDefinitionIdentifier { get; private init; }
 
     /// <summary>
     /// A filter for the experiment run status. Possible values: o RUNNING o DONE
@@ -59,5 +103,21 @@ public record AwsAppConfigListExperimentRunsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

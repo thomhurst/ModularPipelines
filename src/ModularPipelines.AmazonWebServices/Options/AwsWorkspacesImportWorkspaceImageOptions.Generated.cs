@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "import-workspace-image")]
-public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions
+public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see Bring Your Own Windows Desktop Licenses . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Ec2ImageId">The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$</param>
+    /// <param name="IngestionProcess">The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, ei- ther PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or Graphic- sPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGU- LAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more informa- tion, see Amazon WorkSpaces Core . Possible values: o BYOL_REGULAR o BYOL_GRAPHICS o BYOL_GRAPHICSPRO o BYOL_GRAPHICS_G4DN o BYOL_REGULAR_WSP o BYOL_GRAPHICS_G4DN_WSP o BYOL_REGULAR_BYOP o BYOL_GRAPHICS_G4DN_BYOP</param>
+    /// <param name="ImageName">The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="ImageDescription">The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    public AwsWorkspacesImportWorkspaceImageOptions(
+        string Ec2ImageId,
+        AwsWorkspacesImportWorkspaceImageIngestionProcess IngestionProcess,
+        string ImageName,
+        string ImageDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ec2ImageId);
+        this.Ec2ImageId = Ec2ImageId;
+        global::System.ArgumentNullException.ThrowIfNull(IngestionProcess);
+        this.IngestionProcess = IngestionProcess;
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+        global::System.ArgumentNullException.ThrowIfNull(ImageDescription);
+        this.ImageDescription = ImageDescription;
+    }
+
+    private AwsWorkspacesImportWorkspaceImageOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesImportWorkspaceImageOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesImportWorkspaceImageOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the EC2 image. Constraints: o pattern: ^ami\-([a-f0-9]{8}|[a-f0-9]{17})$
+    /// </summary>
     [CliOption("--ec2-image-id")]
-    public string? Ec2ImageId { get; set; }
+    public string? Ec2ImageId { get; private init; }
 
+    /// <summary>
+    /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, ei- ther PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP . To use PCoIP, specify a value that does not end in _WSP . To use BYOP, specify a value that ends in _BYOP . For non-GPU-enabled bundles (bundles other than Graphics or Graphic- sPro), specify BYOL_REGULAR , BYOL_REGULAR_WSP , or BYOL_REGU- LAR_BYOP , depending on the protocol. NOTE: The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more informa- tion, see Amazon WorkSpaces Core . Possible values: o BYOL_REGULAR o BYOL_GRAPHICS o BYOL_GRAPHICSPRO o BYOL_GRAPHICS_G4DN o BYOL_REGULAR_WSP o BYOL_GRAPHICS_G4DN_WSP o BYOL_REGULAR_BYOP o BYOL_GRAPHICS_G4DN_BYOP
+    /// </summary>
     [CliOption("--ingestion-process")]
-    public string? IngestionProcess { get; set; }
+    public AwsWorkspacesImportWorkspaceImageIngestionProcess? IngestionProcess { get; private init; }
 
+    /// <summary>
+    /// The name of the WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// </summary>
     [CliOption("--image-name")]
-    public string? ImageName { get; set; }
+    public string? ImageName { get; private init; }
 
+    /// <summary>
+    /// The description of the WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// </summary>
     [CliOption("--image-description")]
-    public string? ImageDescription { get; set; }
+    public string? ImageDescription { get; private init; }
 
     /// <summary>
     /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -50,5 +109,21 @@ public record AwsWorkspacesImportWorkspaceImageOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

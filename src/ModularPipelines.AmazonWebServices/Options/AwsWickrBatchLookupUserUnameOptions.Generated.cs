@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wickr", "batch-lookup-user-uname")]
-public record AwsWickrBatchLookupUserUnameOptions : AwsOptions
+public record AwsWickrBatchLookupUserUnameOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Looks up multiple user usernames from their unique username hashes (un- ames). This operation allows you to retrieve the email addresses asso- ciated with a list of username hashes. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The ID of the Wickr network where the users will be looked up. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="Unames">A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...</param>
+    public AwsWickrBatchLookupUserUnameOptions(
+        string NetworkId,
+        IEnumerable<string> Unames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Unames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Unames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Unames));
+            }
+
+            Unames = materialized;
+        }
+        this.Unames = Unames;
+    }
+
+    private AwsWickrBatchLookupUserUnameOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWickrBatchLookupUserUnameOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWickrBatchLookupUserUnameOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Wickr network where the users will be looked up. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// </summary>
+    [CliOption("--network-id")]
+    public string? NetworkId { get; private init; }
+
+    /// <summary>
+    /// A list of username hashes (unames) to look up. Each uname is a unique identifier for a user's username. Maximum 50 unames per batch request. (string) Constraints: o pattern: [\S\s]* Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--unames", GroupValues = true)]
-    public IEnumerable<string>? Unames { get; set; }
+    public IEnumerable<string>? Unames { get; private init; }
 
     /// <summary>
     /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
@@ -40,5 +95,21 @@ public record AwsWickrBatchLookupUserUnameOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

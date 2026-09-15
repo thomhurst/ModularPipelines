@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,26 +23,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-attached-file")]
-public record AwsConnectCreateAttachedFileOptions : AwsOptions
+public record AwsConnectCreateAttachedFileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream pro- cessing such as conversational analytics. WARNING: The AssociatedResourceArn must be the ARN of a completed voice con- tact, FileUseCaseType must be set to VOICE_RECORDING , and File- SourceUri must be a valid S3 URI. NOTE: For example, you can call CreateContact , then CreateAttachedFile ...
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="FileUseCaseType">The use case for the file. WARNING: Only VOICE_RECORDING is supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING</param>
+    /// <param name="FileSourceUri">The S3 URI of the file to be attached. Only S3 source URIs are sup- ported. Constraints: o min: 1 o max: 2000</param>
+    /// <param name="AssociatedResourceArn">The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported. NOTE: This value must be a valid ARN.</param>
+    public AwsConnectCreateAttachedFileOptions(
+        string InstanceId,
+        AwsConnectCreateAttachedFileFileUseCaseType FileUseCaseType,
+        string FileSourceUri,
+        string AssociatedResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(FileUseCaseType);
+        this.FileUseCaseType = FileUseCaseType;
+        global::System.ArgumentNullException.ThrowIfNull(FileSourceUri);
+        this.FileSourceUri = FileSourceUri;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedResourceArn);
+        this.AssociatedResourceArn = AssociatedResourceArn;
+    }
+
+    private AwsConnectCreateAttachedFileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateAttachedFileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateAttachedFileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The use case for the file. WARNING: Only VOICE_RECORDING is supported. Possible values: o CONTACT_ANALYSIS o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_REDACTED o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o ATTACHMENT o VOICE_RECORDING
+    /// </summary>
+    [CliOption("--file-use-case-type")]
+    public AwsConnectCreateAttachedFileFileUseCaseType? FileUseCaseType { get; private init; }
+
+    /// <summary>
+    /// The S3 URI of the file to be attached. Only S3 source URIs are sup- ported. Constraints: o min: 1 o max: 2000
+    /// </summary>
+    [CliOption("--file-source-uri")]
+    public string? FileSourceUri { get; private init; }
+
+    /// <summary>
+    /// The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported. NOTE: This value must be a valid ARN.
+    /// </summary>
+    [CliOption("--associated-resource-arn")]
+    public string? AssociatedResourceArn { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
-
-    [CliOption("--file-use-case-type")]
-    public string? FileUseCaseType { get; set; }
-
-    [CliOption("--file-source-uri")]
-    public string? FileSourceUri { get; set; }
-
-    [CliOption("--associated-resource-arn")]
-    public string? AssociatedResourceArn { get; set; }
 
     /// <summary>
     /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -53,5 +112,21 @@ public record AwsConnectCreateAttachedFileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

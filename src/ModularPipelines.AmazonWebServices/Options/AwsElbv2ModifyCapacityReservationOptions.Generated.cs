@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "modify-capacity-reservation")]
-public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions
+public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one Min- imumLoadBalancerCapacity or ResetCapacityReservation . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
+    public AwsElbv2ModifyCapacityReservationOptions(
+        string LoadBalancerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
+        this.LoadBalancerArn = LoadBalancerArn;
+    }
+
+    private AwsElbv2ModifyCapacityReservationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2ModifyCapacityReservationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2ModifyCapacityReservationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// </summary>
     [CliOption("--load-balancer-arn")]
-    public string? LoadBalancerArn { get; set; }
+    public string? LoadBalancerArn { get; private init; }
 
     /// <summary>
     /// The minimum load balancer capacity reserved. CapacityUnits -&gt; (integer) The number of capacity units. Shorthand Syntax: CapacityUnits=integer JSON Syntax: { "CapacityUnits": integer }
@@ -30,7 +67,10 @@ public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions
     [CliOption("--minimum-load-balancer-capacity")]
     public string? MinimumLoadBalancerCapacity { get; set; }
 
-    [CliFlag("--reset-capacity-reservation")]
+    /// <summary>
+    /// Resets the capacity reservation.
+    /// </summary>
+    [CliFlag("--reset-capacity-reservation", NegatedName = "--no-reset-capacity-reservation")]
     public bool? ResetCapacityReservation { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +78,21 @@ public record AwsElbv2ModifyCapacityReservationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

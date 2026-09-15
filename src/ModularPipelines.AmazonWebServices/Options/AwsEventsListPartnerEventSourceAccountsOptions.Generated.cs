@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "list-partner-event-source-accounts")]
-public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions
+public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// An SaaS partner can use this operation to display the Amazon Web Ser- vices account ID that a particular partner event source name is associ- ated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EventSourceName">The name of the partner event source to display account information about. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
+    public AwsEventsListPartnerEventSourceAccountsOptions(
+        string EventSourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EventSourceName);
+        this.EventSourceName = EventSourceName;
+    }
+
+    private AwsEventsListPartnerEventSourceAccountsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEventsListPartnerEventSourceAccountsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEventsListPartnerEventSourceAccountsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the partner event source to display account information about. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// </summary>
     [CliOption("--event-source-name")]
-    public string? EventSourceName { get; set; }
+    public string? EventSourceName { get; private init; }
 
     /// <summary>
     /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
@@ -43,5 +80,21 @@ public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "poll-for-decision-task")]
-public record AwsSwfPollForDecisionTaskOptions : AwsOptions
+public record AwsSwfPollForDecisionTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Used by deciders to get a DecisionTask from the specified decision taskList . A decision task may be returned for any open workflow execu- tion that is using the specified task list. The task includes a pagi- nated view of the history of the workflow execution. The decider should use the workflow type and the history to determine how to properly han- dle the task. This action initiates a long poll, where the service holds the HTTP connection open and responds as soon a task becomes available. If...
+    /// </summary>
+    /// <param name="Domain">The name of the domain containing the task lists to poll. Constraints: o min: 1 o max: 256</param>
+    /// <param name="TaskList">Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }</param>
+    public AwsSwfPollForDecisionTaskOptions(
+        string Domain,
+        string TaskList
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(TaskList);
+        this.TaskList = TaskList;
+    }
+
+    private AwsSwfPollForDecisionTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfPollForDecisionTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfPollForDecisionTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain containing the task lists to poll. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// Specifies the task list to poll for decision tasks. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . name -&gt; (string) [required] The name of the task list. Constraints: o min: 1 o max: 256 Shorthand Syntax: name=string JSON Syntax: { "name": "string" }
+    /// </summary>
     [CliOption("--task-list")]
-    public string? TaskList { get; set; }
+    public string? TaskList { get; private init; }
 
     /// <summary>
     /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables di- agnostic tracing when problems arise. The form of this identity is user defined. Constraints: o max: 256
@@ -34,13 +78,16 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions
     [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CliFlag("--reverse-order")]
+    /// <summary>
+    /// When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
+    /// </summary>
+    [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
 
     /// <summary>
-    /// | --no-start-at-previ- ous-started-event (boolean) When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent Decision- TaskStarted event. By default, this parameter is set to false .
+    /// ous-started-event (boolean) When set to true , returns the events with eventTimestamp greater than or equal to eventTimestamp of the most recent Decision- TaskStarted event. By default, this parameter is set to false .
     /// </summary>
-    [CliFlag("--start-at-previous-started-event")]
+    [CliFlag("--start-at-previous-started-event", NegatedName = "--no-start-at-previous-started-event")]
     public bool? StartAtPreviousStartedEvent { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -67,5 +114,21 @@ public record AwsSwfPollForDecisionTaskOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

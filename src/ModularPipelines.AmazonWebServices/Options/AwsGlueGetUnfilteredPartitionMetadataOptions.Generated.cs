@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,28 +20,114 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-unfiltered-partition-metadata")]
-public record AwsGlueGetUnfilteredPartitionMetadataOptions : AwsOptions
+public record AwsGlueGetUnfilteredPartitionMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CatalogId">The catalog ID where the partition resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">(Required) Specifies the name of a database that contains the parti- tion. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">(Required) Specifies the name of a table that contains the parti- tion. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="PartitionValues">(Required) A list of partition key values. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="SupportedPermissionTypes">(Required) A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
+    public AwsGlueGetUnfilteredPartitionMetadataOptions(
+        string CatalogId,
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> PartitionValues,
+        IEnumerable<string> SupportedPermissionTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogId);
+        this.CatalogId = CatalogId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PartitionValues);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PartitionValues));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PartitionValues));
+            }
+
+            PartitionValues = materialized;
+        }
+        this.PartitionValues = PartitionValues;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SupportedPermissionTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SupportedPermissionTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SupportedPermissionTypes));
+            }
+
+            SupportedPermissionTypes = materialized;
+        }
+        this.SupportedPermissionTypes = SupportedPermissionTypes;
+    }
+
+    private AwsGlueGetUnfilteredPartitionMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetUnfilteredPartitionMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetUnfilteredPartitionMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog ID where the partition resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--catalog-id")]
-    public string? CatalogId { get; set; }
+    public string? CatalogId { get; private init; }
 
+    /// <summary>
+    /// (Required) Specifies the name of a database that contains the parti- tion. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// (Required) Specifies the name of a table that contains the parti- tion. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
 
+    /// <summary>
+    /// (Required) A list of partition key values. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--partition-values", GroupValues = true)]
-    public IEnumerable<string>? PartitionValues { get; set; }
+    public IEnumerable<string>? PartitionValues { get; private init; }
+
+    /// <summary>
+    /// (Required) A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--supported-permission-types", GroupValues = true)]
+    public IEnumerable<string>? SupportedPermissionTypes { get; private init; }
 
     /// <summary>
     /// A structure containing Lake Formation audit context information. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: o min: 0 o max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
-
-    [CliOption("--supported-permission-types", GroupValues = true)]
-    public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>
     /// A structure used as a protocol between query engines and Lake Forma- tion or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
@@ -59,5 +146,21 @@ public record AwsGlueGetUnfilteredPartitionMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

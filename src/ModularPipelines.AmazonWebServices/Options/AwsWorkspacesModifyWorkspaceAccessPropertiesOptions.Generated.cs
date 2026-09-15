@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "modify-workspace-access-properties")]
-public record AwsWorkspacesModifyWorkspaceAccessPropertiesOptions : AwsOptions
+public record AwsWorkspacesModifyWorkspaceAccessPropertiesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Specifies which devices and operating systems users can use to access their WorkSpaces. For more information, see Control Device Access . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="WorkspaceAccessProperties">The device types and operating systems to enable or disable for ac- cess. DeviceTypeWindows -&gt; (string) Indicates whether users can use Windows clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeOsx -&gt; (string) Indicates whether users can use macOS clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeWeb -&gt; (string) Indicates whether users can access their WorkSpaces through a web browser. Possible values: o ALLOW o DENY DeviceTypeIos -&gt; (string) Indicates whether users can use iOS devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeAndroid -&gt; (string) Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeChromeOs -&gt; (string) Indicates whether users can use Chromebooks to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeZeroClient -&gt; (string) Indicates whether users can use zero client devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeLinux -&gt; (string) Indicates whether users can use Linux clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeWorkSpacesThinClient -&gt; (string) Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client. Possible values: o ALLOW o DENY AccessEndpointConfig -&gt; (structure) Specifies the configuration for accessing the WorkSpace. AccessEndpoints -&gt; (list) [required] Indicates a list of access endpoints associated with this di- rectory. (structure) Describes the access type and endpoint for a WorkSpace. AccessEndpointType -&gt; (string) Indicates the type of access endpoint. Possible values: o STREAMING_WSP VpcEndpointId -&gt; (string) Indicates the VPC endpoint to use for access. Constraints: o pattern: ^[a-zA-Z0-9\_\-]{1,1000}$ InternetFallbackProtocols -&gt; (list) Indicates a list of protocols that fallback to using the pub- lic Internet when streaming over a VPC endpoint is not avail- able. (string) Possible values: o PCOIP JSON Syntax: { "DeviceTypeWindows": "ALLOW"|"DENY", "DeviceTypeOsx": "ALLOW"|"DENY", "DeviceTypeWeb": "ALLOW"|"DENY", "DeviceTypeIos": "ALLOW"|"DENY", "DeviceTypeAndroid": "ALLOW"|"DENY", "DeviceTypeChromeOs": "ALLOW"|"DENY", "DeviceTypeZeroClient": "ALLOW"|"DENY", "DeviceTypeLinux": "ALLOW"|"DENY", "DeviceTypeWorkSpacesThinClient": "ALLOW"|"DENY", "AccessEndpointConfig": { "AccessEndpoints": [ { "AccessEndpointType": "STREAMING_WSP", "VpcEndpointId": "string" } ... ], "InternetFallbackProtocols": ["PCOIP", ...] } }</param>
+    public AwsWorkspacesModifyWorkspaceAccessPropertiesOptions(
+        string ResourceId,
+        string WorkspaceAccessProperties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceAccessProperties);
+        this.WorkspaceAccessProperties = WorkspaceAccessProperties;
+    }
+
+    private AwsWorkspacesModifyWorkspaceAccessPropertiesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesModifyWorkspaceAccessPropertiesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesModifyWorkspaceAccessPropertiesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the directory. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The device types and operating systems to enable or disable for ac- cess. DeviceTypeWindows -&gt; (string) Indicates whether users can use Windows clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeOsx -&gt; (string) Indicates whether users can use macOS clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeWeb -&gt; (string) Indicates whether users can access their WorkSpaces through a web browser. Possible values: o ALLOW o DENY DeviceTypeIos -&gt; (string) Indicates whether users can use iOS devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeAndroid -&gt; (string) Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeChromeOs -&gt; (string) Indicates whether users can use Chromebooks to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeZeroClient -&gt; (string) Indicates whether users can use zero client devices to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeLinux -&gt; (string) Indicates whether users can use Linux clients to access their WorkSpaces. Possible values: o ALLOW o DENY DeviceTypeWorkSpacesThinClient -&gt; (string) Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client. Possible values: o ALLOW o DENY AccessEndpointConfig -&gt; (structure) Specifies the configuration for accessing the WorkSpace. AccessEndpoints -&gt; (list) [required] Indicates a list of access endpoints associated with this di- rectory. (structure) Describes the access type and endpoint for a WorkSpace. AccessEndpointType -&gt; (string) Indicates the type of access endpoint. Possible values: o STREAMING_WSP VpcEndpointId -&gt; (string) Indicates the VPC endpoint to use for access. Constraints: o pattern: ^[a-zA-Z0-9\_\-]{1,1000}$ InternetFallbackProtocols -&gt; (list) Indicates a list of protocols that fallback to using the pub- lic Internet when streaming over a VPC endpoint is not avail- able. (string) Possible values: o PCOIP JSON Syntax: { "DeviceTypeWindows": "ALLOW"|"DENY", "DeviceTypeOsx": "ALLOW"|"DENY", "DeviceTypeWeb": "ALLOW"|"DENY", "DeviceTypeIos": "ALLOW"|"DENY", "DeviceTypeAndroid": "ALLOW"|"DENY", "DeviceTypeChromeOs": "ALLOW"|"DENY", "DeviceTypeZeroClient": "ALLOW"|"DENY", "DeviceTypeLinux": "ALLOW"|"DENY", "DeviceTypeWorkSpacesThinClient": "ALLOW"|"DENY", "AccessEndpointConfig": { "AccessEndpoints": [ { "AccessEndpointType": "STREAMING_WSP", "VpcEndpointId": "string" } ... ], "InternetFallbackProtocols": ["PCOIP", ...] } }
+    /// </summary>
     [CliOption("--workspace-access-properties")]
-    public string? WorkspaceAccessProperties { get; set; }
+    public string? WorkspaceAccessProperties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

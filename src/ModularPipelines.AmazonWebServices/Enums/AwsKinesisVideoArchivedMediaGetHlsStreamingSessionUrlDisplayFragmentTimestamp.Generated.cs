@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --displayfragmenttimestamp.
+/// Allowed values for --display-fragment-timestamp.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsKinesisVideoArchivedMediaGetHlsStreamingSessionUrlDisplayFragmentTimestamp
 {
     [EnumValue("ALWAYS")]
-    Always = 1,
+    Always,
 
     [EnumValue("NEVER")]
-    Never = 2
+    Never
 }

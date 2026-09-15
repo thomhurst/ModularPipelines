@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "copy-db-cluster-snapshot")]
-public record AwsDocdbCopyDbClusterSnapshotOptions : AwsOptions
+public record AwsDocdbCopyDbClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--source-db-cluster-snapshot-identifier")]
-    public string? SourceDbClusterSnapshotIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Amazon Web Ser- vices Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copyin...
+    /// </summary>
+    /// <param name="SourceDbClusterSnapshotIdentifier">The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints: o Must specify a valid cluster snapshot in the available state. o If the source cluster snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier. o If the source cluster snapshot is in a different Amazon Web Ser- vices Region or owned by another Amazon Web Services account, specify the snapshot ARN. Example: my-cluster-snapshot1</param>
+    /// <param name="TargetDbClusterSnapshotIdentifier">The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2</param>
+    public AwsDocdbCopyDbClusterSnapshotOptions(
+        string SourceDbClusterSnapshotIdentifier,
+        string TargetDbClusterSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterSnapshotIdentifier);
+        this.SourceDbClusterSnapshotIdentifier = SourceDbClusterSnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterSnapshotIdentifier);
+        this.TargetDbClusterSnapshotIdentifier = TargetDbClusterSnapshotIdentifier;
+    }
+
+    private AwsDocdbCopyDbClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbCopyDbClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbCopyDbClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints: o Must specify a valid cluster snapshot in the available state. o If the source cluster snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier. o If the source cluster snapshot is in a different Amazon Web Ser- vices Region or owned by another Amazon Web Services account, specify the snapshot ARN. Example: my-cluster-snapshot1
+    /// </summary>
+    [CliOption("--source-db-cluster-snapshot-identifier")]
+    public string? SourceDbClusterSnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2
+    /// </summary>
     [CliOption("--target-db-cluster-snapshot-identifier")]
-    public string? TargetDbClusterSnapshotIdentifier { get; set; }
+    public string? TargetDbClusterSnapshotIdentifier { get; private init; }
 
     /// <summary>
     /// The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted cluster snapshot from your Amazon Web Ser- vices account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the cluster snapshot is encrypted with the same KMS key as the source cluster snapshot. If you copy an encrypted cluster snapshot that is shared from an- other Amazon Web Services account, then you must specify a value for KmsKeyId . To copy an encrypted cluster snapshot to another Amazon Web Services Region, set KmsKeyId to the KMS key ID that you want to use to en- crypt the copy of the cluster snapshot in the destination Region. KMS encryption keys are specific to the Amazon Web Services Region that they are created in, and you can't use encryption keys from one Amazon Web Services Region in another Amazon Web Services Region. If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -39,7 +83,10 @@ public record AwsDocdbCopyDbClusterSnapshotOptions : AwsOptions
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false . The default is false .
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -59,5 +106,21 @@ public record AwsDocdbCopyDbClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

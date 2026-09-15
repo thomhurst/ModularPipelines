@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "populate-intermediate-table")]
-public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions
+public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--intermediate-table-identifier")]
-    public string? IntermediateTableIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetPro- tectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IntermediateTableIdentifier">The unique identifier of the intermediate table to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCleanroomsPopulateIntermediateTableOptions(
+        string IntermediateTableIdentifier,
+        string MembershipIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntermediateTableIdentifier);
+        this.IntermediateTableIdentifier = IntermediateTableIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+    }
+
+    private AwsCleanroomsPopulateIntermediateTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsPopulateIntermediateTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsPopulateIntermediateTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the intermediate table to populate. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--intermediate-table-identifier")]
+    public string? IntermediateTableIdentifier { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the membership that contains the intermedi- ate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
     /// The runtime parameter values that override the defaults in the stored query. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -51,5 +95,21 @@ public record AwsCleanroomsPopulateIntermediateTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

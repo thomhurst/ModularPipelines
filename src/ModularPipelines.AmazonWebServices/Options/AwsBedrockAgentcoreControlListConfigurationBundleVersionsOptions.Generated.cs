@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "list-configuration-bundle-versions")]
-public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions : AwsOptions
+public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// </summary>
+    /// <param name="BundleId">The unique identifier of the configuration bundle to list versions for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    public AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions(
+        string BundleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BundleId);
+        this.BundleId = BundleId;
+    }
+
+    private AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the configuration bundle to list versions for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// </summary>
     [CliOption("--bundle-id")]
-    public string? BundleId { get; set; }
+    public string? BundleId { get; private init; }
 
     /// <summary>
     /// An optional filter for listing versions, including branch name, cre- ation source, and whether to return only the latest version per branch. branchName -&gt; (string) Filter by branch name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127} createdByName -&gt; (string) Filter by creation source name. latestPerBranch -&gt; (boolean) When true, returns only the latest version for each branch. When false or not specified, returns all versions. Can be combined with branchName to get the latest version for a specific branch. Shorthand Syntax: branchName=string,createdByName=string,latestPerBranch=boolean JSON Syntax: { "branchName": "string", "createdByName": "string", "latestPerBranch": true|false }
@@ -55,5 +92,21 @@ public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions :
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

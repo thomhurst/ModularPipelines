@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicecatalog", "create-portfolio-share")]
-public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions
+public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Shares the specified portfolio with the specified account or organiza- tion node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfo- lio share to an organization node. Y...
+    /// </summary>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    public AwsServicecatalogCreatePortfolioShareOptions(
+        string PortfolioId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PortfolioId);
+        this.PortfolioId = PortfolioId;
+    }
+
+    private AwsServicecatalogCreatePortfolioShareOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicecatalogCreatePortfolioShareOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicecatalogCreatePortfolioShareOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// </summary>
+    [CliOption("--portfolio-id")]
+    public string? PortfolioId { get; private init; }
+
     /// <summary>
     /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
-
-    [CliOption("--portfolio-id")]
-    public string? PortfolioId { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account ID. For example, 123456789012 . Constraints: o pattern: ^[0-9]{12}$
@@ -42,10 +79,16 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
 
-    [CliFlag("--share-tag-options")]
+    /// <summary>
+    /// Enables or disables TagOptions sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
+    /// </summary>
+    [CliFlag("--share-tag-options", NegatedName = "--no-share-tag-options")]
     public bool? ShareTagOptions { get; set; }
 
-    [CliFlag("--share-principals")]
+    /// <summary>
+    /// This parameter is only supported for portfolios with an Organiza- tionalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT . Enables or disables Principal sharing when creating the portfolio share. If you do not provide this flag, principal sharing is dis- abled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the port- folio. Once shared, the share recipient can view associations of PrincipalType : IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
+    /// </summary>
+    [CliFlag("--share-principals", NegatedName = "--no-share-principals")]
     public bool? SharePrincipals { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -53,5 +96,21 @@ public record AwsServicecatalogCreatePortfolioShareOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

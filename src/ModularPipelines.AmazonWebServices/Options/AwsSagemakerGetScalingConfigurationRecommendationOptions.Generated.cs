@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "get-scaling-configuration-recommendation")]
-public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOptions
+public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommen- dation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InferenceRecommendationsJobName">The name of a previously completed Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    public AwsSagemakerGetScalingConfigurationRecommendationOptions(
+        string InferenceRecommendationsJobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InferenceRecommendationsJobName);
+        this.InferenceRecommendationsJobName = InferenceRecommendationsJobName;
+    }
+
+    private AwsSagemakerGetScalingConfigurationRecommendationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerGetScalingConfigurationRecommendationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerGetScalingConfigurationRecommendationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a previously completed Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// </summary>
     [CliOption("--inference-recommendations-job-name")]
-    public string? InferenceRecommendationsJobName { get; set; }
+    public string? InferenceRecommendationsJobName { get; private init; }
 
     /// <summary>
     /// The recommendation ID of a previously completed inference recommen- dation. This ID should come from one of the recommendations returned by the job specified in the InferenceRecommendationsJobName field. Specify either this field or the EndpointName field.
@@ -53,5 +90,21 @@ public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

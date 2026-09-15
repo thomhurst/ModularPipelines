@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "disassociate-backup-vault-mpa-approval-team")]
-public record AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions : AwsOptions
+public record AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BackupVaultName">The name of the backup vault from which to disassociate the MPA ap- proval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    public AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions(
+        string BackupVaultName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+    }
+
+    private AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the backup vault from which to disassociate the MPA ap- proval team. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
     [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    public string? BackupVaultName { get; private init; }
 
     /// <summary>
     /// An optional comment explaining the reason for disassociating the MPA approval team from the backup vault.
@@ -35,5 +72,21 @@ public record AwsBackupDisassociateBackupVaultMpaApprovalTeamOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

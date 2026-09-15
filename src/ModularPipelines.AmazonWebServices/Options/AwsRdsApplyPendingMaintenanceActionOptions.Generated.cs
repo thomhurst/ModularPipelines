@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "apply-pending-maintenance-action")]
-public record AwsRdsApplyPendingMaintenanceActionOptions : AwsOptions
+public record AwsRdsApplyPendingMaintenanceActionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Applies a pending maintenance action to a resource (for example, to a DB instance). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceIdentifier">The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) .</param>
+    /// <param name="ApplyAction">The pending maintenance action to apply to this resource. Valid Values: o ca-certificate-rotation o db-upgrade o hardware-maintenance o os-upgrade o system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .</param>
+    /// <param name="OptInType">A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.</param>
+    public AwsRdsApplyPendingMaintenanceActionOptions(
+        string ResourceIdentifier,
+        string ApplyAction,
+        string OptInType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceIdentifier);
+        this.ResourceIdentifier = ResourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(ApplyAction);
+        this.ApplyAction = ApplyAction;
+        global::System.ArgumentNullException.ThrowIfNull(OptInType);
+        this.OptInType = OptInType;
+    }
+
+    private AwsRdsApplyPendingMaintenanceActionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsApplyPendingMaintenanceActionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsApplyPendingMaintenanceActionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) .
+    /// </summary>
     [CliOption("--resource-identifier")]
-    public string? ResourceIdentifier { get; set; }
+    public string? ResourceIdentifier { get; private init; }
 
+    /// <summary>
+    /// The pending maintenance action to apply to this resource. Valid Values: o ca-certificate-rotation o db-upgrade o hardware-maintenance o os-upgrade o system-update For more information about these actions, see Maintenance actions for Amazon Aurora or Maintenance actions for Amazon RDS .
+    /// </summary>
     [CliOption("--apply-action")]
-    public string? ApplyAction { get; set; }
+    public string? ApplyAction { get; private init; }
 
+    /// <summary>
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values: o immediate - Apply the maintenance action immediately. o next-maintenance - Apply the maintenance action during the next maintenance window for the resource. o undo-opt-in - Cancel any existing next-maintenance opt-in re- quests.
+    /// </summary>
     [CliOption("--opt-in-type")]
-    public string? OptInType { get; set; }
+    public string? OptInType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "create-field-level-encryption-profile")]
-public record AwsCloudfrontCreateFieldLevelEncryptionProfileOptions : AwsOptions
+public record AwsCloudfrontCreateFieldLevelEncryptionProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a field-level encryption profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FieldLevelEncryptionProfileConfig">The request to create a field-level encryption profile. Name -&gt; (string) [required] Profile name for the field-level encryption profile. CallerReference -&gt; (string) [required] A unique number that ensures that the request can't be replayed. Comment -&gt; (string) An optional comment for the field-level encryption profile. The comment cannot be longer than 128 characters. EncryptionEntities -&gt; (structure) [required] A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key. Quantity -&gt; (integer) [required] Number of field pattern items in a field-level encryption content type-profile mapping. Items -&gt; (list) An array of field patterns in a field-level encryption con- tent type-profile mapping. (structure) Complex data type for field-level encryption profiles that includes the encryption key and field pattern speci- fications. PublicKeyId -&gt; (string) [required] The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns. ProviderId -&gt; (string) [required] The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data. FieldPatterns -&gt; (structure) [required] Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive. Quantity -&gt; (integer) [required] The number of field-level encryption field pat- terns. Items -&gt; (list) An array of the field-level encryption field pat- terns. (string) JSON Syntax: { "Name": "string", "CallerReference": "string", "Comment": "string", "EncryptionEntities": { "Quantity": integer, "Items": [ { "PublicKeyId": "string", "ProviderId": "string", "FieldPatterns": { "Quantity": integer, "Items": ["string", ...] } } ... ] } }</param>
+    public AwsCloudfrontCreateFieldLevelEncryptionProfileOptions(
+        string FieldLevelEncryptionProfileConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FieldLevelEncryptionProfileConfig);
+        this.FieldLevelEncryptionProfileConfig = FieldLevelEncryptionProfileConfig;
+    }
+
+    private AwsCloudfrontCreateFieldLevelEncryptionProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontCreateFieldLevelEncryptionProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontCreateFieldLevelEncryptionProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The request to create a field-level encryption profile. Name -&gt; (string) [required] Profile name for the field-level encryption profile. CallerReference -&gt; (string) [required] A unique number that ensures that the request can't be replayed. Comment -&gt; (string) An optional comment for the field-level encryption profile. The comment cannot be longer than 128 characters. EncryptionEntities -&gt; (structure) [required] A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key. Quantity -&gt; (integer) [required] Number of field pattern items in a field-level encryption content type-profile mapping. Items -&gt; (list) An array of field patterns in a field-level encryption con- tent type-profile mapping. (structure) Complex data type for field-level encryption profiles that includes the encryption key and field pattern speci- fications. PublicKeyId -&gt; (string) [required] The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns. ProviderId -&gt; (string) [required] The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data. FieldPatterns -&gt; (structure) [required] Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive. Quantity -&gt; (integer) [required] The number of field-level encryption field pat- terns. Items -&gt; (list) An array of the field-level encryption field pat- terns. (string) JSON Syntax: { "Name": "string", "CallerReference": "string", "Comment": "string", "EncryptionEntities": { "Quantity": integer, "Items": [ { "PublicKeyId": "string", "ProviderId": "string", "FieldPatterns": { "Quantity": integer, "Items": ["string", ...] } } ... ] } }
+    /// </summary>
     [CliOption("--field-level-encryption-profile-config")]
-    public string? FieldLevelEncryptionProfileConfig { get; set; }
+    public string? FieldLevelEncryptionProfileConfig { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

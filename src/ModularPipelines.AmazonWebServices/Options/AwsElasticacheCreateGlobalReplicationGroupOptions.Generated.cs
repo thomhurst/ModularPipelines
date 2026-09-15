@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-global-replication-group")]
-public record AwsElasticacheCreateGlobalReplicationGroupOptions : AwsOptions
+public record AwsElasticacheCreateGlobalReplicationGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore . o The GlobalReplicationGroupIdSuffix is the name of the Global datas- tore. o The PrimaryReplicationGroupId represents the name of the primary cluster...
+    /// </summary>
+    /// <param name="GlobalReplicationGroupIdSuffix">The suffix name of a Global datastore. Amazon ElastiCache automati- cally applies a prefix to the Global datastore ID when it is cre- ated. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global data- store name across multiple regions. For a full list of Amazon Regions and their respective Global datas- tore iD prefixes, see Using the Amazon CLI with Global datastores .</param>
+    /// <param name="PrimaryReplicationGroupId">The name of the primary cluster that accepts writes and will repli- cate updates to the secondary cluster. This value is stored as a lowercase string.</param>
+    public AwsElasticacheCreateGlobalReplicationGroupOptions(
+        string GlobalReplicationGroupIdSuffix,
+        string PrimaryReplicationGroupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlobalReplicationGroupIdSuffix);
+        this.GlobalReplicationGroupIdSuffix = GlobalReplicationGroupIdSuffix;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryReplicationGroupId);
+        this.PrimaryReplicationGroupId = PrimaryReplicationGroupId;
+    }
+
+    private AwsElasticacheCreateGlobalReplicationGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateGlobalReplicationGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateGlobalReplicationGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The suffix name of a Global datastore. Amazon ElastiCache automati- cally applies a prefix to the Global datastore ID when it is cre- ated. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global data- store name across multiple regions. For a full list of Amazon Regions and their respective Global datas- tore iD prefixes, see Using the Amazon CLI with Global datastores .
+    /// </summary>
     [CliOption("--global-replication-group-id-suffix")]
-    public string? GlobalReplicationGroupIdSuffix { get; set; }
+    public string? GlobalReplicationGroupIdSuffix { get; private init; }
+
+    /// <summary>
+    /// The name of the primary cluster that accepts writes and will repli- cate updates to the secondary cluster. This value is stored as a lowercase string.
+    /// </summary>
+    [CliOption("--primary-replication-group-id")]
+    public string? PrimaryReplicationGroupId { get; private init; }
 
     /// <summary>
     /// Provides details of the Global datastore
@@ -30,13 +77,26 @@ public record AwsElasticacheCreateGlobalReplicationGroupOptions : AwsOptions
     [CliOption("--global-replication-group-description")]
     public string? GlobalReplicationGroupDescription { get; set; }
 
-    [CliOption("--primary-replication-group-id")]
-    public string? PrimaryReplicationGroupId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

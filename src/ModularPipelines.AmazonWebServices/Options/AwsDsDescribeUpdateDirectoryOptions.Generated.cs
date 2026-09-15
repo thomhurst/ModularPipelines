@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "describe-update-directory")]
-public record AwsDsDescribeUpdateDirectoryOptions : AwsOptions
+public record AwsDsDescribeUpdateDirectoryOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--directory-id")]
-    public string? DirectoryId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Describes the updates of a directory for a particular update type. See also: AWS API Documentation describe-update-directory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UpdateActivities
+    /// </summary>
+    /// <param name="DirectoryId">The unique identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UpdateType">The type of updates you want to describe for the directory. Possible values: o OS o NETWORK o SIZE</param>
+    public AwsDsDescribeUpdateDirectoryOptions(
+        string DirectoryId,
+        AwsDsDescribeUpdateDirectoryUpdateType UpdateType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DirectoryId);
+        this.DirectoryId = DirectoryId;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateType);
+        this.UpdateType = UpdateType;
+    }
+
+    private AwsDsDescribeUpdateDirectoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsDescribeUpdateDirectoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsDescribeUpdateDirectoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
+    [CliOption("--directory-id")]
+    public string? DirectoryId { get; private init; }
+
+    /// <summary>
+    /// The type of updates you want to describe for the directory. Possible values: o OS o NETWORK o SIZE
+    /// </summary>
     [CliOption("--update-type")]
-    public string? UpdateType { get; set; }
+    public AwsDsDescribeUpdateDirectoryUpdateType? UpdateType { get; private init; }
 
     /// <summary>
     /// The name of the Region. Constraints: o min: 8 o max: 32
@@ -52,5 +97,21 @@ public record AwsDsDescribeUpdateDirectoryOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

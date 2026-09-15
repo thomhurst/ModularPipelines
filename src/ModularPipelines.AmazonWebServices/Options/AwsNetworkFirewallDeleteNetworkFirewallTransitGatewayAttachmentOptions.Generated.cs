@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-firewall", "delete-network-firewall-transit-gateway-attachment")]
-public record AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions : AwsOptions
+public record AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attach- ment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to moni- tor the deletion status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to delete. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$</param>
+    public AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions(
+        string TransitGatewayAttachmentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayAttachmentId);
+        this.TransitGatewayAttachmentId = TransitGatewayAttachmentId;
+    }
+
+    private AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNetworkFirewallDeleteNetworkFirewallTransitGatewayAttachmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required. The unique identifier of the transit gateway attachment to delete. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$
+    /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
-    public string? TransitGatewayAttachmentId { get; set; }
+    public string? TransitGatewayAttachmentId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

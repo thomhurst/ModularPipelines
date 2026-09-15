@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lexv2-models", "start-bot-resource-generation")]
-public record AwsLexv2ModelsStartBotResourceGenerationOptions : AwsOptions
+public record AwsLexv2ModelsStartBotResourceGenerationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts a request for the descriptive bot builder to generate a bot lo- cale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GenerationInputPrompt">The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help gener- ate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: o min: 100 o max: 2000</param>
+    /// <param name="BotId">The unique identifier of the bot for which to generate intents and slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot for which to generate intents and slot types. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The locale of the bot for which to generate intents and slot types.</param>
+    public AwsLexv2ModelsStartBotResourceGenerationOptions(
+        string GenerationInputPrompt,
+        string BotId,
+        string BotVersion,
+        string LocaleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GenerationInputPrompt);
+        this.GenerationInputPrompt = GenerationInputPrompt;
+        global::System.ArgumentNullException.ThrowIfNull(BotId);
+        this.BotId = BotId;
+        global::System.ArgumentNullException.ThrowIfNull(BotVersion);
+        this.BotVersion = BotVersion;
+        global::System.ArgumentNullException.ThrowIfNull(LocaleId);
+        this.LocaleId = LocaleId;
+    }
+
+    private AwsLexv2ModelsStartBotResourceGenerationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLexv2ModelsStartBotResourceGenerationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLexv2ModelsStartBotResourceGenerationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The prompt to generate intents and slot types for the bot locale. Your description should be both detailed and precise to help gener- ate appropriate and sufficient intents for your bot. Include a list of actions to improve the intent creation process. Constraints: o min: 100 o max: 2000
+    /// </summary>
     [CliOption("--generation-input-prompt")]
-    public string? GenerationInputPrompt { get; set; }
+    public string? GenerationInputPrompt { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the bot for which to generate intents and slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--bot-id")]
-    public string? BotId { get; set; }
+    public string? BotId { get; private init; }
 
+    /// <summary>
+    /// The version of the bot for which to generate intents and slot types. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// </summary>
     [CliOption("--bot-version")]
-    public string? BotVersion { get; set; }
+    public string? BotVersion { get; private init; }
 
+    /// <summary>
+    /// The locale of the bot for which to generate intents and slot types.
+    /// </summary>
     [CliOption("--locale-id")]
-    public string? LocaleId { get; set; }
+    public string? LocaleId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

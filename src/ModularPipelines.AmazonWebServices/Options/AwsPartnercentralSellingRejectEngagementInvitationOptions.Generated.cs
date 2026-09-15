@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-selling", "reject-engagement-invitation")]
-public record AwsPartnercentralSellingRejectEngagementInvitationOptions : AwsOptions
+public record AwsPartnercentralSellingRejectEngagementInvitationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the op- portunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">This is the catalog that's associated with the engagement invita- tion. Acceptable values are AWS or Sandbox , and these values deter- mine the environment in which the opportunity is managed. Constraints: o pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})</param>
+    public AwsPartnercentralSellingRejectEngagementInvitationOptions(
+        string Catalog,
+        string Identifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+    }
+
+    private AwsPartnercentralSellingRejectEngagementInvitationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralSellingRejectEngagementInvitationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralSellingRejectEngagementInvitationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is the catalog that's associated with the engagement invita- tion. Acceptable values are AWS or Sandbox , and these values deter- mine the environment in which the opportunity is managed. Constraints: o pattern: [a-zA-Z]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// This is the unique identifier of the rejected EngagementInvitation . Providing the correct identifier helps to ensure that the intended invitation is rejected. Constraints: o pattern: (?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
     /// <summary>
     /// This describes the reason for rejecting the engagement invitation, which helps AWS track usage patterns. Acceptable values include the following: o Customer problem unclear: The customer's problem isn't understood. o Next steps unclear: The next steps required to proceed aren't un- derstood. o Unable to support: The partner is unable to provide support due to resource or capability constraints. o Duplicate of partner referral: The opportunity is a duplicate of an existing referral. o Other: Any reason not covered by other values. Constraints: o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]{1,80}
@@ -38,5 +82,21 @@ public record AwsPartnercentralSellingRejectEngagementInvitationOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

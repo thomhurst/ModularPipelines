@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,49 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-object-lock-configuration")]
-public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions
+public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The Object Lock configuration that you want to apply to the speci- fied bucket. ObjectLockEnabled -&gt; (string) Indicates whether this bucket has an Object Lock configuration enabled. Enable ObjectLockEnabled when you apply ObjectLockCon- figuration to a bucket. Possible values: o Enabled Rule -&gt; (structure) Specifies the Object Lock rule for the specified object. Enable the this rule when you apply ObjectLockConfiguration to a bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time. DefaultRetention -&gt; (structure) The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You can- not specify Days and Years at the same time. Mode -&gt; (string) The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years . Possible values: o GOVERNANCE o COMPLIANCE Days -&gt; (integer) The number of days that you want to specify for the de- fault retention period. Must be used with Mode . Years -&gt; (integer) The number of years that you want to specify for the de- fault retention period. Must be used with Mode . Shorthand Syntax: ObjectLockEnabled=string,Rule={DefaultRetention={Mode=string,Days=integer,Years=integer}} JSON Syntax: { "ObjectLockEnabled": "Enabled", "Rule": { "DefaultRetention": { "Mode": "GOVERNANCE"|"COMPLIANCE", "Days": integer, "Years": integer } } }
+    /// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more informa- tion, see Locking Objects . NOTE: o The DefaultRetention settings require both a mode and a period. o The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ...
+    /// </summary>
+    /// <param name="Bucket">The bucket whose Object Lock configuration you want to create or re- place.</param>
+    public AwsS3apiPutObjectLockConfigurationOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3apiPutObjectLockConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutObjectLockConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutObjectLockConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The bucket whose Object Lock configuration you want to create or re- place.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The Object Lock configuration that you want to apply to the speci- fied bucket. ObjectLockEnabled -&gt; (string) Indicates whether this bucket has an Object Lock configuration enabled. Enable ObjectLockEnabled when you apply ObjectLockCon- figuration to a bucket. Possible values: o Enabled Rule -&gt; (structure) Specifies the Object Lock rule for the specified object. Enable the this rule when you apply ObjectLockConfiguration to a bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time. DefaultRetention -&gt; (structure) The default Object Lock retention settings for new objects in this bucket. You can specify: o A default retention period, by using Days or Years . o A default event hold duration, by using DefaultEventHold . This setting also uses days or years. You can set one or both. You cannot use days and years in the same setting. Mode -&gt; (string) The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years . Possible values: o GOVERNANCE o COMPLIANCE Days -&gt; (integer) The number of days that you want to specify for the de- fault retention period. Must be used with Mode . Years -&gt; (integer) The number of years that you want to specify for the de- fault retention period. Must be used with Mode . DefaultEventHold -&gt; (structure) The default event hold duration to be applied to new ob- jects placed in the specified bucket. When configured, new objects will automatically have an event hold enabled with this duration. Days -&gt; (integer) The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500. Years -&gt; (integer) The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100. JSON Syntax: { "ObjectLockEnabled": "Enabled", "Rule": { "DefaultRetention": { "Mode": "GOVERNANCE"|"COMPLIANCE", "Days": integer, "Years": integer, "DefaultEventHold": { "Days": integer, "Years": integer } } } }
     /// </summary>
     [CliOption("--object-lock-configuration")]
     public string? ObjectLockConfiguration { get; set; }
@@ -68,5 +105,21 @@ public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-context")]
-public record AwsSagemakerCreateContextOptions : AwsOptions
+public record AwsSagemakerCreateContextOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a context . A context is a lineage tracking entity that repre- sents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ContextName">The name of the context. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="Source">The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }</param>
+    /// <param name="ContextType">The context type. Constraints: o min: 0 o max: 256</param>
+    public AwsSagemakerCreateContextOptions(
+        string ContextName,
+        string Source,
+        string ContextType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContextName);
+        this.ContextName = ContextName;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(ContextType);
+        this.ContextType = ContextType;
+    }
+
+    private AwsSagemakerCreateContextOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateContextOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateContextOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the context. Must be unique to your account in an Amazon Web Services Region. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}
+    /// </summary>
     [CliOption("--context-name")]
-    public string? ContextName { get; set; }
+    public string? ContextName { get; private init; }
 
+    /// <summary>
+    /// The source type, ID, and URI. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceType -&gt; (string) The type of the source. Constraints: o min: 0 o max: 256 SourceId -&gt; (string) The ID of the source. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceType=string,SourceId=string JSON Syntax: { "SourceUri": "string", "SourceType": "string", "SourceId": "string" }
+    /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public string? Source { get; private init; }
 
+    /// <summary>
+    /// The context type. Constraints: o min: 0 o max: 256
+    /// </summary>
     [CliOption("--context-type")]
-    public string? ContextType { get; set; }
+    public string? ContextType { get; private init; }
 
     /// <summary>
     /// The description of the context. Constraints: o min: 0 o max: 3072 o pattern: .*
@@ -54,5 +105,21 @@ public record AwsSagemakerCreateContextOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

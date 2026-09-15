@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("amplifybackend", "import-backend-auth")]
-public record AwsAmplifybackendImportBackendAuthOptions : AwsOptions
+public record AwsAmplifybackendImportBackendAuthOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-id")]
-    public string? AppId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports an existing backend authentication resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppId">The app ID.</param>
+    /// <param name="BackendEnvironmentName">The name of the backend environment.</param>
+    /// <param name="NativeClientId">The ID of the Amazon Cognito native client.</param>
+    /// <param name="UserPoolId">The ID of the Amazon Cognito user pool.</param>
+    /// <param name="WebClientId">The ID of the Amazon Cognito web client.</param>
+    public AwsAmplifybackendImportBackendAuthOptions(
+        string AppId,
+        string BackendEnvironmentName,
+        string NativeClientId,
+        string UserPoolId,
+        string WebClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppId);
+        this.AppId = AppId;
+        global::System.ArgumentNullException.ThrowIfNull(BackendEnvironmentName);
+        this.BackendEnvironmentName = BackendEnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(NativeClientId);
+        this.NativeClientId = NativeClientId;
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(WebClientId);
+        this.WebClientId = WebClientId;
+    }
+
+    private AwsAmplifybackendImportBackendAuthOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAmplifybackendImportBackendAuthOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAmplifybackendImportBackendAuthOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The app ID.
+    /// </summary>
+    [CliOption("--app-id")]
+    public string? AppId { get; private init; }
+
+    /// <summary>
+    /// The name of the backend environment.
+    /// </summary>
     [CliOption("--backend-environment-name")]
-    public string? BackendEnvironmentName { get; set; }
+    public string? BackendEnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon Cognito native client.
+    /// </summary>
+    [CliOption("--native-client-id")]
+    public string? NativeClientId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon Cognito user pool.
+    /// </summary>
+    [CliOption("--user-pool-id")]
+    public string? UserPoolId { get; private init; }
+
+    /// <summary>
+    /// The ID of the Amazon Cognito web client.
+    /// </summary>
+    [CliOption("--web-client-id")]
+    public string? WebClientId { get; private init; }
 
     /// <summary>
     /// The ID of the Amazon Cognito identity pool.
@@ -33,19 +107,26 @@ public record AwsAmplifybackendImportBackendAuthOptions : AwsOptions
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; set; }
 
-    [CliOption("--native-client-id")]
-    public string? NativeClientId { get; set; }
-
-    [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
-
-    [CliOption("--web-client-id")]
-    public string? WebClientId { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

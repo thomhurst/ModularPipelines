@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsitewise", "update-task")]
-public record AwsIotsitewiseUpdateTaskOptions : AwsOptions
+public record AwsIotsitewiseUpdateTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--workspace-name")]
-    public string? WorkspaceName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing task in the specified workspace. Only the fields provided in the request are updated; fields not included in the request are preserved unchanged. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="WorkspaceName">The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="TaskName">The name of the task to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotsitewiseUpdateTaskOptions(
+        string WorkspaceName,
+        string TaskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
+        this.WorkspaceName = WorkspaceName;
+        global::System.ArgumentNullException.ThrowIfNull(TaskName);
+        this.TaskName = TaskName;
+    }
+
+    private AwsIotsitewiseUpdateTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsitewiseUpdateTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsitewiseUpdateTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; private init; }
+
+    /// <summary>
+    /// The name of the task to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--task-name")]
-    public string? TaskName { get; set; }
+    public string? TaskName { get; private init; }
 
     /// <summary>
     /// A new description for the task. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
@@ -34,7 +78,7 @@ public record AwsIotsitewiseUpdateTaskOptions : AwsOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated task execution configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: containerTaskConfiguration. containerTaskConfiguration -&gt; (structure) Configuration for running a custom container image on managed compute. ecrUri -&gt; (string) [required] The Amazon ECR image URI for the task container. Constraints: o min: 1 o max: 1024 o pattern: ((\d{12}\.dkr\.ecr\.[a-z0-9-]+\.[a-z.]+)|pub- lic\.ecr\.aws/[a-z][a-z0-9]+([._-][a-z0-9]+)*)/[a-z0-9]+((\.||__|_|-+)[a-z0-9]+)*(/[a-z0-9]+((\.||__|_|-+)[a-z0-9]+)*)*(:[a-zA-Z0-9._-]+|@sha256:[a-f0-9]{64})? taskExecutionRole -&gt; (string) [required] The ARN of the IAM role that grants the containerized work- load permissions to access AWS resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-cn|-us-gov)?:iam::\d{12}:role/[\w+=,.@/-]+ processingType -&gt; (string) [required] The processing type for compute resources. Possible values: o GENERIC_COMPUTE_PROCESSING o HARDWARE_ACCELERATED_PROCESSING processingUnit -&gt; (string) [required] The processing unit allocation that determines the vCPU, mem- ory, and GPU resources. Possible values: o UNITS_2 o UNITS_4 o UNITS_8 o UNITS_12 o UNITS_16 o UNITS_24 o UNITS_32 o UNITS_36 o UNITS_48 o UNITS_60 o UNITS_64 o UNITS_72 o UNITS_84 o UNITS_96 command -&gt; (list) The command to execute in the container. (string) timeoutSeconds -&gt; (long) The timeout in seconds for task execution. Default: 3600 (1 hour). Constraints: o min: 60 o max: 86400 environmentVariables -&gt; (map) Environment variables passed to the container at runtime. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 Shorthand Syntax: containerTaskConfiguration={ecrUri=string,taskExecutionRole=string,processingType=string,processingUnit=string,command=[string,string],timeoutSeconds=long,environmentVariables={KeyName1=string,KeyName2=string}} JSON Syntax: { "containerTaskConfiguration": { "ecrUri": "string", "taskExecutionRole": "string", "processingType": "GENERIC_COMPUTE_PROCESSING"|"HARDWARE_ACCELERATED_PROCESSING", "processingUnit": "UNITS_2"|"UNITS_4"|"UNITS_8"|"UNITS_12"|"UNITS_16"|"UNITS_24"|"UNITS_32"|"UNITS_36"|"UNITS_48"|"UNITS_60"|"UNITS_64"|"UNITS_72"|"UNITS_84"|"UNITS_96", "command": ["string", ...], "timeoutSeconds": long, "environmentVariables": {"string": "string" ...} } }
+    /// The updated task execution configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: containerTaskConfiguration. containerTaskConfiguration -&gt; (structure) Configuration for running a custom container image on managed compute. ecrUri -&gt; (string) [required] The Amazon ECR image URI for the task container. Constraints: o min: 1 o max: 1024 o pattern: ((\d{12}\.dkr\.ecr\.[a-z0-9-]+\.[a-z.]+)|pub- lic\.ecr\.aws/[a-z][a-z0-9]+([._-][a-z0-9]+)*)/[a-z0-9]+((\.||__|_|-+)[a-z0-9]+)*(/[a-z0-9]+((\.||__|_|-+)[a-z0-9]+)*)*(:[a-zA-Z0-9._-]+|@sha256:[a-f0-9]{64})? taskExecutionRole -&gt; (string) [required] The ARN of the IAM role that grants the containerized work- load permissions to access AWS resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-cn|-us-gov)?:iam::\d{12}:role/[\w+=,.@/-]+ processingType -&gt; (string) [required] The processing type for compute resources. Possible values: o GENERIC_COMPUTE_PROCESSING o HARDWARE_ACCELERATED_PROCESSING processingUnit -&gt; (string) [required] The processing unit allocation that determines the vCPU, mem- ory, and GPU resources. Possible values: o UNITS_2 o UNITS_4 o UNITS_8 o UNITS_12 o UNITS_16 o UNITS_24 o UNITS_32 o UNITS_36 o UNITS_48 o UNITS_60 o UNITS_64 o UNITS_72 o UNITS_84 o UNITS_96 ephemeralStorageConfiguration -&gt; (structure) Ephemeral storage configuration for the container task. storageClass -&gt; (string) [required] Storage type that determines I/O performance family and level. Possible values: o STANDARD_1 o STANDARD_2 o THROUGHPUT_1 o THROUGHPUT_2 storageSizeInGiB -&gt; (integer) [required] Storage volume size in GiB. Constraints: o min: 1 o max: 16384 command -&gt; (list) The command to execute in the container. (string) timeoutSeconds -&gt; (long) The timeout in seconds for task execution. Default: 3600 (1 hour). Constraints: o min: 60 o max: 86400 environmentVariables -&gt; (map) Environment variables passed to the container at runtime. Constraints: o min: 0 o max: 20 key -&gt; (string) Environment variable name following POSIX naming rules Must not start with AWS_ prefix (case-insensitive) Constraints: o min: 1 o max: 255 o pattern: (?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Environment variable value Constraints: o min: 0 o max: 1024 mounts -&gt; (list) Mounts attached to the container filesystem. Each mount ex- poses an external data source as a local directory inside the container. The service assigns each mount a container path based on the mount name. The container reads files through that path as if the data were on the local filesystem. Constraints: o min: 0 o max: 5 (structure) Attaches a data source to the container filesystem for a task at a customer-supplied relative path under the ser- vice-owned mount root. name -&gt; (string) [required] A unique name for the mount within the task. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ relativePath -&gt; (string) [required] The relative path under the service-owned mount root where this mount is attached inside the container. Constraints: o min: 1 o max: 1024 o pattern: ((?!.*(^|/)\.\.?(/|$))(?!.*//)[a-zA-Z0-9._-][a-zA-Z0-9._/-]*[a-zA-Z0-9._-]|[a-zA-Z0-9_-]) source -&gt; (tagged union structure) [required] The data source for the mount. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Access- Point. s3AccessPoint -&gt; (structure) Configuration for a mount that reads from an Ama- zon S3 access point. accessPointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the S3 access point. Constraints: o min: 4 o max: 128 o pattern: arn:aws(-cn|-us-gov)?:s3:[a-z0-9-]*:\d{12}:ac- cesspoint[/:][a-zA-Z0-9._-]+ prefix -&gt; (string) An optional key prefix to scope the mount to a subset of objects at the access point. Constraints: o min: 1 o max: 1024 storageType -&gt; (string) [required] The type of storage used for the mount. Possible values: o SHARED_STORAGE JSON Syntax: { "containerTaskConfiguration": { "ecrUri": "string", "taskExecutionRole": "string", "processingType": "GENERIC_COMPUTE_PROCESSING"|"HARDWARE_ACCELERATED_PROCESSING", "processingUnit": "UNITS_2"|"UNITS_4"|"UNITS_8"|"UNITS_12"|"UNITS_16"|"UNITS_24"|"UNITS_32"|"UNITS_36"|"UNITS_48"|"UNITS_60"|"UNITS_64"|"UNITS_72"|"UNITS_84"|"UNITS_96", "ephemeralStorageConfiguration": { "storageClass": "STANDARD_1"|"STANDARD_2"|"THROUGHPUT_1"|"THROUGHPUT_2", "storageSizeInGiB": integer }, "command": ["string", ...], "timeoutSeconds": long, "environmentVariables": {"string": "string" ...}, "mounts": [ { "name": "string", "relativePath": "string", "source": { "s3AccessPoint": { "accessPointArn": "string", "prefix": "string" } }, "storageType": "SHARED_STORAGE" } ... ] } }
     /// </summary>
     [CliOption("--task-configuration")]
     public string? TaskConfiguration { get; set; }
@@ -44,5 +88,21 @@ public record AwsIotsitewiseUpdateTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

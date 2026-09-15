@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "update-lookup-table")]
-public record AwsLogsUpdateLookupTableOptions : AwsOptions
+public record AwsLogsUpdateLookupTableOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update com- pletes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId , but not both. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LookupTableArn">The ARN of the lookup table to update.</param>
+    public AwsLogsUpdateLookupTableOptions(
+        string LookupTableArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LookupTableArn);
+        this.LookupTableArn = LookupTableArn;
+    }
+
+    private AwsLogsUpdateLookupTableOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsUpdateLookupTableOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsUpdateLookupTableOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the lookup table to update.
+    /// </summary>
     [CliOption("--lookup-table-arn")]
-    public string? LookupTableArn { get; set; }
+    public string? LookupTableArn { get; private init; }
 
     /// <summary>
     /// An updated description of the lookup table. Constraints: o min: 0 o max: 1024
@@ -53,5 +90,21 @@ public record AwsLogsUpdateLookupTableOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("devops-guru", "describe-organization-overview")]
-public record AwsDevopsGuruDescribeOrganizationOverviewOptions : AwsOptions
+public record AwsDevopsGuruDescribeOrganizationOverviewOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns an overview of your organization's history based on the speci- fied time range. The overview includes the total reactive and proactive insights. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FromTime">The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred after this day.</param>
+    public AwsDevopsGuruDescribeOrganizationOverviewOptions(
+        string FromTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FromTime);
+        this.FromTime = FromTime;
+    }
+
+    private AwsDevopsGuruDescribeOrganizationOverviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDevopsGuruDescribeOrganizationOverviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDevopsGuruDescribeOrganizationOverviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred after this day.
+    /// </summary>
     [CliOption("--from-time")]
-    public string? FromTime { get; set; }
+    public string? FromTime { get; private init; }
 
     /// <summary>
     /// The end of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned in- formation occurred before this day. If this is not specified, then the current day is used.
@@ -47,5 +84,21 @@ public record AwsDevopsGuruDescribeOrganizationOverviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

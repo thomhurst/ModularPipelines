@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eks", "list-insights")]
-public record AwsEksListInsightsOptions : AwsOptions
+public record AwsEksListInsightsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of all insights checked for against the specified clus- ter. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories: o UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. o MISCONFIGURATION : Amazon EKS identifies misconfiguration in...
+    /// </summary>
+    /// <param name="ClusterName">The name of the Amazon EKS cluster associated with the insights.</param>
+    public AwsEksListInsightsOptions(
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsEksListInsightsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEksListInsightsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEksListInsightsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon EKS cluster associated with the insights.
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     /// <summary>
     /// The criteria to filter your list of insights for your cluster. You can filter which insights are returned by category, associated Ku- bernetes version, and status. categories -&gt; (list) The categories to use to filter insights. The following lists the available categories: o UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. o MISCONFIGURATION : Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration in- sights. (string) Possible values: o UPGRADE_READINESS o MISCONFIGURATION o ROLLBACK_READINESS kubernetesVersions -&gt; (list) The Kubernetes versions to use to filter the insights. (string) statuses -&gt; (list) The statuses to use to filter the insights. (string) Possible values: o PASSING o WARNING o ERROR o UNKNOWN Shorthand Syntax: categories=string,string,kubernetesVersions=string,string,statuses=string,string JSON Syntax: { "categories": ["UPGRADE_READINESS"|"MISCONFIGURATION"|"ROLLBACK_READINESS", ...], "kubernetesVersions": ["string", ...], "statuses": ["PASSING"|"WARNING"|"ERROR"|"UNKNOWN", ...] }
@@ -55,5 +92,21 @@ public record AwsEksListInsightsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

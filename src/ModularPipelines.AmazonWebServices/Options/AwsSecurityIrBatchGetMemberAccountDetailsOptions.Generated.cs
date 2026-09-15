@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "batch-get-member-account-details")]
-public record AwsSecurityIrBatchGetMemberAccountDetailsOptions : AwsOptions
+public record AwsSecurityIrBatchGetMemberAccountDetailsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--membership-id")]
-    public string? MembershipId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides information on whether the supplied account IDs are associated with a membership. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipId">Required element used in combination with BatchGetMemberAccountDe- tails to identify the membership ID to query. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}</param>
+    /// <param name="AccountIds">Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    public AwsSecurityIrBatchGetMemberAccountDetailsOptions(
+        string MembershipId,
+        IEnumerable<string> AccountIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipId);
+        this.MembershipId = MembershipId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AccountIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AccountIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AccountIds));
+            }
+
+            AccountIds = materialized;
+        }
+        this.AccountIds = AccountIds;
+    }
+
+    private AwsSecurityIrBatchGetMemberAccountDetailsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrBatchGetMemberAccountDetailsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrBatchGetMemberAccountDetailsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element used in combination with BatchGetMemberAccountDe- tails to identify the membership ID to query. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}
+    /// </summary>
+    [CliOption("--membership-id")]
+    public string? MembershipId { get; private init; }
+
+    /// <summary>
+    /// Optional element to query the membership relationship status to a provided list of account IDs. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
-    public IEnumerable<string>? AccountIds { get; set; }
+    public IEnumerable<string>? AccountIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

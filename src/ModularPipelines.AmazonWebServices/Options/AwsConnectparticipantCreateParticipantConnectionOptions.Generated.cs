@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,58 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectparticipant", "create-participant-connection")]
-public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptions
+public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC secu- rity best practices . NOTE: ParticipantToken is used for invoking this API instead of Connec- tionToken . The participant token is valid for the lifetime of the participant un- til they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs t...
+    /// </summary>
+    /// <param name="ParticipantToken">This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: o min: 1 o max: 1000</param>
+    public AwsConnectparticipantCreateParticipantConnectionOptions(
+        string ParticipantToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParticipantToken);
+        this.ParticipantToken = ParticipantToken;
+    }
+
+    private AwsConnectparticipantCreateParticipantConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectparticipantCreateParticipantConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectparticipantCreateParticipantConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: o min: 1 o max: 1000
+    /// </summary>
+    [SecretValue]
+    [CliOption("--participant-token")]
+    public string? ParticipantToken { get; private init; }
+
     /// <summary>
     /// Type of connection information required. If you need CONNECTION_CRE- DENTIALS along with marking participant as connected, pass CONNEC- TION_CREDENTIALS in Type . Constraints: o min: 1 (string) Possible values: o WEBSOCKET o CONNECTION_CREDENTIALS o WEBRTC_CONNECTION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
-    [SecretValue]
-    [CliOption("--participant-token")]
-    public string? ParticipantToken { get; set; }
-
-    [CliFlag("--connect-participant")]
+    /// <summary>
+    /// Amazon Connect Participant is used to mark the participant as con- nected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
+    /// </summary>
+    [CliFlag("--connect-participant", NegatedName = "--no-connect-participant")]
     public bool? ConnectParticipant { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -40,5 +80,21 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

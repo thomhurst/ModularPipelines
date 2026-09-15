@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "create-recovery-plan-step")]
-public record AwsDrsCreateRecoveryPlanStepOptions : AwsOptions
+public record AwsDrsCreateRecoveryPlanStepOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recovery-plan-arn")]
-    public string? RecoveryPlanArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a step in a Recovery Plan. A step is either SERVER type (servers to recover in parallel) or WAIT type (timed pause between steps). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan to add the step to. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="StepName">The name of a Recovery Plan Step. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*</param>
+    /// <param name="Configuration">Type-specific configuration for a recovery plan step. Exactly one member must be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serverStepConfiguration, waitStepConfigu- ration. serverStepConfiguration -&gt; (structure) Configuration for a SERVER type step. servers -&gt; (list) [required] The list of servers to recover in this step. Constraints: o min: 1 o max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: o CRITICAL o OPTIONAL waitStepConfiguration -&gt; (structure) Configuration for a WAIT type step. waitDurationMinutes -&gt; (integer) [required] The wait duration in minutes for a Wait type step. Constraints: o min: 1 o max: 120 JSON Syntax: { "serverStepConfiguration": { "servers": [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ] }, "waitStepConfiguration": { "waitDurationMinutes": integer } }</param>
+    public AwsDrsCreateRecoveryPlanStepOptions(
+        string RecoveryPlanArn,
+        string StepName,
+        string Configuration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanArn);
+        this.RecoveryPlanArn = RecoveryPlanArn;
+        global::System.ArgumentNullException.ThrowIfNull(StepName);
+        this.StepName = StepName;
+        global::System.ArgumentNullException.ThrowIfNull(Configuration);
+        this.Configuration = Configuration;
+    }
+
+    private AwsDrsCreateRecoveryPlanStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsCreateRecoveryPlanStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsCreateRecoveryPlanStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Recovery Plan to add the step to. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// </summary>
+    [CliOption("--recovery-plan-arn")]
+    public string? RecoveryPlanArn { get; private init; }
+
+    /// <summary>
+    /// The name of a Recovery Plan Step. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
+    /// </summary>
     [CliOption("--step-name")]
-    public string? StepName { get; set; }
+    public string? StepName { get; private init; }
+
+    /// <summary>
+    /// Type-specific configuration for a recovery plan step. Exactly one member must be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: serverStepConfiguration, waitStepConfigu- ration. serverStepConfiguration -&gt; (structure) Configuration for a SERVER type step. servers -&gt; (list) [required] The list of servers to recover in this step. Constraints: o min: 1 o max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: o CRITICAL o OPTIONAL waitStepConfiguration -&gt; (structure) Configuration for a WAIT type step. waitDurationMinutes -&gt; (integer) [required] The wait duration in minutes for a Wait type step. Constraints: o min: 1 o max: 120 JSON Syntax: { "serverStepConfiguration": { "servers": [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ] }, "waitStepConfiguration": { "waitDurationMinutes": integer } }
+    /// </summary>
+    [CliOption("--configuration")]
+    public string? Configuration { get; private init; }
 
     /// <summary>
     /// The order of a step within a Recovery Plan (1-based). Constraints: o min: 1 o max: 20
     /// </summary>
     [CliOption("--step-order")]
     public int? StepOrder { get; set; }
-
-    [CliOption("--configuration")]
-    public string? Configuration { get; set; }
 
     /// <summary>
     /// A unique string provided to ensure request idempotency. Constraints: o min: 0 o max: 64
@@ -49,5 +100,21 @@ public record AwsDrsCreateRecoveryPlanStepOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

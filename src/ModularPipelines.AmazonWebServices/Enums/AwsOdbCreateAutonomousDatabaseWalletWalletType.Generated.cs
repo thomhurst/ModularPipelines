@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --wallettype.
+/// Allowed values for --wallet-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsOdbCreateAutonomousDatabaseWalletWalletType
 {
-    [EnumValue("REGIONAL")]
-    Regional = 1,
-
     [EnumValue("INSTANCE")]
-    Instance = 2
+    Instance,
+
+    [EnumValue("REGIONAL")]
+    Regional
 }

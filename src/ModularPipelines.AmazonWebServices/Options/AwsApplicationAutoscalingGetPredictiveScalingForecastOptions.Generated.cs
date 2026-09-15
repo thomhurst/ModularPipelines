@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,30 +21,117 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("application-autoscaling", "get-predictive-scaling-forecast")]
-public record AwsApplicationAutoscalingGetPredictiveScalingForecastOptions : AwsOptions
+public record AwsApplicationAutoscalingGetPredictiveScalingForecastOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using histori- cal load data from CloudWatch and an analysis of historical trends. Ca- pacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial fore- casts. However, having a full 14 days of historical data results in more accu...
+    /// </summary>
+    /// <param name="ServiceNamespace">The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or ser- vice, use custom-resource instead. Possible values: o ecs o elasticmapreduce o ec2 o appstream o dynamodb o rds o sagemaker o custom-resource o comprehend o lambda o cassandra o kafka o elasticache o neptune o workspaces</param>
+    /// <param name="ResourceId">The identifier of the resource. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ScalableDimension">The scalable dimension. Possible values: o ecs:service:DesiredCount o ec2:spot-fleet-request:TargetCapacity o elasticmapreduce:instancegroup:InstanceCount o appstream:fleet:DesiredCapacity o dynamodb:table:ReadCapacityUnits o dynamodb:table:WriteCapacityUnits o dynamodb:index:ReadCapacityUnits o dynamodb:index:WriteCapacityUnits o rds:cluster:ReadReplicaCount o sagemaker:variant:DesiredInstanceCount o custom-resource:ResourceType:Property o comprehend:document-classifier-endpoint:DesiredInferenceUnits o comprehend:entity-recognizer-endpoint:DesiredInferenceUnits o lambda:function:ProvisionedConcurrency o cassandra:table:ReadCapacityUnits o cassandra:table:WriteCapacityUnits o kafka:broker-storage:VolumeSize o elasticache:cache-cluster:Nodes o elasticache:replication-group:NodeGroups o elasticache:replication-group:Replicas o neptune:cluster:ReadReplicaCount o sagemaker:variant:DesiredProvisionedConcurrency o sagemaker:inference-component:DesiredCopyCount o workspaces:workspacespool:DesiredUserSessions</param>
+    /// <param name="PolicyName">The name of the policy. Constraints: o min: 1 o max: 256 o pattern: \p{Print}+</param>
+    /// <param name="StartTime">The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time</param>
+    /// <param name="EndTime">The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.</param>
+    public AwsApplicationAutoscalingGetPredictiveScalingForecastOptions(
+        AwsApplicationAutoscalingGetPredictiveScalingForecastServiceNamespace ServiceNamespace,
+        string ResourceId,
+        string ScalableDimension,
+        string PolicyName,
+        string StartTime,
+        string EndTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceNamespace);
+        this.ServiceNamespace = ServiceNamespace;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(ScalableDimension);
+        this.ScalableDimension = ScalableDimension;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsApplicationAutoscalingGetPredictiveScalingForecastOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApplicationAutoscalingGetPredictiveScalingForecastOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApplicationAutoscalingGetPredictiveScalingForecastOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or ser- vice, use custom-resource instead. Possible values: o ecs o elasticmapreduce o ec2 o appstream o dynamodb o rds o sagemaker o custom-resource o comprehend o lambda o cassandra o kafka o elasticache o neptune o workspaces
+    /// </summary>
     [CliOption("--service-namespace")]
-    public string? ServiceNamespace { get; set; }
+    public AwsApplicationAutoscalingGetPredictiveScalingForecastServiceNamespace? ServiceNamespace { get; private init; }
 
+    /// <summary>
+    /// The identifier of the resource. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// The scalable dimension. Possible values: o ecs:service:DesiredCount o ec2:spot-fleet-request:TargetCapacity o elasticmapreduce:instancegroup:InstanceCount o appstream:fleet:DesiredCapacity o dynamodb:table:ReadCapacityUnits o dynamodb:table:WriteCapacityUnits o dynamodb:index:ReadCapacityUnits o dynamodb:index:WriteCapacityUnits o rds:cluster:ReadReplicaCount o sagemaker:variant:DesiredInstanceCount o custom-resource:ResourceType:Property o comprehend:document-classifier-endpoint:DesiredInferenceUnits o comprehend:entity-recognizer-endpoint:DesiredInferenceUnits o lambda:function:ProvisionedConcurrency o cassandra:table:ReadCapacityUnits o cassandra:table:WriteCapacityUnits o kafka:broker-storage:VolumeSize o elasticache:cache-cluster:Nodes o elasticache:replication-group:NodeGroups o elasticache:replication-group:Replicas o neptune:cluster:ReadReplicaCount o sagemaker:variant:DesiredProvisionedConcurrency o sagemaker:inference-component:DesiredCopyCount o workspaces:workspacespool:DesiredUserSessions
+    /// </summary>
     [CliOption("--scalable-dimension")]
-    public string? ScalableDimension { get; set; }
+    public string? ScalableDimension { get; private init; }
 
+    /// <summary>
+    /// The name of the policy. Constraints: o min: 1 o max: 256 o pattern: \p{Print}+
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
+    /// <summary>
+    /// The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

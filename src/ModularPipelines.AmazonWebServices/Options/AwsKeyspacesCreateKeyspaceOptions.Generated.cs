@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyspaces", "create-keyspace")]
-public record AwsKeyspacesCreateKeyspaceOptions : AwsOptions
+public record AwsKeyspacesCreateKeyspaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace opera- tion. For more information, see Create a keyspace in the Amazon Keyspaces De- veloper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KeyspaceName">The name of the keyspace to be created. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    public AwsKeyspacesCreateKeyspaceOptions(
+        string KeyspaceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyspaceName);
+        this.KeyspaceName = KeyspaceName;
+    }
+
+    private AwsKeyspacesCreateKeyspaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKeyspacesCreateKeyspaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKeyspacesCreateKeyspaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the keyspace to be created. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--keyspace-name")]
-    public string? KeyspaceName { get; set; }
+    public string? KeyspaceName { get; private init; }
 
     /// <summary>
     /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide . Constraints: o min: 1 o max: 60 (structure) Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the applica- tion of a tag. For more information, see Adding tags and labels to Amazon Key- spaces resources in the Amazon Keyspaces Developer Guide . key -&gt; (string) [required] The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the exist- ing tag value will be updated to the new value. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Tag values are case-sensitive and can be null. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
@@ -41,5 +78,21 @@ public record AwsKeyspacesCreateKeyspaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

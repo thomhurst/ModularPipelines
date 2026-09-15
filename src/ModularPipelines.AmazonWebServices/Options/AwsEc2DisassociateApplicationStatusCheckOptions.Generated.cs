@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "disassociate-application-status-check")]
-public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions
+public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Disassociates an application status check from instances or tags . Af- ter disassociation, health monitoring stops for the affected instances. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o The application status check must already exist and belong to your account. o Tag keys must not be blank. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationStatusCheckId">The ID of the application status check to disassociate.</param>
+    public AwsEc2DisassociateApplicationStatusCheckOptions(
+        string ApplicationStatusCheckId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationStatusCheckId);
+        this.ApplicationStatusCheckId = ApplicationStatusCheckId;
+    }
+
+    private AwsEc2DisassociateApplicationStatusCheckOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DisassociateApplicationStatusCheckOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DisassociateApplicationStatusCheckOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application status check to disassociate.
+    /// </summary>
     [CliOption("--application-status-check-id")]
-    public string? ApplicationStatusCheckId { get; set; }
+    public string? ApplicationStatusCheckId { get; private init; }
 
     /// <summary>
     /// The tags to disassociate from the application status check. Specify the same key-value pairs that were used during association. (structure) Describes a tag key-value pair for an application status check association request. Key -&gt; (string) The key of the tag. Value -&gt; (string) The value of the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,7 +81,10 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -52,5 +92,21 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

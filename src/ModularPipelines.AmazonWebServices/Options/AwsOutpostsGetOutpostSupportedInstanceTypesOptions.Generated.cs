@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outposts", "get-outpost-supported-instance-types")]
-public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions
+public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the instance types that an Outpost can support in InstanceTypeCa- pacity . This will generally include instance types that are not cur- rently configured and therefore cannot be launched with the current Outpost capacity configuration. See also: AWS API Documentation get-outpost-supported-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When u...
+    /// </summary>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    public AwsOutpostsGetOutpostSupportedInstanceTypesOptions(
+        string OutpostIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutpostIdentifier);
+        this.OutpostIdentifier = OutpostIdentifier;
+    }
+
+    private AwsOutpostsGetOutpostSupportedInstanceTypesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOutpostsGetOutpostSupportedInstanceTypesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOutpostsGetOutpostSupportedInstanceTypesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// </summary>
     [CliOption("--outpost-identifier")]
-    public string? OutpostIdentifier { get; set; }
+    public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
     /// The ID for the Amazon Web Services Outposts order. Constraints: o min: 1 o max: 20 o pattern: oo-[a-f0-9]{17}$
@@ -61,5 +98,21 @@ public record AwsOutpostsGetOutpostSupportedInstanceTypesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

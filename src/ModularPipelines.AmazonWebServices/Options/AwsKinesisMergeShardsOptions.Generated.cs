@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kinesis", "merge-shards")]
-public record AwsKinesisMergeShardsOptions : AwsOptions
+public record AwsKinesisMergeShardsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Merges two adjacent shards in a Kinesis data stream and combines them into a single shard to reduce the stream's capacity to ingest and transport data. This API is only supported for the data streams with the provisioned capacity mode. Two shards are considered adjacent if the union of the hash key ranges for the two shards form a contiguous set with no gaps. For example, if you have two shards, one with a hash key range of 276...381 and the other with a hash key range of 382...454, then you cou...
+    /// </summary>
+    /// <param name="ShardToMerge">The shard ID of the shard to combine with the adjacent shard for the merge. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AdjacentShardToMerge">The shard ID of the adjacent shard for the merge. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    public AwsKinesisMergeShardsOptions(
+        string ShardToMerge,
+        string AdjacentShardToMerge
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShardToMerge);
+        this.ShardToMerge = ShardToMerge;
+        global::System.ArgumentNullException.ThrowIfNull(AdjacentShardToMerge);
+        this.AdjacentShardToMerge = AdjacentShardToMerge;
+    }
+
+    private AwsKinesisMergeShardsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKinesisMergeShardsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKinesisMergeShardsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The shard ID of the shard to combine with the adjacent shard for the merge. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--shard-to-merge")]
+    public string? ShardToMerge { get; private init; }
+
+    /// <summary>
+    /// The shard ID of the adjacent shard for the merge. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// </summary>
+    [CliOption("--adjacent-shard-to-merge")]
+    public string? AdjacentShardToMerge { get; private init; }
+
     /// <summary>
     /// The name of the stream for the merge. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
-
-    [CliOption("--shard-to-merge")]
-    public string? ShardToMerge { get; set; }
-
-    [CliOption("--adjacent-shard-to-merge")]
-    public string? AdjacentShardToMerge { get; set; }
 
     /// <summary>
     /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
@@ -50,5 +94,21 @@ public record AwsKinesisMergeShardsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

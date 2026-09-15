@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-network-interface-permission")]
-public record AwsEc2CreateNetworkInterfacePermissionOptions : AwsOptions
+public record AwsEc2CreateNetworkInterfacePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single Amazon Web Services account only, and only one account at a time. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
+    /// <param name="Permission">The type of permission to grant. Possible values: o INSTANCE-ATTACH o EIP-ASSOCIATE</param>
+    public AwsEc2CreateNetworkInterfacePermissionOptions(
+        string NetworkInterfaceId,
+        AwsEc2CreateNetworkInterfacePermissionPermission Permission
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkInterfaceId);
+        this.NetworkInterfaceId = NetworkInterfaceId;
+        global::System.ArgumentNullException.ThrowIfNull(Permission);
+        this.Permission = Permission;
+    }
+
+    private AwsEc2CreateNetworkInterfacePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateNetworkInterfacePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateNetworkInterfacePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the network interface.
+    /// </summary>
     [CliOption("--network-interface-id")]
-    public string? NetworkInterfaceId { get; set; }
+    public string? NetworkInterfaceId { get; private init; }
+
+    /// <summary>
+    /// The type of permission to grant. Possible values: o INSTANCE-ATTACH o EIP-ASSOCIATE
+    /// </summary>
+    [CliOption("--permission")]
+    public AwsEc2CreateNetworkInterfacePermissionPermission? Permission { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services account ID.
@@ -36,10 +84,10 @@ public record AwsEc2CreateNetworkInterfacePermissionOptions : AwsOptions
     [CliOption("--aws-service")]
     public string? AwsService { get; set; }
 
-    [CliOption("--permission")]
-    public string? Permission { get; set; }
-
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +95,21 @@ public record AwsEc2CreateNetworkInterfacePermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

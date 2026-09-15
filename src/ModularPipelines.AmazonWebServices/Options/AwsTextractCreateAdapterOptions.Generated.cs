@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("textract", "create-adapter")]
-public record AwsTextractCreateAdapterOptions : AwsOptions
+public record AwsTextractCreateAdapterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Cur- rently the only supported feature type is QUERIES . You can also pro- vide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AdapterName">The name to be assigned to the adapter being created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="FeatureTypes">The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...</param>
+    public AwsTextractCreateAdapterOptions(
+        string AdapterName,
+        IEnumerable<string> FeatureTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdapterName);
+        this.AdapterName = AdapterName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FeatureTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FeatureTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FeatureTypes));
+            }
+
+            FeatureTypes = materialized;
+        }
+        this.FeatureTypes = FeatureTypes;
+    }
+
+    private AwsTextractCreateAdapterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTextractCreateAdapterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTextractCreateAdapterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name to be assigned to the adapter being created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// </summary>
     [CliOption("--adapter-name")]
-    public string? AdapterName { get; set; }
+    public string? AdapterName { get; private init; }
+
+    /// <summary>
+    /// The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--feature-types", GroupValues = true)]
+    public IEnumerable<string>? FeatureTypes { get; private init; }
 
     /// <summary>
     /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapter requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
@@ -39,9 +97,6 @@ public record AwsTextractCreateAdapterOptions : AwsOptions
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--feature-types", GroupValues = true)]
-    public IEnumerable<string>? FeatureTypes { get; set; }
 
     /// <summary>
     /// Controls whether or not the adapter should automatically update. Possible values: o ENABLED o DISABLED
@@ -60,5 +115,21 @@ public record AwsTextractCreateAdapterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

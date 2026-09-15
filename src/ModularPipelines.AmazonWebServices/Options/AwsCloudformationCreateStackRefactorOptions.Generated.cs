@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudformation", "create-stack-refactor")]
-public record AwsCloudformationCreateStackRefactorOptions : AwsOptions
+public record AwsCloudformationCreateStackRefactorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a refactor across multiple stacks, with the list of stacks and resources that are affected. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StackDefinitions">The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: o min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: o min: 1 o max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]</param>
+    public AwsCloudformationCreateStackRefactorOptions(
+        IEnumerable<string> StackDefinitions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StackDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StackDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StackDefinitions));
+            }
+
+            StackDefinitions = materialized;
+        }
+        this.StackDefinitions = StackDefinitions;
+    }
+
+    private AwsCloudformationCreateStackRefactorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudformationCreateStackRefactorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudformationCreateStackRefactorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The stacks being refactored. (structure) Describes the stack and the template used by the stack. StackName -&gt; (string) The name associated with the stack. TemplateBody -&gt; (string) The file path for the stack template file. Constraints: o min: 1 TemplateURL -&gt; (string) The desired final state of the stack template. Constraints: o min: 1 o max: 5120 Shorthand Syntax: StackName=string,TemplateBody=string,TemplateURL=string ... JSON Syntax: [ { "StackName": "string", "TemplateBody": "string", "TemplateURL": "string" } ... ]
+    /// </summary>
+    [CliOption("--stack-definitions", GroupValues = true)]
+    public IEnumerable<string>? StackDefinitions { get; private init; }
+
     /// <summary>
     /// A description to help you identify the stack refactor. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--enable-stack-creation")]
+    /// <summary>
+    /// Determines if a new stack is created with the refactor.
+    /// </summary>
+    [CliFlag("--enable-stack-creation", NegatedName = "--no-enable-stack-creation")]
     public bool? EnableStackCreation { get; set; }
 
     /// <summary>
@@ -36,13 +90,26 @@ public record AwsCloudformationCreateStackRefactorOptions : AwsOptions
     [CliOption("--resource-mappings", GroupValues = true)]
     public IEnumerable<string>? ResourceMappings { get; set; }
 
-    [CliOption("--stack-definitions", GroupValues = true)]
-    public IEnumerable<string>? StackDefinitions { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

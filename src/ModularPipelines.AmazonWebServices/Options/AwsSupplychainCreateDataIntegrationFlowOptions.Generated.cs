@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("supplychain", "create-data-integration-flow")]
-public record AwsSupplychainCreateDataIntegrationFlowOptions : AwsOptions
+public record AwsSupplychainCreateDataIntegrationFlowOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a tempo- rary dataset along with the data transformation query provided with the API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">Name of the DataIntegrationFlow. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9-]+</param>
+    /// <param name="Sources">The source configurations for DataIntegrationFlow. Constraints: o min: 1 o max: 40 (structure) The DataIntegrationFlow source parameters. sourceType -&gt; (string) [required] The DataIntegrationFlow source type. Possible values: o S3 o DATASET sourceName -&gt; (string) [required] The DataIntegrationFlow source name that can be used as table alias in SQL transformation query. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_]+ s3Source -&gt; (structure) The S3 DataIntegrationFlow source. bucketName -&gt; (string) [required] The bucketName of the S3 source objects. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] prefix -&gt; (string) [required] The prefix of the S3 source objects. To trigger data in- gestion, S3 files need to be put under s3://*bucketName* /*prefix* / . Constraints: o min: 0 o max: 700 o pattern: [/A-Za-z0-9._-]+ options -&gt; (structure) The other options of the S3 DataIntegrationFlow source. fileType -&gt; (string) The Amazon S3 file type in S3 options. Possible values: o CSV o PARQUET o JSON datasetSource -&gt; (structure) The dataset DataIntegrationFlow source. datasetIdentifier -&gt; (string) [required] The ARN of the dataset. Constraints: o min: 1 o max: 1011 o pattern: [-_/A-Za-z0-9:]+ options -&gt; (structure) The dataset DataIntegrationFlow source options. loadType -&gt; (string) The target dataset's data load type. This only affects how source S3 files are selected in the S3-to-dataset flow. o REPLACE - Target dataset will get replaced with the new file added under the source s3 prefix. o INCREMENTAL - Target dataset will get updated with the up-to-date content under S3 prefix incorporating any file additions or removals there. Possible values: o INCREMENTAL o REPLACE dedupeRecords -&gt; (boolean) The option to perform deduplication on data records sharing same primary key values. If disabled, trans- formed data with duplicate primary key values will in- gest into dataset, for datasets within asc namespace, such duplicates will cause ingestion fail. If enabled without dedupeStrategy, deduplication is done by re- taining a random data record among those sharing the same primary key values. If enabled with dedupeStragt- egy, the deduplication is done following the strategy. Note that target dataset may have partition config- ured, when dedupe is enabled, it only dedupe against primary keys and retain only one record out of those duplicates regardless of its partition status. dedupeStrategy -&gt; (structure) The deduplication strategy to dedupe the data records sharing same primary key values of the target dataset. This strategy only applies to target dataset with pri- mary keys and with dedupeRecords option enabled. If transformed data still got duplicates after the dedupeStrategy evaluation, a random data record is chosen to be retained. type -&gt; (string) [required] The type of the deduplication strategy. o FIELD_PRIORITY - Field priority configuration for the deduplication strategy specifies an or- dered list of fields used to tie-break the data records sharing the same primary key values. Fields earlier in the list have higher priority for evaluation. For each field, the sort order determines whether to retain data record with larger or smaller field value. Possible values: o FIELD_PRIORITY fieldPriority -&gt; (structure) The field priority deduplication strategy. fields -&gt; (list) [required] The list of field names and their sort order for deduplication, arranged in descending pri- ority from highest to lowest. Constraints: o min: 1 o max: 10 (structure) The field used in the field priority dedu- plication strategy. name -&gt; (string) [required] The name of the deduplication field. Must exist in the dataset and not be a primary key. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ sortOrder -&gt; (string) [required] The sort order for the deduplication field. Possible values: o ASC o DESC JSON Syntax: [ { "sourceType": "S3"|"DATASET", "sourceName": "string", "s3Source": { "bucketName": "string", "prefix": "string", "options": { "fileType": "CSV"|"PARQUET"|"JSON" } }, "datasetSource": { "datasetIdentifier": "string", "options": { "loadType": "INCREMENTAL"|"REPLACE", "dedupeRecords": true|false, "dedupeStrategy": { "type": "FIELD_PRIORITY", "fieldPriority": { "fields": [ { "name": "string", "sortOrder": "ASC"|"DESC" } ... ] } } } } } ... ]</param>
+    /// <param name="Transformation">The transformation configurations for DataIntegrationFlow. transformationType -&gt; (string) [required] The DataIntegrationFlow transformation type. Possible values: o SQL o NONE sqlTransformation -&gt; (structure) The SQL DataIntegrationFlow transformation configuration. query -&gt; (string) [required] The transformation SQL query body based on SparkSQL. Constraints: o min: 1 o max: 65535 Shorthand Syntax: transformationType=string,sqlTransformation={query=string} JSON Syntax: { "transformationType": "SQL"|"NONE", "sqlTransformation": { "query": "string" } }</param>
+    /// <param name="Target">The target configurations for DataIntegrationFlow. targetType -&gt; (string) [required] The DataIntegrationFlow target type. Possible values: o S3 o DATASET s3Target -&gt; (structure) The S3 DataIntegrationFlow target. bucketName -&gt; (string) [required] The bucketName of the S3 target objects. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] prefix -&gt; (string) [required] The prefix of the S3 target objects. Constraints: o min: 0 o max: 700 o pattern: [/A-Za-z0-9._-]+ options -&gt; (structure) The S3 DataIntegrationFlow target options. fileType -&gt; (string) The Amazon S3 file type in S3 options. Possible values: o CSV o PARQUET o JSON datasetTarget -&gt; (structure) The dataset DataIntegrationFlow target. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id inter- nal field that is not allowed to be provided by client directly, they will be auto populated. datasetIdentifier -&gt; (string) [required] The dataset ARN. Constraints: o min: 1 o max: 1011 o pattern: [-_/A-Za-z0-9:]+ options -&gt; (structure) The dataset DataIntegrationFlow target options. loadType -&gt; (string) The target dataset's data load type. This only affects how source S3 files are selected in the S3-to-dataset flow. o REPLACE - Target dataset will get replaced with the new file added under the source s3 prefix. o INCREMENTAL - Target dataset will get updated with the up-to-date content under S3 prefix incorporating any file additions or removals there. Possible values: o INCREMENTAL o REPLACE dedupeRecords -&gt; (boolean) The option to perform deduplication on data records shar- ing same primary key values. If disabled, transformed data with duplicate primary key values will ingest into dataset, for datasets within asc namespace, such dupli- cates will cause ingestion fail. If enabled without dedupeStrategy, deduplication is done by retaining a ran- dom data record among those sharing the same primary key values. If enabled with dedupeStragtegy, the deduplica- tion is done following the strategy. Note that target dataset may have partition configured, when dedupe is enabled, it only dedupe against primary keys and retain only one record out of those duplicates regardless of its partition status. dedupeStrategy -&gt; (structure) The deduplication strategy to dedupe the data records sharing same primary key values of the target dataset. This strategy only applies to target dataset with primary keys and with dedupeRecords option enabled. If trans- formed data still got duplicates after the dedupeStrategy evaluation, a random data record is chosen to be re- tained. type -&gt; (string) [required] The type of the deduplication strategy. o FIELD_PRIORITY - Field priority configuration for the deduplication strategy specifies an ordered list of fields used to tie-break the data records sharing the same primary key values. Fields earlier in the list have higher priority for evaluation. For each field, the sort order determines whether to retain data record with larger or smaller field value. Possible values: o FIELD_PRIORITY fieldPriority -&gt; (structure) The field priority deduplication strategy. fields -&gt; (list) [required] The list of field names and their sort order for deduplication, arranged in descending priority from highest to lowest. Constraints: o min: 1 o max: 10 (structure) The field used in the field priority deduplica- tion strategy. name -&gt; (string) [required] The name of the deduplication field. Must exist in the dataset and not be a primary key. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ sortOrder -&gt; (string) [required] The sort order for the deduplication field. Possible values: o ASC o DESC JSON Syntax: { "targetType": "S3"|"DATASET", "s3Target": { "bucketName": "string", "prefix": "string", "options": { "fileType": "CSV"|"PARQUET"|"JSON" } }, "datasetTarget": { "datasetIdentifier": "string", "options": { "loadType": "INCREMENTAL"|"REPLACE", "dedupeRecords": true|false, "dedupeStrategy": { "type": "FIELD_PRIORITY", "fieldPriority": { "fields": [ { "name": "string", "sortOrder": "ASC"|"DESC" } ... ] } } } } }</param>
+    public AwsSupplychainCreateDataIntegrationFlowOptions(
+        string InstanceId,
+        string Name,
+        IEnumerable<string> Sources,
+        string Transformation,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        global::System.ArgumentNullException.ThrowIfNull(Transformation);
+        this.Transformation = Transformation;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsSupplychainCreateDataIntegrationFlowOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSupplychainCreateDataIntegrationFlowOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSupplychainCreateDataIntegrationFlowOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// Name of the DataIntegrationFlow. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The source configurations for DataIntegrationFlow. Constraints: o min: 1 o max: 40 (structure) The DataIntegrationFlow source parameters. sourceType -&gt; (string) [required] The DataIntegrationFlow source type. Possible values: o S3 o DATASET sourceName -&gt; (string) [required] The DataIntegrationFlow source name that can be used as table alias in SQL transformation query. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_]+ s3Source -&gt; (structure) The S3 DataIntegrationFlow source. bucketName -&gt; (string) [required] The bucketName of the S3 source objects. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] prefix -&gt; (string) [required] The prefix of the S3 source objects. To trigger data in- gestion, S3 files need to be put under s3://*bucketName* /*prefix* / . Constraints: o min: 0 o max: 700 o pattern: [/A-Za-z0-9._-]+ options -&gt; (structure) The other options of the S3 DataIntegrationFlow source. fileType -&gt; (string) The Amazon S3 file type in S3 options. Possible values: o CSV o PARQUET o JSON datasetSource -&gt; (structure) The dataset DataIntegrationFlow source. datasetIdentifier -&gt; (string) [required] The ARN of the dataset. Constraints: o min: 1 o max: 1011 o pattern: [-_/A-Za-z0-9:]+ options -&gt; (structure) The dataset DataIntegrationFlow source options. loadType -&gt; (string) The target dataset's data load type. This only affects how source S3 files are selected in the S3-to-dataset flow. o REPLACE - Target dataset will get replaced with the new file added under the source s3 prefix. o INCREMENTAL - Target dataset will get updated with the up-to-date content under S3 prefix incorporating any file additions or removals there. Possible values: o INCREMENTAL o REPLACE dedupeRecords -&gt; (boolean) The option to perform deduplication on data records sharing same primary key values. If disabled, trans- formed data with duplicate primary key values will in- gest into dataset, for datasets within asc namespace, such duplicates will cause ingestion fail. If enabled without dedupeStrategy, deduplication is done by re- taining a random data record among those sharing the same primary key values. If enabled with dedupeStragt- egy, the deduplication is done following the strategy. Note that target dataset may have partition config- ured, when dedupe is enabled, it only dedupe against primary keys and retain only one record out of those duplicates regardless of its partition status. dedupeStrategy -&gt; (structure) The deduplication strategy to dedupe the data records sharing same primary key values of the target dataset. This strategy only applies to target dataset with pri- mary keys and with dedupeRecords option enabled. If transformed data still got duplicates after the dedupeStrategy evaluation, a random data record is chosen to be retained. type -&gt; (string) [required] The type of the deduplication strategy. o FIELD_PRIORITY - Field priority configuration for the deduplication strategy specifies an or- dered list of fields used to tie-break the data records sharing the same primary key values. Fields earlier in the list have higher priority for evaluation. For each field, the sort order determines whether to retain data record with larger or smaller field value. Possible values: o FIELD_PRIORITY fieldPriority -&gt; (structure) The field priority deduplication strategy. fields -&gt; (list) [required] The list of field names and their sort order for deduplication, arranged in descending pri- ority from highest to lowest. Constraints: o min: 1 o max: 10 (structure) The field used in the field priority dedu- plication strategy. name -&gt; (string) [required] The name of the deduplication field. Must exist in the dataset and not be a primary key. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ sortOrder -&gt; (string) [required] The sort order for the deduplication field. Possible values: o ASC o DESC JSON Syntax: [ { "sourceType": "S3"|"DATASET", "sourceName": "string", "s3Source": { "bucketName": "string", "prefix": "string", "options": { "fileType": "CSV"|"PARQUET"|"JSON" } }, "datasetSource": { "datasetIdentifier": "string", "options": { "loadType": "INCREMENTAL"|"REPLACE", "dedupeRecords": true|false, "dedupeStrategy": { "type": "FIELD_PRIORITY", "fieldPriority": { "fields": [ { "name": "string", "sortOrder": "ASC"|"DESC" } ... ] } } } } } ... ]
+    /// </summary>
     [CliOption("--sources", GroupValues = true)]
-    public IEnumerable<string>? Sources { get; set; }
+    public IEnumerable<string>? Sources { get; private init; }
 
+    /// <summary>
+    /// The transformation configurations for DataIntegrationFlow. transformationType -&gt; (string) [required] The DataIntegrationFlow transformation type. Possible values: o SQL o NONE sqlTransformation -&gt; (structure) The SQL DataIntegrationFlow transformation configuration. query -&gt; (string) [required] The transformation SQL query body based on SparkSQL. Constraints: o min: 1 o max: 65535 Shorthand Syntax: transformationType=string,sqlTransformation={query=string} JSON Syntax: { "transformationType": "SQL"|"NONE", "sqlTransformation": { "query": "string" } }
+    /// </summary>
     [CliOption("--transformation")]
-    public string? Transformation { get; set; }
+    public string? Transformation { get; private init; }
 
+    /// <summary>
+    /// The target configurations for DataIntegrationFlow. targetType -&gt; (string) [required] The DataIntegrationFlow target type. Possible values: o S3 o DATASET s3Target -&gt; (structure) The S3 DataIntegrationFlow target. bucketName -&gt; (string) [required] The bucketName of the S3 target objects. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] prefix -&gt; (string) [required] The prefix of the S3 target objects. Constraints: o min: 0 o max: 700 o pattern: [/A-Za-z0-9._-]+ options -&gt; (structure) The S3 DataIntegrationFlow target options. fileType -&gt; (string) The Amazon S3 file type in S3 options. Possible values: o CSV o PARQUET o JSON datasetTarget -&gt; (structure) The dataset DataIntegrationFlow target. Note that for AWS Supply Chain dataset under asc namespace, it has a connection_id inter- nal field that is not allowed to be provided by client directly, they will be auto populated. datasetIdentifier -&gt; (string) [required] The dataset ARN. Constraints: o min: 1 o max: 1011 o pattern: [-_/A-Za-z0-9:]+ options -&gt; (structure) The dataset DataIntegrationFlow target options. loadType -&gt; (string) The target dataset's data load type. This only affects how source S3 files are selected in the S3-to-dataset flow. o REPLACE - Target dataset will get replaced with the new file added under the source s3 prefix. o INCREMENTAL - Target dataset will get updated with the up-to-date content under S3 prefix incorporating any file additions or removals there. Possible values: o INCREMENTAL o REPLACE dedupeRecords -&gt; (boolean) The option to perform deduplication on data records shar- ing same primary key values. If disabled, transformed data with duplicate primary key values will ingest into dataset, for datasets within asc namespace, such dupli- cates will cause ingestion fail. If enabled without dedupeStrategy, deduplication is done by retaining a ran- dom data record among those sharing the same primary key values. If enabled with dedupeStragtegy, the deduplica- tion is done following the strategy. Note that target dataset may have partition configured, when dedupe is enabled, it only dedupe against primary keys and retain only one record out of those duplicates regardless of its partition status. dedupeStrategy -&gt; (structure) The deduplication strategy to dedupe the data records sharing same primary key values of the target dataset. This strategy only applies to target dataset with primary keys and with dedupeRecords option enabled. If trans- formed data still got duplicates after the dedupeStrategy evaluation, a random data record is chosen to be re- tained. type -&gt; (string) [required] The type of the deduplication strategy. o FIELD_PRIORITY - Field priority configuration for the deduplication strategy specifies an ordered list of fields used to tie-break the data records sharing the same primary key values. Fields earlier in the list have higher priority for evaluation. For each field, the sort order determines whether to retain data record with larger or smaller field value. Possible values: o FIELD_PRIORITY fieldPriority -&gt; (structure) The field priority deduplication strategy. fields -&gt; (list) [required] The list of field names and their sort order for deduplication, arranged in descending priority from highest to lowest. Constraints: o min: 1 o max: 10 (structure) The field used in the field priority deduplica- tion strategy. name -&gt; (string) [required] The name of the deduplication field. Must exist in the dataset and not be a primary key. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ sortOrder -&gt; (string) [required] The sort order for the deduplication field. Possible values: o ASC o DESC JSON Syntax: { "targetType": "S3"|"DATASET", "s3Target": { "bucketName": "string", "prefix": "string", "options": { "fileType": "CSV"|"PARQUET"|"JSON" } }, "datasetTarget": { "datasetIdentifier": "string", "options": { "loadType": "INCREMENTAL"|"REPLACE", "dedupeRecords": true|false, "dedupeStrategy": { "type": "FIELD_PRIORITY", "fieldPriority": { "fields": [ { "name": "string", "sortOrder": "ASC"|"DESC" } ... ] } } } } }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
     /// <summary>
     /// The tags of the DataIntegrationFlow to be created Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -48,5 +124,21 @@ public record AwsSupplychainCreateDataIntegrationFlowOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

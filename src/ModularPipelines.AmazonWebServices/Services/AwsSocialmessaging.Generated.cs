@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -33,6 +33,21 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     #region Commands
 
     /// <summary>
+    /// This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AssociateWhatsappBusinessAccountAsync(
+        AwsSocialmessagingAssociateWhatsappBusinessAccountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingAssociateWhatsappBusinessAccountOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Creates a Meta Conversions API dataset for a WhatsApp Business Account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWhatsappDataSetAsync(
-        AwsSocialmessagingCreateWhatsappDataSetOptions? options = null,
+        AwsSocialmessagingCreateWhatsappDataSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingCreateWhatsappDataSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +70,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWhatsappFlowAsync(
-        AwsSocialmessagingCreateWhatsappFlowOptions? options = null,
+        AwsSocialmessagingCreateWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingCreateWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +85,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWhatsappMessageTemplateFromLibraryAsync(
-        AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions? options = null,
+        AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWhatsappMessageTemplateMediaAsync(
-        AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions? options = null,
+        AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +115,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateWhatsappMessageTemplateAsync(
-        AwsSocialmessagingCreateWhatsappMessageTemplateOptions? options = null,
+        AwsSocialmessagingCreateWhatsappMessageTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingCreateWhatsappMessageTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -115,11 +130,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWhatsappFlowAsync(
-        AwsSocialmessagingDeleteWhatsappFlowOptions? options = null,
+        AwsSocialmessagingDeleteWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingDeleteWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -130,11 +145,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWhatsappMessageMediaAsync(
-        AwsSocialmessagingDeleteWhatsappMessageMediaOptions? options = null,
+        AwsSocialmessagingDeleteWhatsappMessageMediaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingDeleteWhatsappMessageMediaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteWhatsappMessageTemplateAsync(
-        AwsSocialmessagingDeleteWhatsappMessageTemplateOptions? options = null,
+        AwsSocialmessagingDeleteWhatsappMessageTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingDeleteWhatsappMessageTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -160,11 +175,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeprecateWhatsappFlowAsync(
-        AwsSocialmessagingDeprecateWhatsappFlowOptions? options = null,
+        AwsSocialmessagingDeprecateWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingDeprecateWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -175,11 +190,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateWhatsappBusinessAccountAsync(
-        AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions? options = null,
+        AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -190,11 +205,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinkedWhatsappBusinessAccountAsync(
-        AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions? options = null,
+        AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,11 +220,26 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetLinkedWhatsappBusinessAccountPhoneNumberAsync(
-        AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions? options = null,
+        AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the business public key for a phone number and its signature status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetWhatsappBusinessPublicKeyAsync(
+        AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -220,11 +250,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWhatsappFlowAsync(
-        AwsSocialmessagingGetWhatsappFlowOptions? options = null,
+        AwsSocialmessagingGetWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -235,11 +265,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWhatsappFlowPreviewAsync(
-        AwsSocialmessagingGetWhatsappFlowPreviewOptions? options = null,
+        AwsSocialmessagingGetWhatsappFlowPreviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetWhatsappFlowPreviewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -250,11 +280,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWhatsappMessageMediaAsync(
-        AwsSocialmessagingGetWhatsappMessageMediaOptions? options = null,
+        AwsSocialmessagingGetWhatsappMessageMediaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetWhatsappMessageMediaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -265,11 +295,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetWhatsappMessageTemplateAsync(
-        AwsSocialmessagingGetWhatsappMessageTemplateOptions? options = null,
+        AwsSocialmessagingGetWhatsappMessageTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingGetWhatsappMessageTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -284,7 +314,7 @@ public class AwsSocialmessaging : IAwsSocialmessaging
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListLinkedWhatsappBusinessAccountsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListLinkedWhatsappBusinessAccountsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -295,11 +325,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsSocialmessagingListTagsForResourceOptions? options = null,
+        AwsSocialmessagingListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListTagsForResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -310,11 +340,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWhatsappFlowAssetsAsync(
-        AwsSocialmessagingListWhatsappFlowAssetsOptions? options = null,
+        AwsSocialmessagingListWhatsappFlowAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListWhatsappFlowAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -325,11 +355,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWhatsappFlowsAsync(
-        AwsSocialmessagingListWhatsappFlowsOptions? options = null,
+        AwsSocialmessagingListWhatsappFlowsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListWhatsappFlowsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,11 +370,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWhatsappMessageTemplatesAsync(
-        AwsSocialmessagingListWhatsappMessageTemplatesOptions? options = null,
+        AwsSocialmessagingListWhatsappMessageTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListWhatsappMessageTemplatesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -355,11 +385,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWhatsappTemplateLibraryAsync(
-        AwsSocialmessagingListWhatsappTemplateLibraryOptions? options = null,
+        AwsSocialmessagingListWhatsappTemplateLibraryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingListWhatsappTemplateLibraryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -370,11 +400,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PostWhatsappMessageMediaAsync(
-        AwsSocialmessagingPostWhatsappMessageMediaOptions? options = null,
+        AwsSocialmessagingPostWhatsappMessageMediaOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingPostWhatsappMessageMediaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -385,11 +415,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PublishWhatsappFlowAsync(
-        AwsSocialmessagingPublishWhatsappFlowOptions? options = null,
+        AwsSocialmessagingPublishWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingPublishWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -400,11 +430,26 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutWhatsappBusinessAccountEventDestinationsAsync(
-        AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions? options = null,
+        AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PutWhatsappBusinessPublicKeyAsync(
+        AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -415,11 +460,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendWhatsappConversionEventAsync(
-        AwsSocialmessagingSendWhatsappConversionEventOptions? options = null,
+        AwsSocialmessagingSendWhatsappConversionEventOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingSendWhatsappConversionEventOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -430,11 +475,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SendWhatsappMessageAsync(
-        AwsSocialmessagingSendWhatsappMessageOptions? options = null,
+        AwsSocialmessagingSendWhatsappMessageOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingSendWhatsappMessageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -445,11 +490,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsSocialmessagingTagResourceOptions? options = null,
+        AwsSocialmessagingTagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingTagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -460,11 +505,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsSocialmessagingUntagResourceOptions? options = null,
+        AwsSocialmessagingUntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingUntagResourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -475,11 +520,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWhatsappFlowAssetsAsync(
-        AwsSocialmessagingUpdateWhatsappFlowAssetsOptions? options = null,
+        AwsSocialmessagingUpdateWhatsappFlowAssetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingUpdateWhatsappFlowAssetsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -490,11 +535,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWhatsappFlowAsync(
-        AwsSocialmessagingUpdateWhatsappFlowOptions? options = null,
+        AwsSocialmessagingUpdateWhatsappFlowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingUpdateWhatsappFlowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -505,11 +550,11 @@ public class AwsSocialmessaging : IAwsSocialmessaging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateWhatsappMessageTemplateAsync(
-        AwsSocialmessagingUpdateWhatsappMessageTemplateOptions? options = null,
+        AwsSocialmessagingUpdateWhatsappMessageTemplateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSocialmessagingUpdateWhatsappMessageTemplateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

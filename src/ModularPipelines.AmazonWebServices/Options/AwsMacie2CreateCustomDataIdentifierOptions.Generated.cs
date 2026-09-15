@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "create-custom-data-identifier")]
-public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions
+public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates and defines the criteria and other settings for a custom data identifier. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.</param>
+    /// <param name="Regex">The regular expression (regex ) that defines the pattern to match. The expression can contain as many as 512 characters.</param>
+    public AwsMacie2CreateCustomDataIdentifierOptions(
+        string Name,
+        string Regex
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Regex);
+        this.Regex = Regex;
+    }
+
+    private AwsMacie2CreateCustomDataIdentifierOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2CreateCustomDataIdentifierOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2CreateCustomDataIdentifierOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The regular expression (regex ) that defines the pattern to match. The expression can contain as many as 512 characters.
+    /// </summary>
+    [CliOption("--regex")]
+    public string? Regex { get; private init; }
+
     /// <summary>
     /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
     /// </summary>
@@ -54,12 +104,6 @@ public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions
     [CliOption("--maximum-match-distance")]
     public int? MaximumMatchDistance { get; set; }
 
-    [CliOption("--name")]
-    public string? Name { get; set; }
-
-    [CliOption("--regex")]
-    public string? Regex { get; set; }
-
     /// <summary>
     /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that match the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates find- ings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings. (structure) Specifies a severity level for findings that a custom data iden- tifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that match the custom data identifier's detection criteria. occurrencesThreshold -&gt; (long) [required] The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to pro- duce a finding with the specified severity (severity). severity -&gt; (string) [required] The severity to assign to a finding: if the number of occur- rences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of oc- currences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH. Possible values: o LOW o MEDIUM o HIGH Shorthand Syntax: occurrencesThreshold=long,severity=string ... JSON Syntax: [ { "occurrencesThreshold": long, "severity": "LOW"|"MEDIUM"|"HIGH" } ... ]
     /// </summary>
@@ -77,5 +121,21 @@ public record AwsMacie2CreateCustomDataIdentifierOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

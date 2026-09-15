@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-authentication-profile")]
-public record AwsRedshiftModifyAuthenticationProfileOptions : AwsOptions
+public record AwsRedshiftModifyAuthenticationProfileOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--authentication-profile-name")]
-    public string? AuthenticationProfileName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modifies an authentication profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AuthenticationProfileName">The name of the authentication profile to replace. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="AuthenticationProfileContent">The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: o max: 2147483647</param>
+    public AwsRedshiftModifyAuthenticationProfileOptions(
+        string AuthenticationProfileName,
+        string AuthenticationProfileContent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationProfileName);
+        this.AuthenticationProfileName = AuthenticationProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationProfileContent);
+        this.AuthenticationProfileContent = AuthenticationProfileContent;
+    }
+
+    private AwsRedshiftModifyAuthenticationProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifyAuthenticationProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifyAuthenticationProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the authentication profile to replace. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// </summary>
+    [CliOption("--authentication-profile-name")]
+    public string? AuthenticationProfileName { get; private init; }
+
+    /// <summary>
+    /// The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--authentication-profile-content")]
-    public string? AuthenticationProfileContent { get; set; }
+    public string? AuthenticationProfileContent { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

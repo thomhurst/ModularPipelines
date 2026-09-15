@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm", "update-document-metadata")]
-public record AwsSsmUpdateDocumentMetadataOptions : AwsOptions
+public record AwsSsmUpdateDocumentMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services Systems Manager Change Manager availability change . Updates information related to approval reviews for a specific version of a change template in Change Manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the change template for which a version's metadata is to be updated. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="DocumentReviews">The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: o SendForReview o UpdateReview o Approve o Reject Comment -&gt; (list) A comment entered by a user in your organization about the docu- ment review request. Constraints: o min: 0 o max: 1 (structure) Information about comments added to a document review re- quest. Type -&gt; (string) The type of information added to a review request. Cur- rently, only the value Comment is supported. Possible values: o Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }</param>
+    public AwsSsmUpdateDocumentMetadataOptions(
+        string Name,
+        string DocumentReviews
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentReviews);
+        this.DocumentReviews = DocumentReviews;
+    }
+
+    private AwsSsmUpdateDocumentMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmUpdateDocumentMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmUpdateDocumentMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the change template for which a version's metadata is to be updated. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The change template review details to update. Action -&gt; (string) [required] The action to take on a document approval review request. Possible values: o SendForReview o UpdateReview o Approve o Reject Comment -&gt; (list) A comment entered by a user in your organization about the docu- ment review request. Constraints: o min: 0 o max: 1 (structure) Information about comments added to a document review re- quest. Type -&gt; (string) The type of information added to a review request. Cur- rently, only the value Comment is supported. Possible values: o Comment Content -&gt; (string) The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version. Constraints: o min: 1 o max: 1024 o pattern: ^(?!\s*$).+ Shorthand Syntax: Action=string,Comment=[{Type=string,Content=string},{Type=string,Content=string}] JSON Syntax: { "Action": "SendForReview"|"UpdateReview"|"Approve"|"Reject", "Comment": [ { "Type": "Comment", "Content": "string" } ... ] }
+    /// </summary>
+    [CliOption("--document-reviews")]
+    public string? DocumentReviews { get; private init; }
 
     /// <summary>
     /// The version of a change template in which to update approval meta- data. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
@@ -30,13 +77,26 @@ public record AwsSsmUpdateDocumentMetadataOptions : AwsOptions
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CliOption("--document-reviews")]
-    public string? DocumentReviews { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

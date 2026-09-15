@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codebuild", "import-source-credentials")]
-public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions
+public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, Git- Lab Self Managed, or Bitbucket repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Token">For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: o min: 1</param>
+    /// <param name="ServerType">The source provider used for this project. Possible values: o GITHUB o BITBUCKET o GITHUB_ENTERPRISE o GITLAB o GITLAB_SELF_MANAGED</param>
+    /// <param name="AuthType">The type of authentication used to connect to a GitHub, GitHub En- terprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created us- ing the CodeBuild console. Possible values: o OAUTH o BASIC_AUTH o PERSONAL_ACCESS_TOKEN o CODECONNECTIONS o SECRETS_MANAGER</param>
+    public AwsCodebuildImportSourceCredentialsOptions(
+        string Token,
+        AwsCodebuildImportSourceCredentialsServerType ServerType,
+        AwsCodebuildImportSourceCredentialsAuthType AuthType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Token);
+        this.Token = Token;
+        global::System.ArgumentNullException.ThrowIfNull(ServerType);
+        this.ServerType = ServerType;
+        global::System.ArgumentNullException.ThrowIfNull(AuthType);
+        this.AuthType = AuthType;
+    }
+
+    private AwsCodebuildImportSourceCredentialsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodebuildImportSourceCredentialsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodebuildImportSourceCredentialsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS, this is the connectionArn . For the authType SECRETS_MANAGER, this is the secretArn . Constraints: o min: 1
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token")]
+    public string? Token { get; private init; }
+
+    /// <summary>
+    /// The source provider used for this project. Possible values: o GITHUB o BITBUCKET o GITHUB_ENTERPRISE o GITLAB o GITLAB_SELF_MANAGED
+    /// </summary>
+    [CliOption("--server-type")]
+    public AwsCodebuildImportSourceCredentialsServerType? ServerType { get; private init; }
+
+    /// <summary>
+    /// The type of authentication used to connect to a GitHub, GitHub En- terprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created us- ing the CodeBuild console. Possible values: o OAUTH o BASIC_AUTH o PERSONAL_ACCESS_TOKEN o CODECONNECTIONS o SECRETS_MANAGER
+    /// </summary>
+    [CliOption("--auth-type")]
+    public AwsCodebuildImportSourceCredentialsAuthType? AuthType { get; private init; }
+
     /// <summary>
     /// The Bitbucket username when the authType is BASIC_AUTH. This parame- ter is not valid for other types of source providers or connections. Constraints: o min: 1
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
-    [SecretValue]
-    [CliOption("--token")]
-    public string? Token { get; set; }
-
-    [CliOption("--server-type")]
-    public string? ServerType { get; set; }
-
-    [CliOption("--auth-type")]
-    public string? AuthType { get; set; }
-
-    [CliFlag("--should-overwrite")]
+    /// <summary>
+    /// Set to false to prevent overwriting the repository source creden- tials. Set to true to overwrite the repository source credentials. The default value is true .
+    /// </summary>
+    [CliFlag("--should-overwrite", NegatedName = "--no-should-overwrite")]
     public bool? ShouldOverwrite { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +101,21 @@ public record AwsCodebuildImportSourceCredentialsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "list-marketplace-revenue-share-allocations")]
-public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a paginated list of allocations under a marketplace revenue share, with optional filtering by status and effective date range. Sup- ports historical reads at a specific share revision. See also: AWS API Documentation list-marketplace-revenue-share-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument ...
+    /// </summary>
+    /// <param name="Catalog">The catalog containing the allocations. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions(
+        AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsCatalog Catalog,
+        string ProductId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+    }
+
+    private AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog containing the allocations. Possible values: o AWS o Sandbox
+    /// </summary>
+    [CliOption("--catalog")]
+    public AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllocationsCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
     /// <summary>
     /// Filter by allocation status. Possible values: o ACTIVE o INACTIVE
@@ -89,5 +133,21 @@ public record AwsPartnercentralRevenueMeasurementListMarketplaceRevenueShareAllo
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

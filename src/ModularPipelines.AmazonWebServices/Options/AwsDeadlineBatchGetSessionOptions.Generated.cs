@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "batch-get-session")]
-public record AwsDeadlineBatchGetSessionOptions : AwsOptions
+public record AwsDeadlineBatchGetSessionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves multiple sessions in a single request. This is a batch ver- sion of the GetSession API. The result of getting each session is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Identifiers">The list of session identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a session. farmId -&gt; (string) [required] The farm ID of the session. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session. Constraints: o pattern: job-[0-9a-f]{32} sessionId -&gt; (string) [required] The session ID. Constraints: o pattern: session-[0-9a-f]{32} Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionId": "string" } ... ]</param>
+    public AwsDeadlineBatchGetSessionOptions(
+        IEnumerable<string> Identifiers
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identifiers));
+            }
+
+            Identifiers = materialized;
+        }
+        this.Identifiers = Identifiers;
+    }
+
+    private AwsDeadlineBatchGetSessionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineBatchGetSessionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineBatchGetSessionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The list of session identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a session. farmId -&gt; (string) [required] The farm ID of the session. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session. Constraints: o pattern: job-[0-9a-f]{32} sessionId -&gt; (string) [required] The session ID. Constraints: o pattern: session-[0-9a-f]{32} Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionId": "string" } ... ]
+    /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
-    public IEnumerable<string>? Identifiers { get; set; }
+    public IEnumerable<string>? Identifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

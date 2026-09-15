@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "put-metric-stream")]
-public record AwsCloudwatchPutMetricStreamOptions : AwsOptions
+public record AwsCloudwatchPutMetricStreamOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch metrics to Amazon Web Services destinations, includ- ing Amazon S3, and to many third-party solutions. For more information, see Using Metric Streams . To create a metric stream, you must be signed in to an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create or update a metric stream, you choose one of the fol- lo...
+    /// </summary>
+    /// <param name="Name">If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other met- ric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_". Constraints: o min: 1 o max: 255</param>
+    /// <param name="FirehoseArn">The ARN of the Amazon Kinesis Data Firehose delivery stream to use for this metric stream. This Amazon Kinesis Data Firehose delivery stream must already exist and must be in the same account as the metric stream. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="RoleArn">The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Data Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions: o firehose:PutRecord o firehose:PutRecordBatch Constraints: o min: 1 o max: 1024</param>
+    /// <param name="OutputFormat">The output format for the stream. Valid values are json , open- telemetry1.0 , and opentelemetry0.7 . For more information about metric stream output formats, see Metric streams output formats . Possible values: o json o opentelemetry0.7 o opentelemetry1.0 Constraints: o min: 1 o max: 255</param>
+    public AwsCloudwatchPutMetricStreamOptions(
+        string Name,
+        string FirehoseArn,
+        string RoleArn,
+        AwsCloudwatchPutMetricStreamOutputFormat OutputFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(FirehoseArn);
+        this.FirehoseArn = FirehoseArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFormat);
+        this.OutputFormat = OutputFormat;
+    }
+
+    private AwsCloudwatchPutMetricStreamOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchPutMetricStreamOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchPutMetricStreamOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other met- ric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_". Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The ARN of the Amazon Kinesis Data Firehose delivery stream to use for this metric stream. This Amazon Kinesis Data Firehose delivery stream must already exist and must be in the same account as the metric stream. Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--firehose-arn")]
+    public string? FirehoseArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Data Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions: o firehose:PutRecord o firehose:PutRecordBatch Constraints: o min: 1 o max: 1024
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
+
+    /// <summary>
+    /// The output format for the stream. Valid values are json , open- telemetry1.0 , and opentelemetry0.7 . For more information about metric stream output formats, see Metric streams output formats . Possible values: o json o opentelemetry0.7 o opentelemetry1.0 Constraints: o min: 1 o max: 255
+    /// </summary>
+    [CliOption("--output-format")]
+    public AwsCloudwatchPutMetricStreamOutputFormat? OutputFormat { get; private init; }
 
     /// <summary>
     /// If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters in the same op- eration. (structure) This structure contains a metric namespace and optionally, a list of metric names, to either include in a metric stream or exclude from a metric stream. A metric stream's filters can include up to 1000 total names. This limit applies to the sum of namespace names and metric names in the filters. For example, this could include 10 metric namespace filters with 99 metrics each, or 20 namespace filters with 49 metrics specified in each filter. Namespace -&gt; (string) The name of the metric namespace for this filter. The namespace can contain only ASCII printable characters (ASCII range 32 through 126). It must contain at least one non-whitespace character. Constraints: o min: 1 o max: 255 o pattern: [^:].* MetricNames -&gt; (list) The names of the metrics to either include or exclude from the metric stream. If you omit this parameter, all metrics in the namespace are included or excluded, depending on whether this filter is specified as an exclude filter or an include filter. Each metric name can contain only ASCII printable characters (ASCII range 32 through 126). Each metric name must contain at least one non-whitespace character. (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: Namespace=string,MetricNames=string,string ... JSON Syntax: [ { "Namespace": "string", "MetricNames": ["string", ...] } ... ]
@@ -36,15 +104,6 @@ public record AwsCloudwatchPutMetricStreamOptions : AwsOptions
     [CliOption("--exclude-filters", GroupValues = true)]
     public IEnumerable<string>? ExcludeFilters { get; set; }
 
-    [CliOption("--firehose-arn")]
-    public string? FirehoseArn { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
-
-    [CliOption("--output-format")]
-    public string? OutputFormat { get; set; }
-
     /// <summary>
     /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permis- sion to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use TagResource or UntagResource . (structure) A key-value pair associated with a CloudWatch resource. Key -&gt; (string) [required] A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
@@ -57,7 +116,10 @@ public record AwsCloudwatchPutMetricStreamOptions : AwsOptions
     [CliOption("--statistics-configurations", GroupValues = true)]
     public IEnumerable<string>? StatisticsConfigurations { get; set; }
 
-    [CliFlag("--include-linked-accounts-metrics")]
+    /// <summary>
+    /// rics (boolean) If you are creating a metric stream in a monitoring account, specify true to include metrics from source accounts in the metric stream.
+    /// </summary>
+    [CliFlag("--include-linked-accounts-metrics", NegatedName = "--no-include-linked-accounts-metrics")]
     public bool? IncludeLinkedAccountsMetrics { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -65,5 +127,21 @@ public record AwsCloudwatchPutMetricStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

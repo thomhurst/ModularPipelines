@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "create-studio-session-mapping")]
-public record AwsEmrCreateStudioSessionMappingOptions : AwsOptions
+public record AwsEmrCreateStudioSessionMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Maps a user or group to the Amazon EMR Studio specified by StudioId , and applies a session policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping to assign users to a Studio when you use IAM Identity Center authentication. For instructions on how to assign users to a Studio when you use IAM authentication, see Assign a user or group to your EMR Studio . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StudioId">The ID of the Amazon EMR Studio to which the user or group will be mapped. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="IdentityType">Specifies whether the identity to map to the Amazon EMR Studio is a user or a group. Possible values: o USER o GROUP</param>
+    /// <param name="SessionPolicyArn">The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. You should specify the ARN for the session policy that you want to apply, not the ARN of your user role. For more information, see Create an Amazon EMR Studio User Role with Session Policies . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsEmrCreateStudioSessionMappingOptions(
+        string StudioId,
+        AwsEmrCreateStudioSessionMappingIdentityType IdentityType,
+        string SessionPolicyArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StudioId);
+        this.StudioId = StudioId;
+        global::System.ArgumentNullException.ThrowIfNull(IdentityType);
+        this.IdentityType = IdentityType;
+        global::System.ArgumentNullException.ThrowIfNull(SessionPolicyArn);
+        this.SessionPolicyArn = SessionPolicyArn;
+    }
+
+    private AwsEmrCreateStudioSessionMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrCreateStudioSessionMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrCreateStudioSessionMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon EMR Studio to which the user or group will be mapped. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--studio-id")]
-    public string? StudioId { get; set; }
+    public string? StudioId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether the identity to map to the Amazon EMR Studio is a user or a group. Possible values: o USER o GROUP
+    /// </summary>
+    [CliOption("--identity-type")]
+    public AwsEmrCreateStudioSessionMappingIdentityType? IdentityType { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. You should specify the ARN for the session policy that you want to apply, not the ARN of your user role. For more information, see Create an Amazon EMR Studio User Role with Session Policies . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
+    [CliOption("--session-policy-arn")]
+    public string? SessionPolicyArn { get; private init; }
 
     /// <summary>
     /// The globally unique identifier (GUID) of the user or group from the IAM Identity Center Identity Store. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference . Either IdentityName or IdentityId must be specified, but not both. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -36,16 +94,26 @@ public record AwsEmrCreateStudioSessionMappingOptions : AwsOptions
     [CliOption("--identity-name")]
     public string? IdentityName { get; set; }
 
-    [CliOption("--identity-type")]
-    public string? IdentityType { get; set; }
-
-    [CliOption("--session-policy-arn")]
-    public string? SessionPolicyArn { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "create-permission")]
-public record AwsRamCreatePermissionOptions : AwsOptions
+public record AwsRamCreatePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: o min: 1 o max: 36 o pattern: [\w.-]*</param>
+    /// <param name="ResourceType">Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sen- sitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this pa- rameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResource- Types ).</param>
+    /// <param name="PolicyTemplate">A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.</param>
+    public AwsRamCreatePermissionOptions(
+        string Name,
+        string ResourceType,
+        string PolicyTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyTemplate);
+        this.PolicyTemplate = PolicyTemplate;
+    }
+
+    private AwsRamCreatePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamCreatePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamCreatePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region. Constraints: o min: 1 o max: 36 o pattern: [\w.-]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Specifies the name of the resource type that this customer managed permission applies to. The format is `` &lt;service-code&gt; :&lt;resource-type&gt; `` and is case sen- sitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet . To see the list of valid values for this pa- rameter, query the ListResourceTypes operation. This value must match the display name of the resource (available in ListResource- Types ).
+    /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
+    public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// A string in JSON format string that contains the following elements of a resource-based policy: o Effect : must be set to ALLOW . o Action : specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all ac- tions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide . o Condition : (optional) specifies conditional parameters that must evaluate to true when a user attempts an action for that action to be allowed. For more information about the Condition element, see IAM policies: Condition element in the Identity and Access Manage- ment User Guide . This template can't include either the Resource or Principal ele- ments. Those are both filled in by RAM when it instantiates the re- source-based policy on each resource shared using this managed per- mission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identi- ties added to the resource share.
+    /// </summary>
     [CliOption("--policy-template")]
-    public string? PolicyTemplate { get; set; }
+    public string? PolicyTemplate { get; private init; }
 
     /// <summary>
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
@@ -49,5 +100,21 @@ public record AwsRamCreatePermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

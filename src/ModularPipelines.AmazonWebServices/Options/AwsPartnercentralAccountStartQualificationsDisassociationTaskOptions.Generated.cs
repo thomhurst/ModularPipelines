@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-account", "start-qualifications-disassociation-task")]
-public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions : AwsOptions
+public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates an asynchronous task to disassociate your partner qualifica- tions from a primary account. You must currently be associated and can- not disassociate if you are the primary partner. Use GetQualifications- DisassociationTask to monitor task progress. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
+    /// <param name="AssociatedPartner">The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must pro- vide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: o min: 1 o max: 50 o pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Re- quired in requests if ProfileId is not provided. Constraints: o pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }</param>
+    public AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions(
+        AwsPartnercentralAccountStartQualificationsDisassociationTaskCatalog Catalog,
+        string Identifier,
+        string AssociatedPartner
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(AssociatedPartner);
+        this.AssociatedPartner = AssociatedPartner;
+    }
+
+    private AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--catalog")]
+    public AwsPartnercentralAccountStartQualificationsDisassociationTaskCatalog? Catalog { get; private init; }
+
+    /// <summary>
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
+
+    /// <summary>
+    /// The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must pro- vide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: o min: 1 o max: 50 o pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Re- quired in requests if ProfileId is not provided. Constraints: o pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }
+    /// </summary>
+    [CliOption("--associated-partner")]
+    public string? AssociatedPartner { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
@@ -35,13 +90,26 @@ public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptio
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CliOption("--associated-partner")]
-    public string? AssociatedPartner { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

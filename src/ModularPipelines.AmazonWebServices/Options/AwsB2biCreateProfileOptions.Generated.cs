@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("b2bi", "create-profile")]
-public record AwsB2biCreateProfileOptions : AwsOptions
+public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Specifies the name of the profile. Constraints: o min: 1 o max: 254</param>
+    /// <param name="Phone">Specifies the phone number associated with the profile. Constraints: o min: 7 o max: 22 o pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?</param>
+    /// <param name="BusinessName">Specifies the name for the business associated with this profile. Constraints: o min: 1 o max: 254</param>
+    /// <param name="Logging">Specifies whether or not logging is enabled for this profile. Possible values: o ENABLED o DISABLED</param>
+    public AwsB2biCreateProfileOptions(
+        string Name,
+        string Phone,
+        string BusinessName,
+        AwsB2biCreateProfileLogging Logging
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Phone);
+        this.Phone = Phone;
+        global::System.ArgumentNullException.ThrowIfNull(BusinessName);
+        this.BusinessName = BusinessName;
+        global::System.ArgumentNullException.ThrowIfNull(Logging);
+        this.Logging = Logging;
+    }
+
+    private AwsB2biCreateProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsB2biCreateProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsB2biCreateProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the name of the profile. Constraints: o min: 1 o max: 254
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Specifies the phone number associated with the profile. Constraints: o min: 7 o max: 22 o pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?
+    /// </summary>
+    [CliOption("--phone")]
+    public string? Phone { get; private init; }
+
+    /// <summary>
+    /// Specifies the name for the business associated with this profile. Constraints: o min: 1 o max: 254
+    /// </summary>
+    [CliOption("--business-name")]
+    public string? BusinessName { get; private init; }
+
+    /// <summary>
+    /// Specifies whether or not logging is enabled for this profile. Possible values: o ENABLED o DISABLED
+    /// </summary>
+    [CliOption("--logging")]
+    public AwsB2biCreateProfileLogging? Logging { get; private init; }
 
     /// <summary>
     /// Specifies the email address associated with this customer profile. Constraints: o min: 5 o max: 254 o pattern: [\w\.\-]+@[\w\.\-]+
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }
-
-    [CliOption("--phone")]
-    public string? Phone { get; set; }
-
-    [CliOption("--business-name")]
-    public string? BusinessName { get; set; }
-
-    [CliOption("--logging")]
-    public string? Logging { get; set; }
 
     /// <summary>
     /// Reserved for future use.
@@ -58,5 +117,21 @@ public record AwsB2biCreateProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

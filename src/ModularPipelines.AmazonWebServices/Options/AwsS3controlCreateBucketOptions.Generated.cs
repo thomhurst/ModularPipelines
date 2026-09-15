@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3control", "create-bucket")]
-public record AwsS3controlCreateBucketOptions : AwsOptions
+public record AwsS3controlCreateBucketOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create Bucket in the Amazon S3 API Reference . Creates a new Outposts bucket. By creating the bucket, you become the bucket owner. To create an Outposts bucket, you must have S3 on Out- posts. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide . Not every string is an acceptable bucket name. For information on bucket naming restrictions, see Working with Amazon S3 Buckets . S3 on Out...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket. Constraints: o min: 3 o max: 255</param>
+    public AwsS3controlCreateBucketOptions(
+        string Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+    }
+
+    private AwsS3controlCreateBucketOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3controlCreateBucketOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3controlCreateBucketOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket. Constraints: o min: 3 o max: 255
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
     /// <summary>
     /// The canned ACL to apply to the bucket. NOTE: This is not supported by Amazon S3 on Outposts buckets. Possible values: o private o public-read o public-read-write o authenticated-read
     /// </summary>
     [CliOption("--acl")]
     public AwsS3controlCreateBucketAcl? Acl { get; set; }
-
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
 
     /// <summary>
     /// The configuration information for the bucket. NOTE: This is not supported by Amazon S3 on Outposts buckets. LocationConstraint -&gt; (string) Specifies the Region where the bucket will be created. If you are creating a bucket on the US East (N. Virginia) Region (us-east-1), you do not need to specify the location. NOTE: This is not supported by Amazon S3 on Outposts buckets. Possible values: o EU o eu-west-1 o us-west-1 o us-west-2 o ap-south-1 o ap-southeast-1 o ap-southeast-2 o ap-northeast-1 o sa-east-1 o cn-north-1 o eu-central-1 Shorthand Syntax: LocationConstraint=string JSON Syntax: { "LocationConstraint": "EU"|"eu-west-1"|"us-west-1"|"us-west-2"|"ap-south-1"|"ap-southeast-1"|"ap-southeast-2"|"ap-northeast-1"|"sa-east-1"|"cn-north-1"|"eu-central-1" }
@@ -67,7 +104,10 @@ public record AwsS3controlCreateBucketOptions : AwsOptions
     [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CliFlag("--object-lock-enabled-for-bucket")]
+    /// <summary>
+    /// Specifies whether you want S3 Object Lock to be enabled for the new bucket. NOTE: This is not supported by Amazon S3 on Outposts buckets.
+    /// </summary>
+    [CliFlag("--object-lock-enabled-for-bucket", NegatedName = "--no-object-lock-enabled-for-bucket")]
     public bool? ObjectLockEnabledForBucket { get; set; }
 
     /// <summary>
@@ -81,5 +121,21 @@ public record AwsS3controlCreateBucketOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

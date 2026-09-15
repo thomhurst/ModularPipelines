@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chatbot", "update-chime-webhook-configuration")]
-public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions
+public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Amazon Chime webhook configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ChatConfigurationArn">The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}</param>
+    public AwsChatbotUpdateChimeWebhookConfigurationOptions(
+        string ChatConfigurationArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChatConfigurationArn);
+        this.ChatConfigurationArn = ChatConfigurationArn;
+    }
+
+    private AwsChatbotUpdateChimeWebhookConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChatbotUpdateChimeWebhookConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChatbotUpdateChimeWebhookConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update. Constraints: o min: 19 o max: 1169 o pattern: arn:aws:(wheatley|chat- bot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// </summary>
     [CliOption("--chat-configuration-arn")]
-    public string? ChatConfigurationArn { get; set; }
+    public string? ChatConfigurationArn { get; private init; }
 
     /// <summary>
     /// A description of the webhook. We recommend using the convention RoomName/WebhookName . For more information, see Tutorial: Get started with Amazon Chime in the AWS Chatbot Administrator Guide . Constraints: o min: 1 o max: 255
@@ -59,5 +96,21 @@ public record AwsChatbotUpdateChimeWebhookConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

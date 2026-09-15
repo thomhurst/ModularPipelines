@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces-web", "update-session-logger")]
-public record AwsWorkspacesWebUpdateSessionLoggerOptions : AwsOptions
+public record AwsWorkspacesWebUpdateSessionLoggerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the details of a session logger. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionLoggerArn">The ARN of the session logger to update. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    public AwsWorkspacesWebUpdateSessionLoggerOptions(
+        string SessionLoggerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionLoggerArn);
+        this.SessionLoggerArn = SessionLoggerArn;
+    }
+
+    private AwsWorkspacesWebUpdateSessionLoggerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesWebUpdateSessionLoggerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesWebUpdateSessionLoggerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the session logger to update. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// </summary>
     [CliOption("--session-logger-arn")]
-    public string? SessionLoggerArn { get; set; }
+    public string? SessionLoggerArn { get; private init; }
 
     /// <summary>
     /// The updated eventFilter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: all, include. all -&gt; (structure) The filter that monitors all of the available events, including any new events emitted in the future. include -&gt; (list) The filter that monitors only the listed set of events. New events are not auto-monitored. Constraints: o min: 1 o max: 100 (string) Possible values: o WebsiteInteract o FileDownloadFromSecureBrowserToRemoteDisk o FileTransferFromRemoteToLocalDisk o FileTransferFromLocalToRemoteDisk o FileUploadFromRemoteDiskToSecureBrowser o ContentPasteToWebsite o ContentTransferFromLocalToRemoteClipboard o ContentCopyFromWebsite o UrlLoad o TabOpen o TabClose o PrintJobSubmit o SessionConnect o SessionStart o SessionDisconnect o SessionEnd o UrlBlockByContentFilter Shorthand Syntax: all={},include=string,string JSON Syntax: { "all": { }, "include": ["WebsiteInteract"|"FileDownloadFromSecureBrowserToRemoteDisk"|"FileTransferFromRemoteToLocalDisk"|"FileTransferFromLocalToRemoteDisk"|"FileUploadFromRemoteDiskToSecureBrowser"|"ContentPasteToWebsite"|"ContentTransferFromLocalToRemoteClipboard"|"ContentCopyFromWebsite"|"UrlLoad"|"TabOpen"|"TabClose"|"PrintJobSubmit"|"SessionConnect"|"SessionStart"|"SessionDisconnect"|"SessionEnd"|"UrlBlockByContentFilter", ...] }
@@ -47,5 +84,21 @@ public record AwsWorkspacesWebUpdateSessionLoggerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

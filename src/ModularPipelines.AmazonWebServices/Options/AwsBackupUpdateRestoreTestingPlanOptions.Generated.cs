@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "update-restore-testing-plan")]
-public record AwsBackupUpdateRestoreTestingPlanOptions : AwsOptions
+public record AwsBackupUpdateRestoreTestingPlanOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--restore-testing-plan")]
-    public string? RestoreTestingPlan { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This request will send changes to your specified restore testing plan. RestoreTestingPlanName cannot be updated after it is created. RecoveryPointSelection can contain: o Algorithm o ExcludeVaults o IncludeVaults o RecoveryPointTypes o SelectionWindowDays See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestoreTestingPlan">Specifies the body of a restore testing plan. RecoveryPointSelection -&gt; (structure) Required: Algorithm ; RecoveryPointTypes ; IncludeVaults (one or more ). Optional: SelectionWindowDays ('30' if not specified ); Exclude- Vaults (defaults to empty list if not listed). Algorithm -&gt; (string) Acceptable values include "LATEST_WITHIN_WINDOW" or "RAN- DOM_WITHIN_WINDOW" Possible values: o LATEST_WITHIN_WINDOW o RANDOM_WITHIN_WINDOW ExcludeVaults -&gt; (list) Accepted values include specific ARNs or list of selectors. Defaults to empty list if not listed. (string) IncludeVaults -&gt; (list) Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...] ["arn:aws:backup:::backup-vault:asdf- * ", ...] System Message: WARNING/2 (&lt;string&gt;:, line 143) Inline emphasis start-string without end-string. (string) RecoveryPointTypes -&gt; (list) These are the types of recovery points. Include SNAPSHOT to restore only snapshot recovery points; include CONTINUOUS to restore continuous recovery points (point in time restore / PITR); use both to restore either a snapshot or a continuous recovery point. The recovery point will be determined by the value for Algorithm . (string) Possible values: o CONTINUOUS o SNAPSHOT SelectionWindowDays -&gt; (integer) Accepted values are integers from 1 to 365. If not included, the value defaults to 30. The selection window is calculated from the actual job execution time, not the plan's scheduled start time. ScheduleExpression -&gt; (string) A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *) . ScheduleExpressionTimezone -&gt; (string) Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can mod- ify this to a specified timezone. StartWindowHours -&gt; (integer) Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maxi- mum value of 168 hours (one week). Shorthand Syntax: RecoveryPointSelection={Algorithm=string,ExcludeVaults=[string,string],IncludeVaults=[string,string],RecoveryPointTypes=[string,string],SelectionWindowDays=integer},ScheduleExpression=string,ScheduleExpressionTimezone=string,StartWindowHours=integer JSON Syntax: { "RecoveryPointSelection": { "Algorithm": "LATEST_WITHIN_WINDOW"|"RANDOM_WITHIN_WINDOW", "ExcludeVaults": ["string", ...], "IncludeVaults": ["string", ...], "RecoveryPointTypes": ["CONTINUOUS"|"SNAPSHOT", ...], "SelectionWindowDays": integer }, "ScheduleExpression": "string", "ScheduleExpressionTimezone": "string", "StartWindowHours": integer }</param>
+    /// <param name="RestoreTestingPlanName">The name of the restore testing plan name.</param>
+    public AwsBackupUpdateRestoreTestingPlanOptions(
+        string RestoreTestingPlan,
+        string RestoreTestingPlanName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingPlan);
+        this.RestoreTestingPlan = RestoreTestingPlan;
+        global::System.ArgumentNullException.ThrowIfNull(RestoreTestingPlanName);
+        this.RestoreTestingPlanName = RestoreTestingPlanName;
+    }
+
+    private AwsBackupUpdateRestoreTestingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupUpdateRestoreTestingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupUpdateRestoreTestingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the body of a restore testing plan. RecoveryPointSelection -&gt; (structure) Required: Algorithm ; RecoveryPointTypes ; IncludeVaults (one or more ). Optional: SelectionWindowDays ('30' if not specified ); Exclude- Vaults (defaults to empty list if not listed). Algorithm -&gt; (string) Acceptable values include "LATEST_WITHIN_WINDOW" or "RAN- DOM_WITHIN_WINDOW" Possible values: o LATEST_WITHIN_WINDOW o RANDOM_WITHIN_WINDOW ExcludeVaults -&gt; (list) Accepted values include specific ARNs or list of selectors. Defaults to empty list if not listed. (string) IncludeVaults -&gt; (list) Accepted values include wildcard ["*"] or by specific ARNs or ARN wilcard replacement ["arn:aws:backup:us-west-2:123456789012:backup-vault:asdf", ...] ["arn:aws:backup:::backup-vault:asdf- * ", ...] System Message: WARNING/2 (&lt;string&gt;:, line 143) Inline emphasis start-string without end-string. (string) RecoveryPointTypes -&gt; (list) These are the types of recovery points. Include SNAPSHOT to restore only snapshot recovery points; include CONTINUOUS to restore continuous recovery points (point in time restore / PITR); use both to restore either a snapshot or a continuous recovery point. The recovery point will be determined by the value for Algorithm . (string) Possible values: o CONTINUOUS o SNAPSHOT SelectionWindowDays -&gt; (integer) Accepted values are integers from 1 to 365. If not included, the value defaults to 30. The selection window is calculated from the actual job execution time, not the plan's scheduled start time. ScheduleExpression -&gt; (string) A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *) . ScheduleExpressionTimezone -&gt; (string) Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can mod- ify this to a specified timezone. StartWindowHours -&gt; (integer) Defaults to 24 hours. A value in hours after a restore test is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, this parameter has a maxi- mum value of 168 hours (one week). Shorthand Syntax: RecoveryPointSelection={Algorithm=string,ExcludeVaults=[string,string],IncludeVaults=[string,string],RecoveryPointTypes=[string,string],SelectionWindowDays=integer},ScheduleExpression=string,ScheduleExpressionTimezone=string,StartWindowHours=integer JSON Syntax: { "RecoveryPointSelection": { "Algorithm": "LATEST_WITHIN_WINDOW"|"RANDOM_WITHIN_WINDOW", "ExcludeVaults": ["string", ...], "IncludeVaults": ["string", ...], "RecoveryPointTypes": ["CONTINUOUS"|"SNAPSHOT", ...], "SelectionWindowDays": integer }, "ScheduleExpression": "string", "ScheduleExpressionTimezone": "string", "StartWindowHours": integer }
+    /// </summary>
+    [CliOption("--restore-testing-plan")]
+    public string? RestoreTestingPlan { get; private init; }
+
+    /// <summary>
+    /// The name of the restore testing plan name.
+    /// </summary>
     [CliOption("--restore-testing-plan-name")]
-    public string? RestoreTestingPlanName { get; set; }
+    public string? RestoreTestingPlanName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

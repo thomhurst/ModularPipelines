@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "associate-targets-with-job")]
-public record AwsIotAssociateTargetsWithJobOptions : AwsOptions
+public record AwsIotAssociateTargetsWithJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--targets", GroupValues = true)]
-    public IEnumerable<string>? Targets { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates a group with a continuous job. The following criteria must be met: o The job must have been created with the targetSelection field set to "CONTINUOUS". o The job status must currently be "IN_PROGRESS". o The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Targets">A list of thing group ARNs that define the targets of the job. Constraints: o min: 1 (string) Constraints: o max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    public AwsIotAssociateTargetsWithJobOptions(
+        IEnumerable<string> Targets,
+        string JobId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Targets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Targets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Targets));
+            }
+
+            Targets = materialized;
+        }
+        this.Targets = Targets;
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsIotAssociateTargetsWithJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotAssociateTargetsWithJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotAssociateTargetsWithJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of thing group ARNs that define the targets of the job. Constraints: o min: 1 (string) Constraints: o max: 2048 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--targets", GroupValues = true)]
+    public IEnumerable<string>? Targets { get; private init; }
+
+    /// <summary>
+    /// The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     /// <summary>
     /// An optional comment string describing why the job was associated with the targets. Constraints: o max: 2028 o pattern: [^\p{C}]+
@@ -44,5 +99,21 @@ public record AwsIotAssociateTargetsWithJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

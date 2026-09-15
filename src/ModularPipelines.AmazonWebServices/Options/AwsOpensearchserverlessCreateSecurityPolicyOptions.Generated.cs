@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,22 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearchserverless", "create-security-policy")]
-public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions
+public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--type")]
-    public string? Type { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a security policy to be used by one or more OpenSearch Server- less collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS en- cryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document ty...
+    /// </summary>
+    /// <param name="Type">The type of security policy. Possible values: o encryption o network</param>
+    /// <param name="Name">The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Policy">The JSON policy document to use as the content for the new policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
+    public AwsOpensearchserverlessCreateSecurityPolicyOptions(
+        AwsOpensearchserverlessCreateSecurityPolicyType Type,
+        string Name,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    private AwsOpensearchserverlessCreateSecurityPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchserverlessCreateSecurityPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchserverlessCreateSecurityPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of security policy. Possible values: o encryption o network
+    /// </summary>
+    [CliOption("--type")]
+    public AwsOpensearchserverlessCreateSecurityPolicyType? Type { get; private init; }
+
+    /// <summary>
+    /// The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The JSON policy document to use as the content for the new policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
+    /// </summary>
+    [CliOption("--policy")]
+    public string? Policy { get; private init; }
 
     /// <summary>
     /// A description of the policy. Typically used to store information about the permissions defined in the policy. Constraints: o min: 0 o max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--policy")]
-    public string? Policy { get; set; }
 
     /// <summary>
     /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
@@ -49,5 +101,21 @@ public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

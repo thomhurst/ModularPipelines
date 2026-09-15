@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "list-calculation-executions")]
-public record AwsAthenaListCalculationExecutionsOptions : AwsOptions
+public record AwsAthenaListCalculationExecutionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the calculations that have been submitted to a session in de- scending order. Newer calculations are listed first; older calculations are listed later. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    public AwsAthenaListCalculationExecutionsOptions(
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsAthenaListCalculationExecutionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaListCalculationExecutionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaListCalculationExecutionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The session ID. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     /// <summary>
     /// A filter for a specific calculation execution state. A description of each state follows. CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been re- ceived and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running. Possible values: o CREATING o CREATED o QUEUED o RUNNING o CANCELING o CANCELED o COMPLETED o FAILED
@@ -50,5 +87,21 @@ public record AwsAthenaListCalculationExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("emr", "get-persistent-app-ui-presigned-url")]
-public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions
+public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PersistentAppUiId">The persistent application user interface ID associated with the presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    public AwsEmrGetPersistentAppUiPresignedUrlOptions(
+        string PersistentAppUiId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PersistentAppUiId);
+        this.PersistentAppUiId = PersistentAppUiId;
+    }
+
+    private AwsEmrGetPersistentAppUiPresignedUrlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEmrGetPersistentAppUiPresignedUrlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEmrGetPersistentAppUiPresignedUrlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The persistent application user interface ID associated with the presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// </summary>
     [CliOption("--persistent-app-ui-id")]
-    public string? PersistentAppUiId { get; set; }
+    public string? PersistentAppUiId { get; private init; }
 
     /// <summary>
     /// The persistent application user interface type associated with the presigned URL. Possible values: o SHS o TEZ o YTS
@@ -37,7 +74,10 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CliFlag("--auth-proxy-call")]
+    /// <summary>
+    /// A boolean that represents if the caller is an authentication proxy call.
+    /// </summary>
+    [CliFlag("--auth-proxy-call", NegatedName = "--no-auth-proxy-call")]
     public bool? AuthProxyCall { get; set; }
 
     /// <summary>
@@ -51,5 +91,21 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

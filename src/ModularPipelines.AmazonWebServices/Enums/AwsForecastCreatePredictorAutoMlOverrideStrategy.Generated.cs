@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --automloverridestrategy.
+/// Allowed values for --auto-ml-override-strategy.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsForecastCreatePredictorAutoMlOverrideStrategy
 {
-    [EnumValue("LatencyOptimized")]
-    LatencyOptimized = 1,
-
     [EnumValue("AccuracyOptimized")]
-    AccuracyOptimized = 2
+    AccuracyOptimized,
+
+    [EnumValue("LatencyOptimized")]
+    LatencyOptimized
 }

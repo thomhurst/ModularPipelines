@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-incidents", "list-timeline-events")]
-public record AwsSsmIncidentsListTimelineEventsOptions : AwsOptions
+public record AwsSsmIncidentsListTimelineEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists timeline events for the specified incident record. See also: AWS API Documentation list-timeline-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: eventSummaries
+    /// </summary>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    public AwsSsmIncidentsListTimelineEventsOptions(
+        string IncidentRecordArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IncidentRecordArn);
+        this.IncidentRecordArn = IncidentRecordArn;
+    }
+
+    private AwsSsmIncidentsListTimelineEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmIncidentsListTimelineEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmIncidentsListTimelineEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// </summary>
+    [CliOption("--incident-record-arn")]
+    public string? IncidentRecordArn { get; private init; }
+
     /// <summary>
     /// Filters the timeline events based on the provided conditional val- ues. You can filter timeline events with the following keys: o eventReference o eventTime o eventType Note the following when deciding how to use Filters: o If you don't specify a Filter, the response includes all timeline events. o If you specify more than one filter in a single request, the re- sponse returns timeline events that match all filters. o If you specify a filter with more than one value, the response re- turns timeline events that match any of the values provided. Constraints: o min: 0 o max: 5 (structure) Filter the selection by using a condition. condition -&gt; (tagged union structure) [required] The condition accepts before or after a specified time, equal to a string, or equal to an integer. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: after, before, equals. after -&gt; (timestamp) After the specified timestamp. before -&gt; (timestamp) Before the specified timestamp equals -&gt; (tagged union structure) The value is equal to the provided string or integer. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: integerValues, stringValues. integerValues -&gt; (list) The list of integer values that the filter matches. Constraints: o min: 0 o max: 100 (integer) stringValues -&gt; (list) The list of string values that the filter matches. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 1000 key -&gt; (string) [required] The key that you're filtering on. Constraints: o min: 0 o max: 50 JSON Syntax: [ { "condition": { "after": timestamp, "before": timestamp, "equals": { "integerValues": [integer, ...], "stringValues": ["string", ...] } }, "key": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
-
-    [CliOption("--incident-record-arn")]
-    public string? IncidentRecordArn { get; set; }
 
     /// <summary>
     /// Sort timeline events by the specified key value pair. Possible values: o EVENT_TIME
@@ -68,5 +105,21 @@ public record AwsSsmIncidentsListTimelineEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

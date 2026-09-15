@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53-recovery-cluster", "update-routing-control-state")]
-public record AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions : AwsOptions
+public record AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--routing-control-arn")]
-    public string? RoutingControlArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Set the state of the routing control to reroute traffic. You can set the value to ON or OFF. When the state is ON, traffic flows to a cell. When the state is OFF, traffic does not flow. With Route 53 ARC, you can add safety rules for routing controls, which are safeguards for routing control state updates that help prevent un- expected outcomes, like fail open traffic routing. However, there are scenarios when you might want to bypass the routing control safeguards that are enforced with safety ...
+    /// </summary>
+    /// <param name="RoutingControlArn">The Amazon Resource Name (ARN) for the routing control that you want to update the state for. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$</param>
+    /// <param name="RoutingControlState">The state of the routing control. You can set the value to ON or OFF. Possible values: o On o Off</param>
+    public AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions(
+        string RoutingControlArn,
+        AwsRoute53RecoveryClusterUpdateRoutingControlStateRoutingControlState RoutingControlState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlArn);
+        this.RoutingControlArn = RoutingControlArn;
+        global::System.ArgumentNullException.ThrowIfNull(RoutingControlState);
+        this.RoutingControlState = RoutingControlState;
+    }
+
+    private AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the routing control that you want to update the state for. Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$
+    /// </summary>
+    [CliOption("--routing-control-arn")]
+    public string? RoutingControlArn { get; private init; }
+
+    /// <summary>
+    /// The state of the routing control. You can set the value to ON or OFF. Possible values: o On o Off
+    /// </summary>
     [CliOption("--routing-control-state")]
-    public string? RoutingControlState { get; set; }
+    public AwsRoute53RecoveryClusterUpdateRoutingControlStateRoutingControlState? RoutingControlState { get; private init; }
 
     /// <summary>
     /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide. (string) Constraints: o min: 1 o max: 255 o pattern: ^[A-Za-z0-9:.\/_-]*$ Syntax: "string" "string" ...
@@ -38,5 +83,21 @@ public record AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

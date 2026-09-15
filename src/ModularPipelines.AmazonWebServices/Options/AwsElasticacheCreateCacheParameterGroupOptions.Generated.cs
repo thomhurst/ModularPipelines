@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticache", "create-cache-parameter-group")]
-public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions
+public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the de- fault parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of spe- cific parameters. For more information, see: ...
+    /// </summary>
+    /// <param name="CacheParameterGroupName">A user-specified name for the cache parameter group. This value is stored as a lowercase string.</param>
+    /// <param name="CacheParameterGroupFamily">The name of the cache parameter group family that the cache parame- ter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7</param>
+    /// <param name="Description">A user-specified description for the cache parameter group.</param>
+    public AwsElasticacheCreateCacheParameterGroupOptions(
+        string CacheParameterGroupName,
+        string CacheParameterGroupFamily,
+        string Description
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupName);
+        this.CacheParameterGroupName = CacheParameterGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(CacheParameterGroupFamily);
+        this.CacheParameterGroupFamily = CacheParameterGroupFamily;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+    }
+
+    private AwsElasticacheCreateCacheParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticacheCreateCacheParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticacheCreateCacheParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-specified name for the cache parameter group. This value is stored as a lowercase string.
+    /// </summary>
     [CliOption("--cache-parameter-group-name")]
-    public string? CacheParameterGroupName { get; set; }
+    public string? CacheParameterGroupName { get; private init; }
 
+    /// <summary>
+    /// The name of the cache parameter group family that the cache parame- ter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
+    /// </summary>
     [CliOption("--cache-parameter-group-family")]
-    public string? CacheParameterGroupFamily { get; set; }
+    public string? CacheParameterGroupFamily { get; private init; }
 
+    /// <summary>
+    /// A user-specified description for the cache parameter group.
+    /// </summary>
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public string? Description { get; private init; }
 
     /// <summary>
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

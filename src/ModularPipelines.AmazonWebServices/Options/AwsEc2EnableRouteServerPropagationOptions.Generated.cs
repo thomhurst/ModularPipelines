@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "enable-route-server-propagation")]
-public record AwsEc2EnableRouteServerPropagationOptions : AwsOptions
+public record AwsEc2EnableRouteServerPropagationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Defines which route tables the route server can update with routes. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RouteServerId">The ID of the route server for which to enable propagation.</param>
+    /// <param name="RouteTableId">The ID of the route table to which route server will propagate routes.</param>
+    public AwsEc2EnableRouteServerPropagationOptions(
+        string RouteServerId,
+        string RouteTableId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RouteServerId);
+        this.RouteServerId = RouteServerId;
+        global::System.ArgumentNullException.ThrowIfNull(RouteTableId);
+        this.RouteTableId = RouteTableId;
+    }
+
+    private AwsEc2EnableRouteServerPropagationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2EnableRouteServerPropagationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2EnableRouteServerPropagationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route server for which to enable propagation.
+    /// </summary>
     [CliOption("--route-server-id")]
-    public string? RouteServerId { get; set; }
+    public string? RouteServerId { get; private init; }
 
+    /// <summary>
+    /// The ID of the route table to which route server will propagate routes.
+    /// </summary>
     [CliOption("--route-table-id")]
-    public string? RouteTableId { get; set; }
+    public string? RouteTableId { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsEc2EnableRouteServerPropagationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

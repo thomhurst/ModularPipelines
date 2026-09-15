@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "accept-shared-directory")]
-public record AwsDsAcceptSharedDirectoryOptions : AwsOptions
+public record AwsDsAcceptSharedDirectoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Accepts a directory sharing request that was sent from the directory owner account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SharedDirectoryId">Identifier of the shared directory in the directory consumer ac- count. This identifier is different for each directory owner ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    public AwsDsAcceptSharedDirectoryOptions(
+        string SharedDirectoryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SharedDirectoryId);
+        this.SharedDirectoryId = SharedDirectoryId;
+    }
+
+    private AwsDsAcceptSharedDirectoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsAcceptSharedDirectoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsAcceptSharedDirectoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifier of the shared directory in the directory consumer ac- count. This identifier is different for each directory owner ac- count. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// </summary>
     [CliOption("--shared-directory-id")]
-    public string? SharedDirectoryId { get; set; }
+    public string? SharedDirectoryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

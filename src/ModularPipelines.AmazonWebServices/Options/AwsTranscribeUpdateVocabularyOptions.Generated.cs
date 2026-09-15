@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcribe", "update-vocabulary")]
-public record AwsTranscribeUpdateVocabularyOptions : AwsOptions
+public record AwsTranscribeUpdateVocabularyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vocabulary-name")]
-    public string? VocabularyName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VocabularyName">The name of the custom vocabulary you want to update. Custom vocabu- lary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="LanguageCode">The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a cus- tom vocabulary using US English (en-US ), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA</param>
+    public AwsTranscribeUpdateVocabularyOptions(
+        string VocabularyName,
+        string LanguageCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VocabularyName);
+        this.VocabularyName = VocabularyName;
+        global::System.ArgumentNullException.ThrowIfNull(LanguageCode);
+        this.LanguageCode = LanguageCode;
+    }
+
+    private AwsTranscribeUpdateVocabularyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTranscribeUpdateVocabularyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTranscribeUpdateVocabularyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the custom vocabulary you want to update. Custom vocabu- lary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// </summary>
+    [CliOption("--vocabulary-name")]
+    public string? VocabularyName { get; private init; }
+
+    /// <summary>
+    /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a cus- tom vocabulary using US English (en-US ), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA
+    /// </summary>
     [CliOption("--language-code")]
-    public string? LanguageCode { get; set; }
+    public string? LanguageCode { get; private init; }
 
     /// <summary>
     /// Use this parameter if you want to update your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the Vocabulary- FileUri parameter. Note that if you include Phrases in your request, you cannot use Vo- cabularyFileUri ; you must choose one or the other. Each language has a character set that contains all allowed charac- ters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. (string) Constraints: o min: 0 o max: 256 o pattern: .+ Syntax: "string" "string" ...
@@ -50,5 +94,21 @@ public record AwsTranscribeUpdateVocabularyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudwatch", "get-dataset")]
-public record AwsCloudwatchGetDataSetOptions : AwsOptions
+public record AwsCloudwatchGetDataSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it with- out first creating it. If no customer managed KMS key has been associ- ated with the dataset, the response omits th...
+    /// </summary>
+    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*ac- count-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
+    public AwsCloudwatchGetDataSetOptions(
+        string DataSetIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetIdentifier);
+        this.DataSetIdentifier = DataSetIdentifier;
+    }
+
+    private AwsCloudwatchGetDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudwatchGetDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudwatchGetDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*ac- count-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
+    /// </summary>
     [CliOption("--dataset-identifier")]
-    public string? DataSetIdentifier { get; set; }
+    public string? DataSetIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

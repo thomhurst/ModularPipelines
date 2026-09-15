@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectivitytype.
+/// Allowed values for --connectivity-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2CreateNatGatewayConnectivityType
 {
     [EnumValue("private")]
-    Private = 1,
+    Private,
 
     [EnumValue("public")]
-    Public = 2
+    Public
 }

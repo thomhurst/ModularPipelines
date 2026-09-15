@@ -12,6 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,16 +23,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-sap", "register-application")]
-public record AwsSsmSapRegisterApplicationOptions : AwsOptions
+public record AwsSsmSapRegisterApplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering. The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationType">The type of the application. Possible values: o HANA o SAP_ABAP</param>
+    /// <param name="Instances">The Amazon EC2 instances on which your SAP application is running. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...</param>
+    public AwsSsmSapRegisterApplicationOptions(
+        string ApplicationId,
+        AwsSsmSapRegisterApplicationApplicationType ApplicationType,
+        IEnumerable<string> Instances
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationType);
+        this.ApplicationType = ApplicationType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instances));
+            }
+
+            Instances = materialized;
+        }
+        this.Instances = Instances;
+    }
+
+    private AwsSsmSapRegisterApplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSapRegisterApplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSapRegisterApplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// </summary>
     [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    public string? ApplicationId { get; private init; }
 
+    /// <summary>
+    /// The type of the application. Possible values: o HANA o SAP_ABAP
+    /// </summary>
     [CliOption("--application-type")]
-    public string? ApplicationType { get; set; }
+    public AwsSsmSapRegisterApplicationApplicationType? ApplicationType { get; private init; }
 
+    /// <summary>
+    /// The Amazon EC2 instances on which your SAP application is running. Constraints: o min: 1 o max: 1 (string) Constraints: o pattern: i-[\w\d]{8}$|^i-[\w\d]{17} Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--instances", GroupValues = true)]
-    public IEnumerable<string>? Instances { get; set; }
+    public IEnumerable<string>? Instances { get; private init; }
 
     /// <summary>
     /// The SAP instance number of the application. Constraints: o pattern: [0-9]{2}
@@ -74,5 +137,21 @@ public record AwsSsmSapRegisterApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

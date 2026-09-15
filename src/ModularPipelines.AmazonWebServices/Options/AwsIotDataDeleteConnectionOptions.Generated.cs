@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-data", "delete-connection")]
-public record AwsIotDataDeleteConnectionOptions : AwsOptions
+public record AwsIotDataDeleteConnectionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--client-id")]
-    public string? ClientId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--clean-session")]
+    /// <summary>
+    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state. Requires permission to access the DeleteConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of th...
+    /// </summary>
+    /// <param name="ClientId">The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
+    public AwsIotDataDeleteConnectionOptions(
+        string ClientId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClientId);
+        this.ClientId = ClientId;
+    }
+
+    private AwsIotDataDeleteConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotDataDeleteConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotDataDeleteConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; private init; }
+
+    /// <summary>
+    /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to pre- serve the session state for persistent sessions . For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
+    /// </summary>
+    [CliFlag("--clean-session", NegatedName = "--no-clean-session")]
     public bool? CleanSession { get; set; }
 
-    [CliFlag("--prevent-will-message")]
+    /// <summary>
+    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is pub- lished).
+    /// </summary>
+    [CliFlag("--prevent-will-message", NegatedName = "--no-prevent-will-message")]
     public bool? PreventWillMessage { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +78,21 @@ public record AwsIotDataDeleteConnectionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

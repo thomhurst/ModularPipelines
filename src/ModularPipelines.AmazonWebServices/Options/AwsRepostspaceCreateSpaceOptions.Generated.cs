@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repostspace", "create-space")]
-public record AwsRepostspaceCreateSpaceOptions : AwsOptions
+public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AWS re:Post Private private re:Post. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name for the private re:Post. This must be unique in your ac- count. Constraints: o min: 1 o max: 30</param>
+    /// <param name="Subdomain">The subdomain that you use to access your AWS re:Post Private pri- vate re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: o min: 1 o max: 63</param>
+    /// <param name="Tier">The pricing tier for the private re:Post. Possible values: o BASIC o STANDARD</param>
+    public AwsRepostspaceCreateSpaceOptions(
+        string Name,
+        string Subdomain,
+        AwsRepostspaceCreateSpaceTier Tier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Subdomain);
+        this.Subdomain = Subdomain;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+    }
+
+    private AwsRepostspaceCreateSpaceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRepostspaceCreateSpaceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRepostspaceCreateSpaceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name for the private re:Post. This must be unique in your ac- count. Constraints: o min: 1 o max: 30
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// The subdomain that you use to access your AWS re:Post Private pri- vate re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: o min: 1 o max: 63
+    /// </summary>
     [CliOption("--subdomain")]
-    public string? Subdomain { get; set; }
+    public string? Subdomain { get; private init; }
 
+    /// <summary>
+    /// The pricing tier for the private re:Post. Possible values: o BASIC o STANDARD
+    /// </summary>
     [CliOption("--tier")]
-    public string? Tier { get; set; }
+    public AwsRepostspaceCreateSpaceTier? Tier { get; private init; }
 
     /// <summary>
     /// A description for the private re:Post. This is used only to help you identify this private re:Post. Constraints: o min: 1 o max: 255
@@ -66,5 +118,21 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

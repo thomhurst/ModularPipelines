@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("grafana", "update-permissions")]
-public record AwsGrafanaUpdatePermissionsOptions : AwsOptions
+public record AwsGrafanaUpdatePermissionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--update-instruction-batch", GroupValues = true)]
-    public IEnumerable<string>? UpdateInstructionBatch { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates which users in a workspace have the Grafana Admin or Editor roles. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="UpdateInstructionBatch">An array of structures that contain the permission updates to make. Constraints: o min: 0 o max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role per- missions. Possible values: o ADD o REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: o ADMIN o EDITOR o VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the work- space. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: o min: 1 o max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: o SSO_USER o SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]</param>
+    /// <param name="WorkspaceId">The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    public AwsGrafanaUpdatePermissionsOptions(
+        IEnumerable<string> UpdateInstructionBatch,
+        string WorkspaceId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UpdateInstructionBatch);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UpdateInstructionBatch));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UpdateInstructionBatch));
+            }
+
+            UpdateInstructionBatch = materialized;
+        }
+        this.UpdateInstructionBatch = UpdateInstructionBatch;
+        global::System.ArgumentNullException.ThrowIfNull(WorkspaceId);
+        this.WorkspaceId = WorkspaceId;
+    }
+
+    private AwsGrafanaUpdatePermissionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGrafanaUpdatePermissionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGrafanaUpdatePermissionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An array of structures that contain the permission updates to make. Constraints: o min: 0 o max: 20 (structure) Contains the instructions for one Grafana role permission update in a UpdatePermissions operation. action -&gt; (string) [required] Specifies whether this update is to add or revoke role per- missions. Possible values: o ADD o REVOKE role -&gt; (string) [required] The role to add or revoke for the user or the group specified in users . Possible values: o ADMIN o EDITOR o VIEWER users -&gt; (list) [required] A structure that specifies the user or group to add or revoke the role for. (structure) A structure that specifies one user or group in the work- space. id -&gt; (string) [required] The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Constraints: o min: 1 o max: 47 type -&gt; (string) [required] Specifies whether this is a single user or a group. Possible values: o SSO_USER o SSO_GROUP Shorthand Syntax: action=string,role=string,users=[{id=string,type=string},{id=string,type=string}] ... JSON Syntax: [ { "action": "ADD"|"REVOKE", "role": "ADMIN"|"EDITOR"|"VIEWER", "users": [ { "id": "string", "type": "SSO_USER"|"SSO_GROUP" } ... ] } ... ]
+    /// </summary>
+    [CliOption("--update-instruction-batch", GroupValues = true)]
+    public IEnumerable<string>? UpdateInstructionBatch { get; private init; }
+
+    /// <summary>
+    /// The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}
+    /// </summary>
     [CliOption("--workspace-id")]
-    public string? WorkspaceId { get; set; }
+    public string? WorkspaceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

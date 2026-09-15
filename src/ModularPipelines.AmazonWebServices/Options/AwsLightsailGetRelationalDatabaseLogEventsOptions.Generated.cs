@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-relational-database-log-events")]
-public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions
+public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns a list of log events for a database in Amazon Lightsail. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of your database for which to get log events. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="LogStreamName">The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.</param>
+    public AwsLightsailGetRelationalDatabaseLogEventsOptions(
+        string RelationalDatabaseName,
+        string LogStreamName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(LogStreamName);
+        this.LogStreamName = LogStreamName;
+    }
+
+    private AwsLightsailGetRelationalDatabaseLogEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetRelationalDatabaseLogEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetRelationalDatabaseLogEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your database for which to get log events. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--relational-database-name")]
+    public string? RelationalDatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
+    /// </summary>
     [CliOption("--log-stream-name")]
-    public string? LogStreamName { get; set; }
+    public string? LogStreamName { get; private init; }
 
     /// <summary>
     /// The start of the time interval from which to get log events. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.
@@ -40,7 +84,10 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CliFlag("--start-from-head")]
+    /// <summary>
+    /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log. NOTE: For PostgreSQL, the default value of false is the only option available.
+    /// </summary>
+    [CliFlag("--start-from-head", NegatedName = "--no-start-from-head")]
     public bool? StartFromHead { get; set; }
 
     /// <summary>
@@ -55,5 +102,21 @@ public record AwsLightsailGetRelationalDatabaseLogEventsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

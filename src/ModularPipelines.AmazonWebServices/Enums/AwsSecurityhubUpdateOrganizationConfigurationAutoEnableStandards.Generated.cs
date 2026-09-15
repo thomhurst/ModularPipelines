@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --autoenablestandards.
+/// Allowed values for --auto-enable-standards.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityhubUpdateOrganizationConfigurationAutoEnableStandards
 {
-    [EnumValue("NONE")]
-    None = 1,
-
     [EnumValue("DEFAULT")]
-    Default = 2
+    Default,
+
+    [EnumValue("NONE")]
+    None
 }

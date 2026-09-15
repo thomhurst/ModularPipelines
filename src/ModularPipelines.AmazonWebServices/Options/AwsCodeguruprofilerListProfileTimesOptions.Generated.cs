@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codeguruprofiler", "list-profile-times")]
-public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions
+public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists the start times of the available aggregated profiles of a profil- ing group for an aggregation period within the specified time range. See also: AWS API Documentation list-profile-times is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// </summary>
+    /// <param name="EndTime">The end time of the time range from which to list the profiles.</param>
+    /// <param name="Period">The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. o P1D 1 day o PT1H 1 hour o PT5M 5 minutes Possible values: o PT5M o PT1H o P1D</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="StartTime">The start time of the time range from which to list the profiles.</param>
+    public AwsCodeguruprofilerListProfileTimesOptions(
+        string EndTime,
+        AwsCodeguruprofilerListProfileTimesPeriod Period,
+        string ProfilingGroupName,
+        string StartTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+        global::System.ArgumentNullException.ThrowIfNull(Period);
+        this.Period = Period;
+        global::System.ArgumentNullException.ThrowIfNull(ProfilingGroupName);
+        this.ProfilingGroupName = ProfilingGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+    }
+
+    private AwsCodeguruprofilerListProfileTimesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodeguruprofilerListProfileTimesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodeguruprofilerListProfileTimesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The end time of the time range from which to list the profiles.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
+
+    /// <summary>
+    /// The aggregation period. This specifies the period during which an aggregation profile collects posted agent profiles for a profiling group. There are 3 valid values. o P1D 1 day o PT1H 1 hour o PT5M 5 minutes Possible values: o PT5M o PT1H o P1D
+    /// </summary>
+    [CliOption("--period")]
+    public AwsCodeguruprofilerListProfileTimesPeriod? Period { get; private init; }
+
+    /// <summary>
+    /// The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// </summary>
+    [CliOption("--profiling-group-name")]
+    public string? ProfilingGroupName { get; private init; }
+
+    /// <summary>
+    /// The start time of the time range from which to list the profiles.
+    /// </summary>
+    [CliOption("--start-time")]
+    public string? StartTime { get; private init; }
 
     /// <summary>
     /// The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING . Possible values: o TimestampDescending o TimestampAscending
     /// </summary>
     [CliOption("--order-by")]
     public AwsCodeguruprofilerListProfileTimesOrderBy? OrderBy { get; set; }
-
-    [CliOption("--period")]
-    public string? Period { get; set; }
-
-    [CliOption("--profiling-group-name")]
-    public string? ProfilingGroupName { get; set; }
-
-    [CliOption("--start-time")]
-    public string? StartTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -65,5 +123,21 @@ public record AwsCodeguruprofilerListProfileTimesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

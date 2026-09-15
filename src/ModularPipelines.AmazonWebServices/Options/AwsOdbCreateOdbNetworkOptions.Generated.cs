@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,10 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-odb-network")]
-public record AwsOdbCreateOdbNetworkOptions : AwsOptions
+public record AwsOdbCreateOdbNetworkOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an ODB network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DisplayName">A user-friendly name for the ODB network. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="ClientSubnetCidr">The CIDR range of the client subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the backup subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43</param>
+    public AwsOdbCreateOdbNetworkOptions(
+        string DisplayName,
+        string ClientSubnetCidr
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ClientSubnetCidr);
+        this.ClientSubnetCidr = ClientSubnetCidr;
+    }
+
+    private AwsOdbCreateOdbNetworkOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateOdbNetworkOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateOdbNetworkOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-friendly name for the ODB network. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The CIDR range of the client subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the backup subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43
+    /// </summary>
+    [CliOption("--client-subnet-cidr")]
+    public string? ClientSubnetCidr { get; private init; }
 
     /// <summary>
     /// The Amazon Web Services Availability Zone (AZ) where the ODB network is located. This operation requires that you specify a value for either avail- abilityZone or availabilityZoneId . Constraints: o min: 1 o max: 255
@@ -38,9 +85,6 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
-
-    [CliOption("--client-subnet-cidr")]
-    public string? ClientSubnetCidr { get; set; }
 
     /// <summary>
     /// The CIDR range of the backup subnet for the ODB network. Constraints: o Must not overlap with the CIDR range of the client subnet. o Must not overlap with the CIDR ranges of the VPCs that are con- nected to the ODB network. o Must not use the following CIDR ranges that are reserved by OCI: o 100.106.0.0/16 and 100.107.0.0/16 o 169.254.0.0/16 o 224.0.0.0 - 239.255.255.255 o 240.0.0.0 - 255.255.255.255 Constraints: o min: 1 o max: 43
@@ -126,5 +170,21 @@ public record AwsOdbCreateOdbNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

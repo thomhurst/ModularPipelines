@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "batch-disassociate-analytics-data-set")]
-public record AwsConnectBatchDisassociateAnalyticsDataSetOptions : AwsOptions
+public record AwsConnectBatchDisassociateAnalyticsDataSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a list of analytics datasets associated with a given Connect Customer instance. You can disassociate multiple datasets in a single call. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataSetIds">An array of associated dataset identifiers to remove. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    public AwsConnectBatchDisassociateAnalyticsDataSetOptions(
+        string InstanceId,
+        IEnumerable<string> DataSetIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DataSetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DataSetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DataSetIds));
+            }
+
+            DataSetIds = materialized;
+        }
+        this.DataSetIds = DataSetIds;
+    }
+
+    private AwsConnectBatchDisassociateAnalyticsDataSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectBatchDisassociateAnalyticsDataSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectBatchDisassociateAnalyticsDataSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// An array of associated dataset identifiers to remove. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--data-set-ids", GroupValues = true)]
-    public IEnumerable<string>? DataSetIds { get; set; }
+    public IEnumerable<string>? DataSetIds { get; private init; }
 
     /// <summary>
     /// The identifier of the target account. Use to disassociate a dataset from a different account than the one containing the Connect Cus- tomer instance. If not specified, by default this value is the Ama- zon Web Services account that has the Connect Customer instance.
@@ -38,5 +93,21 @@ public record AwsConnectBatchDisassociateAnalyticsDataSetOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

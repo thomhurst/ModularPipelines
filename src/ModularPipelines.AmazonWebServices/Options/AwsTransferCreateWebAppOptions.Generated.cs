@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "create-web-app")]
-public record AwsTransferCreateWebAppOptions : AwsOptions
+public record AwsTransferCreateWebAppOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessi- ble or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IdentityProviderDetails">You can provide a structure that contains the details for the iden- tity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: o min: 10 o max: 1224 o pattern: arn:[\w-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }</param>
+    public AwsTransferCreateWebAppOptions(
+        string IdentityProviderDetails
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IdentityProviderDetails);
+        this.IdentityProviderDetails = IdentityProviderDetails;
+    }
+
+    private AwsTransferCreateWebAppOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferCreateWebAppOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferCreateWebAppOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// You can provide a structure that contains the details for the iden- tity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: IdentityCenterConfig. IdentityCenterConfig -&gt; (structure) A structure that describes the values to use for the IAM Iden- tity Center settings when you create a web app. InstanceArn -&gt; (string) The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app. Constraints: o min: 10 o max: 1224 o pattern: arn:[\w-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Role -&gt; (string) The IAM role in IAM Identity Center used for the web app. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+ Shorthand Syntax: IdentityCenterConfig={InstanceArn=string,Role=string} JSON Syntax: { "IdentityCenterConfig": { "InstanceArn": "string", "Role": "string" } }
+    /// </summary>
     [CliOption("--identity-provider-details")]
-    public string? IdentityProviderDetails { get; set; }
+    public string? IdentityProviderDetails { get; private init; }
 
     /// <summary>
     /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in Update your access endpoint with a custom URL . Constraints: o min: 1 o max: 1024
@@ -60,5 +97,21 @@ public record AwsTransferCreateWebAppOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dynamodbstreams", "get-shard-iterator")]
-public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions
+public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard. NOTE: A shard iterator expires 15 minutes after it is returned to the re- quester. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="ShardId">The identifier of the shard. The iterator will be returned for this shard ID. Constraints: o min: 28 o max: 65</param>
+    /// <param name="ShardIteratorType">Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER</param>
+    public AwsDynamodbstreamsGetShardIteratorOptions(
+        string StreamArn,
+        string ShardId,
+        AwsDynamodbstreamsGetShardIteratorShardIteratorType ShardIteratorType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamArn);
+        this.StreamArn = StreamArn;
+        global::System.ArgumentNullException.ThrowIfNull(ShardId);
+        this.ShardId = ShardId;
+        global::System.ArgumentNullException.ThrowIfNull(ShardIteratorType);
+        this.ShardIteratorType = ShardIteratorType;
+    }
+
+    private AwsDynamodbstreamsGetShardIteratorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDynamodbstreamsGetShardIteratorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDynamodbstreamsGetShardIteratorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024
+    /// </summary>
     [CliOption("--stream-arn")]
-    public string? StreamArn { get; set; }
+    public string? StreamArn { get; private init; }
 
+    /// <summary>
+    /// The identifier of the shard. The iterator will be returned for this shard ID. Constraints: o min: 28 o max: 65
+    /// </summary>
     [CliOption("--shard-id")]
-    public string? ShardId { get; set; }
+    public string? ShardId { get; private init; }
 
+    /// <summary>
+    /// Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER
+    /// </summary>
     [CliOption("--shard-iterator-type")]
-    public string? ShardIteratorType { get; set; }
+    public AwsDynamodbstreamsGetShardIteratorShardIteratorType? ShardIteratorType { get; private init; }
 
     /// <summary>
     /// The sequence number of a stream record in the shard from which to start reading. Constraints: o min: 21 o max: 40
@@ -41,5 +93,21 @@ public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

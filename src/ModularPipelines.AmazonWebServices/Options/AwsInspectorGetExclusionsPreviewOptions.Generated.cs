@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,14 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "get-exclusions-preview")]
-public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions
+public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--assessment-template-arn")]
-    public string? AssessmentTemplateArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the exclusions preview (a list of ExclusionPreview objects) specified by the preview token. You can obtain the preview token by running the CreateExclusionsPreview API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentTemplateArn">The ARN that specifies the assessment template for which the exclu- sions preview was requested. Constraints: o min: 1 o max: 300</param>
+    /// <param name="PreviewToken">The unique identifier associated of the exclusions preview. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsInspectorGetExclusionsPreviewOptions(
+        string AssessmentTemplateArn,
+        string PreviewToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentTemplateArn);
+        this.AssessmentTemplateArn = AssessmentTemplateArn;
+        global::System.ArgumentNullException.ThrowIfNull(PreviewToken);
+        this.PreviewToken = PreviewToken;
+    }
+
+    private AwsInspectorGetExclusionsPreviewOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorGetExclusionsPreviewOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorGetExclusionsPreviewOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN that specifies the assessment template for which the exclu- sions preview was requested. Constraints: o min: 1 o max: 300
+    /// </summary>
+    [CliOption("--assessment-template-arn")]
+    public string? AssessmentTemplateArn { get; private init; }
+
+    /// <summary>
+    /// The unique identifier associated of the exclusions preview. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [SecretValue]
     [CliOption("--preview-token")]
-    public string? PreviewToken { get; set; }
+    public string? PreviewToken { get; private init; }
 
     /// <summary>
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the GetExclusionsPre- viewRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. Constraints: o min: 1 o max: 300
@@ -54,5 +98,21 @@ public record AwsInspectorGetExclusionsPreviewOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

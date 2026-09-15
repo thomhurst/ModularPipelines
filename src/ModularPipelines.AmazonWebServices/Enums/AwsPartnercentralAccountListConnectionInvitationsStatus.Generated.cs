@@ -16,18 +16,18 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsPartnercentralAccountListConnectionInvitationsStatus
 {
-    [EnumValue("PENDING")]
-    Pending = 1,
-
     [EnumValue("ACCEPTED")]
-    Accepted = 2,
-
-    [EnumValue("REJECTED")]
-    Rejected = 3,
+    Accepted,
 
     [EnumValue("CANCELED")]
-    Canceled = 4,
+    Canceled,
 
     [EnumValue("EXPIRED")]
-    Expired = 5
+    Expired,
+
+    [EnumValue("PENDING")]
+    Pending,
+
+    [EnumValue("REJECTED")]
+    Rejected
 }

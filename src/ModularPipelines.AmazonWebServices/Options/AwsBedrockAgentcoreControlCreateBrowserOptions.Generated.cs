@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agentcore-control", "create-browser")]
-public record AwsBedrockAgentcoreControlCreateBrowserOptions : AwsOptions
+public record AwsBedrockAgentcoreControlCreateBrowserOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a custom browser. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the browser. The name must be unique within your ac- count. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="NetworkConfiguration">The network configuration for the browser. This configuration speci- fies the network mode for the browser. networkMode -&gt; (string) [required] The network mode for the browser. This field specifies how the browser connects to the network. Possible values: o PUBLIC o VPC vpcConfig -&gt; (structure) The VPC configuration for the browser. This configuration is re- quired when the network mode is set to VPC . securityGroups -&gt; (list) [required] The security groups associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: sg-[0-9a-zA-Z]{8,17} subnets -&gt; (list) [required] The subnets associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: subnet-[0-9a-zA-Z]{8,17} requireServiceS3Endpoint -&gt; (boolean) NOTE: This field applies only to Agent Runtimes. It is not ap- plicable to Browsers or Code Interpreters. Controls whether a service-managed Amazon S3 gateway endpoint is provisioned in the VPC network topology for the agent run- time. This gateway is used by Amazon Bedrock AgentCore Run- time to download code and container images during agent startup. Starting May 5, 2026, Amazon Bedrock AgentCore Runtime is gradually rolling out a change to how network isolation is configured for VPC mode agents. Agent runtimes created on or after this rollout will no longer include the service-managed Amazon S3 gateway. Instead, all network access, including to Amazon S3, is governed exclusively by your VPC configuration. This field cannot be set on agent runtimes created after the rollout. Passing this field in an UpdateAgentRuntime request for these agent runtimes returns a ValidationException . Agent runtimes created before the rollout are not affected and continue to operate with the service-managed Amazon S3 gateway. To enforce full VPC network isolation on these ex- isting agent runtimes, set this field to false via the Up- dateAgentRuntime API. Before opting out, ensure your VPC pro- vides the Amazon S3 access required for agent startup. If this field is not specified or is set to true , the ser- vice-managed Amazon S3 gateway remains provisioned. This field is only supported in the UpdateAgentRuntime API for pre-rollout agent runtimes. Passing this field in a Cre- ateAgentRuntime request returns a ValidationException . Shorthand Syntax: networkMode=string,vpcConfig={securityGroups=[string,string],subnets=[string,string],requireServiceS3Endpoint=boolean} JSON Syntax: { "networkMode": "PUBLIC"|"VPC", "vpcConfig": { "securityGroups": ["string", ...], "subnets": ["string", ...], "requireServiceS3Endpoint": true|false } }</param>
+    public AwsBedrockAgentcoreControlCreateBrowserOptions(
+        string Name,
+        string NetworkConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkConfiguration);
+        this.NetworkConfiguration = NetworkConfiguration;
+    }
+
+    private AwsBedrockAgentcoreControlCreateBrowserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentcoreControlCreateBrowserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentcoreControlCreateBrowserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the browser. The name must be unique within your ac- count. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The network configuration for the browser. This configuration speci- fies the network mode for the browser. networkMode -&gt; (string) [required] The network mode for the browser. This field specifies how the browser connects to the network. Possible values: o PUBLIC o VPC vpcConfig -&gt; (structure) The VPC configuration for the browser. This configuration is re- quired when the network mode is set to VPC . securityGroups -&gt; (list) [required] The security groups associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: sg-[0-9a-zA-Z]{8,17} subnets -&gt; (list) [required] The subnets associated with the VPC configuration. Constraints: o min: 1 o max: 16 (string) Constraints: o pattern: subnet-[0-9a-zA-Z]{8,17} requireServiceS3Endpoint -&gt; (boolean) NOTE: This field applies only to Agent Runtimes. It is not ap- plicable to Browsers or Code Interpreters. Controls whether a service-managed Amazon S3 gateway endpoint is provisioned in the VPC network topology for the agent run- time. This gateway is used by Amazon Bedrock AgentCore Run- time to download code and container images during agent startup. Starting May 5, 2026, Amazon Bedrock AgentCore Runtime is gradually rolling out a change to how network isolation is configured for VPC mode agents. Agent runtimes created on or after this rollout will no longer include the service-managed Amazon S3 gateway. Instead, all network access, including to Amazon S3, is governed exclusively by your VPC configuration. This field cannot be set on agent runtimes created after the rollout. Passing this field in an UpdateAgentRuntime request for these agent runtimes returns a ValidationException . Agent runtimes created before the rollout are not affected and continue to operate with the service-managed Amazon S3 gateway. To enforce full VPC network isolation on these ex- isting agent runtimes, set this field to false via the Up- dateAgentRuntime API. Before opting out, ensure your VPC pro- vides the Amazon S3 access required for agent startup. If this field is not specified or is set to true , the ser- vice-managed Amazon S3 gateway remains provisioned. This field is only supported in the UpdateAgentRuntime API for pre-rollout agent runtimes. Passing this field in a Cre- ateAgentRuntime request returns a ValidationException . Shorthand Syntax: networkMode=string,vpcConfig={securityGroups=[string,string],subnets=[string,string],requireServiceS3Endpoint=boolean} JSON Syntax: { "networkMode": "PUBLIC"|"VPC", "vpcConfig": { "securityGroups": ["string", ...], "subnets": ["string", ...], "requireServiceS3Endpoint": true|false } }
+    /// </summary>
+    [CliOption("--network-configuration")]
+    public string? NetworkConfiguration { get; private init; }
 
     /// <summary>
     /// The description of the browser. Constraints: o min: 1 o max: 4096
@@ -37,9 +84,6 @@ public record AwsBedrockAgentcoreControlCreateBrowserOptions : AwsOptions
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
-
-    [CliOption("--network-configuration")]
-    public string? NetworkConfiguration { get; set; }
 
     /// <summary>
     /// The recording configuration for the browser. When enabled, browser sessions are recorded and stored in the specified Amazon S3 loca- tion. enabled -&gt; (boolean) Indicates whether recording is enabled for the browser. When set to true, browser sessions are recorded. s3Location -&gt; (structure) The Amazon S3 location where browser recordings are stored. This location contains the recorded browser sessions. bucket -&gt; (string) [required] The name of the Amazon S3 bucket. This bucket contains the stored data. Constraints: o pattern: [a-z0-9][a-z0-9.-]{1,61}[a-z0-9] prefix -&gt; (string) [required] The prefix for objects in the Amazon S3 bucket. This prefix is added to the object keys to organize the data. Constraints: o min: 1 o max: 1024 versionId -&gt; (string) The version ID of the Amazon Amazon S3 object. If not speci- fied, the latest version of the object is used. Constraints: o min: 3 o max: 1024 Shorthand Syntax: enabled=boolean,s3Location={bucket=string,prefix=string,versionId=string} JSON Syntax: { "enabled": true|false, "s3Location": { "bucket": "string", "prefix": "string", "versionId": "string" } }
@@ -89,5 +133,21 @@ public record AwsBedrockAgentcoreControlCreateBrowserOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

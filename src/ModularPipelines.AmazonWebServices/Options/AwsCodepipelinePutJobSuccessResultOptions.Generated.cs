@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("codepipeline", "put-job-success-result")]
-public record AwsCodepipelinePutJobSuccessResultOptions : AwsOptions
+public record AwsCodepipelinePutJobSuccessResultOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="JobId">The unique system-generated ID of the job that succeeded. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    public AwsCodepipelinePutJobSuccessResultOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    private AwsCodepipelinePutJobSuccessResultOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCodepipelinePutJobSuccessResultOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCodepipelinePutJobSuccessResultOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique system-generated ID of the job that succeeded. This is the same ID returned from PollForJobs . Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--job-id")]
-    public string? JobId { get; set; }
+    public string? JobId { get; private init; }
 
     /// <summary>
     /// The ID of the current revision of the artifact successfully worked on by the job. revision -&gt; (string) [required] The revision ID of the current version of an artifact. Constraints: o min: 1 o max: 1500 changeIdentifier -&gt; (string) [required] The change identifier for the current revision. Constraints: o min: 1 o max: 100 created -&gt; (timestamp) The date and time when the most recent revision of the artifact was created, in timestamp format. revisionSummary -&gt; (string) The summary of the most recent revision of the artifact. Constraints: o min: 1 o max: 2048 Shorthand Syntax: revision=string,changeIdentifier=string,created=timestamp,revisionSummary=string JSON Syntax: { "revision": "string", "changeIdentifier": "string", "created": timestamp, "revisionSummary": "string" }
@@ -56,5 +93,21 @@ public record AwsCodepipelinePutJobSuccessResultOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

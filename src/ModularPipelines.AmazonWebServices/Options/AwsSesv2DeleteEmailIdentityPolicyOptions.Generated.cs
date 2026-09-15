@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sesv2", "delete-email-identity-policy")]
-public record AwsSesv2DeleteEmailIdentityPolicyOptions : AwsOptions
+public record AwsSesv2DeleteEmailIdentityPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--email-identity")]
-    public string? EmailIdentity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
+    /// </summary>
+    /// <param name="EmailIdentity">The email identity. Constraints: o min: 1</param>
+    /// <param name="PolicyName">The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64</param>
+    public AwsSesv2DeleteEmailIdentityPolicyOptions(
+        string EmailIdentity,
+        string PolicyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EmailIdentity);
+        this.EmailIdentity = EmailIdentity;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+    }
+
+    private AwsSesv2DeleteEmailIdentityPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesv2DeleteEmailIdentityPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesv2DeleteEmailIdentityPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email identity. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--email-identity")]
+    public string? EmailIdentity { get; private init; }
+
+    /// <summary>
+    /// The name of the policy. The policy name cannot exceed 64 characters and can only include al- phanumeric characters, dashes, and underscores. Constraints: o min: 1 o max: 64
+    /// </summary>
     [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
+    public string? PolicyName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

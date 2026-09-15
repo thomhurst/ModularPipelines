@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock-agent-runtime", "get-document-content")]
-public record AwsBedrockAgentRuntimeGetDocumentContentOptions : AwsOptions
+public record AwsBedrockAgentRuntimeGetDocumentContentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSourceId">The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="DocumentId">The unique identifier of the document to retrieve content for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$</param>
+    public AwsBedrockAgentRuntimeGetDocumentContentOptions(
+        string DataSourceId,
+        string DocumentId,
+        string KnowledgeBaseId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceId);
+        this.DataSourceId = DataSourceId;
+        global::System.ArgumentNullException.ThrowIfNull(DocumentId);
+        this.DocumentId = DocumentId;
+        global::System.ArgumentNullException.ThrowIfNull(KnowledgeBaseId);
+        this.KnowledgeBaseId = KnowledgeBaseId;
+    }
+
+    private AwsBedrockAgentRuntimeGetDocumentContentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockAgentRuntimeGetDocumentContentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockAgentRuntimeGetDocumentContentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the data source that contains the document. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// </summary>
     [CliOption("--data-source-id")]
-    public string? DataSourceId { get; set; }
+    public string? DataSourceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the document to retrieve content for. Constraints: o min: 1 o max: 1825 o pattern: ^\P{C}*$
+    /// </summary>
     [CliOption("--document-id")]
-    public string? DocumentId { get; set; }
+    public string? DocumentId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the knowledge base that contains the docu- ment. Constraints: o min: 10 o max: 2048 o pattern: ^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]{10}$
+    /// </summary>
     [CliOption("--knowledge-base-id")]
-    public string? KnowledgeBaseId { get; set; }
+    public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
     /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW . Possible values: o RAW o EXTRACTED
@@ -48,5 +99,21 @@ public record AwsBedrockAgentRuntimeGetDocumentContentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

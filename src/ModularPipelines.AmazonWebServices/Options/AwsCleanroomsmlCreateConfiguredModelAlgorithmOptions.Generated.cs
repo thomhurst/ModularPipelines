@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanroomsml", "create-configured-model-algorithm")]
-public record AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions : AwsOptions
+public record AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a configured model algorithm using a container image stored in an ECR repository. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the configured model algorithm. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the role that is used to access the repository. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+</param>
+    public AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions(
+        string Name,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the configured model algorithm. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the role that is used to access the repository. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// The description of the configured model algorithm. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// Configuration information for the training container, including en- trypoints and arguments. imageUri -&gt; (string) [required] The registry path of the docker image that contains the algo- rithm. Clean Rooms ML currently only supports the reg- istry/repository[:tag] image path format. For more information about using images in Clean Rooms ML, see the Sagemaker API ref- erence . Constraints: o min: 1 o max: 255 o pattern: .* entrypoint -&gt; (list) The entrypoint script for a Docker container used to run a training job. This script takes precedence over the default train processing instructions. See How Amazon SageMaker Runs Your Training Image for additional information. For more infor- mation, see How Sagemaker runs your training image . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 o pattern: .* arguments -&gt; (list) The arguments for a container used to run a training job. See How Amazon SageMaker Runs Your Training Image for additional in- formation. For more information, see How Sagemaker runs your training image . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 o pattern: .* metricDefinitions -&gt; (list) A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon Web Services Clean Rooms ML publishes each metric to all members' Amazon CloudWatch using IAM role configured in PutMLConfiguration . Constraints: o min: 0 o max: 40 (structure) Information about the model metric that is reported for a trained model. name -&gt; (string) [required] The name of the model metric. Constraints: o min: 1 o max: 255 o pattern: .+ regex -&gt; (string) [required] The regular expression statement that defines how the model metric is reported. Constraints: o min: 1 o max: 500 o pattern: .+ Shorthand Syntax: imageUri=string,entrypoint=string,string,arguments=string,string,metricDefinitions=[{name=string,regex=string},{name=string,regex=string}] JSON Syntax: { "imageUri": "string", "entrypoint": ["string", ...], "arguments": ["string", ...], "metricDefinitions": [ { "name": "string", "regex": "string" } ... ] }
@@ -63,5 +107,21 @@ public record AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

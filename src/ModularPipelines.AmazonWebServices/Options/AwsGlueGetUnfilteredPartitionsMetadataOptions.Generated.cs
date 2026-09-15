@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "get-unfiltered-partitions-metadata")]
-public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions
+public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CatalogId">The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table that contains the partition. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="SupportedPermissionTypes">A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
+    public AwsGlueGetUnfilteredPartitionsMetadataOptions(
+        string CatalogId,
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> SupportedPermissionTypes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CatalogId);
+        this.CatalogId = CatalogId;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SupportedPermissionTypes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SupportedPermissionTypes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SupportedPermissionTypes));
+            }
+
+            SupportedPermissionTypes = materialized;
+        }
+        this.SupportedPermissionTypes = SupportedPermissionTypes;
+    }
+
+    private AwsGlueGetUnfilteredPartitionsMetadataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueGetUnfilteredPartitionsMetadataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueGetUnfilteredPartitionsMetadataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--catalog-id")]
-    public string? CatalogId { get; set; }
+    public string? CatalogId { get; private init; }
 
+    /// <summary>
+    /// The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// The name of the table that contains the partition. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
     [CliOption("--table-name")]
-    public string? TableName { get; set; }
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--supported-permission-types", GroupValues = true)]
+    public IEnumerable<string>? SupportedPermissionTypes { get; private init; }
 
     /// <summary>
     /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression. Operators : The following are the operators that you can use in the Expression API call: = Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20. (a = b) is not true. &lt; &gt; Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true. &gt; Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true. &lt; Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true. &gt;= Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true. &lt;= Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition be- comes true. Example: (a &lt;= b) is true. AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL Logical operators. Supported Partition Key Types : The following are the supported partition keys. o string o date o timestamp o int o bigint o long o tinyint o smallint o decimal If an type is encountered that is not valid, an exception is thrown. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
@@ -42,9 +114,6 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
-
-    [CliOption("--supported-permission-types", GroupValues = true)]
-    public IEnumerable<string>? SupportedPermissionTypes { get; set; }
 
     /// <summary>
     /// A continuation token, if this is not the first call to retrieve these partitions.
@@ -82,5 +151,21 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

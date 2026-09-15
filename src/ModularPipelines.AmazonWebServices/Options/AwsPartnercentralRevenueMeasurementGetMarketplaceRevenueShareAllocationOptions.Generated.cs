@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "get-marketplace-revenue-share-allocation")]
-public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves the details of a specific marketplace revenue share alloca- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog that the allocation belongs to. Possible values: o AWS o Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier of the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareAllocationId">The unique identifier of the allocation to retrieve. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}</param>
+    public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions(
+        AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationCatalog Catalog,
+        string ProductId,
+        string MarketplaceRevenueShareAllocationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(ProductId);
+        this.ProductId = ProductId;
+        global::System.ArgumentNullException.ThrowIfNull(MarketplaceRevenueShareAllocationId);
+        this.MarketplaceRevenueShareAllocationId = MarketplaceRevenueShareAllocationId;
+    }
+
+    private AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog that the allocation belongs to. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
 
+    /// <summary>
+    /// The AWS Marketplace product identifier of the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--product-id")]
-    public string? ProductId { get; set; }
+    public string? ProductId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the allocation to retrieve. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}
+    /// </summary>
     [CliOption("--marketplace-revenue-share-allocation-id")]
-    public string? MarketplaceRevenueShareAllocationId { get; set; }
+    public string? MarketplaceRevenueShareAllocationId { get; private init; }
 
     /// <summary>
     /// The revision of the parent marketplace revenue share at which to re- trieve the allocation. Omit to return the latest. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
@@ -41,5 +93,21 @@ public record AwsPartnercentralRevenueMeasurementGetMarketplaceRevenueShareAlloc
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,20 +11,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --shippingoption.
+/// Allowed values for --shipping-option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSnowballCreateReturnShippingLabelShippingOption
 {
-    [EnumValue("SECOND_DAY")]
-    SecondDay = 1,
+    [EnumValue("EXPRESS")]
+    Express,
 
     [EnumValue("NEXT_DAY")]
-    NextDay = 2,
+    NextDay,
 
-    [EnumValue("EXPRESS")]
-    Express = 3,
+    [EnumValue("SECOND_DAY")]
+    SecondDay,
 
     [EnumValue("STANDARD")]
-    Standard = 4
+    Standard
 }

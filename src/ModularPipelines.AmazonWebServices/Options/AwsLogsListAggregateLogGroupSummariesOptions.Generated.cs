@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,15 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "list-aggregate-log-group-summaries")]
-public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions
+public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated sum- maries of log groups from source accounts that are linked to the moni- toring account. For more information about using cross-account observ- ability to set up monitoring accounts and source accounts, see CloudWatch cros...
+    /// </summary>
+    /// <param name="GroupBy">Specifies how to group the log groups in the summary. Possible values: o DATA_SOURCE_NAME_TYPE_AND_FORMAT o DATA_SOURCE_NAME_AND_TYPE</param>
+    public AwsLogsListAggregateLogGroupSummariesOptions(
+        AwsLogsListAggregateLogGroupSummariesGroupBy GroupBy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+        this.GroupBy = GroupBy;
+    }
+
+    private AwsLogsListAggregateLogGroupSummariesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsListAggregateLogGroupSummariesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsListAggregateLogGroupSummariesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies how to group the log groups in the summary. Possible values: o DATA_SOURCE_NAME_TYPE_AND_FORMAT o DATA_SOURCE_NAME_AND_TYPE
+    /// </summary>
+    [CliOption("--group-by")]
+    public AwsLogsListAggregateLogGroupSummariesGroupBy? GroupBy { get; private init; }
+
     /// <summary>
     /// When includeLinkedAccounts is set to true , use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-identifiers", GroupValues = true)]
     public IEnumerable<string>? AccountIdentifiers { get; set; }
 
-    [CliFlag("--include-linked-accounts")]
+    /// <summary>
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdenti- fiers . If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false .
+    /// </summary>
+    [CliFlag("--include-linked-accounts", NegatedName = "--no-include-linked-accounts")]
     public bool? IncludeLinkedAccounts { get; set; }
 
     /// <summary>
@@ -49,9 +92,6 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions
     /// </summary>
     [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
-
-    [CliOption("--group-by")]
-    public string? GroupBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -77,5 +117,21 @@ public record AwsLogsListAggregateLogGroupSummariesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

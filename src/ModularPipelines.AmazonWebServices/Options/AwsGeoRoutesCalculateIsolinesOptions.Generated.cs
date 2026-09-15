@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("geo-routes", "calculate-isolines")]
-public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
+public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify de- livery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including: o Service area visualization - Show customers the area you can serve with...
+    /// </summary>
+    /// <param name="Thresholds">The distance or time thresholds used to determine reachable areas. You can specify up to five thresholds (which all must be the same type) to calculate multiple isolines in a single request. For exam- ple, to determine the areas that are reachable within 10 and 20 min- utes of the origin, specify time thresholds of 600 and 1200 seconds. You incur a calculation charge for each threshold. Using a large number of thresholds in a request can lead to unexpected charges. For more information, see Routes pricing in the Amazon Location Ser- vice Developer Guide . Distance -&gt; (list) List of travel distances in meters. For example, [1000, 2000, 5000] would calculate areas reachable within 1, 2, and 5 kilome- ters. Constraints: o min: 1 o max: 5 (long) Constraints: o min: 0 o max: 300000 Time -&gt; (list) List of travel times in seconds. For example, [300, 600, 900] would calculate areas reachable within 5, 10, and 15 minutes. Constraints: o min: 1 o max: 5 (long) Constraints: o min: 0 o max: 10800 Shorthand Syntax: Distance=long,long,Time=long,long JSON Syntax: { "Distance": [long, ...], "Time": [long, ...] }</param>
+    public AwsGeoRoutesCalculateIsolinesOptions(
+        string Thresholds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Thresholds);
+        this.Thresholds = Thresholds;
+    }
+
+    private AwsGeoRoutesCalculateIsolinesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGeoRoutesCalculateIsolinesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGeoRoutesCalculateIsolinesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The distance or time thresholds used to determine reachable areas. You can specify up to five thresholds (which all must be the same type) to calculate multiple isolines in a single request. For exam- ple, to determine the areas that are reachable within 10 and 20 min- utes of the origin, specify time thresholds of 600 and 1200 seconds. You incur a calculation charge for each threshold. Using a large number of thresholds in a request can lead to unexpected charges. For more information, see Routes pricing in the Amazon Location Ser- vice Developer Guide . Distance -&gt; (list) List of travel distances in meters. For example, [1000, 2000, 5000] would calculate areas reachable within 1, 2, and 5 kilome- ters. Constraints: o min: 1 o max: 5 (long) Constraints: o min: 0 o max: 300000 Time -&gt; (list) List of travel times in seconds. For example, [300, 600, 900] would calculate areas reachable within 5, 10, and 15 minutes. Constraints: o min: 1 o max: 5 (long) Constraints: o min: 0 o max: 10800 Shorthand Syntax: Distance=long,long,Time=long,long JSON Syntax: { "Distance": [long, ...], "Time": [long, ...] }
+    /// </summary>
+    [CliOption("--thresholds")]
+    public string? Thresholds { get; private init; }
+
     /// <summary>
     /// Enables special road types or features that should be considered for routing even if they might be restricted by default for the selected travel mode. These include high-occupancy vehicle and toll lanes. Hot -&gt; (boolean) When true, allows the use of HOT (high-occupancy toll) lanes, which may affect travel times and reachable areas. Default value: false Hov -&gt; (boolean) When true, allows the use of HOV (high-occupancy vehicle) lanes, which may affect travel times and reachable areas. Default value: false Shorthand Syntax: Hot=boolean,Hov=boolean JSON Syntax: { "Hot": true|false, "Hov": true|false }
     /// </summary>
@@ -40,7 +80,10 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
     [CliOption("--avoid")]
     public string? Avoid { get; set; }
 
-    [CliFlag("--depart-now")]
+    /// <summary>
+    /// When true, uses the current time as the departure time and takes current traffic conditions into account. This attribute cannot be used together with DepartureTime or ArrivalTime .
+    /// </summary>
+    [CliFlag("--depart-now", NegatedName = "--no-depart-now")]
     public bool? DepartNow { get; set; }
 
     /// <summary>
@@ -103,9 +146,6 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
     [CliOption("--origin-options")]
     public string? OriginOptions { get; set; }
 
-    [CliOption("--thresholds")]
-    public string? Thresholds { get; set; }
-
     /// <summary>
     /// Configures how real-time and historical traffic data affects isoline calculations. Traffic patterns can significantly impact reachable areas, especially during peak hours. FlowEventThresholdOverride -&gt; (long) The duration in seconds that real-time congestion data is con- sidered valid before reverting to historical traffic patterns. This helps balance between using current conditions and more predictable historical data when calculating travel times. Unit : seconds Constraints: o min: 0 o max: 4294967295 Usage -&gt; (string) Controls whether traffic data is used in calculations. UseTraf- ficData considers both real-time congestion and historical pat- terns, while IgnoreTrafficData calculates routes based solely on road types and speed limits. Using traffic data provides more accurate real-world estimates but may produce different results at different times of day. Default value: UseTrafficData Possible values: o IgnoreTrafficData o UseTrafficData Shorthand Syntax: FlowEventThresholdOverride=long,Usage=string JSON Syntax: { "FlowEventThresholdOverride": long, "Usage": "IgnoreTrafficData"|"UseTrafficData" }
     /// </summary>
@@ -129,5 +169,21 @@ public record AwsGeoRoutesCalculateIsolinesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

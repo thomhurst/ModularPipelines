@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "describe-schema")]
-public record AwsSchemasDescribeSchemaOptions : AwsOptions
+public record AwsSchemasDescribeSchemaOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieve the schema definition. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryName">The name of the registry.</param>
+    /// <param name="SchemaName">The name of the schema.</param>
+    public AwsSchemasDescribeSchemaOptions(
+        string RegistryName,
+        string SchemaName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaName);
+        this.SchemaName = SchemaName;
+    }
+
+    private AwsSchemasDescribeSchemaOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSchemasDescribeSchemaOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSchemasDescribeSchemaOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
+    [CliOption("--registry-name")]
+    public string? RegistryName { get; private init; }
+
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaName { get; set; }
+    public string? SchemaName { get; private init; }
 
     /// <summary>
     /// Specifying this limits the results to only this schema version.
@@ -38,5 +82,21 @@ public record AwsSchemasDescribeSchemaOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

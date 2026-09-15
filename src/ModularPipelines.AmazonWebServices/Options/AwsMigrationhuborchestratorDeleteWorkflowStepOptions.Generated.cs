@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhuborchestrator", "delete-workflow-step")]
-public record AwsMigrationhuborchestratorDeleteWorkflowStepOptions : AwsOptions
+public record AwsMigrationhuborchestratorDeleteWorkflowStepOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Delete a step in a migration workflow. Pause the workflow to delete a running step. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The ID of the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="StepGroupId">The ID of the step group that contains the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    public AwsMigrationhuborchestratorDeleteWorkflowStepOptions(
+        string Id,
+        string StepGroupId,
+        string WorkflowId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        global::System.ArgumentNullException.ThrowIfNull(StepGroupId);
+        this.StepGroupId = StepGroupId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowId);
+        this.WorkflowId = WorkflowId;
+    }
+
+    private AwsMigrationhuborchestratorDeleteWorkflowStepOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhuborchestratorDeleteWorkflowStepOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhuborchestratorDeleteWorkflowStepOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
+    /// <summary>
+    /// The ID of the step group that contains the step you want to delete. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--step-group-id")]
-    public string? StepGroupId { get; set; }
+    public string? StepGroupId { get; private init; }
 
+    /// <summary>
+    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [CliOption("--workflow-id")]
-    public string? WorkflowId { get; set; }
+    public string? WorkflowId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

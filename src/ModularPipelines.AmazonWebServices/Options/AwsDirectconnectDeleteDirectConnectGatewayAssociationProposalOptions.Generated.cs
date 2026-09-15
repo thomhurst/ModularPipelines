@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("directconnect", "delete-direct-connect-gateway-association-proposal")]
-public record AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions : AwsOptions
+public record AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProposalId">The ID of the proposal.</param>
+    public AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions(
+        string ProposalId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProposalId);
+        this.ProposalId = ProposalId;
+    }
+
+    private AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDirectconnectDeleteDirectConnectGatewayAssociationProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the proposal.
+    /// </summary>
     [CliOption("--proposal-id")]
-    public string? ProposalId { get; set; }
+    public string? ProposalId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

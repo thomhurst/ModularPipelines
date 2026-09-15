@@ -11,23 +11,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --datauploadfrequency.
+/// Allowed values for --data-upload-frequency.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLookoutequipmentUpdateInferenceSchedulerDataUploadFrequency
 {
-    [EnumValue("PT5M")]
-    Pt5M = 1,
-
     [EnumValue("PT10M")]
-    Pt10M = 2,
+    Pt10M,
 
     [EnumValue("PT15M")]
-    Pt15M = 3,
-
-    [EnumValue("PT30M")]
-    Pt30M = 4,
+    Pt15M,
 
     [EnumValue("PT1H")]
-    Pt1H = 5
+    Pt1H,
+
+    [EnumValue("PT30M")]
+    Pt30M,
+
+    [EnumValue("PT5M")]
+    Pt5M
 }

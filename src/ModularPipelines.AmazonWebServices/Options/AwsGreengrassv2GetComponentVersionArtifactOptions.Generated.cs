@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "get-component-version-artifact")]
-public record AwsGreengrassv2GetComponentVersionArtifactOptions : AwsOptions
+public record AwsGreengrassv2GetComponentVersionArtifactOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--arn")]
-    public string? Arn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Gets the pre-signed URL to download a public or a Lambda component ar- tifact. Core devices call this operation to identify the URL that they can use to download an artifact to install. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Arn">The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+</param>
+    /// <param name="ArtifactName">The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the arti- fact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: o min: 1</param>
+    public AwsGreengrassv2GetComponentVersionArtifactOptions(
+        string Arn,
+        string ArtifactName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Arn);
+        this.Arn = Arn;
+        global::System.ArgumentNullException.ThrowIfNull(ArtifactName);
+        this.ArtifactName = ArtifactName;
+    }
+
+    private AwsGreengrassv2GetComponentVersionArtifactOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2GetComponentVersionArtifactOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2GetComponentVersionArtifactOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the component version. Specify the ARN of a public or a Lambda component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+
+    /// </summary>
+    [CliOption("--arn")]
+    public string? Arn { get; private init; }
+
+    /// <summary>
+    /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the arti- fact URI greengrass:SomeArtifact.zip , the artifact name is SomeArtifact.zip . Constraints: o min: 1
+    /// </summary>
     [CliOption("--artifact-name")]
-    public string? ArtifactName { get; set; }
+    public string? ArtifactName { get; private init; }
 
     /// <summary>
     /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use RE- GIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL , but you can change it to REGIONAL with this parameter. Possible values: o REGIONAL o GLOBAL
@@ -45,5 +89,21 @@ public record AwsGreengrassv2GetComponentVersionArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

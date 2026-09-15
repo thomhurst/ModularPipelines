@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,75 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "create-cluster")]
-public record AwsKafkaCreateClusterOptions : AwsOptions
+public record AwsKafkaCreateClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new MSK cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BrokerNodeGroupInfo">Information about the broker nodes in the cluster. BrokerAZDistribution -&gt; (string) The distribution of broker nodes across Availability Zones. This is an optional parameter. If you don't specify it, Ama- zon MSK gives it the value DEFAULT. You can also explicitly set this parameter to the value DEFAULT. No other values are currently allowed. Amazon MSK distributes the broker nodes evenly across the Availability Zones that correspond to the subnets you provide when you create the cluster. Possible values: o DEFAULT ClientSubnets -&gt; (list) [required] The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't occupy the Avail- ability Zone with ID use use1-az3. (string) InstanceType -&gt; (string) [required] The type of Amazon EC2 instances to use for Apache Kafka bro- kers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge, kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge. Constraints: o min: 5 o max: 32 SecurityGroups -&gt; (list) The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communi- cate with the Amazon MSK cluster. If you don't specify a secu- rity group, Amazon MSK uses the default security group associ- ated with the VPC. (string) StorageInfo -&gt; (structure) Contains information about storage volumes attached to MSK bro- ker nodes. EbsStorageInfo -&gt; (structure) EBS volume information. ProvisionedThroughput -&gt; (structure) EBS volume provisioned throughput information. Enabled -&gt; (boolean) Provisioned throughput is enabled or not. VolumeThroughput -&gt; (integer) Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second. VolumeSize -&gt; (integer) The size in GiB of the EBS volume for the data drive on each broker node. Constraints: o min: 1 o max: 16384 ConnectivityInfo -&gt; (structure) Information about the broker access configuration. PublicAccess -&gt; (structure) Public access control for brokers. Type -&gt; (string) The value DISABLED indicates that public access is turned off. SERVICE_PROVIDED_EIPS indicates that public access is turned on. VpcConnectivity -&gt; (structure) VPC connectivity access control for brokers. ClientAuthentication -&gt; (structure) Includes all client authentication information for VPC connectivity. Sasl -&gt; (structure) SASL authentication type details for VPC connectivity. Scram -&gt; (structure) Details for SASL/SCRAM client authentication for VPC connectivity. Enabled -&gt; (boolean) SASL/SCRAM authentication is on or off for VPC connectivity. Iam -&gt; (structure) Details for SASL/IAM client authentication for VPC connectivity. Enabled -&gt; (boolean) SASL/IAM authentication is on or off for VPC connectivity. Tls -&gt; (structure) TLS authentication type details for VPC connectivity. Enabled -&gt; (boolean) TLS authentication is on or off for VPC connectiv- ity. NetworkType -&gt; (string) The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources. By default, a cluster uses the IPv4 network type. Possible values: o IPV4 o DUAL ZoneIds -&gt; (list) The list of zoneIds for the cluster in the virtual private cloud (VPC). (string) JSON Syntax: { "BrokerAZDistribution": "DEFAULT", "ClientSubnets": ["string", ...], "InstanceType": "string", "SecurityGroups": ["string", ...], "StorageInfo": { "EbsStorageInfo": { "ProvisionedThroughput": { "Enabled": true|false, "VolumeThroughput": integer }, "VolumeSize": integer } }, "ConnectivityInfo": { "PublicAccess": { "Type": "string" }, "VpcConnectivity": { "ClientAuthentication": { "Sasl": { "Scram": { "Enabled": true|false }, "Iam": { "Enabled": true|false } }, "Tls": { "Enabled": true|false } } }, "NetworkType": "IPV4"|"DUAL" }, "ZoneIds": ["string", ...] }</param>
+    /// <param name="ClusterName">The name of the cluster. Constraints: o min: 1 o max: 64</param>
+    /// <param name="KafkaVersion">The version of Apache Kafka. Constraints: o min: 1 o max: 128</param>
+    /// <param name="NumberOfBrokerNodes">The number of broker nodes in the cluster. Constraints: o min: 1 o max: 15</param>
+    public AwsKafkaCreateClusterOptions(
+        string BrokerNodeGroupInfo,
+        string ClusterName,
+        string KafkaVersion,
+        int NumberOfBrokerNodes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BrokerNodeGroupInfo);
+        this.BrokerNodeGroupInfo = BrokerNodeGroupInfo;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+        global::System.ArgumentNullException.ThrowIfNull(KafkaVersion);
+        this.KafkaVersion = KafkaVersion;
+        this.NumberOfBrokerNodes = NumberOfBrokerNodes;
+    }
+
+    private AwsKafkaCreateClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaCreateClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaCreateClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the broker nodes in the cluster. BrokerAZDistribution -&gt; (string) The distribution of broker nodes across Availability Zones. This is an optional parameter. If you don't specify it, Ama- zon MSK gives it the value DEFAULT. You can also explicitly set this parameter to the value DEFAULT. No other values are currently allowed. Amazon MSK distributes the broker nodes evenly across the Availability Zones that correspond to the subnets you provide when you create the cluster. Possible values: o DEFAULT ClientSubnets -&gt; (list) [required] The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't occupy the Avail- ability Zone with ID use use1-az3. (string) InstanceType -&gt; (string) [required] The type of Amazon EC2 instances to use for Apache Kafka bro- kers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge, kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge. Constraints: o min: 5 o max: 32 SecurityGroups -&gt; (list) The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communi- cate with the Amazon MSK cluster. If you don't specify a secu- rity group, Amazon MSK uses the default security group associ- ated with the VPC. (string) StorageInfo -&gt; (structure) Contains information about storage volumes attached to MSK bro- ker nodes. EbsStorageInfo -&gt; (structure) EBS volume information. ProvisionedThroughput -&gt; (structure) EBS volume provisioned throughput information. Enabled -&gt; (boolean) Provisioned throughput is enabled or not. VolumeThroughput -&gt; (integer) Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second. VolumeSize -&gt; (integer) The size in GiB of the EBS volume for the data drive on each broker node. Constraints: o min: 1 o max: 16384 ConnectivityInfo -&gt; (structure) Information about the broker access configuration. PublicAccess -&gt; (structure) Public access control for brokers. Type -&gt; (string) The value DISABLED indicates that public access is turned off. SERVICE_PROVIDED_EIPS indicates that public access is turned on. VpcConnectivity -&gt; (structure) VPC connectivity access control for brokers. ClientAuthentication -&gt; (structure) Includes all client authentication information for VPC connectivity. Sasl -&gt; (structure) SASL authentication type details for VPC connectivity. Scram -&gt; (structure) Details for SASL/SCRAM client authentication for VPC connectivity. Enabled -&gt; (boolean) SASL/SCRAM authentication is on or off for VPC connectivity. Iam -&gt; (structure) Details for SASL/IAM client authentication for VPC connectivity. Enabled -&gt; (boolean) SASL/IAM authentication is on or off for VPC connectivity. Tls -&gt; (structure) TLS authentication type details for VPC connectivity. Enabled -&gt; (boolean) TLS authentication is on or off for VPC connectiv- ity. NetworkType -&gt; (string) The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources. By default, a cluster uses the IPv4 network type. Possible values: o IPV4 o DUAL ZoneIds -&gt; (list) The list of zoneIds for the cluster in the virtual private cloud (VPC). (string) JSON Syntax: { "BrokerAZDistribution": "DEFAULT", "ClientSubnets": ["string", ...], "InstanceType": "string", "SecurityGroups": ["string", ...], "StorageInfo": { "EbsStorageInfo": { "ProvisionedThroughput": { "Enabled": true|false, "VolumeThroughput": integer }, "VolumeSize": integer } }, "ConnectivityInfo": { "PublicAccess": { "Type": "string" }, "VpcConnectivity": { "ClientAuthentication": { "Sasl": { "Scram": { "Enabled": true|false }, "Iam": { "Enabled": true|false } }, "Tls": { "Enabled": true|false } } }, "NetworkType": "IPV4"|"DUAL" }, "ZoneIds": ["string", ...] }
+    /// </summary>
     [CliOption("--broker-node-group-info")]
-    public string? BrokerNodeGroupInfo { get; set; }
+    public string? BrokerNodeGroupInfo { get; private init; }
+
+    /// <summary>
+    /// The name of the cluster. Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; private init; }
+
+    /// <summary>
+    /// The version of Apache Kafka. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--kafka-version")]
+    public string? KafkaVersion { get; private init; }
+
+    /// <summary>
+    /// The number of broker nodes in the cluster. Constraints: o min: 1 o max: 15
+    /// </summary>
+    [CliOption("--number-of-broker-nodes")]
+    public int? NumberOfBrokerNodes { get; private init; }
 
     /// <summary>
     /// Specifies if intelligent rebalancing should be turned on for the new MSK Provisioned cluster with Express brokers. By default, intelli- gent rebalancing status is ACTIVE for all new clusters. Status -&gt; (string) Intelligent rebalancing status. The default intelligent re- balancing status is ACTIVE for all new Express-based clus- ters. Possible values: o PAUSED o ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }
@@ -37,9 +103,6 @@ public record AwsKafkaCreateClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--client-authentication")]
     public string? ClientAuthentication { get; set; }
-
-    [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
 
     /// <summary>
     /// Represents the configuration that you want MSK to use for the bro- kers in a cluster. Arn -&gt; (string) [required] ARN of the configuration to use. Revision -&gt; (long) [required] The revision of the configuration to use. Shorthand Syntax: Arn=string,Revision=long JSON Syntax: { "Arn": "string", "Revision": long }
@@ -65,14 +128,8 @@ public record AwsKafkaCreateClusterOptions : AwsOptions
     [CliOption("--open-monitoring")]
     public string? OpenMonitoring { get; set; }
 
-    [CliOption("--kafka-version")]
-    public string? KafkaVersion { get; set; }
-
     [CliOption("--logging-info")]
     public string? LoggingInfo { get; set; }
-
-    [CliOption("--number-of-broker-nodes")]
-    public int? NumberOfBrokerNodes { get; set; }
 
     /// <summary>
     /// Create tags when creating the cluster. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -91,5 +148,21 @@ public record AwsKafkaCreateClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

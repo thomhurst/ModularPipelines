@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "search-channels")]
-public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions
+public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Fields">A list of the Field objects in the channel being searched. Constraints: o min: 1 o max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on member- ships. You can use it with the EQUALS operator to get chan- nels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: o MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES op- erator to find channels whose memberships include the speci- fied values. Possible values: o EQUALS o INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]</param>
+    public AwsChimeSdkMessagingSearchChannelsOptions(
+        IEnumerable<string> Fields
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Fields);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Fields));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Fields));
+            }
+
+            Fields = materialized;
+        }
+        this.Fields = Fields;
+    }
+
+    private AwsChimeSdkMessagingSearchChannelsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingSearchChannelsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingSearchChannelsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of the Field objects in the channel being searched. Constraints: o min: 1 o max: 20 (structure) A Field of the channel that you want to search. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Key -&gt; (string) [required] An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on member- ships. You can use it with the EQUALS operator to get chan- nels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values. Possible values: o MEMBERS Values -&gt; (list) [required] The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 512 o pattern: [\s\S]* Operator -&gt; (string) [required] The operator used to compare field values, currently EQUALS or INCLUDES . Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES op- erator to find channels whose memberships include the speci- fied values. Possible values: o EQUALS o INCLUDES Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "MEMBERS", "Values": ["string", ...], "Operator": "EQUALS"|"INCLUDES" } ... ]
+    /// </summary>
+    [CliOption("--fields", GroupValues = true)]
+    public IEnumerable<string>? Fields { get; private init; }
+
     /// <summary>
     /// The AppInstanceUserArn of the user making the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; set; }
-
-    [CliOption("--fields", GroupValues = true)]
-    public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>
     /// The maximum number of channels that you want returned. Constraints: o min: 1 o max: 50
@@ -49,5 +97,21 @@ public record AwsChimeSdkMessagingSearchChannelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

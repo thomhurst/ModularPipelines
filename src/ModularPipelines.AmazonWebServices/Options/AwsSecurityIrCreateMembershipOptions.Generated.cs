@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,20 +22,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security-ir", "create-membership")]
-public record AwsSecurityIrCreateMembershipOptions : AwsOptions
+public record AwsSecurityIrCreateMembershipOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new membership. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MembershipName">Required element used in combination with CreateMembership to create a name for the membership. Constraints: o min: 3 o max: 50</param>
+    /// <param name="IncidentResponseTeam">Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]</param>
+    public AwsSecurityIrCreateMembershipOptions(
+        string MembershipName,
+        IEnumerable<string> IncidentResponseTeam
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipName);
+        this.MembershipName = MembershipName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IncidentResponseTeam);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IncidentResponseTeam));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IncidentResponseTeam));
+            }
+
+            IncidentResponseTeam = materialized;
+        }
+        this.IncidentResponseTeam = IncidentResponseTeam;
+    }
+
+    private AwsSecurityIrCreateMembershipOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityIrCreateMembershipOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityIrCreateMembershipOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Required element used in combination with CreateMembership to create a name for the membership. Constraints: o min: 3 o max: 50
+    /// </summary>
+    [CliOption("--membership-name")]
+    public string? MembershipName { get; private init; }
+
+    /// <summary>
+    /// Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
+    /// </summary>
+    [CliOption("--incident-response-team", GroupValues = true)]
+    public IEnumerable<string>? IncidentResponseTeam { get; private init; }
+
     /// <summary>
     /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--membership-name")]
-    public string? MembershipName { get; set; }
-
-    [CliOption("--incident-response-team", GroupValues = true)]
-    public IEnumerable<string>? IncidentResponseTeam { get; set; }
 
     /// <summary>
     /// Optional element to enable the monitoring and investigation opt-in features for the service. Constraints: o min: 1 o max: 2 (structure) featureName -&gt; (string) [required] Possible values: o Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
@@ -48,7 +103,10 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliFlag("--cover-entire-organization")]
+    /// <summary>
+    /// The coverEntireOrganization parameter is a boolean flag that deter- mines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts. This parameter is optional. If not specified, the default value is false. o If set to true : The membership will automatically include all ex- isting and future accounts in the Amazon Web Services Organiza- tion. o If set to false : The membership will only apply to explicitly specified accounts.
+    /// </summary>
+    [CliFlag("--cover-entire-organization", NegatedName = "--no-cover-entire-organization")]
     public bool? CoverEntireOrganization { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -56,5 +114,21 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

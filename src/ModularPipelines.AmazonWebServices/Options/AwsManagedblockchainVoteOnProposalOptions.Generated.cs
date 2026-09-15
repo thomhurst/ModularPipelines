@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +21,97 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedblockchain", "vote-on-proposal")]
-public record AwsManagedblockchainVoteOnProposalOptions : AwsOptions
+public record AwsManagedblockchainVoteOnProposalOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Casts a vote for a specified ProposalId on behalf of a member. The mem- ber to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkId">The unique identifier of the network. Constraints: o min: 1 o max: 32</param>
+    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: o min: 1 o max: 32</param>
+    /// <param name="VoterMemberId">The unique identifier of the member casting the vote. Constraints: o min: 1 o max: 32</param>
+    /// <param name="Vote">The value of the vote. Possible values: o YES o NO</param>
+    public AwsManagedblockchainVoteOnProposalOptions(
+        string NetworkId,
+        string ProposalId,
+        string VoterMemberId,
+        AwsManagedblockchainVoteOnProposalVote Vote
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkId);
+        this.NetworkId = NetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(ProposalId);
+        this.ProposalId = ProposalId;
+        global::System.ArgumentNullException.ThrowIfNull(VoterMemberId);
+        this.VoterMemberId = VoterMemberId;
+        global::System.ArgumentNullException.ThrowIfNull(Vote);
+        this.Vote = Vote;
+    }
+
+    private AwsManagedblockchainVoteOnProposalOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsManagedblockchainVoteOnProposalOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsManagedblockchainVoteOnProposalOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--network-id")]
-    public string? NetworkId { get; set; }
+    public string? NetworkId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the proposal. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--proposal-id")]
-    public string? ProposalId { get; set; }
+    public string? ProposalId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the member casting the vote. Constraints: o min: 1 o max: 32
+    /// </summary>
     [CliOption("--voter-member-id")]
-    public string? VoterMemberId { get; set; }
+    public string? VoterMemberId { get; private init; }
 
+    /// <summary>
+    /// The value of the vote. Possible values: o YES o NO
+    /// </summary>
     [CliOption("--vote")]
-    public string? Vote { get; set; }
+    public AwsManagedblockchainVoteOnProposalVote? Vote { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

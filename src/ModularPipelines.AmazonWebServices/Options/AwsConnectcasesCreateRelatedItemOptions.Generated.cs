@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcases", "create-related-item")]
-public record AwsConnectcasesCreateRelatedItemOptions : AwsOptions
+public record AwsConnectcasesCreateRelatedItemOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type re- lated item. See Amazon Connect Cases quotas . Use cases Following are examples of related items that you may want to associate with a case: o Related contacts, such as calls, chats, emails tasks o Comments, for agent notes o SLAs, to capture target resolution goals o Cases, to capture related Amazon Connect Cases o Files, such as policy docum...
+    /// </summary>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Type">The type of a related item. Possible values: o Contact o Comment o File o Sla o ConnectCase o Custom</param>
+    /// <param name="Content">The content of a related item to be created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: contact, comment, file, sla, connectCase, custom. contact -&gt; (structure) Object representing a contact in Amazon Connect as an API re- quest field. contactArn -&gt; (string) [required] A unique identifier of a contact in Amazon Connect. Constraints: o min: 1 o max: 500 comment -&gt; (structure) Represents the content of a comment to be returned to agents. body -&gt; (string) [required] Text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain file -&gt; (structure) A file of related items. fileArn -&gt; (string) [required] The Amazon Resource Name (ARN) of a File in Amazon Connect. Constraints: o min: 1 o max: 500 sla -&gt; (tagged union structure) Represents the content of an SLA to be created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: slaInputConfiguration. slaInputConfiguration -&gt; (structure) Represents an input SLA configuration. name -&gt; (string) [required] Name of an SLA. Constraints: o min: 1 o max: 500 o pattern: .*[\S] type -&gt; (string) [required] Type of SLA. Possible values: o CaseField fieldId -&gt; (string) Unique identifier of a field. Constraints: o min: 1 o max: 500 targetFieldValues -&gt; (list) Represents a list of target field values for the fieldId specified in SlaInputConfiguration. The SLA is considered met if any one of these target field values matches the actual field value. Constraints: o min: 1 o max: 1 (tagged union structure) Object to store union of Field values. NOTE: The Summary system field accepts up to 3000 char- acters, while all other fields accept up to 4100 characters. If you use multi-byte characters, the effective character limit may be lower. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. targetSlaMinutes -&gt; (long) [required] Target duration in minutes within which an SLA should be completed. Constraints: o min: 1 o max: 1051200 connectCase -&gt; (structure) Represents the Amazon Connect case to be created as a related item. caseId -&gt; (string) [required] A unique identifier of the case. Constraints: o min: 1 o max: 500 custom -&gt; (structure) Represents the content of a Custom type related item. fields -&gt; (list) [required] List of field values for the Custom related item. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "contact": { "contactArn": "string" }, "comment": { "body": "string", "contentType": "Text/Plain" }, "file": { "fileArn": "string" }, "sla": { "slaInputConfiguration": { "name": "string", "type": "CaseField", "fieldId": "string", "targetFieldValues": [ { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } ... ], "targetSlaMinutes": long } }, "connectCase": { "caseId": "string" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }</param>
+    public AwsConnectcasesCreateRelatedItemOptions(
+        string DomainId,
+        string CaseId,
+        AwsConnectcasesCreateRelatedItemType Type,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainId);
+        this.DomainId = DomainId;
+        global::System.ArgumentNullException.ThrowIfNull(CaseId);
+        this.CaseId = CaseId;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsConnectcasesCreateRelatedItemOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcasesCreateRelatedItemOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcasesCreateRelatedItemOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--domain-id")]
-    public string? DomainId { get; set; }
+    public string? DomainId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// </summary>
     [CliOption("--case-id")]
-    public string? CaseId { get; set; }
+    public string? CaseId { get; private init; }
 
+    /// <summary>
+    /// The type of a related item. Possible values: o Contact o Comment o File o Sla o ConnectCase o Custom
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsConnectcasesCreateRelatedItemType? Type { get; private init; }
 
+    /// <summary>
+    /// The content of a related item to be created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: contact, comment, file, sla, connectCase, custom. contact -&gt; (structure) Object representing a contact in Amazon Connect as an API re- quest field. contactArn -&gt; (string) [required] A unique identifier of a contact in Amazon Connect. Constraints: o min: 1 o max: 500 comment -&gt; (structure) Represents the content of a comment to be returned to agents. body -&gt; (string) [required] Text in the body of a Comment on a case. Constraints: o min: 1 o max: 15000 contentType -&gt; (string) [required] Type of the text in the box of a Comment on a case. Possible values: o Text/Plain file -&gt; (structure) A file of related items. fileArn -&gt; (string) [required] The Amazon Resource Name (ARN) of a File in Amazon Connect. Constraints: o min: 1 o max: 500 sla -&gt; (tagged union structure) Represents the content of an SLA to be created. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: slaInputConfiguration. slaInputConfiguration -&gt; (structure) Represents an input SLA configuration. name -&gt; (string) [required] Name of an SLA. Constraints: o min: 1 o max: 500 o pattern: .*[\S] type -&gt; (string) [required] Type of SLA. Possible values: o CaseField fieldId -&gt; (string) Unique identifier of a field. Constraints: o min: 1 o max: 500 targetFieldValues -&gt; (list) Represents a list of target field values for the fieldId specified in SlaInputConfiguration. The SLA is considered met if any one of these target field values matches the actual field value. Constraints: o min: 1 o max: 1 (tagged union structure) Object to store union of Field values. NOTE: The Summary system field accepts up to 3000 char- acters, while all other fields accept up to 4100 characters. If you use multi-byte characters, the effective character limit may be lower. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. targetSlaMinutes -&gt; (long) [required] Target duration in minutes within which an SLA should be completed. Constraints: o min: 1 o max: 1051200 connectCase -&gt; (structure) Represents the Amazon Connect case to be created as a related item. caseId -&gt; (string) [required] A unique identifier of the case. Constraints: o min: 1 o max: 500 custom -&gt; (structure) Represents the content of a Custom type related item. fields -&gt; (list) [required] List of field values for the Custom related item. Constraints: o min: 1 o max: 50 (structure) Object for case field values. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 value -&gt; (tagged union structure) [required] Union of potential field value types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, doubleValue, booleanValue, emptyValue, userArn- Value. stringValue -&gt; (string) String value type. Constraints: o min: 0 o max: 4100 doubleValue -&gt; (double) Can be either null, or have a Double number value type. Only one value can be provided. booleanValue -&gt; (boolean) Can be either null, or have a Boolean value type. Only one value can be provided. emptyValue -&gt; (structure) An empty value. userArnValue -&gt; (string) Represents the user that performed the audit. JSON Syntax: { "contact": { "contactArn": "string" }, "comment": { "body": "string", "contentType": "Text/Plain" }, "file": { "fileArn": "string" }, "sla": { "slaInputConfiguration": { "name": "string", "type": "CaseField", "fieldId": "string", "targetFieldValues": [ { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } ... ], "targetSlaMinutes": long } }, "connectCase": { "caseId": "string" }, "custom": { "fields": [ { "id": "string", "value": { "stringValue": "string", "doubleValue": double, "booleanValue": true|false, "emptyValue": { }, "userArnValue": "string" } } ... ] } }
+    /// </summary>
     [CliOption("--content")]
-    public string? Content { get; set; }
+    public string? Content { get; private init; }
 
     /// <summary>
     /// Represents the creator of the related item. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: userArn, customEntity. userArn -&gt; (string) Represents the Amazon Connect ARN of the user. Constraints: o min: 1 o max: 500 customEntity -&gt; (string) Any provided entity. Constraints: o min: 1 o max: 500 o pattern: [a-zA-Z0-9_\-\.@:/ ]*[a-zA-Z0-9_\-\.@:/] Shorthand Syntax: userArn=string,customEntity=string JSON Syntax: { "userArn": "string", "customEntity": "string" }
@@ -44,5 +103,21 @@ public record AwsConnectcasesCreateRelatedItemOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

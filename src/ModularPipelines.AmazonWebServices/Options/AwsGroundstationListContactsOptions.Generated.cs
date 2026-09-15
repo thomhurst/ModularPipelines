@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "list-contacts")]
-public record AwsGroundstationListContactsOptions : AwsOptions
+public record AwsGroundstationListContactsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// </summary>
+    /// <param name="StatusList">Status of a contact reservation. Constraints: o min: 0 o max: 500 (string) Possible values: o SCHEDULING o FAILED_TO_SCHEDULE o SCHEDULED o CANCELLED o AWS_CANCELLED o PREPASS o PASS o POSTPASS o COMPLETED o FAILED o AVAILABLE o CANCELLING o AWS_FAILED Syntax: "string" "string" ...</param>
+    /// <param name="StartTime">Start time of a contact in UTC.</param>
+    /// <param name="EndTime">End time of a contact in UTC.</param>
+    public AwsGroundstationListContactsOptions(
+        IEnumerable<string> StatusList,
+        string StartTime,
+        string EndTime
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StatusList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StatusList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StatusList));
+            }
+
+            StatusList = materialized;
+        }
+        this.StatusList = StatusList;
+        global::System.ArgumentNullException.ThrowIfNull(StartTime);
+        this.StartTime = StartTime;
+        global::System.ArgumentNullException.ThrowIfNull(EndTime);
+        this.EndTime = EndTime;
+    }
+
+    private AwsGroundstationListContactsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationListContactsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationListContactsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Status of a contact reservation. Constraints: o min: 0 o max: 500 (string) Possible values: o SCHEDULING o FAILED_TO_SCHEDULE o SCHEDULED o CANCELLED o AWS_CANCELLED o PREPASS o PASS o POSTPASS o COMPLETED o FAILED o AVAILABLE o CANCELLING o AWS_FAILED Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--status-list", GroupValues = true)]
-    public IEnumerable<string>? StatusList { get; set; }
+    public IEnumerable<string>? StatusList { get; private init; }
 
+    /// <summary>
+    /// Start time of a contact in UTC.
+    /// </summary>
     [CliOption("--start-time")]
-    public string? StartTime { get; set; }
+    public string? StartTime { get; private init; }
 
+    /// <summary>
+    /// End time of a contact in UTC.
+    /// </summary>
     [CliOption("--end-time")]
-    public string? EndTime { get; set; }
+    public string? EndTime { get; private init; }
 
     /// <summary>
     /// Name of a ground station. Constraints: o min: 4 o max: 97 o pattern: [ a-zA-Z0-9-._:=]{4,97}
@@ -79,5 +141,21 @@ public record AwsGroundstationListContactsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

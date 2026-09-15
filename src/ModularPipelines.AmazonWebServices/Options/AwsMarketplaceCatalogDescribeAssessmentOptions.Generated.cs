@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("marketplace-catalog", "describe-assessment")]
-public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions
+public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Returns the metadata and detailed results of a single assessment, in- cluding the framework that was evaluated, the overall assessment re- sult, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the Lis- tAssessments action. See also: AWS API Documentation describe-assessment is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
+    /// </summary>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    /// <param name="AssessmentIdentifier">The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-market- place:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: o min: 1 o max: 2048 o pattern: ^(assess- ment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/As- sessment/assessment-[a-zA-Z0-9]+)$</param>
+    public AwsMarketplaceCatalogDescribeAssessmentOptions(
+        string Catalog,
+        string AssessmentIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(AssessmentIdentifier);
+        this.AssessmentIdentifier = AssessmentIdentifier;
+    }
+
+    private AwsMarketplaceCatalogDescribeAssessmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMarketplaceCatalogDescribeAssessmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMarketplaceCatalogDescribeAssessmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// </summary>
+    [CliOption("--catalog")]
+    public string? Catalog { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345 ) or the full assessment ARN (for example, arn:aws:aws-market- place:us-east-1::AWSMarketplace/Assessment/assessment-12345 ). Constraints: o min: 1 o max: 2048 o pattern: ^(assess- ment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/As- sessment/assessment-[a-zA-Z0-9]+)$
+    /// </summary>
     [CliOption("--assessment-identifier")]
-    public string? AssessmentIdentifier { get; set; }
+    public string? AssessmentIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsMarketplaceCatalogDescribeAssessmentOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

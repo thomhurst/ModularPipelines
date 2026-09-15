@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-flow-entitlement")]
-public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions
+public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EntitlementArn">The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+</param>
+    /// <param name="FlowArn">The ARN of the flow that is associated with the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    public AwsMediaconnectUpdateFlowEntitlementOptions(
+        string EntitlementArn,
+        string FlowArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntitlementArn);
+        this.EntitlementArn = EntitlementArn;
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+    }
+
+    private AwsMediaconnectUpdateFlowEntitlementOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateFlowEntitlementOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateFlowEntitlementOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+
+    /// </summary>
+    [CliOption("--entitlement-arn")]
+    public string? EntitlementArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the flow that is associated with the entitlement that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
     /// <summary>
     /// A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
     /// </summary>
@@ -34,17 +84,11 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions
     [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CliOption("--entitlement-arn")]
-    public string? EntitlementArn { get; set; }
-
     /// <summary>
     /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscribers flow temporarily. If you dont specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged. Possible values: o ENABLED o DISABLED
     /// </summary>
     [CliOption("--entitlement-status")]
     public AwsMediaconnectUpdateFlowEntitlementEntitlementStatus? EntitlementStatus { get; set; }
-
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
 
     /// <summary>
     /// The Amazon Web Services account IDs that you want to share your con- tent with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source. (string) Syntax: "string" "string" ...
@@ -57,5 +101,21 @@ public record AwsMediaconnectUpdateFlowEntitlementOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-sap", "put-resource-permission")]
-public record AwsSsmSapPutResourcePermissionOptions : AwsOptions
+public record AwsSsmSapPutResourcePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds permissions to the target database. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ActionType">Possible values: o RESTORE</param>
+    /// <param name="SourceResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
+    /// <param name="ResourceArn">Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+</param>
+    public AwsSsmSapPutResourcePermissionOptions(
+        AwsSsmSapPutResourcePermissionActionType ActionType,
+        string SourceResourceArn,
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActionType);
+        this.ActionType = ActionType;
+        global::System.ArgumentNullException.ThrowIfNull(SourceResourceArn);
+        this.SourceResourceArn = SourceResourceArn;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsSsmSapPutResourcePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmSapPutResourcePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmSapPutResourcePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Possible values: o RESTORE
+    /// </summary>
     [CliOption("--action-type")]
-    public string? ActionType { get; set; }
+    public AwsSsmSapPutResourcePermissionActionType? ActionType { get; private init; }
 
+    /// <summary>
+    /// Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// </summary>
     [CliOption("--source-resource-arn")]
-    public string? SourceResourceArn { get; set; }
+    public string? SourceResourceArn { get; private init; }
 
+    /// <summary>
+    /// Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

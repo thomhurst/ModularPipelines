@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signer", "remove-profile-permission")]
-public record AwsSignerRemoveProfilePermissionOptions : AwsOptions
+public record AwsSignerRemoveProfilePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes cross-account permissions from a signing profile. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileName">A human-readable name for the signing profile with permissions to be removed. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="RevisionId">An identifier for the current revision of the signing profile per- missions.</param>
+    /// <param name="StatementId">A unique identifier for the cross-account permissions statement.</param>
+    public AwsSignerRemoveProfilePermissionOptions(
+        string ProfileName,
+        string RevisionId,
+        string StatementId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileName);
+        this.ProfileName = ProfileName;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(StatementId);
+        this.StatementId = StatementId;
+    }
+
+    private AwsSignerRemoveProfilePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSignerRemoveProfilePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSignerRemoveProfilePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A human-readable name for the signing profile with permissions to be removed. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileName { get; set; }
+    public string? ProfileName { get; private init; }
 
+    /// <summary>
+    /// An identifier for the current revision of the signing profile per- missions.
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the cross-account permissions statement.
+    /// </summary>
     [CliOption("--statement-id")]
-    public string? StatementId { get; set; }
+    public string? StatementId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

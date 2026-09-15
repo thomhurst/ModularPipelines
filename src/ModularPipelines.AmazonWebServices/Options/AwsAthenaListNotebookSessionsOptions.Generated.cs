@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "list-notebook-sessions")]
-public record AwsAthenaListNotebookSessionsOptions : AwsOptions
+public record AwsAthenaListNotebookSessionsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING , CREATED , IDLE or BUSY . Newer sessions are listed first; older sessions are listed later. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NotebookId">The ID of the notebook to list sessions for. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    public AwsAthenaListNotebookSessionsOptions(
+        string NotebookId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NotebookId);
+        this.NotebookId = NotebookId;
+    }
+
+    private AwsAthenaListNotebookSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaListNotebookSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaListNotebookSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the notebook to list sessions for. Constraints: o min: 1 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// </summary>
     [CliOption("--notebook-id")]
-    public string? NotebookId { get; set; }
+    public string? NotebookId { get; private init; }
 
     /// <summary>
     /// The maximum number of notebook sessions to return. Constraints: o min: 1 o max: 100
@@ -43,5 +80,21 @@ public record AwsAthenaListNotebookSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

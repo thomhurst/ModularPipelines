@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,105 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-game-server-group")]
-public record AwsGameliftCreateGameServerGroupOptions : AwsOptions
+public record AwsGameliftCreateGameServerGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a Amazon GameLift Servers FleetIQ game server group for manag- ing game hosting on a collection of Amazon Elastic Compute Cloud in- stances for game hosting. This operation creates the game server group, creates an Auto Scaling group in your Amazon Web Services account, and establishes a link between the two groups. You can view the status of your game server groups in the Amazon GameLift Servers console. Game server group metr...
+    /// </summary>
+    /// <param name="GameServerGroupName">An identifier for the new game server group. This value is used to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the Amazon GameLift Servers FleetIQ game server group. The name must be unique per Region per Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN ) for an IAM role that allows Amazon GameLift Servers to access your Amazon EC2 Auto Scaling groups. Constraints: o min: 1 o max: 256 o pattern: ^arn:.*:role\/[\w+=,.@-]+</param>
+    /// <param name="MinSize">The minimum number of instances allowed in the Amazon EC2 Auto Scal- ing group. During automatic scaling events, Amazon GameLift Servers FleetIQ and Amazon EC2 do not scale down the group below this mini- mum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. Constraints: o min: 0</param>
+    /// <param name="MaxSize">The maximum number of instances allowed in the Amazon EC2 Auto Scal- ing group. During automatic scaling events, Amazon GameLift Servers FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. Constraints: o min: 1</param>
+    /// <param name="LaunchTemplate">The Amazon EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon Elastic Com- pute Cloud Auto Scaling User Guide . After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. NOTE: If you specify network interfaces in your launch template, you must explicitly set the property AssociatePublicIpAddress to "true". If no network interface is specified in the launch tem- plate, Amazon GameLift Servers FleetIQ uses your account's de- fault VPC. LaunchTemplateId -&gt; (string) A unique identifier for an existing Amazon EC2 launch template. Constraints: o min: 1 o max: 255 o pattern: ^[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]+$ LaunchTemplateName -&gt; (string) A readable identifier for an existing Amazon EC2 launch tem- plate. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9\(\)\.\-/_]+$ Version -&gt; (string) The version of the Amazon EC2 launch template to use. If no ver- sion is specified, the default version will be used. With Amazon EC2, you can specify a default version for a launch template. If none is set, the default is the first version created. Constraints: o min: 1 o max: 128 o pattern: ^[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]+$ Shorthand Syntax: LaunchTemplateId=string,LaunchTemplateName=string,Version=string JSON Syntax: { "LaunchTemplateId": "string", "LaunchTemplateName": "string", "Version": "string" }</param>
+    /// <param name="InstanceDefinitions">The Amazon EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift Servers Flee- tIQ. For more information on instance types, see EC2 Instance Types in the Amazon Elastic Compute Cloud User Guide . You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Constraints: o min: 2 o max: 20 (structure) An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. Amazon GameLift Servers FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types. InstanceType -&gt; (string) [required] An Amazon EC2 instance type designation. Possible values: o c4.large o c4.xlarge o c4.2xlarge o c4.4xlarge o c4.8xlarge o c5.large o c5.xlarge o c5.2xlarge o c5.4xlarge o c5.9xlarge o c5.12xlarge o c5.18xlarge o c5.24xlarge o c5a.large o c5a.xlarge o c5a.2xlarge o c5a.4xlarge o c5a.8xlarge o c5a.12xlarge o c5a.16xlarge o c5a.24xlarge o c6g.medium o c6g.large o c6g.xlarge o c6g.2xlarge o c6g.4xlarge o c6g.8xlarge o c6g.12xlarge o c6g.16xlarge o r4.large o r4.xlarge o r4.2xlarge o r4.4xlarge o r4.8xlarge o r4.16xlarge o r5.large o r5.xlarge o r5.2xlarge o r5.4xlarge o r5.8xlarge o r5.12xlarge o r5.16xlarge o r5.24xlarge o r5a.large o r5a.xlarge o r5a.2xlarge o r5a.4xlarge o r5a.8xlarge o r5a.12xlarge o r5a.16xlarge o r5a.24xlarge o r6g.medium o r6g.large o r6g.xlarge o r6g.2xlarge o r6g.4xlarge o r6g.8xlarge o r6g.12xlarge o r6g.16xlarge o m4.large o m4.xlarge o m4.2xlarge o m4.4xlarge o m4.10xlarge o m5.large o m5.xlarge o m5.2xlarge o m5.4xlarge o m5.8xlarge o m5.12xlarge o m5.16xlarge o m5.24xlarge o m5a.large o m5a.xlarge o m5a.2xlarge o m5a.4xlarge o m5a.8xlarge o m5a.12xlarge o m5a.16xlarge o m5a.24xlarge o m6g.medium o m6g.large o m6g.xlarge o m6g.2xlarge o m6g.4xlarge o m6g.8xlarge o m6g.12xlarge o m6g.16xlarge WeightedCapacity -&gt; (string) Instance weighting that indicates how much this instance type contributes to the total capacity of a game server group. In- stance weights are used by Amazon GameLift Servers FleetIQ to calculate the instance type's cost per unit hour and better identify the most cost-effective options. For detailed infor- mation on weighting instance capacity, see Instance Weighting in the Amazon Elastic Compute Cloud Auto Scaling User Guide . Default value is "1". Constraints: o min: 1 o max: 3 o pattern: ^[\u0031-\u0039][\u0030-\u0039]{0,2}$ Shorthand Syntax: InstanceType=string,WeightedCapacity=string ... JSON Syntax: [ { "InstanceType": "c4.large"|"c4.xlarge"|"c4.2xlarge"|"c4.4xlarge"|"c4.8xlarge"|"c5.large"|"c5.xlarge"|"c5.2xlarge"|"c5.4xlarge"|"c5.9xlarge"|"c5.12xlarge"|"c5.18xlarge"|"c5.24xlarge"|"c5a.large"|"c5a.xlarge"|"c5a.2xlarge"|"c5a.4xlarge"|"c5a.8xlarge"|"c5a.12xlarge"|"c5a.16xlarge"|"c5a.24xlarge"|"c6g.medium"|"c6g.large"|"c6g.xlarge"|"c6g.2xlarge"|"c6g.4xlarge"|"c6g.8xlarge"|"c6g.12xlarge"|"c6g.16xlarge"|"r4.large"|"r4.xlarge"|"r4.2xlarge"|"r4.4xlarge"|"r4.8xlarge"|"r4.16xlarge"|"r5.large"|"r5.xlarge"|"r5.2xlarge"|"r5.4xlarge"|"r5.8xlarge"|"r5.12xlarge"|"r5.16xlarge"|"r5.24xlarge"|"r5a.large"|"r5a.xlarge"|"r5a.2xlarge"|"r5a.4xlarge"|"r5a.8xlarge"|"r5a.12xlarge"|"r5a.16xlarge"|"r5a.24xlarge"|"r6g.medium"|"r6g.large"|"r6g.xlarge"|"r6g.2xlarge"|"r6g.4xlarge"|"r6g.8xlarge"|"r6g.12xlarge"|"r6g.16xlarge"|"m4.large"|"m4.xlarge"|"m4.2xlarge"|"m4.4xlarge"|"m4.10xlarge"|"m5.large"|"m5.xlarge"|"m5.2xlarge"|"m5.4xlarge"|"m5.8xlarge"|"m5.12xlarge"|"m5.16xlarge"|"m5.24xlarge"|"m5a.large"|"m5a.xlarge"|"m5a.2xlarge"|"m5a.4xlarge"|"m5a.8xlarge"|"m5a.12xlarge"|"m5a.16xlarge"|"m5a.24xlarge"|"m6g.medium"|"m6g.large"|"m6g.xlarge"|"m6g.2xlarge"|"m6g.4xlarge"|"m6g.8xlarge"|"m6g.12xlarge"|"m6g.16xlarge", "WeightedCapacity": "string" } ... ]</param>
+    public AwsGameliftCreateGameServerGroupOptions(
+        string GameServerGroupName,
+        string RoleArn,
+        int MinSize,
+        int MaxSize,
+        string LaunchTemplate,
+        IEnumerable<string> InstanceDefinitions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameServerGroupName);
+        this.GameServerGroupName = GameServerGroupName;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        this.MinSize = MinSize;
+        this.MaxSize = MaxSize;
+        global::System.ArgumentNullException.ThrowIfNull(LaunchTemplate);
+        this.LaunchTemplate = LaunchTemplate;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceDefinitions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceDefinitions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceDefinitions));
+            }
+
+            InstanceDefinitions = materialized;
+        }
+        this.InstanceDefinitions = InstanceDefinitions;
+    }
+
+    private AwsGameliftCreateGameServerGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreateGameServerGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreateGameServerGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the new game server group. This value is used to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the Amazon GameLift Servers FleetIQ game server group. The name must be unique per Region per Amazon Web Services account. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-\.]+$
+    /// </summary>
     [CliOption("--game-server-group-name")]
-    public string? GameServerGroupName { get; set; }
+    public string? GameServerGroupName { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN ) for an IAM role that allows Amazon GameLift Servers to access your Amazon EC2 Auto Scaling groups. Constraints: o min: 1 o max: 256 o pattern: ^arn:.*:role\/[\w+=,.@-]+
+    /// </summary>
     [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
+    public string? RoleArn { get; private init; }
 
+    /// <summary>
+    /// The minimum number of instances allowed in the Amazon EC2 Auto Scal- ing group. During automatic scaling events, Amazon GameLift Servers FleetIQ and Amazon EC2 do not scale down the group below this mini- mum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. Constraints: o min: 0
+    /// </summary>
     [CliOption("--min-size")]
-    public int? MinSize { get; set; }
+    public int? MinSize { get; private init; }
 
+    /// <summary>
+    /// The maximum number of instances allowed in the Amazon EC2 Auto Scal- ing group. During automatic scaling events, Amazon GameLift Servers FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. Constraints: o min: 1
+    /// </summary>
     [CliOption("--max-size")]
-    public int? MaxSize { get; set; }
+    public int? MaxSize { get; private init; }
 
+    /// <summary>
+    /// The Amazon EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon Elastic Com- pute Cloud Auto Scaling User Guide . After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. NOTE: If you specify network interfaces in your launch template, you must explicitly set the property AssociatePublicIpAddress to "true". If no network interface is specified in the launch tem- plate, Amazon GameLift Servers FleetIQ uses your account's de- fault VPC. LaunchTemplateId -&gt; (string) A unique identifier for an existing Amazon EC2 launch template. Constraints: o min: 1 o max: 255 o pattern: ^[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]+$ LaunchTemplateName -&gt; (string) A readable identifier for an existing Amazon EC2 launch tem- plate. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9\(\)\.\-/_]+$ Version -&gt; (string) The version of the Amazon EC2 launch template to use. If no ver- sion is specified, the default version will be used. With Amazon EC2, you can specify a default version for a launch template. If none is set, the default is the first version created. Constraints: o min: 1 o max: 128 o pattern: ^[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]+$ Shorthand Syntax: LaunchTemplateId=string,LaunchTemplateName=string,Version=string JSON Syntax: { "LaunchTemplateId": "string", "LaunchTemplateName": "string", "Version": "string" }
+    /// </summary>
     [CliOption("--launch-template")]
-    public string? LaunchTemplate { get; set; }
+    public string? LaunchTemplate { get; private init; }
 
+    /// <summary>
+    /// The Amazon EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift Servers Flee- tIQ. For more information on instance types, see EC2 Instance Types in the Amazon Elastic Compute Cloud User Guide . You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Constraints: o min: 2 o max: 20 (structure) An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. Amazon GameLift Servers FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types. InstanceType -&gt; (string) [required] An Amazon EC2 instance type designation. Possible values: o c4.large o c4.xlarge o c4.2xlarge o c4.4xlarge o c4.8xlarge o c5.large o c5.xlarge o c5.2xlarge o c5.4xlarge o c5.9xlarge o c5.12xlarge o c5.18xlarge o c5.24xlarge o c5a.large o c5a.xlarge o c5a.2xlarge o c5a.4xlarge o c5a.8xlarge o c5a.12xlarge o c5a.16xlarge o c5a.24xlarge o c6g.medium o c6g.large o c6g.xlarge o c6g.2xlarge o c6g.4xlarge o c6g.8xlarge o c6g.12xlarge o c6g.16xlarge o r4.large o r4.xlarge o r4.2xlarge o r4.4xlarge o r4.8xlarge o r4.16xlarge o r5.large o r5.xlarge o r5.2xlarge o r5.4xlarge o r5.8xlarge o r5.12xlarge o r5.16xlarge o r5.24xlarge o r5a.large o r5a.xlarge o r5a.2xlarge o r5a.4xlarge o r5a.8xlarge o r5a.12xlarge o r5a.16xlarge o r5a.24xlarge o r6g.medium o r6g.large o r6g.xlarge o r6g.2xlarge o r6g.4xlarge o r6g.8xlarge o r6g.12xlarge o r6g.16xlarge o m4.large o m4.xlarge o m4.2xlarge o m4.4xlarge o m4.10xlarge o m5.large o m5.xlarge o m5.2xlarge o m5.4xlarge o m5.8xlarge o m5.12xlarge o m5.16xlarge o m5.24xlarge o m5a.large o m5a.xlarge o m5a.2xlarge o m5a.4xlarge o m5a.8xlarge o m5a.12xlarge o m5a.16xlarge o m5a.24xlarge o m6g.medium o m6g.large o m6g.xlarge o m6g.2xlarge o m6g.4xlarge o m6g.8xlarge o m6g.12xlarge o m6g.16xlarge WeightedCapacity -&gt; (string) Instance weighting that indicates how much this instance type contributes to the total capacity of a game server group. In- stance weights are used by Amazon GameLift Servers FleetIQ to calculate the instance type's cost per unit hour and better identify the most cost-effective options. For detailed infor- mation on weighting instance capacity, see Instance Weighting in the Amazon Elastic Compute Cloud Auto Scaling User Guide . Default value is "1". Constraints: o min: 1 o max: 3 o pattern: ^[\u0031-\u0039][\u0030-\u0039]{0,2}$ Shorthand Syntax: InstanceType=string,WeightedCapacity=string ... JSON Syntax: [ { "InstanceType": "c4.large"|"c4.xlarge"|"c4.2xlarge"|"c4.4xlarge"|"c4.8xlarge"|"c5.large"|"c5.xlarge"|"c5.2xlarge"|"c5.4xlarge"|"c5.9xlarge"|"c5.12xlarge"|"c5.18xlarge"|"c5.24xlarge"|"c5a.large"|"c5a.xlarge"|"c5a.2xlarge"|"c5a.4xlarge"|"c5a.8xlarge"|"c5a.12xlarge"|"c5a.16xlarge"|"c5a.24xlarge"|"c6g.medium"|"c6g.large"|"c6g.xlarge"|"c6g.2xlarge"|"c6g.4xlarge"|"c6g.8xlarge"|"c6g.12xlarge"|"c6g.16xlarge"|"r4.large"|"r4.xlarge"|"r4.2xlarge"|"r4.4xlarge"|"r4.8xlarge"|"r4.16xlarge"|"r5.large"|"r5.xlarge"|"r5.2xlarge"|"r5.4xlarge"|"r5.8xlarge"|"r5.12xlarge"|"r5.16xlarge"|"r5.24xlarge"|"r5a.large"|"r5a.xlarge"|"r5a.2xlarge"|"r5a.4xlarge"|"r5a.8xlarge"|"r5a.12xlarge"|"r5a.16xlarge"|"r5a.24xlarge"|"r6g.medium"|"r6g.large"|"r6g.xlarge"|"r6g.2xlarge"|"r6g.4xlarge"|"r6g.8xlarge"|"r6g.12xlarge"|"r6g.16xlarge"|"m4.large"|"m4.xlarge"|"m4.2xlarge"|"m4.4xlarge"|"m4.10xlarge"|"m5.large"|"m5.xlarge"|"m5.2xlarge"|"m5.4xlarge"|"m5.8xlarge"|"m5.12xlarge"|"m5.16xlarge"|"m5.24xlarge"|"m5a.large"|"m5a.xlarge"|"m5a.2xlarge"|"m5a.4xlarge"|"m5a.8xlarge"|"m5a.12xlarge"|"m5a.16xlarge"|"m5a.24xlarge"|"m6g.medium"|"m6g.large"|"m6g.xlarge"|"m6g.2xlarge"|"m6g.4xlarge"|"m6g.8xlarge"|"m6g.12xlarge"|"m6g.16xlarge", "WeightedCapacity": "string" } ... ]
+    /// </summary>
     [CliOption("--instance-definitions", GroupValues = true)]
-    public IEnumerable<string>? InstanceDefinitions { get; set; }
+    public IEnumerable<string>? InstanceDefinitions { get; private init; }
 
     /// <summary>
     /// Configuration settings to define a scaling policy for the Auto Scal- ing group that is optimized for game hosting. The scaling policy uses the metric "PercentUtilizedGameServers" to maintain a buffer of idle game servers that can immediately accommodate new games and players. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs. EstimatedInstanceWarmup -&gt; (integer) Length of time, in seconds, it takes for a new instance to start new game server processes and register with Amazon GameLift Servers FleetIQ. Specifying a warm-up time can be useful, par- ticularly with game servers that take a long time to start up, because it avoids prematurely starting new instances. Constraints: o min: 1 TargetTrackingConfiguration -&gt; (structure) [required] Settings for a target-based scaling policy applied to Auto Scal- ing group. These settings are used to create a target-based pol- icy that tracks the Amazon GameLift Servers FleetIQ metric "Per- centUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value. TargetValue -&gt; (double) [required] Desired value to use with a game server group target-based scaling policy. Constraints: o min: 0 Shorthand Syntax: EstimatedInstanceWarmup=integer,TargetTrackingConfiguration={TargetValue=double} JSON Syntax: { "EstimatedInstanceWarmup": integer, "TargetTrackingConfiguration": { "TargetValue": double } }
@@ -75,5 +156,21 @@ public record AwsGameliftCreateGameServerGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

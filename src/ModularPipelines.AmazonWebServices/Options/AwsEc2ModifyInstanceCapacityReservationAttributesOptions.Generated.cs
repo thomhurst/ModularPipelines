@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-instance-capacity-reservation-attributes")]
-public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOptions
+public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The ID of the instance to be modified.</param>
+    /// <param name="CapacityReservationSpecification">Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Pos- sible preferences include: o capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capac- ity isn't available, the instance will fail to launch. o open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Avail- ability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. o none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand In- stance. Possible values: o capacity-reservations-only o open o none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the in- stance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }</param>
+    public AwsEc2ModifyInstanceCapacityReservationAttributesOptions(
+        string InstanceId,
+        string CapacityReservationSpecification
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(CapacityReservationSpecification);
+        this.CapacityReservationSpecification = CapacityReservationSpecification;
+    }
+
+    private AwsEc2ModifyInstanceCapacityReservationAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyInstanceCapacityReservationAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyInstanceCapacityReservationAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the instance to be modified.
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Pos- sible preferences include: o capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capac- ity isn't available, the instance will fail to launch. o open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Avail- ability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. o none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand In- stance. Possible values: o capacity-reservations-only o open o none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the in- stance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }
+    /// </summary>
     [CliOption("--capacity-reservation-specification")]
-    public string? CapacityReservationSpecification { get; set; }
+    public string? CapacityReservationSpecification { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

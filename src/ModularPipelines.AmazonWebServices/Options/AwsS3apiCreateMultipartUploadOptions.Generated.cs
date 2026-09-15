@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "create-multipart-upload")]
-public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
+public record AwsS3apiCreateMultipartUploadOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
+    /// </summary>
+    /// <param name="Bucket">The name of the bucket where the multipart upload is initiated and where the object is uploaded. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Object key for which the multipart upload is to be initiated. Constraints: o min: 1</param>
+    public AwsS3apiCreateMultipartUploadOptions(
+        string Bucket,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsS3apiCreateMultipartUploadOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiCreateMultipartUploadOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiCreateMultipartUploadOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the bucket where the multipart upload is initiated and where the object is uploaded. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Object key for which the multipart upload is to be initiated. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string? Key { get; private init; }
+
     /// <summary>
     /// The canned ACL to apply to the object. Amazon S3 supports a set of predefined ACLs, known as canned ACLs . Each canned ACL has a prede- fined set of grantees and permissions. For more information, see Canned ACL in the Amazon S3 User Guide . By default, all objects are private. Only the owner has full access control. When uploading an object, you can grant access permissions to individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These permissions are then added to the access control list (ACL) on the new object. For more information, see Using ACLs . One way to grant the permissions using the request headers is to specify a canned ACL with the x-amz-acl request header. NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts. Possible values: o private o public-read o public-read-write o authenticated-read o aws-exec-read o bucket-owner-read o bucket-owner-full-control
     /// </summary>
     [CliOption("--acl")]
     public AwsS3apiCreateMultipartUploadAcl? Acl { get; set; }
-
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
 
     /// <summary>
     /// Specifies caching behavior along the request/reply chain.
@@ -92,9 +139,6 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CliOption("--key")]
-    public string? Key { get; set; }
-
     /// <summary>
     /// A map of metadata to store with the object in S3. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -105,13 +149,13 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. o Directory buckets - For directory buckets, there are only two sup- ported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256 ) and server-side en- cryption with KMS keys (SSE-KMS) (aws:kms ). We recommend that the bucket's default encryption uses the desired encryption configura- tion and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryp- tion in the Amazon S3 User Guide . For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads . In the Zonal endpoint API calls (except CopyObject and UploadPartCopy ) using the REST API, the encryption request head- ers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the en- cryption settings (x-amz-server-side-encryption , x-amz-server-side-encryption-aws-kms-key-id , x-amz-server-side-encryption-context , and x-amz-server-side-en- cryption-bucket-key-enabled ) that are specified in the CreateSes- sion request. You don't need to explicitly specify these encryp- tion settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession re- quest to protect new objects in the directory bucket. NOTE: When you use the CLI or the Amazon Web Services SDKs, for Cre- ateSession , the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy ), the encryption request headers must match the default encryption configuration of the directory bucket. o S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse
     /// </summary>
     [CliOption("--server-side-encryption")]
-    public AwsS3apiCreateMultipartUploadServerSideEncryption? ServerSideEncryption { get; set; }
+    public string? ServerSideEncryption { get; set; }
 
     /// <summary>
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can spec- ify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide . NOTE: o Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones. o Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. Possible values: o STANDARD o REDUCED_REDUNDANCY o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_IR o SNOW o EXPRESS_ONEZONE o FSX_OPENZFS o FSX_ONTAP o AWS_BACKUP_WARM o AWS_BACKUP_LOW_COST_WARM
     /// </summary>
     [CliOption("--storage-class")]
-    public string? StorageClass { get; set; }
+    public AwsS3apiCreateMultipartUploadStorageClass? StorageClass { get; set; }
 
     /// <summary>
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object meta- data. NOTE: This functionality is not supported for directory buckets.
@@ -149,7 +193,10 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CliFlag("--bucket-key-enabled")]
+    /// <summary>
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key. Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between direc- tory buckets, through CopyObject , UploadPartCopy , the Copy op- eration in Batch Operations , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+    /// </summary>
+    [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }
 
     /// <summary>
@@ -183,6 +230,24 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
     public AwsS3apiCreateMultipartUploadObjectLockLegalHoldStatus? ObjectLockLegalHoldStatus { get; set; }
 
     /// <summary>
+    /// Specifies the event hold status to apply to the uploaded object. Set to ON to enable or OFF to disable. NOTE: This functionality is not supported for directory buckets. Possible values: o ON o OFF
+    /// </summary>
+    [CliOption("--object-lock-event-hold")]
+    public AwsS3apiCreateMultipartUploadObjectLockEventHold? ObjectLockEventHold { get; set; }
+
+    /// <summary>
+    /// Specifies the event hold duration in days to apply to the uploaded object. You cannot specify a duration in both days and years. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliOption("--object-lock-event-hold-duration-days")]
+    public int? ObjectLockEventHoldDurationDays { get; set; }
+
+    /// <summary>
+    /// Specifies the event hold duration in years to apply to the uploaded object. You cannot specify a duration in both days and years. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliOption("--object-lock-event-hold-duration-years")]
+    public int? ObjectLockEventHoldDurationYears { get; set; }
+
+    /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
@@ -205,5 +270,21 @@ public record AwsS3apiCreateMultipartUploadOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

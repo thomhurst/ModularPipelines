@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssm-quicksetup", "update-configuration-manager")]
-public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions
+public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates a Quick Setup configuration manager. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ManagerArn">The ARN of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    public AwsSsmQuicksetupUpdateConfigurationManagerOptions(
+        string ManagerArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagerArn);
+        this.ManagerArn = ManagerArn;
+    }
+
+    private AwsSsmQuicksetupUpdateConfigurationManagerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsmQuicksetupUpdateConfigurationManagerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsmQuicksetupUpdateConfigurationManagerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the configuration manager. Constraints: o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// </summary>
+    [CliOption("--manager-arn")]
+    public string? ManagerArn { get; private init; }
+
     /// <summary>
     /// A description of the configuration manager. Constraints: o pattern: ^.{0,512}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--manager-arn")]
-    public string? ManagerArn { get; set; }
 
     /// <summary>
     /// A name for the configuration manager. Constraints: o pattern: ^[ A-Za-z0-9._-]{0,120}$
@@ -41,5 +78,21 @@ public record AwsSsmQuicksetupUpdateConfigurationManagerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

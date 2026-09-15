@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "associate-nat-gateway-address")]
-public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions
+public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--nat-gateway-id")]
-    public string? NatGatewayId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjust- ment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gate- way, the network bord...
+    /// </summary>
+    /// <param name="NatGatewayId">The ID of the NAT gateway.</param>
+    /// <param name="AllocationIds">The allocation IDs of EIPs that you want to associate with your NAT gateway. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2AssociateNatGatewayAddressOptions(
+        string NatGatewayId,
+        IEnumerable<string> AllocationIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NatGatewayId);
+        this.NatGatewayId = NatGatewayId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllocationIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllocationIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllocationIds));
+            }
+
+            AllocationIds = materialized;
+        }
+        this.AllocationIds = AllocationIds;
+    }
+
+    private AwsEc2AssociateNatGatewayAddressOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2AssociateNatGatewayAddressOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2AssociateNatGatewayAddressOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the NAT gateway.
+    /// </summary>
+    [CliOption("--nat-gateway-id")]
+    public string? NatGatewayId { get; private init; }
+
+    /// <summary>
+    /// The allocation IDs of EIPs that you want to associate with your NAT gateway. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--allocation-ids", GroupValues = true)]
-    public IEnumerable<string>? AllocationIds { get; set; }
+    public IEnumerable<string>? AllocationIds { get; private init; }
 
     /// <summary>
     /// The private IPv4 addresses that you want to assign to the NAT gate- way. (string) Syntax: "string" "string" ...
@@ -33,7 +88,10 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions
     [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -53,5 +111,21 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

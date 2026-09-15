@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspaces", "update-workspace-image-permission")]
-public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions
+public record AwsWorkspacesUpdateWorkspaceImagePermissionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the im- age to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In ...
+    /// </summary>
+    /// <param name="ImageId">The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="AllowCopyImage">The permission to copy the image. This permission can be revoked only after an image has been shared.</param>
+    /// <param name="SharedAccountId">The identifier of the Amazon Web Services account to share or un- share the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: o pattern: ^\d{12}$</param>
+    public AwsWorkspacesUpdateWorkspaceImagePermissionOptions(
+        string ImageId,
+        bool AllowCopyImage,
+        string SharedAccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+        this.AllowCopyImage = AllowCopyImage;
+        global::System.ArgumentNullException.ThrowIfNull(SharedAccountId);
+        this.SharedAccountId = SharedAccountId;
+    }
+
+    private AwsWorkspacesUpdateWorkspaceImagePermissionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWorkspacesUpdateWorkspaceImagePermissionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWorkspacesUpdateWorkspaceImagePermissionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// </summary>
     [CliOption("--image-id")]
-    public string? ImageId { get; set; }
+    public string? ImageId { get; private init; }
 
-    [CliFlag("--allow-copy-image")]
-    public bool? AllowCopyImage { get; set; }
+    /// <summary>
+    /// The permission to copy the image. This permission can be revoked only after an image has been shared.
+    /// </summary>
+    [CliFlag("--allow-copy-image", NegatedName = "--no-allow-copy-image")]
+    public bool? AllowCopyImage { get; private init; }
 
+    /// <summary>
+    /// The identifier of the Amazon Web Services account to share or un- share the image with. WARNING: Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID. Constraints: o pattern: ^\d{12}$
+    /// </summary>
     [CliOption("--shared-account-id")]
-    public string? SharedAccountId { get; set; }
+    public string? SharedAccountId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

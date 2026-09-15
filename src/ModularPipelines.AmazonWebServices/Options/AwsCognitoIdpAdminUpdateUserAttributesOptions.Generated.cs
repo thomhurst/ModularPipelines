@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognito-idp", "admin-update-user-attributes")]
-public record AwsCognitoIdpAdminUpdateUserAttributesOptions : AwsOptions
+public record AwsCognitoIdpAdminUpdateUserAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified user's attributes. To delete an attribute from your user, submit the attribute in your API request with a blank value. For custom attributes, you must add a custom: prefix to the attribute name, for example custom:department . This operation can set a user's email address or phone number as veri- fied and permit immediate sign-in in user pools that require verifica- tion of these attributes. To do this, set the email_verified or phone_number_verified attribute to true . NOT...
+    /// </summary>
+    /// <param name="UserPoolId">The ID of the user pool where you want to update user attributes. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="UserAttributes">An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If your user pool requires verification before Amazon Cognito up- dates an attribute value that you specify in this request, Amazon Cognito doesnt immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value. To skip the verification message and update the value of an at- tribute that requires verification in the same API request, include the email_verified or phone_number_verified attribute, with a value of true . If you set the email_verified or phone_number_verified value for an email or phone_number attribute that requires verifica- tion to true , Amazon Cognito doesnt send a verification message to your user. (structure) The name and value of a user attribute. Name -&gt; (string) [required] The name of the attribute, for example email or custom:de- partment . In some older user pools, the regex pattern for acceptable values of this parameter is [\p{L}\p{M}\p{S}\p{N}\p{P}]+ . Older pools will eventually be updated to use the new pat- tern. Affected user pools are those created before May 2024 in US East (N. Virginia), US East (Ohio), US West (N. Cali- fornia), US West (Oregon), Asia Pacific (Mumbai), Asia Pa- cific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singa- pore), Asia Pacific (Sydney), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), Middle East (Bahrain), and South America (So Paulo). Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Value -&gt; (string) The value of the attribute. Constraints: o max: 2048 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]</param>
+    public AwsCognitoIdpAdminUpdateUserAttributesOptions(
+        string UserPoolId,
+        string Username,
+        IEnumerable<string> UserAttributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserPoolId);
+        this.UserPoolId = UserPoolId;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserAttributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserAttributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserAttributes));
+            }
+
+            UserAttributes = materialized;
+        }
+        this.UserAttributes = UserAttributes;
+    }
+
+    private AwsCognitoIdpAdminUpdateUserAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCognitoIdpAdminUpdateUserAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCognitoIdpAdminUpdateUserAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the user pool where you want to update user attributes. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// </summary>
     [CliOption("--user-pool-id")]
-    public string? UserPoolId { get; set; }
+    public string? UserPoolId { get; private init; }
 
+    /// <summary>
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// </summary>
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public string? Username { get; private init; }
 
+    /// <summary>
+    /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If your user pool requires verification before Amazon Cognito up- dates an attribute value that you specify in this request, Amazon Cognito doesnt immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value. To skip the verification message and update the value of an at- tribute that requires verification in the same API request, include the email_verified or phone_number_verified attribute, with a value of true . If you set the email_verified or phone_number_verified value for an email or phone_number attribute that requires verifica- tion to true , Amazon Cognito doesnt send a verification message to your user. (structure) The name and value of a user attribute. Name -&gt; (string) [required] The name of the attribute, for example email or custom:de- partment . In some older user pools, the regex pattern for acceptable values of this parameter is [\p{L}\p{M}\p{S}\p{N}\p{P}]+ . Older pools will eventually be updated to use the new pat- tern. Affected user pools are those created before May 2024 in US East (N. Virginia), US East (Ohio), US West (N. Cali- fornia), US West (Oregon), Asia Pacific (Mumbai), Asia Pa- cific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singa- pore), Asia Pacific (Sydney), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), Middle East (Bahrain), and South America (So Paulo). Constraints: o min: 1 o max: 32 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}\t\n\r ]+ Value -&gt; (string) The value of the attribute. Constraints: o max: 2048 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// </summary>
     [CliOption("--user-attributes", GroupValues = true)]
-    public IEnumerable<string>? UserAttributes { get; set; }
+    public IEnumerable<string>? UserAttributes { get; private init; }
 
     /// <summary>
     /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your work- flow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cog- nito won't do the following: o Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't in- clude triggers, the ClientMetadata parameter serves no pur- pose. o Validate the ClientMetadata value. o Encrypt the ClientMetadata value. Don't send sensitive infor- mation in this parameter. key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -42,5 +104,21 @@ public record AwsCognitoIdpAdminUpdateUserAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

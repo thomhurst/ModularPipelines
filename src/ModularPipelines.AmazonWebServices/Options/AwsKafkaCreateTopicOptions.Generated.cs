@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kafka", "create-topic")]
-public record AwsKafkaCreateTopicOptions : AwsOptions
+public record AwsKafkaCreateTopicOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a topic in the specified MSK cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
+    /// <param name="TopicName">The name of the topic to create.</param>
+    /// <param name="PartitionCount">The number of partitions for the topic. Constraints: o min: 1</param>
+    /// <param name="ReplicationFactor">The replication factor for the topic. Constraints: o min: 1</param>
+    public AwsKafkaCreateTopicOptions(
+        string ClusterArn,
+        string TopicName,
+        int PartitionCount,
+        int ReplicationFactor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(TopicName);
+        this.TopicName = TopicName;
+        this.PartitionCount = PartitionCount;
+        this.ReplicationFactor = ReplicationFactor;
+    }
+
+    private AwsKafkaCreateTopicOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKafkaCreateTopicOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKafkaCreateTopicOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// </summary>
     [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    public string? ClusterArn { get; private init; }
 
+    /// <summary>
+    /// The name of the topic to create.
+    /// </summary>
     [CliOption("--topic-name")]
-    public string? TopicName { get; set; }
+    public string? TopicName { get; private init; }
 
+    /// <summary>
+    /// The number of partitions for the topic. Constraints: o min: 1
+    /// </summary>
     [CliOption("--partition-count")]
-    public int? PartitionCount { get; set; }
+    public int? PartitionCount { get; private init; }
 
+    /// <summary>
+    /// The replication factor for the topic. Constraints: o min: 1
+    /// </summary>
     [CliOption("--replication-factor")]
-    public int? ReplicationFactor { get; set; }
+    public int? ReplicationFactor { get; private init; }
 
     /// <summary>
     /// Topic configurations encoded as a Base64 string.
@@ -44,5 +100,21 @@ public record AwsKafkaCreateTopicOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

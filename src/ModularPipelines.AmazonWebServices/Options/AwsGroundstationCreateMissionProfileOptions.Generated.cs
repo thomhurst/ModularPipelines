@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("groundstation", "create-mission-profile")]
-public record AwsGroundstationCreateMissionProfileOptions : AwsOptions
+public record AwsGroundstationCreateMissionProfileOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">Name of a mission profile. Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256}</param>
+    /// <param name="MinimumViableContactDurationSeconds">Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with con- tacts shorter than this duration. Constraints: o min: 1 o max: 21600</param>
+    /// <param name="DataflowEdges">A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config . Constraints: o min: 0 o max: 500 (list) Constraints: o min: 2 o max: 2 (string) Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundsta- tion:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})? Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]</param>
+    /// <param name="TrackingConfigArn">ARN of a tracking Config . Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?</param>
+    public AwsGroundstationCreateMissionProfileOptions(
+        string Name,
+        int MinimumViableContactDurationSeconds,
+        IEnumerable<string> DataflowEdges,
+        string TrackingConfigArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.MinimumViableContactDurationSeconds = MinimumViableContactDurationSeconds;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DataflowEdges);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DataflowEdges));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DataflowEdges));
+            }
+
+            DataflowEdges = materialized;
+        }
+        this.DataflowEdges = DataflowEdges;
+        global::System.ArgumentNullException.ThrowIfNull(TrackingConfigArn);
+        this.TrackingConfigArn = TrackingConfigArn;
+    }
+
+    private AwsGroundstationCreateMissionProfileOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGroundstationCreateMissionProfileOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGroundstationCreateMissionProfileOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of a mission profile. Constraints: o min: 1 o max: 256 o pattern: [ a-zA-Z0-9_:-]{1,256}
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with con- tacts shorter than this duration. Constraints: o min: 1 o max: 21600
+    /// </summary>
+    [CliOption("--minimum-viable-contact-duration-seconds")]
+    public int? MinimumViableContactDurationSeconds { get; private init; }
+
+    /// <summary>
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config . Constraints: o min: 0 o max: 500 (list) Constraints: o min: 2 o max: 2 (string) Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundsta- tion:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})? Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]
+    /// </summary>
+    [CliOption("--dataflow-edges", GroupValues = true)]
+    public IEnumerable<string>? DataflowEdges { get; private init; }
+
+    /// <summary>
+    /// ARN of a tracking Config . Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?
+    /// </summary>
+    [CliOption("--tracking-config-arn")]
+    public string? TrackingConfigArn { get; private init; }
 
     /// <summary>
     /// Amount of time prior to contact start you'd like to receive a Ground Station Contact State Change event indicating an upcoming pass. Constraints: o min: 0 o max: 21600
@@ -36,15 +113,6 @@ public record AwsGroundstationCreateMissionProfileOptions : AwsOptions
     /// </summary>
     [CliOption("--contact-post-pass-duration-seconds")]
     public int? ContactPostPassDurationSeconds { get; set; }
-
-    [CliOption("--minimum-viable-contact-duration-seconds")]
-    public int? MinimumViableContactDurationSeconds { get; set; }
-
-    [CliOption("--dataflow-edges", GroupValues = true)]
-    public IEnumerable<string>? DataflowEdges { get; set; }
-
-    [CliOption("--tracking-config-arn")]
-    public string? TrackingConfigArn { get; set; }
 
     /// <summary>
     /// ARN of a telemetry sink Config . Constraints: o min: 82 o max: 424 o pattern: arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:con- fig/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?
@@ -75,5 +143,21 @@ public record AwsGroundstationCreateMissionProfileOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

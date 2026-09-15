@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,65 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "create-auth-code")]
-public record AwsConnectCreateAuthCodeOptions : AwsOptions
+public record AwsConnectCreateAuthCodeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates an authorization code for the specified Connect Customer in- stance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="Scope">The scope for the authorization code. Defines the permissions and access boundaries for the session. SecurityProfileIds -&gt; (list) The list of security profile identifiers to scope the session to. Maximum of 10 security profiles. Constraints: o min: 1 o max: 10 (string) EntityType -&gt; (string) [required] The type of entity to scope the session to. Possible values: o CUSTOMER_PROFILE EntityId -&gt; (string) The identifier of the entity to scope the session to. Constraints: o min: 1 o max: 256 o pattern: .* DomainName -&gt; (string) The name of the Customer Profiles domain to scope the session to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Shorthand Syntax: SecurityProfileIds=string,string,EntityType=string,EntityId=string,DomainName=string JSON Syntax: { "SecurityProfileIds": ["string", ...], "EntityType": "CUSTOMER_PROFILE", "EntityId": "string", "DomainName": "string" }</param>
+    /// <param name="SessionInactivityDurationMinutes">The duration of inactivity, in minutes, after which the session ex- pires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days). Constraints: o min: 0 o max: 20160</param>
+    public AwsConnectCreateAuthCodeOptions(
+        string InstanceId,
+        string Scope,
+        int SessionInactivityDurationMinutes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        this.SessionInactivityDurationMinutes = SessionInactivityDurationMinutes;
+    }
+
+    private AwsConnectCreateAuthCodeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectCreateAuthCodeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectCreateAuthCodeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// </summary>
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// The scope for the authorization code. Defines the permissions and access boundaries for the session. SecurityProfileIds -&gt; (list) The list of security profile identifiers to scope the session to. Maximum of 10 security profiles. Constraints: o min: 1 o max: 10 (string) EntityType -&gt; (string) [required] The type of entity to scope the session to. Possible values: o CUSTOMER_PROFILE EntityId -&gt; (string) The identifier of the entity to scope the session to. Constraints: o min: 1 o max: 256 o pattern: .* DomainName -&gt; (string) The name of the Customer Profiles domain to scope the session to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Shorthand Syntax: SecurityProfileIds=string,string,EntityType=string,EntityId=string,DomainName=string JSON Syntax: { "SecurityProfileIds": ["string", ...], "EntityType": "CUSTOMER_PROFILE", "EntityId": "string", "DomainName": "string" }
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public string? Scope { get; private init; }
+
+    /// <summary>
+    /// The duration of inactivity, in minutes, after which the session ex- pires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days). Constraints: o min: 0 o max: 20160
+    /// </summary>
+    [CliOption("--session-inactivity-duration-minutes")]
+    public int? SessionInactivityDurationMinutes { get; private init; }
 
     /// <summary>
     /// The maximum duration of the session, in minutes. Minimum value of 1440 (24 hours). Maximum value of 43200 (30 days). If no value is provided, the session will expire after 400 days. Constraints: o min: 1440 o max: 43200
@@ -33,13 +86,26 @@ public record AwsConnectCreateAuthCodeOptions : AwsOptions
     [CliOption("--max-session-duration-minutes")]
     public int? MaxSessionDurationMinutes { get; set; }
 
-    [CliOption("--session-inactivity-duration-minutes")]
-    public int? SessionInactivityDurationMinutes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

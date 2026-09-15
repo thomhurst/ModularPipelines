@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgn", "start-network-migration-mapping-update")]
-public record AwsMgnStartNetworkMigrationMappingUpdateOptions : AwsOptions
+public record AwsMgnStartNetworkMigrationMappingUpdateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--network-migration-execution-id")]
-    public string? NetworkMigrationExecutionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a job to apply customer modifications to network migration map- pings, such as changing properties. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    public AwsMgnStartNetworkMigrationMappingUpdateOptions(
+        string NetworkMigrationExecutionId,
+        string NetworkMigrationDefinitionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationExecutionId);
+        this.NetworkMigrationExecutionId = NetworkMigrationExecutionId;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMigrationDefinitionId);
+        this.NetworkMigrationDefinitionId = NetworkMigrationDefinitionId;
+    }
+
+    private AwsMgnStartNetworkMigrationMappingUpdateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMgnStartNetworkMigrationMappingUpdateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMgnStartNetworkMigrationMappingUpdateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
+    [CliOption("--network-migration-execution-id")]
+    public string? NetworkMigrationExecutionId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// </summary>
     [CliOption("--network-migration-definition-id")]
-    public string? NetworkMigrationDefinitionId { get; set; }
+    public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
     /// A list of construct updates to apply. Constraints: o min: 0 o max: 100 (structure) A construct update to apply during a mapping update operation. segmentID -&gt; (string) [required] The ID of the segment containing the construct. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} constructID -&gt; (string) [required] The ID of the construct to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} constructType -&gt; (string) [required] The type of the construct. Constraints: o min: 0 o max: 24 o pattern: AWS::([A-Z\d]){2,10}::[a-zA-Z\d]{2,30} operation -&gt; (tagged union structure) The operation to perform on the construct. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: merge, split, delete, up- date. merge -&gt; (structure) A merge operation to combine constructs from different segments. mergeConstructs -&gt; (list) The list of constructs to merge into the target. Constraints: o min: 1 o max: 1 (structure) A construct reference specifying the source seg- ment and construct to merge. segmentID -&gt; (string) The segment ID of the construct to merge. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} constructID -&gt; (string) The construct ID to merge. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} split -&gt; (structure) A split operation to divide a construct into multiple constructs with specified CIDR blocks. splitConstructs -&gt; (list) The list of split targets with their CIDR blocks. Constraints: o min: 2 o max: 2 (structure) A split target specifying the CIDR block for the new construct. cidrBlock -&gt; (string) The CIDR block for the split construct. Constraints: o pattern: ([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2} delete -&gt; (structure) A delete operation to remove a construct from the map- ping. update -&gt; (structure) An update operation to modify construct properties. name -&gt; (string) The updated name for the construct. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])* excluded -&gt; (boolean) Whether to exclude this construct from the migration. properties -&gt; (map) The properties to update on the construct. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 0 o max: 24 value -&gt; (string) Constraints: o min: 0 o max: 65536 JSON Syntax: [ { "segmentID": "string", "constructID": "string", "constructType": "string", "operation": { "merge": { "mergeConstructs": [ { "segmentID": "string", "constructID": "string" } ... ] }, "split": { "splitConstructs": [ { "cidrBlock": "string" } ... ] }, "delete": { }, "update": { "name": "string", "excluded": true|false, "properties": {"string": "string" ...} } } } ... ]
@@ -44,5 +88,21 @@ public record AwsMgnStartNetworkMigrationMappingUpdateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

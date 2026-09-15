@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("migrationhub-config", "create-home-region-control")]
-public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions
+public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API sets up the home region for the calling account only. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="HomeRegion">The name of the home region of the calling account. Constraints: o min: 1 o max: 50 o pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$</param>
+    /// <param name="Target">The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: o ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current ac- count.) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }</param>
+    public AwsMigrationhubConfigCreateHomeRegionControlOptions(
+        string HomeRegion,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HomeRegion);
+        this.HomeRegion = HomeRegion;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    private AwsMigrationhubConfigCreateHomeRegionControlOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMigrationhubConfigCreateHomeRegionControlOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMigrationhubConfigCreateHomeRegionControlOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the home region of the calling account. Constraints: o min: 1 o max: 50 o pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$
+    /// </summary>
     [CliOption("--home-region")]
-    public string? HomeRegion { get; set; }
+    public string? HomeRegion { get; private init; }
 
+    /// <summary>
+    /// The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: o ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current ac- count.) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

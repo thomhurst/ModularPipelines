@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,17 +21,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("fsx", "copy-backup")]
-public record AwsFsxCopyBackupOptions : AwsOptions
+public record AwsFsxCopyBackupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five backup copy requests in progress to a single destination Region per account. You can use cross-Region backup copies for cross-Region disaster recov- ery. You can periodically take backups and copy them to another Region so that in the event of a disaster in the primary Region, you ca...
+    /// </summary>
+    /// <param name="SourceBackupId">The ID of the source backup. Specifies the ID of the backup that's being copied. Constraints: o min: 12 o max: 128 o pattern: ^(backup-[0-9a-f]{8,})$</param>
+    public AwsFsxCopyBackupOptions(
+        string SourceBackupId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackupId);
+        this.SourceBackupId = SourceBackupId;
+    }
+
+    private AwsFsxCopyBackupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsFsxCopyBackupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsFsxCopyBackupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the source backup. Specifies the ID of the backup that's being copied. Constraints: o min: 12 o max: 128 o pattern: ^(backup-[0-9a-f]{8,})$
+    /// </summary>
+    [CliOption("--source-backup-id")]
+    public string? SourceBackupId { get; private init; }
+
     /// <summary>
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
-
-    [CliOption("--source-backup-id")]
-    public string? SourceBackupId { get; set; }
 
     /// <summary>
     /// The source Amazon Web Services Region of the backup. Specifies the Amazon Web Services Region from which the backup is being copied. The source and destination Regions must be in the same Amazon Web Services partition. If you don't specify a Region, SourceRegion de- faults to the Region where the request is sent from (in-Region copy). Constraints: o min: 1 o max: 20 o pattern: ^[a-z0-9-]{1,20}$
@@ -44,7 +81,10 @@ public record AwsFsxCopyBackupOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--copy-tags")]
+    /// <summary>
+    /// A Boolean flag indicating whether tags from the source backup should be copied to the backup copy. This value defaults to false . If you set CopyTags to true and the source backup has existing tags, you can use the Tags parameter to create new tags, provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both sets of tags are merged. If there are tag conflicts (for exam- ple, two tags with the same key but different values), the tags cre- ated with the Tags parameter take precedence.
+    /// </summary>
+    [CliFlag("--copy-tags", NegatedName = "--no-copy-tags")]
     public bool? CopyTags { get; set; }
 
     /// <summary>
@@ -58,5 +98,21 @@ public record AwsFsxCopyBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

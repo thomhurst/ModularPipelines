@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "start-detect-mitigation-actions-task")]
-public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions
+public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Starts a Device Defender ML Detect mitigation actions task. Requires permissi...
+    /// </summary>
+    /// <param name="TaskId">The unique identifier of the task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Target">Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }</param>
+    /// <param name="Actions">The actions to be performed when a device has unexpected behavior. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...</param>
+    public AwsIotStartDetectMitigationActionsTaskOptions(
+        string TaskId,
+        string Target,
+        IEnumerable<string> Actions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TaskId);
+        this.TaskId = TaskId;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+    }
+
+    private AwsIotStartDetectMitigationActionsTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotStartDetectMitigationActionsTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotStartDetectMitigationActionsTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the task. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// </summary>
     [CliOption("--task-id")]
-    public string? TaskId { get; set; }
+    public string? TaskId { get; private init; }
 
+    /// <summary>
+    /// Specifies the ML Detect findings to which the mitigation actions are applied. violationIds -&gt; (list) The unique identifiers of the violations. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-]+ securityProfileName -&gt; (string) The name of the security profile. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ behaviorName -&gt; (string) The name of the behavior. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: violationIds=string,string,securityProfileName=string,behaviorName=string JSON Syntax: { "violationIds": ["string", ...], "securityProfileName": "string", "behaviorName": "string" }
+    /// </summary>
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public string? Target { get; private init; }
 
+    /// <summary>
+    /// The actions to be performed when a device has unexpected behavior. Constraints: o min: 1 o max: 5 (string) Constraints: o max: 128 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--actions", GroupValues = true)]
-    public IEnumerable<string>? Actions { get; set; }
+    public IEnumerable<string>? Actions { get; private init; }
 
     /// <summary>
     /// Specifies the time period of which violation events occurred be- tween. startTime -&gt; (timestamp) [required] The start date and time of a time period in which violation events occurred. endTime -&gt; (timestamp) [required] The end date and time of a time period in which violation events occurred. Shorthand Syntax: startTime=timestamp,endTime=timestamp JSON Syntax: { "startTime": timestamp, "endTime": timestamp }
@@ -37,10 +99,16 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions
     [CliOption("--violation-event-occurrence-range")]
     public string? ViolationEventOccurrenceRange { get; set; }
 
-    [CliFlag("--include-only-active-violations")]
+    /// <summary>
+    /// Specifies to list only active violations.
+    /// </summary>
+    [CliFlag("--include-only-active-violations", NegatedName = "--no-include-only-active-violations")]
     public bool? IncludeOnlyActiveViolations { get; set; }
 
-    [CliFlag("--include-suppressed-alerts")]
+    /// <summary>
+    /// Specifies to include suppressed alerts.
+    /// </summary>
+    [CliFlag("--include-suppressed-alerts", NegatedName = "--no-include-suppressed-alerts")]
     public bool? IncludeSuppressedAlerts { get; set; }
 
     /// <summary>
@@ -55,5 +123,21 @@ public record AwsIotStartDetectMitigationActionsTaskOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

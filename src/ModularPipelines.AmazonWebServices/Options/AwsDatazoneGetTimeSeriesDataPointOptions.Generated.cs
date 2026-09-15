@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +21,107 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "get-time-series-data-point")]
-public record AwsDatazoneGetTimeSeriesDataPointOptions : AwsOptions
+public record AwsDatazoneGetTimeSeriesDataPointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Gets the existing data point for the asset. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset for which you want to get the data point. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset for which you want to get the data point. Possible values: o ASSET o LISTING</param>
+    /// <param name="Identifier">The ID of the data point that you want to get. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="FormName">The name of the time series form that houses the data point that you want to get. Constraints: o min: 1 o max: 128</param>
+    public AwsDatazoneGetTimeSeriesDataPointOptions(
+        string DomainIdentifier,
+        string EntityIdentifier,
+        AwsDatazoneGetTimeSeriesDataPointEntityType EntityType,
+        string Identifier,
+        string FormName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityIdentifier);
+        this.EntityIdentifier = EntityIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(EntityType);
+        this.EntityType = EntityType;
+        global::System.ArgumentNullException.ThrowIfNull(Identifier);
+        this.Identifier = Identifier;
+        global::System.ArgumentNullException.ThrowIfNull(FormName);
+        this.FormName = FormName;
+    }
+
+    private AwsDatazoneGetTimeSeriesDataPointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazoneGetTimeSeriesDataPointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazoneGetTimeSeriesDataPointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    public string? DomainIdentifier { get; private init; }
 
+    /// <summary>
+    /// The ID of the asset for which you want to get the data point. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--entity-identifier")]
-    public string? EntityIdentifier { get; set; }
+    public string? EntityIdentifier { get; private init; }
 
+    /// <summary>
+    /// The type of the asset for which you want to get the data point. Possible values: o ASSET o LISTING
+    /// </summary>
     [CliOption("--entity-type")]
-    public string? EntityType { get; set; }
+    public AwsDatazoneGetTimeSeriesDataPointEntityType? EntityType { get; private init; }
 
+    /// <summary>
+    /// The ID of the data point that you want to get. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// </summary>
     [CliOption("--identifier")]
-    public string? Identifier { get; set; }
+    public string? Identifier { get; private init; }
 
+    /// <summary>
+    /// The name of the time series form that houses the data point that you want to get. Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--form-name")]
-    public string? FormName { get; set; }
+    public string? FormName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

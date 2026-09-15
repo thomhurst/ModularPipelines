@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront-keyvaluestore", "update-keys")]
-public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions
+public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--kvs-arn")]
-    public string? KvsArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are up- dating keys of, which you can get using DescribeKeyValueStore.</param>
+    public AwsCloudfrontKeyvaluestoreUpdateKeysOptions(
+        string KvsArn,
+        string IfMatch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KvsArn);
+        this.KvsArn = KvsArn;
+        global::System.ArgumentNullException.ThrowIfNull(IfMatch);
+        this.IfMatch = IfMatch;
+    }
+
+    private AwsCloudfrontKeyvaluestoreUpdateKeysOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontKeyvaluestoreUpdateKeysOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontKeyvaluestoreUpdateKeysOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// </summary>
+    [CliOption("--kvs-arn")]
+    public string? KvsArn { get; private init; }
+
+    /// <summary>
+    /// The current version (ETag) of the Key Value Store that you are up- dating keys of, which you can get using DescribeKeyValueStore.
+    /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatch { get; set; }
+    public string? IfMatch { get; private init; }
 
     /// <summary>
     /// List of key value pairs to put. (structure) List item for key value pair to put. Key -&gt; (string) [required] The key of the key value pair list item to put. Constraints: o min: 1 o max: 1024 Value -&gt; (string) [required] The value for the key value pair to put. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

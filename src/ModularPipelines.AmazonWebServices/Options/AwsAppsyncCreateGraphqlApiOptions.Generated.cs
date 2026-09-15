@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,19 +22,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appsync", "create-graphql-api")]
-public record AwsAppsyncCreateGraphqlApiOptions : AwsOptions
+public record AwsAppsyncCreateGraphqlApiOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a GraphqlApi object. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A user-supplied name for the GraphqlApi .</param>
+    /// <param name="AuthenticationType">The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA</param>
+    public AwsAppsyncCreateGraphqlApiOptions(
+        string Name,
+        AwsAppsyncCreateGraphqlApiAuthenticationType AuthenticationType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(AuthenticationType);
+        this.AuthenticationType = AuthenticationType;
+    }
+
+    private AwsAppsyncCreateGraphqlApiOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppsyncCreateGraphqlApiOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppsyncCreateGraphqlApiOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A user-supplied name for the GraphqlApi .
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda. Possible values: o API_KEY o AWS_IAM o AMAZON_COGNITO_USER_POOLS o OPENID_CONNECT o AWS_LAMBDA
+    /// </summary>
+    [CliOption("--authentication-type")]
+    public AwsAppsyncCreateGraphqlApiAuthenticationType? AuthenticationType { get; private init; }
 
     /// <summary>
     /// The Amazon CloudWatch Logs configuration. fieldLogLevel -&gt; (string) [required] The field logging level. Values can be NONE, ERROR, or ALL. o NONE : No field-level logs are captured. o ERROR : Logs the following information only for the fields that are in error: o The error section in the server response. o Field-level errors. o The generated request/response functions that got resolved for error fields. o ALL : The following information is logged for all fields in the query: o Field-level tracing information. o The generated request/response functions that got resolved for each field. Possible values: o NONE o ERROR o ALL o INFO o DEBUG cloudWatchLogsRoleArn -&gt; (string) [required] The service role that AppSync assumes to publish to CloudWatch logs in your account. excludeVerboseContent -&gt; (boolean) Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level. Shorthand Syntax: fieldLogLevel=string,cloudWatchLogsRoleArn=string,excludeVerboseContent=boolean JSON Syntax: { "fieldLogLevel": "NONE"|"ERROR"|"ALL"|"INFO"|"DEBUG", "cloudWatchLogsRoleArn": "string", "excludeVerboseContent": true|false }
     /// </summary>
     [CliOption("--log-config")]
     public string? LogConfig { get; set; }
-
-    [CliOption("--authentication-type")]
-    public string? AuthenticationType { get; set; }
 
     /// <summary>
     /// The Amazon Cognito user pool configuration. userPoolId -&gt; (string) [required] The user pool ID. awsRegion -&gt; (string) [required] The Amazon Web Services Region in which the user pool was cre- ated. defaultAction -&gt; (string) [required] The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pool authentication doesn't match the Amazon Cognito user pool configuration. Possible values: o ALLOW o DENY appIdClientRegex -&gt; (string) A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied. Shorthand Syntax: userPoolId=string,awsRegion=string,defaultAction=string,appIdClientRegex=string JSON Syntax: { "userPoolId": "string", "awsRegion": "string", "defaultAction": "ALLOW"|"DENY", "appIdClientRegex": "string" }
@@ -59,7 +103,10 @@ public record AwsAppsyncCreateGraphqlApiOptions : AwsOptions
     [CliOption("--additional-authentication-providers", GroupValues = true)]
     public IEnumerable<string>? AdditionalAuthenticationProviders { get; set; }
 
-    [CliFlag("--xray-enabled")]
+    /// <summary>
+    /// A flag indicating whether to use X-Ray tracing for the GraphqlApi .
+    /// </summary>
+    [CliFlag("--xray-enabled", NegatedName = "--no-xray-enabled")]
     public bool? XrayEnabled { get; set; }
 
     /// <summary>
@@ -121,5 +168,21 @@ public record AwsAppsyncCreateGraphqlApiOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

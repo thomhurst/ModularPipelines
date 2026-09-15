@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "get-identity-center-auth-token")]
-public record AwsRedshiftGetIdentityCenterAuthTokenOptions : AwsOptions
+public record AwsRedshiftGetIdentityCenterAuthTokenOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Iden- tity Center identity from enhanced credentials and creates a secure to- ken that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token con- tains the caller's Ama...
+    /// </summary>
+    /// <param name="ClusterIds">A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: o ClusterIds must contain at least 1 cluster identifier. o ClusterIds can hold a maximum of 20 cluster identifiers. o Cluster identifiers must be 1 to 63 characters in length. o The characters accepted for cluster identifiers are the following: o Alphanumeric characters o Hyphens o Cluster identifiers must start with a letter. o Cluster identifiers can't end with a hyphen or contain two consec- utive hyphens. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    public AwsRedshiftGetIdentityCenterAuthTokenOptions(
+        IEnumerable<string> ClusterIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ClusterIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ClusterIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ClusterIds));
+            }
+
+            ClusterIds = materialized;
+        }
+        this.ClusterIds = ClusterIds;
+    }
+
+    private AwsRedshiftGetIdentityCenterAuthTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftGetIdentityCenterAuthTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftGetIdentityCenterAuthTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints: o ClusterIds must contain at least 1 cluster identifier. o ClusterIds can hold a maximum of 20 cluster identifiers. o Cluster identifiers must be 1 to 63 characters in length. o The characters accepted for cluster identifiers are the following: o Alphanumeric characters o Hyphens o Cluster identifiers must start with a letter. o Cluster identifiers can't end with a hyphen or contain two consec- utive hyphens. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--cluster-ids", GroupValues = true)]
-    public IEnumerable<string>? ClusterIds { get; set; }
+    public IEnumerable<string>? ClusterIds { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

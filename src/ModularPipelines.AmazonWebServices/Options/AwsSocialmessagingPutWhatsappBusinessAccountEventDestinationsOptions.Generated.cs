@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("socialmessaging", "put-whatsapp-business-account-event-destinations")]
-public record AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions : AwsOptions
+public record AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event des- tination. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Id">The unique identifier of your WhatsApp Business Account. WABA iden- tifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their de- tails. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="EventDestinations">An array of WhatsAppBusinessAccountEventDestination event destina- tions. Constraints: o min: 0 o max: 1 (structure) Contains information on the event destination. eventDestinationArn -&gt; (string) [required] The ARN of the event destination. Constraints: o min: 0 o max: 2048 o pattern: arn:.*:[a-z-]+([/:](.*))? roleArn -&gt; (string) The Amazon Resource Name (ARN) of an Identity and Access Man- agement role that is able to import phone numbers and write events. Constraints: o pattern: arn:.*:iam::\d{12}:role\/[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: eventDestinationArn=string,roleArn=string ... JSON Syntax: [ { "eventDestinationArn": "string", "roleArn": "string" } ... ]</param>
+    public AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions(
+        string Id,
+        IEnumerable<string> EventDestinations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EventDestinations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EventDestinations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EventDestinations));
+            }
+
+            EventDestinations = materialized;
+        }
+        this.EventDestinations = EventDestinations;
+    }
+
+    private AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of your WhatsApp Business Account. WABA iden- tifiers are formatted as waba-01234567890123456789012345678901 . Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their de- tails. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// An array of WhatsAppBusinessAccountEventDestination event destina- tions. Constraints: o min: 0 o max: 1 (structure) Contains information on the event destination. eventDestinationArn -&gt; (string) [required] The ARN of the event destination. Constraints: o min: 0 o max: 2048 o pattern: arn:.*:[a-z-]+([/:](.*))? roleArn -&gt; (string) The Amazon Resource Name (ARN) of an Identity and Access Man- agement role that is able to import phone numbers and write events. Constraints: o pattern: arn:.*:iam::\d{12}:role\/[a-zA-Z0-9+=,.@\-_]+ Shorthand Syntax: eventDestinationArn=string,roleArn=string ... JSON Syntax: [ { "eventDestinationArn": "string", "roleArn": "string" } ... ]
+    /// </summary>
     [CliOption("--event-destinations", GroupValues = true)]
-    public IEnumerable<string>? EventDestinations { get; set; }
+    public IEnumerable<string>? EventDestinations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

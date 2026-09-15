@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "update-connector")]
-public record AwsTransferUpdateConnectorOptions : AwsOptions
+public record AwsTransferUpdateConnectorOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates some of the parameters for an existing connector. Provide the ConnectorId for the connector that you want to update, along with the new values for the parameters to update. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    public AwsTransferUpdateConnectorOptions(
+        string ConnectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+    }
+
+    private AwsTransferUpdateConnectorOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferUpdateConnectorOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferUpdateConnectorOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    public string? ConnectorId { get; private init; }
 
     /// <summary>
     /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null. Constraints: o min: 0 o max: 255
@@ -50,7 +87,7 @@ public record AwsTransferUpdateConnectorOptions : AwsOptions
     public string? LoggingRole { get; set; }
 
     /// <summary>
-    /// A structure that contains the parameters for an SFTP connector ob- ject. UserSecretId -&gt; (string) The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret. NOTE: o Required when creating an SFTP connector o Optional when updating an existing SFTP connector Constraints: o min: 1 o max: 2048 TrustedHostKeys -&gt; (list) The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to re- trieve the necessary key. NOTE: TrustedHostKeys is optional for CreateConnector . If not pro- vided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body with- out the host name. For example: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; The three standard SSH public key format elements are &lt;key type&gt; , &lt;body base64&gt; , and an optional &lt;comment&gt; , with spaces be- tween each element. Specify only the &lt;key type&gt; and &lt;body base64&gt; : do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys. o For RSA keys, the &lt;key type&gt; string is ssh-rsa . o For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256 , ecdsa-sha2-nistp384 , or ecdsa-sha2-nistp521 , depending on the size of the key you generated. Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com . ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the host- name from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 MaxConcurrentConnections -&gt; (integer) Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1 . The maxi- mum values is 5 . NOTE: If you are using the Amazon Web Services Management Console, the default value is 5 . This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel opera- tions. Constraints: o min: 1 Shorthand Syntax: UserSecretId=string,TrustedHostKeys=string,string,MaxConcurrentConnections=integer JSON Syntax: { "UserSecretId": "string", "TrustedHostKeys": ["string", ...], "MaxConcurrentConnections": integer }
+    /// A structure that contains the parameters for an SFTP connector ob- ject. UserSecretId -&gt; (string) The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret. NOTE: o Required when creating an SFTP connector o Optional when updating an existing SFTP connector Constraints: o min: 1 o max: 2048 TrustedHostKeys -&gt; (list) The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to re- trieve the necessary key. NOTE: TrustedHostKeys is optional for CreateConnector . If not pro- vided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body with- out the host name. For example: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; The three standard SSH public key format elements are &lt;key type&gt; , &lt;body base64&gt; , and an optional &lt;comment&gt; , with spaces be- tween each element. Specify only the &lt;key type&gt; and &lt;body base64&gt; : do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys. o For RSA keys, the &lt;key type&gt; string is ssh-rsa . o For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256 , ecdsa-sha2-nistp384 , or ecdsa-sha2-nistp521 , depending on the size of the key you generated. Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com . ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the host- name from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt; Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 MaxConcurrentConnections -&gt; (integer) Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1 . The maxi- mum values is 5 . NOTE: If you are using the Amazon Web Services Management Console, the default value is 5 . This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel opera- tions. Constraints: o min: 1 OrderedUserSecretVersionStages -&gt; (list) An ordered list of Amazon Web Services Secrets Manager version stages (staging labels, such as AWSCURRENT and AWSPREVIOUS ) for the secret identified by UserSecretId . When establishing a con- nection, the connector attempts to retrieve the SFTP user's cre- dentials from each version stage in the order listed, and uses the first version it can successfully retrieve. This lets you rotate the user secret without interrupting connector opera- tions. Constraints: o min: 1 o max: 2 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: UserSecretId=string,TrustedHostKeys=string,string,MaxConcurrentConnections=integer,OrderedUserSecretVersionStages=string,string JSON Syntax: { "UserSecretId": "string", "TrustedHostKeys": ["string", ...], "MaxConcurrentConnections": integer, "OrderedUserSecretVersionStages": ["string", ...] }
     /// </summary>
     [CliOption("--sftp-config")]
     public string? SftpConfig { get; set; }
@@ -78,5 +115,21 @@ public record AwsTransferUpdateConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

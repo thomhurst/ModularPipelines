@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "resend-validation-email")]
-public record AwsAcmResendValidationEmailOptions : AwsOptions
+public record AwsAcmResendValidationEmailOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve . However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of re- questin...
+    /// </summary>
+    /// <param name="CertificateArn">String that contains the ARN of the requested certificate. The cer- tificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this para- meter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Domain">The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
+    /// <param name="ValidationDomain">The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: o admin@subdomain.example.com o administrator@subdomain.example.com o hostmaster@subdomain.example.com o postmaster@subdomain.example.com o webmaster@subdomain.example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
+    public AwsAcmResendValidationEmailOptions(
+        string CertificateArn,
+        string Domain,
+        string ValidationDomain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(ValidationDomain);
+        this.ValidationDomain = ValidationDomain;
+    }
+
+    private AwsAcmResendValidationEmailOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmResendValidationEmailOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmResendValidationEmailOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// String that contains the ARN of the requested certificate. The cer- tificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this para- meter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form: arn:aws:acm:us-east-1:123456789012:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
     [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    public string? CertificateArn { get; private init; }
 
+    /// <summary>
+    /// The fully qualified domain name (FQDN) of the certificate that needs to be validated. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
+    /// </summary>
     [CliOption("--domain")]
-    public string? Domain { get; set; }
+    public string? Domain { get; private init; }
 
+    /// <summary>
+    /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the the following five addresses: o admin@subdomain.example.com o administrator@subdomain.example.com o hostmaster@subdomain.example.com o postmaster@subdomain.example.com o webmaster@subdomain.example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
+    /// </summary>
     [CliOption("--validation-domain")]
-    public string? ValidationDomain { get; set; }
+    public string? ValidationDomain { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

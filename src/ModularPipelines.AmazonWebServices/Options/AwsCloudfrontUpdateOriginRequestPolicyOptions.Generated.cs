@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudfront", "update-origin-request-policy")]
-public record AwsCloudfrontUpdateOriginRequestPolicyOptions : AwsOptions
+public record AwsCloudfrontUpdateOriginRequestPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--origin-request-policy-config")]
-    public string? OriginRequestPolicyConfig { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration: o Use GetOriginRequestPolicyConfig to get the current configuration. o Locally modify the fields in the origin request policy configuration that you want to update. o Call UpdateOriginRequestPolicy by providing the entire ori...
+    /// </summary>
+    /// <param name="OriginRequestPolicyConfig">An origin request policy configuration. Comment -&gt; (string) A comment to describe the origin request policy. The comment cannot be longer than 128 characters. Name -&gt; (string) [required] A unique name to identify the origin request policy. HeadersConfig -&gt; (structure) [required] The HTTP headers to include in origin requests. These can in- clude headers from viewer requests and additional headers added by CloudFront. HeaderBehavior -&gt; (string) [required] Determines whether any HTTP headers are included in requests that CloudFront sends to the origin. Valid values are: o none No HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none , any headers that are listed in a CachePolicy are included in origin requests. o whitelist Only the HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. o allViewer All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. o allViewerAndWhitelistCloudFront All HTTP headers in viewer requests and the additional CloudFront headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. The additional headers are added by CloudFront. o allExcept All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin, * except * for those listed in the Headers type, which are not in- cluded. Possible values: o none o whitelist o allViewer o allViewerAndWhitelistCloudFront o allExcept Headers -&gt; (structure) Contains a list of HTTP header names. Quantity -&gt; (integer) [required] The number of header names in the Items list. Items -&gt; (list) A list of HTTP header names. (string) CookiesConfig -&gt; (structure) [required] The cookies from viewer requests to include in origin requests. CookieBehavior -&gt; (string) [required] Determines whether cookies in viewer requests are included in requests that CloudFront sends to the origin. Valid values are: o none No cookies in viewer requests are included in re- quests that CloudFront sends to the origin. Even when this field is set to none , any cookies that are listed in a CachePolicy are included in origin requests. o whitelist Only the cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin. o all All cookies in viewer requests are included in re- quests that CloudFront sends to the origin. o allExcept All cookies in viewer requests are included in requests that CloudFront sends to the origin, * except * for those listed in the CookieNames type, which are not in- cluded. Possible values: o none o whitelist o all o allExcept Cookies -&gt; (structure) Contains a list of cookie names. Quantity -&gt; (integer) [required] The number of cookie names in the Items list. Items -&gt; (list) A list of cookie names. (string) QueryStringsConfig -&gt; (structure) [required] The URL query strings from viewer requests to include in origin requests. QueryStringBehavior -&gt; (string) [required] Determines whether any URL query strings in viewer requests are included in requests that CloudFront sends to the origin. Valid values are: o none No query strings in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none , any query strings that are listed in a CachePolicy are included in origin requests. o whitelist Only the query strings in viewer requests that are listed in the QueryStringNames type are included in re- quests that CloudFront sends to the origin. o all All query strings in viewer requests are included in requests that CloudFront sends to the origin. o allExcept All query strings in viewer requests are in- cluded in requests that CloudFront sends to the origin, * except * for those listed in the QueryStringNames type, which are not included. Possible values: o none o whitelist o all o allExcept QueryStrings -&gt; (structure) Contains the specific query strings in viewer requests that either * are * or * are not * included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the OriginRequest- PolicyQueryStringsConfig type is set to whitelist (the listed query strings * are * included) or allExcept (the listed query strings * are not * included, but all other query strings are). Quantity -&gt; (integer) [required] The number of query string names in the Items list. Items -&gt; (list) A list of query string names. (string) JSON Syntax: { "Comment": "string", "Name": "string", "HeadersConfig": { "HeaderBehavior": "none"|"whitelist"|"allViewer"|"allViewerAndWhitelistCloudFront"|"allExcept", "Headers": { "Quantity": integer, "Items": ["string", ...] } }, "CookiesConfig": { "CookieBehavior": "none"|"whitelist"|"all"|"allExcept", "Cookies": { "Quantity": integer, "Items": ["string", ...] } }, "QueryStringsConfig": { "QueryStringBehavior": "none"|"whitelist"|"all"|"allExcept", "QueryStrings": { "Quantity": integer, "Items": ["string", ...] } } }</param>
+    /// <param name="Id">The unique identifier for the origin request policy that you are up- dating. The identifier is returned in a cache behavior's OriginRe- questPolicyId field in the response to GetDistributionConfig .</param>
+    public AwsCloudfrontUpdateOriginRequestPolicyOptions(
+        string OriginRequestPolicyConfig,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OriginRequestPolicyConfig);
+        this.OriginRequestPolicyConfig = OriginRequestPolicyConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    private AwsCloudfrontUpdateOriginRequestPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudfrontUpdateOriginRequestPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudfrontUpdateOriginRequestPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An origin request policy configuration. Comment -&gt; (string) A comment to describe the origin request policy. The comment cannot be longer than 128 characters. Name -&gt; (string) [required] A unique name to identify the origin request policy. HeadersConfig -&gt; (structure) [required] The HTTP headers to include in origin requests. These can in- clude headers from viewer requests and additional headers added by CloudFront. HeaderBehavior -&gt; (string) [required] Determines whether any HTTP headers are included in requests that CloudFront sends to the origin. Valid values are: o none No HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none , any headers that are listed in a CachePolicy are included in origin requests. o whitelist Only the HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. o allViewer All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. o allViewerAndWhitelistCloudFront All HTTP headers in viewer requests and the additional CloudFront headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. The additional headers are added by CloudFront. o allExcept All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin, * except * for those listed in the Headers type, which are not in- cluded. Possible values: o none o whitelist o allViewer o allViewerAndWhitelistCloudFront o allExcept Headers -&gt; (structure) Contains a list of HTTP header names. Quantity -&gt; (integer) [required] The number of header names in the Items list. Items -&gt; (list) A list of HTTP header names. (string) CookiesConfig -&gt; (structure) [required] The cookies from viewer requests to include in origin requests. CookieBehavior -&gt; (string) [required] Determines whether cookies in viewer requests are included in requests that CloudFront sends to the origin. Valid values are: o none No cookies in viewer requests are included in re- quests that CloudFront sends to the origin. Even when this field is set to none , any cookies that are listed in a CachePolicy are included in origin requests. o whitelist Only the cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin. o all All cookies in viewer requests are included in re- quests that CloudFront sends to the origin. o allExcept All cookies in viewer requests are included in requests that CloudFront sends to the origin, * except * for those listed in the CookieNames type, which are not in- cluded. Possible values: o none o whitelist o all o allExcept Cookies -&gt; (structure) Contains a list of cookie names. Quantity -&gt; (integer) [required] The number of cookie names in the Items list. Items -&gt; (list) A list of cookie names. (string) QueryStringsConfig -&gt; (structure) [required] The URL query strings from viewer requests to include in origin requests. QueryStringBehavior -&gt; (string) [required] Determines whether any URL query strings in viewer requests are included in requests that CloudFront sends to the origin. Valid values are: o none No query strings in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none , any query strings that are listed in a CachePolicy are included in origin requests. o whitelist Only the query strings in viewer requests that are listed in the QueryStringNames type are included in re- quests that CloudFront sends to the origin. o all All query strings in viewer requests are included in requests that CloudFront sends to the origin. o allExcept All query strings in viewer requests are in- cluded in requests that CloudFront sends to the origin, * except * for those listed in the QueryStringNames type, which are not included. Possible values: o none o whitelist o all o allExcept QueryStrings -&gt; (structure) Contains the specific query strings in viewer requests that either * are * or * are not * included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the OriginRequest- PolicyQueryStringsConfig type is set to whitelist (the listed query strings * are * included) or allExcept (the listed query strings * are not * included, but all other query strings are). Quantity -&gt; (integer) [required] The number of query string names in the Items list. Items -&gt; (list) A list of query string names. (string) JSON Syntax: { "Comment": "string", "Name": "string", "HeadersConfig": { "HeaderBehavior": "none"|"whitelist"|"allViewer"|"allViewerAndWhitelistCloudFront"|"allExcept", "Headers": { "Quantity": integer, "Items": ["string", ...] } }, "CookiesConfig": { "CookieBehavior": "none"|"whitelist"|"all"|"allExcept", "Cookies": { "Quantity": integer, "Items": ["string", ...] } }, "QueryStringsConfig": { "QueryStringBehavior": "none"|"whitelist"|"all"|"allExcept", "QueryStrings": { "Quantity": integer, "Items": ["string", ...] } } }
+    /// </summary>
+    [CliOption("--origin-request-policy-config")]
+    public string? OriginRequestPolicyConfig { get; private init; }
+
+    /// <summary>
+    /// The unique identifier for the origin request policy that you are up- dating. The identifier is returned in a cache behavior's OriginRe- questPolicyId field in the response to GetDistributionConfig .
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
 
     /// <summary>
     /// The version of the origin request policy that you are updating. The version is returned in the origin request policy's ETag field in the response to GetOriginRequestPolicyConfig .
@@ -38,5 +82,21 @@ public record AwsCloudfrontUpdateOriginRequestPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

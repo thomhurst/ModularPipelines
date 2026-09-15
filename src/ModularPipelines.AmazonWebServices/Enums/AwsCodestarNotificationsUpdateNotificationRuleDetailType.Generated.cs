@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --detailtype.
+/// Allowed values for --detail-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCodestarNotificationsUpdateNotificationRuleDetailType
 {
     [EnumValue("BASIC")]
-    Basic = 1,
+    Basic,
 
     [EnumValue("FULL")]
-    Full = 2
+    Full
 }

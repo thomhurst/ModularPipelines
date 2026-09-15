@@ -16,9 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsEc2ModifySnapshotAttributeAttribute
 {
-    [EnumValue("productCodes")]
-    ProductCodes = 1,
-
     [EnumValue("createVolumePermission")]
-    CreateVolumePermission = 2
+    CreateVolumePermission,
+
+    [EnumValue("productCodes")]
+    ProductCodes
 }

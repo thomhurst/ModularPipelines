@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +21,68 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "create-topic-rule-destination")]
-public record AwsIotCreateTopicRuleDestinationOptions : AwsOptions
+public record AwsIotCreateTopicRuleDestinationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the CreateTopicRuleDestination action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationConfiguration">The topic rule destination configuration. httpUrlConfiguration -&gt; (structure) Configuration of the HTTP URL. confirmationUrl -&gt; (string) [required] The URL IoT uses to confirm ownership of or access to the topic rule destination URL. Constraints: o max: 2000 vpcConfiguration -&gt; (structure) Configuration of the virtual private cloud (VPC) connection. subnetIds -&gt; (list) [required] The subnet IDs of the VPC destination. (string) securityGroups -&gt; (list) The security groups of the VPC destination. (string) vpcId -&gt; (string) [required] The ID of the VPC. roleArn -&gt; (string) [required] The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs). influxDBConfiguration -&gt; (structure) The configuration of an InfluxDB topic rule destination, which you specify when you call CreateTopicRuleDestination . endpoint -&gt; (string) [required] The URL of the InfluxDB instance to write to. Constraints: o max: 2000 influxDBVersion -&gt; (string) [required] The major version of the InfluxDB instance. Valid values are V2 and V3 . Possible values: o V2 o V3 secretId -&gt; (string) [required] The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token. Constraints: o min: 1 o max: 512 secretType -&gt; (string) The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary . If omitted, IoT reads the secret as a string. Possible values: o SecretString o SecretBinary secretKey -&gt; (string) The key to read from the secret value when the secret con- tains a JSON object. If omitted, IoT uses the entire secret value as the InfluxDB API token. Constraints: o min: 1 o max: 128 Shorthand Syntax: httpUrlConfiguration={confirmationUrl=string},vpcConfiguration={subnetIds=[string,string],securityGroups=[string,string],vpcId=string,roleArn=string},influxDBConfiguration={endpoint=string,influxDBVersion=string,secretId=string,secretType=string,secretKey=string} JSON Syntax: { "httpUrlConfiguration": { "confirmationUrl": "string" }, "vpcConfiguration": { "subnetIds": ["string", ...], "securityGroups": ["string", ...], "vpcId": "string", "roleArn": "string" }, "influxDBConfiguration": { "endpoint": "string", "influxDBVersion": "V2"|"V3", "secretId": "string", "secretType": "SecretString"|"SecretBinary", "secretKey": "string" } }</param>
+    public AwsIotCreateTopicRuleDestinationOptions(
+        string DestinationConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationConfiguration);
+        this.DestinationConfiguration = DestinationConfiguration;
+    }
+
+    private AwsIotCreateTopicRuleDestinationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotCreateTopicRuleDestinationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotCreateTopicRuleDestinationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The topic rule destination configuration. httpUrlConfiguration -&gt; (structure) Configuration of the HTTP URL. confirmationUrl -&gt; (string) [required] The URL IoT uses to confirm ownership of or access to the topic rule destination URL. Constraints: o max: 2000 vpcConfiguration -&gt; (structure) Configuration of the virtual private cloud (VPC) connection. subnetIds -&gt; (list) [required] The subnet IDs of the VPC destination. (string) securityGroups -&gt; (list) The security groups of the VPC destination. (string) vpcId -&gt; (string) [required] The ID of the VPC. roleArn -&gt; (string) [required] The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs). influxDBConfiguration -&gt; (structure) The configuration of an InfluxDB topic rule destination, which you specify when you call CreateTopicRuleDestination . endpoint -&gt; (string) [required] The URL of the InfluxDB instance to write to. Constraints: o max: 2000 influxDBVersion -&gt; (string) [required] The major version of the InfluxDB instance. Valid values are V2 and V3 . Possible values: o V2 o V3 secretId -&gt; (string) [required] The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token. Constraints: o min: 1 o max: 512 secretType -&gt; (string) The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary . If omitted, IoT reads the secret as a string. Possible values: o SecretString o SecretBinary secretKey -&gt; (string) The key to read from the secret value when the secret con- tains a JSON object. If omitted, IoT uses the entire secret value as the InfluxDB API token. Constraints: o min: 1 o max: 128 Shorthand Syntax: httpUrlConfiguration={confirmationUrl=string},vpcConfiguration={subnetIds=[string,string],securityGroups=[string,string],vpcId=string,roleArn=string},influxDBConfiguration={endpoint=string,influxDBVersion=string,secretId=string,secretType=string,secretKey=string} JSON Syntax: { "httpUrlConfiguration": { "confirmationUrl": "string" }, "vpcConfiguration": { "subnetIds": ["string", ...], "securityGroups": ["string", ...], "vpcId": "string", "roleArn": "string" }, "influxDBConfiguration": { "endpoint": "string", "influxDBVersion": "V2"|"V3", "secretId": "string", "secretType": "SecretString"|"SecretBinary", "secretKey": "string" } }
+    /// </summary>
+    [SecretValue]
     [CliOption("--destination-configuration")]
-    public string? DestinationConfiguration { get; set; }
+    public string? DestinationConfiguration { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

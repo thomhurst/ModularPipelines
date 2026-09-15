@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "backtrack-db-cluster")]
-public record AwsRdsBacktrackDbClusterOptions : AwsOptions
+public record AwsRdsBacktrackDbClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see Backtracking an Aurora DB Cluster in the Amazon Aurora User Guide . NOTE: This action applies only to Aurora MySQL DB clusters. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="BacktrackTo">The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB clus- ter, Aurora automatically chooses the nearest possible consis- tent time for the DB cluster. Constraints: o Must contain a valid ISO 8601 timestamp. o Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z</param>
+    public AwsRdsBacktrackDbClusterOptions(
+        string DbClusterIdentifier,
+        string BacktrackTo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(BacktrackTo);
+        this.BacktrackTo = BacktrackTo;
+    }
+
+    private AwsRdsBacktrackDbClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsBacktrackDbClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsBacktrackDbClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 alphanumeric characters or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// </summary>
     [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
+    public string? DbClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page. NOTE: If the specified time isn't a consistent time for the DB clus- ter, Aurora automatically chooses the nearest possible consis- tent time for the DB cluster. Constraints: o Must contain a valid ISO 8601 timestamp. o Can't contain a timestamp set in the future. Example: 2017-07-08T18:00Z
+    /// </summary>
     [CliOption("--backtrack-to")]
-    public string? BacktrackTo { get; set; }
+    public string? BacktrackTo { get; private init; }
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Specifies whether to force the DB cluster to backtrack when binary logging is enabled. Otherwise, an error occurs when binary logging is enabled.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--use-earliest-time-on-point-in-time-unavailable")]
+    /// <summary>
+    /// est-time-on-point-in-time-unavailable (boolean) Specifies whether to backtrack the DB cluster to the earliest possi- ble backtrack time when BacktrackTo is set to a timestamp earlier than the earliest backtrack time. When this parameter is disabled and BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
+    /// </summary>
+    [CliFlag("--use-earliest-time-on-point-in-time-unavailable", NegatedName = "--no-use-earliest-time-on-point-in-time-unavailable")]
     public bool? UseEarliestTimeOnPointInTimeUnavailable { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +88,21 @@ public record AwsRdsBacktrackDbClusterOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

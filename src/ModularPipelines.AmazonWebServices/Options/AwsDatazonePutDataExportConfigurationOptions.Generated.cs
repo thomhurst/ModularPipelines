@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datazone", "put-data-export-configuration")]
-public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions
+public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-identifier")]
-    public string? DomainIdentifier { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--enable-export")]
-    public bool? EnableExport { get; set; }
+    /// <summary>
+    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: o Delete the export configuratio...
+    /// </summary>
+    /// <param name="DomainIdentifier">The domain ID for which you want to create data export configuration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnableExport">Specifies that the export is to be enabled as part of creating data export configuration details.</param>
+    public AwsDatazonePutDataExportConfigurationOptions(
+        string DomainIdentifier,
+        bool EnableExport
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainIdentifier);
+        this.DomainIdentifier = DomainIdentifier;
+        this.EnableExport = EnableExport;
+    }
+
+    private AwsDatazonePutDataExportConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDatazonePutDataExportConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDatazonePutDataExportConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The domain ID for which you want to create data export configuration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// </summary>
+    [CliOption("--domain-identifier")]
+    public string? DomainIdentifier { get; private init; }
+
+    /// <summary>
+    /// Specifies that the export is to be enabled as part of creating data export configuration details.
+    /// </summary>
+    [CliFlag("--enable-export", NegatedName = "--no-enable-export")]
+    public bool? EnableExport { get; private init; }
 
     /// <summary>
     /// The encryption configuration as part of creating data export config- uration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio . kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key to use for encryp- tion. This field is required only when sseAlgorithm is set to aws:kms . sseAlgorithm -&gt; (string) The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS en- cryption you must grant the S3 Tables maintenance principal ac- cess to your KMS key. For more information, see Permissions re- quirements for S3 Tables SSE-KMS encryption . Shorthand Syntax: kmsKeyArn=string,sseAlgorithm=string JSON Syntax: { "kmsKeyArn": "string", "sseAlgorithm": "string" }
@@ -46,5 +89,21 @@ public record AwsDatazonePutDataExportConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

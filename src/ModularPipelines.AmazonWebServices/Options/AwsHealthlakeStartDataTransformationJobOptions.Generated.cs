@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,20 +21,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthlake", "start-data-transformation-job")]
-public record AwsHealthlakeStartDataTransformationJobOptions : AwsOptions
+public record AwsHealthlakeStartDataTransformationJobOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InputDataConfig">The Amazon S3 location and format of the source files to transform. S3Uri -&gt; (string) [required] The Amazon S3 URI of the input data to transform. Constraints: o min: 8 o max: 2048 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.+)? SourceFormat -&gt; (string) The format of the source data files (C-CDA or CSV). Possible values: o CCDA o CSV Shorthand Syntax: S3Uri=string,SourceFormat=string JSON Syntax: { "S3Uri": "string", "SourceFormat": "CCDA"|"CSV" }</param>
+    /// <param name="OutputDataConfig">The Amazon S3 output location and Amazon Web Services Key Management Service (Amazon Web Services KMS) encryption configuration. S3Configuration -&gt; (structure) [required] The Amazon S3 output location and Amazon Web Services Key Man- agement Service (Amazon Web Services KMS) encryption configura- tion. S3Uri -&gt; (string) [required] The Amazon S3 URI where HealthLake writes the converted out- put files. Constraints: o min: 8 o max: 2048 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.+)? KmsKeyId -&gt; (string) [required] The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the transforma- tion job output written to Amazon S3. Constraints: o min: 1 o max: 2048 Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that HealthLake assumes to read from and write to the specified Amazon S3 locations. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an er- ror. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="ProfileId">The unique identifier of the data transformation profile to use for conversion. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
+    public AwsHealthlakeStartDataTransformationJobOptions(
+        string InputDataConfig,
+        string OutputDataConfig,
+        string DataAccessRoleArn,
+        string ClientToken,
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputDataConfig);
+        this.InputDataConfig = InputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutputDataConfig);
+        this.OutputDataConfig = OutputDataConfig;
+        global::System.ArgumentNullException.ThrowIfNull(DataAccessRoleArn);
+        this.DataAccessRoleArn = DataAccessRoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ClientToken);
+        this.ClientToken = ClientToken;
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    private AwsHealthlakeStartDataTransformationJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsHealthlakeStartDataTransformationJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsHealthlakeStartDataTransformationJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon S3 location and format of the source files to transform. S3Uri -&gt; (string) [required] The Amazon S3 URI of the input data to transform. Constraints: o min: 8 o max: 2048 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.+)? SourceFormat -&gt; (string) The format of the source data files (C-CDA or CSV). Possible values: o CCDA o CSV Shorthand Syntax: S3Uri=string,SourceFormat=string JSON Syntax: { "S3Uri": "string", "SourceFormat": "CCDA"|"CSV" }
+    /// </summary>
     [CliOption("--input-data-config")]
-    public string? InputDataConfig { get; set; }
+    public string? InputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The Amazon S3 output location and Amazon Web Services Key Management Service (Amazon Web Services KMS) encryption configuration. S3Configuration -&gt; (structure) [required] The Amazon S3 output location and Amazon Web Services Key Man- agement Service (Amazon Web Services KMS) encryption configura- tion. S3Uri -&gt; (string) [required] The Amazon S3 URI where HealthLake writes the converted out- put files. Constraints: o min: 8 o max: 2048 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.+)? KmsKeyId -&gt; (string) [required] The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the transforma- tion job output written to Amazon S3. Constraints: o min: 1 o max: 2048 Shorthand Syntax: S3Configuration={S3Uri=string,KmsKeyId=string} JSON Syntax: { "S3Configuration": { "S3Uri": "string", "KmsKeyId": "string" } }
+    /// </summary>
     [CliOption("--output-data-config")]
-    public string? OutputDataConfig { get; set; }
+    public string? OutputDataConfig { get; private init; }
 
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that HealthLake assumes to read from and write to the specified Amazon S3 locations. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// </summary>
     [CliOption("--data-access-role-arn")]
-    public string? DataAccessRoleArn { get; set; }
+    public string? DataAccessRoleArn { get; private init; }
 
+    /// <summary>
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an er- ror. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
-    public string? ClientToken { get; set; }
+    public string? ClientToken { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the data transformation profile to use for conversion. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// </summary>
+    [CliOption("--profile-id")]
+    public string? ProfileId { get; private init; }
 
     /// <summary>
     /// A descriptive name for the data transformation job. Constraints: o min: 1 o max: 64 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-%@]*
@@ -41,13 +109,16 @@ public record AwsHealthlakeStartDataTransformationJobOptions : AwsOptions
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
-
-    [CliFlag("--drift-detection-enabled")]
+    /// <summary>
+    /// Specifies whether drift detection is enabled for this job. When en- abled, HealthLake writes a drift report to the output Amazon S3 lo- cation alongside the converted files.
+    /// </summary>
+    [CliFlag("--drift-detection-enabled", NegatedName = "--no-drift-detection-enabled")]
     public bool? DriftDetectionEnabled { get; set; }
 
-    [CliFlag("--provenance-enabled")]
+    /// <summary>
+    /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true . To disable prove- nance output, set this parameter to false .
+    /// </summary>
+    [CliFlag("--provenance-enabled", NegatedName = "--no-provenance-enabled")]
     public bool? ProvenanceEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -55,5 +126,21 @@ public record AwsHealthlakeStartDataTransformationJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

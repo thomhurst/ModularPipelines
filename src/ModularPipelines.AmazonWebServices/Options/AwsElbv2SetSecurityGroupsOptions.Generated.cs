@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elbv2", "set-security-groups")]
-public record AwsElbv2SetSecurityGroupsOptions : AwsOptions
+public record AwsElbv2SetSecurityGroupsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-arn")]
-    public string? LoadBalancerArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates the specified security groups with the specified Application Load Balancer or Network Load Balancer. The specified security groups override the previously associated security groups. You can't perform this operation on a Network Load Balancer unless you specified a security group for the load balancer when you created it. You can't associate a security group with a Gateway Load Balancer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LoadBalancerArn">The Amazon Resource Name (ARN) of the load balancer.</param>
+    /// <param name="SecurityGroups">The IDs of the security groups. (string) Syntax: "string" "string" ...</param>
+    public AwsElbv2SetSecurityGroupsOptions(
+        string LoadBalancerArn,
+        IEnumerable<string> SecurityGroups
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerArn);
+        this.LoadBalancerArn = LoadBalancerArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroups);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroups));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroups));
+            }
+
+            SecurityGroups = materialized;
+        }
+        this.SecurityGroups = SecurityGroups;
+    }
+
+    private AwsElbv2SetSecurityGroupsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElbv2SetSecurityGroupsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElbv2SetSecurityGroupsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// </summary>
+    [CliOption("--load-balancer-arn")]
+    public string? LoadBalancerArn { get; private init; }
+
+    /// <summary>
+    /// The IDs of the security groups. (string) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroups { get; set; }
+    public IEnumerable<string>? SecurityGroups { get; private init; }
 
     /// <summary>
     /// Indicates whether to evaluate inbound security group rules for traf- fic sent to a Network Load Balancer through Amazon Web Services Pri- vateLink. Applies only if the load balancer has an associated secu- rity group. The default is on . Possible values: o on o off
@@ -39,5 +94,21 @@ public record AwsElbv2SetSecurityGroupsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

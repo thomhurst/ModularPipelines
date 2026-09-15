@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "create-documentation-part")]
-public record AwsApigatewayCreateDocumentationPartOptions : AwsOptions
+public record AwsApigatewayCreateDocumentationPartOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a documentation part. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="Location">The location of the targeted API entity of the to-be-created docu- mentation part. type -&gt; (string) [required] The type of API entity to which the documentation content ap- plies. Valid values are API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , RE- QUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHORIZER , METHOD , MODEL , REQUEST_BODY , or RESOURCE type. Possible values: o API o AUTHORIZER o MODEL o RESOURCE o METHOD o PATH_PARAMETER o QUERY_PARAMETER o REQUEST_HEADER o REQUEST_BODY o RESPONSE o RESPONSE_HEADER o RESPONSE_BODY path -&gt; (string) The URL path of the target. It is a valid field for the API en- tity types of RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAME- TER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is / for the root re- source. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path at- tribute must match that of the parent entity as a prefix. method -&gt; (string) The HTTP verb of a method. It is a valid field for the API en- tity types of METHOD , PATH_PARAMETER , QUERY_PARAMETER , RE- QUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly. statusCode -&gt; (string) The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE , RESPONSE_HEADER , and RE- SPONSE_BODY . The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other lo- cation attributes, the child entity's statusCode attribute must match that of the parent entity exactly. Constraints: o pattern: ^([1-5]\d\d|\*|\s*)$ name -&gt; (string) The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER , MODEL , PATH_PA- RAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY and RESPONSE_HEADER . It is an invalid field for any other entity type. Shorthand Syntax: type=string,path=string,method=string,statusCode=string,name=string JSON Syntax: { "type": "API"|"AUTHORIZER"|"MODEL"|"RESOURCE"|"METHOD"|"PATH_PARAMETER"|"QUERY_PARAMETER"|"REQUEST_HEADER"|"REQUEST_BODY"|"RESPONSE"|"RESPONSE_HEADER"|"RESPONSE_BODY", "path": "string", "method": "string", "statusCode": "string", "name": "string" }</param>
+    /// <param name="Properties">The new documentation content map of the targeted API entity. En- closed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.</param>
+    public AwsApigatewayCreateDocumentationPartOptions(
+        string RestApiId,
+        string Location,
+        string Properties
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Properties);
+        this.Properties = Properties;
+    }
+
+    private AwsApigatewayCreateDocumentationPartOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayCreateDocumentationPartOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayCreateDocumentationPartOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// The location of the targeted API entity of the to-be-created docu- mentation part. type -&gt; (string) [required] The type of API entity to which the documentation content ap- plies. Valid values are API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , RE- QUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHORIZER , METHOD , MODEL , REQUEST_BODY , or RESOURCE type. Possible values: o API o AUTHORIZER o MODEL o RESOURCE o METHOD o PATH_PARAMETER o QUERY_PARAMETER o REQUEST_HEADER o REQUEST_BODY o RESPONSE o RESPONSE_HEADER o RESPONSE_BODY path -&gt; (string) The URL path of the target. It is a valid field for the API en- tity types of RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAME- TER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is / for the root re- source. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path at- tribute must match that of the parent entity as a prefix. method -&gt; (string) The HTTP verb of a method. It is a valid field for the API en- tity types of METHOD , PATH_PARAMETER , QUERY_PARAMETER , RE- QUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly. statusCode -&gt; (string) The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE , RESPONSE_HEADER , and RE- SPONSE_BODY . The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other lo- cation attributes, the child entity's statusCode attribute must match that of the parent entity exactly. Constraints: o pattern: ^([1-5]\d\d|\*|\s*)$ name -&gt; (string) The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER , MODEL , PATH_PA- RAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY and RESPONSE_HEADER . It is an invalid field for any other entity type. Shorthand Syntax: type=string,path=string,method=string,statusCode=string,name=string JSON Syntax: { "type": "API"|"AUTHORIZER"|"MODEL"|"RESOURCE"|"METHOD"|"PATH_PARAMETER"|"QUERY_PARAMETER"|"REQUEST_HEADER"|"REQUEST_BODY"|"RESPONSE"|"RESPONSE_HEADER"|"RESPONSE_BODY", "path": "string", "method": "string", "statusCode": "string", "name": "string" }
+    /// </summary>
     [CliOption("--location")]
-    public string? Location { get; set; }
+    public string? Location { get; private init; }
 
+    /// <summary>
+    /// The new documentation content map of the targeted API entity. En- closed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.
+    /// </summary>
     [CliOption("--properties")]
-    public string? Properties { get; set; }
+    public string? Properties { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iotsecuretunneling", "rotate-tunnel-access-token")]
-public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions
+public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--tunnel-id")]
-    public string? TunnelId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the RotateTunnelAccessToken action. NOTE: Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours. See also: AWS...
+    /// </summary>
+    /// <param name="TunnelId">The tunnel for which you want to rotate the access tokens. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
+    /// <param name="ClientMode">The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: o SOURCE o DESTINATION o ALL</param>
+    public AwsIotsecuretunnelingRotateTunnelAccessTokenOptions(
+        string TunnelId,
+        AwsIotsecuretunnelingRotateTunnelAccessTokenClientMode ClientMode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TunnelId);
+        this.TunnelId = TunnelId;
+        global::System.ArgumentNullException.ThrowIfNull(ClientMode);
+        this.ClientMode = ClientMode;
+    }
+
+    private AwsIotsecuretunnelingRotateTunnelAccessTokenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotsecuretunnelingRotateTunnelAccessTokenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotsecuretunnelingRotateTunnelAccessTokenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The tunnel for which you want to rotate the access tokens. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}
+    /// </summary>
+    [CliOption("--tunnel-id")]
+    public string? TunnelId { get; private init; }
+
+    /// <summary>
+    /// The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: o SOURCE o DESTINATION o ALL
+    /// </summary>
     [CliOption("--client-mode")]
-    public string? ClientMode { get; set; }
+    public AwsIotsecuretunnelingRotateTunnelAccessTokenClientMode? ClientMode { get; private init; }
 
     /// <summary>
     /// The destination configuration. thingName -&gt; (string) The name of the IoT thing to which you want to connect. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ services -&gt; (list) [required] A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this in- formation to connect to the destination application. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: thingName=string,services=string,string JSON Syntax: { "thingName": "string", "services": ["string", ...] }
@@ -38,5 +83,21 @@ public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

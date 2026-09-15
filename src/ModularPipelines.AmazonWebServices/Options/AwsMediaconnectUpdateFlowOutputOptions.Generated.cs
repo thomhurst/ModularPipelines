@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,8 +21,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-flow-output")]
-public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
+public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates an existing flow output. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that is associated with the output that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="OutputArn">The ARN of the output that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+</param>
+    public AwsMediaconnectUpdateFlowOutputOptions(
+        string FlowArn,
+        string OutputArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FlowArn);
+        this.FlowArn = FlowArn;
+        global::System.ArgumentNullException.ThrowIfNull(OutputArn);
+        this.OutputArn = OutputArn;
+    }
+
+    private AwsMediaconnectUpdateFlowOutputOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateFlowOutputOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateFlowOutputOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the flow that is associated with the output that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// </summary>
+    [CliOption("--flow-arn")]
+    public string? FlowArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the output that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+
+    /// </summary>
+    [CliOption("--output-arn")]
+    public string? OutputArn { get; private init; }
+
     /// <summary>
     /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. (string) Syntax: "string" "string" ...
     /// </summary>
@@ -46,9 +96,6 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
     [CliOption("--encryption")]
     public string? Encryption { get; set; }
 
-    [CliOption("--flow-arn")]
-    public string? FlowArn { get; set; }
-
     /// <summary>
     /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     /// </summary>
@@ -66,9 +113,6 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
     /// </summary>
     [CliOption("--min-latency")]
     public int? MinLatency { get; set; }
-
-    [CliOption("--output-arn")]
-    public string? OutputArn { get; set; }
 
     /// <summary>
     /// The port to use when content is distributed to this output.
@@ -159,5 +203,21 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

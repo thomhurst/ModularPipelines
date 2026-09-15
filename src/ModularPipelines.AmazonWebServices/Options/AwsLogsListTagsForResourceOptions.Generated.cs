@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "list-tags-for-resource")]
-public record AwsLogsListTagsForResourceOptions : AwsOptions
+public record AwsLogsListTagsForResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Displays the tags associated with a CloudWatch Logs resource. Cur- rently, log groups and destinations support tagging. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceArn">The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*</param>
+    public AwsLogsListTagsForResourceOptions(
+        string ResourceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+    }
+
+    private AwsLogsListTagsForResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsListTagsForResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsListTagsForResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the resource that you want to view tags for. The ARN format of a log group is `` arn:aws:logs:Region :account-id :log-group:log-group-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. The ARN format of a destination is `` arn:aws:logs:Region :account-id :destination:destination-name `` System Message: WARNING/2 (&lt;string&gt;:, line 76) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o min: 1 o max: 1011 o pattern: [\w+=/:,.@-]*
+    /// </summary>
     [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    public string? ResourceArn { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

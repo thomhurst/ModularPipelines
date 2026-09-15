@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,22 +21,86 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "update-partner-status")]
-public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions
+public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the status of a partner integration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
+    /// <param name="ClusterIdentifier">The cluster identifier of the cluster whose partner integration sta- tus is being updated. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="DatabaseName">The name of the database whose partner integration status is being updated. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
+    /// <param name="PartnerName">The name of the partner whose integration status is being updated. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$</param>
+    /// <param name="Status">The value of the updated status. Possible values: o Active o Inactive o RuntimeFailure o ConnectionFailure</param>
+    public AwsRedshiftUpdatePartnerStatusOptions(
+        string AccountId,
+        string ClusterIdentifier,
+        string DatabaseName,
+        string PartnerName,
+        AwsRedshiftUpdatePartnerStatusStatus Status
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(PartnerName);
+        this.PartnerName = PartnerName;
+        global::System.ArgumentNullException.ThrowIfNull(Status);
+        this.Status = Status;
+    }
+
+    private AwsRedshiftUpdatePartnerStatusOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftUpdatePartnerStatusOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftUpdatePartnerStatusOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// </summary>
     [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    public string? AccountId { get; private init; }
 
+    /// <summary>
+    /// The cluster identifier of the cluster whose partner integration sta- tus is being updated. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The name of the database whose partner integration status is being updated. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
+    /// </summary>
     [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
+    public string? DatabaseName { get; private init; }
 
+    /// <summary>
+    /// The name of the partner whose integration status is being updated. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// </summary>
     [CliOption("--partner-name")]
-    public string? PartnerName { get; set; }
+    public string? PartnerName { get; private init; }
 
+    /// <summary>
+    /// The value of the updated status. Possible values: o Active o Inactive o RuntimeFailure o ConnectionFailure
+    /// </summary>
     [CliOption("--status")]
-    public string? Status { get; set; }
+    public AwsRedshiftUpdatePartnerStatusStatus? Status { get; private init; }
 
     /// <summary>
     /// The status message provided by the partner. Constraints: o max: 262144 o pattern: ^[\x20-\x7E]+$
@@ -47,5 +113,21 @@ public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

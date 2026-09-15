@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "start-on-demand-audit-task")]
-public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions
+public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Starts an on-demand Device Defender audit. Requires permission to access the StartOnDemandAuditTask action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TargetCheckNames">Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use De- scribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...</param>
+    public AwsIotStartOnDemandAuditTaskOptions(
+        IEnumerable<string> TargetCheckNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetCheckNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetCheckNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetCheckNames));
+            }
+
+            TargetCheckNames = materialized;
+        }
+        this.TargetCheckNames = TargetCheckNames;
+    }
+
+    private AwsIotStartOnDemandAuditTaskOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotStartOnDemandAuditTaskOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotStartOnDemandAuditTaskOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use De- scribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--target-check-names", GroupValues = true)]
-    public IEnumerable<string>? TargetCheckNames { get; set; }
+    public IEnumerable<string>? TargetCheckNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

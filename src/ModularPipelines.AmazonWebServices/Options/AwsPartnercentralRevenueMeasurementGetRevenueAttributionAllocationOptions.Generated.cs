@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("partnercentral-revenue-measurement", "get-revenue-attribution-allocation")]
-public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions : AwsOptions
+public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a single allocation by its RevenueAttributionAllocationId. Supports optional point-in-time version queries. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Catalog">The catalog that contains the resource. Possible values: o AWS o Sandbox</param>
+    /// <param name="RevenueAttributionIdentifier">The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})</param>
+    /// <param name="RevenueAttributionAllocationId">The allocation identifier. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13}</param>
+    public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions(
+        AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationCatalog Catalog,
+        string RevenueAttributionIdentifier,
+        string RevenueAttributionAllocationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+        global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionIdentifier);
+        this.RevenueAttributionIdentifier = RevenueAttributionIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(RevenueAttributionAllocationId);
+        this.RevenueAttributionAllocationId = RevenueAttributionAllocationId;
+    }
+
+    private AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The catalog that contains the resource. Possible values: o AWS o Sandbox
+    /// </summary>
     [CliOption("--catalog")]
-    public string? Catalog { get; set; }
+    public AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocationCatalog? Catalog { get; private init; }
 
+    /// <summary>
+    /// The revenue attribution identifier. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/revenue-attribution/ra-[a-z0-9]{13}|ra-[a-z0-9]{13})
+    /// </summary>
     [CliOption("--revenue-attribution-identifier")]
-    public string? RevenueAttributionIdentifier { get; set; }
+    public string? RevenueAttributionIdentifier { get; private init; }
 
+    /// <summary>
+    /// The allocation identifier. Constraints: o min: 19 o max: 19 o pattern: alloc-[a-z0-9]{13}
+    /// </summary>
     [CliOption("--revenue-attribution-allocation-id")]
-    public string? RevenueAttributionAllocationId { get; set; }
+    public string? RevenueAttributionAllocationId { get; private init; }
 
     /// <summary>
     /// Point-in-time revision number to query. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
@@ -41,5 +93,21 @@ public record AwsPartnercentralRevenueMeasurementGetRevenueAttributionAllocation
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

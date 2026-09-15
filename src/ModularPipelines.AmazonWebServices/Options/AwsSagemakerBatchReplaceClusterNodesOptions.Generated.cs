@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "batch-replace-cluster-nodes")]
-public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions
+public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance config- uration remain the same. This operation is useful for recovering from hardware failures or per- sistent issues that cannot be resolved through a reboot. WARNING: o Data Loss Warning: Replacing nodes destroys all instance...
+    /// </summary>
+    /// <param name="ClusterName">The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    public AwsSagemakerBatchReplaceClusterNodesOptions(
+        string ClusterName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterName);
+        this.ClusterName = ClusterName;
+    }
+
+    private AwsSagemakerBatchReplaceClusterNodesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerBatchReplaceClusterNodesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerBatchReplaceClusterNodesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// </summary>
     [CliOption("--cluster-name")]
-    public string? ClusterName { get; set; }
+    public string? ClusterName { get; private init; }
 
     /// <summary>
     /// A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs. WARNING: Replace operations destroy all instance volumes (root and sec- ondary). Ensure you have backed up any important data before proceeding. NOTE: o Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required. o Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0 ). o For SageMaker HyperPod clusters using the Slurm workload man- ager, you cannot replace instances that are configured as Slurm controller nodes. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
@@ -41,5 +78,21 @@ public record AwsSagemakerBatchReplaceClusterNodesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

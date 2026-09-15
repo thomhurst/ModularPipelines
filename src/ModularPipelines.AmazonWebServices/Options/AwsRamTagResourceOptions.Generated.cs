@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ram", "tag-resource")]
-public record AwsRamTagResourceOptions : AwsOptions
+public record AwsRamTagResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Tags">A list of one or more tag key and value pairs. The tag key must be present and not be an empty string. The tag value must be present but can be an empty string. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsRamTagResourceOptions(
+        IEnumerable<string> Tags
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsRamTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRamTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRamTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A list of one or more tag key and value pairs. The tag key must be present and not be an empty string. The tag value must be present but can be an empty string. (structure) A structure containing a tag. A tag is metadata that you can at- tach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see Controlling access to Amazon Web Services re- sources using tags . For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide . key -&gt; (string) The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive. value -&gt; (string) The string value attached to the tag. The value can be an empty string. Key values are case sensitive. Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; private init; }
+
     /// <summary>
     /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to add tags to. You must specify either resourceShareArn , or resourceArn , but not both.
     /// </summary>
     [CliOption("--resource-share-arn")]
     public string? ResourceShareArn { get; set; }
-
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Specifies the Amazon Resource Name (ARN) of the managed permission that you want to add tags to. You must specify either resourceArn , or resourceShareArn , but not both.
@@ -41,5 +89,21 @@ public record AwsRamTagResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

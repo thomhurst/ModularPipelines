@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-public-access-block")]
-public record AwsS3apiPutPublicAccessBlockOptions : AwsOptions
+public record AwsS3apiPutPublicAccessBlockOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPubli- cAccessBlock permission. For more information about Amazon S3 permis- sions, see Specifying Permissions in a Policy . WARNING: When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket th...
+    /// </summary>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose PublicAccessBlock configura- tion you want to set.</param>
+    /// <param name="PublicAccessBlockConfiguration">The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon S3 User Guide . BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior: o PUT Bucket ACL and PUT Object ACL calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any ex- isting ACLs and doesn't prevent new public ACLs from being set. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket poli- cies for this bucket. Setting this element to TRUE restricts ac- cess to this bucket to only Amazon Web Services service princi- pals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to spe- cific accounts, is blocked. Shorthand Syntax: BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean JSON Syntax: { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }</param>
+    public AwsS3apiPutPublicAccessBlockOptions(
+        string Bucket,
+        string PublicAccessBlockConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(PublicAccessBlockConfiguration);
+        this.PublicAccessBlockConfiguration = PublicAccessBlockConfiguration;
+    }
+
+    private AwsS3apiPutPublicAccessBlockOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutPublicAccessBlockOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutPublicAccessBlockOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the Amazon S3 bucket whose PublicAccessBlock configura- tion you want to set.
+    /// </summary>
     [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see The Meaning of "Public" in the Amazon S3 User Guide . BlockPublicAcls -&gt; (boolean) Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior: o PUT Bucket ACL and PUT Object ACL calls fail if the specified ACL is public. o PUT Object calls fail if the request includes a public ACL. o PUT Bucket calls fail if the request includes a public ACL. Enabling this setting doesn't affect existing policies or ACLs. IgnorePublicAcls -&gt; (boolean) Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any ex- isting ACLs and doesn't prevent new public ACLs from being set. BlockPublicPolicy -&gt; (boolean) Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this element to TRUE causes Amazon S3 to reject calls to PUT Bucket policy if the specified bucket policy allows public access. Enabling this setting doesn't affect existing bucket policies. RestrictPublicBuckets -&gt; (boolean) Specifies whether Amazon S3 should restrict public bucket poli- cies for this bucket. Setting this element to TRUE restricts ac- cess to this bucket to only Amazon Web Services service princi- pals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to spe- cific accounts, is blocked. Shorthand Syntax: BlockPublicAcls=boolean,IgnorePublicAcls=boolean,BlockPublicPolicy=boolean,RestrictPublicBuckets=boolean JSON Syntax: { "BlockPublicAcls": true|false, "IgnorePublicAcls": true|false, "BlockPublicPolicy": true|false, "RestrictPublicBuckets": true|false }
+    /// </summary>
+    [CliOption("--public-access-block-configuration")]
+    public string? PublicAccessBlockConfiguration { get; private init; }
 
     /// <summary>
     /// The MD5 hash of the PutPublicAccessBlock request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -37,9 +84,6 @@ public record AwsS3apiPutPublicAccessBlockOptions : AwsOptions
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutPublicAccessBlockChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
-    [CliOption("--public-access-block-configuration")]
-    public string? PublicAccessBlockConfiguration { get; set; }
-
     /// <summary>
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
@@ -51,5 +95,21 @@ public record AwsS3apiPutPublicAccessBlockOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

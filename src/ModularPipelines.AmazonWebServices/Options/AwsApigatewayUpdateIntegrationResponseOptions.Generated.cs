@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigateway", "update-integration-response")]
-public record AwsApigatewayUpdateIntegrationResponseOptions : AwsOptions
+public record AwsApigatewayUpdateIntegrationResponseOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Represents an update integration response. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
+    /// <param name="ResourceId">Specifies an update integration response request's resource identi- fier.</param>
+    /// <param name="HttpMethod">Specifies an update integration response request's HTTP method.</param>
+    /// <param name="StatusCode">Specifies an update integration response request's status code. Constraints: o pattern: [1-5]\d\d</param>
+    public AwsApigatewayUpdateIntegrationResponseOptions(
+        string RestApiId,
+        string ResourceId,
+        string HttpMethod,
+        string StatusCode
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestApiId);
+        this.RestApiId = RestApiId;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        global::System.ArgumentNullException.ThrowIfNull(HttpMethod);
+        this.HttpMethod = HttpMethod;
+        global::System.ArgumentNullException.ThrowIfNull(StatusCode);
+        this.StatusCode = StatusCode;
+    }
+
+    private AwsApigatewayUpdateIntegrationResponseOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsApigatewayUpdateIntegrationResponseOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsApigatewayUpdateIntegrationResponseOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The string identifier of the associated RestApi.
+    /// </summary>
     [CliOption("--rest-api-id")]
-    public string? RestApiId { get; set; }
+    public string? RestApiId { get; private init; }
 
+    /// <summary>
+    /// Specifies an update integration response request's resource identi- fier.
+    /// </summary>
     [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    public string? ResourceId { get; private init; }
 
+    /// <summary>
+    /// Specifies an update integration response request's HTTP method.
+    /// </summary>
     [CliOption("--http-method")]
-    public string? HttpMethod { get; set; }
+    public string? HttpMethod { get; private init; }
 
+    /// <summary>
+    /// Specifies an update integration response request's status code. Constraints: o pattern: [1-5]\d\d
+    /// </summary>
     [CliOption("--status-code")]
-    public string? StatusCode { get; set; }
+    public string? StatusCode { get; private init; }
 
     /// <summary>
     /// For more information about supported patch operations, see Patch Op- erations . (structure) For more information about supported patch operations, see Patch Operations . op -&gt; (string) An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.. Possible values: o add o remove o replace o move o copy o test path -&gt; (string) The op operation's target, as identified by a JSON Pointer value that references a location within the targeted re- source. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it. value -&gt; (string) The new target value of the update operation. It is applica- ble for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. from -&gt; (string) The copy update operation's source as identified by a JSON-Pointer value referencing the location within the tar- geted resource to copy the value from. For example, to pro- mote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySet- tings/deploymentId" and "path":"/deploymentId". Shorthand Syntax: op=string,path=string,value=string,from=string ... JSON Syntax: [ { "op": "add"|"remove"|"replace"|"move"|"copy"|"test", "path": "string", "value": "string", "from": "string" } ... ]
@@ -44,5 +102,21 @@ public record AwsApigatewayUpdateIntegrationResponseOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

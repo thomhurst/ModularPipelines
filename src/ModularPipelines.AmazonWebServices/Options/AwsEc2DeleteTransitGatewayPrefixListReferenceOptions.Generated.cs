@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "delete-transit-gateway-prefix-list-reference")]
-public record AwsEc2DeleteTransitGatewayPrefixListReferenceOptions : AwsOptions
+public record AwsEc2DeleteTransitGatewayPrefixListReferenceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a reference (route) to a prefix list in a specified transit gateway route table. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="TransitGatewayRouteTableId">The ID of the route table.</param>
+    /// <param name="PrefixListId">The ID of the prefix list.</param>
+    public AwsEc2DeleteTransitGatewayPrefixListReferenceOptions(
+        string TransitGatewayRouteTableId,
+        string PrefixListId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TransitGatewayRouteTableId);
+        this.TransitGatewayRouteTableId = TransitGatewayRouteTableId;
+        global::System.ArgumentNullException.ThrowIfNull(PrefixListId);
+        this.PrefixListId = PrefixListId;
+    }
+
+    private AwsEc2DeleteTransitGatewayPrefixListReferenceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeleteTransitGatewayPrefixListReferenceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeleteTransitGatewayPrefixListReferenceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the route table.
+    /// </summary>
     [CliOption("--transit-gateway-route-table-id")]
-    public string? TransitGatewayRouteTableId { get; set; }
+    public string? TransitGatewayRouteTableId { get; private init; }
 
+    /// <summary>
+    /// The ID of the prefix list.
+    /// </summary>
     [CliOption("--prefix-list-id")]
-    public string? PrefixListId { get; set; }
+    public string? PrefixListId { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsEc2DeleteTransitGatewayPrefixListReferenceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

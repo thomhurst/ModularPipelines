@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drs", "reorder-recovery-plan-steps")]
-public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions
+public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--recovery-plan-arn")]
-    public string? RecoveryPlanArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="OrderedStepArns">Ordered list of all step ARNs representing the desired sequence. Constraints: o min: 1 o max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injec- tion characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...</param>
+    public AwsDrsReorderRecoveryPlanStepsOptions(
+        string RecoveryPlanArn,
+        IEnumerable<string> OrderedStepArns
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPlanArn);
+        this.RecoveryPlanArn = RecoveryPlanArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OrderedStepArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OrderedStepArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OrderedStepArns));
+            }
+
+            OrderedStepArns = materialized;
+        }
+        this.OrderedStepArns = OrderedStepArns;
+    }
+
+    private AwsDrsReorderRecoveryPlanStepsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDrsReorderRecoveryPlanStepsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDrsReorderRecoveryPlanStepsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the Recovery Plan. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// </summary>
+    [CliOption("--recovery-plan-arn")]
+    public string? RecoveryPlanArn { get; private init; }
+
+    /// <summary>
+    /// Ordered list of all step ARNs representing the desired sequence. Constraints: o min: 1 o max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injec- tion characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--ordered-step-arns", GroupValues = true)]
-    public IEnumerable<string>? OrderedStepArns { get; set; }
+    public IEnumerable<string>? OrderedStepArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

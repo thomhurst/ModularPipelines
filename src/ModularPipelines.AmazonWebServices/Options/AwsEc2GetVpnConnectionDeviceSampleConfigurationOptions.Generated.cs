@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "get-vpn-connection-device-sample-configuration")]
-public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOptions
+public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--vpn-connection-id")]
-    public string? VpnConnectionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Download an Amazon Web Services-provided sample configuration file to be used with the customer gateway device specified for your Site-to-Site VPN connection. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VpnConnectionId">The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.</param>
+    /// <param name="VpnConnectionDeviceTypeId">Device identifier provided by the GetVpnConnectionDeviceTypes API.</param>
+    public AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions(
+        string VpnConnectionId,
+        string VpnConnectionDeviceTypeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnectionId);
+        this.VpnConnectionId = VpnConnectionId;
+        global::System.ArgumentNullException.ThrowIfNull(VpnConnectionDeviceTypeId);
+        this.VpnConnectionDeviceTypeId = VpnConnectionDeviceTypeId;
+    }
+
+    private AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.
+    /// </summary>
+    [CliOption("--vpn-connection-id")]
+    public string? VpnConnectionId { get; private init; }
+
+    /// <summary>
+    /// Device identifier provided by the GetVpnConnectionDeviceTypes API.
+    /// </summary>
     [CliOption("--vpn-connection-device-type-id")]
-    public string? VpnConnectionDeviceTypeId { get; set; }
+    public string? VpnConnectionDeviceTypeId { get; private init; }
 
     /// <summary>
     /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following ver- sions: ikev1 or ikev2 .
@@ -39,7 +83,10 @@ public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOption
     [CliOption("--sample-type")]
     public string? SampleType { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +94,21 @@ public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

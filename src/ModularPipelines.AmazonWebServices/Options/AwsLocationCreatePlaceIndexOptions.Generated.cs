@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("location", "create-place-index")]
-public record AwsLocationCreatePlaceIndexOptions : AwsOptions
+public record AwsLocationCreatePlaceIndexOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-name")]
-    public string? IndexName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// </summary>
+    /// <param name="IndexName">The name of the place index resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique place index resource name. o No spaces allowed. For example, ExamplePlaceIndex . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="DataSource">Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . o Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE details on goecoding cov- erage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more in- formation, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Loca- tion Service developer guide .</param>
+    public AwsLocationCreatePlaceIndexOptions(
+        string IndexName,
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexName);
+        this.IndexName = IndexName;
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    private AwsLocationCreatePlaceIndexOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLocationCreatePlaceIndexOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLocationCreatePlaceIndexOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the place index resource. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique place index resource name. o No spaces allowed. For example, ExamplePlaceIndex . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// </summary>
+    [CliOption("--index-name")]
+    public string? IndexName { get; private init; }
+
+    /// <summary>
+    /// Specifies the geospatial data provider for the new place index. NOTE: This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include: o Esri For additional information about Esri 's coverage in your region of interest, see Esri details on geocoding coverage . o Grab Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps ' coverage, see GrabMaps countries and areas covered . o Here For additional information about HERE Technologies ' cover- age in your region of interest, see HERE details on goecoding cov- erage . WARNING: If you specify HERE Technologies (Here ) as the data provider, you may not store results for locations in Japan. For more in- formation, see the Amazon Web Services service terms for Amazon Location Service. For additional information , see Data providers on the Amazon Loca- tion Service developer guide .
+    /// </summary>
     [CliOption("--data-source")]
-    public string? DataSource { get; set; }
+    public string? DataSource { get; private init; }
 
     /// <summary>
     /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
@@ -58,5 +102,21 @@ public record AwsLocationCreatePlaceIndexOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

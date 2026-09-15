@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-meetings", "create-attendee")]
-public record AwsChimeSdkMeetingsCreateAttendeeOptions : AwsOptions
+public record AwsChimeSdkMeetingsCreateAttendeeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--meeting-id")]
-    public string? MeetingId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="MeetingId">The unique ID of the meeting. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="ExternalUserId">The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Constraints: o min: 2 o max: 64</param>
+    public AwsChimeSdkMeetingsCreateAttendeeOptions(
+        string MeetingId,
+        string ExternalUserId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MeetingId);
+        this.MeetingId = MeetingId;
+        global::System.ArgumentNullException.ThrowIfNull(ExternalUserId);
+        this.ExternalUserId = ExternalUserId;
+    }
+
+    private AwsChimeSdkMeetingsCreateAttendeeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMeetingsCreateAttendeeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMeetingsCreateAttendeeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique ID of the meeting. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// </summary>
+    [CliOption("--meeting-id")]
+    public string? MeetingId { get; private init; }
+
+    /// <summary>
+    /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&amp;@+=,(){}\[\]\/.:|'"#a-zA-Z0-9-\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Constraints: o min: 2 o max: 64
+    /// </summary>
     [CliOption("--external-user-id")]
-    public string? ExternalUserId { get; set; }
+    public string? ExternalUserId { get; private init; }
 
     /// <summary>
     /// The capabilities (audio , video , or content ) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on all media channels by default. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more in- formation about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400 . o If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400 . o You can't set content capabilities to SendReceive or Receive un- less you also set video capabilities to SendReceive or Receive . If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content ca- pability to not receive. o If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive . This is because content SendReceive requires video to be at least Receive . o When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone un- muted, audio will flow from the attendee to the other meeting par- ticipants. o When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Ama- zon Chime back-end server. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
@@ -38,5 +82,21 @@ public record AwsChimeSdkMeetingsCreateAttendeeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

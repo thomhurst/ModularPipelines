@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,24 +20,108 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deadline", "batch-get-job-entity")]
-public record AwsDeadlineBatchGetJobEntityOptions : AwsOptions
+public record AwsDeadlineBatchGetJobEntityOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Get batched job details for a worker. See also: AWS API Documentation batch-get-job-entity uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// </summary>
+    /// <param name="FarmId">The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID of the worker containing the job details to get. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="Identifiers">The job identifiers to include within the job entity batch details. Constraints: o min: 1 o max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: o pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: o min: 1 o max: 1024 o pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]</param>
+    public AwsDeadlineBatchGetJobEntityOptions(
+        string FarmId,
+        string FleetId,
+        string WorkerId,
+        IEnumerable<string> Identifiers
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FarmId);
+        this.FarmId = FarmId;
+        global::System.ArgumentNullException.ThrowIfNull(FleetId);
+        this.FleetId = FleetId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkerId);
+        this.WorkerId = WorkerId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Identifiers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Identifiers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Identifiers));
+            }
+
+            Identifiers = materialized;
+        }
+        this.Identifiers = Identifiers;
+    }
+
+    private AwsDeadlineBatchGetJobEntityOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeadlineBatchGetJobEntityOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeadlineBatchGetJobEntityOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--farm-id")]
-    public string? FarmId { get; set; }
+    public string? FarmId { get; private init; }
 
+    /// <summary>
+    /// The fleet ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--fleet-id")]
-    public string? FleetId { get; set; }
+    public string? FleetId { get; private init; }
 
+    /// <summary>
+    /// The worker ID of the worker containing the job details to get. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// </summary>
     [CliOption("--worker-id")]
-    public string? WorkerId { get; set; }
+    public string? WorkerId { get; private init; }
 
+    /// <summary>
+    /// The job identifiers to include within the job entity batch details. Constraints: o min: 1 o max: 10 (tagged union structure) The details of a job entity identifier. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: jobDetails, jobAttachmentDetails, stepDetails, environmentDetails. jobDetails -&gt; (structure) The job details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} jobAttachmentDetails -&gt; (structure) The job attachment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepDetails -&gt; (structure) The step details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID. Constraints: o pattern: step-[0-9a-f]{32} environmentDetails -&gt; (structure) The environment details. jobId -&gt; (string) [required] The job ID. Constraints: o pattern: job-[0-9a-f]{32} environmentId -&gt; (string) [required] The environment ID. Constraints: o min: 1 o max: 1024 o pattern: (STEP:step-[0-9a-f]{32}:.*)|(JOB:job-[0-9a-f]{32}:.*) Shorthand Syntax: jobDetails={jobId=string},jobAttachmentDetails={jobId=string},stepDetails={jobId=string,stepId=string},environmentDetails={jobId=string,environmentId=string} ... JSON Syntax: [ { "jobDetails": { "jobId": "string" }, "jobAttachmentDetails": { "jobId": "string" }, "stepDetails": { "jobId": "string", "stepId": "string" }, "environmentDetails": { "jobId": "string", "environmentId": "string" } } ... ]
+    /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
-    public IEnumerable<string>? Identifiers { get; set; }
+    public IEnumerable<string>? Identifiers { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

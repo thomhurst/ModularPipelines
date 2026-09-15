@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rum", "get-app-monitor-data")]
-public record AwsRumGetAppMonitorDataOptions : AwsOptions
+public record AwsRumGetAppMonitorDataOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data. See also: AWS API Documentation get-app-monitor-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// </summary>
+    /// <param name="Name">The name of the app monitor that collected the data that you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="TimeRange">A structure that defines the time range that you want to retrieve results from. After -&gt; (long) [required] The beginning of the time range to retrieve performance events from. Before -&gt; (long) The end of the time range to retrieve performance events from. If you omit this, the time range extends to the time that this operation is performed. Shorthand Syntax: After=long,Before=long JSON Syntax: { "After": long, "Before": long }</param>
+    public AwsRumGetAppMonitorDataOptions(
+        string Name,
+        string TimeRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(TimeRange);
+        this.TimeRange = TimeRange;
+    }
+
+    private AwsRumGetAppMonitorDataOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRumGetAppMonitorDataOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRumGetAppMonitorDataOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the app monitor that collected the data that you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// A structure that defines the time range that you want to retrieve results from. After -&gt; (long) [required] The beginning of the time range to retrieve performance events from. Before -&gt; (long) The end of the time range to retrieve performance events from. If you omit this, the time range extends to the time that this operation is performed. Shorthand Syntax: After=long,Before=long JSON Syntax: { "After": long, "Before": long }
+    /// </summary>
     [CliOption("--time-range")]
-    public string? TimeRange { get; set; }
+    public string? TimeRange { get; private init; }
 
     /// <summary>
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you spec- ify. (structure) A structure that defines a key and values that you can use to filter the results. The only performance events that are re- turned are those that have values matching the ones that you specify in one of your QueryFilter structures. For example, you could specify Browser as the Name and specify Chrome,Firefox as the Values to return events generated only from those browsers. Specifying Invert as the Name works as a "not equal to" filter. For example, specify Invert as the Name and specify Chrome as the value to return all events except events from user sessions with the Chrome browser. Name -&gt; (string) The name of a key to search for. The filter returns only the events that match the Name and Values that you specify. Valid values for Name are Browser | Device | Country | Page | OS | EventType | Invert Values -&gt; (list) The values of the Name that are to be be included in the re- turned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
@@ -58,5 +102,21 @@ public record AwsRumGetAppMonitorDataOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

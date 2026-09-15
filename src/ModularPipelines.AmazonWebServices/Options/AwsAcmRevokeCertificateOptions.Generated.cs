@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acm", "revoke-certificate")]
-public record AwsAcmRevokeCertificateOptions : AwsOptions
+public record AwsAcmRevokeCertificateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--certificate-arn")]
-    public string? CertificateArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Re- voking a certificate is permanent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="RevocationReason">Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CA_COMPROMISE o AFFILIATION_CHANGED o SUPERCEDED o SUPERSEDED o CESSATION_OF_OPERATION o CERTIFICATE_HOLD o REMOVE_FROM_CRL o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE</param>
+    public AwsAcmRevokeCertificateOptions(
+        string CertificateArn,
+        AwsAcmRevokeCertificateRevocationReason RevocationReason
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateArn);
+        this.CertificateArn = CertificateArn;
+        global::System.ArgumentNullException.ThrowIfNull(RevocationReason);
+        this.RevocationReason = RevocationReason;
+    }
+
+    private AwsAcmRevokeCertificateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAcmRevokeCertificateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAcmRevokeCertificateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// </summary>
+    [CliOption("--certificate-arn")]
+    public string? CertificateArn { get; private init; }
+
+    /// <summary>
+    /// Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CA_COMPROMISE o AFFILIATION_CHANGED o SUPERCEDED o SUPERSEDED o CESSATION_OF_OPERATION o CERTIFICATE_HOLD o REMOVE_FROM_CRL o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE
+    /// </summary>
     [CliOption("--revocation-reason")]
-    public string? RevocationReason { get; set; }
+    public AwsAcmRevokeCertificateRevocationReason? RevocationReason { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("es", "create-outbound-cross-cluster-search-connection")]
-public record AwsEsCreateOutboundCrossClusterSearchConnectionOptions : AwsOptions
+public record AwsEsCreateOutboundCrossClusterSearchConnectionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new cross-cluster search connection from a source domain to a destination domain. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDomainInfo">Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
+    /// <param name="DestinationDomainInfo">Specifies the `` DomainInformation`` for the destination Elastic- search domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
+    /// <param name="ConnectionAlias">Specifies the connection alias that will be used by the customer for this connection. Constraints: o max: 20</param>
+    public AwsEsCreateOutboundCrossClusterSearchConnectionOptions(
+        string SourceDomainInfo,
+        string DestinationDomainInfo,
+        string ConnectionAlias
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDomainInfo);
+        this.SourceDomainInfo = SourceDomainInfo;
+        global::System.ArgumentNullException.ThrowIfNull(DestinationDomainInfo);
+        this.DestinationDomainInfo = DestinationDomainInfo;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionAlias);
+        this.ConnectionAlias = ConnectionAlias;
+    }
+
+    private AwsEsCreateOutboundCrossClusterSearchConnectionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEsCreateOutboundCrossClusterSearchConnectionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEsCreateOutboundCrossClusterSearchConnectionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
+    /// </summary>
     [CliOption("--source-domain-info")]
-    public string? SourceDomainInfo { get; set; }
+    public string? SourceDomainInfo { get; private init; }
 
+    /// <summary>
+    /// Specifies the `` DomainInformation`` for the destination Elastic- search domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
+    /// </summary>
     [CliOption("--destination-domain-info")]
-    public string? DestinationDomainInfo { get; set; }
+    public string? DestinationDomainInfo { get; private init; }
 
+    /// <summary>
+    /// Specifies the connection alias that will be used by the customer for this connection. Constraints: o max: 20
+    /// </summary>
     [CliOption("--connection-alias")]
-    public string? ConnectionAlias { get; set; }
+    public string? ConnectionAlias { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

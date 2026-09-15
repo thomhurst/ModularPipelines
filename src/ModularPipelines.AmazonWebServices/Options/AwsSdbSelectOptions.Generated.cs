@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,12 +21,45 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sdb", "select")]
-public record AwsSdbSelectOptions : AwsOptions
+public record AwsSdbSelectOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--select-expression")]
-    public string? SelectExpression { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--consistent-read")]
+    /// <summary>
+    /// The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SE- LECT statement. The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access...
+    /// </summary>
+    /// <param name="SelectExpression"></param>
+    public AwsSdbSelectOptions(
+        string SelectExpression
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SelectExpression);
+        this.SelectExpression = SelectExpression;
+    }
+
+    private AwsSdbSelectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSdbSelectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSdbSelectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    [CliOption("--select-expression")]
+    public string? SelectExpression { get; private init; }
+
+    [CliFlag("--consistent-read", NegatedName = "--no-consistent-read")]
     public bool? ConsistentRead { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -46,5 +80,21 @@ public record AwsSdbSelectOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

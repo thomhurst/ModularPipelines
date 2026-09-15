@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "start-code-review-job")]
-public record AwsSecurityagentStartCodeReviewJobOptions : AwsOptions
+public record AwsSecurityagentStartCodeReviewJobOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--agent-space-id")]
-    public string? AgentSpaceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a new code review job for a code review configuration. The job executes the security-focused code analysis defined in the code review. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AgentSpaceId">The unique identifier of the agent space.</param>
+    /// <param name="CodeReviewId">The unique identifier of the code review to start a job for.</param>
+    public AwsSecurityagentStartCodeReviewJobOptions(
+        string AgentSpaceId,
+        string CodeReviewId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentSpaceId);
+        this.AgentSpaceId = AgentSpaceId;
+        global::System.ArgumentNullException.ThrowIfNull(CodeReviewId);
+        this.CodeReviewId = CodeReviewId;
+    }
+
+    private AwsSecurityagentStartCodeReviewJobOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentStartCodeReviewJobOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentStartCodeReviewJobOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the agent space.
+    /// </summary>
+    [CliOption("--agent-space-id")]
+    public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the code review to start a job for.
+    /// </summary>
     [CliOption("--code-review-id")]
-    public string? CodeReviewId { get; set; }
+    public string? CodeReviewId { get; private init; }
 
     /// <summary>
     /// Source of the diff for a differential scan. When present, the job analyzes only the changed lines instead of performing a full scan. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3Uri. s3Uri -&gt; (string) S3 URI pointing to a unified diff file. The file must be in standard unified diff format and stored in an S3 bucket con- nected to your Agent Space. Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
@@ -38,5 +82,21 @@ public record AwsSecurityagentStartCodeReviewJobOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

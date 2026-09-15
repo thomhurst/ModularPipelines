@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connect", "evaluate-data-table-values")]
-public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions
+public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Evaluates values at the time of the request and returns them. It con- siders the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the acces- sor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Ser- vice...
+    /// </summary>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Values">A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]</param>
+    public AwsConnectEvaluateDataTableValuesOptions(
+        string InstanceId,
+        string DataTableId,
+        IEnumerable<string> Values
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DataTableId);
+        this.DataTableId = DataTableId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Values);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Values));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Values));
+            }
+
+            Values = materialized;
+        }
+        this.Values = Values;
+    }
+
+    private AwsConnectEvaluateDataTableValuesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectEvaluateDataTableValuesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectEvaluateDataTableValuesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--data-table-id")]
-    public string? DataTableId { get; set; }
+    public string? DataTableId { get; private init; }
 
+    /// <summary>
+    /// A list of value evaluation sets specifying which primary values and attributes to evaluate. (structure) A data table value evaluation set. PrimaryValues -&gt; (list) The set's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeNames -&gt; (list) [required] The set's attribute names. (string) Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeNames=string,string ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeNames": ["string", ...] } ... ]
+    /// </summary>
     [CliOption("--values", GroupValues = true)]
-    public IEnumerable<string>? Values { get; set; }
+    public IEnumerable<string>? Values { get; private init; }
 
     /// <summary>
     /// Optional IANA timezone identifier to use when resolving time based dynamic values. Defaults to the data table time zone if not pro- vided.
@@ -55,5 +117,21 @@ public record AwsConnectEvaluateDataTableValuesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

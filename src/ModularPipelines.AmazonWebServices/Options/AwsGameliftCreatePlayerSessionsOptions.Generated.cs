@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "create-player-sessions")]
-public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions
+public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--game-session-id")]
-    public string? GameSessionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successf...
+    /// </summary>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerIds">List of unique identifiers for the players to be added. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    public AwsGameliftCreatePlayerSessionsOptions(
+        string GameSessionId,
+        IEnumerable<string> PlayerIds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GameSessionId);
+        this.GameSessionId = GameSessionId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PlayerIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PlayerIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PlayerIds));
+            }
+
+            PlayerIds = materialized;
+        }
+        this.PlayerIds = PlayerIds;
+    }
+
+    private AwsGameliftCreatePlayerSessionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftCreatePlayerSessionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftCreatePlayerSessionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// </summary>
+    [CliOption("--game-session-id")]
+    public string? GameSessionId { get; private init; }
+
+    /// <summary>
+    /// List of unique identifiers for the players to be added. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
-    public IEnumerable<string>? PlayerIds { get; set; }
+    public IEnumerable<string>? PlayerIds { get; private init; }
 
     /// <summary>
     /// Map of string pairs, each specifying a player ID and a set of devel- oper-defined information related to the player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored. key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +94,21 @@ public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

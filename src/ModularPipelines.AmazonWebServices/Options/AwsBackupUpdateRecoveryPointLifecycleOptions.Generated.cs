@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "update-recovery-point-lifecycle")]
-public record AwsBackupUpdateRecoveryPointLifecycleOptions : AwsOptions
+public record AwsBackupUpdateRecoveryPointLifecycleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--backup-vault-name")]
-    public string? BackupVaultName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups au- tomatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum o...
+    /// </summary>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="RecoveryPointArn">An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .</param>
+    public AwsBackupUpdateRecoveryPointLifecycleOptions(
+        string BackupVaultName,
+        string RecoveryPointArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
+        this.BackupVaultName = BackupVaultName;
+        global::System.ArgumentNullException.ThrowIfNull(RecoveryPointArn);
+        this.RecoveryPointArn = RecoveryPointArn;
+    }
+
+    private AwsBackupUpdateRecoveryPointLifecycleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBackupUpdateRecoveryPointLifecycleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBackupUpdateRecoveryPointLifecycleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// </summary>
+    [CliOption("--backup-vault-name")]
+    public string? BackupVaultName { get; private init; }
+
+    /// <summary>
+    /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recov- ery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45 .
+    /// </summary>
     [CliOption("--recovery-point-arn")]
-    public string? RecoveryPointArn { get; set; }
+    public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
     /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting cannot be changed after a backup has been transitioned to cold. MoveToColdStorageAfterDays -&gt; (long) The number of days after creation that a recovery point is moved to cold storage. DeleteAfterDays -&gt; (long) The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays . OptInToArchiveForSupportedResources -&gt; (boolean) If the value is true, your backup plan transitions supported re- sources to archive (cold) storage tier in accordance with your lifecycle settings. DeleteAfterEvent -&gt; (string) The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input. Possible values: o DELETE_AFTER_COPY Shorthand Syntax: MoveToColdStorageAfterDays=long,DeleteAfterDays=long,OptInToArchiveForSupportedResources=boolean,DeleteAfterEvent=string JSON Syntax: { "MoveToColdStorageAfterDays": long, "DeleteAfterDays": long, "OptInToArchiveForSupportedResources": true|false, "DeleteAfterEvent": "DELETE_AFTER_COPY" }
@@ -38,5 +82,21 @@ public record AwsBackupUpdateRecoveryPointLifecycleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

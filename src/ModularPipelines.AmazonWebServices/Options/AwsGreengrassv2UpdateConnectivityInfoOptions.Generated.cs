@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("greengrassv2", "update-connectivity-info")]
-public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions
+public record AwsGreengrassv2UpdateConnectivityInfoOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--thing-name")]
-    public string? ThingName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client de- vices can connect to an MQTT broker on the core device. When a client device calls the IoT Greengrass discovery API , IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see Connect client devices to core devices in the IoT Greengrass Version 2 Developer Guide . See also: AWS API Do...
+    /// </summary>
+    /// <param name="ThingName">The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ConnectivityInfo">The connectivity information for the core device. (structure) Contains information about an endpoint and port where client de- vices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can con- nect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: o min: 0 o max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]</param>
+    public AwsGreengrassv2UpdateConnectivityInfoOptions(
+        string ThingName,
+        IEnumerable<string> ConnectivityInfo
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThingName);
+        this.ThingName = ThingName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConnectivityInfo);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConnectivityInfo));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConnectivityInfo));
+            }
+
+            ConnectivityInfo = materialized;
+        }
+        this.ConnectivityInfo = ConnectivityInfo;
+    }
+
+    private AwsGreengrassv2UpdateConnectivityInfoOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGreengrassv2UpdateConnectivityInfoOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGreengrassv2UpdateConnectivityInfoOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the core device. This is also the name of the IoT thing. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [CliOption("--thing-name")]
+    public string? ThingName { get; private init; }
+
+    /// <summary>
+    /// The connectivity information for the core device. (structure) Contains information about an endpoint and port where client de- vices can connect to an MQTT broker on a Greengrass core device. id -&gt; (string) An ID for the connectivity information. hostAddress -&gt; (string) The IP address or DNS address where client devices can con- nect to an MQTT broker on the Greengrass core device. portNumber -&gt; (integer) The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices. Constraints: o min: 0 o max: 65535 metadata -&gt; (string) Additional metadata to provide to client devices that connect to this core device. Shorthand Syntax: id=string,hostAddress=string,portNumber=integer,metadata=string ... JSON Syntax: [ { "id": "string", "hostAddress": "string", "portNumber": integer, "metadata": "string" } ... ]
+    /// </summary>
     [CliOption("--connectivity-info", GroupValues = true)]
-    public IEnumerable<string>? ConnectivityInfo { get; set; }
+    public IEnumerable<string>? ConnectivityInfo { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mailmanager", "deregister-member-from-address-list")]
-public record AwsMailmanagerDeregisterMemberFromAddressListOptions : AwsOptions
+public record AwsMailmanagerDeregisterMemberFromAddressListOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--address-list-id")]
-    public string? AddressListId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes a member from an address list. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AddressListId">The unique identifier of the address list to remove the address from. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Address">The address to be removed from the address list. Constraints: o min: 3 o max: 320</param>
+    public AwsMailmanagerDeregisterMemberFromAddressListOptions(
+        string AddressListId,
+        string Address
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddressListId);
+        this.AddressListId = AddressListId;
+        global::System.ArgumentNullException.ThrowIfNull(Address);
+        this.Address = Address;
+    }
+
+    private AwsMailmanagerDeregisterMemberFromAddressListOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMailmanagerDeregisterMemberFromAddressListOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMailmanagerDeregisterMemberFromAddressListOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the address list to remove the address from. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-]+
+    /// </summary>
+    [CliOption("--address-list-id")]
+    public string? AddressListId { get; private init; }
+
+    /// <summary>
+    /// The address to be removed from the address list. Constraints: o min: 3 o max: 320
+    /// </summary>
     [CliOption("--address")]
-    public string? Address { get; set; }
+    public string? Address { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

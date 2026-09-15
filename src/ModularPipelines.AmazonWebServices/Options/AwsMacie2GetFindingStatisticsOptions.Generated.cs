@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("macie2", "get-finding-statistics")]
-public record AwsMacie2GetFindingStatisticsOptions : AwsOptions
+public record AwsMacie2GetFindingStatisticsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupBy">The finding property to use to group the query results. Valid values are: o classificationDetails.jobId - The unique identifier for the clas- sification job that produced the finding. o resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. o severity.description - The severity level of the finding, such as High or Medium. o type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: o resourcesAffected.s3Bucket.name o type o classificationDetails.jobId o severity.description</param>
+    public AwsMacie2GetFindingStatisticsOptions(
+        AwsMacie2GetFindingStatisticsGroupBy GroupBy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupBy);
+        this.GroupBy = GroupBy;
+    }
+
+    private AwsMacie2GetFindingStatisticsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMacie2GetFindingStatisticsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMacie2GetFindingStatisticsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The finding property to use to group the query results. Valid values are: o classificationDetails.jobId - The unique identifier for the clas- sification job that produced the finding. o resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. o severity.description - The severity level of the finding, such as High or Medium. o type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal. Possible values: o resourcesAffected.s3Bucket.name o type o classificationDetails.jobId o severity.description
+    /// </summary>
+    [CliOption("--group-by")]
+    public AwsMacie2GetFindingStatisticsGroupBy? GroupBy { get; private init; }
+
     /// <summary>
     /// The criteria to use to filter the query results. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
     /// </summary>
-    [CliOption("--finding-criteria", GroupValues = true)]
-    public IEnumerable<string>? FindingCriteria { get; set; }
-
-    [CliOption("--group-by")]
-    public string? GroupBy { get; set; }
+    [CliOption("--finding-criteria")]
+    public string? FindingCriteria { get; set; }
 
     /// <summary>
     /// The maximum number of items to include in each page of the response.
@@ -47,5 +85,21 @@ public record AwsMacie2GetFindingStatisticsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mediaconnect", "update-bridge-state")]
-public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions
+public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bridge-arn")]
-    public string? BridgeArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates the bridge state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="DesiredState">The desired state for the bridge. Possible values: o ACTIVE o STANDBY o DELETED</param>
+    public AwsMediaconnectUpdateBridgeStateOptions(
+        string BridgeArn,
+        AwsMediaconnectUpdateBridgeStateDesiredState DesiredState
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BridgeArn);
+        this.BridgeArn = BridgeArn;
+        global::System.ArgumentNullException.ThrowIfNull(DesiredState);
+        this.DesiredState = DesiredState;
+    }
+
+    private AwsMediaconnectUpdateBridgeStateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMediaconnectUpdateBridgeStateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMediaconnectUpdateBridgeStateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// </summary>
+    [CliOption("--bridge-arn")]
+    public string? BridgeArn { get; private init; }
+
+    /// <summary>
+    /// The desired state for the bridge. Possible values: o ACTIVE o STANDBY o DELETED
+    /// </summary>
     [CliOption("--desired-state")]
-    public string? DesiredState { get; set; }
+    public AwsMediaconnectUpdateBridgeStateDesiredState? DesiredState { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

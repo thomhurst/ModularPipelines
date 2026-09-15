@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,74 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "terminate-instances")]
-public record AwsEc2TerminateInstancesOptions : AwsOptions
+public record AwsEc2TerminateInstancesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-ids", GroupValues = true)]
-    public IEnumerable<string>? InstanceIds { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--force")]
+    /// <summary>
+    /// Terminates (deletes) the specified instances. This operation is idempotent ; if you terminate an instance more than once, each call succeeds. WARNING: Terminating an instance is permanent and irreversible. After you terminate an instance, you can no longer connect to it, and it can't be recovered. All attached Amazon EBS volumes that are configured to be deleted on termination are also permanently deleted and can't be recovered. All data stored on instance store volumes is permanently lost. For ...
+    /// </summary>
+    /// <param name="InstanceIds">The IDs of the instances. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches. (string) Syntax: "string" "string" ...</param>
+    public AwsEc2TerminateInstancesOptions(
+        IEnumerable<string> InstanceIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceIds));
+            }
+
+            InstanceIds = materialized;
+        }
+        this.InstanceIds = InstanceIds;
+    }
+
+    private AwsEc2TerminateInstancesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2TerminateInstancesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2TerminateInstancesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IDs of the instances. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches. (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; private init; }
+
+    /// <summary>
+    /// Forces the instances to terminate. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata.
+    /// </summary>
+    [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
 
-    [CliFlag("--skip-os-shutdown")]
+    /// <summary>
+    /// Specifies whether to bypass the graceful OS shutdown process when the instance is terminated. Default: false
+    /// </summary>
+    [CliFlag("--skip-os-shutdown", NegatedName = "--no-skip-os-shutdown")]
     public bool? SkipOsShutdown { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +95,21 @@ public record AwsEc2TerminateInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

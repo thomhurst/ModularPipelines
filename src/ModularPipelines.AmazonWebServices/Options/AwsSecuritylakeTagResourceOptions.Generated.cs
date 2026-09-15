@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "tag-resource")]
-public record AwsSecuritylakeTagResourceOptions : AwsOptions
+public record AwsSecuritylakeTagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-arn")]
-    public string? ResourceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or updates one or more tags that are associated with an Amazon Se- curity Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. A tag is a label that you can define and associate with Amazon Web Services resources. Each tag consists of a required tag key and an associated tag value . A tag key is a general label that acts as a cat- egory for a more specific tag value. A tag value acts as a descriptor for ...
+    /// </summary>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Security Lake resource to add or update the tags for. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$</param>
+    /// <param name="Tags">An array of objects, one for each tag (key and value) to associate with the Amazon Security Lake resource. For each tag, you must spec- ify both a tag key and a tag value. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 50 (structure) A tag is a label that you can define and associate with Amazon Web Services resources, including certain types of Amazon Secu- rity Lake resources. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environ- ment, or other criteria. You can associate tags with the follow- ing types of Security Lake resources: subscribers, and the data lake configuration for your Amazon Web Services account in indi- vidual Amazon Web Services Regions. A resource can have up to 50 tags. Each tag consists of a re- quired tag key and an associated tag value . A tag key is a gen- eral label that acts as a category for a more specific tag value. Each tag key must be unique and it can have only one tag value. A tag value acts as a descriptor for a tag key. Tag keys and values are case sensitive. They can contain letters, num- bers, spaces, or the following symbols: _ . : / = + @ - For more information, see Tagging Amazon Security Lake resources in the Amazon Security Lake User Guide . key -&gt; (string) [required] The name of the tag. This is a general label that acts as a category for a more specific tag value (value ). Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value thats associated with the specified tag key (key ). This value acts as a descriptor for the tag key. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    public AwsSecuritylakeTagResourceOptions(
+        string ResourceArn,
+        IEnumerable<string> Tags
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceArn);
+        this.ResourceArn = ResourceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
+        this.Tags = Tags;
+    }
+
+    private AwsSecuritylakeTagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeTagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeTagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to add or update the tags for. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$
+    /// </summary>
+    [CliOption("--resource-arn")]
+    public string? ResourceArn { get; private init; }
+
+    /// <summary>
+    /// An array of objects, one for each tag (key and value) to associate with the Amazon Security Lake resource. For each tag, you must spec- ify both a tag key and a tag value. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 50 (structure) A tag is a label that you can define and associate with Amazon Web Services resources, including certain types of Amazon Secu- rity Lake resources. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environ- ment, or other criteria. You can associate tags with the follow- ing types of Security Lake resources: subscribers, and the data lake configuration for your Amazon Web Services account in indi- vidual Amazon Web Services Regions. A resource can have up to 50 tags. Each tag consists of a re- quired tag key and an associated tag value . A tag key is a gen- eral label that acts as a category for a more specific tag value. Each tag key must be unique and it can have only one tag value. A tag value acts as a descriptor for a tag key. Tag keys and values are case sensitive. They can contain letters, num- bers, spaces, or the following symbols: _ . : / = + @ - For more information, see Tagging Amazon Security Lake resources in the Amazon Security Lake User Guide . key -&gt; (string) [required] The name of the tag. This is a general label that acts as a category for a more specific tag value (value ). Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value thats associated with the specified tag key (key ). This value acts as a descriptor for the tag key. A tag value cannot be null, but it can be an empty string. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// </summary>
     [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    public IEnumerable<string>? Tags { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "put-bucket-cors")]
-public record AwsS3apiPutBucketCorsOptions : AwsOptions
+public record AwsS3apiPutBucketCorsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration ex- ists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucket- CORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.co...
+    /// </summary>
+    /// <param name="Bucket">Specifies the bucket impacted by the cors configuration.</param>
+    /// <param name="CorsConfiguration">Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Re- quest-Headers header. These headers are allowed in a pre- flight OPTIONS request. In response to any preflight OP- TIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to ac- cess the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want cus- tomers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }</param>
+    public AwsS3apiPutBucketCorsOptions(
+        string Bucket,
+        string CorsConfiguration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(CorsConfiguration);
+        this.CorsConfiguration = CorsConfiguration;
+    }
+
+    private AwsS3apiPutBucketCorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiPutBucketCorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiPutBucketCorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies the bucket impacted by the cors configuration.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Re- quest-Headers header. These headers are allowed in a pre- flight OPTIONS request. In response to any preflight OP- TIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to ac- cess the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want cus- tomers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }
+    /// </summary>
     [CliOption("--cors-configuration")]
-    public string? CorsConfiguration { get; set; }
+    public string? CorsConfiguration { get; private init; }
 
     /// <summary>
     /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
@@ -51,5 +95,21 @@ public record AwsS3apiPutBucketCorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

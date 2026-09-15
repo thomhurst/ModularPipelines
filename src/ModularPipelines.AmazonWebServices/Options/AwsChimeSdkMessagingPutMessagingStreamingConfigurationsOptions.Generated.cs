@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-messaging", "put-messaging-streaming-configurations")]
-public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : AwsOptions
+public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-instance-arn")]
-    public string? AppInstanceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Sets the data streaming configuration for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppInstanceArn">The ARN of the streaming configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="StreamingConfigurations">The streaming configurations. Constraints: o min: 1 o max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: o Channel o ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]</param>
+    public AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions(
+        string AppInstanceArn,
+        IEnumerable<string> StreamingConfigurations
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppInstanceArn);
+        this.AppInstanceArn = AppInstanceArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StreamingConfigurations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StreamingConfigurations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StreamingConfigurations));
+            }
+
+            StreamingConfigurations = materialized;
+        }
+        this.StreamingConfigurations = StreamingConfigurations;
+    }
+
+    private AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the streaming configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--app-instance-arn")]
+    public string? AppInstanceArn { get; private init; }
+
+    /// <summary>
+    /// The streaming configurations. Constraints: o min: 1 o max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: o Channel o ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]
+    /// </summary>
     [CliOption("--streaming-configurations", GroupValues = true)]
-    public IEnumerable<string>? StreamingConfigurations { get; set; }
+    public IEnumerable<string>? StreamingConfigurations { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

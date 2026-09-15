@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "delete-service-environment")]
-public record AwsBatchDeleteServiceEnvironmentOptions : AwsOptions
+public record AwsBatchDeleteServiceEnvironmentOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a Service environment. Before you can delete a service environ- ment, you must first set its state to DISABLED with the UpdateSer- viceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ServiceEnvironment">The name or ARN of the service environment to delete.</param>
+    public AwsBatchDeleteServiceEnvironmentOptions(
+        string ServiceEnvironment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceEnvironment);
+        this.ServiceEnvironment = ServiceEnvironment;
+    }
+
+    private AwsBatchDeleteServiceEnvironmentOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBatchDeleteServiceEnvironmentOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBatchDeleteServiceEnvironmentOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name or ARN of the service environment to delete.
+    /// </summary>
     [CliOption("--service-environment")]
-    public string? ServiceEnvironment { get; set; }
+    public string? ServiceEnvironment { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

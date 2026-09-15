@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ses", "set-identity-dkim-enabled")]
-public record AwsSesSetIdentityDkimEnabledOptions : AwsOptions
+public record AwsSesSetIdentityDkimEnabledOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--identity")]
-    public string? Identity { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliFlag("--dkim-enabled")]
-    public bool? DkimEnabled { get; set; }
+    /// <summary>
+    /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. NOTE: For email addresses (for example, user@example.com ), you can only enable DKIM signing if the corresponding domain (in this case, exam- ple.com ) has been set up t...
+    /// </summary>
+    /// <param name="Identity">The identity for which DKIM signing should be enabled or disabled.</param>
+    /// <param name="DkimEnabled">Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.</param>
+    public AwsSesSetIdentityDkimEnabledOptions(
+        string Identity,
+        bool DkimEnabled
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Identity);
+        this.Identity = Identity;
+        this.DkimEnabled = DkimEnabled;
+    }
+
+    private AwsSesSetIdentityDkimEnabledOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSesSetIdentityDkimEnabledOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSesSetIdentityDkimEnabledOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identity for which DKIM signing should be enabled or disabled.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; private init; }
+
+    /// <summary>
+    /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.
+    /// </summary>
+    [CliFlag("--dkim-enabled", NegatedName = "--no-dkim-enabled")]
+    public bool? DkimEnabled { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

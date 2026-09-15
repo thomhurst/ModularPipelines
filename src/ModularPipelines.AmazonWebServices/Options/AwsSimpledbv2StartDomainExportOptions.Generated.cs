@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,20 +22,63 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("simpledbv2", "start-domain-export")]
-public record AwsSimpledbv2StartDomainExportOptions : AwsOptions
+public record AwsSimpledbv2StartDomainExportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Initiates the export of a SimpleDB domain to an S3 bucket. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The name of the domain to export. Constraints: o min: 1</param>
+    /// <param name="S3Bucket">The name of the S3 bucket where the domain data will be exported. Constraints: o min: 3 o max: 255 o pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+</param>
+    public AwsSimpledbv2StartDomainExportOptions(
+        string DomainName,
+        string S3Bucket
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(S3Bucket);
+        this.S3Bucket = S3Bucket;
+    }
+
+    private AwsSimpledbv2StartDomainExportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSimpledbv2StartDomainExportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSimpledbv2StartDomainExportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain to export. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The name of the S3 bucket where the domain data will be exported. Constraints: o min: 3 o max: 255 o pattern: [a-z0-9A-Z]+[\.\-\w]*[a-z0-9A-Z]+
+    /// </summary>
+    [CliOption("--s3-bucket")]
+    public string? S3Bucket { get; private init; }
+
     /// <summary>
     /// Providing a ClientToken makes the call to StartDomainExport API idempotent, meaning that multiple identical calls have the same ef- fect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any re- quest with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a re- quest with the same client token but a change in other parameters within the 8-hour idempotency window, a ConflictException will be returned. Constraints: o min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
-
-    [CliOption("--s3-bucket")]
-    public string? S3Bucket { get; set; }
 
     /// <summary>
     /// The prefix string to be used to generate the S3 object keys for ex- port artifacts. Constraints: o min: 1 o max: 850
@@ -65,5 +109,21 @@ public record AwsSimpledbv2StartDomainExportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

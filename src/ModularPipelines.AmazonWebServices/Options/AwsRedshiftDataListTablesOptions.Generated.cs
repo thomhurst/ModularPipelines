@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +21,47 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift-data", "list-tables")]
-public record AwsRedshiftDataListTablesOptions : AwsOptions
+public record AwsRedshiftDataListTablesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// List the tables in a database. If neither SchemaPattern nor TablePat- tern are specified, then all tables in the database are returned. A to- ken is returned to page through the table list. Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the...
+    /// </summary>
+    /// <param name="Database">The name of the database that contains the tables to list. If Con- nectedDatabase is not specified, this is also the database to con- nect to with your authentication credentials.</param>
+    public AwsRedshiftDataListTablesOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    private AwsRedshiftDataListTablesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftDataListTablesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftDataListTablesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database that contains the tables to list. If Con- nectedDatabase is not specified, this is also the database to con- nect to with your authentication credentials.
+    /// </summary>
+    [CliOption("--database")]
+    public string? Database { get; private init; }
+
     /// <summary>
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or tem- porary credentials. Constraints: o min: 1 o max: 63 o pattern: [a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
@@ -40,9 +80,6 @@ public record AwsRedshiftDataListTablesOptions : AwsOptions
     /// </summary>
     [CliOption("--db-user")]
     public string? DbUser { get; set; }
-
-    [CliOption("--database")]
-    public string? Database { get; set; }
 
     /// <summary>
     /// A database name. The connected database is specified when you con- nect with your authentication credentials.
@@ -92,5 +129,21 @@ public record AwsRedshiftDataListTablesOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

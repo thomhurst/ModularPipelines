@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,22 +21,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "restore-db-cluster-from-snapshot")]
-public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
+public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a de- fault configuration. If you don't specify a security group, the new DB cluster is associated with the default security group. You can use the EnableVPCNetworking and EnableInternetAccessGateway pa- rameters together to restore an Aurora PostgreSQL cluster without VPC networking and with internet-based connectivity. These two parameters must always be specified ...
+    /// </summary>
+    /// <param name="DbClusterIdentifier">The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
+    /// <param name="SnapshotIdentifier">The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints: o Must match the identifier of an existing Snapshot. Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
+    /// <param name="Engine">The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
+    public AwsRdsRestoreDbClusterFromSnapshotOptions(
+        string DbClusterIdentifier,
+        string SnapshotIdentifier,
+        string Engine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterIdentifier);
+        this.DbClusterIdentifier = DbClusterIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotIdentifier);
+        this.SnapshotIdentifier = SnapshotIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+    }
+
+    private AwsRdsRestoreDbClusterFromSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsRestoreDbClusterFromSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsRestoreDbClusterFromSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Example: my-snapshot-id Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliOption("--db-cluster-identifier")]
+    public string? DbClusterIdentifier { get; private init; }
+
+    /// <summary>
+    /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints: o Must match the identifier of an existing Snapshot. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliOption("--snapshot-identifier")]
+    public string? SnapshotIdentifier { get; private init; }
+
+    /// <summary>
+    /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
     /// <summary>
     /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created. Valid for: Aurora DB clusters only (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
-
-    [CliOption("--db-cluster-identifier")]
-    public string? DbClusterIdentifier { get; set; }
-
-    [CliOption("--snapshot-identifier")]
-    public string? SnapshotIdentifier { get; set; }
-
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
 
     /// <summary>
     /// The version of the database engine to use for the new DB cluster. If you don't specify an engine version, the default version for the database engine in the Amazon Web Services Region is used. To list all of the available engine versions for Aurora MySQL, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL See Database engine updates for Amazon Aurora MySQL in the Amazon Aurora User Guide . Aurora PostgreSQL See Amazon Aurora PostgreSQL releases and engine versions in the Amazon Aurora User Guide . MySQL See Amazon RDS for MySQL in the Amazon RDS User Guide. PostgreSQL See Amazon RDS for PostgreSQL versions and extensions in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -85,7 +136,10 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CliFlag("--enable-iam-database-authentication")]
+    /// <summary>
+    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
@@ -118,10 +172,16 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
 
-    [CliFlag("--deletion-protection")]
+    /// <summary>
+    /// Specifies whether to enable deletion protection for the DB cluster. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
-    [CliFlag("--copy-tags-to-snapshot")]
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
@@ -154,7 +214,10 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
-    [CliFlag("--publicly-accessible")]
+    /// <summary>
+    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB cluster is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB cluster is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB cluster is public. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// </summary>
+    [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
@@ -187,7 +250,10 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
-    [CliFlag("--enable-performance-insights")]
+    /// <summary>
+    /// Specifies whether to turn on Performance Insights for the DB clus- ter.
+    /// </summary>
+    [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
@@ -226,10 +292,16 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--enable-vpc-networking")]
+    /// <summary>
+    /// Specifies whether to enable VPC networking for the restored DB clus- ter. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGate- way . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-vpc-networking", NegatedName = "--no-enable-vpc-networking")]
     public bool? EnableVpcNetworking { get; set; }
 
-    [CliFlag("--enable-internet-access-gateway")]
+    /// <summary>
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// </summary>
+    [CliFlag("--enable-internet-access-gateway", NegatedName = "--no-enable-internet-access-gateway")]
     public bool? EnableInternetAccessGateway { get; set; }
 
     /// <summary>
@@ -243,5 +315,21 @@ public record AwsRdsRestoreDbClusterFromSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

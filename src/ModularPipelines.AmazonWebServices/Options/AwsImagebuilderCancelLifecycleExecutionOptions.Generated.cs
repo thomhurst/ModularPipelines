@@ -11,22 +11,59 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancel a specific image lifecycle policy runtime instance. See also: AWS API Documentation
+/// Cancels a specific image lifecycle policy runtime instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("imagebuilder", "cancel-lifecycle-execution")]
-public record AwsImagebuilderCancelLifecycleExecutionOptions : AwsOptions
+public record AwsImagebuilderCancelLifecycleExecutionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--lifecycle-execution-id")]
-    public string? LifecycleExecutionId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// Cancels a specific image lifecycle policy runtime instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="LifecycleExecutionId">Identifies the specific runtime instance of the image lifecycle to cancel. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    public AwsImagebuilderCancelLifecycleExecutionOptions(
+        string LifecycleExecutionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LifecycleExecutionId);
+        this.LifecycleExecutionId = LifecycleExecutionId;
+    }
+
+    private AwsImagebuilderCancelLifecycleExecutionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsImagebuilderCancelLifecycleExecutionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsImagebuilderCancelLifecycleExecutionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Identifies the specific runtime instance of the image lifecycle to cancel. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// </summary>
+    [CliOption("--lifecycle-execution-id")]
+    public string? LifecycleExecutionId { get; private init; }
+
+    /// <summary>
+    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -37,5 +74,21 @@ public record AwsImagebuilderCancelLifecycleExecutionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

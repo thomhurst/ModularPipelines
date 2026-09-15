@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,25 +21,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("route53resolver", "create-resolver-endpoint")]
-public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
+public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: o An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. o An outbound Resolver endpoint forwards DNS queries from the DNS ser- vice for a VPC to your network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
+    /// <param name="SecurityGroupIds">The ID of one or more security groups that you want to use to con- trol access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maxi- mum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...</param>
+    /// <param name="Direction">Specify the applicable value: o INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. o OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. o INBOUND_DELEGATION : Resolver delegates queries to Route 53 pri- vate hosted zones from your network. Possible values: o INBOUND o OUTBOUND o INBOUND_DELEGATION</param>
+    /// <param name="IpAddresses">The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. Constraints: o min: 2 o max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you for- ward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. Constraints: o min: 1 o max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]</param>
+    public AwsRoute53resolverCreateResolverEndpointOptions(
+        string CreatorRequestId,
+        IEnumerable<string> SecurityGroupIds,
+        AwsRoute53resolverCreateResolverEndpointDirection Direction,
+        IEnumerable<string> IpAddresses
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CreatorRequestId);
+        this.CreatorRequestId = CreatorRequestId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SecurityGroupIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SecurityGroupIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SecurityGroupIds));
+            }
+
+            SecurityGroupIds = materialized;
+        }
+        this.SecurityGroupIds = SecurityGroupIds;
+        global::System.ArgumentNullException.ThrowIfNull(Direction);
+        this.Direction = Direction;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IpAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(IpAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IpAddresses));
+            }
+
+            IpAddresses = materialized;
+        }
+        this.IpAddresses = IpAddresses;
+    }
+
+    private AwsRoute53resolverCreateResolverEndpointOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRoute53resolverCreateResolverEndpointOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRoute53resolverCreateResolverEndpointOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// </summary>
     [CliOption("--creator-request-id")]
-    public string? CreatorRequestId { get; set; }
+    public string? CreatorRequestId { get; private init; }
+
+    /// <summary>
+    /// The ID of one or more security groups that you want to use to con- trol access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maxi- mum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see Untracked connections . (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--security-group-ids", GroupValues = true)]
+    public IEnumerable<string>? SecurityGroupIds { get; private init; }
+
+    /// <summary>
+    /// Specify the applicable value: o INBOUND : Resolver forwards DNS queries to the DNS service for a VPC from your network. o OUTBOUND : Resolver forwards DNS queries from the DNS service for a VPC to your network. o INBOUND_DELEGATION : Resolver delegates queries to Route 53 pri- vate hosted zones from your network. Possible values: o INBOUND o OUTBOUND o INBOUND_DELEGATION
+    /// </summary>
+    [CliOption("--direction")]
+    public AwsRoute53resolverCreateResolverEndpointDirection? Direction { get; private init; }
+
+    /// <summary>
+    /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. NOTE: Even though the minimum is 1, Route 53 requires that you create at least two. Constraints: o min: 2 o max: 20 (structure) In a CreateResolverEndpoint request, the IP address that DNS queries originate from (for outbound endpoints) or that you for- ward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address. SubnetId -&gt; (string) [required] The ID of the subnet that contains the IP address. Constraints: o min: 1 o max: 32 Ip -&gt; (string) The IPv4 address that you want to use for DNS queries. Constraints: o min: 7 o max: 36 Ipv6 -&gt; (string) The IPv6 address that you want to use for DNS queries. Constraints: o min: 7 o max: 39 Shorthand Syntax: SubnetId=string,Ip=string,Ipv6=string ... JSON Syntax: [ { "SubnetId": "string", "Ip": "string", "Ipv6": "string" } ... ]
+    /// </summary>
+    [CliOption("--ip-addresses", GroupValues = true)]
+    public IEnumerable<string>? IpAddresses { get; private init; }
 
     /// <summary>
     /// A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
-
-    [CliOption("--security-group-ids", GroupValues = true)]
-    public IEnumerable<string>? SecurityGroupIds { get; set; }
-
-    [CliOption("--direction")]
-    public string? Direction { get; set; }
-
-    [CliOption("--ip-addresses", GroupValues = true)]
-    public IEnumerable<string>? IpAddresses { get; set; }
 
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType . Constraints: o min: 1 o max: 255 o pattern: ^arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/op-[a-f0-9]{17}$
@@ -70,16 +150,28 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
     [CliOption("--protocols", GroupValues = true)]
     public IEnumerable<string>? Protocols { get; set; }
 
-    [CliFlag("--rni-enhanced-metrics-enabled")]
+    /// <summary>
+    /// Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are pub- lished in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. Default is false. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see Detailed metrics .
+    /// </summary>
+    [CliFlag("--rni-enhanced-metrics-enabled", NegatedName = "--no-rni-enhanced-metrics-enabled")]
     public bool? RniEnhancedMetricsEnabled { get; set; }
 
-    [CliFlag("--target-name-server-metrics-enabled")]
+    /// <summary>
+    /// rics-enabled (boolean) Specifies whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server as- sociated with this endpoint. When set to false, metrics are not pub- lished. Default is false. This is not supported for inbound Resolver endpoints. NOTE: Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see Detailed metrics .
+    /// </summary>
+    [CliFlag("--target-name-server-metrics-enabled", NegatedName = "--no-target-name-server-metrics-enabled")]
     public bool? TargetNameServerMetricsEnabled { get; set; }
 
-    [CliFlag("--dns64-enabled")]
+    /// <summary>
+    /// Specifies whether DNS64 is enabled for the inbound Resolver end- point. When set to true , Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
+    /// </summary>
+    [CliFlag("--dns64-enabled", NegatedName = "--no-dns64-enabled")]
     public bool? Dns64Enabled { get; set; }
 
-    [CliFlag("--ipv6-internet-access-enabled")]
+    /// <summary>
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true , the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. Default is false. WARNING: When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to pro- tect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see Amazon EC2 security group connection tracking and Resolver endpoint scaling .
+    /// </summary>
+    [CliFlag("--ipv6-internet-access-enabled", NegatedName = "--no-ipv6-internet-access-enabled")]
     public bool? Ipv6InternetAccessEnabled { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -87,5 +179,21 @@ public record AwsRoute53resolverCreateResolverEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

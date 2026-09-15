@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspector", "describe-assessment-targets")]
-public record AwsInspectorDescribeAssessmentTargetsOptions : AwsOptions
+public record AwsInspectorDescribeAssessmentTargetsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Describes the assessment targets that are specified by the ARNs of the assessment targets. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AssessmentTargetArns">The ARNs that specifies the assessment targets that you want to de- scribe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    public AwsInspectorDescribeAssessmentTargetsOptions(
+        IEnumerable<string> AssessmentTargetArns
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AssessmentTargetArns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AssessmentTargetArns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AssessmentTargetArns));
+            }
+
+            AssessmentTargetArns = materialized;
+        }
+        this.AssessmentTargetArns = AssessmentTargetArns;
+    }
+
+    private AwsInspectorDescribeAssessmentTargetsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsInspectorDescribeAssessmentTargetsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsInspectorDescribeAssessmentTargetsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARNs that specifies the assessment targets that you want to de- scribe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--assessment-target-arns", GroupValues = true)]
-    public IEnumerable<string>? AssessmentTargetArns { get; set; }
+    public IEnumerable<string>? AssessmentTargetArns { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "start-db-instance-automated-backups-replication")]
-public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptions
+public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Enables replication of automated backups to a different Amazon Web Ser- vices Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Ama- zon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDbInstanceArn">The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase .</param>
+    public AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions(
+        string SourceDbInstanceArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbInstanceArn);
+        this.SourceDbInstanceArn = SourceDbInstanceArn;
+    }
+
+    private AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase .
+    /// </summary>
     [CliOption("--source-db-instance-arn")]
-    public string? SourceDbInstanceArn { get; set; }
+    public string? SourceDbInstanceArn { get; private init; }
 
     /// <summary>
     /// The retention period for the replicated automated backups.
@@ -59,5 +96,21 @@ public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptio
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

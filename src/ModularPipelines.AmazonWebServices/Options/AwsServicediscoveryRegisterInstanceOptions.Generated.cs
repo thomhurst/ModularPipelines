@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicediscovery", "register-instance")]
-public record AwsServicediscoveryRegisterInstanceOptions : AwsOptions
+public record AwsServicediscoveryRegisterInstanceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--service-id")]
-    public string? ServiceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs: o For each DNS record that you define in the service that's specified by ServiceId , a record is created or updated in the hosted zone that's associated with the corresponding namespace. o If the service includes HealthCheckConfig , a health check is created based on the settings in the health check configur...
+    /// </summary>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to use for settings for the instance. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
+    /// <param name="InstanceId">An identifier that you want to associate with the instance. Note the following: o If the service that's specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord &gt; Type . o You can use this value to update an existing instance. o To register a new instance, you must specify a value that's unique among instances that you register by using the same service. o If you specify an existing InstanceId and ServiceId , Cloud Map updates the existing DNS records, if any. If there's also an ex- isting health check, Cloud Map deletes the old health check and creates a new one. NOTE: The health check isn't deleted immediately, so it will still ap- pear for a while if you submit a ListHealthChecks request, for example. NOTE: Do not include sensitive information in InstanceId if the name- space is discoverable by public DNS queries and any Type member of DnsRecord for the service contains SRV because the InstanceId is discoverable by public DNS queries. Constraints: o max: 64 o pattern: ^[0-9a-zA-Z_/:.@-]+$</param>
+    /// <param name="Attributes">A string map that contains the following information for the service that you specify in ServiceId : o The attributes that apply to the records that are defined in the service. o For each attribute, the applicable value. WARNING: Do not include sensitive information in the attributes if the namespace is discoverable by public DNS queries. The following are the supported attribute keys. AWS_ALIAS_DNS_NAME If you want Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that's associated with the load balancer. For informa- tion about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference . Note the following: o The configuration for the service that's specified by ServiceId must include settings for an A record, an AAAA record, or both. o In the service that's specified by ServiceId , the value of Rout- ingPolicy must be WEIGHTED . o If the service that's specified by ServiceId includes HealthCheck- Config settings, Cloud Map will create the Route 53 health check, but it doesn't associate the health check with the alias record. o Cloud Map currently doesn't support creating alias records that route traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers. o If you specify a value for AWS_ALIAS_DNS_NAME , don't specify val- ues for any of the AWS_INSTANCE attributes. o The AWS_ALIAS_DNS_NAME is not supported in the GovCloud (US) Re- gions. AWS_EC2_INSTANCE_ID HTTP namespaces only. The Amazon EC2 instance ID for the in- stance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute that can be specified is AWS_INIT_HEALTH_STATUS . When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private IPv4 address. AWS_INIT_HEALTH_STATUS If the service configuration includes HealthCheckCustomConfig , you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY . If you don't specify a value for AWS_INIT_HEALTH_STATUS , the initial sta- tus is HEALTHY . AWS_INSTANCE_CNAME If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries (for example, example.com ). This value is required if the service specified by ServiceId in- cludes settings for an CNAME record. AWS_INSTANCE_IPV4 If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries (for ex- ample, 192.0.2.44 ). This value is required if the service specified by ServiceId in- cludes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both. AWS_INSTANCE_IPV6 If the service configuration includes an AAAA record, the IPv6 ad- dress that you want Route 53 to return in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345 ). This value is required if the service specified by ServiceId in- cludes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both. AWS_INSTANCE_PORT If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig , the port on the endpoint that you want Route 53 to send requests to. This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service. Custom attributes You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the max- imum length of the attribute value is 1,024 characters. The total size of all provided attributes (sum of all keys and values) must not exceed 5,000 characters. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    public AwsServicediscoveryRegisterInstanceOptions(
+        string ServiceId,
+        string InstanceId,
+        IReadOnlyList<KeyValue> Attributes
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceId);
+        this.ServiceId = ServiceId;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsServicediscoveryRegisterInstanceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsServicediscoveryRegisterInstanceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsServicediscoveryRegisterInstanceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to use for settings for the instance. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// </summary>
+    [CliOption("--service-id")]
+    public string? ServiceId { get; private init; }
+
+    /// <summary>
+    /// An identifier that you want to associate with the instance. Note the following: o If the service that's specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord &gt; Type . o You can use this value to update an existing instance. o To register a new instance, you must specify a value that's unique among instances that you register by using the same service. o If you specify an existing InstanceId and ServiceId , Cloud Map updates the existing DNS records, if any. If there's also an ex- isting health check, Cloud Map deletes the old health check and creates a new one. NOTE: The health check isn't deleted immediately, so it will still ap- pear for a while if you submit a ListHealthChecks request, for example. NOTE: Do not include sensitive information in InstanceId if the name- space is discoverable by public DNS queries and any Type member of DnsRecord for the service contains SRV because the InstanceId is discoverable by public DNS queries. Constraints: o max: 64 o pattern: ^[0-9a-zA-Z_/:.@-]+$
+    /// </summary>
     [CliOption("--instance-id")]
-    public string? InstanceId { get; set; }
+    public string? InstanceId { get; private init; }
+
+    /// <summary>
+    /// A string map that contains the following information for the service that you specify in ServiceId : o The attributes that apply to the records that are defined in the service. o For each attribute, the applicable value. WARNING: Do not include sensitive information in the attributes if the namespace is discoverable by public DNS queries. The following are the supported attribute keys. AWS_ALIAS_DNS_NAME If you want Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that's associated with the load balancer. For informa- tion about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference . Note the following: o The configuration for the service that's specified by ServiceId must include settings for an A record, an AAAA record, or both. o In the service that's specified by ServiceId , the value of Rout- ingPolicy must be WEIGHTED . o If the service that's specified by ServiceId includes HealthCheck- Config settings, Cloud Map will create the Route 53 health check, but it doesn't associate the health check with the alias record. o Cloud Map currently doesn't support creating alias records that route traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers. o If you specify a value for AWS_ALIAS_DNS_NAME , don't specify val- ues for any of the AWS_INSTANCE attributes. o The AWS_ALIAS_DNS_NAME is not supported in the GovCloud (US) Re- gions. AWS_EC2_INSTANCE_ID HTTP namespaces only. The Amazon EC2 instance ID for the in- stance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute that can be specified is AWS_INIT_HEALTH_STATUS . When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private IPv4 address. AWS_INIT_HEALTH_STATUS If the service configuration includes HealthCheckCustomConfig , you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY . If you don't specify a value for AWS_INIT_HEALTH_STATUS , the initial sta- tus is HEALTHY . AWS_INSTANCE_CNAME If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries (for example, example.com ). This value is required if the service specified by ServiceId in- cludes settings for an CNAME record. AWS_INSTANCE_IPV4 If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries (for ex- ample, 192.0.2.44 ). This value is required if the service specified by ServiceId in- cludes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both. AWS_INSTANCE_IPV6 If the service configuration includes an AAAA record, the IPv6 ad- dress that you want Route 53 to return in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345 ). This value is required if the service specified by ServiceId in- cludes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4 , AWS_INSTANCE_IPV6 , or both. AWS_INSTANCE_PORT If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig , the port on the endpoint that you want Route 53 to send requests to. This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service. Custom attributes You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the max- imum length of the attribute value is 1,024 characters. The total size of all provided attributes (sum of all keys and values) must not exceed 5,000 characters. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--attributes", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Attributes { get; private init; }
 
     /// <summary>
     /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of execut- ing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string (for example, a date/time stamp). Constraints: o max: 64
@@ -34,13 +99,26 @@ public record AwsServicediscoveryRegisterInstanceOptions : AwsOptions
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CliOption("--attributes", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Attributes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

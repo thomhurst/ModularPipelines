@@ -10,19 +10,56 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a channel specified by a required channel ARN or UUID. See also: AWS API Documentation
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates a channel specified by a required channel ARN or UUID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloudtrail", "update-channel")]
-public record AwsCloudtrailUpdateChannelOptions : AwsOptions
+public record AwsCloudtrailUpdateChannelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates a channel specified by a required channel ARN or UUID. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Channel">The ARN or ID (the ARN suffix) of the channel that you want to up- date. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    public AwsCloudtrailUpdateChannelOptions(
+        string Channel
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Channel);
+        this.Channel = Channel;
+    }
+
+    private AwsCloudtrailUpdateChannelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloudtrailUpdateChannelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloudtrailUpdateChannelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN or ID (the ARN suffix) of the channel that you want to up- date. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// </summary>
     [CliOption("--channel")]
-    public string? Channel { get; set; }
+    public string? Channel { get; private init; }
 
     /// <summary>
     /// The ARNs of event data stores that you want to log events arriving through the channel. Constraints: o min: 1 o max: 200 (structure) Contains information about the destination receiving events. Type -&gt; (string) [required] The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE . For service-linked channels, the value is AWS_SERVICE . Possible values: o EVENT_DATA_STORE o AWS_SERVICE Location -&gt; (string) [required] For channels used for a CloudTrail Lake integration, the lo- cation is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service. Constraints: o min: 3 o max: 1024 o pattern: ^[a-zA-Z0-9._/\-:*]+$ Shorthand Syntax: Type=string,Location=string ... JSON Syntax: [ { "Type": "EVENT_DATA_STORE"|"AWS_SERVICE", "Location": "string" } ... ]
@@ -41,5 +78,21 @@ public record AwsCloudtrailUpdateChannelOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

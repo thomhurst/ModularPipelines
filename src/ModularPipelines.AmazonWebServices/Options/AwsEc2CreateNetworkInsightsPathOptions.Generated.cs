@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,8 +22,57 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "create-network-insights-path")]
-public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions
+public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reacha- bility between two resources in your virtual private cloud (VPC). For more information, see the Reachability Analyzer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Source">The ID or ARN of the source. If the resource is in another account, you must specify an ARN.</param>
+    /// <param name="Protocol">The protocol. Possible values: o tcp o udp</param>
+    public AwsEc2CreateNetworkInsightsPathOptions(
+        string Source,
+        AwsEc2CreateNetworkInsightsPathProtocol Protocol
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Protocol);
+        this.Protocol = Protocol;
+    }
+
+    private AwsEc2CreateNetworkInsightsPathOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2CreateNetworkInsightsPathOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2CreateNetworkInsightsPathOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID or ARN of the source. If the resource is in another account, you must specify an ARN.
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; private init; }
+
+    /// <summary>
+    /// The protocol. Possible values: o tcp o udp
+    /// </summary>
+    [CliOption("--protocol")]
+    public AwsEc2CreateNetworkInsightsPathProtocol? Protocol { get; private init; }
+
     /// <summary>
     /// The IP address of the source. Constraints: o min: 0 o max: 15 o pattern: ^([0-9]{1,3}.){3}[0-9]{1,3}$
     /// </summary>
@@ -34,17 +85,11 @@ public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions
     [CliOption("--destination-ip")]
     public string? DestinationIp { get; set; }
 
-    [CliOption("--source")]
-    public string? Source { get; set; }
-
     /// <summary>
     /// The ID or ARN of the destination. If the resource is in another ac- count, you must specify an ARN.
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; set; }
-
-    [CliOption("--protocol")]
-    public string? Protocol { get; set; }
 
     /// <summary>
     /// The destination port. Constraints: o min: 0 o max: 65535
@@ -58,7 +103,10 @@ public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
@@ -85,5 +133,21 @@ public record AwsEc2CreateNetworkInsightsPathOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

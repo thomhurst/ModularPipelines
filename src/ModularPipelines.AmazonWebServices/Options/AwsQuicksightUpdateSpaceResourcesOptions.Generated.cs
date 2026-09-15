@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quicksight", "update-space-resources")]
-public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions
+public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--aws-account-id")]
-    public string? AwsAccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Adds or removes resources from an Amazon QuickSight space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="SpaceId">The ID of the space that you want to update resources for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    public AwsQuicksightUpdateSpaceResourcesOptions(
+        string AwsAccountId,
+        string SpaceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
+        this.AwsAccountId = AwsAccountId;
+        global::System.ArgumentNullException.ThrowIfNull(SpaceId);
+        this.SpaceId = SpaceId;
+    }
+
+    private AwsQuicksightUpdateSpaceResourcesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsQuicksightUpdateSpaceResourcesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsQuicksightUpdateSpaceResourcesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// </summary>
+    [CliOption("--aws-account-id")]
+    public string? AwsAccountId { get; private init; }
+
+    /// <summary>
+    /// The ID of the space that you want to update resources for. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+
+    /// </summary>
     [CliOption("--space-id")]
-    public string? SpaceId { get; set; }
+    public string? SpaceId { get; private init; }
 
     /// <summary>
     /// A list of resources to add to the space. (structure) An operation to perform on a resource in a space. ResourceType -&gt; (string) [required] The type of the resource. Possible values: o TOPIC o DASHBOARD o KNOWLEDGE_BASE o ACTION_CONNECTOR o DATA_SET ResourceDetails -&gt; (tagged union structure) [required] The details of the resource. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: resourceArn. resourceArn -&gt; (string) The ARN of the QuickSight resource. Shorthand Syntax: ResourceType=string,ResourceDetails={resourceArn=string} ... JSON Syntax: [ { "ResourceType": "TOPIC"|"DASHBOARD"|"KNOWLEDGE_BASE"|"ACTION_CONNECTOR"|"DATA_SET", "ResourceDetails": { "resourceArn": "string" } } ... ]
@@ -44,5 +88,21 @@ public record AwsQuicksightUpdateSpaceResourcesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

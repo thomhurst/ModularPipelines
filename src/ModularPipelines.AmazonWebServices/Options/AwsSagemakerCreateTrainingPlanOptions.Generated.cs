@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sagemaker", "create-training-plan")]
-public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions
+public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--training-plan-name")]
-    public string? TrainingPlanName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to com- putational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyp...
+    /// </summary>
+    /// <param name="TrainingPlanName">The name of the training plan to create. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="TrainingPlanOfferingId">The unique identifier of the training plan offering to use for cre- ating this plan. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9\-]+</param>
+    public AwsSagemakerCreateTrainingPlanOptions(
+        string TrainingPlanName,
+        string TrainingPlanOfferingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TrainingPlanName);
+        this.TrainingPlanName = TrainingPlanName;
+        global::System.ArgumentNullException.ThrowIfNull(TrainingPlanOfferingId);
+        this.TrainingPlanOfferingId = TrainingPlanOfferingId;
+    }
+
+    private AwsSagemakerCreateTrainingPlanOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSagemakerCreateTrainingPlanOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSagemakerCreateTrainingPlanOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the training plan to create. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// </summary>
+    [CliOption("--training-plan-name")]
+    public string? TrainingPlanName { get; private init; }
+
+    /// <summary>
+    /// The unique identifier of the training plan offering to use for cre- ating this plan. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9\-]+
+    /// </summary>
     [CliOption("--training-plan-offering-id")]
-    public string? TrainingPlanOfferingId { get; set; }
+    public string? TrainingPlanOfferingId { get; private init; }
 
     /// <summary>
     /// Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1. Constraints: o min: 0
@@ -44,5 +88,21 @@ public record AwsSagemakerCreateTrainingPlanOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

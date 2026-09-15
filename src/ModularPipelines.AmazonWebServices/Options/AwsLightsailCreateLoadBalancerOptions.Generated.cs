@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,13 +21,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "create-load-balancer")]
-public record AwsLightsailCreateLoadBalancerOptions : AwsOptions
+public record AwsLightsailCreateLoadBalancerOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--load-balancer-name")]
-    public string? LoadBalancerName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail in- stances for load balancing . You can create up to 10 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the Update- LoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags...
+    /// </summary>
+    /// <param name="LoadBalancerName">The name of your load balancer. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstancePort">The instance port where you're creating your load balancer. Constraints: o min: -1 o max: 65535</param>
+    public AwsLightsailCreateLoadBalancerOptions(
+        string LoadBalancerName,
+        int InstancePort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LoadBalancerName);
+        this.LoadBalancerName = LoadBalancerName;
+        this.InstancePort = InstancePort;
+    }
+
+    private AwsLightsailCreateLoadBalancerOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailCreateLoadBalancerOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailCreateLoadBalancerOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of your load balancer. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
+    [CliOption("--load-balancer-name")]
+    public string? LoadBalancerName { get; private init; }
+
+    /// <summary>
+    /// The instance port where you're creating your load balancer. Constraints: o min: -1 o max: 65535
+    /// </summary>
     [CliOption("--instance-port")]
-    public int? InstancePort { get; set; }
+    public int? InstancePort { get; private init; }
 
     /// <summary>
     /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website ("/" ). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
@@ -75,5 +118,21 @@ public record AwsLightsailCreateLoadBalancerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

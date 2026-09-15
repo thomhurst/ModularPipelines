@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,60 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redshift", "modify-snapshot-copy-retention-period")]
-public record AwsRedshiftModifySnapshotCopyRetentionPeriodOptions : AwsOptions
+public record AwsRedshiftModifySnapshotCopyRetentionPeriodOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Modifies the number of days to retain snapshots in the destination Ama- zon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the reten- tion period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only ne...
+    /// </summary>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination Amazon Web Services Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled. Constraints: o max: 2147483647</param>
+    /// <param name="RetentionPeriod">The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied auto- mated snapshots. If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Red- shift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots. If you specify the manual option, only newly copied manual snapshots will have the new retention period. If you specify the value of -1 newly copied manual snapshots are re- tained indefinitely. Constraints: The number of days must be either -1 or an integer be- tween 1 and 3,653 for manual snapshots.</param>
+    public AwsRedshiftModifySnapshotCopyRetentionPeriodOptions(
+        string ClusterIdentifier,
+        int RetentionPeriod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterIdentifier);
+        this.ClusterIdentifier = ClusterIdentifier;
+        this.RetentionPeriod = RetentionPeriod;
+    }
+
+    private AwsRedshiftModifySnapshotCopyRetentionPeriodOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRedshiftModifySnapshotCopyRetentionPeriodOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRedshiftModifySnapshotCopyRetentionPeriodOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination Amazon Web Services Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled. Constraints: o max: 2147483647
+    /// </summary>
     [CliOption("--cluster-identifier")]
-    public string? ClusterIdentifier { get; set; }
+    public string? ClusterIdentifier { get; private init; }
 
+    /// <summary>
+    /// The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied auto- mated snapshots. If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Red- shift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots. If you specify the manual option, only newly copied manual snapshots will have the new retention period. If you specify the value of -1 newly copied manual snapshots are re- tained indefinitely. Constraints: The number of days must be either -1 or an integer be- tween 1 and 3,653 for manual snapshots.
+    /// </summary>
     [CliOption("--retention-period")]
-    public int? RetentionPeriod { get; set; }
+    public int? RetentionPeriod { get; private init; }
 
-    [CliFlag("--manual")]
+    /// <summary>
+    /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
+    /// </summary>
+    [CliFlag("--manual", NegatedName = "--no-manual")]
     public bool? Manual { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +81,21 @@ public record AwsRedshiftModifySnapshotCopyRetentionPeriodOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

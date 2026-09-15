@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bedrock", "delete-imported-model")]
-public record AwsBedrockDeleteImportedModelOptions : AwsOptions
+public record AwsBedrockDeleteImportedModelOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ModelIdentifier">Name of the imported model to delete. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)</param>
+    public AwsBedrockDeleteImportedModelOptions(
+        string ModelIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelIdentifier);
+        this.ModelIdentifier = ModelIdentifier;
+    }
+
+    private AwsBedrockDeleteImportedModelOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsBedrockDeleteImportedModelOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsBedrockDeleteImportedModelOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Name of the imported model to delete. Constraints: o min: 1 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:im- ported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)
+    /// </summary>
     [CliOption("--model-identifier")]
-    public string? ModelIdentifier { get; set; }
+    public string? ModelIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

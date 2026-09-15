@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb", "describe-db-cluster-snapshot-attributes")]
-public record AwsDocdbDescribeDbClusterSnapshotAttributesOptions : AwsOptions
+public record AwsDocdbDescribeDbClusterSnapshotAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of cluster snapshot attribute names and values for a manual DB cluster snapshot. When you share snapshots with other Amazon Web Services accounts, De- scribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snap- shot is public and can be copied or restored by a...
+    /// </summary>
+    /// <param name="DbClusterSnapshotIdentifier">The identifier for the cluster snapshot to describe the attributes for.</param>
+    public AwsDocdbDescribeDbClusterSnapshotAttributesOptions(
+        string DbClusterSnapshotIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbClusterSnapshotIdentifier);
+        this.DbClusterSnapshotIdentifier = DbClusterSnapshotIdentifier;
+    }
+
+    private AwsDocdbDescribeDbClusterSnapshotAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbDescribeDbClusterSnapshotAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbDescribeDbClusterSnapshotAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier for the cluster snapshot to describe the attributes for.
+    /// </summary>
     [CliOption("--db-cluster-snapshot-identifier")]
-    public string? DbClusterSnapshotIdentifier { get; set; }
+    public string? DbClusterSnapshotIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

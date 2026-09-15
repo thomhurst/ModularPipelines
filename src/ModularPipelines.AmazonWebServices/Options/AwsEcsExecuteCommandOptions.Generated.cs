@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,8 +20,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "execute-command")]
-public record AwsEcsExecuteCommandOptions : AwsOptions
+public record AwsEcsExecuteCommandOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy statement, for example limit the actions to a specific cluster, you receive an AccessDeniedException when there is a mismatch between the condition key value and the corresponding parameter value. For information about required permissions and considerations, see Using Amazon ECS Exec for debugging in the Amazon ECS Developer Guide . See also: AWS API Docume...
+    /// </summary>
+    /// <param name="Command">The command to run on the container.</param>
+    /// <param name="Interactive">Use this flag to run your command in interactive mode.</param>
+    /// <param name="Task">The Amazon Resource Name (ARN) or ID of the task the container is part of.</param>
+    public AwsEcsExecuteCommandOptions(
+        string Command,
+        bool Interactive,
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+        if (!Interactive)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Interactive));
+        }
+        this.Interactive = Interactive;
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    private AwsEcsExecuteCommandOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsExecuteCommandOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsExecuteCommandOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The command to run on the container.
+    /// </summary>
+    [CliOption("--command")]
+    public string? Command { get; private init; }
+
+    /// <summary>
+    /// Use this flag to run your command in interactive mode.
+    /// </summary>
+    [CliFlag("--interactive")]
+    public bool? Interactive { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) or ID of the task the container is part of.
+    /// </summary>
+    [CliOption("--task")]
+    public string? Task { get; private init; }
+
     /// <summary>
     /// The Amazon Resource Name (ARN) or short name of the cluster the task is running in. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
@@ -33,19 +98,26 @@ public record AwsEcsExecuteCommandOptions : AwsOptions
     [CliOption("--container")]
     public string? Container { get; set; }
 
-    [CliOption("--command")]
-    public string? Command { get; set; }
-
-    [CliFlag("--interactive")]
-    public bool? Interactive { get; set; }
-
-    [CliOption("--task")]
-    public string? Task { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

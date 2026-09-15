@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "create-deployment-config")]
-public record AwsDeployCreateDeploymentConfigOptions : AwsOptions
+public record AwsDeployCreateDeploymentConfigOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a deployment configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DeploymentConfigName">The name of the deployment configuration to create. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
+    public AwsDeployCreateDeploymentConfigOptions(
+        string DeploymentConfigName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentConfigName);
+        this.DeploymentConfigName = DeploymentConfigName;
+    }
+
+    private AwsDeployCreateDeploymentConfigOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDeployCreateDeploymentConfigOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDeployCreateDeploymentConfigOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the deployment configuration to create. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// </summary>
     [CliOption("--deployment-config-name")]
-    public string? DeploymentConfigName { get; set; }
+    public string? DeploymentConfigName { get; private init; }
 
     /// <summary>
     /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values: o HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value. o FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of in- stances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to the equivalent number of instances and rounds up fractional instances. The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95. type -&gt; (string) The minimum healthy instance type: o HOST_COUNT : The minimum number of healthy instances as an ab- solute value. o FLEET_PERCENT : The minimum number of healthy instances as a percentage of the total number of instances in the deployment. In an example of nine instances, if a HOST_COUNT of six is spec- ified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to success- fully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances at a time. The de- ployment is successful if four or more instances are deployed to successfully. Otherwise, the deployment fails. NOTE: In a call to the GetDeploymentConfig , CodeDeployDe- fault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, CodeDeploy at- tempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful. For more information, see CodeDeploy Instance Health in the Cod- eDeploy User Guide . Possible values: o HOST_COUNT o FLEET_PERCENT value -&gt; (integer) The minimum healthy instance value. Shorthand Syntax: type=string,value=integer JSON Syntax: { "type": "HOST_COUNT"|"FLEET_PERCENT", "value": integer }
@@ -54,5 +91,21 @@ public record AwsDeployCreateDeploymentConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

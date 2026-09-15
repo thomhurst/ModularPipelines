@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +22,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "update-ip-set")]
-public record AwsWafv2UpdateIpSetOptions : AwsOptions
+public record AwsWafv2UpdateIpSetOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the specified IPSet . NOTE: This operation completely replaces the mutable specifications that you already have for the IP set with the ones that you pro- vide to this call. To modify an IP set, do the following: o Retrieve it by calling GetIPSet o Update its settings as needed o Provide the complete IP set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to...
+    /// </summary>
+    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="Id">A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="Addresses">Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    public AwsWafv2UpdateIpSetOptions(
+        string Name,
+        AwsWafv2UpdateIpSetScope Scope,
+        string Id,
+        IEnumerable<string> Addresses,
+        string LockToken
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Addresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Addresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Addresses));
+            }
+
+            Addresses = materialized;
+        }
+        this.Addresses = Addresses;
+        global::System.ArgumentNullException.ThrowIfNull(LockToken);
+        this.LockToken = LockToken;
+    }
+
+    private AwsWafv2UpdateIpSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2UpdateIpSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2UpdateIpSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// </summary>
     [CliOption("--scope")]
-    public string? Scope { get; set; }
+    public AwsWafv2UpdateIpSetScope? Scope { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
     [CliOption("--id")]
-    public string? Id { get; set; }
+    public string? Id { get; private init; }
+
+    /// <summary>
+    /// Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--addresses", GroupValues = true)]
+    public IEnumerable<string>? Addresses { get; private init; }
+
+    /// <summary>
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// </summary>
+    [SecretValue]
+    [CliOption("--lock-token")]
+    public string? LockToken { get; private init; }
 
     /// <summary>
     /// A description of the IP set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
@@ -37,17 +121,26 @@ public record AwsWafv2UpdateIpSetOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--addresses", GroupValues = true)]
-    public IEnumerable<string>? Addresses { get; set; }
-
-    [SecretValue]
-    [CliOption("--lock-token")]
-    public string? LockToken { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

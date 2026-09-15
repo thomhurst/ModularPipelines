@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,71 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mgh", "associate-source-resource")]
-public record AwsMghAssociateSourceResourceOptions : AwsOptions
+public record AwsMghAssociateSourceResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProgressUpdateStream">The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="MigrationTaskName">A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+</param>
+    /// <param name="SourceResource">The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: o min: 1 o max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }</param>
+    public AwsMghAssociateSourceResourceOptions(
+        string ProgressUpdateStream,
+        string MigrationTaskName,
+        string SourceResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProgressUpdateStream);
+        this.ProgressUpdateStream = ProgressUpdateStream;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationTaskName);
+        this.MigrationTaskName = MigrationTaskName;
+        global::System.ArgumentNullException.ThrowIfNull(SourceResource);
+        this.SourceResource = SourceResource;
+    }
+
+    private AwsMghAssociateSourceResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsMghAssociateSourceResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsMghAssociateSourceResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is im- plicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// </summary>
     [CliOption("--progress-update-stream")]
-    public string? ProgressUpdateStream { get; set; }
+    public string? ProgressUpdateStream { get; private init; }
 
+    /// <summary>
+    /// A unique identifier that references the migration task. Do not in- clude sensitive data in this field. Constraints: o min: 1 o max: 256 o pattern: [^:|]+
+    /// </summary>
     [CliOption("--migration-task-name")]
-    public string? MigrationTaskName { get; set; }
+    public string? MigrationTaskName { get; private init; }
 
+    /// <summary>
+    /// The source resource that you want to associate. Name -&gt; (string) [required] This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource. Constraints: o min: 1 o max: 1600 Description -&gt; (string) A description that can be free-form text to record additional detail about the resource for clarity or later reference. Constraints: o min: 0 o max: 500 o pattern: ^.{0,500}$ StatusDetail -&gt; (string) A free-form description of the status of the resource. Constraints: o min: 0 o max: 2500 o pattern: ^.{0,2500}$ Shorthand Syntax: Name=string,Description=string,StatusDetail=string JSON Syntax: { "Name": "string", "Description": "string", "StatusDetail": "string" }
+    /// </summary>
     [CliOption("--source-resource")]
-    public string? SourceResource { get; set; }
+    public string? SourceResource { get; private init; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -38,5 +92,21 @@ public record AwsMghAssociateSourceResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

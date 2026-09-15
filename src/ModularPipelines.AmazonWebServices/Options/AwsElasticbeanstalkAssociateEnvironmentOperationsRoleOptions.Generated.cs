@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("elasticbeanstalk", "associate-environment-operations-role")]
-public record AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions : AwsOptions
+public record AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--environment-name")]
-    public string? EnvironmentName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="EnvironmentName">The name of the environment to which to set the operations role. Constraints: o min: 4 o max: 40</param>
+    /// <param name="OperationsRole">The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: o min: 1 o max: 256</param>
+    public AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions(
+        string EnvironmentName,
+        string OperationsRole
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+        this.EnvironmentName = EnvironmentName;
+        global::System.ArgumentNullException.ThrowIfNull(OperationsRole);
+        this.OperationsRole = OperationsRole;
+    }
+
+    private AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the environment to which to set the operations role. Constraints: o min: 4 o max: 40
+    /// </summary>
+    [CliOption("--environment-name")]
+    public string? EnvironmentName { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--operations-role")]
-    public string? OperationsRole { get; set; }
+    public string? OperationsRole { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --deeplinkallowed.
+/// Allowed values for --deep-link-allowed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWorkspacesWebCreateUserSettingsDeepLinkAllowed
 {
     [EnumValue("Disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("Enabled")]
-    Enabled = 2
+    Enabled
 }

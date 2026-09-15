@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "modify-ipam-scope")]
-public record AwsEc2ModifyIpamScopeOptions : AwsOptions
+public record AwsEc2ModifyIpamScopeOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Modify an IPAM scope. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamScopeId">The ID of the scope you want to modify.</param>
+    public AwsEc2ModifyIpamScopeOptions(
+        string IpamScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamScopeId);
+        this.IpamScopeId = IpamScopeId;
+    }
+
+    private AwsEc2ModifyIpamScopeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2ModifyIpamScopeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2ModifyIpamScopeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the scope you want to modify.
+    /// </summary>
     [CliOption("--ipam-scope-id")]
-    public string? IpamScopeId { get; set; }
+    public string? IpamScopeId { get; private init; }
+
+    /// <summary>
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// The description of the scope you want to modify.
@@ -39,7 +79,10 @@ public record AwsEc2ModifyIpamScopeOptions : AwsOptions
     [CliOption("--external-authority-configuration")]
     public string? ExternalAuthorityConfiguration { get; set; }
 
-    [CliFlag("--remove-external-authority-configuration")]
+    /// <summary>
+    /// thority-configuration (boolean) Remove the external authority configuration. true to remove.
+    /// </summary>
+    [CliFlag("--remove-external-authority-configuration", NegatedName = "--no-remove-external-authority-configuration")]
     public bool? RemoveExternalAuthorityConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -47,5 +90,21 @@ public record AwsEc2ModifyIpamScopeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

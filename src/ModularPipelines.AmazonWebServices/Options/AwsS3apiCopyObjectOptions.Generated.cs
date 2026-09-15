@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,16 +22,72 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("s3api", "copy-object")]
-public record AwsS3apiCopyObjectOptions : AwsOptions
+public record AwsS3apiCopyObjectOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a copy of an object that is already stored in Amazon S3. WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapo...
+    /// </summary>
+    /// <param name="Bucket">The name of the destination bucket. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . NOTE: Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the er- ror code InvalidRequest . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket. You can only copy ob- jects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types. For more information about S3 on Out- posts, see What is S3 on Outposts? in the S3 on Outposts guide . When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format `` AccessPointName -AccountId .*outpostID* .s3-out- posts.*Region* .amazonaws.com`` . The hostname isn't required when you use the Amazon Web Services CLI or SDKs.</param>
+    /// <param name="CopySource">Specifies the source object for the copy operation. The source ob- ject can be up to 5 GB. If the source object is an object that was uploaded by using a multipart upload, the object copy will be a sin- gle part object after the source object is copied to the destination bucket. You specify the value of the copy source in one of two formats, de- pending on whether you want to access the source object through an access point : o For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/janu- ary.pdf from the general purpose bucket awsexamplebucket , use aw- sexamplebucket/reports/january.pdf . The value must be URL-en- coded. To copy the object reports/january.pdf from the directory bucket awsexamplebucket--use1-az5--x-s3 , use awsexample- bucket--use1-az5--x-s3/reports/january.pdf . The value must be URL-encoded. o For objects accessed through access points, specify the Amazon Re- source Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:access- point/&lt;access-point-name&gt;/object/&lt;key&gt; . For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-ac- cess-point/object/reports/january.pdf . The value must be URL en- coded. NOTE: o Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region. o Access points are not supported by directory buckets. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/ob- ject/&lt;key&gt; . For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-out- posts:us-west-2:123456789012:outpost/my-outpost/object/reports/janu- ary.pdf . The value must be URL-encoded. If your source bucket versioning is enabled, the x-amz-copy-source header by default identifies the current version of an object to copy. If the current version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy a different version, use the versionId query parameter. Specifically, append ?versionId=&lt;ver- sion-id&gt; to the value (for example, awsexamplebucket/reports/janu- ary.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893 ). If you don't specify a version ID, Amazon S3 copies the latest version of the source object. If you enable versioning on the destination bucket, Amazon S3 gener- ates a unique version ID for the copied object. This version ID is different from the version ID of the source object. Amazon S3 re- turns the version ID of the copied object in the x-amz-version-id response header in the response. If you do not enable versioning or suspend it on the destination bucket, the version ID that Amazon S3 generates in the x-amz-ver- sion-id response header is always null. NOTE: Directory buckets - S3 Versioning isn't enabled and supported for directory buckets. Constraints: o pattern: \/?.+\/.+</param>
+    /// <param name="Key">The key of the destination object. Constraints: o min: 1</param>
+    public AwsS3apiCopyObjectOptions(
+        string Bucket,
+        string CopySource,
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bucket);
+        this.Bucket = Bucket;
+        global::System.ArgumentNullException.ThrowIfNull(CopySource);
+        this.CopySource = CopySource;
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    private AwsS3apiCopyObjectOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsS3apiCopyObjectOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsS3apiCopyObjectOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the destination bucket. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . NOTE: Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the er- ror code InvalidRequest . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket. You can only copy ob- jects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types. For more information about S3 on Out- posts, see What is S3 on Outposts? in the S3 on Outposts guide . When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format `` AccessPointName -AccountId .*outpostID* .s3-out- posts.*Region* .amazonaws.com`` . The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
+    /// </summary>
+    [CliOption("--bucket")]
+    public string? Bucket { get; private init; }
+
+    /// <summary>
+    /// Specifies the source object for the copy operation. The source ob- ject can be up to 5 GB. If the source object is an object that was uploaded by using a multipart upload, the object copy will be a sin- gle part object after the source object is copied to the destination bucket. You specify the value of the copy source in one of two formats, de- pending on whether you want to access the source object through an access point : o For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/janu- ary.pdf from the general purpose bucket awsexamplebucket , use aw- sexamplebucket/reports/january.pdf . The value must be URL-en- coded. To copy the object reports/january.pdf from the directory bucket awsexamplebucket--use1-az5--x-s3 , use awsexample- bucket--use1-az5--x-s3/reports/january.pdf . The value must be URL-encoded. o For objects accessed through access points, specify the Amazon Re- source Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:access- point/&lt;access-point-name&gt;/object/&lt;key&gt; . For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-ac- cess-point/object/reports/january.pdf . The value must be URL en- coded. NOTE: o Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region. o Access points are not supported by directory buckets. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/ob- ject/&lt;key&gt; . For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-out- posts:us-west-2:123456789012:outpost/my-outpost/object/reports/janu- ary.pdf . The value must be URL-encoded. If your source bucket versioning is enabled, the x-amz-copy-source header by default identifies the current version of an object to copy. If the current version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy a different version, use the versionId query parameter. Specifically, append ?versionId=&lt;ver- sion-id&gt; to the value (for example, awsexamplebucket/reports/janu- ary.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893 ). If you don't specify a version ID, Amazon S3 copies the latest version of the source object. If you enable versioning on the destination bucket, Amazon S3 gener- ates a unique version ID for the copied object. This version ID is different from the version ID of the source object. Amazon S3 re- turns the version ID of the copied object in the x-amz-version-id response header in the response. If you do not enable versioning or suspend it on the destination bucket, the version ID that Amazon S3 generates in the x-amz-ver- sion-id response header is always null. NOTE: Directory buckets - S3 Versioning isn't enabled and supported for directory buckets. Constraints: o pattern: \/?.+\/.+
+    /// </summary>
+    [CliOption("--copy-source")]
+    public string? CopySource { get; private init; }
+
+    /// <summary>
+    /// The key of the destination object. Constraints: o min: 1
+    /// </summary>
+    [CliOption("--key")]
+    public string? Key { get; private init; }
+
     /// <summary>
     /// The canned access control list (ACL) to apply to the object. When you copy an object, the ACL metadata is not preserved and is set to private by default. Only the owner has full access control. To override the default ACL setting, specify a new ACL when you gen- erate a copy request. For more information, see Using ACLs . If the destination bucket that you're copying objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are dis- abled and no longer affect permissions. Buckets that use this set- ting only accept PUT requests that don't specify an ACL or PUT re- quests that specify bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format. For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide . NOTE: o If your destination bucket uses the bucket owner enforced set- ting for Object Ownership, all objects written to the bucket by any account will be owned by the bucket owner. o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts. Possible values: o private o public-read o public-read-write o authenticated-read o aws-exec-read o bucket-owner-read o bucket-owner-full-control
     /// </summary>
     [CliOption("--acl")]
     public AwsS3apiCopyObjectAcl? Acl { get; set; }
-
-    [CliOption("--bucket")]
-    public string? Bucket { get; set; }
 
     /// <summary>
     /// Specifies the caching behavior along the request/reply chain.
@@ -67,9 +124,6 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
-
-    [CliOption("--copy-source")]
-    public string? CopySource { get; set; }
 
     /// <summary>
     /// Copies the object if its entity tag (ETag) matches the specified tag. If both the x-amz-copy-source-if-match and x-amz-copy-source-if-un- modified-since headers are present in the request and evaluate as follows, Amazon S3 returns 200 OK and copies the data: o x-amz-copy-source-if-match condition evaluates to true o x-amz-copy-source-if-unmodified-since condition evaluates to false
@@ -137,9 +191,6 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
     [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CliOption("--key")]
-    public string? Key { get; set; }
-
     /// <summary>
     /// A map of metadata to store with the object in S3. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
@@ -168,13 +219,13 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
     /// The server-side encryption algorithm used when storing this object in Amazon S3. Unrecognized or unsupported values wont write a desti- nation object and will receive a 400 Bad Request response. Amazon S3 automatically encrypts all new objects that are copied to an S3 bucket. When copying an object, if you don't specify encryp- tion information in your copy request, the encryption setting of the target object is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of en- cryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a different default encryption configuration, Amazon S3 uses the corresponding encryption key to encrypt the target object copy. With server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its data centers and decrypts the data when you access it. For more information about server-side encryp- tion, see Using Server-Side Encryption in the Amazon S3 User Guide . General purpose buckets o For general purpose buckets, there are the following supported op- tions for server-side encryption: server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), and server-side encryption with customer-provided encryption keys (SSE-C). Amazon S3 uses the corresponding KMS key, or a cus- tomer-provided key to encrypt the target object copy. o When you perform a CopyObject operation, if you want to use a dif- ferent type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the tar- get object with an Amazon S3 managed key, a KMS key, or a cus- tomer-provided key. If the encryption setting in your request is different from the default encryption configuration of the desti- nation bucket, the encryption setting in your request takes prece- dence. Directory buckets o For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 man- aged keys (SSE-S3) (AES256 ) and server-side encryption with KMS keys (SSE-KMS) (aws:kms ). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession re- quests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more informa- tion, see Protecting data with server-side encryption in the Ama- zon S3 User Guide . For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads . o To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a customer managed key ). The Amazon Web Services managed key (aws/s3 ) isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS config- uration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you spec- ified for the directory bucket's default encryption configuration. o S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse
     /// </summary>
     [CliOption("--server-side-encryption")]
-    public AwsS3apiCopyObjectServerSideEncryption? ServerSideEncryption { get; set; }
+    public string? ServerSideEncryption { get; set; }
 
     /// <summary>
     /// If the x-amz-storage-class header is not used, the copied object will be stored in the STANDARD Storage Class by default. The STAN- DARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. NOTE: o Directory buckets - Directory buckets only support EX- PRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones. Unsupported storage class values won't write a destination object and will respond with the HTTP status code 400 Bad Request . o Amazon S3 on Outposts - S3 on Outposts only uses the OUTPOSTS Storage Class. You can use the CopyObject action to change the storage class of an object that is already stored in Amazon S3 by using the x-amz-stor- age-class header. For more information, see Storage Classes in the Amazon S3 User Guide . Before using an object as a source object for the copy operation, you must restore a copy of it if it meets any of the following con- ditions: o The storage class of the source object is GLACIER or DEEP_ARCHIVE . o The storage class of the source object is INTELLIGENT_TIERING and it's S3 Intelligent-Tiering access tier is Archive Access or Deep Archive Access . For more information, see RestoreObject and Copying Objects in the Amazon S3 User Guide . Possible values: o STANDARD o REDUCED_REDUNDANCY o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_IR o SNOW o EXPRESS_ONEZONE o FSX_OPENZFS o FSX_ONTAP o AWS_BACKUP_WARM o AWS_BACKUP_LOW_COST_WARM
     /// </summary>
     [CliOption("--storage-class")]
-    public string? StorageClass { get; set; }
+    public AwsS3apiCopyObjectStorageClass? StorageClass { get; set; }
 
     /// <summary>
     /// If the destination bucket is configured as a website, redirects re- quests for this object copy to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This value is unique to each object and is not copied when using the x-amz-metadata-directive header. Instead, you may opt to provide this header in combination with the x-amz-meta- data-directive header. NOTE: This functionality is not supported for directory buckets.
@@ -212,7 +263,10 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CliFlag("--bucket-key-enabled")]
+    /// <summary>
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can en- able an S3 Bucket Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesnt affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide . NOTE: Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject . In this case, Amazon S3 makes a call to KMS every time a copy re- quest is made for a KMS-encrypted object.
+    /// </summary>
+    [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }
 
     /// <summary>
@@ -264,6 +318,24 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
     public AwsS3apiCopyObjectObjectLockLegalHoldStatus? ObjectLockLegalHoldStatus { get; set; }
 
     /// <summary>
+    /// The event hold status to apply to the object copy. Set to ON to en- able or OFF to disable. NOTE: This functionality is not supported for directory buckets. Possible values: o ON o OFF
+    /// </summary>
+    [CliOption("--object-lock-event-hold")]
+    public AwsS3apiCopyObjectObjectLockEventHold? ObjectLockEventHold { get; set; }
+
+    /// <summary>
+    /// The event hold duration in days to apply to the object copy. You cannot specify a duration in both days and years. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliOption("--object-lock-event-hold-duration-days")]
+    public int? ObjectLockEventHoldDurationDays { get; set; }
+
+    /// <summary>
+    /// The event hold duration in years to apply to the object copy. You cannot specify a duration in both days and years. NOTE: This functionality is not supported for directory buckets.
+    /// </summary>
+    [CliOption("--object-lock-event-hold-duration-years")]
+    public int? ObjectLockEventHoldDurationYears { get; set; }
+
+    /// <summary>
     /// The account ID of the expected destination bucket owner. If the ac- count ID that you provide does not match the actual owner of the destination bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
@@ -280,5 +352,21 @@ public record AwsS3apiCopyObjectOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

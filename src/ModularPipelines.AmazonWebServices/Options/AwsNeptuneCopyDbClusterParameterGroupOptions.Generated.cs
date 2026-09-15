@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neptune", "copy-db-cluster-parameter-group")]
-public record AwsNeptuneCopyDbClusterParameterGroupOptions : AwsOptions
+public record AwsNeptuneCopyDbClusterParameterGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Copies the specified DB cluster parameter group. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB cluster parameter group. o Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. o The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.</param>
+    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied DB cluster parameter group. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1</param>
+    /// <param name="TargetDbClusterParameterGroupDescription">A description for the copied DB cluster parameter group.</param>
+    public AwsNeptuneCopyDbClusterParameterGroupOptions(
+        string SourceDbClusterParameterGroupIdentifier,
+        string TargetDbClusterParameterGroupIdentifier,
+        string TargetDbClusterParameterGroupDescription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceDbClusterParameterGroupIdentifier);
+        this.SourceDbClusterParameterGroupIdentifier = SourceDbClusterParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterParameterGroupIdentifier);
+        this.TargetDbClusterParameterGroupIdentifier = TargetDbClusterParameterGroupIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDbClusterParameterGroupDescription);
+        this.TargetDbClusterParameterGroupDescription = TargetDbClusterParameterGroupDescription;
+    }
+
+    private AwsNeptuneCopyDbClusterParameterGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsNeptuneCopyDbClusterParameterGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsNeptuneCopyDbClusterParameterGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier or Amazon Resource Name (ARN) for the source DB clus- ter parameter group. For information about creating an ARN, see Constructing an Amazon Resource Name (ARN) . Constraints: o Must specify a valid DB cluster parameter group. o Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group , or a valid ARN. o The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
+    /// </summary>
     [CliOption("--source-db-cluster-parameter-group-identifier")]
-    public string? SourceDbClusterParameterGroupIdentifier { get; set; }
+    public string? SourceDbClusterParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// The identifier for the copied DB cluster parameter group. Constraints: o Cannot be null, empty, or blank o Must contain from 1 to 255 letters, numbers, or hyphens o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens Example: my-cluster-param-group1
+    /// </summary>
     [CliOption("--target-db-cluster-parameter-group-identifier")]
-    public string? TargetDbClusterParameterGroupIdentifier { get; set; }
+    public string? TargetDbClusterParameterGroupIdentifier { get; private init; }
 
+    /// <summary>
+    /// A description for the copied DB cluster parameter group.
+    /// </summary>
     [CliOption("--target-db-cluster-parameter-group-description")]
-    public string? TargetDbClusterParameterGroupDescription { get; set; }
+    public string? TargetDbClusterParameterGroupDescription { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the copied DB cluster parameter group. (structure) Metadata assigned to an Amazon Neptune resource consisting of a key-value pair. Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -41,5 +92,21 @@ public record AwsNeptuneCopyDbClusterParameterGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

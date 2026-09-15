@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud9", "create-environment-ec2")]
-public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions
+public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the in- stance to the environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Ser- vices account. Constraints: o min: 1 o max: 60</param>
+    /// <param name="InstanceType">The type of instance to connect to the environment (for example, t2.micro ). Constraints: o min: 5 o max: 20 o pattern: ^[a-z]+[1-9][.][a-z0-9]+$</param>
+    /// <param name="ImageId">The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your envi- ronment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases o Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 o Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths o Amazon Linux 2023 (recommended): resolve:ssm:/aws/ser- vice/cloud9/amis/amazonlinux-2023-x86_64 o Ubuntu 22.04: resolve:ssm:/aws/ser- vice/cloud9/amis/ubuntu-22.04-x86_64 Constraints: o max: 512</param>
+    public AwsCloud9CreateEnvironmentEc2Options(
+        string Name,
+        string InstanceType,
+        string ImageId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceType);
+        this.InstanceType = InstanceType;
+        global::System.ArgumentNullException.ThrowIfNull(ImageId);
+        this.ImageId = ImageId;
+    }
+
+    private AwsCloud9CreateEnvironmentEc2Options()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCloud9CreateEnvironmentEc2Options FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCloud9CreateEnvironmentEc2Options ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Ser- vices account. Constraints: o min: 1 o max: 60
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of instance to connect to the environment (for example, t2.micro ). Constraints: o min: 5 o max: 20 o pattern: ^[a-z]+[1-9][.][a-z0-9]+$
+    /// </summary>
+    [CliOption("--instance-type")]
+    public string? InstanceType { get; private init; }
+
+    /// <summary>
+    /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your envi- ronment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases o Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64 o Ubuntu 22.04: ubuntu-22.04-x86_64 SSM paths o Amazon Linux 2023 (recommended): resolve:ssm:/aws/ser- vice/cloud9/amis/amazonlinux-2023-x86_64 o Ubuntu 22.04: resolve:ssm:/aws/ser- vice/cloud9/amis/ubuntu-22.04-x86_64 Constraints: o max: 512
+    /// </summary>
+    [CliOption("--image-id")]
+    public string? ImageId { get; private init; }
 
     /// <summary>
     /// The description of the environment to create. Constraints: o max: 200
@@ -39,17 +96,11 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CliOption("--instance-type")]
-    public string? InstanceType { get; set; }
-
     /// <summary>
     /// The ID of the subnet in Amazon VPC that Cloud9 will use to communi- cate with the Amazon EC2 instance. Constraints: o min: 15 o max: 24 o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
-
-    [CliOption("--image-id")]
-    public string? ImageId { get; set; }
 
     /// <summary>
     /// The number of minutes until the running instance is shut down after the environment has last been used. Constraints: o min: 0 o max: 20160
@@ -75,7 +126,10 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions
     [CliOption("--connection-type")]
     public AwsCloud9CreateEnvironmentEc2ConnectionType? ConnectionType { get; set; }
 
-    [CliFlag("--dry-run")]
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -83,5 +137,21 @@ public record AwsCloud9CreateEnvironmentEc2Options : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

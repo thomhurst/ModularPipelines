@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,19 +20,62 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pinpoint-email", "create-deliverability-test-report")]
-public record AwsPinpointEmailCreateDeliverabilityTestReportOptions : AwsOptions
+public record AwsPinpointEmailCreateDeliverabilityTestReportOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Create a new predictive inbox placement test. Predictive inbox place- ment tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several ma- jor email providers. After about 24 hours, the test is complete, and you can u...
+    /// </summary>
+    /// <param name="FromEmailAddress">The email address that the predictive inbox placement test email was sent from.</param>
+    /// <param name="Content">The HTML body of the message that you sent when you performed the predictive inbox placement test. Simple -&gt; (structure) The simple email message. The message consists of a subject and a message body. Subject -&gt; (structure) [required] The subject line of the email. The subject line can only con- tain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using en- coded-word syntax, as described in RFC 2047 . Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Body -&gt; (structure) [required] The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both. Text -&gt; (structure) An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Html -&gt; (structure) An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Raw -&gt; (structure) The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the mes- sage. o Each part of a multipart MIME message must be formatted prop- erly. o If you include attachments, they must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should en- code that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't ex- ceed 1,000 characters. This restriction is defined in RFC 5321 . Data -&gt; (blob) [required] The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321 . Template -&gt; (structure) The template to use for the email message. TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 JSON Syntax: { "Simple": { "Subject": { "Data": "string", "Charset": "string" }, "Body": { "Text": { "Data": "string", "Charset": "string" }, "Html": { "Data": "string", "Charset": "string" } } }, "Raw": { "Data": blob }, "Template": { "TemplateArn": "string", "TemplateData": "string" } }</param>
+    public AwsPinpointEmailCreateDeliverabilityTestReportOptions(
+        string FromEmailAddress,
+        string Content
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FromEmailAddress);
+        this.FromEmailAddress = FromEmailAddress;
+        global::System.ArgumentNullException.ThrowIfNull(Content);
+        this.Content = Content;
+    }
+
+    private AwsPinpointEmailCreateDeliverabilityTestReportOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsPinpointEmailCreateDeliverabilityTestReportOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsPinpointEmailCreateDeliverabilityTestReportOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The email address that the predictive inbox placement test email was sent from.
+    /// </summary>
+    [CliOption("--from-email-address")]
+    public string? FromEmailAddress { get; private init; }
+
+    /// <summary>
+    /// The HTML body of the message that you sent when you performed the predictive inbox placement test. Simple -&gt; (structure) The simple email message. The message consists of a subject and a message body. Subject -&gt; (structure) [required] The subject line of the email. The subject line can only con- tain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using en- coded-word syntax, as described in RFC 2047 . Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Body -&gt; (structure) [required] The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both. Text -&gt; (structure) An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Html -&gt; (structure) An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. Data -&gt; (string) [required] The content of the message itself. Charset -&gt; (string) The character set for the content. Because of the con- straints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes charac- ters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8 , ISO-8859-1 , or Shift_JIS . Raw -&gt; (structure) The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the mes- sage. o Each part of a multipart MIME message must be formatted prop- erly. o If you include attachments, they must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should en- code that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't ex- ceed 1,000 characters. This restriction is defined in RFC 5321 . Data -&gt; (blob) [required] The raw email message. The message has to meet the following criteria: o The message has to contain a header and a body, separated by one blank line. o All of the required header fields must be present in the message. o Each part of a multipart MIME message must be formatted properly. o Attachments must be in a file format that Amazon Pinpoint supports. o The entire message must be Base64 encoded. o If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly. o The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321 . Template -&gt; (structure) The template to use for the email message. TemplateArn -&gt; (string) The Amazon Resource Name (ARN) of the template. TemplateData -&gt; (string) An object that defines the values to use for message vari- ables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable. Constraints: o max: 262144 JSON Syntax: { "Simple": { "Subject": { "Data": "string", "Charset": "string" }, "Body": { "Text": { "Data": "string", "Charset": "string" }, "Html": { "Data": "string", "Charset": "string" } } }, "Raw": { "Data": blob }, "Template": { "TemplateArn": "string", "TemplateData": "string" } }
+    /// </summary>
+    [CliOption("--content")]
+    public string? Content { get; private init; }
+
     /// <summary>
     /// A unique name that helps you to identify the predictive inbox place- ment test when you retrieve the results.
     /// </summary>
     [CliOption("--report-name")]
     public string? ReportName { get; set; }
-
-    [CliOption("--from-email-address")]
-    public string? FromEmailAddress { get; set; }
-
-    [CliOption("--content")]
-    public string? Content { get; set; }
 
     /// <summary>
     /// An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test. (structure) An object that defines the tags that are associated with a re- source. A tag is a label that you optionally define and asso- ciate with a resource in Amazon Pinpoint. Tags can help you cat- egorize and manage resources in different ways, such as by pur- pose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by AWS; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix dont count against the limit of 50 tags per resource. o You can associate tags with public or shared resources, but the tags are available only for your AWS account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the spec- ified AWS Region for your AWS account. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you dont want a resource to have a specific tag value, dont specify a value for this parameter. Amazon Pinpoint will set the value to an empty string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -44,5 +88,21 @@ public record AwsPinpointEmailCreateDeliverabilityTestReportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

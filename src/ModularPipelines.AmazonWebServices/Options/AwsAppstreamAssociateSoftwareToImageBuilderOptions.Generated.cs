@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appstream", "associate-software-to-image-builder")]
-public record AwsAppstreamAssociateSoftwareToImageBuilderOptions : AwsOptions
+public record AwsAppstreamAssociateSoftwareToImageBuilderOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--image-builder-name")]
-    public string? ImageBuilderName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Associates license included application(s) with an existing image builder instance. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="SoftwareNames">The list of license included applications to associate with the im- age builder. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    public AwsAppstreamAssociateSoftwareToImageBuilderOptions(
+        string ImageBuilderName,
+        IEnumerable<string> SoftwareNames
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageBuilderName);
+        this.ImageBuilderName = ImageBuilderName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SoftwareNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SoftwareNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SoftwareNames));
+            }
+
+            SoftwareNames = materialized;
+        }
+        this.SoftwareNames = SoftwareNames;
+    }
+
+    private AwsAppstreamAssociateSoftwareToImageBuilderOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAppstreamAssociateSoftwareToImageBuilderOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAppstreamAssociateSoftwareToImageBuilderOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// </summary>
+    [CliOption("--image-builder-name")]
+    public string? ImageBuilderName { get; private init; }
+
+    /// <summary>
+    /// The list of license included applications to associate with the im- age builder. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--software-names", GroupValues = true)]
-    public IEnumerable<string>? SoftwareNames { get; set; }
+    public IEnumerable<string>? SoftwareNames { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

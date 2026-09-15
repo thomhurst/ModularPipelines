@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,13 +23,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vpc-lattice", "create-resource-configuration")]
-public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
+public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--name")]
-    public string? Name { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or imme- diately after another hyphen. Constraints: o min: 3 o max: 40 o pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Type">The type of resource configuration. A resource configuration can be one of the following types: o SINGLE - A single resource. o GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. o CHILD - A single resource that is part of a group resource config- uration. o ARN - An Amazon Web Services resource. Possible values: o GROUP o CHILD o SINGLE o ARN</param>
+    public AwsVpcLatticeCreateResourceConfigurationOptions(
+        string Name,
+        AwsVpcLatticeCreateResourceConfigurationType Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    private AwsVpcLatticeCreateResourceConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsVpcLatticeCreateResourceConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsVpcLatticeCreateResourceConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or imme- diately after another hyphen. Constraints: o min: 3 o max: 40 o pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// </summary>
+    [CliOption("--name")]
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The type of resource configuration. A resource configuration can be one of the following types: o SINGLE - A single resource. o GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. o CHILD - A single resource that is part of a group resource config- uration. o ARN - An Amazon Web Services resource. Possible values: o GROUP o CHILD o SINGLE o ARN
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsVpcLatticeCreateResourceConfigurationType? Type { get; private init; }
 
     /// <summary>
     /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). (string) Constraints: o min: 1 o max: 11 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
@@ -60,7 +104,10 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
-    [CliFlag("--allow-association-to-shareable-service-network")]
+    /// <summary>
+    /// tion-to-shareable-service-network (boolean) (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
+    /// </summary>
+    [CliFlag("--allow-association-to-shareable-service-network", NegatedName = "--no-allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 
     /// <summary>
@@ -99,5 +146,21 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

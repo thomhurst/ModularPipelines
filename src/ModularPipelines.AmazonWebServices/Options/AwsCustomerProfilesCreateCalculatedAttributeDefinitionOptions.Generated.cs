@@ -11,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("customer-profiles", "create-calculated-attribute-definition")]
-public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : AwsOptions
+public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain-name")]
-    public string? DomainName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a new calculated attribute definition. After creation, new ob- ject data ingested into Customer Profiles will be included in the cal- culated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="AttributeDetails">Mathematical expression and a list of attribute items specified in that expression. Attributes -&gt; (list) [required] A list of attribute items specified in the mathematical expres- sion. Constraints: o min: 1 o max: 50 (structure) The details of a single attribute item specified in the math- ematical expression. Name -&gt; (string) [required] The name of an attribute defined in a profile object type. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ Expression -&gt; (string) [required] Mathematical expression that is performed on attribute items provided in the attribute list. Each element in the expression should follow the structure of "{ObjectTypeName.AttributeName}". Constraints: o min: 1 o max: 255 Shorthand Syntax: Attributes=[{Name=string},{Name=string}],Expression=string JSON Syntax: { "Attributes": [ { "Name": "string" } ... ], "Expression": "string" }</param>
+    /// <param name="Statistic">The aggregation operation to perform for the calculated attribute. Possible values: o FIRST_OCCURRENCE o LAST_OCCURRENCE o COUNT o SUM o MINIMUM o MAXIMUM o AVERAGE o MAX_OCCURRENCE o RECENT_OCCURRENCES</param>
+    public AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions(
+        string DomainName,
+        string CalculatedAttributeName,
+        string AttributeDetails,
+        AwsCustomerProfilesCreateCalculatedAttributeDefinitionStatistic Statistic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainName);
+        this.DomainName = DomainName;
+        global::System.ArgumentNullException.ThrowIfNull(CalculatedAttributeName);
+        this.CalculatedAttributeName = CalculatedAttributeName;
+        global::System.ArgumentNullException.ThrowIfNull(AttributeDetails);
+        this.AttributeDetails = AttributeDetails;
+        global::System.ArgumentNullException.ThrowIfNull(Statistic);
+        this.Statistic = Statistic;
+    }
+
+    private AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// </summary>
+    [CliOption("--domain-name")]
+    public string? DomainName { get; private init; }
+
+    /// <summary>
+    /// The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// </summary>
     [CliOption("--calculated-attribute-name")]
-    public string? CalculatedAttributeName { get; set; }
+    public string? CalculatedAttributeName { get; private init; }
+
+    /// <summary>
+    /// Mathematical expression and a list of attribute items specified in that expression. Attributes -&gt; (list) [required] A list of attribute items specified in the mathematical expres- sion. Constraints: o min: 1 o max: 50 (structure) The details of a single attribute item specified in the math- ematical expression. Name -&gt; (string) [required] The name of an attribute defined in a profile object type. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ Expression -&gt; (string) [required] Mathematical expression that is performed on attribute items provided in the attribute list. Each element in the expression should follow the structure of "{ObjectTypeName.AttributeName}". Constraints: o min: 1 o max: 255 Shorthand Syntax: Attributes=[{Name=string},{Name=string}],Expression=string JSON Syntax: { "Attributes": [ { "Name": "string" } ... ], "Expression": "string" }
+    /// </summary>
+    [CliOption("--attribute-details")]
+    public string? AttributeDetails { get; private init; }
+
+    /// <summary>
+    /// The aggregation operation to perform for the calculated attribute. Possible values: o FIRST_OCCURRENCE o LAST_OCCURRENCE o COUNT o SUM o MINIMUM o MAXIMUM o AVERAGE o MAX_OCCURRENCE o RECENT_OCCURRENCES
+    /// </summary>
+    [CliOption("--statistic")]
+    public AwsCustomerProfilesCreateCalculatedAttributeDefinitionStatistic? Statistic { get; private init; }
 
     /// <summary>
     /// The display name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-\s]*$
@@ -40,9 +105,6 @@ public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : Aw
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliOption("--attribute-details")]
-    public string? AttributeDetails { get; set; }
-
     /// <summary>
     /// The conditions including range, object count, and threshold for the calculated attribute. Range -&gt; (structure) The relative time period over which data is included in the ag- gregation. Value -&gt; (integer) The amount of time of the specified unit. Constraints: o min: 0 o max: 2147483647 Unit -&gt; (string) The unit of time. Possible values: o DAYS ValueRange -&gt; (structure) A structure letting customers specify a relative time window over which over which data is included in the Calculated At- tribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value. Start -&gt; (integer) [required] The start time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the fu- ture. End -&gt; (integer) [required] The end time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the fu- ture. TimestampSource -&gt; (string) An expression specifying the field in your JSON object from which the date should be parsed. The expression should follow the structure of "{ObjectTypeName.&lt;Location of timestamp field in JSON pointer format&gt;}". E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "1737587945945"}}, then TimestampSource should be "{My- Type.generatedAt.timestamp}". Constraints: o min: 1 o max: 255 TimestampFormat -&gt; (string) The format the timestamp field in your JSON object is speci- fied. This value should be one of EPOCHMILLI (for Unix epoch timestamps with second/millisecond level precision) or ISO_8601 (following ISO_8601 format with second/millisecond level precision, with an optional offset of Z or in the for- mat HH:MM or HHMM.). E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "2001-07-04T12:08:56.235-0700"}}, then TimestampFormat should be "ISO_8601". Constraints: o min: 1 o max: 255 ObjectCount -&gt; (integer) The number of profile objects used for the calculated attribute. Constraints: o min: 1 Threshold -&gt; (structure) The threshold for the calculated attribute. Value -&gt; (string) [required] The value of the threshold. Constraints: o min: 1 o max: 255 Operator -&gt; (string) [required] The operator of the threshold. Possible values: o EQUAL_TO o GREATER_THAN o LESS_THAN o NOT_EQUAL_TO Shorthand Syntax: Range={Value=integer,Unit=string,ValueRange={Start=integer,End=integer},TimestampSource=string,TimestampFormat=string},ObjectCount=integer,Threshold={Value=string,Operator=string} JSON Syntax: { "Range": { "Value": integer, "Unit": "DAYS", "ValueRange": { "Start": integer, "End": integer }, "TimestampSource": "string", "TimestampFormat": "string" }, "ObjectCount": integer, "Threshold": { "Value": "string", "Operator": "EQUAL_TO"|"GREATER_THAN"|"LESS_THAN"|"NOT_EQUAL_TO" } }
     /// </summary>
@@ -55,10 +117,10 @@ public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : Aw
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CliOption("--statistic")]
-    public string? Statistic { get; set; }
-
-    [CliFlag("--use-historical-data")]
+    /// <summary>
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    /// </summary>
+    [CliFlag("--use-historical-data", NegatedName = "--no-use-historical-data")]
     public bool? UseHistoricalData { get; set; }
 
     /// <summary>
@@ -72,5 +134,21 @@ public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions : Aw
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

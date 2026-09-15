@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,16 +23,102 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("odb", "create-cloud-autonomous-vm-cluster")]
-public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
+public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new Autonomous VM cluster in the specified Exadata infra- structure. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CloudExadataInfrastructureId">The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbNetworkId">The unique identifier of the ODB network to be used for the VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="DisplayName">The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*</param>
+    /// <param name="AutonomousDataStorageSizeInTbs">The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: o min: 0</param>
+    /// <param name="CpuCoreCountPerNode">The number of CPU cores to be enabled per VM cluster node. Constraints: o min: 0</param>
+    /// <param name="MemoryPerOracleComputeUnitInGbs">The amount of memory to be allocated per OCPU, in GB. Constraints: o min: 0</param>
+    /// <param name="TotalContainerDatabases">The total number of Autonomous CDBs that you can create in the Au- tonomous VM cluster. Constraints: o min: 0</param>
+    public AwsOdbCreateCloudAutonomousVmClusterOptions(
+        string CloudExadataInfrastructureId,
+        string OdbNetworkId,
+        string DisplayName,
+        int AutonomousDataStorageSizeInTbs,
+        int CpuCoreCountPerNode,
+        int MemoryPerOracleComputeUnitInGbs,
+        int TotalContainerDatabases
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructureId);
+        this.CloudExadataInfrastructureId = CloudExadataInfrastructureId;
+        global::System.ArgumentNullException.ThrowIfNull(OdbNetworkId);
+        this.OdbNetworkId = OdbNetworkId;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        this.AutonomousDataStorageSizeInTbs = AutonomousDataStorageSizeInTbs;
+        this.CpuCoreCountPerNode = CpuCoreCountPerNode;
+        this.MemoryPerOracleComputeUnitInGbs = MemoryPerOracleComputeUnitInGbs;
+        this.TotalContainerDatabases = TotalContainerDatabases;
+    }
+
+    private AwsOdbCreateCloudAutonomousVmClusterOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOdbCreateCloudAutonomousVmClusterOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOdbCreateCloudAutonomousVmClusterOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the Exadata infrastructure where the VM cluster will be created. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--cloud-exadata-infrastructure-id")]
-    public string? CloudExadataInfrastructureId { get; set; }
+    public string? CloudExadataInfrastructureId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier of the ODB network to be used for the VM clus- ter. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// </summary>
     [CliOption("--odb-network-id")]
-    public string? OdbNetworkId { get; set; }
+    public string? OdbNetworkId { get; private init; }
 
+    /// <summary>
+    /// The display name for the Autonomous VM cluster. The name does not need to be unique. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; private init; }
+
+    /// <summary>
+    /// The data disk group size to be allocated for Autonomous Databases, in terabytes (TB). Constraints: o min: 0
+    /// </summary>
+    [CliOption("--autonomous-data-storage-size-in-tbs")]
+    public int? AutonomousDataStorageSizeInTbs { get; private init; }
+
+    /// <summary>
+    /// The number of CPU cores to be enabled per VM cluster node. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--cpu-core-count-per-node")]
+    public int? CpuCoreCountPerNode { get; private init; }
+
+    /// <summary>
+    /// The amount of memory to be allocated per OCPU, in GB. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--memory-per-oracle-compute-unit-in-gbs")]
+    public int? MemoryPerOracleComputeUnitInGbs { get; private init; }
+
+    /// <summary>
+    /// The total number of Autonomous CDBs that you can create in the Au- tonomous VM cluster. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--total-container-databases")]
+    public int? TotalContainerDatabases { get; private init; }
 
     /// <summary>
     /// A client-provided token to ensure idempotency of the request. Constraints: o min: 8 o max: 64 o pattern: [a-zA-Z0-9_\/.=-]+
@@ -39,12 +126,6 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--autonomous-data-storage-size-in-tbs")]
-    public int? AutonomousDataStorageSizeInTbs { get; set; }
-
-    [CliOption("--cpu-core-count-per-node")]
-    public int? CpuCoreCountPerNode { get; set; }
 
     /// <summary>
     /// The list of database servers to be used for the Autonomous VM clus- ter. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
@@ -58,7 +139,10 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CliFlag("--is-mtls-enabled-vm-cluster")]
+    /// <summary>
+    /// Specifies whether to enable mutual TLS (mTLS) authentication for the Autonomous VM cluster.
+    /// </summary>
+    [CliFlag("--is-mtls-enabled-vm-cluster", NegatedName = "--no-is-mtls-enabled-vm-cluster")]
     public bool? IsMtlsEnabledVmCluster { get; set; }
 
     /// <summary>
@@ -72,9 +156,6 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     /// </summary>
     [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
-
-    [CliOption("--memory-per-oracle-compute-unit-in-gbs")]
-    public int? MemoryPerOracleComputeUnitInGbs { get; set; }
 
     /// <summary>
     /// The SCAN listener port for non-TLS (TCP) protocol. Constraints: o min: 1024 o max: 8999
@@ -100,13 +181,26 @@ public record AwsOdbCreateCloudAutonomousVmClusterOptions : AwsOptions
     [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CliOption("--total-container-databases")]
-    public int? TotalContainerDatabases { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rds", "create-custom-db-engine-version")]
-public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
+public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--engine")]
-    public string? Engine { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a custom DB engine version (CEV). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}</param>
+    /// <param name="EngineVersion">The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*mi- nor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}</param>
+    public AwsRdsCreateCustomDbEngineVersionOptions(
+        string Engine,
+        string EngineVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Engine);
+        this.Engine = Engine;
+        global::System.ArgumentNullException.ThrowIfNull(EngineVersion);
+        this.EngineVersion = EngineVersion;
+    }
+
+    private AwsRdsCreateCustomDbEngineVersionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRdsCreateCustomDbEngineVersionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRdsCreateCustomDbEngineVersionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}
+    /// </summary>
+    [CliOption("--engine")]
+    public string? Engine { get; private init; }
+
+    /// <summary>
+    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string* . For example, a valid CEV name is 19.my_cev1 . For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee , the name format is *major_engine_version*.*mi- nor_engine_version*.*customized_string* . For example, a valid CEV name is 16.00.4215.2.my_cev1 . For RDS for SQL Server Bring Your Own Media (sqlserver-ee , sqlserver-se ), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1 . The CEV name is unique per customer per Amazon Web Services Regions. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}
+    /// </summary>
     [CliOption("--engine-version")]
-    public string? EngineVersion { get; set; }
+    public string? EngineVersion { get; private init; }
 
     /// <summary>
     /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-cus- tom-installation-files . Constraints: o min: 3 o max: 63 o pattern: .*
@@ -63,7 +107,10 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
     [CliOption("--source-custom-db-engine-version-identifier")]
     public string? SourceCustomDbEngineVersionIdentifier { get; set; }
 
-    [CliFlag("--use-aws-provided-latest-image")]
+    /// <summary>
+    /// Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV. If you specify UseAwsProvidedLatestImage , you can't also specify ImageId .
+    /// </summary>
+    [CliFlag("--use-aws-provided-latest-image", NegatedName = "--no-use-aws-provided-latest-image")]
     public bool? UseAwsProvidedLatestImage { get; set; }
 
     /// <summary>
@@ -89,5 +136,21 @@ public record AwsRdsCreateCustomDbEngineVersionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

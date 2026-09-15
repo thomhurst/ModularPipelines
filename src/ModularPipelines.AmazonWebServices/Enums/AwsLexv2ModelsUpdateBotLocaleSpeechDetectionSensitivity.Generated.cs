@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --speechdetectionsensitivity.
+/// Allowed values for --speech-detection-sensitivity.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsLexv2ModelsUpdateBotLocaleSpeechDetectionSensitivity
 {
     [EnumValue("Default")]
-    Default = 1,
+    Default,
 
     [EnumValue("HighNoiseTolerance")]
-    HighNoiseTolerance = 2,
+    HighNoiseTolerance,
 
     [EnumValue("MaximumNoiseTolerance")]
-    MaximumNoiseTolerance = 3
+    MaximumNoiseTolerance
 }

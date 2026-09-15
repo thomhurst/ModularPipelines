@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rbin", "create-rule")]
-public record AwsRbinCreateRuleOptions : AwsOptions
+public record AwsRbinCreateRuleOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a Recycle Bin retention rule. You can create two types of re- tention rules: o Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the speci- fied type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account ba...
+    /// </summary>
+    /// <param name="RetentionPeriod">Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain re- sources, measured in days. The supported retention periods are: o EBS volumes: 1 - 7 days o EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: o min: 1 o max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Cur- rently, only DAYS is supported. Possible values: o DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }</param>
+    /// <param name="ResourceType">The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To retain EBS volumes, specify EBS_VOLUME . o To retain EBS snapshots, specify EBS_SNAPSHOT o To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME</param>
+    public AwsRbinCreateRuleOptions(
+        string RetentionPeriod,
+        AwsRbinCreateRuleResourceType ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RetentionPeriod);
+        this.RetentionPeriod = RetentionPeriod;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    private AwsRbinCreateRuleOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRbinCreateRuleOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRbinCreateRuleOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Information about the retention period for which the retention rule is to retain resources. RetentionPeriodValue -&gt; (integer) [required] The period value for which the retention rule is to retain re- sources, measured in days. The supported retention periods are: o EBS volumes: 1 - 7 days o EBS snapshots and EBS-backed AMIs: 1 - 365 days Constraints: o min: 1 o max: 3650 RetentionPeriodUnit -&gt; (string) [required] The unit of time in which the retention period is measured. Cur- rently, only DAYS is supported. Possible values: o DAYS Shorthand Syntax: RetentionPeriodValue=integer,RetentionPeriodUnit=string JSON Syntax: { "RetentionPeriodValue": integer, "RetentionPeriodUnit": "DAYS" }
+    /// </summary>
     [CliOption("--retention-period")]
-    public string? RetentionPeriod { get; set; }
+    public string? RetentionPeriod { get; private init; }
+
+    /// <summary>
+    /// The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported. o To retain EBS volumes, specify EBS_VOLUME . o To retain EBS snapshots, specify EBS_SNAPSHOT o To retain EBS-backed AMIs, specify EC2_IMAGE . Possible values: o EBS_SNAPSHOT o EC2_IMAGE o EBS_VOLUME
+    /// </summary>
+    [CliOption("--resource-type")]
+    public AwsRbinCreateRuleResourceType? ResourceType { get; private init; }
 
     /// <summary>
     /// The retention rule description. Constraints: o pattern: ^[\S ]{0,255}$
@@ -35,9 +83,6 @@ public record AwsRbinCreateRuleOptions : AwsOptions
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
-
-    [CliOption("--resource-type")]
-    public string? ResourceType { get; set; }
 
     /// <summary>
     /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level reten- tion rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five re- tention rules. To create a Region-level retention rule, omit this parameter. A Re- gion-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged. Constraints: o min: 0 o max: 50 (structure) [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the reten- tion rule. ResourceTagKey -&gt; (string) [required] The tag key. Constraints: o pattern: ^[\S\s]{1,128}$ ResourceTagValue -&gt; (string) The tag value. Constraints: o pattern: ^[\S\s]{0,256}$ Shorthand Syntax: ResourceTagKey=string,ResourceTagValue=string ... JSON Syntax: [ { "ResourceTagKey": "string", "ResourceTagValue": "string" } ... ]
@@ -62,5 +107,21 @@ public record AwsRbinCreateRuleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

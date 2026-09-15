@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +20,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swf", "register-activity-type")]
-public record AwsSwfRegisterActivityTypeOptions : AwsOptions
+public record AwsSwfRegisterActivityTypeOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--domain")]
-    public string? Domain { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Registers a new activity type along with its configuration settings in the specified domain. WARNING: A TypeAlreadyExists fault is returned if the type already exists in the domain. You cannot change any configuration settings of the type after its registration, and it must be registered as a new version. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified d...
+    /// </summary>
+    /// <param name="Domain">The name of the domain in which this activity is to be registered. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256</param>
+    /// <param name="ActivityVersion">The version of the activity type. NOTE: The activity type consists of the name and version, the combina- tion of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64</param>
+    public AwsSwfRegisterActivityTypeOptions(
+        string Domain,
+        string Name,
+        string ActivityVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ActivityVersion);
+        this.ActivityVersion = ActivityVersion;
+    }
+
+    private AwsSwfRegisterActivityTypeOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSwfRegisterActivityTypeOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSwfRegisterActivityTypeOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the domain in which this activity is to be registered. Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--domain")]
+    public string? Domain { get; private init; }
+
+    /// <summary>
+    /// The name of the activity type within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The version of the activity type. NOTE: The activity type consists of the name and version, the combina- tion of which must be unique within the domain. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f ). Also, it must not be the literal string arn . Constraints: o min: 1 o max: 64
+    /// </summary>
+    [CliOption("--activity-version")]
+    public string? ActivityVersion { get; private init; }
 
     /// <summary>
     /// A textual description of the activity type. Constraints: o max: 1024
@@ -69,13 +123,26 @@ public record AwsSwfRegisterActivityTypeOptions : AwsOptions
     [CliOption("--default-task-schedule-to-close-timeout")]
     public string? DefaultTaskScheduleToCloseTimeout { get; set; }
 
-    [CliOption("--activity-version")]
-    public string? ActivityVersion { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

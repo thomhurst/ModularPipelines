@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lightsail", "get-relational-database-events")]
-public record AwsLightsailGetRelationalDatabaseEventsOptions : AwsOptions
+public record AwsLightsailGetRelationalDatabaseEventsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Returns a list of events for a specific database in Amazon Lightsail. See also: AWS API Documentation get-relational-database-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: relationalDataba...
+    /// </summary>
+    /// <param name="RelationalDatabaseName">The name of the database from which to get events. Constraints: o pattern: \w[\w\-]*\w</param>
+    public AwsLightsailGetRelationalDatabaseEventsOptions(
+        string RelationalDatabaseName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RelationalDatabaseName);
+        this.RelationalDatabaseName = RelationalDatabaseName;
+    }
+
+    private AwsLightsailGetRelationalDatabaseEventsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLightsailGetRelationalDatabaseEventsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLightsailGetRelationalDatabaseEventsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the database from which to get events. Constraints: o pattern: \w[\w\-]*\w
+    /// </summary>
     [CliOption("--relational-database-name")]
-    public string? RelationalDatabaseName { get; set; }
+    public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
     /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60 The minimum is 1 and the maximum is 14 days (20160 minutes).
@@ -49,5 +86,21 @@ public record AwsLightsailGetRelationalDatabaseEventsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

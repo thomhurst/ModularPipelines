@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -22,8 +23,78 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "create-resiliency-policy")]
-public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions
+public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a resiliency policy for an application. NOTE: Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs , the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached . See also: AWS API Documen...
+    /// </summary>
+    /// <param name="Policy">The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}</param>
+    /// <param name="PolicyName">Name of the resiliency policy. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$</param>
+    /// <param name="Tier">The tier for this resiliency policy, ranging from the highest sever- ity (MissionCritical ) to lowest (NonCritical ). Possible values: o MissionCritical o Critical o Important o CoreServices o NonCritical o NotApplicable</param>
+    public AwsResiliencehubCreateResiliencyPolicyOptions(
+        IReadOnlyList<KeyValue> Policy,
+        string PolicyName,
+        AwsResiliencehubCreateResiliencyPolicyTier Tier
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Policy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Policy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Policy));
+            }
+
+            Policy = materialized;
+        }
+        this.Policy = Policy;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Tier);
+        this.Tier = Tier;
+    }
+
+    private AwsResiliencehubCreateResiliencyPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubCreateResiliencyPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubCreateResiliencyPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds. key -&gt; (string) Possible values: o Software o Hardware o AZ o Region value -&gt; (structure) Defines a failure policy. rpoInSecs -&gt; (integer) [required] Recovery Point Objective (RPO) in seconds. Constraints: o min: 0 rtoInSecs -&gt; (integer) [required] Recovery Time Objective (RTO) in seconds. Constraints: o min: 0 Shorthand Syntax: KeyName1={rpoInSecs=integer,rtoInSecs=integer},KeyName2={rpoInSecs=integer,rtoInSecs=integer} Where valid key names are: Software Hardware AZ Region JSON Syntax: {"Software"|"Hardware"|"AZ"|"Region": { "rpoInSecs": integer, "rtoInSecs": integer } ...}
+    /// </summary>
+    [CliOption("--policy", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Policy { get; private init; }
+
+    /// <summary>
+    /// Name of the resiliency policy. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// </summary>
+    [CliOption("--policy-name")]
+    public string? PolicyName { get; private init; }
+
+    /// <summary>
+    /// The tier for this resiliency policy, ranging from the highest sever- ity (MissionCritical ) to lowest (NonCritical ). Possible values: o MissionCritical o Critical o Important o CoreServices o NonCritical o NotApplicable
+    /// </summary>
+    [CliOption("--tier")]
+    public AwsResiliencehubCreateResiliencyPolicyTier? Tier { get; private init; }
+
     /// <summary>
     /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
@@ -37,17 +108,11 @@ public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions
     [CliOption("--data-location-constraint")]
     public AwsResiliencehubCreateResiliencyPolicyDataLocationConstraint? DataLocationConstraint { get; set; }
 
-    [CliOption("--policy", CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Policy { get; set; }
-
     /// <summary>
     /// Description of the resiliency policy. Constraints: o min: 0 o max: 500
     /// </summary>
     [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
-
-    [CliOption("--policy-name")]
-    public string? PolicyName { get; set; }
 
     /// <summary>
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[^\x00-\x1f\x22]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[^\x00-\x1f\x22]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -55,13 +120,26 @@ public record AwsResiliencehubCreateResiliencyPolicyOptions : AwsOptions
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
-    [CliOption("--tier")]
-    public string? Tier { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

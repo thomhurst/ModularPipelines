@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-delivery-destination-policy")]
-public record AwsLogsPutDeliveryDestinationPolicyOptions : AwsOptions
+public record AwsLogsPutDeliveryDestinationPolicyOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--delivery-destination-name")]
-    public string? DeliveryDestinationName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver logs cross-account to a specified destination in this account. To configure the delivery of logs from an Amazon Web Services service in another account to a logs delivery destination in the cur- rent account, you must do the following: o Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see PutDeliverySource . o Create a d...
+    /// </summary>
+    /// <param name="DeliveryDestinationName">The name of the delivery destination to assign this policy to. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="DeliveryDestinationPolicy">The contents of the policy. Constraints: o min: 1 o max: 51200</param>
+    public AwsLogsPutDeliveryDestinationPolicyOptions(
+        string DeliveryDestinationName,
+        string DeliveryDestinationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryDestinationName);
+        this.DeliveryDestinationName = DeliveryDestinationName;
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryDestinationPolicy);
+        this.DeliveryDestinationPolicy = DeliveryDestinationPolicy;
+    }
+
+    private AwsLogsPutDeliveryDestinationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutDeliveryDestinationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutDeliveryDestinationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the delivery destination to assign this policy to. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// </summary>
+    [CliOption("--delivery-destination-name")]
+    public string? DeliveryDestinationName { get; private init; }
+
+    /// <summary>
+    /// The contents of the policy. Constraints: o min: 1 o max: 51200
+    /// </summary>
     [CliOption("--delivery-destination-policy")]
-    public string? DeliveryDestinationPolicy { get; set; }
+    public string? DeliveryDestinationPolicy { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

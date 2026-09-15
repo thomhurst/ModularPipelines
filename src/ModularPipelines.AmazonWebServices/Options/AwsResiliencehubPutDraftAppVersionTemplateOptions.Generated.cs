@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "put-draft-app-version-template")]
-public record AwsResiliencehubPutDraftAppVersionTemplateOptions : AwsOptions
+public record AwsResiliencehubPutDraftAppVersionTemplateOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
-    [CliOption("--app-template-body")]
-    public string? AppTemplateBody { get; set; }
+    /// <summary>
+    /// Adds or updates the app template for an Resilience Hub application draft version. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppTemplateBody">A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure: o ** resources ** The list of logical resources that must be included in the Resilience Hub application. Type: Array System Message: WARNING/2 (&lt;string&gt;:, line 94) Inline strong start-string without end-string. NOTE: Don't add the resources that you want to exclude. Each resources array item includes the following fields: o * logicalResourceId * Logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields: System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline emphasis start-string without end-string. o identifier Identifier of the resource. Type: String o logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String o resourceGroupName The name of the resource group this resource belongs to. Type: String o terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String o eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/name- space" format. Type: String o * type * The type of resource. Type: string System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline emphasis start-string without end-string. o * name * The name of the resource. Type: String System Message: WARNING/2 (&lt;string&gt;:, line 127) Inline emphasis start-string without end-string. o additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement addi- tionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configura- tion parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one as- sociated account. Key: "failover-regions" Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;AC- COUNT_ID&gt;"}]}]" o ** appComponents ** List of Application Components that this re- source belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each ap- pComponents array item includes the following fields: System Message: WARNING/2 (&lt;string&gt;:, line 140) Inline strong start-string without end-string. o name Name of the Application Component. Type: String o type Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Type: String o resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings o additionalInfo Additional configuration parameters for an Re- silience Hub application. If you want to implement additional- Info through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"&lt;RE- GION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]" o ** excludedResources ** The list of logical resource identifiers to be excluded from the application. Type: Array System Message: WARNING/2 (&lt;string&gt;:, line 160) Inline strong start-string without end-string. NOTE: Don't add the resources that you want to include. Each excludedResources array item includes the following fields: o * logicalResourceIds * Logical identifier of the resource. Type: Object System Message: WARNING/2 (&lt;string&gt;:, line 169) Inline emphasis start-string without end-string. NOTE: You can configure only one of the following fields: o logicalStackName o resourceGroupName o terraformSourceName o eksSourceName Each logicalResourceIds object includes the following fields: o identifier Identifier of the resource. Type: String o logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String o resourceGroupName The name of the resource group this resource belongs to. Type: String o terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String o eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-clus- ter/namespace" format. Type: String o ** version ** Resilience Hub application version. System Message: WARNING/2 (&lt;string&gt;:, line 216) Inline strong start-string without end-string. o additionalInfo Additional configuration parameters for an Re- silience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"&lt;RE- GION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]" Constraints: o min: 0 o max: 409600 o pattern: ^[\w\s:,-\.'\/{}\[\]:"\\]+$</param>
+    public AwsResiliencehubPutDraftAppVersionTemplateOptions(
+        string AppArn,
+        IEnumerable<string> AppTemplateBody
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AppTemplateBody);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AppTemplateBody));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AppTemplateBody));
+            }
+
+            AppTemplateBody = materialized;
+        }
+        this.AppTemplateBody = AppTemplateBody;
+    }
+
+    private AwsResiliencehubPutDraftAppVersionTemplateOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubPutDraftAppVersionTemplateOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubPutDraftAppVersionTemplateOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
+    /// <summary>
+    /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure: o ** resources ** The list of logical resources that must be included in the Resilience Hub application. Type: Array System Message: WARNING/2 (&lt;string&gt;:, line 94) Inline strong start-string without end-string. NOTE: Don't add the resources that you want to exclude. Each resources array item includes the following fields: o * logicalResourceId * Logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields: System Message: WARNING/2 (&lt;string&gt;:, line 103) Inline emphasis start-string without end-string. o identifier Identifier of the resource. Type: String o logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String o resourceGroupName The name of the resource group this resource belongs to. Type: String o terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String o eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/name- space" format. Type: String o * type * The type of resource. Type: string System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline emphasis start-string without end-string. o * name * The name of the resource. Type: String System Message: WARNING/2 (&lt;string&gt;:, line 127) Inline emphasis start-string without end-string. o additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement addi- tionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configura- tion parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one as- sociated account. Key: "failover-regions" Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;AC- COUNT_ID&gt;"}]}]" o ** appComponents ** List of Application Components that this re- source belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each ap- pComponents array item includes the following fields: System Message: WARNING/2 (&lt;string&gt;:, line 140) Inline strong start-string without end-string. o name Name of the Application Component. Type: String o type Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent . Type: String o resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings o additionalInfo Additional configuration parameters for an Re- silience Hub application. If you want to implement additional- Info through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"&lt;RE- GION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]" o ** excludedResources ** The list of logical resource identifiers to be excluded from the application. Type: Array System Message: WARNING/2 (&lt;string&gt;:, line 160) Inline strong start-string without end-string. NOTE: Don't add the resources that you want to include. Each excludedResources array item includes the following fields: o * logicalResourceIds * Logical identifier of the resource. Type: Object System Message: WARNING/2 (&lt;string&gt;:, line 169) Inline emphasis start-string without end-string. NOTE: You can configure only one of the following fields: o logicalStackName o resourceGroupName o terraformSourceName o eksSourceName Each logicalResourceIds object includes the following fields: o identifier Identifier of the resource. Type: String o logicalStackName The name of the CloudFormation stack this resource belongs to. Type: String o resourceGroupName The name of the resource group this resource belongs to. Type: String o terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String o eksSourceName Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-clus- ter/namespace" format. Type: String o ** version ** Resilience Hub application version. System Message: WARNING/2 (&lt;string&gt;:, line 216) Inline strong start-string without end-string. o additionalInfo Additional configuration parameters for an Re- silience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters . NOTE: Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"&lt;RE- GION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]" Constraints: o min: 0 o max: 409600 o pattern: ^[\w\s:,-\.'\/{}\[\]:"\\]+$
+    /// </summary>
+    [CliOption("--app-template-body", GroupValues = true)]
+    public IEnumerable<string>? AppTemplateBody { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

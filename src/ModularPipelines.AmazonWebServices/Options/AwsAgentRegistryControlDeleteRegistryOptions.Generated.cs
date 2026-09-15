@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry-control", "delete-registry")]
-public record AwsAgentRegistryControlDeleteRegistryOptions : AwsOptions
+public record AwsAgentRegistryControlDeleteRegistryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a registry. Deletion is asynchronous: the registry transitions to the DELETING status and is removed along with its registry records. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="RegistryId">The identifier of the registry to delete (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    public AwsAgentRegistryControlDeleteRegistryOptions(
+        string RegistryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryId);
+        this.RegistryId = RegistryId;
+    }
+
+    private AwsAgentRegistryControlDeleteRegistryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAgentRegistryControlDeleteRegistryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAgentRegistryControlDeleteRegistryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the registry to delete (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// </summary>
     [CliOption("--registry-id")]
-    public string? RegistryId { get; set; }
+    public string? RegistryId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

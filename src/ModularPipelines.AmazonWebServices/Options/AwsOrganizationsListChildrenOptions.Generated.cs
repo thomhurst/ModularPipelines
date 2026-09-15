@@ -11,6 +11,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +22,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "list-children")]
-public record AwsOrganizationsListChildrenOptions : AwsOptions
+public record AwsOrganizationsListChildrenOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--parent-id")]
-    public string? ParentId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Lists all of the organizational units (OUs) or accounts that are con- tained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken ret...
+    /// </summary>
+    /// <param name="ParentId">The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="ChildType">Filters the output to include only the specified child type. Possible values: o ACCOUNT o ORGANIZATIONAL_UNIT</param>
+    public AwsOrganizationsListChildrenOptions(
+        string ParentId,
+        AwsOrganizationsListChildrenChildType ChildType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParentId);
+        this.ParentId = ParentId;
+        global::System.ArgumentNullException.ThrowIfNull(ChildType);
+        this.ChildType = ChildType;
+    }
+
+    private AwsOrganizationsListChildrenOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsListChildrenOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsListChildrenOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// </summary>
+    [CliOption("--parent-id")]
+    public string? ParentId { get; private init; }
+
+    /// <summary>
+    /// Filters the output to include only the specified child type. Possible values: o ACCOUNT o ORGANIZATIONAL_UNIT
+    /// </summary>
     [CliOption("--child-type")]
-    public string? ChildType { get; set; }
+    public AwsOrganizationsListChildrenChildType? ChildType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +97,21 @@ public record AwsOrganizationsListChildrenOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

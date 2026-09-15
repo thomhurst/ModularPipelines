@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "enable-aws-service-access")]
-public record AwsOrganizationsEnableAwsServiceAccessOptions : AwsOptions
+public record AwsOrganizationsEnableAwsServiceAccessOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an or- ganization, create a service-linked role in all the accounts in the or- ganization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration...
+    /// </summary>
+    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    public AwsOrganizationsEnableAwsServiceAccessOptions(
+        string ServicePrincipal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServicePrincipal);
+        this.ServicePrincipal = ServicePrincipal;
+    }
+
+    private AwsOrganizationsEnableAwsServiceAccessOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsEnableAwsServiceAccessOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsEnableAwsServiceAccessOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// </summary>
     [CliOption("--service-principal")]
-    public string? ServicePrincipal { get; set; }
+    public string? ServicePrincipal { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

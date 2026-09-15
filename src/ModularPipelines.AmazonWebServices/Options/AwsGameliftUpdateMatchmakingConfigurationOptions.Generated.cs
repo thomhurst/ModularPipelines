@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -20,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gamelift", "update-matchmaking-configuration")]
-public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
+public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be up- dated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$</param>
+    public AwsGameliftUpdateMatchmakingConfigurationOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    private AwsGameliftUpdateMatchmakingConfigurationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGameliftUpdateMatchmakingConfigurationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGameliftUpdateMatchmakingConfigurationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A description for the matchmaking configuration. Constraints: o min: 1 o max: 1024
@@ -49,7 +86,10 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
     [CliOption("--acceptance-timeout-seconds")]
     public int? AcceptanceTimeoutSeconds { get; set; }
 
-    [CliFlag("--acceptance-required")]
+    /// <summary>
+    /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tick- ets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
+    /// </summary>
+    [CliFlag("--acceptance-required", NegatedName = "--no-acceptance-required")]
     public bool? AcceptanceRequired { get; set; }
 
     /// <summary>
@@ -105,5 +145,21 @@ public record AwsGameliftUpdateMatchmakingConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

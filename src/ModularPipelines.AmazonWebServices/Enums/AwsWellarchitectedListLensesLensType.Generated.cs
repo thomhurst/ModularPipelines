@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --lenstype.
+/// Allowed values for --lens-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsWellarchitectedListLensesLensType
 {
     [EnumValue("AWS_OFFICIAL")]
-    AwsOfficial = 1,
-
-    [EnumValue("CUSTOM_SHARED")]
-    CustomShared = 2,
+    AwsOfficial,
 
     [EnumValue("CUSTOM_SELF")]
-    CustomSelf = 3
+    CustomSelf,
+
+    [EnumValue("CUSTOM_SHARED")]
+    CustomShared
 }

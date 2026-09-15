@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime-sdk-voice", "put-voice-connector-termination")]
-public record AwsChimeSdkVoicePutVoiceConnectorTerminationOptions : AwsOptions
+public record AwsChimeSdkVoicePutVoiceConnectorTerminationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--voice-connector-id")]
-    public string? VoiceConnectorId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates a Voice Connector's termination settings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="VoiceConnectorId">The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="Termination">The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account ser- vice quota. Default value of 1. Constraints: o min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }</param>
+    public AwsChimeSdkVoicePutVoiceConnectorTerminationOptions(
+        string VoiceConnectorId,
+        string Termination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VoiceConnectorId);
+        this.VoiceConnectorId = VoiceConnectorId;
+        global::System.ArgumentNullException.ThrowIfNull(Termination);
+        this.Termination = Termination;
+    }
+
+    private AwsChimeSdkVoicePutVoiceConnectorTerminationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorTerminationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeSdkVoicePutVoiceConnectorTerminationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// </summary>
+    [CliOption("--voice-connector-id")]
+    public string? VoiceConnectorId { get; private init; }
+
+    /// <summary>
+    /// The termination settings to be updated. CpsLimit -&gt; (integer) The limit on calls per second. Max value based on account ser- vice quota. Default value of 1. Constraints: o min: 1 DefaultPhoneNumber -&gt; (string) The default outbound calling number. Constraints: o pattern: ^\+?[1-9]\d{1,14}$ CallingRegions -&gt; (list) The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required. (string) CidrAllowedList -&gt; (list) The IP addresses allowed to make calls, in CIDR format. (string) Disabled -&gt; (boolean) When termination is disabled, outbound calls cannot be made. Shorthand Syntax: CpsLimit=integer,DefaultPhoneNumber=string,CallingRegions=string,string,CidrAllowedList=string,string,Disabled=boolean JSON Syntax: { "CpsLimit": integer, "DefaultPhoneNumber": "string", "CallingRegions": ["string", ...], "CidrAllowedList": ["string", ...], "Disabled": true|false }
+    /// </summary>
     [CliOption("--termination")]
-    public string? Termination { get; set; }
+    public string? Termination { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

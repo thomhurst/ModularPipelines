@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,83 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ec2", "deprovision-ipam-byoasn")]
-public record AwsEc2DeprovisionIpamByoasnOptions : AwsOptions
+public record AwsEc2DeprovisionIpamByoasnOptions : AwsOptions, IValidatableObject
 {
-    [CliFlag("--dry-run")]
-    public bool? DryRun { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with DisassociateIpamByoasn . For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IpamId">The IPAM ID.</param>
+    /// <param name="Asn">An ASN.</param>
+    public AwsEc2DeprovisionIpamByoasnOptions(
+        string IpamId,
+        string Asn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpamId);
+        this.IpamId = IpamId;
+        global::System.ArgumentNullException.ThrowIfNull(Asn);
+        this.Asn = Asn;
+    }
+
+    private AwsEc2DeprovisionIpamByoasnOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEc2DeprovisionIpamByoasnOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEc2DeprovisionIpamByoasnOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The IPAM ID.
+    /// </summary>
     [CliOption("--ipam-id")]
-    public string? IpamId { get; set; }
+    public string? IpamId { get; private init; }
 
+    /// <summary>
+    /// An ASN.
+    /// </summary>
     [CliOption("--asn")]
-    public string? Asn { get; set; }
+    public string? Asn { get; private init; }
+
+    /// <summary>
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// </summary>
+    [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
+    public bool? DryRun { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

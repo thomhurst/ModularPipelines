@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,27 +20,104 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("glue", "batch-delete-partition")]
-public record AwsGlueBatchDeletePartitionOptions : AwsOptions
+public record AwsGlueBatchDeletePartitionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes one or more partitions in a batch operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DatabaseName">The name of the catalog database in which the table in question re- sides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table that contains the partitions to be deleted. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="PartitionsToDelete">A list of PartitionInput structures that define the partitions to be deleted. Constraints: o min: 0 o max: 25 (structure) Contains a list of values defining partitions. Values -&gt; (list) [required] The list of values. (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Values=string,string ... JSON Syntax: [ { "Values": ["string", ...] } ... ]</param>
+    public AwsGlueBatchDeletePartitionOptions(
+        string DatabaseName,
+        string TableName,
+        IEnumerable<string> PartitionsToDelete
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseName);
+        this.DatabaseName = DatabaseName;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PartitionsToDelete);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PartitionsToDelete));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PartitionsToDelete));
+            }
+
+            PartitionsToDelete = materialized;
+        }
+        this.PartitionsToDelete = PartitionsToDelete;
+    }
+
+    private AwsGlueBatchDeletePartitionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsGlueBatchDeletePartitionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsGlueBatchDeletePartitionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the catalog database in which the table in question re- sides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--database-name")]
+    public string? DatabaseName { get; private init; }
+
+    /// <summary>
+    /// The name of the table that contains the partitions to be deleted. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--table-name")]
+    public string? TableName { get; private init; }
+
+    /// <summary>
+    /// A list of PartitionInput structures that define the partitions to be deleted. Constraints: o min: 0 o max: 25 (structure) Contains a list of values defining partitions. Values -&gt; (list) [required] The list of values. (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Values=string,string ... JSON Syntax: [ { "Values": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--partitions-to-delete", GroupValues = true)]
+    public IEnumerable<string>? PartitionsToDelete { get; private init; }
+
     /// <summary>
     /// The ID of the Data Catalog where the partition to be deleted re- sides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
-    [CliOption("--database-name")]
-    public string? DatabaseName { get; set; }
-
-    [CliOption("--table-name")]
-    public string? TableName { get; set; }
-
-    [CliOption("--partitions-to-delete", GroupValues = true)]
-    public IEnumerable<string>? PartitionsToDelete { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,16 +21,52 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resiliencehub", "update-app-version-resource")]
-public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
+public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Updates the resource details in the Resilience Hub application. NOTE: o This action has no effect outside Resilience Hub. o This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API. o To update application version with new physicalResourceID , you must call ResolveAppVersionResources API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    public AwsResiliencehubUpdateAppVersionResourceOptions(
+        string AppArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppArn);
+        this.AppArn = AppArn;
+    }
+
+    private AwsResiliencehubUpdateAppVersionResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsResiliencehubUpdateAppVersionResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsResiliencehubUpdateAppVersionResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// </summary>
+    [CliOption("--app-arn")]
+    public string? AppArn { get; private init; }
+
     /// <summary>
     /// Currently, there is no supported additional information for re- sources. key -&gt; (string) Constraints: o pattern: ^\S{1,128}$ value -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--additional-info", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalInfo { get; set; }
-
-    [CliOption("--app-arn")]
-    public string? AppArn { get; set; }
 
     /// <summary>
     /// List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
@@ -49,7 +86,10 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
     [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
-    [CliFlag("--excluded")]
+    /// <summary>
+    /// Indicates if a resource is excluded from an Resilience Hub applica- tion. NOTE: You can exclude only imported resources from an Resilience Hub application.
+    /// </summary>
+    [CliFlag("--excluded", NegatedName = "--no-excluded")]
     public bool? Excluded { get; set; }
 
     /// <summary>
@@ -81,5 +121,21 @@ public record AwsResiliencehubUpdateAppVersionResourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

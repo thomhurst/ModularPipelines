@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,16 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cleanrooms", "start-protected-query")]
-public record AwsCleanroomsStartProtectedQueryOptions : AwsOptions
+public record AwsCleanroomsStartProtectedQueryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a protected query that is started by Clean Rooms. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Type">The type of the protected query to be started. Possible values: o SQL</param>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership to run this query against. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SqlParameters">The protected SQL query parameters. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis tem- plate within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: queryString=string,analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }</param>
+    public AwsCleanroomsStartProtectedQueryOptions(
+        AwsCleanroomsStartProtectedQueryType Type,
+        string MembershipIdentifier,
+        string SqlParameters
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(MembershipIdentifier);
+        this.MembershipIdentifier = MembershipIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(SqlParameters);
+        this.SqlParameters = SqlParameters;
+    }
+
+    private AwsCleanroomsStartProtectedQueryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsCleanroomsStartProtectedQueryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsCleanroomsStartProtectedQueryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The type of the protected query to be started. Possible values: o SQL
+    /// </summary>
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public AwsCleanroomsStartProtectedQueryType? Type { get; private init; }
 
+    /// <summary>
+    /// A unique identifier for the membership to run this query against. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// </summary>
     [CliOption("--membership-identifier")]
-    public string? MembershipIdentifier { get; set; }
+    public string? MembershipIdentifier { get; private init; }
 
+    /// <summary>
+    /// The protected SQL query parameters. queryString -&gt; (string) The query string to be submitted. Constraints: o min: 0 o max: 500000 analysisTemplateArn -&gt; (string) The Amazon Resource Name (ARN) associated with the analysis tem- plate within a collaboration. Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ parameters -&gt; (map) The protected query SQL parameters. key -&gt; (string) Constraints: o min: 1 o max: 100 o pattern: [0-9a-zA-Z_]+ value -&gt; (string) Constraints: o min: 0 o max: 1000 Shorthand Syntax: queryString=string,analysisTemplateArn=string,parameters={KeyName1=string,KeyName2=string} JSON Syntax: { "queryString": "string", "analysisTemplateArn": "string", "parameters": {"string": "string" ...} }
+    /// </summary>
     [CliOption("--sql-parameters")]
-    public string? SqlParameters { get; set; }
+    public string? SqlParameters { get; private init; }
 
     /// <summary>
     /// The details needed to write the query results. outputConfiguration -&gt; (tagged union structure) [required] Configuration for protected query results. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, member, distribute, intermedi- ateTable. s3 -&gt; (structure) Required configuration for a protected query with an s3 out- put type. resultFormat -&gt; (string) [required] Intended file format of the result. Possible values: o CSV o PARQUET bucket -&gt; (string) [required] The S3 bucket to unload the protected query results. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 prefix to unload the protected query results. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* singleFileOutput -&gt; (boolean) Indicates whether files should be output as a single file (TRUE ) or output as multiple files (FALSE ). This para- meter is only supported for analyses with the Spark ana- lytics engine. member -&gt; (structure) Required configuration for a protected query with a member output type. accountId -&gt; (string) [required] The unique identifier for the account. Constraints: o min: 12 o max: 12 o pattern: \d+ distribute -&gt; (structure) Required configuration for a protected query with a distrib- ute output type. locations -&gt; (list) [required] A list of locations where you want to distribute the pro- tected query results. Each location must specify either an S3 destination or a collaboration member destination. WARNING: You can't specify more than one S3 location. You can't specify the query runner's account as a mem- ber location. You must include either an S3 or member output config- uration for each location, but not both. Constraints: o min: 1 (tagged union structure) Specifies where you'll distribute the results of your protected query. You must configure either an S3 des- tination or a collaboration member destination. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, member. s3 -&gt; (structure) Contains the configuration to write the query re- sults to S3. resultFormat -&gt; (string) [required] Intended file format of the result. Possible values: o CSV o PARQUET bucket -&gt; (string) [required] The S3 bucket to unload the protected query re- sults. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 prefix to unload the protected query re- sults. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* singleFileOutput -&gt; (boolean) Indicates whether files should be output as a single file (TRUE ) or output as multiple files (FALSE ). This parameter is only supported for analyses with the Spark analytics engine. member -&gt; (structure) Contains configuration details for the protected query member output. accountId -&gt; (string) [required] The unique identifier for the account. Constraints: o min: 12 o max: 12 o pattern: \d+ intermediateTable -&gt; (structure) The intermediate table output configuration, present when the protected query was triggered by a populate operation. id -&gt; (string) [required] The unique identifier of the intermediate table. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the intermediate table. Constraints: o min: 0 o max: 256 o pattern: arn:aws:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship\/[\d\w-]+\/intermediatetable\/[\d\w-]+ name -&gt; (string) [required] The name of the intermediate table. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]* JSON Syntax: { "outputConfiguration": { "s3": { "resultFormat": "CSV"|"PARQUET", "bucket": "string", "keyPrefix": "string", "singleFileOutput": true|false }, "member": { "accountId": "string" }, "distribute": { "locations": [ { "s3": { "resultFormat": "CSV"|"PARQUET", "bucket": "string", "keyPrefix": "string", "singleFileOutput": true|false }, "member": { "accountId": "string" } } ... ] }, "intermediateTable": { "id": "string", "arn": "string", "name": "string" } } }
@@ -53,5 +105,21 @@ public record AwsCleanroomsStartProtectedQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

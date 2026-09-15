@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --sourcetype.
+/// Allowed values for --source-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsDaxDescribeEventsSourceType
 {
     [EnumValue("CLUSTER")]
-    Cluster = 1,
+    Cluster,
 
     [EnumValue("PARAMETER_GROUP")]
-    ParameterGroup = 2,
+    ParameterGroup,
 
     [EnumValue("SUBNET_GROUP")]
-    SubnetGroup = 3
+    SubnetGroup
 }

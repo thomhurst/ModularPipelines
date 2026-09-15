@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("chime", "batch-update-user")]
-public record AwsChimeBatchUpdateUserOptions : AwsOptions
+public record AwsChimeBatchUpdateUserOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--account-id")]
-    public string? AccountId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only Li- censeType updates are supported for this action. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="UpdateUserRequestItems">The request containing the user IDs and details to update. Constraints: o max: 20 (structure) The user ID and user fields to update, used with the BatchUpda- teUser action. UserId -&gt; (string) [required] The user ID. Constraints: o pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: o Basic o Plus o Pro o ProTrial UserType -&gt; (string) The user type. Possible values: o PrivateUser o SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]</param>
+    public AwsChimeBatchUpdateUserOptions(
+        string AccountId,
+        IEnumerable<string> UpdateUserRequestItems
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UpdateUserRequestItems);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UpdateUserRequestItems));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UpdateUserRequestItems));
+            }
+
+            UpdateUserRequestItems = materialized;
+        }
+        this.UpdateUserRequestItems = UpdateUserRequestItems;
+    }
+
+    private AwsChimeBatchUpdateUserOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsChimeBatchUpdateUserOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsChimeBatchUpdateUserOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// </summary>
+    [CliOption("--account-id")]
+    public string? AccountId { get; private init; }
+
+    /// <summary>
+    /// The request containing the user IDs and details to update. Constraints: o max: 20 (structure) The user ID and user fields to update, used with the BatchUpda- teUser action. UserId -&gt; (string) [required] The user ID. Constraints: o pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: o Basic o Plus o Pro o ProTrial UserType -&gt; (string) The user type. Possible values: o PrivateUser o SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]
+    /// </summary>
     [CliOption("--update-user-request-items", GroupValues = true)]
-    public IEnumerable<string>? UpdateUserRequestItems { get; set; }
+    public IEnumerable<string>? UpdateUserRequestItems { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

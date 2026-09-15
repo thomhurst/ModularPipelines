@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs", "put-destination-policy")]
-public record AwsLogsPutDestinationPolicyOptions : AwsOptions
+public record AwsLogsPutDestinationPolicyOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates or updates an access policy associated with an existing desti- nation. An access policy is an IAM policy document that is used to au- thorize claims to register a subscription filter against a given desti- nation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DestinationName">A name for an existing destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="AccessPolicy">An IAM policy document that authorizes cross-account users to de- liver their log events to the associated destination. This can be up to 5120 bytes. Constraints: o min: 1</param>
+    public AwsLogsPutDestinationPolicyOptions(
+        string DestinationName,
+        string AccessPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationName);
+        this.DestinationName = DestinationName;
+        global::System.ArgumentNullException.ThrowIfNull(AccessPolicy);
+        this.AccessPolicy = AccessPolicy;
+    }
+
+    private AwsLogsPutDestinationPolicyOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsLogsPutDestinationPolicyOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsLogsPutDestinationPolicyOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// A name for an existing destination. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// </summary>
     [CliOption("--destination-name")]
-    public string? DestinationName { get; set; }
+    public string? DestinationName { get; private init; }
 
+    /// <summary>
+    /// An IAM policy document that authorizes cross-account users to de- liver their log events to the associated destination. This can be up to 5120 bytes. Constraints: o min: 1
+    /// </summary>
     [CliOption("--access-policy")]
-    public string? AccessPolicy { get; set; }
+    public string? AccessPolicy { get; private init; }
 
-    [CliFlag("--force-update")]
+    /// <summary>
+    /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permis- sion to individual Amazon Web Services accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate , you are affirming that you have already up- dated the subscription filters. For more information, see Updating an existing cross-account subscription If you omit this parameter, the default of false is used.
+    /// </summary>
+    [CliFlag("--force-update", NegatedName = "--no-force-update")]
     public bool? ForceUpdate { get; set; }
 
     [CliOption("--cli-input-json")]
@@ -35,5 +82,21 @@ public record AwsLogsPutDestinationPolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

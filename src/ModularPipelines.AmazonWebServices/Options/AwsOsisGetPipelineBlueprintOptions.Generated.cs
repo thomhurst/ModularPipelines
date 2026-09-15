@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("osis", "get-pipeline-blueprint")]
-public record AwsOsisGetPipelineBlueprintOptions : AwsOptions
+public record AwsOsisGetPipelineBlueprintOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves information about a specific blueprint for OpenSearch Inges- tion. Blueprints are templates for the configuration needed for a Cre- atePipeline request. For more information, see Using blueprints to cre- ate a pipeline . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="BlueprintName">The name of the blueprint to retrieve.</param>
+    public AwsOsisGetPipelineBlueprintOptions(
+        string BlueprintName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlueprintName);
+        this.BlueprintName = BlueprintName;
+    }
+
+    private AwsOsisGetPipelineBlueprintOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOsisGetPipelineBlueprintOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOsisGetPipelineBlueprintOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the blueprint to retrieve.
+    /// </summary>
     [CliOption("--blueprint-name")]
-    public string? BlueprintName { get; set; }
+    public string? BlueprintName { get; private init; }
 
     /// <summary>
     /// The format format of the blueprint to retrieve. Constraints: o pattern: (YAML|JSON)
@@ -35,5 +72,21 @@ public record AwsOsisGetPipelineBlueprintOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

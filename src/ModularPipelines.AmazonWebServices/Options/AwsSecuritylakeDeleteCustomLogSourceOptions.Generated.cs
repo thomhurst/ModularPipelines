@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securitylake", "delete-custom-log-source")]
-public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions
+public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SourceName">The source name of custom log source that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$</param>
+    public AwsSecuritylakeDeleteCustomLogSourceOptions(
+        string SourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceName);
+        this.SourceName = SourceName;
+    }
+
+    private AwsSecuritylakeDeleteCustomLogSourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecuritylakeDeleteCustomLogSourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecuritylakeDeleteCustomLogSourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The source name of custom log source that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$
+    /// </summary>
     [CliOption("--source-name")]
-    public string? SourceName { get; set; }
+    public string? SourceName { get; private init; }
 
     /// <summary>
     /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$
@@ -35,5 +72,21 @@ public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

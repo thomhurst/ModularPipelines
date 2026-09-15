@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("detective", "update-datasource-packages")]
-public record AwsDetectiveUpdateDatasourcePackagesOptions : AwsOptions
+public record AwsDetectiveUpdateDatasourcePackagesOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--graph-arn")]
-    public string? GraphArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Starts a data source package for the Detective behavior graph. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GraphArn">The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="DatasourcePackages">The data source package to start for the behavior graph. Constraints: o min: 1 o max: 25 (string) Possible values: o DETECTIVE_CORE o EKS_AUDIT o ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...</param>
+    public AwsDetectiveUpdateDatasourcePackagesOptions(
+        string GraphArn,
+        IEnumerable<string> DatasourcePackages
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GraphArn);
+        this.GraphArn = GraphArn;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DatasourcePackages);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DatasourcePackages));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DatasourcePackages));
+            }
+
+            DatasourcePackages = materialized;
+        }
+        this.DatasourcePackages = DatasourcePackages;
+    }
+
+    private AwsDetectiveUpdateDatasourcePackagesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDetectiveUpdateDatasourcePackagesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDetectiveUpdateDatasourcePackagesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// </summary>
+    [CliOption("--graph-arn")]
+    public string? GraphArn { get; private init; }
+
+    /// <summary>
+    /// The data source package to start for the behavior graph. Constraints: o min: 1 o max: 25 (string) Possible values: o DETECTIVE_CORE o EKS_AUDIT o ASFF_SECURITYHUB_FINDING Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--datasource-packages", GroupValues = true)]
-    public IEnumerable<string>? DatasourcePackages { get; set; }
+    public IEnumerable<string>? DatasourcePackages { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

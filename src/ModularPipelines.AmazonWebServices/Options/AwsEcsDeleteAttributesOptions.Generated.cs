@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,84 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ecs", "delete-attributes")]
-public record AwsEcsDeleteAttributesOptions : AwsOptions
+public record AwsEcsDeleteAttributesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes one or more custom attributes from an Amazon ECS resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Attributes">The attributes to delete from your resource. You can specify up to 10 attributes for each request. For custom attributes, specify the attribute name and target ID, but don't specify the value. If you specify the target ID using the short form, you must also specify the target type. (structure) An attribute is a name-value pair that's associated with an Ama- zon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more in- formation, see Attributes in the Amazon Elastic Container Ser- vice Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), for- ward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This pa- rameter is required if you use the short form ID for a re- source instead of the full ARN. Possible values: o container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]</param>
+    public AwsEcsDeleteAttributesOptions(
+        IEnumerable<string> Attributes
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attributes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attributes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attributes));
+            }
+
+            Attributes = materialized;
+        }
+        this.Attributes = Attributes;
+    }
+
+    private AwsEcsDeleteAttributesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsEcsDeleteAttributesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsEcsDeleteAttributesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The attributes to delete from your resource. You can specify up to 10 attributes for each request. For custom attributes, specify the attribute name and target ID, but don't specify the value. If you specify the target ID using the short form, you must also specify the target type. (structure) An attribute is a name-value pair that's associated with an Ama- zon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more in- formation, see Attributes in the Amazon Elastic Container Ser- vice Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), for- ward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This pa- rameter is required if you use the short form ID for a re- source instead of the full ARN. Possible values: o container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]
+    /// </summary>
+    [CliOption("--attributes", GroupValues = true)]
+    public IEnumerable<string>? Attributes { get; private init; }
+
     /// <summary>
     /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not spec- ify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CliOption("--attributes", GroupValues = true)]
-    public IEnumerable<string>? Attributes { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

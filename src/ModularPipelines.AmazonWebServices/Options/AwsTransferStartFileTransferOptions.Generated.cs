@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "start-file-transfer")]
-public record AwsTransferStartFileTransferOptions : AwsOptions
+public record AwsTransferStartFileTransferOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. o For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. o For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: o If you are transferring file from a partner's SFTP server to Amazon W...
+    /// </summary>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    public AwsTransferStartFileTransferOptions(
+        string ConnectorId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorId);
+        this.ConnectorId = ConnectorId;
+    }
+
+    private AwsTransferStartFileTransferOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsTransferStartFileTransferOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsTransferStartFileTransferOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// </summary>
     [CliOption("--connector-id")]
-    public string? ConnectorId { get; set; }
+    public string? ConnectorId { get; private init; }
 
     /// <summary>
     /// One or more source paths for the Amazon S3 storage. Each string rep- resents a source file path for one outbound file transfer. For exam- ple, `` amzn-s3-demo-bucket /myfile.txt `` . NOTE: Replace `` amzn-s3-demo-bucket `` with one of your actual buck- ets. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: (.)+ Syntax: "string" "string" ...
@@ -59,5 +96,21 @@ public record AwsTransferStartFileTransferOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("securityagent", "import-security-requirements")]
-public record AwsSecurityagentImportSecurityRequirementsOptions : AwsOptions
+public record AwsSecurityagentImportSecurityRequirementsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--pack-id")]
-    public string? PackId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Imports security requirements from uploaded documents into a customer managed security requirement pack. The import process asynchronously extracts and generates structured security requirements from the pro- vided source files. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="PackId">The unique identifier of the security requirement pack to import re- quirements into.</param>
+    /// <param name="Input">The import source containing the documents to extract security re- quirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security re- quirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: o MD o PDF o TXT o DOCX o DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }</param>
+    public AwsSecurityagentImportSecurityRequirementsOptions(
+        string PackId,
+        string Input
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackId);
+        this.PackId = PackId;
+        global::System.ArgumentNullException.ThrowIfNull(Input);
+        this.Input = Input;
+    }
+
+    private AwsSecurityagentImportSecurityRequirementsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSecurityagentImportSecurityRequirementsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSecurityagentImportSecurityRequirementsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the security requirement pack to import re- quirements into.
+    /// </summary>
+    [CliOption("--pack-id")]
+    public string? PackId { get; private init; }
+
+    /// <summary>
+    /// The import source containing the documents to extract security re- quirements from. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: documents. documents -&gt; (list) The list of documents to extract security requirements from. (structure) A document used as source material for importing security re- quirements. name -&gt; (string) [required] The file name of the document. format -&gt; (string) [required] The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC. Possible values: o MD o PDF o TXT o DOCX o DOC content -&gt; (blob) [required] The binary content of the document. Shorthand Syntax: documents=[{name=string,format=string,content=blob},{name=string,format=string,content=blob}] JSON Syntax: { "documents": [ { "name": "string", "format": "MD"|"PDF"|"TXT"|"DOCX"|"DOC", "content": blob } ... ] }
+    /// </summary>
     [CliOption("--input")]
-    public string? Input { get; set; }
+    public string? Input { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

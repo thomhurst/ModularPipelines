@@ -11,11 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --connectorprovisioningtype.
+/// Allowed values for --connector-provisioning-type.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsAppflowRegisterConnectorConnectorProvisioningType
 {
     [EnumValue("LAMBDA")]
-    Lambda = 1
+    Lambda,
+
+    [EnumValue("o")]
+    O
 }

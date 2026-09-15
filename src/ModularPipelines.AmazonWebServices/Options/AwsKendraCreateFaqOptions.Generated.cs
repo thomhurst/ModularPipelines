@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,25 +22,82 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kendra", "create-faq")]
-public record AwsKendraCreateFaqOptions : AwsOptions
+public record AwsKendraCreateFaqOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--index-id")]
-    public string? IndexId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored in an Amazon S3 bucket. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="IndexId">The identifier of the index for the FAQ. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Name">A name for the FAQ. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="S3Path">The path to the FAQ file in S3. Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role with permission to ac- cess the S3 bucket that contains the FAQ file. For more information, see IAM access roles for Amazon Kendra . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    public AwsKendraCreateFaqOptions(
+        string IndexId,
+        string Name,
+        string S3Path,
+        string RoleArn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexId);
+        this.IndexId = IndexId;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(S3Path);
+        this.S3Path = S3Path;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+    }
+
+    private AwsKendraCreateFaqOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsKendraCreateFaqOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsKendraCreateFaqOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the index for the FAQ. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// </summary>
+    [CliOption("--index-id")]
+    public string? IndexId { get; private init; }
+
+    /// <summary>
+    /// A name for the FAQ. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The path to the FAQ file in S3. Bucket -&gt; (string) [required] The name of the S3 bucket that contains the file. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] Key -&gt; (string) [required] The name of the file. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
+    /// </summary>
+    [CliOption("--s3-path")]
+    public string? S3Path { get; private init; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to ac- cess the S3 bucket that contains the FAQ file. For more information, see IAM access roles for Amazon Kendra . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// </summary>
+    [CliOption("--role-arn")]
+    public string? RoleArn { get; private init; }
 
     /// <summary>
     /// A description for the FAQ. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--s3-path")]
-    public string? S3Path { get; set; }
-
-    [CliOption("--role-arn")]
-    public string? RoleArn { get; set; }
 
     /// <summary>
     /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the follow- ing symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -71,5 +129,21 @@ public record AwsKendraCreateFaqOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

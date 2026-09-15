@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,19 +21,76 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connectcampaigns", "create-campaign")]
-public record AwsConnectcampaignsCreateCampaignOptions : AwsOptions
+public record AwsConnectcampaignsCreateCampaignOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a campaign for the specified Amazon Connect account. This API is idempotent. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The name of an Amazon Connect Campaign name. Constraints: o min: 1 o max: 127</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*</param>
+    /// <param name="DialerConfig">The possible types of dialer config parameters NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: progressiveDialerConfig, predictiveDi- alerConfig, agentlessDialerConfig. progressiveDialerConfig -&gt; (structure) Progressive Dialer config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 1 dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 predictiveDialerConfig -&gt; (structure) Predictive Dialer config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 1 dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 agentlessDialerConfig -&gt; (structure) Agentless Dialer config dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 Shorthand Syntax: progressiveDialerConfig={bandwidthAllocation=double,dialingCapacity=double},predictiveDialerConfig={bandwidthAllocation=double,dialingCapacity=double},agentlessDialerConfig={dialingCapacity=double} JSON Syntax: { "progressiveDialerConfig": { "bandwidthAllocation": double, "dialingCapacity": double }, "predictiveDialerConfig": { "bandwidthAllocation": double, "dialingCapacity": double }, "agentlessDialerConfig": { "dialingCapacity": double } }</param>
+    /// <param name="OutboundCallConfig">The configuration used for outbound calls. connectContactFlowId -&gt; (string) [required] The identifier of the contact flow for the outbound call. Constraints: o min: 0 o max: 500 connectSourcePhoneNumber -&gt; (string) The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100 connectQueueId -&gt; (string) The queue for the call. If you specify a queue, the phone dis- played for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number. Constraints: o min: 0 o max: 500 answerMachineDetectionConfig -&gt; (structure) Answering Machine Detection config enableAnswerMachineDetection -&gt; (boolean) [required] Enable or disable answering machine detection awaitAnswerMachinePrompt -&gt; (boolean) Enable or disable await answer machine prompt Shorthand Syntax: connectContactFlowId=string,connectSourcePhoneNumber=string,connectQueueId=string,answerMachineDetectionConfig={enableAnswerMachineDetection=boolean,awaitAnswerMachinePrompt=boolean} JSON Syntax: { "connectContactFlowId": "string", "connectSourcePhoneNumber": "string", "connectQueueId": "string", "answerMachineDetectionConfig": { "enableAnswerMachineDetection": true|false, "awaitAnswerMachinePrompt": true|false } }</param>
+    public AwsConnectcampaignsCreateCampaignOptions(
+        string Name,
+        string ConnectInstanceId,
+        string DialerConfig,
+        string OutboundCallConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectInstanceId);
+        this.ConnectInstanceId = ConnectInstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(DialerConfig);
+        this.DialerConfig = DialerConfig;
+        global::System.ArgumentNullException.ThrowIfNull(OutboundCallConfig);
+        this.OutboundCallConfig = OutboundCallConfig;
+    }
+
+    private AwsConnectcampaignsCreateCampaignOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsConnectcampaignsCreateCampaignOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsConnectcampaignsCreateCampaignOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of an Amazon Connect Campaign name. Constraints: o min: 1 o max: 127
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
 
+    /// <summary>
+    /// Amazon Connect Instance Id Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_\-.]*
+    /// </summary>
     [CliOption("--connect-instance-id")]
-    public string? ConnectInstanceId { get; set; }
+    public string? ConnectInstanceId { get; private init; }
 
+    /// <summary>
+    /// The possible types of dialer config parameters NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: progressiveDialerConfig, predictiveDi- alerConfig, agentlessDialerConfig. progressiveDialerConfig -&gt; (structure) Progressive Dialer config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 1 dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 predictiveDialerConfig -&gt; (structure) Predictive Dialer config bandwidthAllocation -&gt; (double) [required] The bandwidth allocation of a queue resource. Constraints: o min: 0 o max: 1 dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 agentlessDialerConfig -&gt; (structure) Agentless Dialer config dialingCapacity -&gt; (double) Allocates dialing capacity for this campaign between multiple active campaigns Constraints: o min: 0.01 o max: 1 Shorthand Syntax: progressiveDialerConfig={bandwidthAllocation=double,dialingCapacity=double},predictiveDialerConfig={bandwidthAllocation=double,dialingCapacity=double},agentlessDialerConfig={dialingCapacity=double} JSON Syntax: { "progressiveDialerConfig": { "bandwidthAllocation": double, "dialingCapacity": double }, "predictiveDialerConfig": { "bandwidthAllocation": double, "dialingCapacity": double }, "agentlessDialerConfig": { "dialingCapacity": double } }
+    /// </summary>
     [CliOption("--dialer-config")]
-    public string? DialerConfig { get; set; }
+    public string? DialerConfig { get; private init; }
 
+    /// <summary>
+    /// The configuration used for outbound calls. connectContactFlowId -&gt; (string) [required] The identifier of the contact flow for the outbound call. Constraints: o min: 0 o max: 500 connectSourcePhoneNumber -&gt; (string) The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue. Constraints: o min: 0 o max: 100 connectQueueId -&gt; (string) The queue for the call. If you specify a queue, the phone dis- played for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number. Constraints: o min: 0 o max: 500 answerMachineDetectionConfig -&gt; (structure) Answering Machine Detection config enableAnswerMachineDetection -&gt; (boolean) [required] Enable or disable answering machine detection awaitAnswerMachinePrompt -&gt; (boolean) Enable or disable await answer machine prompt Shorthand Syntax: connectContactFlowId=string,connectSourcePhoneNumber=string,connectQueueId=string,answerMachineDetectionConfig={enableAnswerMachineDetection=boolean,awaitAnswerMachinePrompt=boolean} JSON Syntax: { "connectContactFlowId": "string", "connectSourcePhoneNumber": "string", "connectQueueId": "string", "answerMachineDetectionConfig": { "enableAnswerMachineDetection": true|false, "awaitAnswerMachinePrompt": true|false } }
+    /// </summary>
     [CliOption("--outbound-call-config")]
-    public string? OutboundCallConfig { get; set; }
+    public string? OutboundCallConfig { get; private init; }
 
     /// <summary>
     /// Tag map with key and value. key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -45,5 +103,21 @@ public record AwsConnectcampaignsCreateCampaignOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

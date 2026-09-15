@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -21,17 +22,53 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot-managed-integrations", "create-account-association")]
-public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOptions
+public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates a new account association via the destination id. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ConnectorDestinationId">The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    public AwsIotManagedIntegrationsCreateAccountAssociationOptions(
+        string ConnectorDestinationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectorDestinationId);
+        this.ConnectorDestinationId = ConnectorDestinationId;
+    }
+
+    private AwsIotManagedIntegrationsCreateAccountAssociationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsIotManagedIntegrationsCreateAccountAssociationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsIotManagedIntegrationsCreateAccountAssociationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The identifier of the connector destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// </summary>
+    [CliOption("--connector-destination-id")]
+    public string? ConnectorDestinationId { get; private init; }
+
     /// <summary>
     /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
-
-    [CliOption("--connector-destination-id")]
-    public string? ConnectorDestinationId { get; set; }
 
     /// <summary>
     /// The name of the destination for the new account association. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
@@ -62,5 +99,21 @@ public record AwsIotManagedIntegrationsCreateAccountAssociationOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

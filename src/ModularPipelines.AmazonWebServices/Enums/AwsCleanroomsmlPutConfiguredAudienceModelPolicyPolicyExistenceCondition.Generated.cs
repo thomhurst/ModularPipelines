@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --policyexistencecondition.
+/// Allowed values for --policy-existence-condition.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsmlPutConfiguredAudienceModelPolicyPolicyExistenceCondition
 {
     [EnumValue("POLICY_MUST_EXIST")]
-    PolicyMustExist = 1,
+    PolicyMustExist,
 
     [EnumValue("POLICY_MUST_NOT_EXIST")]
-    PolicyMustNotExist = 2
+    PolicyMustNotExist
 }

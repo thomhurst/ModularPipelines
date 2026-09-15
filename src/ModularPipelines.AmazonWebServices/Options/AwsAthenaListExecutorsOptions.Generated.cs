@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("athena", "list-executors")]
-public record AwsAthenaListExecutorsOptions : AwsOptions
+public record AwsAthenaListExecutorsOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The re- sult can be optionally filtered by state. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    public AwsAthenaListExecutorsOptions(
+        string SessionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SessionId);
+        this.SessionId = SessionId;
+    }
+
+    private AwsAthenaListExecutorsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsAthenaListExecutorsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsAthenaListExecutorsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The session ID. Constraints: o min: 1 o max: 256
+    /// </summary>
     [CliOption("--session-id")]
-    public string? SessionId { get; set; }
+    public string? SessionId { get; private init; }
 
     /// <summary>
     /// A filter for a specific executor state. A description of each state follows. CREATING - The executor is being started, including acquiring resources. CREATED - The executor has been started. REGISTERED - The executor has been registered. TERMINATING - The executor is in the process of shutting down. TERMINATED - The executor is no longer running. FAILED - Due to a failure, the executor is no longer running. Possible values: o CREATING o CREATED o REGISTERED o TERMINATING o TERMINATED o FAILED
@@ -50,5 +87,21 @@ public record AwsAthenaListExecutorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

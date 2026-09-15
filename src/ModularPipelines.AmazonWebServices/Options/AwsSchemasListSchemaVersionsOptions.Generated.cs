@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("schemas", "list-schema-versions")]
-public record AwsSchemasListSchemaVersionsOptions : AwsOptions
+public record AwsSchemasListSchemaVersionsOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--registry-name")]
-    public string? RegistryName { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Provides a list of the schema versions and related information. See also: AWS API Documentation list-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SchemaVersions
+    /// </summary>
+    /// <param name="RegistryName">The name of the registry.</param>
+    /// <param name="SchemaName">The name of the schema.</param>
+    public AwsSchemasListSchemaVersionsOptions(
+        string RegistryName,
+        string SchemaName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RegistryName);
+        this.RegistryName = RegistryName;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaName);
+        this.SchemaName = SchemaName;
+    }
+
+    private AwsSchemasListSchemaVersionsOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSchemasListSchemaVersionsOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSchemasListSchemaVersionsOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The name of the registry.
+    /// </summary>
+    [CliOption("--registry-name")]
+    public string? RegistryName { get; private init; }
+
+    /// <summary>
+    /// The name of the schema.
+    /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaName { get; set; }
+    public string? SchemaName { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -52,5 +96,21 @@ public record AwsSchemasListSchemaVersionsOptions : AwsOptions
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

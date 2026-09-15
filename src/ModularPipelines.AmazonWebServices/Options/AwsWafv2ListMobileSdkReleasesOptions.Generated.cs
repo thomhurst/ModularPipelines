@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +21,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wafv2", "list-mobile-sdk-releases")]
-public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions
+public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Retrieves a list of the available releases for the mobile SDK and the specified device platform. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Platform">The device platform to retrieve the list for. Possible values: o IOS o ANDROID</param>
+    public AwsWafv2ListMobileSdkReleasesOptions(
+        AwsWafv2ListMobileSdkReleasesPlatform Platform
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Platform);
+        this.Platform = Platform;
+    }
+
+    private AwsWafv2ListMobileSdkReleasesOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsWafv2ListMobileSdkReleasesOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsWafv2ListMobileSdkReleasesOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The device platform to retrieve the list for. Possible values: o IOS o ANDROID
+    /// </summary>
     [CliOption("--platform")]
-    public string? Platform { get; set; }
+    public AwsWafv2ListMobileSdkReleasesPlatform? Platform { get; private init; }
 
     /// <summary>
     /// When you request a list of objects with a Limit setting, if the num- ber of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
@@ -41,5 +79,21 @@ public record AwsWafv2ListMobileSdkReleasesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

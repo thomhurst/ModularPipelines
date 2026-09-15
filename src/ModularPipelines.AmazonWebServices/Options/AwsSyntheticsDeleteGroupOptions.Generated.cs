@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,15 +20,67 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synthetics", "delete-group")]
-public record AwsSyntheticsDeleteGroupOptions : AwsOptions
+public record AwsSyntheticsDeleteGroupOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the re- quest to delete a group must be made from its home Region. You can find the home Region of a group within its ARN. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="GroupIdentifier">Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128</param>
+    public AwsSyntheticsDeleteGroupOptions(
+        string GroupIdentifier
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupIdentifier);
+        this.GroupIdentifier = GroupIdentifier;
+    }
+
+    private AwsSyntheticsDeleteGroupOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSyntheticsDeleteGroupOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSyntheticsDeleteGroupOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128
+    /// </summary>
     [CliOption("--group-identifier")]
-    public string? GroupIdentifier { get; set; }
+    public string? GroupIdentifier { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

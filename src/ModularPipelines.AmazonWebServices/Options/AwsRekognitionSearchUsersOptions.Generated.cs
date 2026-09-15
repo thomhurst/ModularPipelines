@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,10 +20,46 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rekognition", "search-users")]
-public record AwsRekognitionSearchUsersOptions : AwsOptions
+public record AwsRekognitionSearchUsersOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Searches for UserIDs within a collection based on a FaceId or UserId . This API can be used to find the closest UserID (with a highest simi- larity) to associate a face. The request must be provided with either FaceId or UserId . The operation returns an array of UserID that match the FaceId or UserId , ordered by similarity score with the highest similarity first. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    public AwsRekognitionSearchUsersOptions(
+        string CollectionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CollectionId);
+        this.CollectionId = CollectionId;
+    }
+
+    private AwsRekognitionSearchUsersOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRekognitionSearchUsersOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRekognitionSearchUsersOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isnt required to be present in the Collection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// </summary>
     [CliOption("--collection-id")]
-    public string? CollectionId { get; set; }
+    public string? CollectionId { get; private init; }
 
     /// <summary>
     /// ID for the existing User. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
@@ -53,5 +90,21 @@ public record AwsRekognitionSearchUsersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

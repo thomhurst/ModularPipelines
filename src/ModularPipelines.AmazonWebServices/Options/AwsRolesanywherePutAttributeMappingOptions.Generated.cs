@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +21,98 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rolesanywhere", "put-attribute-mapping")]
-public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions
+public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN</param>
+    /// <param name="MappingRules">A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: o min: 0 o max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]</param>
+    public AwsRolesanywherePutAttributeMappingOptions(
+        string ProfileId,
+        AwsRolesanywherePutAttributeMappingCertificateField CertificateField,
+        IEnumerable<string> MappingRules
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateField);
+        this.CertificateField = CertificateField;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(MappingRules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(MappingRules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(MappingRules));
+            }
+
+            MappingRules = materialized;
+        }
+        this.MappingRules = MappingRules;
+    }
+
+    private AwsRolesanywherePutAttributeMappingOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsRolesanywherePutAttributeMappingOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsRolesanywherePutAttributeMappingOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// </summary>
     [CliOption("--profile-id")]
-    public string? ProfileId { get; set; }
+    public string? ProfileId { get; private init; }
 
+    /// <summary>
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN
+    /// </summary>
     [CliOption("--certificate-field")]
-    public string? CertificateField { get; set; }
+    public AwsRolesanywherePutAttributeMappingCertificateField? CertificateField { get; private init; }
 
+    /// <summary>
+    /// A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: o min: 0 o max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]
+    /// </summary>
     [CliOption("--mapping-rules", GroupValues = true)]
-    public IEnumerable<string>? MappingRules { get; set; }
+    public IEnumerable<string>? MappingRules { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

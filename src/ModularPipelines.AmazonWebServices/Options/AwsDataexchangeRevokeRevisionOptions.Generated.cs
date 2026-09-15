@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,21 +20,87 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataexchange", "revoke-revision")]
-public record AwsDataexchangeRevokeRevisionOptions : AwsOptions
+public record AwsDataexchangeRevokeRevisionOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// This operation revokes subscribers' access to a revision. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevocationComment">A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: o min: 10 o max: 512</param>
+    public AwsDataexchangeRevokeRevisionOptions(
+        string DataSetId,
+        string RevisionId,
+        string RevocationComment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSetId);
+        this.DataSetId = DataSetId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(RevocationComment);
+        this.RevocationComment = RevocationComment;
+    }
+
+    private AwsDataexchangeRevokeRevisionOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDataexchangeRevokeRevisionOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDataexchangeRevokeRevisionOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--data-set-id")]
-    public string? DataSetId { get; set; }
+    public string? DataSetId { get; private init; }
 
+    /// <summary>
+    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// </summary>
     [CliOption("--revision-id")]
-    public string? RevisionId { get; set; }
+    public string? RevisionId { get; private init; }
 
+    /// <summary>
+    /// A required comment to inform subscribers of the reason their access to the revision was revoked. Constraints: o min: 10 o max: 512
+    /// </summary>
     [CliOption("--revocation-comment")]
-    public string? RevocationComment { get; set; }
+    public string? RevocationComment { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

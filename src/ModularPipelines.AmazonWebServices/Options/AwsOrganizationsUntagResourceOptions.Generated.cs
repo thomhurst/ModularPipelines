@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,18 +20,88 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "untag-resource")]
-public record AwsOrganizationsUntagResourceOptions : AwsOptions
+public record AwsOrganizationsUntagResourceOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--resource-id")]
-    public string? ResourceId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ResourceId">The ID of the resource to remove a tag from. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$</param>
+    /// <param name="TagKeys">The list of keys for tags to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    public AwsOrganizationsUntagResourceOptions(
+        string ResourceId,
+        IEnumerable<string> TagKeys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceId);
+        this.ResourceId = ResourceId;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TagKeys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TagKeys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TagKeys));
+            }
+
+            TagKeys = materialized;
+        }
+        this.TagKeys = TagKeys;
+    }
+
+    private AwsOrganizationsUntagResourceOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOrganizationsUntagResourceOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOrganizationsUntagResourceOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 100) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 102) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; private init; }
+
+    /// <summary>
+    /// The list of keys for tags to remove from the specified resource. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
-    public IEnumerable<string>? TagKeys { get; set; }
+    public IEnumerable<string>? TagKeys { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

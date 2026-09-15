@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -19,13 +21,66 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sso-admin", "provision-permission-set")]
-public record AwsSsoAdminProvisionPermissionSetOptions : AwsOptions
+public record AwsSsoAdminProvisionPermissionSetOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--instance-arn")]
-    public string? InstanceArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// The process by which a specified permission set is provisioned to the specified target. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PermissionSetArn">The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}</param>
+    /// <param name="TargetType">The entity type for which the assignment will be created. Possible values: o AWS_ACCOUNT o ALL_PROVISIONED_ACCOUNTS</param>
+    public AwsSsoAdminProvisionPermissionSetOptions(
+        string InstanceArn,
+        string PermissionSetArn,
+        AwsSsoAdminProvisionPermissionSetTargetType TargetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceArn);
+        this.InstanceArn = InstanceArn;
+        global::System.ArgumentNullException.ThrowIfNull(PermissionSetArn);
+        this.PermissionSetArn = PermissionSetArn;
+        global::System.ArgumentNullException.ThrowIfNull(TargetType);
+        this.TargetType = TargetType;
+    }
+
+    private AwsSsoAdminProvisionPermissionSetOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsSsoAdminProvisionPermissionSetOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsSsoAdminProvisionPermissionSetOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// </summary>
+    [CliOption("--instance-arn")]
+    public string? InstanceArn { get; private init; }
+
+    /// <summary>
+    /// The ARN of the permission set. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::permission- Set/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}
+    /// </summary>
     [CliOption("--permission-set-arn")]
-    public string? PermissionSetArn { get; set; }
+    public string? PermissionSetArn { get; private init; }
+
+    /// <summary>
+    /// The entity type for which the assignment will be created. Possible values: o AWS_ACCOUNT o ALL_PROVISIONED_ACCOUNTS
+    /// </summary>
+    [CliOption("--target-type")]
+    public AwsSsoAdminProvisionPermissionSetTargetType? TargetType { get; private init; }
 
     /// <summary>
     /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012). Constraints: o min: 12 o max: 12 o pattern: \d{12}
@@ -33,13 +88,26 @@ public record AwsSsoAdminProvisionPermissionSetOptions : AwsOptions
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
-    [CliOption("--target-type")]
-    public string? TargetType { get; set; }
-
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

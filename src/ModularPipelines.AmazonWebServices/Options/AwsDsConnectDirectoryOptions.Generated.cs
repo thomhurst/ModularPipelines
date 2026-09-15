@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -21,10 +22,77 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ds", "connect-directory")]
-public record AwsDsConnectDirectoryOptions : AwsOptions
+public record AwsDsConnectDirectoryOptions : AwsOptions, IValidatableObject
 {
+    private readonly bool _requiresAlternateInput;
+
+    /// <summary>
+    /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="Name">The fully qualified name of your self-managed directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="Password">The password for your self-managed user account. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Size">The size of the directory. Possible values: o Small o Large</param>
+    /// <param name="ConnectSettings">A DirectoryConnectSettings object that contains additional informa- tion for the operation. VpcId -&gt; (string) [required] The identifier of the VPC in which the AD Connector is created. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] A list of subnet identifiers in the VPC in which the AD Connec- tor is created. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ CustomerDnsIps -&gt; (list) The IP addresses of DNS servers or domain controllers in your self-managed directory. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ CustomerDnsIpsV6 -&gt; (list) The IPv6 addresses of DNS servers or domain controllers in your self-managed directory. (string) Constraints: o pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ CustomerUserName -&gt; (string) [required] The user name of an account in your self-managed directory that is used to connect to the directory. This account must have the following permissions: o Read users and groups o Create computer objects o Join computers to the domain Constraints: o min: 1 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: VpcId=string,SubnetIds=string,string,CustomerDnsIps=string,string,CustomerDnsIpsV6=string,string,CustomerUserName=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "CustomerDnsIps": ["string", ...], "CustomerDnsIpsV6": ["string", ...], "CustomerUserName": "string" }</param>
+    public AwsDsConnectDirectoryOptions(
+        string Name,
+        string Password,
+        AwsDsConnectDirectorySize Size,
+        string ConnectSettings
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(Size);
+        this.Size = Size;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectSettings);
+        this.ConnectSettings = ConnectSettings;
+    }
+
+    private AwsDsConnectDirectoryOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDsConnectDirectoryOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDsConnectDirectoryOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The fully qualified name of your self-managed directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// </summary>
     [CliOption("--name")]
-    public string? Name { get; set; }
+    public string? Name { get; private init; }
+
+    /// <summary>
+    /// The password for your self-managed user account. Constraints: o min: 1 o max: 128
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; private init; }
+
+    /// <summary>
+    /// The size of the directory. Possible values: o Small o Large
+    /// </summary>
+    [CliOption("--size")]
+    public AwsDsConnectDirectorySize? Size { get; private init; }
+
+    /// <summary>
+    /// A DirectoryConnectSettings object that contains additional informa- tion for the operation. VpcId -&gt; (string) [required] The identifier of the VPC in which the AD Connector is created. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] A list of subnet identifiers in the VPC in which the AD Connec- tor is created. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ CustomerDnsIps -&gt; (list) The IP addresses of DNS servers or domain controllers in your self-managed directory. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ CustomerDnsIpsV6 -&gt; (list) The IPv6 addresses of DNS servers or domain controllers in your self-managed directory. (string) Constraints: o pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ CustomerUserName -&gt; (string) [required] The user name of an account in your self-managed directory that is used to connect to the directory. This account must have the following permissions: o Read users and groups o Create computer objects o Join computers to the domain Constraints: o min: 1 o pattern: [a-zA-Z0-9._-]+ Shorthand Syntax: VpcId=string,SubnetIds=string,string,CustomerDnsIps=string,string,CustomerDnsIpsV6=string,string,CustomerUserName=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "CustomerDnsIps": ["string", ...], "CustomerDnsIpsV6": ["string", ...], "CustomerUserName": "string" }
+    /// </summary>
+    [CliOption("--connect-settings")]
+    public string? ConnectSettings { get; private init; }
 
     /// <summary>
     /// The NetBIOS name of your self-managed directory, such as CORP . Constraints: o pattern: ^[^\\/:*?"&lt;&gt;|.]+[^\\/:*?"&lt;&gt;|]*$
@@ -32,21 +100,11 @@ public record AwsDsConnectDirectoryOptions : AwsOptions
     [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
-    [SecretValue]
-    [CliOption("--password")]
-    public string? Password { get; set; }
-
     /// <summary>
     /// A description for the directory. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
-
-    [CliOption("--size")]
-    public string? Size { get; set; }
-
-    [CliOption("--connect-settings")]
-    public string? ConnectSettings { get; set; }
 
     /// <summary>
     /// The tags to be assigned to AD Connector. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
@@ -65,5 +123,21 @@ public record AwsDsConnectDirectoryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

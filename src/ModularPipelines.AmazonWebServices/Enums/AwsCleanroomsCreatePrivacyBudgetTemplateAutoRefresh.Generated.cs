@@ -11,14 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Enums;
 
 /// <summary>
-/// Allowed values for --autorefresh.
+/// Allowed values for --auto-refresh.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsCleanroomsCreatePrivacyBudgetTemplateAutoRefresh
 {
     [EnumValue("CALENDAR_MONTH")]
-    CalendarMonth = 1,
+    CalendarMonth,
 
     [EnumValue("NONE")]
-    None = 2
+    None
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docdb-elastic", "create-cluster-snapshot")]
-public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions
+public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--cluster-arn")]
-    public string? ClusterArn { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Creates a snapshot of an elastic cluster. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ClusterArn">The ARN identifier of the elastic cluster of which you want to cre- ate a snapshot.</param>
+    /// <param name="SnapshotName">The name of the new elastic cluster snapshot. Constraints: o min: 1 o max: 63</param>
+    public AwsDocdbElasticCreateClusterSnapshotOptions(
+        string ClusterArn,
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ClusterArn);
+        this.ClusterArn = ClusterArn;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    private AwsDocdbElasticCreateClusterSnapshotOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsDocdbElasticCreateClusterSnapshotOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsDocdbElasticCreateClusterSnapshotOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The ARN identifier of the elastic cluster of which you want to cre- ate a snapshot.
+    /// </summary>
+    [CliOption("--cluster-arn")]
+    public string? ClusterArn { get; private init; }
+
+    /// <summary>
+    /// The name of the new elastic cluster snapshot. Constraints: o min: 1 o max: 63
+    /// </summary>
     [CliOption("--snapshot-name")]
-    public string? SnapshotName { get; set; }
+    public string? SnapshotName { get; private init; }
 
     /// <summary>
     /// The tags to be assigned to the new elastic cluster snapshot. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -39,5 +83,21 @@ public record AwsDocdbElasticCreateClusterSnapshotOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }

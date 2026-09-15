@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -20,13 +21,56 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("opensearch", "start-migration")]
-public record AwsOpensearchStartMigrationOptions : AwsOptions
+public record AwsOpensearchStartMigrationOptions : AwsOptions, IValidatableObject
 {
-    [CliOption("--application-id")]
-    public string? ApplicationId { get; set; }
+    private readonly bool _requiresAlternateInput;
 
+    /// <summary>
+    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the tar- get workspace. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="ApplicationId">The unique identifier of the OpenSearch application to migrate saved objects into. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="MigrationOptions">The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolu- tion strategy. source -&gt; (structure) [required] The data source from which to export saved objects. datasourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data source to migrate saved objects from. Constraints: o min: 20 o max: 2048 o pattern: .* workspace -&gt; (structure) [required] The target workspace configuration for importing saved objects. You can specify an existing workspace or request creation of a new workspace. workspaceId -&gt; (string) The unique identifier of an existing workspace to use as the migration target. Specify either this parameter or create- Workspace . createWorkspace -&gt; (boolean) Specifies whether to create a new workspace as the migration target. If true , you must also specify name . name -&gt; (string) The name of the new workspace to create. Required when cre- ateWorkspace is true . type -&gt; (string) The type of the new workspace to create. exportOptions -&gt; (structure) Options to filter the scope of saved objects to export from the source. types -&gt; (list) A list of saved object types to include in the migration. Valid values include dashboard , visualization , index-pat- tern , search , and query . (string) objects -&gt; (list) A list of specific saved objects to include in the migration, identified by type and ID. (structure) Identifies a specific saved object by its type and unique identifier. type -&gt; (string) [required] The type of the saved object, such as dashboard , vi- sualization , index-pattern , search , or query . id -&gt; (string) [required] The unique identifier of the saved object. includeReferencesDeep -&gt; (boolean) Specifies whether to include all objects referenced by the exported objects, recursively. conflictResolution -&gt; (string) The strategy for resolving conflicts when saved objects already exist in the target workspace. Valid values are CRE- ATE_NEW_COPIES , which creates new objects with unique IDs, and overwrite , which replaces existing objects. JSON Syntax: { "source": { "datasourceArn": "string" }, "workspace": { "workspaceId": "string", "createWorkspace": true|false, "name": "string", "type": "string" }, "exportOptions": { "types": ["string", ...], "objects": [ { "type": "string", "id": "string" } ... ], "includeReferencesDeep": true|false }, "conflictResolution": "string" }</param>
+    public AwsOpensearchStartMigrationOptions(
+        string ApplicationId,
+        string MigrationOptions
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(MigrationOptions);
+        this.MigrationOptions = MigrationOptions;
+    }
+
+    private AwsOpensearchStartMigrationOptions()
+    {
+        _requiresAlternateInput = true;
+    }
+
+    public static AwsOpensearchStartMigrationOptions FromCliInputJson(string cliInputJson)
+    {
+        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);
+        return new() { CliInputJson = cliInputJson };
+    }
+
+    public static AwsOpensearchStartMigrationOptions ForCliSkeleton(string generateCliSkeleton = "input") =>
+        generateCliSkeleton is "input" or "yaml-input"
+            ? new() { GenerateCliSkeleton = generateCliSkeleton }
+            : throw new global::System.ArgumentOutOfRangeException(
+                nameof(generateCliSkeleton),
+                generateCliSkeleton,
+                "Required operation values may only be omitted for input or yaml-input skeletons.");
+
+    /// <summary>
+    /// The unique identifier of the OpenSearch application to migrate saved objects into. Constraints: o pattern: [a-z0-9]{3,30}
+    /// </summary>
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; private init; }
+
+    /// <summary>
+    /// The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolu- tion strategy. source -&gt; (structure) [required] The data source from which to export saved objects. datasourceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the data source to migrate saved objects from. Constraints: o min: 20 o max: 2048 o pattern: .* workspace -&gt; (structure) [required] The target workspace configuration for importing saved objects. You can specify an existing workspace or request creation of a new workspace. workspaceId -&gt; (string) The unique identifier of an existing workspace to use as the migration target. Specify either this parameter or create- Workspace . createWorkspace -&gt; (boolean) Specifies whether to create a new workspace as the migration target. If true , you must also specify name . name -&gt; (string) The name of the new workspace to create. Required when cre- ateWorkspace is true . type -&gt; (string) The type of the new workspace to create. exportOptions -&gt; (structure) Options to filter the scope of saved objects to export from the source. types -&gt; (list) A list of saved object types to include in the migration. Valid values include dashboard , visualization , index-pat- tern , search , and query . (string) objects -&gt; (list) A list of specific saved objects to include in the migration, identified by type and ID. (structure) Identifies a specific saved object by its type and unique identifier. type -&gt; (string) [required] The type of the saved object, such as dashboard , vi- sualization , index-pattern , search , or query . id -&gt; (string) [required] The unique identifier of the saved object. includeReferencesDeep -&gt; (boolean) Specifies whether to include all objects referenced by the exported objects, recursively. conflictResolution -&gt; (string) The strategy for resolving conflicts when saved objects already exist in the target workspace. Valid values are CRE- ATE_NEW_COPIES , which creates new objects with unique IDs, and overwrite , which replaces existing objects. JSON Syntax: { "source": { "datasourceArn": "string" }, "workspace": { "workspaceId": "string", "createWorkspace": true|false, "name": "string", "type": "string" }, "exportOptions": { "types": ["string", ...], "objects": [ { "type": "string", "id": "string" } ... ], "includeReferencesDeep": true|false }, "conflictResolution": "string" }
+    /// </summary>
     [CliOption("--migration-options")]
-    public string? MigrationOptions { get; set; }
+    public string? MigrationOptions { get; private init; }
 
     /// <summary>
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon OpenSearch Service ignores the request but does not return an error. Constraints: o min: 1 o max: 64
@@ -40,5 +84,21 @@ public record AwsOpensearchStartMigrationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (_requiresAlternateInput && !(!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input"))
+        {
+            yield return new ValidationResult("An alternate input must remain selected for an instance created without required operation values.");
+            yield break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(CliInputJson) || GenerateCliSkeleton is "input" or "yaml-input")
+        {
+            yield break;
+        }
+
+    }
 
 }
